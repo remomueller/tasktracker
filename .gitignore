@@ -1,0 +1,30 @@
+# .gitignore list files and file patterns that are to be ignored by GIT
+
+# These files contain application specific passwords that should NEVER be included in version control.
+# These files are generated when the user initially runs ruby initial_setup.rb from the <rails_root>/lib directory.
+
+config/database.yml
+config/initializers/action_mailer.rb
+config/initializers/devise.rb
+config/initializers/omniauth.rb
+config/initializers/secret_token.rb
+config/initializers/site_name.rb
+
+public/stylesheets/cache/*
+public/javascripts/cache/*
+
+public/cache/*
+
+# Other Files
+
+.bundle
+Gemfile.lock
+
+db/*.sqlite3
+db/schema.rb
+log/*.log
+tmp/**/*
+tmp/restart.txt
+
+# OS generated files #
+.DS_Store
