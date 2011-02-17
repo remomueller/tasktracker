@@ -1,0 +1,7 @@
+Sites About Controller
+<br /><br />
+<% if current_user %>
+  You're Signed In!
+<% else %>
+  <%= link_to 'Sign In', authentications_path %>
+<% end %>
