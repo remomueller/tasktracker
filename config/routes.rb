@@ -1,7 +1,7 @@
 Notes::Application.routes.draw do
   
-  match '/auth/:provider/callback' => 'authentications#create'
-  match '/auth/failure' => 'authentications#failure'
+  match 'auth/:provider/callback' => 'authentications#create'
+  match 'auth/failure' => 'authentications#failure'
   
   devise_for :users, :controllers => {:registrations => 'registrations'}
 
