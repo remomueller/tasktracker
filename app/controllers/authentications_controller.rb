@@ -3,6 +3,11 @@ class AuthenticationsController < ApplicationController
     @authentications = current_user.authentications if current_user
   end
 
+  def failure
+    flash[:warning] = params[:message] unless params[:message].blank?
+    redirect_to authentications_path
+  end
+
   def create
     omniauth = request.env["omniauth.auth"]
     logger.debug "OMNIAUTH!: #{omniauth.inspect}"
@@ -15,7 +20,7 @@ class AuthenticationsController < ApplicationController
     elsif current_user
       current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
       flash[:notice] = "Authentication successful."
-      redirect_to authentications_url
+      redirect_to authentications_path
     else
       user = User.new
       user.apply_omniauth(omniauth)
@@ -24,7 +29,7 @@ class AuthenticationsController < ApplicationController
         sign_in_and_redirect(:user, user)
       else
         session[:omniauth] = omniauth.except('extra')
-        redirect_to new_user_registration_url
+        redirect_to new_user_registration_path
       end
     end
   end
@@ -33,6 +38,6 @@ class AuthenticationsController < ApplicationController
     @authentication = current_user.authentications.find(params[:id])
     @authentication.destroy
     flash[:notice] = "Successfully destroyed authentication."
-    redirect_to authentications_url
+    redirect_to authentications_path
   end
 end

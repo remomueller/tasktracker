@@ -16,6 +16,7 @@
 	<% end %>
   
 <div class="notice"><%= notice %></div>
+<div class="error"><%= flash[:warning].humanize if flash[:warning] %></div>
 <div class="error"><%= alert %></div>
 
 <%= yield %>

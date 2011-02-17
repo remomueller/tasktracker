@@ -27,6 +27,8 @@
     cd /usr/local/notes
 
     git clone git@agile.dipr.partners.org:notes.git .
+    
+    bundle install
 
 2) Finalize the Installation
 
