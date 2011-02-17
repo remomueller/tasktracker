@@ -9,6 +9,10 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :LDAP, "My LDAP", :host => 'ldap.example.com', :port => 389, :method => :simple, :base => 'cn=users,dc=example,dc=com', :uid => 'sAMAccountName', :try_sasl => true, :sasl_mechanisms => "GSS-SPNEGO"  
 end
 
+# This list will show the first choice as the default, and the rest as potential secondary login methods.
+PROVIDERS = [:google_apps, :twitter, :facebook, :linked_in, :open_id, :CAS, :LDAP]
+
+
 # LDAP
 # :port (required) - The LDAP server port.
 # :method (required) - May be :plain, :ssl, or :tls.

@@ -21,12 +21,50 @@
   <p><strong>Sign in through one of these services:</strong></p>
 <% end %>
 
+
+<table style="border-collapse:collapse;table-layout:fixed;margin:0px;padding:0px"><%= ("<col width='64px'/>" * PROVIDERS.size).html_safe %>
+    <tr>
+<% PROVIDERS.each_with_index do |provider, position| %>
+  <% url_params = (provider == :google_apps) ? '?domain=gmail.com' : '' %>
+  <% if provider == :open_id %>
+    <% provider_name = 'OpenID' %>
+    <% image_name = 'openid' %>
+  <% elsif [:LDAP, :CAS].include?(provider) %>
+    <% provider_name = provider.to_s.upcase %>
+    <% image_name = provider.to_s.downcase %>
+  <% else %>
+    <% provider_name = provider.to_s.titleize %>
+    <% image_name = provider.to_s.downcase %>
+  <% end %>
+  <td style="white-space:nowrap;text-align:center">
+    <a href="auth/<%= provider.to_s.downcase %><%= url_params %>">
+      <%= image_tag "authbuttons/#{image_name}_64.png", :align => 'absmiddle', :size => "64x64", :alt => provider_name %>
+    </a>
+  </td>
+<% end %>
+  </tr>
+  <tr>
+  <% PROVIDERS.each_with_index do |provider, position| %>
+    <% if provider == :open_id %>
+      <% provider_name = 'OpenID' %>
+    <% elsif [:LDAP, :CAS].include?(provider) %>
+      <% provider_name = provider.to_s.upcase %>
+    <% else %>
+      <% provider_name = provider.to_s.titleize %>
+    <% end %>
+    <td style="text-align:center;white-space:nowrap;font-size:11px">
+      <%= provider_name %>
+    </td>
+  <% end %>
+  </tr>
+</table>
+
+
 <% if false %>
 <a href="auth/twitter" class="auth_provider">
   <%= image_tag "authbuttons/twitter_64.png", :size => "64x64", :alt => "Twitter" %>
   Twitter
 </a>
-<% end %>
 <a href="auth/facebook" class="auth_provider">
   <%= image_tag "authbuttons/facebook_64.png", :size => "64x64", :alt => "Facebook" %>
   Facebook
@@ -48,4 +86,4 @@
   CAS
 </a>
 <div class="clear"></div>
-
+<% end %>
