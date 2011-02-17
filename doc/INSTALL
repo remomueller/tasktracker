@@ -1,0 +1,54 @@
+# Title: Installing Notes
+# Author: Remo Mueller rmueller@rics.bwh.harvard.edu
+# Date: 17 February 2011
+
+
+1) Installing Notes and dependencies
+
+  # Go to the root storage folder for project
+
+    cd /usr/local/
+
+    sudo mkdir notes
+  
+  # This will ask you for a password, this is your login password.
+  
+  # Change permissions to user who will be doing the code update process via git.
+  # Replace username below by your actual username.
+  # Replace group by your actual group, Ex: PosixUsers, staff
+  # Doing an ls -al in your home directory should provide you with your primary group
+  
+    sudo chown username notes
+  
+    sudo chgrp group notes
+  
+  # Download the code from the git repository.  The period at the end of git clone is required to install the code into the current directory.
+  
+    cd /usr/local/notes
+
+    git clone git@agile.dipr.partners.org:notes.git .
+
+2) Finalize the Installation
+
+  # Initialize setup files
+
+    cd /usr/local/notes/lib
+    ruby initial_setup.rb
+
+  # Run the Database Migrations
+
+    cd /usr/local/notes
+    rake db:create RAILS_ENV=development
+    rake db:migrate RAILS_ENV=development
+
+  # Seed the Database
+
+    cd /usr/local/notes
+    rake db:seed RAILS_ENV=development
+
+3) Start the Server
+
+    cd /usr/local/notes
+    rails s
+
+  # Login to http://localhost:3000 using email and password setup during rake db:seed.
