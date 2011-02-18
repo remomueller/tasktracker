@@ -53,6 +53,9 @@ module OmniAuth
         env['REQUEST_METHOD'] = 'GET'
         openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
         Rails.logger.info "OPENID: #{env.inspect}"
+        env['HTTP_HOST'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
+        env['SERVER_NAME'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
+        env['REMOTE_ADDR'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
         status, headers, body = openid.call(env)
         Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
         Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
