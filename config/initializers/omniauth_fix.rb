@@ -59,7 +59,7 @@ module OmniAuth
           :optional => @options[:optional],
           :method => 'post'
         )},[]]}, @store)
-        Rails.logger.info "OPENID: #{env.inspect}"
+        # Rails.logger.info "OPENID: #{env.inspect}"
         status, headers, body = openid.call(env)
         Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
         Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
@@ -72,31 +72,35 @@ module OmniAuth
       end
       
       
-      # def start
-      #   openid = Rack::OpenID.new(dummy_app, @store)
-      #   Rails.logger.info "START: " + openid.inspect
-      #   # One of these needs to be set to SITE_URL  SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-      #   
-      #   Rails.logger.info "HTTP_REFERER: " + env['HTTP_REFERER']
-      #   Rails.logger.info "SERVER_NAME: " + env['SERVER_NAME']
-      #   Rails.logger.info "HTTP_HOST: " + env['HTTP_HOST']
-      #   
-      #   # env['HTTP_REFERER'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-      #   # env['SERVER_NAME'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-      #   # env['HTTP_HOST'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-      #   
-      #   Rails.logger.info "HTTP_REFERER: " + env['HTTP_REFERER']
-      #   Rails.logger.info "SERVER_NAME: " + env['SERVER_NAME']
-      #   Rails.logger.info "HTTP_HOST: " + env['HTTP_HOST']
-      # 
-      #   response = openid.call(env)
-      #   case env['rack.openid.response']
-      #   when Rack::OpenID::MissingResponse, Rack::OpenID::TimeoutResponse
-      #     fail!(:connection_failed)
-      #   else
-      #     response
-      #   end
-      # end
+      def start
+        openid = Rack::OpenID.new(dummy_app, @store)
+        Rails.logger.info "START: " + openid.inspect
+        # One of these needs to be set to SITE_URL  SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
+        
+        Rails.logger.info "HTTP_REFERER: " + env['HTTP_REFERER']
+        Rails.logger.info "SERVER_NAME: " + env['SERVER_NAME']
+        Rails.logger.info "HTTP_HOST: " + env['HTTP_HOST']
+        
+        # env['HTTP_REFERER'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
+        # env['SERVER_NAME'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
+        # env['HTTP_HOST'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
+        
+        Rails.logger.info "HTTP_REFERER: " + env['HTTP_REFERER']
+        Rails.logger.info "SERVER_NAME: " + env['SERVER_NAME']
+        Rails.logger.info "HTTP_HOST: " + env['HTTP_HOST']
+      
+        response = openid.call(env)
+        
+        status, headers, body = openid.call(env)
+        Rails.logger.info "Status #{response.status}, Headers #{response.headers}, Body #{response.body}"
+        
+        case env['rack.openid.response']
+        when Rack::OpenID::MissingResponse, Rack::OpenID::TimeoutResponse
+          fail!(:connection_failed)
+        else
+          response
+        end
+      end
       
       def callback_url
         uri = URI.parse(request.url)
