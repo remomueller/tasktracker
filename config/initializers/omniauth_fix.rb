@@ -51,7 +51,14 @@ module OmniAuth
       
       def callback_phase
         env['REQUEST_METHOD'] = 'GET'
-        openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
+        openid = Rack::OpenID.new(lambda{|env| [200,{"WWW-Authenticate" => Rack::OpenID.build_header(
+          :identifier => identifier,
+          :trust_root => SITE_URL,
+          :return_to => callback_url,
+          :required => @options[:required],
+          :optional => @options[:optional],
+          :method => 'get'
+        )},[]]}, @store)
         Rails.logger.info "OPENID: #{openid.inspect}"
         openid.call(env)
         Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response']}"
