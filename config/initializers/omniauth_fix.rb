@@ -58,7 +58,7 @@ module OmniAuth
           :required => @options[:required],
           :optional => @options[:optional],
           :method => 'post'
-        ),[]]}, @store)
+        }),[]]}, @store)
         Rails.logger.info "OPENID: #{env.inspect}"
         status, headers, body = openid.call(env)
         Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
