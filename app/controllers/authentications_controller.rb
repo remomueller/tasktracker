@@ -21,7 +21,7 @@ class AuthenticationsController < ApplicationController
       flash[:notice] = "Authentication successful."
       redirect_to authentications_path
     else
-      user = User.new
+      user = User.new(params[:user])
       user.apply_omniauth(omniauth)
       if user.save
         flash[:notice] = "Signed in successfully."
