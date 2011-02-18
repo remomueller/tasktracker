@@ -52,8 +52,9 @@ module OmniAuth
       def callback_phase
         env['REQUEST_METHOD'] = 'GET'
         openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
-        Rails.logger.info "OPENID: #{openid.inspect}"
-        openid.call(env)
+        Rails.logger.info "OPENID: #{env.inspect}"
+        status, headers, body = openid.call(env)
+        Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
         Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
         @openid_response = env.delete('rack.openid.response')
         if @openid_response && @openid_response.status == :success
