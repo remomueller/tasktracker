@@ -12,7 +12,8 @@ end
 # This list will show the first choice as the default, and the rest as potential secondary login methods.
 PROVIDERS = [:google_apps, :twitter, :facebook, :linked_in, :open_id, :CAS, :LDAP]
 
-# OmniAuth.config.path_prefix = '/auth' # If you use a subdomain, then this may need to be changed to '/subdomain/auth'
+# If you use a subdomain, then this may need to be changed to '/subdomain/auth'
+# OmniAuth.config.path_prefix = '/auth'
 
 # LDAP
 # :port (required) - The LDAP server port.
@@ -21,30 +22,3 @@ PROVIDERS = [:google_apps, :twitter, :facebook, :linked_in, :open_id, :CAS, :LDA
 # :uid (required) - The LDAP attribute name for the user name in the login form. Typically AD would be 'sAMAccountName' or 'UniquePersonalIdentifier', while OpenLDAP is 'uid'. You can also use 'dn' for the user to put in the dn in the login form (but usually is too long for user to remember or know).
 # :try_sasl - Try to use SASL connection to server.
 # :sasl_mechanisms - Mechanisms supported are 'DIGEST-MD5' and 'GSS-SPNEGO'
-
-module OmniAuth
-  module Strategies
-    class LDAP
-      def perform
-        begin
-          begin
-      		  @adaptor.bind(:bind_dn => request.POST['username'], :password => request.POST['password'])
-      		rescue Exception => e
-            return fail!(:invalid_credentials, e)
-          end
-          
-      		@ldap_user_info = @adaptor.search(:base => @adaptor.base, :filter => Net::LDAP::Filter.eq(@adaptor.uid, request.POST['username'].split('\\').last.to_s),:limit => 1)
-      		@user_info = self.class.map_user(@@config, @ldap_user_info)
-	        @env['REQUEST_METHOD'] = 'GET'
-	        @env['PATH_INFO'] = "#{OmniAuth.config.path_prefix}/#{name}/callback"
-	        @env['omniauth.auth'] = {'provider' => 'ldap', 'uid' => @user_info['uid'], 'user_info' => @user_info}
-
-        rescue Exception => e
-          return fail!(:invalid_credentials, e)
-        end	        
-	      
-	      call_app!
-      end
-    end
-  end
-end
