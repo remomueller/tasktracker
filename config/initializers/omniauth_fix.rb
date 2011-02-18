@@ -74,24 +74,8 @@ module OmniAuth
       
       def start
         openid = Rack::OpenID.new(dummy_app, @store)
-        Rails.logger.info "START: " + openid.inspect
-        # One of these needs to be set to SITE_URL  SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-        
-        Rails.logger.info "HTTP_REFERER: " + env['HTTP_REFERER']
-        Rails.logger.info "SERVER_NAME: " + env['SERVER_NAME']
-        Rails.logger.info "HTTP_HOST: " + env['HTTP_HOST']
-        
-        # env['HTTP_REFERER'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-        # env['SERVER_NAME'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-        # env['HTTP_HOST'] = SITE_URL.gsub('http://', '').gsub('https://', '').split('/').first
-        
-        Rails.logger.info "HTTP_REFERER: " + env['HTTP_REFERER']
-        Rails.logger.info "SERVER_NAME: " + env['SERVER_NAME']
-        Rails.logger.info "HTTP_HOST: " + env['HTTP_HOST']
-      
         response = openid.call(env)
         
-        status, headers, body = openid.call(env)
         Rails.logger.info "Status #{response.status}, Headers #{response.headers}, Body #{response.body}"
         
         case env['rack.openid.response']
