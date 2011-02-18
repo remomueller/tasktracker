@@ -10,9 +10,8 @@ class AuthenticationsController < ApplicationController
 
   def create
     omniauth = request.env["omniauth.auth"]
-    logger.debug "OMNIAUTH!: #{omniauth.inspect}"
     authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
-    logger.debug "OMNI AUTH INFO: #{omniauth.inspect}"
+    logger.info "OMNI AUTH INFO: #{omniauth.inspect}"
     omniauth['user_info']['email'] = omniauth['extra']['user_hash']['email'] if omniauth['user_info'] and omniauth['user_info']['email'].blank? and omniauth['extra'] and omniauth['extra']['user_hash']
     if authentication
       flash[:notice] = "Signed in successfully."
