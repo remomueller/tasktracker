@@ -76,7 +76,7 @@ module OmniAuth
         openid = Rack::OpenID.new(dummy_app, @store)
         response = openid.call(env)
         
-        Rails.logger.info "Status #{response.status}, Headers #{response.headers}, Body #{response.body}"
+        Rails.logger.info "Status #{response.inspect}"
         
         case env['rack.openid.response']
         when Rack::OpenID::MissingResponse, Rack::OpenID::TimeoutResponse
