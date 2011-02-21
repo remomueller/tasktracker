@@ -41,7 +41,7 @@ module OmniAuth
         Rails.logger.debug "dummy_app id #{identifier} return_to #{callback_url}"
         lambda{|env| [401, {"WWW-Authenticate" => Rack::OpenID.build_header(
           :identifier => identifier,
-          :trust_root => callback_url, # SITE_URL,
+          # :trust_root => callback_url, # SITE_URL,
           :return_to => callback_url,
           :required => @options[:required],
           :optional => @options[:optional],
