@@ -53,6 +53,7 @@ module OmniAuth
         env['REMOTE_ADDR'] = site_domain
         env['SERVER_NAME'] = site_domain
         env['HTTP_HOST'] = site_domain
+        env['HTTP_X_FORWARDED_FOR'] = nil
         
         env['REQUEST_METHOD'] = 'GET'
         openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
@@ -74,6 +75,7 @@ module OmniAuth
         env['REMOTE_ADDR'] = site_domain
         env['SERVER_NAME'] = site_domain
         env['HTTP_HOST'] = site_domain
+        env['HTTP_X_FORWARDED_FOR'] = nil
         
         
         openid = Rack::OpenID.new(dummy_app, @store)
