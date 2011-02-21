@@ -41,7 +41,7 @@ module OmniAuth
         Rails.logger.debug "dummy_app id #{identifier} return_to #{callback_url}"
         lambda{|env| [401, {"WWW-Authenticate" => Rack::OpenID.build_header(
           :identifier => identifier,
-          :trust_root => callback_url, # SITE_URL,
+          :trust_root => mod_callback_url, # SITE_URL,
           :return_to => callback_url,
           :required => @options[:required],
           :optional => @options[:optional],
@@ -60,7 +60,7 @@ module OmniAuth
         Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
         Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
         @openid_response = env.delete('rack.openid.response')
-        if @openid_response && (@openid_response.status == :success or @openid_response.message.to_s == 'return_to host does not match')
+        if @openid_response && @openid_response.status == :success
           super
         else
           fail!(:invalid_credentials)
@@ -83,6 +83,17 @@ module OmniAuth
       end
       
       def callback_url
+        uri = URI.parse(request.url)
+        uri.path += '/callback'
+        # Rails.logger.debug "#{SITE_URL}"
+        # Rails.logger.debug "CALLBACK_URL: #{uri.to_s}"
+        # Rails.logger.debug "CALLBACK_URL: #{uri.to_s.split('/auth').last}"
+        # Rails.logger.debug "MODIFIED: #{SITE_URL} /auth #{uri.to_s.split('/auth').last}"
+        uri.to_s
+        # "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
+      end
+      
+      def mod_callback_url
         uri = URI.parse(request.url)
         uri.path += '/callback'
         # Rails.logger.debug "#{SITE_URL}"
