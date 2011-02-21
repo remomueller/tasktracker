@@ -51,14 +51,7 @@ module OmniAuth
       
       def callback_phase
         env['REQUEST_METHOD'] = 'GET'
-        openid = Rack::OpenID.new(lambda{|env| [200,{"WWW-Authenticate" => Rack::OpenID.build_header(
-          :identifier => identifier,
-          :trust_root => original_url, # SITE_URL,
-          :return_to => original_url,
-          :required => @options[:required],
-          :optional => @options[:optional],
-          :method => 'get'
-        )},[]]}, @store)
+        openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
         # Rails.logger.info "OPENID: #{env.inspect}"
         status, headers, body = openid.call(env)
         Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
@@ -76,7 +69,7 @@ module OmniAuth
         openid = Rack::OpenID.new(dummy_app, @store)
         response = openid.call(env)
         
-        Rails.logger.info "Status #{response.inspect}"
+        Rails.logger.info "Start Response: #{response.inspect}"
         
         case env['rack.openid.response']
         when Rack::OpenID::MissingResponse, Rack::OpenID::TimeoutResponse
