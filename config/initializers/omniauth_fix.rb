@@ -52,7 +52,7 @@ module OmniAuth
       def callback_phase
         env['REQUEST_METHOD'] = 'GET'
         
-        Rails.logger.info "RACK OPENID RETURN_TO: " + env['rack.openid.return_to']
+        Rails.logger.info "RACK OPENID RETURN_TO: " + env['openid.return_to']
         
         openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
         # Rails.logger.info "OPENID: #{env.inspect}"
