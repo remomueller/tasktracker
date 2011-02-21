@@ -87,7 +87,7 @@ module OmniAuth
         # Rails.logger.debug "CALLBACK_URL: #{uri.to_s.split('/auth').last}"
         # Rails.logger.debug "MODIFIED: #{SITE_URL} /auth #{uri.to_s.split('/auth').last}"
         uri.to_s
-        "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
+        # "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
       end
       
       # Called when it already contains callback.
