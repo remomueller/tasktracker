@@ -49,74 +49,50 @@ module OmniAuth
         )}, []]}
       end
       
-      def callback_phase
-        env['REQUEST_METHOD'] = 'GET'
-        
-        Rails.logger.info "RACK OPENID RETURN_TO: " + env.keys.inspect
-        
-        openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
-        # Rails.logger.info "OPENID: #{env.inspect}"
-        status, headers, body = openid.call(env)
-        Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
-        Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
-        @openid_response = env.delete('rack.openid.response')
-        if @openid_response && @openid_response.status == :success
-          super
-        else
-          fail!(:invalid_credentials)
-        end
-      end
+      # def callback_phase
+      #   env['REQUEST_METHOD'] = 'GET'
+      #   
+      #   Rails.logger.info "RACK OPENID RETURN_TO: " + env.keys.inspect
+      #   
+      #   openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
+      #   # Rails.logger.info "OPENID: #{env.inspect}"
+      #   status, headers, body = openid.call(env)
+      #   Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
+      #   Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
+      #   @openid_response = env.delete('rack.openid.response')
+      #   if @openid_response && @openid_response.status == :success
+      #     super
+      #   else
+      #     fail!(:invalid_credentials)
+      #   end
+      # end
       
       
-      def start
-        openid = Rack::OpenID.new(dummy_app, @store)
-        response = openid.call(env)
-        
-        Rails.logger.info "Start Response: #{env.inspect}"
-        
-        case env['rack.openid.response']
-        when Rack::OpenID::MissingResponse, Rack::OpenID::TimeoutResponse
-          fail!(:connection_failed)
-        else
-          response
-        end
-      end
+      # def start
+      #   openid = Rack::OpenID.new(dummy_app, @store)
+      #   response = openid.call(env)
+      #   
+      #   Rails.logger.info "Start Response: #{env.inspect}"
+      #   
+      #   case env['rack.openid.response']
+      #   when Rack::OpenID::MissingResponse, Rack::OpenID::TimeoutResponse
+      #     fail!(:connection_failed)
+      #   else
+      #     response
+      #   end
+      # end
       
-      def callback_url
-        uri = URI.parse(request.url)
-        uri.path += '/callback'
-        # Rails.logger.debug "#{SITE_URL}"
-        # Rails.logger.debug "CALLBACK_URL: #{uri.to_s}"
-        # Rails.logger.debug "CALLBACK_URL: #{uri.to_s.split('/auth').last}"
-        # Rails.logger.debug "MODIFIED: #{SITE_URL} /auth #{uri.to_s.split('/auth').last}"
-        uri.to_s
-        # "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
-      end
+      # def callback_url
+      #   uri = URI.parse(request.url)
+      #   uri.path += '/callback'
+      #   uri.to_s
+      # end
       
       def mod_callback_url
         uri = URI.parse(request.url)
         uri.path += '/callback'
-        # Rails.logger.debug "#{SITE_URL}"
-        # Rails.logger.debug "CALLBACK_URL: #{uri.to_s}"
-        # Rails.logger.debug "CALLBACK_URL: #{uri.to_s.split('/auth').last}"
-        # Rails.logger.debug "MODIFIED: #{SITE_URL} /auth #{uri.to_s.split('/auth').last}"
-        uri.to_s
         "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
       end
-      
-      # Called when it already contains callback.
-      def original_url
-        uri = URI.parse(request.url)
-        "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"        
-      end
-      
-      def site_domain
-        uri = URI.parse(SITE_URL)
-        uri.path = ''
-        uri.query = nil
-        uri.to_s.gsub('http://', '').gsub('https://', '')
-      end
-      
     end
   end
 end
@@ -145,31 +121,31 @@ module OmniAuth
 end
 
 
-module Rack
-  # Rack::Request provides a convenient interface to a Rack
-  # environment.  It is stateless, the environment +env+ passed to the
-  # constructor will be directly modified.
-  #
-  #   req = Rack::Request.new(env)
-  #   req.post?
-  #   req.params["data"]
-  #
-  # The environment hash passed will store a reference to the Request object
-  # instantiated so that it will only instantiate if an instance of the Request
-  # object doesn't already exist.
-
-  class Request
-
-    def ip
-      Rails.logger.info "IP IP IP IP IP"
-      # if addr = @env['HTTP_X_FORWARDED_FOR']
-      #   Rails.logger.info "Parsing from HTTP_X_FORWARDED_FOR! #{(addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip}"
-      #   (addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip
-      # else
-        Rails.logger.info "Using REMOTE_ADDR how boring... #{@env['REMOTE_ADDR']}"
-        @env['REMOTE_ADDR']
-      # end
-    end
-  end
-end
+# module Rack
+#   # Rack::Request provides a convenient interface to a Rack
+#   # environment.  It is stateless, the environment +env+ passed to the
+#   # constructor will be directly modified.
+#   #
+#   #   req = Rack::Request.new(env)
+#   #   req.post?
+#   #   req.params["data"]
+#   #
+#   # The environment hash passed will store a reference to the Request object
+#   # instantiated so that it will only instantiate if an instance of the Request
+#   # object doesn't already exist.
+# 
+#   class Request
+# 
+#     def ip
+#       Rails.logger.info "IP IP IP IP IP"
+#       # if addr = @env['HTTP_X_FORWARDED_FOR']
+#       #   Rails.logger.info "Parsing from HTTP_X_FORWARDED_FOR! #{(addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip}"
+#       #   (addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip
+#       # else
+#         Rails.logger.info "Using REMOTE_ADDR how boring... #{@env['REMOTE_ADDR']}"
+#         @env['REMOTE_ADDR']
+#       # end
+#     end
+#   end
+# end
 
