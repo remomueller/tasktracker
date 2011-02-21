@@ -160,13 +160,13 @@ module Rack
 
     def ip
       Rails.logger.info "IP IP IP IP IP"
-      if addr = @env['HTTP_X_FORWARDED_FOR']
-        Rails.logger.info "Parsing from HTTP_X_FORWARDED_FOR! #{(addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip}"
-        (addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip
-      else
+      # if addr = @env['HTTP_X_FORWARDED_FOR']
+      #   Rails.logger.info "Parsing from HTTP_X_FORWARDED_FOR! #{(addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip}"
+      #   (addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip
+      # else
         Rails.logger.info "Using REMOTE_ADDR how boring... #{@env['REMOTE_ADDR']}"
         @env['REMOTE_ADDR']
-      end
+      # end
     end
   end
 end
