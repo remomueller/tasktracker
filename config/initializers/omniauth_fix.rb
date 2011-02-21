@@ -60,7 +60,7 @@ module OmniAuth
         Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
         Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
         @openid_response = env.delete('rack.openid.response')
-        if @openid_response && (@openid_response.status == :success or @openid_response.message == 'return_to host does not match')
+        if @openid_response && (@openid_response.status == :success or true)
           super
         else
           fail!(:invalid_credentials)
