@@ -38,17 +38,10 @@ module OmniAuth
     class OpenID
       
       def dummy_app
-        
-        env['REMOTE_ADDR'] = site_domain
-        env['SERVER_NAME'] = site_domain
-        env['HTTP_HOST'] = site_domain
-        env['HTTP_X_FORWARDED_FOR'] = nil
-        
-        
         Rails.logger.debug "dummy_app id #{identifier} return_to #{callback_url}"
         lambda{|env| [401, {"WWW-Authenticate" => Rack::OpenID.build_header(
           :identifier => identifier,
-          # :trust_root => callback_url, # SITE_URL,
+          :trust_root => callback_url, # SITE_URL,
           :return_to => callback_url,
           :required => @options[:required],
           :optional => @options[:optional],
@@ -57,11 +50,6 @@ module OmniAuth
       end
       
       def callback_phase
-        env['REMOTE_ADDR'] = site_domain
-        env['SERVER_NAME'] = site_domain
-        env['HTTP_HOST'] = site_domain
-        env['HTTP_X_FORWARDED_FOR'] = nil
-        
         env['REQUEST_METHOD'] = 'GET'
         openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
         # Rails.logger.info "OPENID: #{env.inspect}"
@@ -78,13 +66,6 @@ module OmniAuth
       
       
       def start
-        
-        env['REMOTE_ADDR'] = site_domain
-        env['SERVER_NAME'] = site_domain
-        env['HTTP_HOST'] = site_domain
-        env['HTTP_X_FORWARDED_FOR'] = nil
-        
-        
         openid = Rack::OpenID.new(dummy_app, @store)
         response = openid.call(env)
         
@@ -106,7 +87,7 @@ module OmniAuth
         # Rails.logger.debug "CALLBACK_URL: #{uri.to_s.split('/auth').last}"
         # Rails.logger.debug "MODIFIED: #{SITE_URL} /auth #{uri.to_s.split('/auth').last}"
         uri.to_s
-        # "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
+        "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
       end
       
       # Called when it already contains callback.
