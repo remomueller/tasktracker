@@ -23,7 +23,7 @@ module OmniAuth
         rescue Exception => e
           Rails.logger.info "Exception #{e.inspect}"
           return fail!(:invalid_credentials, e)
-        end         
+        end
         
         call_app!
       end
@@ -41,31 +41,31 @@ module OmniAuth
         Rails.logger.debug "dummy_app id #{identifier} return_to #{callback_url}"
         lambda{|env| [401, {"WWW-Authenticate" => Rack::OpenID.build_header(
           :identifier => identifier,
-          :trust_root => callback_url, # SITE_URL,
-          :return_to => callback_url,
+          :trust_root => mod_callback_url + "&_method=post", # SITE_URL,
+          :return_to => mod_callback_url,
           :required => @options[:required],
           :optional => @options[:optional],
           :method => 'post'
         )}, []]}
       end
       
-      # def callback_phase
-      #   env['REQUEST_METHOD'] = 'GET'
-      #   
-      #   Rails.logger.info "RACK OPENID RETURN_TO: " + env.keys.inspect
-      #   
-      #   openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
-      #   # Rails.logger.info "OPENID: #{env.inspect}"
-      #   status, headers, body = openid.call(env)
-      #   Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
-      #   Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
-      #   @openid_response = env.delete('rack.openid.response')
-      #   if @openid_response && @openid_response.status == :success
-      #     super
-      #   else
-      #     fail!(:invalid_credentials)
-      #   end
-      # end
+      def callback_phase
+        env['REQUEST_METHOD'] = 'GET'
+        
+        Rails.logger.info "RACK OPENID RETURN_TO: " + env.keys.inspect
+        
+        openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
+        # Rails.logger.info "OPENID: #{env.inspect}"
+        status, headers, body = openid.call(env)
+        Rails.logger.info "Status #{status}, Headers, #{headers}, Body #{body}"
+        Rails.logger.info "OPENID RESPONSE: #{env['rack.openid.response'].message}"
+        @openid_response = env.delete('rack.openid.response')
+        if @openid_response && @openid_response.status == :success
+          super
+        else
+          fail!(:invalid_credentials)
+        end
+      end
       
       
       # def start
