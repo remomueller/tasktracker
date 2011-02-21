@@ -140,3 +140,32 @@ module OmniAuth
   end
 end
 
+
+module Rack
+  # Rack::Request provides a convenient interface to a Rack
+  # environment.  It is stateless, the environment +env+ passed to the
+  # constructor will be directly modified.
+  #
+  #   req = Rack::Request.new(env)
+  #   req.post?
+  #   req.params["data"]
+  #
+  # The environment hash passed will store a reference to the Request object
+  # instantiated so that it will only instantiate if an instance of the Request
+  # object doesn't already exist.
+
+  class Request
+
+    def ip
+      Rails.logger.info "IP IP IP IP IP"
+      if addr = @env['HTTP_X_FORWARDED_FOR']
+        Rails.logger.info "Parsing from HTTP_X_FORWARDED_FOR! #{(addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip}"
+        (addr.split(',').grep(/\d\./).first || @env['REMOTE_ADDR']).to_s.strip
+      else
+        Rails.logger.info "Using REMOTE_ADDR how boring... #{@env['REMOTE_ADDR']}"
+        @env['REMOTE_ADDR']
+      end
+    end
+  end
+end
+
