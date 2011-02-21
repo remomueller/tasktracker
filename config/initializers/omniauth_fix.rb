@@ -50,6 +50,10 @@ module OmniAuth
       end
       
       def callback_phase
+        env['REMOTE_ADDR'] = site_domain
+        env['SERVER_NAME'] = site_domain
+        env['HTTP_HOST'] = site_domain
+        
         env['REQUEST_METHOD'] = 'GET'
         openid = Rack::OpenID.new(lambda{|env| [200,{},[]]}, @store)
         # Rails.logger.info "OPENID: #{env.inspect}"
@@ -66,6 +70,12 @@ module OmniAuth
       
       
       def start
+        
+        env['REMOTE_ADDR'] = site_domain
+        env['SERVER_NAME'] = site_domain
+        env['HTTP_HOST'] = site_domain
+        
+        
         openid = Rack::OpenID.new(dummy_app, @store)
         response = openid.call(env)
         
@@ -95,6 +105,14 @@ module OmniAuth
         uri = URI.parse(request.url)
         "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"        
       end
+      
+      def site_domain
+        uri = URI.parse(SITE_URL)
+        uri.path = ''
+        uri.query = nil
+        uri.to_s.gsub('http://', '').gsub('https://', '')
+      end
+      
     end
   end
 end
