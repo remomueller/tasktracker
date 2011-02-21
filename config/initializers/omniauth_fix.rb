@@ -53,11 +53,11 @@ module OmniAuth
         env['REQUEST_METHOD'] = 'GET'
         openid = Rack::OpenID.new(lambda{|env| [200,{"WWW-Authenticate" => Rack::OpenID.build_header(
           :identifier => identifier,
-          :trust_root => callback_url, # SITE_URL,
-          :return_to => callback_url,
+          :trust_root => original_url, # SITE_URL,
+          :return_to => original_url,
           :required => @options[:required],
           :optional => @options[:optional],
-          :method => 'post'
+          :method => 'get'
         )},[]]}, @store)
         # Rails.logger.info "OPENID: #{env.inspect}"
         status, headers, body = openid.call(env)
@@ -95,6 +95,12 @@ module OmniAuth
         # Rails.logger.debug "MODIFIED: #{SITE_URL} /auth #{uri.to_s.split('/auth').last}"
         uri.to_s
         "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"
+      end
+      
+      # Called when it already contains callback.
+      def original_url
+        uri = URI.parse(request.url)
+        "#{SITE_URL}/auth#{uri.to_s.split('/auth').last}"        
       end
     end
   end
