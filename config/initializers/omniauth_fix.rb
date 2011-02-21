@@ -38,6 +38,13 @@ module OmniAuth
     class OpenID
       
       def dummy_app
+        
+        env['REMOTE_ADDR'] = site_domain
+        env['SERVER_NAME'] = site_domain
+        env['HTTP_HOST'] = site_domain
+        env['HTTP_X_FORWARDED_FOR'] = nil
+        
+        
         Rails.logger.debug "dummy_app id #{identifier} return_to #{callback_url}"
         lambda{|env| [401, {"WWW-Authenticate" => Rack::OpenID.build_header(
           :identifier => identifier,
