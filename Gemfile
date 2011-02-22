@@ -30,8 +30,8 @@ gem 'mysql2'
 #   gem 'webrat'
 # end
 
-gem 'devise'
+gem 'devise', '1.1.7'
 gem 'mail'
 gem 'will_paginate', '>= 3.0.pre2'
-gem 'omniauth'
+gem 'omniauth', '0.1.6'
 # gem 'oa-openid', :require => 'omniauth/openid'
