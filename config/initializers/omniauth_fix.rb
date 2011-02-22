@@ -5,6 +5,7 @@ module OmniAuth
         # Rails.logger.debug "PERFORM! #{request.POST.inspect} #{@adaptor.inspect}"
         begin
           begin
+            request.POST['username'] = request.POST['domain'].to_s + '\\' + request.POST['username'] unless request.POST['domain'].blank?
             @adaptor.bind(:bind_dn => request.POST['username'], :password => request.POST['password'])
           rescue Exception => e
             Rails.logger.info "failed to bind with the default credentials: " + e.message
@@ -27,6 +28,24 @@ module OmniAuth
         
         call_app!
       end
+      
+      def initialize(app, title, options = {})
+        super(app, options.delete(:name) || :ldap)
+        @title = title
+        @domain = options[:domain]
+        @adaptor = OmniAuth::Strategies::LDAP::Adaptor.new(options)
+        Rails.logger.info "Domain: #{@domain}"
+      end
+      
+      def get_credentials
+        domain = @domain
+        OmniAuth::Form.build(@title) do
+          text_field 'Login', 'username'
+          password_field 'Password', 'password'
+          hidden_field 'domain', domain
+        end.to_response
+      end
+      
     end
   end
 end
@@ -116,6 +135,16 @@ module OmniAuth
     
     def callback_url
       full_host + "#{OmniAuth.config.path_prefix}/#{name}/callback"
+    end
+  end
+end
+
+module OmniAuth
+  class Form
+    def hidden_field(name, value)
+      Rails.logger.info "Name: '#{name}' Value: '#{value}'"
+      @html << "\n<input type='hidden' id='#{name}' name='#{name}' value='#{value}'/>"
+      self
     end
   end
 end
