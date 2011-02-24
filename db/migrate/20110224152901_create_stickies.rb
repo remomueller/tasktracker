@@ -6,7 +6,7 @@ class CreateStickies < ActiveRecord::Migration
       t.integer :sticky_id
       t.integer :position, :null => false, :default => 0
       t.string :status, :null => false, :default => 'ongoing'
-      t.string :sticky_type, :null => false, :default => 'update'
+      t.string :sticky_type, :null => false, :default => 'generic'
       t.text :description
       t.date :start_date
       t.date :end_date
