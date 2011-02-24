@@ -45,7 +45,7 @@ hr { margin:0px; }
 	height:80px;
 	line-height:80px;
 	font-size:2.0em;
-  padding:5px;
+  padding:0 5px;
   border-bottom: 5px solid #0E7799;
 	font-weight: bold;
   font-variant: small-caps;
