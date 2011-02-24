@@ -1,3 +1,4 @@
+<% width = '914px' %>
 <%= form_for(@sticky) do |f| %>
   <% if @sticky.errors.any? %>
     <div id="error_explanation">
@@ -11,47 +12,45 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :project_id %><br />
-    <%= f.text_field :project_id %>
-  </div>
-  <div class="field">
-    <%= f.label :sticky_id %><br />
-    <%= f.text_field :sticky_id %>
-  </div>
-  <div class="field">
-    <%= f.label :position %><br />
-    <%= f.text_field :position %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br />
-    <%= f.text_field :status %>
-  </div>
-  <div class="field">
-    <%= f.label :sticky_type %><br />
-    <%= f.text_field :sticky_type %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :start_date %><br />
-    <%= f.date_select :start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :end_date %><br />
-    <%= f.date_select :end_date %>
-  </div>
-  <div class="field">
-    <%= f.label :deleted %><br />
-    <%= f.check_box :deleted %>
-  </div>
+  <fieldset>
+    <legend><%= @title %></legend>
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
+    </div>
+    <div class="field">
+      <%= f.label :project_id %><br />
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.collect{|p| [p.name, p.id]}) %>
+    </div>
+    <div class="field">
+      <%= f.label :sticky_id %><br />
+      <%= f.select :sticky_id, options_for_select([['---', nil]] + current_user.all_stickies.collect{|p| [s.name, s.id]}) %>
+    </div>
+    <div class="field">
+      <%= f.label :status %><br />
+      <%= f.select :status, Sticky::STATUS %>
+    </div>
+    <div class="field">
+      <%= f.label :sticky_type %><br />
+      <%= f.select :status, Sticky::STICKY_TYPE %>
+    </div>
+    <div class="field">
+      <%= f.label :start_date %><br />
+      <%= f.date_select :start_date %>
+    </div>
+    <div class="field">
+      <%= f.label :end_date %><br />
+      <%= f.date_select :end_date %>
+    </div>
+  </fieldset>
+  
   <div class="actions">
-    <%= f.submit %>
+    <button class="positive">
+      <%= image_tag('icons/tick.png', :alt => '') %>
+      <%= @sticky.new_record? ? "Create Sticky" : "Update Sticky" %>
+    </button>
+    <%= cancel %>
+		<br />
   </div>
+
 <% end %>

@@ -1,83 +1,53 @@
 class StickiesController < ApplicationController
-  # GET /stickies
-  # GET /stickies.xml
+  before_filter :authenticate_user!
+  
   def index
-    @stickies = Sticky.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @stickies }
-    end
+    @stickies = current_user.all_stickies.all
   end
 
-  # GET /stickies/1
-  # GET /stickies/1.xml
   def show
-    @sticky = Sticky.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @sticky }
-    end
+    @sticky = current_user.all_stickies.find(params[:id])
+    redirect_to root_path unless @sticky
   end
 
-  # GET /stickies/new
-  # GET /stickies/new.xml
   def new
-    @sticky = Sticky.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @sticky }
-    end
+    @sticky = current_user.stickies.new
   end
 
-  # GET /stickies/1/edit
   def edit
-    @sticky = Sticky.find(params[:id])
+    @sticky = current_user.all_stickies.find(params[:id])
+    redirect_to root_path unless @sticky
   end
 
-  # POST /stickies
-  # POST /stickies.xml
   def create
-    @sticky = Sticky.new(params[:sticky])
-
-    respond_to do |format|
-      if @sticky.save
-        format.html { redirect_to(@sticky, :notice => 'Sticky was successfully created.') }
-        format.xml  { render :xml => @sticky, :status => :created, :location => @sticky }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @sticky.errors, :status => :unprocessable_entity }
-      end
+    @sticky = current_user.stickies.new(params[:sticky])
+    if @sticky.save
+      redirect_to(@sticky, :notice => 'Sticky was successfully created.')
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /stickies/1
-  # PUT /stickies/1.xml
   def update
-    @sticky = Sticky.find(params[:id])
-
-    respond_to do |format|
+    @sticky = current_user.all_stickies.find(params[:id])
+    if @sticky
       if @sticky.update_attributes(params[:sticky])
-        format.html { redirect_to(@sticky, :notice => 'Sticky was successfully updated.') }
-        format.xml  { head :ok }
+        redirect_to(@sticky, :notice => 'Sticky was successfully updated.')
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @sticky.errors, :status => :unprocessable_entity }
+        render :action => "edit"
       end
+    else
+      redirect_to root_path
     end
   end
 
-  # DELETE /stickies/1
-  # DELETE /stickies/1.xml
   def destroy
-    @sticky = Sticky.find(params[:id])
-    @sticky.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(stickies_url) }
-      format.xml  { head :ok }
+    @sticky = current_user.all_stickies.find(params[:id])
+    if @sticky
+      @sticky.destroy
+      redirect_to(stickies_url)
+    else
+      redirect_to root_path
     end
   end
 end
