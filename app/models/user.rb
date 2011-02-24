@@ -6,6 +6,10 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
+
+  # Named Scopes
+  scope :current, :conditions => { :deleted => false }
+  scope :status, lambda { |*args|  { :conditions => ["users.status IN (?)", args.first] } }
   
   # Model Validation
   validates_presence_of     :first_name
@@ -16,6 +20,13 @@ class User < ActiveRecord::Base
   has_many :projects, :conditions => {:deleted => false}, :order => 'name'
   has_many :stickies, :conditions => {:deleted => false}, :order => 'created_at'
   has_many :comments, :conditions => {:deleted => false}, :order => 'created_at'
+
+  # User Methods
+  
+  # Overriding Devise built-in active? method
+  def active?
+    super and self.status == 'active' and not self.deleted?
+  end
 
   def destroy
     update_attribute :deleted, true

@@ -1,5 +1,7 @@
 Notes::Application.routes.draw do
   
+  resources :project_users
+
   resources :stickies
 
   resources :comments
@@ -10,6 +12,12 @@ Notes::Application.routes.draw do
   match '/auth/failure' => 'authentications#failure'
   
   devise_for :users, :controllers => {:registrations => 'registrations'}
+
+  resources :users do
+    collection do
+      post :filtered
+    end
+  end
 
   resources :authentications
 

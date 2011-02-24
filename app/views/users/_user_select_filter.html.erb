@@ -1,0 +1,10 @@
+<%# terms = @search.downcase.split(' ') %>
+<%# concept_scope = Concept.current.without_concept_ids(@concept.id).scoped({}) %>
+<%# terms.each do |term| %>
+  <%# concept_scope = concept_scope.like(term + '%') %>
+<%# end %>
+<%# concept_scope = concept_scope.order('search_name ASC') %>
+
+<% user_scope = User.current.order('last_name, first_name') %>
+
+<%= select_tag "#{@relation}_id", options_for_select([['-------', nil]] + user_scope.collect{|user| [user.rev_name, user.id]}), :size => 10, :style => "width:500px;" %>
