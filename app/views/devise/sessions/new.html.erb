@@ -15,3 +15,8 @@
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>
+
+<% unless PROVIDERS.blank? %>
+  <h3>Don't want a new login and password? Use one of your existing accounts!</h3>
+  <%= render :partial => 'authentications/index' %>
+<% end %>

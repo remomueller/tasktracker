@@ -2,24 +2,39 @@
 <html>
 <head>
   <title>Notes | version <%= Notes::VERSION::STRING %></title>
-  <%= stylesheet_link_tag :all %>
+  <title><%= ['Notes', @title].join(' - ') unless @title.blank? %></title>
+  <%#= stylesheet_link_tag :all %>
+  <%= stylesheet_link_tag 'screen', :media => 'screen, projection' %>
+  <%= stylesheet_link_tag 'print', :media => 'print' %>
+  <!--[if IE]>
+    <%= stylesheet_link_tag 'ie', :media => 'screen, projection' %>
+  <![endif]-->
+  <%= stylesheet_link_tag 'foundation', :media => 'screen, projection' %>
+  
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
 <body>
-  <% if user_signed_in? %>
-    <%= current_user.email %> [<%= current_user.name %>]
-    | <%= link_to 'Logout', destroy_user_session_path, :class => 'logout' %>
-  <% else %>
-		<%= link_to 'Login', authentications_path %> | 
-		<%= link_to 'Sign Up', new_user_registration_path %>
-	<% end %>
+  <div class="container" style="background-image: url(<%= SITE_URL %>/images/brigham.png);">
+
+    <div id="header">
+      <div style="position:relative">
+        <span style="position:absolute;top:18px;left:50px;font-size:0.5em;font-variant:normal">version <%= Notes::VERSION::STRING %></span>
+      </div>
+      Notes
+    </div>
+
+    <div id="message">
+      <%= render :partial => 'layouts/message' %>
+    </div>
+
+    <div id="menu">
+      <%= render :partial => 'layouts/menu' %>
+    </div>
   
-<div class="notice"><%= notice %></div>
-<div class="error"><%= flash[:warning].humanize if flash[:warning] %></div>
-<div class="error"><%= alert %></div>
-
-<%= yield %>
-
+    <div id="content">
+      <%= yield %>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,0 +1,69 @@
+<% if user_signed_in? -%>
+  <div style="float:right">
+    <%= link_to_function current_user.name, "$('menu_user_settings').show();", :onmouseover => "$('menu_user_settings').show();" %>
+    <div style="position:relative">
+      <div id="menu_user_settings" class="menu_dropdown_right" style="display:none">
+        <div style="white-space:nowrap"><%= current_user.name %></div>
+        <div class="quiet small"><%= current_user.email %></div>
+        <div><%= link_to 'Settings', authentications_path %></div>
+        <hr>
+        <div><%= link_to 'Logout', destroy_user_session_path %></div>
+      </div>
+    </div>
+  </div>
+
+  <% if false %>
+  <div style="float:right">
+    <%= link_to_function 'set2', "$('menu_set2').show();", :onmouseover => "$('menu_set2').show();" %>
+    <div style="position:relative;">
+      <div id="menu_set2" class="menu_dropdown_right_center" style="display:none">
+        <div><%= link_to 'set2', root_path %></div>
+        <div><%= link_to 'Publications', publications_path %></div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+  <div style="float:left">
+    <%= link_to_function 'Home', "$('menu_home').show();", :onmouseover => "$('menu_home').show();" %>
+    <div style="position:relative;">
+      <div id="menu_home" class="menu_dropdown_left" style="display:none">
+        <div><%= link_to 'Home', root_path %></div>
+<% if false %>        <div><%= link_to 'Publications', publications_path %></div><% end %>
+      </div>
+    </div>
+  </div>
+  
+  <% if false %>
+  <div style="float:left">
+    <%= link_to_function 'home2', "$('menu_home2').show();", :onmouseover => "$('menu_home2').show();" %>
+    <div style="position:relative;">
+      <div id="menu_home2" class="menu_dropdown_left_center" style="display:none">
+        <div><%= link_to 'home2', root_path %></div>
+        <div><%= link_to 'Publications', publications_path %></div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+  <%#= link_to 'Overview', overview_entries_path %>
+  <%#= link_to 'Accounts', accounts_path %>
+  <%#= link_to 'Charge Types', charge_types_path %>
+  <%#= link_to 'Entries', entries_path %>
+  <%= javascript_tag "hideOnMouseOut('menu_home');" %>
+  <%#= javascript_tag "hideOnMouseOut('menu_home');hideOnMouseOut('menu_home2');hideOnMouseOut('menu_set2');" %>
+<% else %>
+  <div style="float:right" onmouseover="$('menu_user_settings').show();">
+    <%= link_to_function 'Login', "$('menu_user_settings').show();" %>
+    <div style="position:relative">
+      <div id="menu_user_settings" class="menu_dropdown_right" style="display:none">
+        <div><%= link_to 'Login', new_user_session_path %></div>
+        <hr>
+        <div style="white-space:nowrap"><%= link_to 'Sign Up', new_user_registration_path %></div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div style="clear:both"></div>
+
+<%= javascript_tag "hideOnMouseOut('menu_user_settings');" %>

@@ -1,7 +1,9 @@
-Sites About Controller
+<% @title = 'Dashboard' %>
+
+<h1><%= @title %></h1>
 <br /><br />
 <% if current_user %>
-  You're Signed In!
+  <%#= link_to 'Submit Manuscript or Publication for Review', new_publication_path, :class => 'button' %>
 <% else %>
-  <%= link_to 'Sign In', authentications_path %>
+  <%= link_to 'Sign In', new_user_session_path %>
 <% end %>

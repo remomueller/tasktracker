@@ -1,0 +1,43 @@
+<table style="border-collapse:collapse;table-layout:fixed;margin:0px;padding:0px"><%= ("<col width='64px'/>" * PROVIDERS.size).html_safe %>
+  <% PROVIDERS.in_groups_of(4, false) do |row_providers| %>
+    <tr>
+      <% row_providers.each do |provider| %>
+        <% url_params = (provider == :google_apps) ? '?domain=gmail.com' : '' %>
+        <% if provider == :open_id %>
+          <% provider_name = 'OpenID' %>
+          <% image_name = 'openid' %>
+        <% elsif provider == :linked_in %>
+          <% provider_name = 'LinkedIn' %>
+          <% image_name = 'linkedin' %>
+        <% elsif [:LDAP, :CAS].include?(provider) %>
+          <% provider_name = provider.to_s.upcase %>
+          <% image_name = provider.to_s.downcase %>
+        <% else %>
+          <% provider_name = provider.to_s.titleize %>
+          <% image_name = provider.to_s.downcase %>
+        <% end %>
+        <td style="white-space:nowrap;text-align:center">
+          <a href="<%= SITE_URL %>/<%= OmniAuth.config.path_prefix.split('/').last.to_s %>/<%= provider.to_s.downcase %><%= url_params %>">
+            <%= image_tag "authbuttons/#{image_name}_64.png", :align => 'absmiddle', :size => "64x64", :alt => provider_name %>
+          </a>
+        </td>
+      <% end %>
+    </tr>
+    <tr>
+      <% row_providers.each do |provider| %>
+        <% if provider == :open_id %>
+          <% provider_name = 'OpenID' %>
+        <% elsif provider == :linked_in %>
+          <% provider_name = 'LinkedIn' %>
+        <% elsif [:LDAP, :CAS].include?(provider) %>
+          <% provider_name = provider.to_s.upcase %>
+        <% else %>
+          <% provider_name = provider.to_s.titleize %>
+        <% end %>
+        <td style="text-align:center;white-space:nowrap;font-size:11px">
+          <%= provider_name %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
