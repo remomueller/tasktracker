@@ -15,26 +15,23 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-  <div class="container" style="background-image: url(<%= SITE_URL %>/images/brigham.png);">
+  <div id="header" class="container" style="background-image: url(<%= SITE_URL %>/images/brigham.png);">
+    <div style="position:relative">
+      <span style="position:absolute;top:18px;left:50px;font-size:0.5em;font-variant:normal">version <%= Notes::VERSION::STRING %></span>
+    </div>
+    Notes
+  </div>
 
-    <div id="header">
-      <div style="position:relative">
-        <span style="position:absolute;top:18px;left:50px;font-size:0.5em;font-variant:normal">version <%= Notes::VERSION::STRING %></span>
-      </div>
-      Notes
-    </div>
+  <div id="message" class="container">
+    <%= render :partial => 'layouts/message' %>
+  </div>
 
-    <div id="message">
-      <%= render :partial => 'layouts/message' %>
-    </div>
+  <div id="menu" class="container">
+    <%= render :partial => 'layouts/menu' %>
+  </div>
 
-    <div id="menu">
-      <%= render :partial => 'layouts/menu' %>
-    </div>
-  
-    <div id="content">
-      <%= yield %>
-    </div>
+  <div id="content" class="container">
+    <%= yield %>
   </div>
 </body>
 </html>
