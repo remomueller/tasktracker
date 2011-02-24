@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @sticky.user_id %>
+</p>
+
+<p>
+  <b>Project:</b>
+  <%= @sticky.project_id %>
+</p>
+
+<p>
+  <b>Sticky:</b>
+  <%= @sticky.sticky_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%= @sticky.position %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @sticky.status %>
+</p>
+
+<p>
+  <b>Sticky type:</b>
+  <%= @sticky.sticky_type %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @sticky.description %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @sticky.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @sticky.end_date %>
+</p>
+
+<p>
+  <b>Deleted:</b>
+  <%= @sticky.deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_sticky_path(@sticky) %> |
+<%= link_to 'Back', stickies_path %>

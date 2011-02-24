@@ -21,9 +21,11 @@ function isTrueMouseOut(e, handler) {
 	return (relTarget != handler);
 }
 
-function hideOnMouseOut(element){
-  var element = $(element);
-  element.onmouseout = function(e, handler) {
-    if (isTrueMouseOut(e||window.event, this)) this.hide();
-  }
+function hideOnMouseOut(elements){
+  elements.each(function(element){
+    var element = $(element);
+    element.onmouseout = function(e, handler) {
+      if (isTrueMouseOut(e||window.event, this)) this.hide();
+    }
+  });
 }

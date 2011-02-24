@@ -1,0 +1,25 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  project_id: 1
+  sticky_id: 1
+  position: 1
+  status: MyString
+  sticky_type: MyString
+  description: MyText
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  deleted: false
+
+two:
+  user_id: 1
+  project_id: 1
+  sticky_id: 1
+  position: 1
+  status: MyString
+  sticky_type: MyString
+  description: MyText
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  deleted: false

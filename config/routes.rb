@@ -1,5 +1,11 @@
 Notes::Application.routes.draw do
   
+  resources :stickies
+
+  resources :comments
+
+  resources :projects
+
   match '/auth/:provider/callback' => 'authentications#create'
   match '/auth/failure' => 'authentications#failure'
   

@@ -29,28 +29,44 @@
     <div style="position:relative;">
       <div id="menu_home" class="menu_dropdown_left" style="display:none">
         <div><%= link_to 'Home', root_path %></div>
-<% if false %>        <div><%= link_to 'Publications', publications_path %></div><% end %>
+        <div><%= link_to 'Projects', projects_path %></div>
+        <div><%= link_to 'Stickies', stickies_path %></div>
+        <div><%= link_to 'Comments', comments_path %></div>
       </div>
     </div>
   </div>
   
-  <% if false %>
   <div style="float:left">
-    <%= link_to_function 'home2', "$('menu_home2').show();", :onmouseover => "$('menu_home2').show();" %>
+    <%= link_to_function 'Projects', "$('menu_projects').show();", :onmouseover => "$('menu_projects').show();" %>
     <div style="position:relative;">
-      <div id="menu_home2" class="menu_dropdown_left_center" style="display:none">
-        <div><%= link_to 'home2', root_path %></div>
-        <div><%= link_to 'Publications', publications_path %></div>
+      <div id="menu_projects" class="menu_dropdown_left_center" style="display:none">
+        <div><%= link_to 'Projects', projects_path %></div>
+        <div><%= link_to '&raquo;New'.html_safe, new_project_path %></div>
       </div>
     </div>
   </div>
-  <% end %>
-  <%#= link_to 'Overview', overview_entries_path %>
-  <%#= link_to 'Accounts', accounts_path %>
-  <%#= link_to 'Charge Types', charge_types_path %>
-  <%#= link_to 'Entries', entries_path %>
-  <%= javascript_tag "hideOnMouseOut('menu_home');" %>
-  <%#= javascript_tag "hideOnMouseOut('menu_home');hideOnMouseOut('menu_home2');hideOnMouseOut('menu_set2');" %>
+  
+  <div style="float:left">
+    <%= link_to_function 'Stickies', "$('menu_stickies').show();", :onmouseover => "$('menu_stickies').show();" %>
+    <div style="position:relative;">
+      <div id="menu_stickies" class="menu_dropdown_left_center" style="display:none">
+        <div><%= link_to 'Stickies', stickies_path %></div>
+        <div><%= link_to '&raquo;New'.html_safe, new_sticky_path %></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="float:left">
+    <%= link_to_function 'Comments', "$('menu_comments').show();", :onmouseover => "$('menu_comments').show();" %>
+    <div style="position:relative;">
+      <div id="menu_comments" class="menu_dropdown_left_center" style="display:none">
+        <div><%= link_to 'Comments', comments_path %></div>
+        <div><%= link_to '&raquo;New'.html_safe, new_comment_path %></div>
+      </div>
+    </div>
+  </div>
+
+  <%= javascript_tag "hideOnMouseOut(['menu_home', 'menu_projects', 'menu_stickies', 'menu_comments']);" %>
 <% else %>
   <div style="float:right" onmouseover="$('menu_user_settings').show();">
     <%= link_to_function 'Login', "$('menu_user_settings').show();" %>
