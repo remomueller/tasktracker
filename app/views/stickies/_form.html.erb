@@ -24,7 +24,7 @@
     </div>
     <div class="field">
       <%= f.label :sticky_id %><br />
-      <%= f.select :sticky_id, options_for_select([['---', nil]] + current_user.all_stickies.collect{|p| [s.name, s.id]}) %>
+      <%= f.select :sticky_id, options_for_select([['---', nil]] + current_user.all_stickies.collect{|s| [s.id, s.id]}) %>
     </div>
     <div class="field">
       <%= f.label :status %><br />

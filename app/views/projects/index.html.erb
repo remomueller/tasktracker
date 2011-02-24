@@ -2,30 +2,26 @@
 
 <table>
   <tr>
-    <th>User</th>
     <th>Position</th>
     <th>Name</th>
+    <th>User</th>
     <th>Status</th>
     <th>Description</th>
     <th>Start date</th>
     <th>End date</th>
-    <th>Deleted</th>
-    <th></th>
     <th></th>
     <th></th>
   </tr>
 
 <% @projects.each do |project| %>
   <tr>
-    <td><%= project.user_id %></td>
     <td><%= project.position %></td>
-    <td><%= project.name %></td>
+    <td><%= link_to project.name, project %></td>
+    <td><%= project.user.name %></td>
     <td><%= project.status %></td>
     <td><%= project.description %></td>
     <td><%= project.start_date %></td>
     <td><%= project.end_date %></td>
-    <td><%= project.deleted %></td>
-    <td><%= link_to 'Show', project %></td>
     <td><%= link_to 'Edit', edit_project_path(project) %></td>
     <td><%= link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>

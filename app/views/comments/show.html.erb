@@ -1,8 +1,11 @@
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %><br />
+
 <p id="notice"><%= notice %></p>
 
 <p>
   <b>User:</b>
-  <%= @comment.user_id %>
+  <%= @comment.user.name %>
 </p>
 
 <p>
@@ -19,12 +22,3 @@
   <b>Description:</b>
   <%= @comment.description %>
 </p>
-
-<p>
-  <b>Deleted:</b>
-  <%= @comment.deleted %>
-</p>
-
-
-<%= link_to 'Edit', edit_comment_path(@comment) %> |
-<%= link_to 'Back', comments_path %>

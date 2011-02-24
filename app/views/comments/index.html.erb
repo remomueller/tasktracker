@@ -6,7 +6,6 @@
     <th>Object model</th>
     <th>Object</th>
     <th>Description</th>
-    <th>Deleted</th>
     <th></th>
     <th></th>
     <th></th>
@@ -14,11 +13,10 @@
 
 <% @comments.each do |comment| %>
   <tr>
-    <td><%= comment.user_id %></td>
+    <td><%= comment.user.name %></td>
     <td><%= comment.object_model %></td>
     <td><%= comment.object_id %></td>
     <td><%= comment.description %></td>
-    <td><%= comment.deleted %></td>
     <td><%= link_to 'Show', comment %></td>
     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
     <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>

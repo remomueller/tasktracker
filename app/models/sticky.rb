@@ -8,6 +8,8 @@ class Sticky < ActiveRecord::Base
 
   # Model Relationships
   belongs_to :user
+  belongs_to :project
+  belongs_to :sticky
 
   def destroy
     update_attribute :deleted, true

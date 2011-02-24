@@ -1,8 +1,11 @@
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %><br />
+
 <p id="notice"><%= notice %></p>
 
 <p>
   <b>User:</b>
-  <%= @project.user_id %>
+  <%= @project.user.name %>
 </p>
 
 <p>
@@ -34,12 +37,3 @@
   <b>End date:</b>
   <%= @project.end_date %>
 </p>
-
-<p>
-  <b>Deleted:</b>
-  <%= @project.deleted %>
-</p>
-
-
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
