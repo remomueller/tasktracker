@@ -66,7 +66,7 @@
     </div>
   </div>
 
-  <%= javascript_tag "hideOnMouseOut(['menu_home', 'menu_projects', 'menu_stickies', 'menu_comments']);" %>
+  <%= javascript_tag "hideOnMouseOut(['menu_user_settings', 'menu_home', 'menu_projects', 'menu_stickies', 'menu_comments']);" %>
 <% else %>
   <div style="float:right" onmouseover="$('menu_user_settings').show();">
     <%= link_to_function 'Login', "$('menu_user_settings').show();" %>
@@ -78,8 +78,7 @@
       </div>
     </div>
   </div>
+  <%= javascript_tag "hideOnMouseOut(['menu_user_settings']);" %>
 <% end %>
 
 <div style="clear:both"></div>
-
-<%= javascript_tag "hideOnMouseOut('menu_user_settings');" %>
