@@ -1,6 +1,19 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
 
+  # def add_comment
+  #   @comment = current_user.all_viewable_comments.find_by_id(params[:id])
+  #   if @comment and not params[:comment].blank?
+  #     @comment.new_comment(current_user, params[:comment])
+  #     render :update do |page|
+  #       @object = @comment
+  #       page.replace_html "#{@object.class.name.downcase}_#{@object.id}_comments", :partial => 'comments/index'
+  #     end
+  #   else
+  #     render :nothing => true
+  #   end
+  # end
+
   def index
     @comments = current_user.all_comments
   end

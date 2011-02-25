@@ -72,6 +72,16 @@ class User < ActiveRecord::Base
     end
   end
   
+  def all_viewable_stickies
+    @all_stickies ||= begin
+      if self.system_admin?
+        Sticky.current.order('created_at')
+      else
+        Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}).order('created_at')
+      end
+    end
+  end
+  
   def all_comments
     @all_comments ||= begin
       if self.system_admin?

@@ -1,5 +1,18 @@
 class StickiesController < ApplicationController
   before_filter :authenticate_user!
+
+  def add_comment
+    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+    if @sticky and not params[:comment].blank?
+      @sticky.new_comment(current_user, params[:comment])
+      render :update do |page|
+        @object = @sticky
+        page.replace_html "#{@object.class.name.downcase}_#{@object.id}_comments", :partial => 'comments/index'
+      end
+    else
+      render :nothing => true
+    end
+  end
   
   def index
     @stickies = current_user.all_stickies
@@ -11,7 +24,8 @@ class StickiesController < ApplicationController
   end
 
   def new
-    @sticky = current_user.stickies.new
+    @sticky = current_user.stickies.new(params[:sticky])
+    logger.debug "#{@sticky.inspect}"
   end
 
   def edit

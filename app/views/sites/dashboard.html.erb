@@ -15,3 +15,17 @@
 <ul>
 <li>Your own projects (as owner and editor).</li>
 </ul>
+<% current_user.all_viewable_projects.each do |@project| %>
+  <fieldset>
+    <legend><%= link_to @project.name, @project %></legend>
+    <%= render :partial => 'stickies/index' %>
+    <fieldset>
+      <legend>Comments</legend>
+    <% @object = @project %>
+    <% @limit = 5 %>
+    <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments" class = "comment_box">
+      <%= render :partial => 'comments/index' %>
+    </div>
+    </fieldset>
+  </fieldset>
+<% end %>

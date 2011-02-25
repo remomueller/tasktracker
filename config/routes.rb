@@ -2,11 +2,23 @@ Notes::Application.routes.draw do
 
   resources :project_users
 
-  resources :stickies
+  resources :stickies do
+    member do
+      post :add_comment
+    end
+  end
 
-  resources :comments
+  resources :comments do
+    member do
+      post :add_comment
+    end
+  end
 
-  resources :projects
+  resources :projects do
+    member do
+      post :add_comment
+    end
+  end
 
   match '/auth/:provider/callback' => 'authentications#create'
   match '/auth/failure' => 'authentications#failure'

@@ -59,3 +59,14 @@
     <% end %>
   </p>
 <% end %>
+
+<%= render :partial => 'stickies/index' %>
+
+<fieldset>
+  <legend>Comments</legend>
+<% @object = @project %>
+<% @limit = 5 %>
+<div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments" class = "comment_box">
+  <%= render :partial => 'comments/index' %>
+</div>
+</fieldset>

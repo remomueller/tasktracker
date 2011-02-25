@@ -20,12 +20,14 @@
     </div>
     <div class="field">
       <%= f.label :project_id %><br />
-      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.collect{|p| [p.name, p.id]}) %>
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.collect{|p| [p.name, p.id]}, @sticky.project_id) %>
     </div>
+    <% if false %>
     <div class="field">
       <%= f.label :sticky_id %><br />
       <%= f.select :sticky_id, options_for_select([['---', nil]] + current_user.all_stickies.collect{|s| [s.id, s.id]}) %>
     </div>
+    <% end %>
     <div class="field">
       <%= f.label :status %><br />
       <%= f.select :status, Sticky::STATUS %>

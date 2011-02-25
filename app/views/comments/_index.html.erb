@@ -1,0 +1,5 @@
+<% class_name = @object.class.name.downcase %>
+<p><%= text_field_tag "#{class_name}[#{@object.id}][comment]" %> <%= link_to 'Add Comment', '#', :onclick => remote_function(:url => {:controller => class_name.pluralize.to_sym, :action => 'add_comment', :id => @object.id}, :method => :post, :with => "'&comment='+$('#{class_name}_#{@object.id}_comment').value") + "; return false;" %></p>
+<% @object.comments(@limit).each do |comment| %>
+  <div><%= comment.created_at %> <%= link_to comment.user.name, comment.user %>: <%= comment.description %></div><br />
+<% end %>

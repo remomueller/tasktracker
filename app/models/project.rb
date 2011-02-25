@@ -11,9 +11,18 @@ class Project < ActiveRecord::Base
   has_many :project_users
   has_many :editors, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ?', true]
   has_many :viewers, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ?', false]
+  has_many :stickies, :conditions => { :deleted => false }, :order => 'stickies.created_at desc'
 
   def destroy
     update_attribute :deleted, true
+  end
+  
+  def comments(limit = nil)
+    Comment.current.with_object_model(self.class.name).with_object_id(self.id).order('created_at desc').limit(limit)
+  end
+  
+  def new_comment(current_user, description)
+    Comment.create(:object_model => self.class.name, :object_id => self.id, :user_id => current_user.id, :description => description)
   end
 
 end

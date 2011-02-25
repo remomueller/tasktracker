@@ -1,0 +1,11 @@
+<fieldset>
+  <legend>Stickies <%= link_to 'add', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></legend>
+  <% @project.stickies.each do |sticky| %>
+    <div><%= link_to sticky.sticky_type, sticky %>: <%= sticky.description %> - <%= link_to sticky.user.name, sticky.user %></div><br />
+      <% @object = sticky %>
+      <% @limit = 5 %>
+      <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments" class = "comment_box">
+        <%= render :partial => 'comments/index' %>
+      </div>
+  <% end %>
+</fieldset>

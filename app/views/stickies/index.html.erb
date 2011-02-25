@@ -2,12 +2,12 @@
 
 <table>
   <tr>
+    <th>Sticky type</th>
     <th>User</th>
     <th>Project</th>
     <th>Parent Sticky</th>
     <th>Position</th>
     <th>Status</th>
-    <th>Sticky type</th>
     <th>Description</th>
     <th>Start date</th>
     <th>End date</th>
@@ -18,12 +18,12 @@
 
 <% @stickies.each do |sticky| %>
   <tr>
+    <td><%= link_to sticky.sticky_type, sticky %></td>
     <td><%= link_to sticky.user.name, sticky.user %></td>
     <td><%= link_to sticky.project.name, sticky.project if sticky.project %></td>
     <td><%= link_to sticky.sticky_id, sticky.sticky if sticky.sticky %></td>
     <td><%= sticky.position %></td>
     <td><%= sticky.status %></td>
-    <td><%= sticky.sticky_type %></td>
     <td><%= sticky.description %></td>
     <td><%= sticky.start_date %></td>
     <td><%= sticky.end_date %></td>
