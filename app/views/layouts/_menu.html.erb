@@ -78,8 +78,7 @@
     </div>
   </div>
 
-  <%= javascript_tag "hideOnMouseOut(['menu_user_settings', 'menu_home', 'menu_projects', 'menu_stickies', 'menu_comments']);" %>
-  <%= javascript_tag "hideOnMouseOut(['menu_users']);" if current_user.system_admin? %>
+  <%= javascript_tag "hideOnMouseOut(['menu_user_settings', 'menu_home', 'menu_projects', 'menu_stickies', 'menu_comments', 'menu_users']);" %>
 <% else %>
   <div style="float:right" onmouseover="$('menu_user_settings').show();">
     <%= link_to_function 'Login', "$('menu_user_settings').show();" %>
