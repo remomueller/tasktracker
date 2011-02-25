@@ -1,12 +1,16 @@
 class Comment < ActiveRecord::Base
-  belongs_to :user
-  
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
   scope :with_object_model, lambda { |*args|  { :conditions => ["comments.object_model IN (?)", args.first] } }
   scope :with_object_id, lambda { |*args|  { :conditions => ["comments.object_id IN (?)", args.first] } }
   
   after_create :send_email
+  
+  # Model Validation
+  validates_presence_of :description
+
+  # Model Relationships
+  belongs_to :user
   
   def destroy
     update_attribute :deleted, true

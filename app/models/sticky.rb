@@ -7,6 +7,9 @@ class Sticky < ActiveRecord::Base
   scope :current, :conditions => { :deleted => false }
   scope :with_project, lambda { |*args| { :conditions => ["stickies.project_id IN (?)", args.first] } }
 
+  # Model Validation
+  validates_presence_of :description
+
   # Model Relationships
   belongs_to :user
   belongs_to :project

@@ -11,6 +11,21 @@
 <li>Will also include Recent Activity on Projects where you are a viewer.</li>
 </ul>
 
+<% current_user.all_viewable_stickies.each do |sticky| %>
+  <div>
+    <%= link_to sticky.project.name, sticky.project if sticky.project %>
+    <%= link_to sticky.sticky_type, sticky %>:
+    <%= sticky.description %> - <%= link_to sticky.user.name, sticky.user %>
+    <% @object = sticky %>
+    <% @limit = 0 %>
+    <%= link_to_function "View/Hide Comments", "$('#{@object.class.name.downcase}_#{@object.id}_comments_other').toggle()" %>    
+  </div><br />
+  <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_other" class = "comment_box" style="display:none">
+    <%= render :partial => 'comments/index' %>
+  </div>
+<% end %>
+
+
 <h4>Projects Listed in Recently Updated Order</h4>
 <ul>
 <li>Your own projects (as owner and editor).</li>
