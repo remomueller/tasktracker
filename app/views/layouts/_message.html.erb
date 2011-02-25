@@ -12,6 +12,10 @@
   <div id="msg_warning" class="error" style="display:none"><%= flash[:warning].humanize %></div>
   <%= javascript_tag "new Effect.Appear($('msg_warning'), {duration:1.5});" %>
 <% end %>
+<% unless flash[:error].blank? %>
+  <div id="msg_error" class="error" style="display:none"><%= flash[:error].humanize %></div>
+  <%= javascript_tag "new Effect.Appear($('msg_error'), {duration:1.5});" %>
+<% end %>
 <% unless alert.blank? %>
   <div id="msg_alert" class="error" style="display:none"><%= alert %></div>
   <%= javascript_tag "new Effect.Appear($('msg_error'), {duration:1.5});" %>
