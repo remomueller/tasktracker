@@ -1,0 +1,11 @@
+Hello <%= @object.user.first_name %>,
+
+<%= @comment.user.name %> made the following comment on your <%= @object.class.name %> <%= @object.name %> located at <%= "#{SITE_URL}/#{@object.class.name.downcase.pluralize}/#{@object.id}" %>
+
+
+<%= @comment.description %>
+
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> System Mailer

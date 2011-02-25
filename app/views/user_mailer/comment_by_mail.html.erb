@@ -1,0 +1,10 @@
+Hello <%= @object.user.first_name %>,<br />
+<br />
+<%= @comment.user.name %> made the following comment on your <%= @object.class.name %> <%= link_to @object.name, "#{SITE_URL}/#{@object.class.name.downcase.pluralize}/#{@object.id}" %><br />
+<br />
+<em><%= @comment.description %></em>
+<br />
+<br />
+Thank you!<br />
+<br />
+<%= DEFAULT_APP_NAME %> System Mailer

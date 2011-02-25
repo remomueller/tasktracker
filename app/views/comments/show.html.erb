@@ -1,8 +1,6 @@
 <%= link_to 'Edit', edit_comment_path(@comment) %> |
 <%= link_to 'Back', comments_path %><br />
 
-<p id="notice"><%= notice %></p>
-
 <p>
   <b>User:</b>
   <%= link_to @comment.user.name, @comment.user %>

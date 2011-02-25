@@ -22,8 +22,10 @@
     <%= link_to DEFAULT_APP_NAME, root_path, :style => 'text-decoration:none;color:#404040;' %>
   </div>
 
-  <div id="message" class="container">
-    <%= render :partial => 'layouts/message' %>
+  <div class="container" style="position:relative">
+    <div id="message">
+      <%= render :partial => 'layouts/message' %>
+    </div>
   </div>
 
   <div id="menu" class="container">

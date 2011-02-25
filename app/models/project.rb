@@ -6,6 +6,10 @@ class Project < ActiveRecord::Base
   scope :current, :conditions => { :deleted => false }
   scope :with_user, lambda { |*args| { :conditions => ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
 
+  # Model Validation
+  validates_presence_of :name
+
+
   # Model Relationships
   belongs_to :user
   has_many :project_users

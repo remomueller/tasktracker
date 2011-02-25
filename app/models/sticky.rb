@@ -12,6 +12,10 @@ class Sticky < ActiveRecord::Base
   belongs_to :project
   belongs_to :sticky
 
+  def name
+    "ID: ##{self.id}"
+  end
+
   def destroy
     update_attribute :deleted, true
   end
