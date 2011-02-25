@@ -17,7 +17,13 @@
 </ul>
 <% current_user.all_viewable_projects.each do |@project| %>
   <fieldset>
-    <legend><%= link_to @project.name, @project %></legend>
+    <legend><%= link_to @project.name, @project %> <span class="quiet small"><%= @project.start_date %> to <%= @project.end_date %></span></legend>
+    <% unless @project.description.blank? %>
+    <fieldset>
+      <legend>Description</legend>
+      <%= @project.description %>
+    </fieldset>
+    <% end %>
     <%= render :partial => 'stickies/index' %>
     <fieldset>
       <legend>Comments</legend>
