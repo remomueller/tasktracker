@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
   default :from => ActionMailer::Base.smtp_settings[:user_name]
-  
+    
   # def notification_by_mail(user, notification)
   #   @url = SITE_URL # + "/settings"
   #   @user = user
@@ -11,4 +11,12 @@ class UserMailer < ActionMailer::Base
   # def test_mail
   #   mail(:to => 'rmueller@rics.bwh.harvard.edu', :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] Test Mail", :reply_to => 'rmueller@partners.org')
   # end
+  
+  def notify_system_admin(system_admin, user)
+    @system_admin = system_admin
+    @user = user
+    mail(:to => system_admin.email,
+         :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] #{user.name} Signed Up",
+         :reply_to => user.email)
+  end
 end

@@ -7,11 +7,14 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
 
+  after_create :notify_system_admins
+
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
   scope :status, lambda { |*args|  { :conditions => ["users.status IN (?)", args.first] } }
+  scope :system_admins, :conditions => { :system_admin => true }
   
   # Model Validation
   validates_presence_of     :first_name
@@ -84,5 +87,13 @@ class User < ActiveRecord::Base
 
   def password_required?
     (authentications.empty? || !password.blank?) && super
+  end
+  
+  private
+  
+  def notify_system_admins
+    User.current.system_admins.each do |system_admin|
+      UserMailer.notify_system_admin(system_admin, self).deliver
+    end
   end
 end
