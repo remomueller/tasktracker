@@ -1,0 +1,29 @@
+<% if current_user.system_admin? %>
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+<% unless current_user == @user %>  <%= link_to 'Destroy', @user, :confirm => 'Are you sure?', :method => :delete %> |<% end %>
+<% end %>
+<%= link_to 'Back', users_path %>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @user.name %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= @user.email %>
+</p>
+
+<% if current_user.system_admin? %>
+  <p>
+    <b>Status:</b>
+    <%= @user.status %>
+  </p>
+  
+  <p>
+    <b>System Admin:</b>
+    <%= @user.system_admin? %>
+  </p>
+<% end %>

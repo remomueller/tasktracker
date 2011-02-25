@@ -38,38 +38,24 @@
   <%= @project.end_date %>
 </p>
 
-
-<% @relation = 'editor' %>
-<% @link_text = "Add #{@relation.humanize}" %>
-<% @allow_editing = true %>
-<span id="<%= @relation %>_add_icon">
-<%= link_to_function 'Add More', "$('#{@relation}_add_icon').hide(); $('project_#{@relation}').show(); $('#{@relation}_text').focus();" %>
-</span>
-<div id="project_<%= @relation %>" style="display:none">
-  <%= text_field_tag "#{@relation}_text", '', :style => "width:494px;" %>
-  <%= link_to @link_text, "#", :onclick => remote_function(:url => project_users_path(:project_user => {:project_id => @project.id, :allow_editing => @allow_editing}), :method => :post, :with => "'user_id=' + $('#{@relation}_id').value") + "; return false;" %>
-  <div id="filtered_<%= @relation %>"><%= render :partial => "users/user_select_filter" %></div>
-</div>
-<%= javascript_tag do %>
-    new Form.Element.Observer('<%= @relation %>_text', 0.5, function(element, value) {
-      if(rt){clearTimeout(rt);};
-      rt=setTimeout('genericSearchUpdate("filtered_<%= @relation %>", "<%= filtered_users_path(:relation => @relation) %>", "<%= form_authenticity_token %>", "&search=" + $("<%= @relation %>_text").value)', 750);
-    });
+<% [['editors', true], ['viewers', false]].each do |@relation, @allow_editing| %>
+  <p>
+    <b><%= @relation.humanize %>:</b>
+    <span id="<%= @relation %>_add_icon">
+    <%= link_to_function 'Add More', "$('#{@relation}_add_icon').hide(); $('project_#{@relation}').show(); $('#{@relation}_text').focus();$('#{@relation}_id').value = null;" %>
+    </span>
+    <div id="project_<%= @relation %>" style="display:none">
+      <%= text_field_tag "#{@relation}_text", '', :style => "width:494px;" %>
+      <%= link_to "Add #{@relation.humanize}", "#", :onclick => remote_function(:url => project_users_path(:project_user => {:project_id => @project.id, :allow_editing => @allow_editing}), :method => :post, :with => "'user_id=' + $('#{@relation}_id').value") + ";$('#{@relation}_add_icon').show();$('project_#{@relation}').hide(); return false;" %>
+      <div id="filtered_<%= @relation %>"><%= render :partial => "users/user_select_filter" %></div>
+    </div>  
+    <div id="<%= @relation %>_list"><%= render :partial => 'project_users/index' %></div>
+    <br />
+    <%= javascript_tag do %>
+        new Form.Element.Observer('<%= @relation %>_text', 0.5, function(element, value) {
+          if(rt){clearTimeout(rt);};
+          rt=setTimeout('genericSearchUpdate("filtered_<%= @relation %>", "<%= filtered_users_path(:relation => @relation) %>", "<%= form_authenticity_token %>", "&search=" + $("<%= @relation %>_text").value)', 750);
+        });
+    <% end %>
+  </p>
 <% end %>
-
-
-
-<p>
-  <b>Editors:</b> <%#= link_to %>
-  <br />
-  <% @project.editors.each do |user| %>
-    <%= user.name %><br />
-  <% end %>
-</p>
-
-<p>
-  <b>Viewers:</b>
-  <% @project.viewers.each do |user| %>
-    <%= user.name %><br />
-  <% end %>
-</p>

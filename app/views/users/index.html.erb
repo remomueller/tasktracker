@@ -1,0 +1,31 @@
+<h1>Listing users</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <% if current_user.system_admin? %>
+      <th>Status</th>
+      <th>System Admin</th>
+      <th></th>
+      <th></th>
+    <% end %>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= link_to user.name, user %></td>
+    <td><%= user.email %></td>
+    <% if current_user.system_admin? %>
+      <td><%= user.status %></td>
+      <td><%= user.system_admin? %></td>
+      <td><%= link_to 'Edit', edit_user_path(user) %></td>
+      <td>
+        <% unless current_user == user %>
+          <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %>
+        <% end %>
+      </td>
+    <% end %>
+  </tr>
+<% end %>
+</table>

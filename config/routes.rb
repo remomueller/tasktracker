@@ -1,5 +1,5 @@
 Notes::Application.routes.draw do
-  
+
   resources :project_users
 
   resources :stickies

@@ -33,15 +33,28 @@ class ProjectUsersController < ApplicationController
   # end
   # 
   def create
+    @project = current_user.all_projects.find(params[:project_user][:project_id])
     
-    @project_user = ProjectUser.find_or_create_by_project_id_and_user_id_and_allow_editing(params[:project_user][:project_id], params[:user_id], params[:project_user][:allow_editing])
+    if @project
+    
+    
+      @project_user = @project.project_users.find_or_create_by_user_id(params[:user_id])
   
-    if @project_user and current_user.all_projects.include?(@project_user.project)
-      if @project_user.save
-          redirect_to(@project_user.project, :notice => "User was successfully added to the project.")
-      else
-        render :nothing => true
+      if @project_user
+        @project_user.allow_editing = params[:project_user][:allow_editing]
+        if @project_user.save
+          render :update do |page|
+            @relation = 'editors'
+            page.replace_html "#{@relation}_list", :partial => "project_users/index"
+            @relation = 'viewers'
+            page.replace_html "#{@relation}_list", :partial => "project_users/index"
+          end
+        else
+          render :nothing => true
+        end
       end
+    else
+      render :nothing => true
     end
   end
   # 
@@ -59,13 +72,17 @@ class ProjectUsersController < ApplicationController
   #   end
   # end
   # 
-  # def destroy
-  #   @project_user = ProjectUser.find(params[:id])
-  #   @project_user.destroy
-  # 
-  #   respond_to do |format|
-  #     format.html { redirect_to(project_users_url) }
-  #     format.xml  { head :ok }
-  #   end
-  # end
+  def destroy
+    @project_user.find_by_id(params[:id])
+    @project = current_user.all_projects.find(@project_user.project_id) if @project_user
+    
+    if @project and @project_user
+      @project_user.destroy
+      render :update do |page|
+        
+      end
+    else
+      render :nothing => true
+    end
+  end
 end

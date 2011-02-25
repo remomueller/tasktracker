@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
 
+  STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
+
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
   scope :status, lambda { |*args|  { :conditions => ["users.status IN (?)", args.first] } }
@@ -61,10 +63,6 @@ class User < ActiveRecord::Base
         self.comments
       end
     end
-  end
-  
-  def system_admin?
-    false
   end
 
   def name
