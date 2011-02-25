@@ -4,6 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Email</th>
+    <th>Recent Activity</th>
     <% if current_user.system_admin? %>
       <th>Status</th>
       <th>System Admin</th>
@@ -16,6 +17,7 @@
   <tr>
     <td><%= link_to user.name, user %></td>
     <td><%= user.email %></td>
+    <td><%= recent_activity(user.last_sign_in_at) %></td>
     <% if current_user.system_admin? %>
       <td><%= user.status %></td>
       <td><%= user.system_admin? %></td>
