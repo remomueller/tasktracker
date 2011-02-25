@@ -15,7 +15,11 @@ class AuthenticationsController < ApplicationController
     logger.info "OMNI AUTH INFO: #{omniauth.inspect}"
     omniauth['user_info']['email'] = omniauth['extra']['user_hash']['email'] if omniauth['user_info'] and omniauth['user_info']['email'].blank? and omniauth['extra'] and omniauth['extra']['user_hash']
     if authentication
-      flash[:notice] = "Signed in successfully."
+      if authentication.user.active?
+        flash[:notice] = "Signed in successfully."
+      else
+        flash[:warning] = "Your account has not yet been activated by a System Administrator."
+      end
       sign_in_and_redirect(:user, authentication.user)
     elsif current_user
       current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
@@ -25,7 +29,11 @@ class AuthenticationsController < ApplicationController
       user = User.new(params[:user])
       user.apply_omniauth(omniauth)
       if user.save
-        flash[:notice] = "Signed in successfully."
+        if authentication.user.active?
+          flash[:notice] = "Signed in successfully."
+        else
+          flash[:warning] = "Your account has not yet been activated by a System Administrator."
+        end
         sign_in_and_redirect(:user, user)
       else
         session[:omniauth] = omniauth.except('extra')
