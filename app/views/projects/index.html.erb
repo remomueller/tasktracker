@@ -17,7 +17,7 @@
   <tr>
     <td><%= project.position %></td>
     <td><%= link_to project.name, project %></td>
-    <td><%= project.user.name %></td>
+    <td><%= link_to project.user.name, project.user %></td>
     <td><%= project.status %></td>
     <td><%= project.description %></td>
     <td><%= project.start_date %></td>

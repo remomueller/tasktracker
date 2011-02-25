@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @comments = current_user.all_comments.all
+    @comments = current_user.all_comments
   end
 
   def show

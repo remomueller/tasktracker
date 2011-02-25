@@ -2,7 +2,7 @@ class StickiesController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @stickies = current_user.all_stickies.all
+    @stickies = current_user.all_stickies
   end
 
   def show
