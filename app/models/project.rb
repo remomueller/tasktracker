@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
 
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
+  scope :with_user, lambda { |*args| { :conditions => ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
 
   # Model Relationships
   belongs_to :user

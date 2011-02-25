@@ -11,7 +11,7 @@ class ProjectUsersController < ApplicationController
   # end
   # 
   # def show
-  #   @project_user = ProjectUser.find(params[:id])
+  #   @project_user = ProjectUser.find_by_id(params[:id])
   # 
   #   respond_to do |format|
   #     format.html # show.html.erb
@@ -29,11 +29,11 @@ class ProjectUsersController < ApplicationController
   # end
   # 
   # def edit
-  #   @project_user = ProjectUser.find(params[:id])
+  #   @project_user = ProjectUser.find_by_id(params[:id])
   # end
   # 
   def create
-    @project = current_user.all_projects.find(params[:project_user][:project_id])
+    @project = current_user.all_projects.find_by_id(params[:project_user][:project_id])
     
     if @project
     
@@ -59,7 +59,7 @@ class ProjectUsersController < ApplicationController
   end
   # 
   # def update
-  #   @project_user = ProjectUser.find(params[:id])
+  #   @project_user = ProjectUser.find_by_id(params[:id])
   # 
   #   respond_to do |format|
   #     if @project_user.update_attributes(params[:project_user])
@@ -74,7 +74,7 @@ class ProjectUsersController < ApplicationController
   # 
   def destroy
     @project_user.find_by_id(params[:id])
-    @project = current_user.all_projects.find(@project_user.project_id) if @project_user
+    @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
     
     if @project and @project_user
       @project_user.destroy

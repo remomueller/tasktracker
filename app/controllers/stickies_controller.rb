@@ -6,7 +6,7 @@ class StickiesController < ApplicationController
   end
 
   def show
-    @sticky = current_user.all_stickies.find(params[:id])
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
     redirect_to root_path unless @sticky
   end
 
@@ -15,7 +15,7 @@ class StickiesController < ApplicationController
   end
 
   def edit
-    @sticky = current_user.all_stickies.find(params[:id])
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
     redirect_to root_path unless @sticky
   end
 
@@ -29,7 +29,7 @@ class StickiesController < ApplicationController
   end
 
   def update
-    @sticky = current_user.all_stickies.find(params[:id])
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       if @sticky.update_attributes(params[:sticky])
         redirect_to(@sticky, :notice => 'Sticky was successfully updated.')
@@ -42,7 +42,7 @@ class StickiesController < ApplicationController
   end
 
   def destroy
-    @sticky = current_user.all_stickies.find(params[:id])
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       @sticky.destroy
       redirect_to(stickies_url)

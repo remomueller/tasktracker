@@ -43,7 +43,21 @@ class User < ActiveRecord::Base
       if self.system_admin?
         Project.current.order('name')
       else
-        self.projects
+        Project.current.with_user(self.id, true).order('name')
+      end
+    end
+  end
+  
+  def all_editable_projects
+    self.all_projects
+  end
+  
+  def all_viewable_projects
+    @all_viewable_projects ||= begin
+      if self.system_admin?
+        Project.current.order('name')
+      else
+        Project.current.with_user(self.id, [true, false]).order('name')
       end
     end
   end

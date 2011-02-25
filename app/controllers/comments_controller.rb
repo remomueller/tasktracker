@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
   end
 
   def show
-    @comment = current_user.all_comments.find(params[:id])
+    @comment = current_user.all_comments.find_by_id(params[:id])
     redirect_to root_path unless @comment
   end
 
@@ -15,7 +15,7 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    @comment = current_user.all_comments.find(params[:id])
+    @comment = current_user.all_comments.find_by_id(params[:id])
     redirect_to root_path unless @comment
   end
 
@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
   end
 
   def update
-    @comment = current_user.all_comments.find(params[:id])
+    @comment = current_user.all_comments.find_by_id(params[:id])
     if @comment
       if @comment.update_attributes(params[:comment])
         redirect_to(@comment, :notice => 'Comment was successfully updated.')
@@ -42,7 +42,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = current_user.all_comments.find(params[:id])
+    @comment = current_user.all_comments.find_by_id(params[:id])
     if @comment
       @comment.destroy
       redirect_to(comments_url)

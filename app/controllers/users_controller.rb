@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
   end
   
   # # GET /users/new
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   # end
 
   def edit
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
   end
   
   # # POST /users
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
   # end
 
   def update
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     if @user.update_attributes(params[:user])
       @user.update_attribute :system_admin, params[:user][:system_admin]
       @user.update_attribute :status, params[:user][:status]
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    @user = User.find(params[:id])
+    @user = User.find_by_id(params[:id])
     @user.destroy
     redirect_to users_path
   end  

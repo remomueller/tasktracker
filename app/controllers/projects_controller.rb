@@ -2,11 +2,11 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @projects = current_user.all_projects
+    @projects = current_user.all_viewable_projects
   end
 
   def show
-    @project = current_user.all_projects.find(params[:id])
+    @project = current_user.all_viewable_projects.find_by_id(params[:id])
     redirect_to root_path unless @project
   end
 
@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @project = current_user.all_projects.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
     redirect_to root_path unless @project
   end
 
@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = current_user.all_projects.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
     if @project
       if @project.update_attributes(params[:project])
         redirect_to(@project, :notice => 'Project was successfully updated.')
@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = current_user.all_projects.find(params[:id])
+    @project = current_user.all_projects.find_by_id(params[:id])
     if @project
       @project.destroy
       redirect_to projects_path
