@@ -19,4 +19,11 @@ class UserMailer < ActionMailer::Base
          :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] #{user.name} Signed Up",
          :reply_to => user.email)
   end
+  
+  def user_added_to_project(project_user)
+    @project_user = project_user
+    mail(:to => project_user.user.email,
+         :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] #{project_user.project.user.name} allows you to #{project_user.allow_editing? ? 'edit' : 'view'} #{project_user.project.name}",
+         :reply_to => project_user.project.user.email)
+  end
 end
