@@ -1,9 +1,25 @@
-<% @title = 'Dashboard' %>
+<% @title = "About #{DEFAULT_APP_NAME}" %>
 
 <h1><%= @title %></h1>
-<br /><br />
-<% if current_user %>
-  <%#= link_to 'Submit Manuscript or Publication for Review', new_publication_path, :class => 'button' %>
-<% else %>
-  <%= link_to 'Sign In', new_user_session_path %>
-<% end %>
+
+  <%= DEFAULT_APP_NAME %> is a project management tool where you can create and share projects with collaborators.
+  
+  You can:
+<fieldset>
+  <h4>Create <em>Projects</em> and add other users as Editors or Viewers.</h4>
+  <ul>
+        <li><em>Editors</em> can manage the project with you.</li>
+        <li><em>Viewers</em> can see project updates and comment on the project and it's stickies.</li>
+  </ul>
+  <h4>Create <em>Stickies</em> to provide updates to projects you own and can edit.</h4>
+  <ul>
+    <li><em>Generic</em> - A quick update on the progress of the project, or a note you don't want to forget.</li>
+    <li><em>Action Item</em> - Something immediate you need to get accomplished by a specific date.</li>
+    <li><em>Goal</em> - An overall goal, milestone, or deliverable of your project.</li>
+    <li><em>Roadblock</em> - An item that needs to be resolved in order to progress.</li>
+  </ul>
+
+  <h4>Post <em>Comments</em> on Projects, Stickies, and other Comments to discuss the item.</h4>
+
+  <h4>View and filter <em>Recent Activity</em> from all the Projects you can view and edit.</h4>
+</fieldset>
