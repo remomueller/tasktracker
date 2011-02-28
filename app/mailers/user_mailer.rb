@@ -34,4 +34,11 @@ class UserMailer < ActionMailer::Base
          :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] #{comment.user.name} commented on your #{object.class.name} #{object.name}",
          :reply_to => comment.user.email)    
   end
+  
+  def status_activated(user)
+    @user = user
+    mail(:to => user.email,
+         :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] #{user.name}'s Account Activated") #,
+#         :reply_to => user.email)
+  end
 end
