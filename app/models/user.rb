@@ -66,7 +66,7 @@ class User < ActiveRecord::Base
   def all_stickies
     @all_stickies ||= begin
       if self.system_admin?
-        Sticky.current.order('created_at')
+        Sticky.current.order('created_at DESC')
       else
         self.stickies
       end
@@ -76,9 +76,9 @@ class User < ActiveRecord::Base
   def all_viewable_stickies
     @all_stickies ||= begin
       if self.system_admin?
-        Sticky.current.order('created_at')
+        Sticky.current.order('created_at DESC')
       else
-        Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}).order('created_at')
+        Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}).order('created_at DESC')
       end
     end
   end
