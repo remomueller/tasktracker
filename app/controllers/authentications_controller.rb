@@ -29,7 +29,7 @@ class AuthenticationsController < ApplicationController
       user = User.new(params[:user])
       user.apply_omniauth(omniauth)
       if user.save
-        if authentication.user.active?
+        if user.active?
           flash[:notice] = "Signed in successfully."
         else
           flash[:warning] = "Your account has not yet been activated by a System Administrator."
