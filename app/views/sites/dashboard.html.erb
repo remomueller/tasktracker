@@ -14,12 +14,13 @@
 <% current_user.all_viewable_stickies.each do |sticky| %>
   <div>
     <%= link_to sticky.project.name, sticky.project if sticky.project %>
-    <%= link_to sticky.sticky_type, sticky %>:
-    <%= sticky.description %> - <%= link_to sticky.user.name, sticky.user %>
+    - <%= link_to sticky.user.name, sticky.user %>
+    Sticky <%= link_to sticky.sticky_type, sticky %>:
     <% @object = sticky %>
     <% @limit = 0 %>
-    <%= link_to_function "View/Hide Comments", "$('#{@object.class.name.downcase}_#{@object.id}_comments_other').toggle()" %>    
-  </div><br />
+    <%= link_to_function "View/Hide Comments", "$('#{@object.class.name.downcase}_#{@object.id}_comments_other').toggle()" %>
+    <pre><%= sticky.description %></pre>
+  </div>
   <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_other" class = "comment_box" style="display:none">
     <%= render :partial => 'comments/index' %>
   </div>
@@ -35,8 +36,7 @@
     <legend><%= link_to @project.name, @project %> <span class="quiet small"><%= @project.start_date %> to <%= @project.end_date %></span></legend>
     <% unless @project.description.blank? %>
     <fieldset>
-      <legend>Description</legend>
-      <%= @project.description %>
+      <legend>Description</legend><pre><%= @project.description %></pre>
     </fieldset>
     <% end %>
     <%= render :partial => 'stickies/index' %>
