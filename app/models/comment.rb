@@ -28,8 +28,9 @@ class Comment < ActiveRecord::Base
   
   def send_email
     @object = self.object_model.constantize.find_by_id(self.object_id)
-    unless @object.user == self.user
-      UserMailer.comment_by_mail(self, @object).deliver
+    all_users = (@object.comments.collect{|c| c.user} + [@object.user]).uniq - [self.user]
+    all_users.each do |user_to_email|
+      UserMailer.comment_by_mail(self, @object, user_to_email).deliver if user_to_email.active?
     end
   end
   

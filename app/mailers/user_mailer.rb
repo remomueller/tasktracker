@@ -27,11 +27,12 @@ class UserMailer < ActionMailer::Base
          :reply_to => project_user.project.user.email)
   end
   
-  def comment_by_mail(comment, object)
+  def comment_by_mail(comment, object, recipient)
     @comment = comment
     @object = object
-    mail(:to => @object.user.email,
-         :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] #{comment.user.name} commented on your #{object.class.name} #{object.name}",
+    @recipient = recipient
+    mail(:to => recipient.email,
+         :subject => "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] #{comment.user.name} commented on #{object.class.name} #{object.name}",
          :reply_to => comment.user.email)    
   end
   
