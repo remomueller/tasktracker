@@ -2,5 +2,15 @@
 <% class_name = @object.class.name.downcase %>
 <p><%= text_area_tag "#{class_name}[#{@object.id}][comment][#{@position}]", '', :rows => 1, :style => "width:#{width}" %> <%= link_to 'Add Comment', '#', :onclick => remote_function(:url => {:controller => class_name.pluralize.to_sym, :action => 'add_comment', :id => @object.id, :position => @position}, :method => :post, :with => "'&comment='+escape($('#{class_name}_#{@object.id}_comment_#{@position}').value)") + "; return false;" %></p>
 <% @object.comments(@limit).each do |comment| %>
-  <div><%= comment.created_at %> <%= link_to comment.user.name, comment.user %>: <%= comment.description %></div><br />
+  <div style="margin-bottom:5px">
+    <%= link_to comment.user.name, comment.user %>
+    <span class="quiet small">
+      <% if comment.created_at.to_date == Date.today %>
+        <%= comment.created_at.strftime("at %I:%M %p") %>
+      <% else %>
+        <%= comment.created_at.strftime("on %b %d, %Y at %I:%M %p") %>
+      <% end %>
+    </span>
+    <pre style="margin-bottom:0px"><%= comment.description %></pre>
+  </div>
 <% end %>
