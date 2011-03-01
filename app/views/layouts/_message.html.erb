@@ -18,5 +18,5 @@
 <% end %>
 <% unless alert.blank? %>
   <div id="msg_alert" class="error" style="display:none"><%= alert %></div>
-  <%= javascript_tag "new Effect.Appear($('msg_error'), {duration:1.5});" %>
+  <%= javascript_tag "new Effect.Appear($('msg_alert'), {duration:1.5});" %>
 <% end %>
