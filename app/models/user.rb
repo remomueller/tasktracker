@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_many :projects, :conditions => {:deleted => false}, :order => 'name'
   has_many :stickies, :conditions => {:deleted => false}, :order => 'created_at'
-  has_many :comments, :conditions => {:deleted => false}, :order => 'created_at'
+  has_many :comments, :conditions => {:deleted => false}, :order => 'created_at DESC'
 
   # User Methods
   
@@ -86,7 +86,7 @@ class User < ActiveRecord::Base
   def all_comments
     @all_comments ||= begin
       if self.system_admin?
-        Comment.current.order('created_at')
+        Comment.current.order('created_at DESC')
       else
         self.comments
       end

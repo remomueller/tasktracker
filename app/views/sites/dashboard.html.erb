@@ -17,11 +17,12 @@
     - <%= link_to sticky.user.name, sticky.user %>
     Sticky <%= link_to sticky.sticky_type, sticky %>:
     <% @object = sticky %>
-    <% @limit = 0 %>
-    <%= link_to_function "View/Hide Comments", "$('#{@object.class.name.downcase}_#{@object.id}_comments_other').toggle()" %>
+    <% @limit = nil %>
+    <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+    <%= link_to_function "View/Hide Comments", "$('#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}').toggle()" %>
     <pre><%= sticky.description %></pre>
   </div>
-  <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_other" class = "comment_box" style="display:none">
+  <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box" style="display:none">
     <%= render :partial => 'comments/index' %>
   </div>
 <% end %>
@@ -44,7 +45,8 @@
       <legend>Comments</legend>
     <% @object = @project %>
     <% @limit = 5 %>
-    <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments" class = "comment_box">
+    <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+    <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
       <%= render :partial => 'comments/index' %>
     </div>
     </fieldset>
