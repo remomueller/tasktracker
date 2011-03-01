@@ -1,5 +1,6 @@
+<% width = '914px' %>
 <% class_name = @object.class.name.downcase %>
-<p><%= text_field_tag "#{class_name}[#{@object.id}][comment][#{@position}]" %> <%= link_to 'Add Comment', '#', :onclick => remote_function(:url => {:controller => class_name.pluralize.to_sym, :action => 'add_comment', :id => @object.id, :position => @position}, :method => :post, :with => "'&comment='+$('#{class_name}_#{@object.id}_comment_#{@position}').value") + "; return false;" %></p>
+<p><%= text_area_tag "#{class_name}[#{@object.id}][comment][#{@position}]", '', :rows => 1, :style => "width:#{width}" %> <%= link_to 'Add Comment', '#', :onclick => remote_function(:url => {:controller => class_name.pluralize.to_sym, :action => 'add_comment', :id => @object.id, :position => @position}, :method => :post, :with => "'&comment='+escape($('#{class_name}_#{@object.id}_comment_#{@position}').value)") + "; return false;" %></p>
 <% @object.comments(@limit).each do |comment| %>
   <div><%= comment.created_at %> <%= link_to comment.user.name, comment.user %>: <%= comment.description %></div><br />
 <% end %>

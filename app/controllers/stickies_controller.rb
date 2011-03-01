@@ -7,7 +7,8 @@ class StickiesController < ApplicationController
       @sticky.new_comment(current_user, params[:comment])
       render :update do |page|
         @object = @sticky
-        page.replace_html "#{@object.class.name.downcase}_#{@object.id}_comments#{'_' + params[:position] unless params[:position].blank?}", :partial => 'comments/index'
+        @position = params[:position]
+        page.replace_html "#{@object.class.name.downcase}_#{@object.id}_comments_#{params[:position]}", :partial => 'comments/index'
       end
     else
       render :nothing => true
