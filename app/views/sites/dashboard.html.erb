@@ -11,7 +11,7 @@
 <li>Will also include Recent Activity on Projects where you are a viewer.</li>
 </ul>
 
-<% current_user.all_viewable_stickies.limit(10).each do |sticky| %>
+<% current_user.all_viewable_stickies.status(['planned', 'ongoing']).limit(10).each do |sticky| %>
   <div>
     <%= link_to sticky.project.name, sticky.project if sticky.project %>
     - <%= link_to sticky.user.name, sticky.user %>

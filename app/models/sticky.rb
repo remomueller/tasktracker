@@ -5,6 +5,7 @@ class Sticky < ActiveRecord::Base
 
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
+  scope :status, lambda { |*args|  { :conditions => ["stickies.status IN (?)", args.first] } }
   scope :with_project, lambda { |*args| { :conditions => ["stickies.project_id IN (?)", args.first] } }
 
   # Model Validation
