@@ -14,7 +14,9 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @comment = current_user.comments.new
+    # @comment = current_user.comments.new
+    flash[:notice] = 'Comments should be added directly to Projects or Stickies!'
+    redirect_to root_path
   end
 
   def edit
@@ -22,14 +24,14 @@ class CommentsController < ApplicationController
     redirect_to root_path unless @comment
   end
 
-  def create
-    @comment = current_user.comments.new(params[:comment])
-    if @comment.save
-      redirect_to(@comment, :notice => 'Comment was successfully created.')
-    else
-      render :action => "new"
-    end
-  end
+  # def create
+  #   @comment = current_user.comments.new(params[:comment])
+  #   if @comment.save
+  #     redirect_to(@comment, :notice => 'Comment was successfully created.')
+  #   else
+  #     render :action => "new"
+  #   end
+  # end
 
   def update
     @comment = current_user.all_comments.find_by_id(params[:id])
