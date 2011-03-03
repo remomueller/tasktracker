@@ -30,11 +30,7 @@ class Project < ActiveRecord::Base
   end
   
   def all_comments(limit = nil)
-    if limit
-      (comments((limit/2.0).floor) | related_sticky_comments((limit/2.0).ceil)).sort{|a,b| b.created_at <=> a.created_at}
-    else
-      (comments | related_sticky_comments).sort{|a,b| b.created_at <=> a.created_at}
-    end
+    (comments(limit) | related_sticky_comments(limit)).sort{|a,b| b.created_at <=> a.created_at}[0..((limit || 1).to_i-1)]
   end
   
   def new_comment(current_user, description)
