@@ -3,13 +3,14 @@
 <h1><%= @title %></h1>
 
 <h4>Recent Activity</h4>
-
+<% if false %>
 <ul>
 <li>This will contain new projects that have been created and updates to your projects (Where you're the owner and we're you've been added as an editor).</li>
 <li>Stickies created under your existing projects (Generic or Action Items or Goals or Roadblocks).</li>
 <li>Comments people have left on your projects or stickies.</li>
 <li>Will also include Recent Activity on Projects where you are a viewer.</li>
 </ul>
+<% end %>
 
 <table style="width:100%">
   <tr>
@@ -17,12 +18,13 @@
     <th>Name</th>
     <th>User</th>
     <th>Current Stickies</th>
-    <th>Total Comments</th>
+    <th>Unseen Comments</th>
     <th>Editors</th>
     <th>Viewers</th>
+    <th>Last Update</th>
   </tr>
 
-<% current_user.all_viewable_projects.each do |@project| %>
+<% current_user.all_viewable_projects.order('name').each do |@project| %>
   <tr>
     <td><%= @project.status %></td>
     <td><%= link_to @project.name, @project %></td>
@@ -31,7 +33,47 @@
     <td><%= @project.comments.size %></td>
     <td><%= @project.editors.collect{|user| link_to user.name, user}.join("<br />").html_safe %></td>
     <td><%= @project.viewers.collect{|user| link_to user.name, user}.join("<br />").html_safe %></td>
+    <td><%= recent_activity(@project.updated_at) %></td>
   </tr>
+  <tr>
+    <td></td>
+    <td>Latest Comment:</td>
+    <td colspan="5" style="overflow:hidden;white-space:nowrap">
+      <% comment = @project.comments.limit(1).first %>
+      <% if comment %>
+        <%= link_to comment.user.name, comment.user %> -
+        <%# comment.description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' %>
+        <%= truncate(comment.description, :length => 100, :separator => ' ', :omission => " ... #{link_to 'continued', comment}").html_safe %>
+      <% end %>
+    </td>
+    <td>
+      <% if comment %>
+      <% if comment.created_at.to_date == Date.today %>
+        <%= comment.created_at.strftime("at %I:%M %p") %>
+      <% else %>
+        <%= comment.created_at.strftime("on %b %d, %Y at %I:%M %p") %>
+      <% end %>
+      <% end %>
+    </td>
+  </tr>
+  <% if false %>
+  <tr>
+    <td></td>
+    <td colspan="6">
+      <% sticky = @project.stickies.status(['planned', 'ongoing']).limit(1).first %>
+      <%= sticky.description if sticky %>
+    </td>
+    <td>
+      <% if sticky %>
+      <% if sticky.created_at.to_date == Date.today %>
+        <%= sticky.created_at.strftime("at %I:%M %p") %>
+      <% else %>
+        <%= sticky.created_at.strftime("on %b %d, %Y at %I:%M %p") %>
+      <% end %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
 <% end %>
 </table>
 
