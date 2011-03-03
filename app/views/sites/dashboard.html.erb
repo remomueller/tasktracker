@@ -11,6 +11,35 @@
 <li>Will also include Recent Activity on Projects where you are a viewer.</li>
 </ul>
 
+<table style="width:100%">
+  <tr>
+    <th>Status</th>
+    <th>Name</th>
+    <th>User</th>
+    <th>Current Stickies</th>
+    <th>Total Comments</th>
+    <th>Editors</th>
+    <th>Viewers</th>
+  </tr>
+
+<% current_user.all_viewable_projects.each do |@project| %>
+  <tr>
+    <td><%= @project.status %></td>
+    <td><%= link_to @project.name, @project %></td>
+    <td><%= link_to @project.user.name, @project.user %></td>
+    <td><%= @project.stickies.status(['planned', 'ongoing']).size %> <%= link_to 'new sticky', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></td>
+    <td><%= @project.comments.size %></td>
+    <td><%= @project.editors.collect{|user| link_to user.name, user}.join("<br />").html_safe %></td>
+    <td><%= @project.viewers.collect{|user| link_to user.name, user}.join("<br />").html_safe %></td>
+  </tr>
+<% end %>
+</table>
+
+<hr>
+<br />
+<hr>
+
+
 <% current_user.all_viewable_stickies.status(['planned', 'ongoing']).limit(10).each do |sticky| %>
   <div>
     <%= link_to sticky.project.name, sticky.project if sticky.project %>

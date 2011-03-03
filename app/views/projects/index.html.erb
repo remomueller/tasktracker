@@ -2,7 +2,6 @@
 
 <table>
   <tr>
-    <th>Position</th>
     <th>Name</th>
     <th>User</th>
     <th>Status</th>
@@ -15,7 +14,6 @@
 
 <% @projects.each do |project| %>
   <tr>
-    <td><%= project.position %></td>
     <td><%= link_to project.name, project %></td>
     <td><%= link_to project.user.name, project.user %></td>
     <td><%= project.status %></td>
