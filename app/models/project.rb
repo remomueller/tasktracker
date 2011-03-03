@@ -25,6 +25,18 @@ class Project < ActiveRecord::Base
     Comment.current.with_object_model(self.class.name).with_object_id(self.id).order('created_at desc').limit(limit)
   end
   
+  def related_sticky_comments(limit = nil)
+    Comment.current.with_object_model('Sticky').with_object_id(self.stickies.collect{|sticky| sticky.id}).order('created_at desc').limit(limit)
+  end
+  
+  def all_comments(limit = nil)
+    if limit
+      (comments((limit/2.0).floor) | related_sticky_comments((limit/2.0).ceil)).sort{|a,b| b.created_at <=> a.created_at}
+    else
+      (comments | related_sticky_comments).sort{|a,b| b.created_at <=> a.created_at}
+    end
+  end
+  
   def new_comment(current_user, description)
     Comment.create(:object_model => self.class.name, :object_id => self.id, :user_id => current_user.id, :description => description)
   end

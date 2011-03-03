@@ -30,7 +30,7 @@
     <td><%= link_to @project.name, @project %></td>
     <td><%= link_to @project.user.name, @project.user %></td>
     <td><%= @project.stickies.status(['planned', 'ongoing']).size %> <%= link_to 'new sticky', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></td>
-    <td><%= @project.comments.size %></td>
+    <td><%= @project.all_comments.size %></td>
     <td><%= @project.editors.collect{|user| link_to user.name, user}.join("<br />").html_safe %></td>
     <td><%= @project.viewers.collect{|user| link_to user.name, user}.join("<br />").html_safe %></td>
     <td><%= recent_activity(@project.updated_at) %></td>
