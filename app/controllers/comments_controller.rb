@@ -5,11 +5,11 @@ class CommentsController < ApplicationController
   # end
 
   def index
-    @comments = current_user.all_comments
+    @comments = current_user.all_viewable_comments
   end
 
   def show
-    @comment = current_user.all_comments.find_by_id(params[:id])
+    @comment = current_user.all_viewable_comments.find_by_id(params[:id])
     redirect_to root_path unless @comment
   end
 

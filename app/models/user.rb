@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
   end
   
   def all_viewable_stickies
-    @all_stickies ||= begin
+    @all_viewable_stickies ||= begin
       if self.system_admin?
         Sticky.current.order('created_at DESC')
       else
@@ -89,6 +89,18 @@ class User < ActiveRecord::Base
         Comment.current.order('created_at DESC')
       else
         self.comments
+      end
+    end
+  end
+
+  def all_viewable_comments
+    @all_viewable_comments ||= begin
+      if self.system_admin?
+        Comment.current.order('created_at DESC')
+      else
+        project_comments = Comment.current.with_object_model('Project').with_object_id(self.all_viewable_projects.collect{|p| p.id}).order('created_at DESC')
+        sticky_comments = Comment.current.with_object_model('Sticky').with_object_id(self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
+        (project_comments | sticky_comments).sort{|a,b| b.created_at <=> a.created_at}
       end
     end
   end
