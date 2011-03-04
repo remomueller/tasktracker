@@ -17,7 +17,7 @@
   <tr>
     <td><%= link_to user.name, user %></td>
     <td><%= user.email %></td>
-    <td><%= recent_activity(user.last_sign_in_at) %></td>
+    <td><%= recent_activity(user.current_sign_in_at) %></td>
     <% if current_user.system_admin? %>
       <td><%= user.status %></td>
       <td><%= user.system_admin? %></td>
