@@ -1,12 +1,15 @@
-<fieldset>
-  <legend>Stickies <%= link_to 'add', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></legend>
-  <% @project.stickies.each do |sticky| %>
-    <div><%= link_to sticky.user.name, sticky.user %> Sticky <%= link_to sticky.sticky_type, sticky %>: <pre><%= sticky.description %></pre><br /></div>
-      <% @object = sticky %>
-      <% @limit = 5 %>
-      <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-      <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
-        <%= render :partial => 'comments/index' %>
-      </div>
-  <% end %>
-</fieldset>
+
+<% [['planned', 'ongoing'], ['resolved', 'completed']].each do |status| %>
+  <fieldset>
+    <legend><%= status.join(' and ').titleize %> Stickies <%= link_to 'add', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></legend>
+    <% @project.stickies.status(status).each do |sticky| %>
+      <div><strong><%= sticky.status %></strong> <%= link_to sticky.user.name, sticky.user %> Sticky <%= link_to sticky.sticky_type, sticky %>: <pre><%= sticky.description %></pre><br /></div>
+        <% @object = sticky %>
+        <% @limit = 5 %>
+        <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+        <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
+          <%= render :partial => 'comments/index' %>
+        </div>
+    <% end %>
+  </fieldset>
+<% end %>
