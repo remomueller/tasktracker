@@ -2,10 +2,15 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.4'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+# Database Adapter
 gem 'mysql2'
+
+# Gems used by project
+gem 'devise', '1.1.7'
+gem 'kaminari'
+gem 'mail'
+gem 'omniauth', '0.1.6'
+
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -29,9 +34,3 @@ gem 'mysql2'
 # group :development, :test do
 #   gem 'webrat'
 # end
-
-gem 'devise', '1.1.7'
-gem 'mail'
-gem 'will_paginate', '>= 3.0.pre2'
-gem 'omniauth', '0.1.6'
-# gem 'oa-openid', :require => 'omniauth/openid'

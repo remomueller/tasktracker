@@ -3,8 +3,8 @@ class Comment < ActiveRecord::Base
   scope :current, :conditions => { :deleted => false }
   scope :with_object_model, lambda { |*args|  { :conditions => ["comments.object_model IN (?)", args.first] } }
   scope :with_object_id, lambda { |*args|  { :conditions => ["comments.object_id IN (?)", args.first] } }
-  
   scope :with_two_object_models_and_ids, lambda { |*args|  { :conditions => ["(comments.object_model IN (?) and comments.object_id IN (?)) or (comments.object_model IN (?) and comments.object_id IN (?))", args[0], args[1], args[2], args[3]] } }
+  scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   
   
   after_create :send_email

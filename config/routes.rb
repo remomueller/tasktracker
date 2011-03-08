@@ -2,19 +2,22 @@ Notes::Application.routes.draw do
 
   resources :project_users
 
-  resources :stickies do
-    member do
-      post :add_comment
-    end
-  end
-
   resources :comments do
+    collection do
+      post :search
+    end
     member do
       post :add_comment
     end
   end
 
   resources :projects do
+    member do
+      post :add_comment
+    end
+  end
+  
+  resources :stickies do
     member do
       post :add_comment
     end
@@ -28,6 +31,7 @@ Notes::Application.routes.draw do
   resources :users do
     collection do
       post :filtered
+      post :search
     end
   end
 

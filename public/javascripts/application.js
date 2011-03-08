@@ -7,6 +7,38 @@
 
 var rt = null;
 
+function createSpinner() {
+  // var img = new Image;
+  // img.src = root_url + 'images/ajax-loader.gif';
+  
+  return new Element('img', { src: root_url + 'images/ajax-loader.gif', 'class': 'spinner', 'height': '11', 'width': '11' });
+}
+
+document.observe("dom:loaded", function() {
+  // the element in which we will observe all clicks and capture
+  // ones originating from pagination links
+  var container = $(document.body);
+
+  if(container) {
+    container.observe('click', function(e) {
+      var el = e.element();
+      if (el.match('.pagination a')) {
+        el.up('.pagination').insert(createSpinner());
+        var ajax_request = new Ajax.Request(el.href, { method: 'post', parameters: $('search-form').serialize()  + '&authenticity_token=' + encodeURIComponent(auth_token)  });
+        e.stop();
+      }
+    });
+    
+    // Ajax.Responders.register({
+    //   onComplete: function(request, transport, json) {
+    //     if(request.transport.status == 403){
+    //       window.location = '/users/sign_in';
+    //     }
+    //   }
+    // });
+  }
+});
+
 /* Mouse Out Functions to Show and Hide Divs */
 
 function isTrueMouseOut(e, handler) {

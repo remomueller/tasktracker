@@ -1,29 +1,17 @@
 <h1>Listing comments</h1>
+<form id="search-form">
+  Search <%= text_field_tag 'search', '' %>
+</form>
+<div <% if false %>class="search"<% end %> id="comment_search"></div>
+<%= javascript_tag(remote_function(:with => "$('search-form').serialize()", :url => search_comments_path, :method => :post)) %>
 
-<table>
-  <tr>
-    <th>User</th>
-    <th>Object model</th>
-    <th>Object</th>
-    <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @comments.each do |comment| %>
-  <tr>
-    <td><%= link_to comment.user.name, comment.user %></td>
-    <td><%= comment.object_model %></td>
-    <td><%= comment.object_id %></td>
-    <td><%= comment.description %></td>
-    <td><%= link_to 'Show', comment %></td>
-    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-    <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
+<% content_for :script do %>
+  <%= javascript_tag do %>
+    Event.observe(window, 'load', function(){
+      new Form.Observer('search-form', 0.5, function(form, value) {
+        if(rt){clearTimeout(rt);};
+        rt=setTimeout('genericSearchRequest("<%= search_comments_path %>", "<%= form_authenticity_token %>", "' + form.id + '","")', 750);
+      });
+    });
+  <% end %>
 <% end %>
-</table>
-
-<br />
-
-<%#= link_to 'New Comment', new_comment_path %>

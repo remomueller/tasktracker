@@ -1,0 +1,25 @@
+<table>
+  <tr>
+    <th>User</th>
+    <th>Object model</th>
+    <th>Object</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @comments.each do |comment| %>
+  <tr>
+    <td><%= link_to comment.user.name, comment.user %></td>
+    <td><%= comment.object_model %></td>
+    <td><%= comment.object_id %></td>
+    <td><%= comment.description %></td>
+    <td><%= link_to 'Show', comment %></td>
+    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+    <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate @comments %>
