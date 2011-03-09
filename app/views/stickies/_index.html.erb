@@ -2,7 +2,7 @@
 <% [['planned', 'ongoing'], ['resolved', 'completed']].each do |status| %>
   <fieldset>
     <% stickies = @project.stickies.status(status) %>
-    <legend><%= status.join(' and ').titleize %> Stickies (<%= stickies.size %>) <%= link_to 'add', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></legend>
+    <legend><%= status.join(' and ').titleize %> Stickies (<%= stickies.size %>)</legend>
     <% stickies.each do |sticky| %>
       <div>
         <strong><%= sticky.status %></strong>

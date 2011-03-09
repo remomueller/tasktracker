@@ -1,6 +1,6 @@
 class Sticky < ActiveRecord::Base
 
-  STATUS = ["planned", "ongoing", "resolved", "completed"].collect{|i| [i,i]}
+  STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
   STICKY_TYPE = ["generic", "action item", "goal", "roadblock"].collect{|i| [i,i]}
 
   # Named Scopes
