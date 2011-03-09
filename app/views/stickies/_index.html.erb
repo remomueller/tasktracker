@@ -1,5 +1,5 @@
 
-<% [['planned', 'ongoing'], ['resolved', 'completed']].each do |status| %>
+<% [['planned', 'ongoing'], ['completed']].each do |status| %>
   <fieldset>
     <% stickies = @project.stickies.status(status) %>
     <legend><%= status.join(' and ').titleize %> Stickies (<%= stickies.size %>)</legend>
