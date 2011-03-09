@@ -17,7 +17,7 @@ class Sticky < ActiveRecord::Base
   belongs_to :sticky
 
   def name
-    "ID: ##{self.id}"
+    "ID ##{self.id}"
   end
 
   def destroy

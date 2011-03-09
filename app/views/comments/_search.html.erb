@@ -1,8 +1,7 @@
 <table>
   <tr>
     <th>User</th>
-    <th>Object model</th>
-    <th>Object</th>
+    <th>Under</th>
     <th>Description</th>
     <th></th>
     <th></th>
@@ -12,8 +11,13 @@
 <% @comments.each do |comment| %>
   <tr>
     <td><%= link_to comment.user.name, comment.user %></td>
-    <td><%= comment.object_model %></td>
-    <td><%= comment.object_id %></td>
+    <td>
+      <% object = comment.object_model.constantize.find(comment.object_id) %>
+      <% if object %>
+        <%= object.class.name %>
+        <%= link_to object.name, object %>
+      <% end %>
+    </td>
     <td><%= comment.description %></td>
     <td><%= link_to 'Show', comment %></td>
     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>

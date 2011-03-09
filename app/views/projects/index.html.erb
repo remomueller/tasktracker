@@ -3,12 +3,10 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>User</th>
-    <th>Status</th>
+    <th>Owner</th>
     <th>Description</th>
-    <th>Start date</th>
-    <th>End date</th>
-    <th></th>
+    <th>Status</th>
+    <th>Time Period</th>
     <th></th>
   </tr>
 
@@ -16,11 +14,9 @@
   <tr>
     <td><%= link_to project.name, project %></td>
     <td><%= link_to project.user.name, project.user %></td>
-    <td><%= project.status %></td>
     <td><%= project.description %></td>
-    <td><%= project.start_date %></td>
-    <td><%= project.end_date %></td>
-    <td><%= link_to 'Edit', edit_project_path(project) %></td>
+    <td><%= project.status %></td>
+    <td style="text-align:center"><%= project.start_date %><br />to<br /><%= project.end_date %></td>
     <td><%= link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

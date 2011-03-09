@@ -3,8 +3,9 @@
 
 <%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Project", edit_project_path(@project), :class => 'button' if current_user.all_projects.include?(@project) %>
 <%= link_to image_tag('icons/mydocuments.png', :alt => '') + "View All Projects", projects_path, :class => 'button' %>
+<%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path(:sticky => {:project_id => @project.id}), :class => 'button positive' if current_user.all_projects.include?(@project) %>
 
-<div style="clear:both"></div><br />
+<div style="clear:both"></div>
 
 <pre><%= @project.description %></pre>
 <br />
