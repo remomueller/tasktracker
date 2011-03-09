@@ -25,7 +25,7 @@
 /*              GLOBALS               */
 /**************************************/
 
-body{ color: #404040; }
+body{ color: #404040; overflow-y: scroll; }
 
 a:link { color: #057080; }
 a:hover { color: #EB6C20; }
