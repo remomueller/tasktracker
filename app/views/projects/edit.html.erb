@@ -1,6 +1,6 @@
-<h1>Editing project</h1>
+<% @title = "Edit Project: #{@project.name}" %>
+<% if false %>
+<h1><%= @title %></h1>
+<% end %>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', @project %> |
-<%= link_to 'Back', projects_path %>

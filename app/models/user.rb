@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   scope :current, :conditions => { :deleted => false }
   scope :status, lambda { |*args|  { :conditions => ["users.status IN (?)", args.first] } }
   scope :system_admins, :conditions => { :system_admin => true }
+  scope :search, lambda { |*args| {:conditions => [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   
   # Model Validation
   validates_presence_of     :first_name

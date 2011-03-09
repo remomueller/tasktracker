@@ -4,8 +4,13 @@ class UsersController < ApplicationController
 
   # Retrieves filtered list of users.
   def filtered
-    @search = params[:search]
     @relation = params[:relation]
+    
+    users_scope = User.current.order('last_name, first_name')
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| users_scope = users_scope.search(search_term) }
+    @users = users_scope
+    
     render :partial => 'user_select_filter'
   end
   

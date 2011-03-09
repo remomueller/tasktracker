@@ -1,15 +1,19 @@
-<%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %><br />
+<% @title = "Project: #{@project.name}" %>
+<h1><%= @title %></h1>
+
+<%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Project", edit_project_path(@project), :class => 'button' if current_user.all_projects.include?(@project) %>
+<%= link_to image_tag('icons/mydocuments.png', :alt => '') + "View All Projects", projects_path, :class => 'button' %>
+
+<div style="clear:both"></div><br />
+
+<pre><%= @project.description %></pre>
+<br />
 
 <p>
-  <b>User:</b>
+  <b>Owner:</b>
   <%= link_to @project.user.name, @project.user %>
 </p>
 
-<p>
-  <b>Name:</b>
-  <%= @project.name %>
-</p>
 
 <p>
   <b>Status:</b>
@@ -17,26 +21,18 @@
 </p>
 
 <p>
-  <b>Description:</b>
-</p>
-<pre><%= @project.description %></pre>
-<br />
-
-<p>
-  <b>Start date:</b>
-  <%= @project.start_date %>
-</p>
-
-<p>
-  <b>End date:</b>
-  <%= @project.end_date %>
+  <b>Time Period:</b>
+  <%= @project.start_date %> to <%= @project.end_date %>
 </p>
 
 <% [['editors', true], ['viewers', false]].each do |@relation, @allow_editing| %>
+  <% @users = User.current.order('last_name, first_name') %>
   <p>
     <b><%= @relation.humanize %>:</b>
     <span id="<%= @relation %>_add_icon">
-    <%= link_to_function 'Add More', "$('#{@relation}_add_icon').hide(); $('project_#{@relation}').show(); $('#{@relation}_text').focus();$('#{@relation}_id').value = null;" %>
+      <% if current_user.all_projects.include?(@project) %>
+        <%= link_to_function 'Add More', "$('#{@relation}_add_icon').hide(); $('project_#{@relation}').show(); $('#{@relation}_text').focus();$('#{@relation}_id').value = null;" %>
+      <% end %>
     </span>
     <div id="project_<%= @relation %>" style="display:none">
       <%= text_field_tag "#{@relation}_text", '', :style => "width:494px;" %>
@@ -44,7 +40,6 @@
       <div id="filtered_<%= @relation %>"><%= render :partial => "users/user_select_filter" %></div>
     </div>  
     <div id="<%= @relation %>_list"><%= render :partial => 'project_users/index' %></div>
-    <br />
     <%= javascript_tag do %>
         new Form.Element.Observer('<%= @relation %>_text', 0.5, function(element, value) {
           if(rt){clearTimeout(rt);};
@@ -54,10 +49,13 @@
   </p>
 <% end %>
 
-<%= render :partial => 'stickies/index' %>
-
 <fieldset>
-  <legend>Comments</legend>
+  <legend>General Project Comments</legend>
+  <div class="quiet">
+    <%= image_tag('icons/information.png', :alt => '', :style => 'vertical-align:middle') %>
+    Questions? Issues? Feature Requests? Bugs? Enter them here!
+  </div>
+  <br />
 <% @object = @project %>
 <% @limit = 5 %>
 <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
@@ -65,3 +63,5 @@
   <%= render :partial => 'comments/index' %>
 </div>
 </fieldset>
+
+<%= render :partial => 'stickies/index' %>
