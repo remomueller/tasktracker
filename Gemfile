@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.4'
+gem 'rails', '3.0.5'
 
 # Database Adapter
 gem 'mysql2'
@@ -10,7 +10,6 @@ gem 'devise', '1.1.7'
 gem 'kaminari'
 gem 'mail'
 gem 'omniauth', '0.1.6'
-
 
 # Use unicorn as the web server
 # gem 'unicorn'
