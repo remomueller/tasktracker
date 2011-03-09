@@ -44,3 +44,13 @@
   <b>End date:</b>
   <%= @sticky.end_date %>
 </p>
+
+<p>
+  <b>Comments:</b>
+</p>
+<% @object = @sticky %>
+<% @limit = nil %>
+<% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+<div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
+  <%= render :partial => 'comments/index' %>
+</div>
