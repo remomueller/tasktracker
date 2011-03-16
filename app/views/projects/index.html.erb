@@ -17,7 +17,11 @@
     <td><%= project.description %></td>
     <td><%= project.status %></td>
     <td style="text-align:center"><%= project.start_date %><br />to<br /><%= project.end_date %></td>
-    <td><%= link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td style="vertical-align:middle">
+      <% if current_user.all_projects.include?(project) %>
+        <%= link_to image_tag('icons/delete.png', :alt => ''), project, :confirm => "Are you sure you want to delete Project #{project.name}?", :method => :delete %>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>
