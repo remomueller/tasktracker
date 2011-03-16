@@ -36,6 +36,7 @@ class Project < ActiveRecord::Base
   
   def new_comment(current_user, description)
     Comment.create(:object_model => self.class.name, :object_id => self.id, :user_id => current_user.id, :description => description)
+    self.touch
   end
 
 end

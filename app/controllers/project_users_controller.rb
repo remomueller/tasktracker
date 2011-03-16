@@ -34,11 +34,12 @@ class ProjectUsersController < ApplicationController
   # 
   def create
     @project = current_user.all_projects.find_by_id(params[:project_user][:project_id])
+    @user = User.current.find_by_id(params[:user_id])
     
-    if @project
+    if @project and @user
     
     
-      @project_user = @project.project_users.find_or_create_by_user_id(params[:user_id])
+      @project_user = @project.project_users.find_or_create_by_user_id(@user.id)
   
       if @project_user
         @project_user.allow_editing = params[:project_user][:allow_editing]

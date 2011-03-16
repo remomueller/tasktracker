@@ -15,7 +15,7 @@ class Sticky < ActiveRecord::Base
 
   # Model Relationships
   belongs_to :user
-  belongs_to :project
+  belongs_to :project, :touch => true
   belongs_to :sticky
 
   def name
@@ -32,6 +32,7 @@ class Sticky < ActiveRecord::Base
   
   def new_comment(current_user, description)
     Comment.create(:object_model => self.class.name, :object_id => self.id, :user_id => current_user.id, :description => description)
+    self.touch
   end
 
   private
