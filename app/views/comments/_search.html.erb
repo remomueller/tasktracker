@@ -1,15 +1,15 @@
 <table>
   <tr>
+    <th>Name</th>
     <th>User</th>
     <th>Under</th>
     <th>Description</th>
-    <th></th>
-    <th></th>
     <th></th>
   </tr>
 
 <% @comments.each do |comment| %>
   <tr>
+    <td style="white-space:nowrap"><%= link_to comment.name, comment %></td>
     <td><%= link_to comment.user.name, comment.user %></td>
     <td>
       <% object = comment.object_model.constantize.find(comment.object_id) %>
@@ -19,9 +19,11 @@
       <% end %>
     </td>
     <td><%= comment.description %></td>
-    <td><%= link_to 'Show', comment %></td>
-    <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-    <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td style="vertical-align:middle">
+      <% if current_user.all_comments.include?(comment) %>
+        <%= link_to image_tag('icons/delete.png', :alt => ''), comment, :confirm => "Are you sure you want to delete Comment #{comment.name}?", :method => :delete %>
+      <% end %>
+    </td>
   </tr>
 <% end %>
 </table>

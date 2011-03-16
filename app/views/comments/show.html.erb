@@ -1,19 +1,23 @@
-<%= link_to 'Edit', edit_comment_path(@comment) %> |
-<%= link_to 'Back', comments_path %><br />
+<% @title = "Comment: #{@comment.name}" %>
+<h1><%= @title %></h1>
+
+<%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Comment", edit_comment_path(@comment), :class => 'button' if current_user.all_comments.include?(@comment) %>
+<%= link_to image_tag('icons/mydocuments.png', :alt => '') + "View All Comments", comments_path, :class => 'button' %>
+
+<div style="clear:both"></div>
+<br />
 
 <p>
   <b>User:</b>
   <%= link_to @comment.user.name, @comment.user %>
 </p>
 
-<p>
-  <b>Object model:</b>
-  <%= @comment.object_model %>
-</p>
-
-<p>
-  <b>Object:</b>
-  <%= @comment.object_id %>
+<p><b>Under:</b>
+  <% object = @comment.object_model.constantize.find(@comment.object_id) %>
+  <% if object %>
+    <%= object.class.name %>
+    <%= link_to object.name, object %>
+  <% end %>
 </p>
 
 <p>

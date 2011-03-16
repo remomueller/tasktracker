@@ -15,6 +15,10 @@ class Comment < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   
+  def name
+    "ID ##{self.id}"
+  end
+  
   def destroy
     update_attribute :deleted, true
   end
