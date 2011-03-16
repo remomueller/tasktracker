@@ -1,6 +1,6 @@
 Hello <%= @project_user.user.first_name %>,<br />
 <br />
-<%= @project_user.project.user.name %> has added you to <%= link_to @project_user.project.name, "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
+<%= @project_user.project.user.name %> has added you to Project <%= link_to @project_user.project.name, "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
 <br />
 <% if @project_user.allow_editing? %>
 You may edit the project and add new stickies and comments to it!
