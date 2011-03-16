@@ -6,7 +6,7 @@
     <% stickies.each do |sticky| %>
       <div>
         <strong><%= sticky.status %></strong>
-        <%= link_to sticky.user.name, sticky.user %> Sticky <%= link_to sticky.sticky_type, sticky %>:
+        <%= link_to sticky.user.name, sticky.user %> Sticky <%= link_to sticky.name, sticky %>:
         <pre><%= sticky.description %></pre><br />
         <% @object = sticky %>
         <% @limit = (status == ['planned', 'ongoing']) ? nil : 5 %>
