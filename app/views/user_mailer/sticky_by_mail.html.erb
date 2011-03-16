@@ -1,0 +1,10 @@
+Hello <%= @recipient.first_name %>,<br />
+<br />
+<%= @sticky.user.name %> added the following Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> to Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %>.<br />
+<br />
+<em><%= @sticky.description %></em>
+<br />
+<br />
+Thank you!<br />
+<br />
+<%= DEFAULT_APP_NAME %> System Mailer

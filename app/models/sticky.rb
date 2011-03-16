@@ -8,6 +8,8 @@ class Sticky < ActiveRecord::Base
   scope :status, lambda { |*args|  { :conditions => ["stickies.status IN (?)", args.first] } }
   scope :with_project, lambda { |*args| { :conditions => ["stickies.project_id IN (?)", args.first] } }
 
+  after_create :send_email
+
   # Model Validation
   validates_presence_of :description
 
@@ -30,6 +32,17 @@ class Sticky < ActiveRecord::Base
   
   def new_comment(current_user, description)
     Comment.create(:object_model => self.class.name, :object_id => self.id, :user_id => current_user.id, :description => description)
+  end
+
+  private
+  
+  def send_email
+    if self.project
+      all_users = (self.project.users + [self.project.user]).uniq - [self.user]
+      all_users.each do |user_to_email|
+        UserMailer.sticky_by_mail(self, user_to_email).deliver if user_to_email.active?
+      end
+    end
   end
 
 end
