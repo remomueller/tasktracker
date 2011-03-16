@@ -31,10 +31,8 @@
   </fieldset>
   
   <div class="actions">
-    <button class="positive">
-      <%= image_tag('icons/tick.png', :alt => '') %>
-      <%= @comment.new_record? ? "Create Comment" : "Update Comment" %>
-    </button>
+    <% form_name = @comment.new_record? ? 'new_comment' : "edit_comment_#{@comment.id}" %>    
+    <%= link_to_function image_tag('icons/tick.png', :alt => '') + (@comment.new_record? ? "Create Comment" : "Update Comment"), "$('#{form_name}').submit();", :class => "button positive" %>
     <%= cancel %>
 		<br />
   </div>

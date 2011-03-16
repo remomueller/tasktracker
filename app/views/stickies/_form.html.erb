@@ -47,10 +47,8 @@
   </fieldset>
   
   <div class="actions">
-    <button class="positive">
-      <%= image_tag('icons/tick.png', :alt => '') %>
-      <%= @sticky.new_record? ? "Create Sticky" : "Update Sticky" %>
-    </button>
+    <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
+    <%= link_to_function image_tag('icons/tick.png', :alt => '') + (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('#{form_name}').submit();", :class => "button positive" %>
     <%= cancel %>
 		<br />
   </div>
