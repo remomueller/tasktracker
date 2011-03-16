@@ -74,13 +74,16 @@ class ProjectUsersController < ApplicationController
   # end
   # 
   def destroy
-    @project_user.find_by_id(params[:id])
+    @project_user = ProjectUser.find_by_id(params[:id])
     @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
     
     if @project and @project_user
       @project_user.destroy
       render :update do |page|
-        
+        @relation = 'editors'
+        page.replace_html "#{@relation}_list", :partial => "project_users/index"
+        @relation = 'viewers'
+        page.replace_html "#{@relation}_list", :partial => "project_users/index"
       end
     else
       render :nothing => true
