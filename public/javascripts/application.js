@@ -5,7 +5,7 @@
 // are sent to the server by waiting for the user to pause while typing
 // before sending the request.
 
-var rt = null;
+// var rt = null;
 
 function createSpinner() {
   // var img = new Image;
@@ -16,6 +16,9 @@ function createSpinner() {
 
 $(function(){
   $("#project_start_date").datepicker();
+  $("#project_end_date").datepicker();
+  $("#sticky_start_date").datepicker();
+  $("#sticky_end_date").datepicker();
   
   $(".pagination a").live("click", function() {
     // $(".pagination").html(createSpinner()); //.html("Page is loading...");
