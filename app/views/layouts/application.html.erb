@@ -11,7 +11,7 @@
   <![endif]-->
   <%= stylesheet_link_tag 'foundation', :media => 'screen, projection' %>
   
-  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag :defaults, :cache => 'cache/all' %>
   <%= csrf_meta_tag %>
   <%= yield :script %>
 </head>
