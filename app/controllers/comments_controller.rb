@@ -4,19 +4,20 @@ class CommentsController < ApplicationController
   # def add_comment
   # end
 
-  def search
-    comments_scope = current_user.all_viewable_comments
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
-    @comments = comments_scope.page(params[:page]).per(5)
-    
-    render :update do |page|
-      page.replace_html 'comment_search', :partial => 'search'
-    end
-  end
+  # # renders search.js.erb
+  # def search
+  #   comments_scope = current_user.all_viewable_comments
+  #   @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+  #   @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
+  #   @comments = comments_scope.page(params[:page]).per(5)
+  # end
 
   def index
     # @comments = current_user.all_viewable_comments
+      comments_scope = current_user.all_viewable_comments
+      @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+      @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
+      @comments = comments_scope.page(params[:page]).per(5)
   end
 
   def show

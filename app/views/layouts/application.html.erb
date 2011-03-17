@@ -11,7 +11,10 @@
   <![endif]-->
   <%= stylesheet_link_tag 'foundation', :media => 'screen, projection' %>
   
-  <%= javascript_include_tag :defaults, :cache => 'cache/all' %>
+  <%= stylesheet_link_tag 'jquery-ui' %>
+  <%= javascript_include_tag "jquery-1.5.1.min", "jquery-ui-1.8.10.min", "application" %>
+  
+  <%#= javascript_include_tag :defaults, :cache => 'cache/all' %>
   <%= csrf_meta_tag %>
   <%= yield :script %>
 </head>
