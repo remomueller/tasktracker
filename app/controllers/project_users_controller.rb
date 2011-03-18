@@ -34,22 +34,15 @@ class ProjectUsersController < ApplicationController
   # 
   def create
     @project = current_user.all_projects.find_by_id(params[:project_user][:project_id])
-    @user = User.current.find_by_id(params[:user_id])
+    user_email = (params[:editors_text] || params[:viewers_text]).to_s.split('<').last.to_s.split('>').first
+    @user = User.current.find_by_email(user_email)
     
     if @project and @user
-    
-    
       @project_user = @project.project_users.find_or_create_by_user_id(@user.id)
-  
       if @project_user
         @project_user.allow_editing = params[:project_user][:allow_editing]
         if @project_user.save
-          render :update do |page|
-            @relation = 'editors'
-            page.replace_html "#{@relation}_list", :partial => "project_users/index"
-            @relation = 'viewers'
-            page.replace_html "#{@relation}_list", :partial => "project_users/index"
-          end
+          render 'index'
         else
           render :nothing => true
         end
@@ -79,12 +72,13 @@ class ProjectUsersController < ApplicationController
     
     if @project and @project_user
       @project_user.destroy
-      render :update do |page|
-        @relation = 'editors'
-        page.replace_html "#{@relation}_list", :partial => "project_users/index"
-        @relation = 'viewers'
-        page.replace_html "#{@relation}_list", :partial => "project_users/index"
-      end
+      # render :update do |page|
+      #   @relation = 'editors'
+      #   page.replace_html "#{@relation}_list", :partial => "project_users/index"
+      #   @relation = 'viewers'
+      #   page.replace_html "#{@relation}_list", :partial => "project_users/index"
+      # end
+      render 'index'
     else
       render :nothing => true
     end

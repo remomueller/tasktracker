@@ -30,7 +30,7 @@ Notes::Application.routes.draw do
 
   resources :users do
     collection do
-      post :filtered
+      # post :filtered
       post :search
     end
   end

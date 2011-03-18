@@ -18,4 +18,7 @@ module ApplicationHelper
     end
   end
 
+  def information(message = 'Press Enter to Search')
+    "<span class=\"quiet small\">#{image_tag('icons/information.png', :alt => '', :style=>'vertical-align:text-bottom')}#{message}</span>".html_safe
+  end
 end

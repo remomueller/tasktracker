@@ -1,6 +1,6 @@
 <h1>Listing comments</h1>
 <%= form_tag comments_path, :method => :get, :id => "comments_search" do %>
-  Search <%= text_field_tag 'search', params[:search] %> <span class="quiet small"><%= image_tag('icons/information.png', :alt => '', :style=>'vertical-align:text-bottom') %>Press Enter to Search</span>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
 <div id="comments"></div>
 

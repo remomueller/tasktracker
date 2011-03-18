@@ -5,11 +5,19 @@ class ProjectsController < ApplicationController
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project and not params[:comment].blank?
       @project.new_comment(current_user, params[:comment])
-      render :update do |page|
-        @object = @project
-        @position = params[:position]
-        page.replace_html "#{@object.class.name.downcase}_#{@object.id}_comments_#{params[:position]}", :partial => 'comments/index'
-      end
+
+      @object = @project
+      @position = params[:position]
+      @comments = @object.comments
+
+      render "comments/add_comment"
+
+      # render :update do |page|
+      #   @object = @project
+      #   @position = params[:position]
+      #   @comments = @object.comments
+      #   page.replace_html "#{@object.class.name.downcase}_#{@object.id}_comments_#{params[:position]}", :partial => 'comments/index'
+      # end
     else
       render :nothing => true
     end

@@ -20,6 +20,8 @@ $(function(){
   $("#sticky_start_date").datepicker();
   $("#sticky_end_date").datepicker();
   
+  $("#ui-datepicker-div").hide();
+  
   $(".pagination a").live("click", function() {
     // $(".pagination").html(createSpinner()); //.html("Page is loading...");
     // $.getScript(this.href);
@@ -86,6 +88,13 @@ function hideOnMouseOut(elements){
       if (isTrueMouseOut(e||window.event, this)) element.hide();
     });
   });
+}
+
+function showMessage(elements){
+  $.each(elements, function(index, value){
+    var element = $(value);
+    element.fadeIn(2000);
+  })
 }
 
 // function genericSearchRequest(url, token, form, params){

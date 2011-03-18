@@ -1,5 +1,16 @@
+<span>
+  <% if current_user.all_projects.include?(@project) %>
+    <%= form_tag project_users_path(:project_user => {:project_id => @project.id, :allow_editing => @relation == 'editors'}), :method => :post, :remote => true, :style => 'display:inline' do %>
+      <b><%= @relation.humanize %>:</b>
+      <%= text_field_tag "#{@relation}_text", '', :style => "width:494px;" %><%= information("Press Enter to Add #{@relation.humanize}") %>
+    <% end %>
+    <%= javascript_tag "$(function(){$(\"##{@relation}_text\").autocomplete({source:[#{User.current.collect{|user| "'#{user.name} <#{user.email}>'"}.join(', ')}]});});" %>
+  <% else %>
+      <b><%= @relation.humanize %>:</b>
+  <% end %>
+</span>
 <ul>
 <% @project.send(@relation).each do |user| %>
-  <li><%= link_to user.name, user %> <%= link_to image_tag('icons/delete.png', :alt => '', :style => 'vertical-align:middle'), '#', :onclick => remote_function(:url => project_user_path(@project.project_users.find_by_user_id(user.id)), :method => :delete, :confirm => "Are you sure you want to remove #{user.name} from the list of #{@relation}?") + "; return false;" %></li>
+  <li><%= link_to user.name, user %> <%= link_to image_tag('icons/delete.png', :alt => '', :style => 'vertical-align:middle'), project_user_path(@project.project_users.find_by_user_id(user.id)), :method => :delete, :confirm => "Are you sure you want to remove #{user.name} from the list of #{@relation}?", :remote => true %></li>
 <% end %>
 </ul>

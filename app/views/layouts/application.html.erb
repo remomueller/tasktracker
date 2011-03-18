@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Notes | version <%= Notes::VERSION::STRING %></title>
-  <title><%= ['Notes', @title].join(' - ') unless @title.blank? %></title>
+<% if false %>  <title>Notes | version <%= Notes::VERSION::STRING %></title><% end %>
+  <title><%= ["#{DEFAULT_APP_NAME} #{Notes::VERSION::STRING}", @title].compact.join(' - ') %></title>
+  <%= favicon_link_tag %>
   <%#= stylesheet_link_tag :all %>
   <%= stylesheet_link_tag 'screen', :media => 'screen, projection' %>
   <%= stylesheet_link_tag 'print', :media => 'print' %>
@@ -10,9 +11,9 @@
     <%= stylesheet_link_tag 'ie', :media => 'screen, projection' %>
   <![endif]-->
   <%= stylesheet_link_tag 'foundation', :media => 'screen, projection' %>
+  <%= stylesheet_link_tag 'jquery-ui-1.8.10.custom' %>
   
-  <%= stylesheet_link_tag 'jquery-ui' %>
-  <%= javascript_include_tag "jquery-1.5.1.min", "jquery-ui-1.8.10.min", "application" %>
+  <%= javascript_include_tag "jquery-1.4.4.min", "jquery-ui-1.8.10.custom.min", "jquery.rails", "application" %>
   
   <%#= javascript_include_tag :defaults, :cache => 'cache/all' %>
   <%= csrf_meta_tag %>
@@ -22,8 +23,9 @@
   <%= javascript_tag "var root_url='#{SITE_URL + '/'}';var auth_token='#{form_authenticity_token}';" %>
   <div id="header" class="container" style="background-image: url(<%= SITE_URL %>/images/brigham.png);">
     <div style="position:relative">
-      <span style="position:absolute;top:18px;left:50px;font-size:0.5em;font-variant:normal">version <%= Notes::VERSION::STRING %></span>
+      <span style="position:absolute;top:-10px;left:98px;font-size:0.5em;font-variant:normal"><%= Notes::VERSION::STRING %></span>
     </div>
+    <%= image_tag('stylefile.png', :alt => '', :style => 'vertical-align:middle') %>
     <%= link_to DEFAULT_APP_NAME, root_path, :style => 'text-decoration:none;color:#404040;' %>
   </div>
 
