@@ -9,15 +9,7 @@ class ProjectsController < ApplicationController
       @object = @project
       @position = params[:position]
       @comments = @object.comments
-
       render "comments/add_comment"
-
-      # render :update do |page|
-      #   @object = @project
-      #   @position = params[:position]
-      #   @comments = @object.comments
-      #   page.replace_html "#{@object.class.name.downcase}_#{@object.id}_comments_#{params[:position]}", :partial => 'comments/index'
-      # end
     else
       render :nothing => true
     end
