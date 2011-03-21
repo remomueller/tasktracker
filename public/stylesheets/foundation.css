@@ -18,6 +18,10 @@
 - brigham dark blue   #094E63
 - brigham light blue  #CDEDF7
 - brigham orange      #EB6C20
+
+- planned             #FFB475
+- ongoing             #8FD800
+- completed           #366DC2
 ***************************************/
 
 
@@ -253,7 +257,7 @@ div.menu_dropdown_left, div.menu_dropdown_left_center {
   float: left;
   padding: 2px;
   width: 10px;
-  height: 10px;
+/*  height: 10px;*/
   line-height: 10px;
   font-size: 10px;
   text-align: center;
@@ -261,11 +265,27 @@ div.menu_dropdown_left, div.menu_dropdown_left_center {
   border: 2px solid #DDD;
   background-color: #FFFFFF;
   margin-right:2px;
+  margin-bottom: -2px;
 }
 
 .status_marked {
   border: 2px solid #404040;
 }
+
+.status_marked.planned {
+  border-color: #FFB475;
+  background-color: #FEE5CD;
+}
+
+.status_marked.ongoing {
+  border-color: #66FF66;
+  background-color: #D4FFCD;
+}
+
+.status_marked.completed {
+  border-color: #366DC2;
+  background-color: #B1BFDB;
+}    
 
 .status_unmarked {
 /*  border: 2px solid gray;*/
