@@ -1,0 +1,23 @@
+<tr>
+  <td colspan="2"></td>
+  <td colspan="4">
+    <% width = '98%' %>
+    <% class_name = @object.class.name.downcase %>
+    <% form_name = "#{class_name}_#{@object.id}_comment_#{@position}_form" %>
+    <%= form_tag add_comment_comments_path(:object_id => @object.id, :object_model => @object.class, :position => @position), :remote => true, :id => form_name do %>
+      <%= hidden_field_tag :position, @position %>
+      <%= text_area_tag "#{class_name}[#{@object.id}][comment][#{@position}]", '', :name => 'comment', :rows => 2, :style => "width:#{width}" %>
+      <br />
+      <%= link_to_function image_tag('icons/addfile.png', :alt => '') + 'Add Comment', "$.post($(\"##{form_name}\").attr(\"action\"), $(\"##{form_name}\").serialize(), null, \"script\");", :class => "button positive" %>
+    <% end %>
+  </td>
+</tr>
+
+</tr>
+<% @object.comments.each do |comment| %>
+  <tr>
+    <td colspan="2"></td>
+    <td colspan="3"><span class="quiet"><%= comment.user.name %>:</span> <%= comment.description %></td>
+    <td></td>
+  </tr>
+<% end %>

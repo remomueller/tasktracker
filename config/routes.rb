@@ -5,8 +5,6 @@ Notes::Application.routes.draw do
   resources :comments do
     collection do
       get :search
-    end
-    member do
       post :add_comment
     end
   end

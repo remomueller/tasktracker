@@ -244,6 +244,11 @@ div.menu_dropdown_left, div.menu_dropdown_left_center {
   margin-left:20px;
 }
 
+.collapsed {
+  white-space:nowrap;
+  overflow:hidden;
+}
+
 /**************************************/
 /*               FOOTER               */
 /**************************************/

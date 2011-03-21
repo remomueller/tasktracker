@@ -97,6 +97,11 @@ function showMessage(elements){
   })
 }
 
+function toggleSticky(element){
+  $(element).toggle();
+  $(element+'_description').toggleClass('collapsed');
+}
+
 // function genericSearchRequest(url, token, form, params){
 //   new Ajax.Request(url, {asynchronous:true, evalScripts:true, method:'post', parameters: $(form).serialize() + params + '&_method=post' + '&authenticity_token=' + encodeURIComponent(token)});
 // }
