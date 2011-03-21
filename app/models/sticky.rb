@@ -18,6 +18,8 @@ class Sticky < ActiveRecord::Base
   belongs_to :project, :touch => true
   belongs_to :sticky
 
+  belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id' 
+
   def name
     "ID ##{self.id}"
   end

@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   has_many :stickies, :conditions => {:deleted => false}, :order => 'created_at'
   has_many :comments, :conditions => {:deleted => false}, :order => 'created_at DESC'
 
+  has_many :owned_stickies, :class_name => 'Sticky', :foreign_key => 'owner_id', :conditions => {:deleted => false}, :order => 'created_at'
+
   # User Methods
   
   # Overriding Devise built-in active? method
@@ -113,6 +115,10 @@ class User < ActiveRecord::Base
   
   def rev_name
     "#{last_name}, #{first_name}"
+  end
+  
+  def nickname
+    "#{first_name} #{last_name.first}"
   end
   
   def apply_omniauth(omniauth)

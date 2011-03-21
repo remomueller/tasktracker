@@ -11,6 +11,7 @@
     <% end %>
     <th>Description</th>
     <th>Status</th>
+    <th>Assigned To</th>
     <th>Time Period</th>
     <th></th>
   </tr>
@@ -26,6 +27,7 @@
     <% end %>
     <td><%= sticky.description %></td>
     <td><%= sticky.status %></td>
+    <td><%= link_to sticky.owner.nickname, sticky.owner if sticky.owner %></td>
     <td style="text-align:center"><%= sticky.start_date %><br />to<br /><%= sticky.end_date %></td>
     <td style="vertical-align:middle">
       <% if current_user.all_stickies.include?(sticky) %>

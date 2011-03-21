@@ -11,7 +11,7 @@
 
 <p>
   <b>Creator:</b>
-  <%= @sticky.user.name %>
+  <%= link_to @sticky.user.name, @sticky.user %>
 </p>
 
 <p>
@@ -30,6 +30,13 @@
   <b>Status:</b>
   <%= @sticky.status %>
 </p>
+
+<% if @sticky.owner %>
+  <p>
+    <b>Assigned To:</b>
+    <%= link_to @sticky.owner.name if @sticky.owner %>
+  </p>
+<% end %>
 
 <p>
   <b>Sticky type:</b>
