@@ -1,7 +1,7 @@
 <% width = '98%' %>
 <% class_name = @object.class.name.downcase %>
 <% form_name = "#{class_name}_#{@object.id}_comment_#{@position}_form" %>
-<%= form_tag "/#{class_name.pluralize.to_sym}/#{@object.id}/add_comment", :position => @position, :remote => true, :id => form_name do %>
+<%= form_tag "#{SITE_URL}/#{class_name.pluralize.to_sym}/#{@object.id}/add_comment", :position => @position, :remote => true, :id => form_name do %>
 <p>
   <%= hidden_field_tag :position, @position %>
   <%= text_area_tag "#{class_name}[#{@object.id}][comment][#{@position}]", '', :name => 'comment', :rows => 2, :style => "width:#{width}" %>
