@@ -14,6 +14,7 @@ class AuthenticationsController < ApplicationController
     logger.info "OMNI AUTH INFO: #{omniauth.inspect}"
     omniauth['user_info']['email'] = omniauth['extra']['user_hash']['email'] if omniauth['user_info'] and omniauth['user_info']['email'].blank? and omniauth['extra'] and omniauth['extra']['user_hash']
     if authentication
+      session["user_return_to"] = request.env["action_dispatch.request.unsigned_session_cookie"]["user_return_to"] if request.env and request.env["action_dispatch.request.unsigned_session_cookie"] and request.env["action_dispatch.request.unsigned_session_cookie"]["user_return_to"] and session["user_return_to"].blank?
       flash[:notice] = "Signed in successfully." if authentication.user.active?
       sign_in_and_redirect(:user, authentication.user)
     elsif current_user
@@ -24,6 +25,7 @@ class AuthenticationsController < ApplicationController
       user = User.new(params[:user])
       user.apply_omniauth(omniauth)
       if user.save
+        session["user_return_to"] = request.env["action_dispatch.request.unsigned_session_cookie"]["user_return_to"] if request.env and request.env["action_dispatch.request.unsigned_session_cookie"] and request.env["action_dispatch.request.unsigned_session_cookie"]["user_return_to"] and session["user_return_to"].blank?
         flash[:notice] = "Signed in successfully." if user.active?
         sign_in_and_redirect(:user, user)
       else
