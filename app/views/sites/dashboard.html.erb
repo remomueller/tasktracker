@@ -33,7 +33,7 @@
       <%= @project.editors.collect{|user| link_to user.name, user}.join("<br />").html_safe %><br />
       <%= @project.viewers.collect{|user| link_to user.name, user}.join("<br />").html_safe %>
     </td>
-    <td><%= @project.status %></td>
+    <td style="vertical-align:middle"><%= display_status(@project.status) %></td>
     <td><%= recent_activity(@project.updated_at) %></td>
   </tr>
   <% comment = @project.all_comments(1).first %>

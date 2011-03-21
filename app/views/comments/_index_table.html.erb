@@ -17,7 +17,7 @@
 <% @object.comments.each do |comment| %>
   <tr>
     <td colspan="2"></td>
-    <td colspan="3"><span class="quiet"><%= comment.user.name %>:</span> <%= comment.description %></td>
+    <td colspan="3"><span class="quiet"><%= comment.user.name %>:</span><pre><%= comment.description %></pre></td>
     <td></td>
   </tr>
 <% end %>

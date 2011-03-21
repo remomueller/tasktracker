@@ -21,4 +21,18 @@ module ApplicationHelper
   def information(message = 'Press Enter to Search')
     "<span class=\"quiet small\">#{image_tag('icons/information.png', :alt => '', :style=>'vertical-align:text-bottom')}#{message}</span>".html_safe
   end
+  
+  def display_status(status)
+    result = '<table class="status-table" width="100%"><tr>'
+    case status when 'planned'
+      result << "<td><div class=\"status_marked\">P</div></td><td><div class=\"status_unmarked\">O</div></td><td><div class=\"status_unmarked\">C</div></td>"
+    when 'ongoing'
+      result << "<td><div class=\"status_marked\">P</div></td><td><div class=\"status_marked\">O</div></td><td><div class=\"status_unmarked\">C</div></td>"
+    when 'completed'
+      result << "<td><div class=\"status_marked\">P</div></td><td><div class=\"status_marked\">O</div></td><td><div class=\"status_marked\">C</div></td>"
+    end
+    result << '</tr></table>'
+    result.html_safe
+  end
+  
 end
