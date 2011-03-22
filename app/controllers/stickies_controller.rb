@@ -16,11 +16,11 @@ class StickiesController < ApplicationController
   end
   
   def index
-    @stickies = current_user.all_stickies
+    @stickies = current_user.all_viewable_stickies
   end
 
   def show
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
+    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
     redirect_to root_path unless @sticky
   end
 
