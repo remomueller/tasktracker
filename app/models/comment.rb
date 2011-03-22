@@ -35,9 +35,13 @@ class Comment < ActiveRecord::Base
   
   def send_email
     @object = self.object_model.constantize.find_by_id(self.object_id)
-    all_users = (@object.comments.collect{|c| c.user} + [@object.user]).uniq - [self.user]
+    all_users = (@object.comments.collect{|c| c.user} + [@object.user, @object.owner]).compact.uniq - [self.user]
     all_users.each do |user_to_email|
-      UserMailer.comment_by_mail(self, @object, user_to_email).deliver if user_to_email.active?
+      if user_to_email.active? and user_to_email.email_on?(:send_email) and
+        ((self.object_model == 'Project' and user_to_email.email_on?(:project_comments) and user_to_email.email_on?("project_#{self.object_id}")) or
+        (self.object_model == 'Sticky' and user_to_email.email_on?(:sticky_comments) and user_to_email.email_on?("project_#{Sticky.find_by_id(self.object_id).project.id}")))
+        UserMailer.comment_by_mail(self, @object, user_to_email).deliver
+      end
     end
   end
   

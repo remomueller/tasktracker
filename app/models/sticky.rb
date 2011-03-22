@@ -6,7 +6,7 @@ class Sticky < ActiveRecord::Base
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
   scope :status, lambda { |*args|  { :conditions => ["stickies.status IN (?)", args.first] } }
-  scope :with_project, lambda { |*args| { :conditions => ["stickies.project_id IN (?)", args.first] } }
+  scope :with_project, lambda { |*args| { :conditions => ["stickies.project_id IN (?) or (stickies.project_id IS NULL and stickies.user_id = ?)", args.first, args[1]] } }
 
   after_create :send_email
 
@@ -43,7 +43,7 @@ class Sticky < ActiveRecord::Base
     if self.project
       all_users = (self.project.users + [self.project.user]).uniq - [self.user]
       all_users.each do |user_to_email|
-        UserMailer.sticky_by_mail(self, user_to_email).deliver if user_to_email.active?
+        UserMailer.sticky_by_mail(self, user_to_email).deliver if user_to_email.active? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_creation) and user_to_email.email_on?("project_#{self.project.id}")
       end
     end
   end

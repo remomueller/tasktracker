@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable, and :lockable
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable
-
+         
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
 
@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   before_update :status_activated
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
+  serialize :email_notifications, Hash
 
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
@@ -42,6 +43,14 @@ class User < ActiveRecord::Base
     update_attribute :status, 'inactive'
   end
 
+  def email_on?(value)
+    if self.email_notifications
+      [nil, true].include?(self.email_notifications[value.to_s])
+    else
+      true
+    end
+  end
+
   def all_projects
     @all_projects ||= begin
       # if self.system_admin?
@@ -71,7 +80,7 @@ class User < ActiveRecord::Base
       # if self.system_admin?
       #   Sticky.current.order('created_at DESC')
       # else
-        Sticky.current.with_project(self.all_projects.collect{|p| p.id}).order('created_at DESC')
+        Sticky.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
       # end
     end
   end
@@ -81,7 +90,7 @@ class User < ActiveRecord::Base
       # if self.system_admin?
       #   Sticky.current.order('created_at DESC')
       # else
-        Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}).order('created_at DESC')
+        Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
       # end
     end
   end

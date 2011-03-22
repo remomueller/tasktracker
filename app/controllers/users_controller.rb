@@ -13,6 +13,19 @@ class UsersController < ApplicationController
   #   
   #   render :partial => 'user_select_filter'
   # end
+
+  def settings
+  end
+  
+  def update_settings
+    notifications = {}
+    email_settings = ['send_email', 'sticky_creation', 'project_comments', 'sticky_comments'] + current_user.all_viewable_projects.collect{|p| "project_#{p.id}"}
+    email_settings.each do |email_setting|
+      notifications[email_setting] = (params[:email][email_setting] == '1')
+    end
+    current_user.update_attribute :email_notifications, notifications
+    redirect_to settings_path, :notice => 'Email settings saved.'
+  end
   
   def index
     @users = User.current

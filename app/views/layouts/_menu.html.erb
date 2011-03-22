@@ -5,7 +5,8 @@
       <div id="menu_user_settings" class="menu_dropdown_right" style="display:none">
         <div style="white-space:nowrap"><%= current_user.name %></div>
         <div class="quiet small"><%= current_user.email %></div>
-        <div><%= link_to 'Settings', authentications_path %></div>
+        <div><%= link_to 'Settings', settings_path %></div>
+        <div><%= link_to 'Authentications', authentications_path %></div>
         <hr>
         <div><%= link_to 'Logout', destroy_user_session_path %></div>
       </div>

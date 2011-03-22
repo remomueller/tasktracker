@@ -39,4 +39,9 @@ class Project < ActiveRecord::Base
     self.touch
   end
 
+  # Currently owner and user is the same (for stickies it's different)
+  def owner
+    self.user
+  end
+
 end

@@ -31,11 +31,15 @@ Notes::Application.routes.draw do
       # post :filtered
       post :search
     end
+    member do
+      post :update_settings
+    end
   end
 
   resources :authentications
   
   match "/about" => "sites#about", :as => :about
+  match "/settings" => "users#settings", :as => :settings
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
