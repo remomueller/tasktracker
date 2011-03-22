@@ -35,7 +35,7 @@ class Comment < ActiveRecord::Base
   
   def send_email
     @object = self.object_model.constantize.find_by_id(self.object_id)
-    all_users = (@object.comments.collect{|c| c.user} + [@object.user, @object.owner]).compact.uniq # - [self.user]
+    all_users = (@object.comments.collect{|c| c.user} + [@object.user, @object.owner]).compact.uniq - [self.user]
     all_users.each do |user_to_email|
       if user_to_email.active? and user_to_email.email_on?(:send_email) and
         ((self.object_model == 'Project' and user_to_email.email_on?(:project_comments) and user_to_email.email_on?("project_#{self.object_id}")) or
