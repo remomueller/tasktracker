@@ -2,58 +2,43 @@
 <h1><%= @title %></h1>
 
 <%= form_tag update_settings_user_path(current_user), :method => :post, :id => 'email_settings' do %>
-<fieldset>
-  <legend>Email Notifications</legend>
-  <div class="field">
-    <label>Emails</label><br />
-    <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email) %> <%= information('Receive Emails') %>
-  </div>
-  <br />
-  <hr />
-  <br />
-  <div class="field">
-    <b>Sticky Creation</b><br />
-    <%= check_box_tag 'email[sticky_creation]', '1', current_user.email_on?(:sticky_creation) %> <%= information("Receive email when a new sticky is created") %>
-  </div>
-  
-  <div class="field">
-    <b>Project Comments</b><br />
-    <%= check_box_tag 'email[project_comments]', '1', current_user.email_on?(:project_comments) %> <%= information("Receive email when a comment is added to a project") %>
-  </div>
-  
-  <div class="field">
-    <b>Sticky Comments</b><br />
-    <%= check_box_tag 'email[sticky_comments]', '1', current_user.email_on?(:sticky_comments) %> <%= information("Receive email when a comment is added to a sticky") %>
-  </div>
-  <br />
-  <hr />
-  <br />
-  <% current_user.all_viewable_projects.each do |project| %>
+  <fieldset>
+    <legend>Email Notifications</legend>
     <div class="field">
-      Project: <b><%= project.name %></b><br />
-      <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}") %> <%= information("Receive email for Project: #{project.name} ") %>
+      <label>Emails</label><br />
+      <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email) %> <%= information('Receive Emails') %>
     </div>
-  <% end %>
-</fieldset>
+    <br />
+    <hr />
+    <br />
+    <div class="field">
+      <b>Sticky Creation</b><br />
+      <%= check_box_tag 'email[sticky_creation]', '1', current_user.email_on?(:sticky_creation) %> <%= information("Receive email when a new sticky is created") %>
+    </div>
+  
+    <div class="field">
+      <b>Project Comments</b><br />
+      <%= check_box_tag 'email[project_comments]', '1', current_user.email_on?(:project_comments) %> <%= information("Receive email when a comment is added to a project") %>
+    </div>
+  
+    <div class="field">
+      <b>Sticky Comments</b><br />
+      <%= check_box_tag 'email[sticky_comments]', '1', current_user.email_on?(:sticky_comments) %> <%= information("Receive email when a comment is added to a sticky") %>
+    </div>
+    <br />
+    <hr />
+    <br />
+    <% current_user.all_viewable_projects.each do |project| %>
+      <div class="field">
+        Project: <b><%= project.name %></b><br />
+        <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}") %> <%= information("Receive email for Project: #{project.name} ") %>
+      </div>
+    <% end %>
+  </fieldset>
 
-<div class="actions">
-  <% form_name = "email_settings" %>
-  <%= link_to_function image_tag('icons/tick.png', :alt => '') + "Save Settings", "$('##{form_name}').submit();", :class => "button positive" %>
-	<br />
-</div>
-
+  <div class="actions">
+    <% form_name = "email_settings" %>
+    <%= link_to_function image_tag('icons/tick.png', :alt => '') + "Save Settings", "$('##{form_name}').submit();", :class => "button positive" %>
+  	<br />
+  </div>
 <% end %>
-
-
-
-Emails are currently sent when:
-  Comments are added to a sticky you've created or commented on.
-  Stickies are added to a project you can edit or view.
-
-Examples:
-  Don't send me any emails.
-  Don't send me emails for Project A.
-  Don't send me emails when stickies are created.
-    Don't send me emails when stickies are created on Project A.
-  Don't send me emails when comments are created.
-    Don't send me emails when comments are added on Project A.
