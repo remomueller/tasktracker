@@ -1,5 +1,5 @@
 <% [['planned', 'ongoing'], ['completed']].each do |status| %>
-  <% stickies = @project.stickies.status(status).order('end_date, start_date') %>
+  <% stickies = @project.stickies.status(status).order('end_date DESC, start_date DESC') %>
   <table width="100%">
     <tr>
       <th>ID</th>

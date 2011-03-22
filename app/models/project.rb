@@ -16,7 +16,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :project_users, :conditions => { :deleted => false }, :order => 'last_name, first_name'
   has_many :editors, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ? and users.deleted = ?', true, false]
   has_many :viewers, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ? and users.deleted = ?', false, false]
-  has_many :stickies, :conditions => { :deleted => false }, :order => 'stickies.created_at desc'
+  has_many :stickies, :conditions => { :deleted => false } #, :order => 'stickies.created_at desc'
 
   def destroy
     update_attribute :deleted, true
