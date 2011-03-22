@@ -44,11 +44,11 @@ class User < ActiveRecord::Base
 
   def all_projects
     @all_projects ||= begin
-      if self.system_admin?
-        Project.current.order('name')
-      else
+      # if self.system_admin?
+      #   Project.current.order('name')
+      # else
         Project.current.with_user(self.id, true).order('name')
-      end
+      # end
     end
   end
   
@@ -58,54 +58,51 @@ class User < ActiveRecord::Base
   
   def all_viewable_projects
     @all_viewable_projects ||= begin
-      if self.system_admin?
-        Project.current.order('name')
-      else
+      # if self.system_admin?
+      #   Project.current.order('name')
+      # else
         Project.current.with_user(self.id, [true, false]).order('name')
-      end
+      # end
     end
   end
   
   def all_stickies
     @all_stickies ||= begin
-      if self.system_admin?
-        Sticky.current.order('created_at DESC')
-      else
-        self.stickies
-      end
+      # if self.system_admin?
+      #   Sticky.current.order('created_at DESC')
+      # else
+        Sticky.current.with_project(self.all_projects.collect{|p| p.id}).order('created_at DESC')
+      # end
     end
   end
   
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
-      if self.system_admin?
-        Sticky.current.order('created_at DESC')
-      else
+      # if self.system_admin?
+      #   Sticky.current.order('created_at DESC')
+      # else
         Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}).order('created_at DESC')
-      end
+      # end
     end
   end
   
   def all_comments
     @all_comments ||= begin
-      if self.system_admin?
-        Comment.current.order('created_at DESC')
-      else
+      # if self.system_admin?
+      #   Comment.current.order('created_at DESC')
+      # else
         self.comments
-      end
+      # end
     end
   end
 
   def all_viewable_comments
     @all_viewable_comments ||= begin
-      if self.system_admin?
-        Comment.current.order('created_at DESC')
-      else
+      # if self.system_admin?
+      #   Comment.current.order('created_at DESC')
+      # else
         Comment.current.with_two_object_models_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
-        # project_comments = Comment.current.with_object_model('Project').with_object_id(self.all_viewable_projects.collect{|p| p.id}).order('created_at DESC')
-        # sticky_comments = Comment.current.with_object_model('Sticky').with_object_id(self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
-        # (project_comments | sticky_comments).sort{|a,b| b.created_at <=> a.created_at}
-      end
+      # end
     end
   end
 
