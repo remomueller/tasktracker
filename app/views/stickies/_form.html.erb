@@ -41,8 +41,8 @@
       <%= f.select :sticky_type, Sticky::STICKY_TYPE %>
     </div>
     <div class="field">
-      <%= f.label :start_date, :value => @sticky.start_date ? @sticky.start_date.strftime('%m/%d/%Y') : '' %><br />
-      <%= f.text_field :start_date %>
+      <%= f.label :start_date %><br />
+      <%= f.text_field :start_date, :value => @sticky.start_date ? @sticky.start_date.strftime('%m/%d/%Y') : '' %>
     </div>
     <div class="field">
       <%= f.label :end_date %><br />
