@@ -1,6 +1,6 @@
 <tr>
   <td colspan="2"></td>
-  <td colspan="4">
+  <td colspan="5">
     <% width = '98%' %>
     <% class_name = @object.class.name.downcase %>
     <% form_name = "#{class_name}_#{@object.id}_comment_#{@position}_form" %>
@@ -17,7 +17,7 @@
 <% @object.comments.each do |comment| %>
   <tr>
     <td colspan="2"></td>
-    <td colspan="3"><span class="quiet"><%= comment.user.name %>:</span><pre><%= comment.description %></pre></td>
+    <td colspan="4"><span class="quiet"><%= comment.user.name %>:</span><pre><%= comment.description %></pre></td>
     <td></td>
   </tr>
 <% end %>
