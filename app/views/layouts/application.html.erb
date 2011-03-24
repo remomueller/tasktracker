@@ -2,7 +2,7 @@
 <html>
 <head>
 <% if false %><title>Notes | version <%= Notes::VERSION::STRING %></title><% end %>
-  <title><%= ["#{DEFAULT_APP_NAME} #{Notes::VERSION::STRING}", @title].compact.join(' - ') %></title>
+  <title><%= ["#{DEFAULT_APP_NAME} #{Notes::VERSION::STRING}", @title].compact.join(' - ').html_safe %></title>
   <%= favicon_link_tag %>
   <%#= stylesheet_link_tag :all %>
   <%= stylesheet_link_tag 'screen', :media => 'screen, projection' %>

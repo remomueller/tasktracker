@@ -1,5 +1,5 @@
 <% @title = "Sticky: #{@sticky.name}" %>
-<h1><%= @title %></h1>
+<h1><% if @sticky.project %><%= link_to @sticky.project.name, @sticky.project %> &raquo;<% end %><%= @title %></h1>
 
 <%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Sticky", edit_sticky_path(@sticky), :class => 'button' if current_user.all_stickies.include?(@sticky) %>
 <%= link_to image_tag('icons/mydocuments.png', :alt => '') + "View All Stickies", stickies_path, :class => 'button' %>
@@ -13,11 +13,12 @@
   <b>Creator:</b>
   <%= link_to @sticky.user.name, @sticky.user %>
 </p>
-
+<% if false %>
 <p>
   <b>Project:</b>
   <%= link_to @sticky.project.name, @sticky.project if @sticky.project %>
 </p>
+<% end %>
 
 <% if @sticky.sticky %>
 <p>
