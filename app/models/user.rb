@@ -56,7 +56,7 @@ class User < ActiveRecord::Base
       # if self.system_admin?
       #   Project.current.order('name')
       # else
-        Project.current.with_user(self.id, true).order('name')
+        Project.current.with_user(self.id, true) #.order('name')
       # end
     end
   end
@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
       # if self.system_admin?
       #   Project.current.order('name')
       # else
-        Project.current.with_user(self.id, [true, false]).order('name')
+        Project.current.with_user(self.id, [true, false]) #.order('name')
       # end
     end
   end

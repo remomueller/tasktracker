@@ -12,69 +12,12 @@
 </ul>
 <% end %>
 
-<table style="width:100%">
-  <tr>
-    <th>Name</th>
-    <th>User</th>
-    <th>Current Stickies</th>
-    <th>Unseen Comments</th>
-    <th>Editors/Viewers</th>
-    <th>Status</th>
-    <th>Last Update</th>
-  </tr>
-
-<% current_user.all_viewable_projects.order('name').each do |@project| %>
-  <tr>
-    <td><%= link_to @project.name, @project %></td>
-    <td><%= link_to @project.user.name, @project.user %></td>
-    <td><%= @project.stickies.status(['planned', 'ongoing']).size %> <%#= link_to 'new sticky', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></td>
-    <td><%= @project.all_comments.size %></td>
-    <td>
-      <%= @project.editors.collect{|user| link_to user.name, user}.join("<br />").html_safe %><br />
-      <%= @project.viewers.collect{|user| link_to user.name, user}.join("<br />").html_safe %>
-    </td>
-    <td style="vertical-align:middle"><%= display_status(@project.status) %></td>
-    <td><%= recent_activity(@project.updated_at) %></td>
-  </tr>
-  <% comment = @project.all_comments(1).first %>
-  <% if comment %>
-  <tr>
-    <td></td>
-    <td colspan="5" style="overflow:hidden;white-space:nowrap">
-      <%= link_to comment.user.name, comment.user %> -
-      <%# comment.description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' %>
-      <%= truncate(comment.description, :length => 100, :separator => ' ', :omission => " ... #{link_to 'continued', comment}").html_safe %>
-    </td>
-    <td>
-      <% if comment.created_at.to_date == Date.today %>
-        <%= comment.created_at.strftime("at %I:%M %p") %>
-      <% else %>
-        <%= comment.created_at.strftime("on %b %d, %Y at %I:%M %p") %>
-      <% end %>
-    </td>
-  </tr>
-  <% end %>
-  <% if false %>
-  <tr>
-    <td></td>
-    <td colspan="6">
-      <% sticky = @project.stickies.status(['planned', 'ongoing']).limit(1).first %>
-      <%= sticky.description if sticky %>
-    </td>
-    <td>
-      <% if sticky %>
-      <% if sticky.created_at.to_date == Date.today %>
-        <%= sticky.created_at.strftime("at %I:%M %p") %>
-      <% else %>
-        <%= sticky.created_at.strftime("on %b %d, %Y at %I:%M %p") %>
-      <% end %>
-      <% end %>
-    </td>
-  </tr>
-  <% end %>
+<%= form_tag root_path, :method => :get, :remote => true, :id => 'search_form' do %>
+  <%= hidden_field_tag :order %>
+  <div id="projects_container">
+    <%= render :partial => 'projects/index' %>
+  </div>
 <% end %>
-</table>
-
 
 <% if false %>
 <hr>

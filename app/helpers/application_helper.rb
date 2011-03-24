@@ -35,4 +35,14 @@ module ApplicationHelper
     result.html_safe
   end
   
+  def sort_field_helper(order, sort_field, display_name)
+    result = ''
+    if order == sort_field
+      result = "<span class='selected' style='color:#DD6767;'>#{display_name} #{ link_to_function('&raquo;'.html_safe, "$('#order').val('#{sort_field} DESC');$('#search_form').submit();", :style => 'text-decoration:none')}</span>"
+    elsif order == sort_field + ' DESC' or order.split(' ').first != sort_field
+      result = "<span class='selected' #{'style="color:#DD6767;"' if order == sort_field + ' DESC'}>#{display_name} #{link_to_function((order == sort_field + ' DESC' ? '&laquo;'.html_safe : '&laquo;&raquo;'.html_safe), "$('#order').val('#{sort_field}');$('#search_form').submit();", :style => 'text-decoration:none')}</span>"
+    end
+    result
+  end
+  
 end
