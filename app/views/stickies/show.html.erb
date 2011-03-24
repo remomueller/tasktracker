@@ -1,5 +1,12 @@
 <% @title = "Sticky: #{@sticky.name}" %>
-<h1><% if @sticky.project %><%= link_to @sticky.project.name, @sticky.project %> &raquo;<% end %><%= @title %></h1>
+<h1>
+  <table class="status-table">
+    <tr>
+      <td><% if @sticky.project %><%= link_to @sticky.project.name, @sticky.project %> &raquo;<% end %><%= @title %> &raquo;</td>
+      <td style="vertical-align:top;padding:0 0 0 3px"><%= display_status(@sticky.status) %></td>
+    </tr>
+  </table>
+</h1>
 
 <%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Sticky", edit_sticky_path(@sticky), :class => 'button' if current_user.all_stickies.include?(@sticky) %>
 <%= link_to image_tag('icons/mydocuments.png', :alt => '') + "View All Stickies", stickies_path, :class => 'button' %>
@@ -27,10 +34,12 @@
 </p>
 <% end %>
 
+<% if false %>
 <p>
   <b>Status:</b>
   <%= @sticky.status %>
 </p>
+<% end %>
 
 <% if @sticky.owner %>
   <p>

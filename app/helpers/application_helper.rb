@@ -25,11 +25,11 @@ module ApplicationHelper
   def display_status(status)
     result = '<table class="status-table" width="100%"><tr>'
     case status when 'planned'
-      result << "<td><div class=\"status_marked planned\">P</div></td><td><div class=\"status_unmarked\">O</div></td><td><div class=\"status_unmarked\">C</div></td>"
+      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_unmarked\" title=\"Ongoing\">O</div></td><td><div class=\"status_unmarked\" title=\"Completed\">C</div></td>"
     when 'ongoing'
-      result << "<td><div class=\"status_marked planned\">P</div></td><td><div class=\"status_marked ongoing\">O</div></td><td><div class=\"status_unmarked\">C</div></td>"
+      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_marked ongoing\" title=\"Ongoing\">O</div></td><td><div class=\"status_unmarked\" title=\"Completed\">C</div></td>"
     when 'completed'
-      result << "<td><div class=\"status_marked planned\">P</div></td><td><div class=\"status_marked ongoing\">O</div></td><td><div class=\"status_marked completed\">C</div></td>"
+      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_marked ongoing\" title=\"Ongoing\">O</div></td><td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
     end
     result << '</tr></table>'
     result.html_safe

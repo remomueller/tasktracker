@@ -1,5 +1,12 @@
 <% @title = "Project: #{@project.name}" %>
-<h1><%= @title %></h1>
+<h1>
+  <table class="status-table">
+    <tr>
+      <td><%= @title %> &raquo;</td>
+      <td style="vertical-align:top;padding:0 0 0 3px"><%= display_status(@project.status) %></td>
+    </tr>
+  </table>
+</h1>
 
 <%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Project", edit_project_path(@project), :class => 'button' if current_user.all_projects.include?(@project) %>
 <%= link_to image_tag('icons/mydocuments.png', :alt => '') + "View All Projects", projects_path, :class => 'button' %>
@@ -15,11 +22,12 @@
   <%= link_to @project.user.name, @project.user %>
 </p>
 
-
+<% if false %>
 <p>
   <b>Status:</b>
   <%= @project.status %>
 </p>
+<% end %>
 
 <p>
   <b>Time Period:</b>
