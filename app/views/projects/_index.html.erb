@@ -9,7 +9,8 @@
     <th><%== sort_field_helper(@order, 'updated_at', 'Last Update') %></th>
   </tr>
 
-<% @projects.each do |@project| %>
+<% @projects.each do |project| %>
+  <% @project = project %>
   <tr>
     <td><%= link_to @project.name, @project %></td>
     <td><%= link_to @project.user.name, @project.user %></td>

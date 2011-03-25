@@ -34,7 +34,8 @@
   <%= @project.start_date %> to <%= @project.end_date %>
 </p>
 
-<% ['editors', 'viewers'].each do |@relation, @allow_editing| %>
+<% ['editors', 'viewers'].each do |relation, allow_editing| %>
+  <% @relation = relation; @allow_editing = allow_editing %>
   <% @users = User.current.order('last_name, first_name') %>
   <p>
     <div id="<%= @relation %>_list"><%= render :partial => 'project_users/index' %></div>
