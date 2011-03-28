@@ -13,6 +13,9 @@ module OmniAuth
           end
           
           @ldap_user_info = @adaptor.search(:base => @adaptor.base, :filter => Net::LDAP::Filter.eq(@adaptor.uid, request.POST['username'].split('\\').last.to_s),:limit => 1)
+          @ldap_user_info.each do |key, val|
+            @ldap_user_info[key] = val.first if val.class == Array and val.size == 1
+          end
           Rails.logger.debug "LDAP USER INFO #{@ldap_user_info.inspect}"
           @user_info = self.class.map_user(@@config, @ldap_user_info)
           Rails.logger.debug "USER INFO #{@user_info.inspect}"
