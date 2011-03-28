@@ -1,5 +1,7 @@
 Notes::Application.routes.draw do
 
+  resources :frames
+
   resources :project_users
 
   resources :comments do
