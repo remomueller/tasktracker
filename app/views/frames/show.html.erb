@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Project:</b>
+  <%= @frame.project_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @frame.user_id %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @frame.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @frame.description %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @frame.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @frame.end_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_frame_path(@frame) %> |
+<%= link_to 'Back', frames_path %>
