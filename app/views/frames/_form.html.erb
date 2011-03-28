@@ -1,3 +1,4 @@
+<% width = '914px' %>
 <%= form_for(@frame) do |f| %>
   <% if @frame.errors.any? %>
     <div id="error_explanation">
@@ -11,31 +12,34 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :project_id %><br />
-    <%= f.text_field :project_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :start_date %><br />
-    <%= f.date_select :start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :end_date %><br />
-    <%= f.date_select :end_date %>
-  </div>
+  <fieldset>
+    <legend><%= @title %></legend>
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :project_id %><br />
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @frame.project_id) %>
+    </div>
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
+    </div>
+    <div class="field">
+      <%= f.label :start_date %><br />
+      <%= f.text_field :start_date, :class => 'datepicker', :value => @frame.start_date ? @frame.start_date.strftime('%m/%d/%Y') : '' %>
+    </div>
+    <div class="field">
+      <%= f.label :end_date %><br />
+      <%= f.text_field :end_date, :class => 'datepicker', :value => @frame.end_date ? @frame.end_date.strftime('%m/%d/%Y') : '' %>
+    </div>
+  </fieldset>
+  
   <div class="actions">
-    <%= f.submit %>
+    <% form_name = @frame.new_record? ? 'new_frame' : "edit_frame_#{@frame.id}" %>
+    <%= link_to_function image_tag('icons/tick.png', :alt => '') + (@frame.new_record? ? "Create Frame" : "Update Frame"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= cancel %>
+		<br />
   </div>
 <% end %>

@@ -26,7 +26,6 @@ class StickiesController < ApplicationController
 
   def new
     @sticky = current_user.stickies.new(params[:sticky])
-    logger.debug "#{@sticky.inspect}"
   end
 
   def edit
@@ -60,7 +59,7 @@ class StickiesController < ApplicationController
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       @sticky.destroy
-      redirect_to(stickies_url)
+      redirect_to stickies_path
     else
       redirect_to root_path
     end

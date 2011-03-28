@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   # Model Relationships
   has_many :authentications
   has_many :projects, :conditions => {:deleted => false}, :order => 'name'
+  has_many :frames, :conditions => {:deleted => false}, :order => 'created_at'
   has_many :stickies, :conditions => {:deleted => false}, :order => 'created_at'
   has_many :comments, :conditions => {:deleted => false}, :order => 'created_at DESC'
 
@@ -53,11 +54,7 @@ class User < ActiveRecord::Base
 
   def all_projects
     @all_projects ||= begin
-      # if self.system_admin?
-      #   Project.current.order('name')
-      # else
-        Project.current.with_user(self.id, true) #.order('name')
-      # end
+      Project.current.with_user(self.id, true) #.order('name')
     end
   end
   
@@ -67,51 +64,43 @@ class User < ActiveRecord::Base
   
   def all_viewable_projects
     @all_viewable_projects ||= begin
-      # if self.system_admin?
-      #   Project.current.order('name')
-      # else
-        Project.current.with_user(self.id, [true, false]) #.order('name')
-      # end
+      Project.current.with_user(self.id, [true, false]) #.order('name')
     end
   end
   
   def all_stickies
     @all_stickies ||= begin
-      # if self.system_admin?
-      #   Sticky.current.order('created_at DESC')
-      # else
-        Sticky.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
-      # end
+      Sticky.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
   
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
-      # if self.system_admin?
-      #   Sticky.current.order('created_at DESC')
-      # else
-        Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
-      # end
+      Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+    end
+  end
+  
+  def all_frames
+    @all_frames ||= begin
+      Frame.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+    end
+  end
+  
+  def all_viewable_frames
+    @all_viewable_frames ||= begin
+      Frame.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
   
   def all_comments
     @all_comments ||= begin
-      # if self.system_admin?
-      #   Comment.current.order('created_at DESC')
-      # else
-        self.comments
-      # end
+      self.comments
     end
   end
 
   def all_viewable_comments
     @all_viewable_comments ||= begin
-      # if self.system_admin?
-      #   Comment.current.order('created_at DESC')
-      # else
-        Comment.current.with_two_object_models_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
-      # end
+      Comment.current.with_two_object_models_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
     end
   end
 

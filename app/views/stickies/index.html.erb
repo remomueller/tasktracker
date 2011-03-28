@@ -18,7 +18,7 @@
 
 <% @stickies.each do |sticky| %>
   <tr>
-    <td><%= link_to sticky.name, sticky %> <%= sticky.sticky_type %></td>
+    <td style="white-space:nowrap"><%= link_to sticky.name, sticky %><% if false %> <%= sticky.sticky_type %><% end %></td>
     <td><%= link_to sticky.user.name, sticky.user %></td>
     <td><%= link_to sticky.project.name, sticky.project if sticky.project %></td>
     <% if false %>

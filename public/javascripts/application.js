@@ -6,11 +6,7 @@ function createSpinner() {
 }
 
 $(function(){
-  $("#project_start_date").datepicker();
-  $("#project_end_date").datepicker();
-  $("#sticky_start_date").datepicker();
-  $("#sticky_end_date").datepicker();
-  
+  $(".datepicker").datepicker({ showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true });  
   $("#ui-datepicker-div").hide();
   
   $(".pagination a").live("click", function() {
@@ -26,6 +22,16 @@ $(function(){
     return false;
   });
   
+  $(".field_with_errors input, .field_with_errors_cleared input, .field_with_errors textarea, .field_with_errors_cleared textarea").change(function() {
+    var el = $(this);
+    if(el.val() != '' && el.val() != null){
+      $(el).parent().removeClass('field_with_errors');
+      $(el).parent().addClass('field_with_errors_cleared');
+    }else{
+      $(el).parent().removeClass('field_with_errors_cleared');
+      $(el).parent().addClass('field_with_errors');
+    }
+  });
 });
 
 // document.observe("dom:loaded", function() {

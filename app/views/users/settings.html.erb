@@ -28,7 +28,7 @@
     <br />
     <hr />
     <br />
-    <% current_user.all_viewable_projects.each do |project| %>
+    <% current_user.all_viewable_projects.order('name').each do |project| %>
       <div class="field">
         Project: <b><%= project.name %></b><br />
         <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}") %> <%= information("Receive email for Project: #{project.name} ") %>

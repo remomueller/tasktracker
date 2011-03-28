@@ -1,83 +1,53 @@
 class FramesController < ApplicationController
-  # GET /frames
-  # GET /frames.xml
+  before_filter :authenticate_user!
+
   def index
-    @frames = Frame.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @frames }
-    end
+    @frames = current_user.all_viewable_frames
   end
 
-  # GET /frames/1
-  # GET /frames/1.xml
   def show
-    @frame = Frame.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @frame }
-    end
+    @frame = current_user.all_viewable_frames.find_by_id(params[:id])
+    redirect_to root_path unless @frame
   end
 
-  # GET /frames/new
-  # GET /frames/new.xml
   def new
-    @frame = Frame.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @frame }
-    end
+    @frame = current_user.frames.new(params[:frame])
   end
 
-  # GET /frames/1/edit
   def edit
-    @frame = Frame.find(params[:id])
+    @frame = current_user.all_frames.find_by_id(params[:id])
+    redirect_to root_path unless @frame
   end
 
-  # POST /frames
-  # POST /frames.xml
   def create
-    @frame = Frame.new(params[:frame])
-
-    respond_to do |format|
-      if @frame.save
-        format.html { redirect_to(@frame, :notice => 'Frame was successfully created.') }
-        format.xml  { render :xml => @frame, :status => :created, :location => @frame }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @frame.errors, :status => :unprocessable_entity }
-      end
+    @frame = current_user.frames.new(params[:frame])
+    if @frame.save
+      redirect_to(@frame, :notice => 'Frame was successfully created.')
+    else
+      render :action => "new"
     end
   end
 
-  # PUT /frames/1
-  # PUT /frames/1.xml
   def update
-    @frame = Frame.find(params[:id])
-
-    respond_to do |format|
+    @frame = current_user.all_frames.find_by_id(params[:id])
+    if @frame
       if @frame.update_attributes(params[:frame])
-        format.html { redirect_to(@frame, :notice => 'Frame was successfully updated.') }
-        format.xml  { head :ok }
+        redirect_to(@frame, :notice => 'Frame was successfully updated.')
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @frame.errors, :status => :unprocessable_entity }
+        render :action => "edit"
       end
+    else
+      redirect_to root_path
     end
   end
 
-  # DELETE /frames/1
-  # DELETE /frames/1.xml
   def destroy
-    @frame = Frame.find(params[:id])
-    @frame.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(frames_url) }
-      format.xml  { head :ok }
+    @frame = current_user.all_frames.find_by_id(params[:id])
+    if @frame
+      @frame.destroy
+      redirect_to frames_path
+    else
+      redirect_to root_path
     end
   end
 end

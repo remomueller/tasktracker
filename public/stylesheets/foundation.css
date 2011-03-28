@@ -244,6 +244,28 @@ div.menu_dropdown_left, div.menu_dropdown_left_center {
   margin-bottom: 10px;
 }
 
+.field_with_errors, .field_with_errors_cleared {
+  display: inline;
+}
+
+.field_with_errors input, .field_with_errors textarea {
+  background-color: #FB4E50;
+}
+
+.fieldset_with_errors {
+  background-color: #F9E8E8;
+  border-color: #FB4E50;
+}
+
+.fieldset_with_errors legend {
+  background-color: #F9E8E8;
+  border: 1px solid #FB4E50;
+}
+
+.field_with_errors_cleared input, .field_with_errors_cleared textarea {
+/*  background-color: #66FF66;*/
+}
+
 .comment_box {
   margin-left:20px;
 }
