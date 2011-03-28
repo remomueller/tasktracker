@@ -22,6 +22,10 @@
       <%= f.label :project_id %><br />
       <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @sticky.project_id) %>
     </div>
+    <div class="field">
+      <%= f.label :frame_id %><br />
+      <%= f.select :frame_id, options_for_select([['Backlog', nil]] + current_user.all_frames.collect{|f| [f.project.name + ": " + f.name, f.id]}, @sticky.frame_id) %>
+    </div>
     <% if false %>
     <div class="field">
       <%= f.label :sticky_id %><br />

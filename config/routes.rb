@@ -18,6 +18,9 @@ Notes::Application.routes.draw do
   end
   
   resources :stickies do
+    collection do
+      get :search
+    end
     member do
       post :add_comment
     end

@@ -21,7 +21,13 @@ class ProjectsController < ApplicationController
 
   def show
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
-    redirect_to root_path unless @project
+    if @project
+      @frame = Frame.find_by_id(params[:frame_id] || 'backlog')
+      stickies_scope = @project.stickies
+      @stickies = stickies_scope.with_frame(params[:frame_id] || 'backlog').order('end_date DESC, start_date DESC').page(params[:page]).per(10)
+    else
+      redirect_to root_path
+    end
   end
 
   def new
@@ -34,6 +40,9 @@ class ProjectsController < ApplicationController
   end
 
   def create
+    params[:project][:start_date] = Date.strptime(params[:project][:start_date], "%m/%d/%Y") if params[:project] and not params[:project][:start_date].blank?
+    params[:project][:end_date] = Date.strptime(params[:project][:end_date], "%m/%d/%Y") if params[:project] and not params[:project][:end_date].blank?
+    
     @project = current_user.projects.new(params[:project])
     if @project.save
       redirect_to(@project, :notice => 'Project was successfully created.')
@@ -43,6 +52,9 @@ class ProjectsController < ApplicationController
   end
 
   def update
+    params[:project][:start_date] = Date.strptime(params[:project][:start_date], "%m/%d/%Y") if params[:project] and not params[:project][:start_date].blank?
+    params[:project][:end_date] = Date.strptime(params[:project][:end_date], "%m/%d/%Y") if params[:project] and not params[:project][:end_date].blank?
+    
     @project = current_user.all_projects.find_by_id(params[:id])
     if @project
       if @project.update_attributes(params[:project])

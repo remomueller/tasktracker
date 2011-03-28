@@ -32,6 +32,12 @@ $(function(){
       $(el).parent().addClass('field_with_errors');
     }
   });
+  
+  $("#stickies_search input, #stickies_search select").change(function() {
+    $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
+    return false;
+  });
+  
 });
 
 // document.observe("dom:loaded", function() {
@@ -97,6 +103,36 @@ function showMessage(elements){
 function toggleSticky(element){
   $(element).toggle();
   $(element+'_description').toggleClass('collapsed');
+}
+
+function increaseSelectedIndex(element){
+  var num_options = $(element + ' option').size()
+  var element = $(element);
+  var next_index = 0;
+  if(element.attr('selectedIndex') <= 0){
+    return false;
+    // next_index = num_options - 1;
+  }else{
+    next_index = element.attr('selectedIndex') - 1;
+  }
+  element.attr('selectedIndex', next_index);
+  // element.selectedIndex = next_index;
+  element.change();
+}
+
+function decreaseSelectedIndex(element){
+  var num_options = $(element + ' option').size()
+  var element = $(element);
+  var next_index = 0;
+  if(element.attr('selectedIndex') < num_options - 1){
+    next_index = element.attr('selectedIndex') + 1;
+  }else{
+    return false;
+    // next_index = element.attr('selectedIndex') - 1;
+  }
+  element.attr('selectedIndex', next_index);
+  // element.selectedIndex = next_index;
+  element.change();
 }
 
 // function genericSearchRequest(url, token, form, params){
