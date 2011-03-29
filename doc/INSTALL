@@ -1,6 +1,7 @@
 # Title: Installing Notes
 # Author: Remo Mueller rmueller@rics.bwh.harvard.edu
-# Date: 17 February 2011
+# Created: 17 February 2011
+# Updated: 29 March 2011
 
 
 1) Installing Notes and dependencies
@@ -26,7 +27,7 @@
   
     cd /usr/local/notes
 
-    git clone git@agile.dipr.partners.org:notes.git .
+    git clone git@github.com:remomueller/notes.git .
     
     bundle install
 
