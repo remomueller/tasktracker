@@ -38,6 +38,11 @@ $(function(){
     return false;
   });
   
+  $("#sticky_project_id").change(function(){
+    $.get(root_url + '/frames/selection', $("#sticky_project_id").serialize(), null, "script")
+    return false;
+  });
+  
 });
 
 // document.observe("dom:loaded", function() {

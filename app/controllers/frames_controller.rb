@@ -1,6 +1,16 @@
 class FramesController < ApplicationController
   before_filter :authenticate_user!
 
+  def selection
+    @sticky = Sticky.new
+    @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
+    if @project
+      @project_id = @project.id
+    else
+      render :nothing => true
+    end
+  end
+
   def index
     @frames = current_user.all_viewable_frames
   end

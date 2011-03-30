@@ -1,6 +1,10 @@
 Notes::Application.routes.draw do
 
-  resources :frames
+  resources :frames do
+    collection do
+      get :selection
+    end
+  end
 
   resources :project_users
 

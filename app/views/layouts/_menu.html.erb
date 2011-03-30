@@ -19,7 +19,7 @@
       <div id="menu_home" class="menu_dropdown_left" style="display:none">
         <div><%= link_to 'Home', root_path %></div>
         <div><%= link_to 'Projects', projects_path %></div>
-        <div><%= link_to 'Frames', projects_path %></div>
+        <div><%= link_to 'Frames', frames_path %></div>
         <div><%= link_to 'Stickies', stickies_path %></div>
         <div><%= link_to 'Comments', comments_path %></div>
         <% if current_user.system_admin? %><hr><div><%= link_to 'Users', users_path %></div><% end %>

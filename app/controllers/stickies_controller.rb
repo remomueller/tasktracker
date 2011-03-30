@@ -50,6 +50,7 @@ class StickiesController < ApplicationController
 
   def edit
     @sticky = current_user.all_stickies.find_by_id(params[:id])
+    @project_id = @sticky.project_id
     redirect_to root_path unless @sticky
   end
 
