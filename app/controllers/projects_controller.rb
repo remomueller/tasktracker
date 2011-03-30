@@ -16,7 +16,7 @@ class ProjectsController < ApplicationController
   end
   
   def index
-    @projects = current_user.all_viewable_projects
+    @projects = current_user.all_viewable_projects.order('name')
   end
 
   def show
