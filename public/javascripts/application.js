@@ -39,7 +39,7 @@ $(function(){
   });
   
   $("#sticky_project_id").change(function(){
-    $.get(root_url + '/frames/selection', $("#sticky_project_id").serialize(), null, "script")
+    $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize(), null, "script")
     return false;
   });
   

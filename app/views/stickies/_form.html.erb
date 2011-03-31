@@ -23,7 +23,7 @@
       <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @sticky.project_id) %>
     </div>
     <div class="field" id="frame_selection_container">
-      <%= render :partial => 'frames/selection' %>
+      <%= render :partial => 'projects/frame_selection' %>
     </div>
     <% if false %>
     <div class="field">
@@ -35,10 +35,11 @@
       <%= f.label :status %><br />
       <%= f.select :status, Sticky::STATUS %>
     </div>
-    <div class="field">
-      <%= f.label :owner_id, 'Assigned To' %><br />
-      <%= f.select :owner_id, options_for_select([['----', nil]] + User.current.order('last_name, first_name').collect{|u| [u.rev_name, u.id]}, @sticky.owner_id) %>
+    
+    <div class="field" id="owner_selection_container">
+      <%= render :partial => 'projects/user_selection' %>
     </div>
+    
     <% if false %>
     <div class="field">
       <%= f.label :sticky_type %><br />
