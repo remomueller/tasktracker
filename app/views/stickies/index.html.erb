@@ -1,5 +1,19 @@
 <h1>Listing stickies</h1>
+<%= form_tag stickies_path, :method => :get, :id => "stickies_search" do %>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+<% end %>
+<div id="stickies"></div>
 
+<% content_for :script do %>
+  <%= javascript_tag do %>
+    $(function(){
+      $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
+    });
+  <% end %>
+<% end %>
+
+
+<% if false %>
 <table>
   <tr>
     <th>Name</th>
@@ -41,3 +55,4 @@
 <br />
 
 <%= link_to 'New Sticky', new_sticky_path %>
+<% end %>

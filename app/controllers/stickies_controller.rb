@@ -34,9 +34,12 @@ class StickiesController < ApplicationController
       render :nothing => true
     end
   end
-  
+    
   def index
-    @stickies = current_user.all_viewable_stickies
+      stickies_scope = current_user.all_viewable_stickies
+      @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+      @search_terms.each{|search_term| stickies_scope = stickies_scope.search(search_term) }
+      @stickies = stickies_scope.page(params[:page]).per(10)
   end
 
   def show
