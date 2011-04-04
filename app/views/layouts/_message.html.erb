@@ -1,20 +1,6 @@
-<% if false %>
-<div id="msg_notice" class="notice" style="display:none">Lorem llit anim id est laborum.</div>
-<div id="msg_warning" class="error" style="display:none">Some amazing error, oh no!!!!</div>
-<%= javascript_tag "showMessage(['#msg_notice', '#msg_warning']);" %>
-<% end %>
-
 <% unless notice.blank? %>
   <div id="msg_notice" class="notice" style="display:none"><%= notice %></div>
   <%= javascript_tag "showMessage(['#msg_notice']);" %>
-<% end %>
-<% unless flash[:warning].blank? %>
-  <div id="msg_warning" class="error" style="display:none"><%= flash[:warning].humanize %></div>
-  <%= javascript_tag "showMessage(['#msg_warning']);" %>
-<% end %>
-<% unless flash[:error].blank? %>
-  <div id="msg_error" class="error" style="display:none"><%= flash[:error].humanize %></div>
-  <%= javascript_tag "showMessage(['#msg_error']);" %>
 <% end %>
 <% unless alert.blank? %>
   <div id="msg_alert" class="error" style="display:none"><%= alert %></div>
