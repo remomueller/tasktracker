@@ -1,12 +1,12 @@
 <table style="width:100%">
   <tr>
-    <th><%== sort_field_helper(@order, 'name', 'Name') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'name', 'Name') %></th>
     <th>User</th>
     <th>Current Stickies</th>
     <th>Unseen Comments</th>
     <th>Editors/Viewers</th>
     <th>Status</th>
-    <th><%== sort_field_helper(@order, 'updated_at', 'Last Update') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'updated_at', 'Last Update') %></th>
   </tr>
 
 <% @projects.each do |project| %>
