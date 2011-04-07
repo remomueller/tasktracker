@@ -22,7 +22,7 @@ module OmniAuth
           @env['REQUEST_METHOD'] = 'GET'
           @env['PATH_INFO'] = "#{OmniAuth.config.path_prefix.split('/').last}/#{name}/callback"
           @env['omniauth.auth'] = {'provider' => 'ldap', 'uid' => @user_info['uid'], 'user_info' => @user_info}
-          Rails.logger.debug "ENV: " + @env.inspect
+          # Rails.logger.debug "ENV: " + @env.inspect
 
         rescue Exception => e
           Rails.logger.info "Exception #{e.inspect}"
@@ -48,6 +48,36 @@ module OmniAuth
           hidden_field 'domain', domain
         end.to_response
       end
+      
+      def self.map_user mapper, object
+		  	user = {}
+		    mapper.each do |key, value|
+		      case value
+		        when String
+		          if object[value.downcase.to_sym]
+		            if object[value.downcase.to_sym].kind_of?(Array)
+		              user[key] = object[value.downcase.to_sym].join(', ')
+	              else
+		              user[key] = object[value.downcase.to_sym].to_s 
+	              end
+	            end
+		        when Array
+              # value.each {|v| (user[key] = object[v.downcase.to_sym].to_s; break;) if object[v.downcase.to_sym]}
+              value.each {|v| (user[key] = object[v.downcase.to_sym].join(', '); break;) if object[v.downcase.to_sym]}
+		        when Hash
+		        	value.map do |key1, value1|
+			        	pattern = key1.dup
+			        	value1.each_with_index do |v,i|
+			          	part = '';
+			          	v.each {|v1| (part = object[v1.downcase.to_sym].to_s; break;) if object[v1.downcase.to_sym]}
+			        		pattern.gsub!("%#{i}",part||'') 
+			        	end	
+			        	user[key] = pattern
+		       		end
+		        end
+		      end
+		    user
+		  end
       
     end
   end
