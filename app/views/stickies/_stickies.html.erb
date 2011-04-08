@@ -1,0 +1,41 @@
+<%# [['planned', 'ongoing'], ['completed']].each do |status| %>
+  <%# stickies = @project.stickies.status(status).order('end_date DESC, start_date DESC') %>
+  <%# stickies = @stickies.status(status) %>
+  
+    <%#= information %>
+
+  <table width="100%">
+    <tr>
+      <th>ID</th>
+      <th>Comments</th>
+      <th>Name/Description</th>
+      <th>Status</th>
+      <th style="white-space:nowrap">Assigned To</th>
+<% if false %>      <th style="white-space:nowrap">End Date</th> <% end %>
+      <th></th>
+    </tr>
+
+  <% @stickies.each do |sticky| %>
+    <% @object = sticky %>
+    <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+    <tbody>
+      <tr>
+        <td style="white-space:nowrap"><%= link_to sticky.name, sticky %></td>
+        <td style="white-space:nowrap;text-align:center"><%= link_to_function "+ (#{sticky.comments.size})", "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}');" %></td>
+        <td><div style="width:400px"><pre class="collapsed" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_description"><%= sticky.description %></pre></div></td>
+        <td style="white-space:nowrap;vertical-align:middle"><%= display_status(sticky.status) %></td>
+        <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
+<% if false %>        <td style="text-align:center"><% if false %><%= sticky.start_date %><br />to<br /><% end %><%= sticky.end_date %></td><% end %>
+        <td style="vertical-align:middle"><%= link_to image_tag('icons/edit.png', :alt => ''), edit_sticky_path(sticky) if current_user.all_projects.include?(@project) %></td>
+      </tr>
+    </tbody>
+    <tbody id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" style="display:none">
+      <%= render :partial => 'comments/index_table' %>
+    </tbody>
+  <% end %>
+  </table>
+<%# end %>
+
+<center>
+<%= paginate @stickies %>
+</center>

@@ -6,11 +6,7 @@ function createSpinner() {
 }
 
 $(function(){
-  $("#project_start_date").datepicker();
-  $("#project_end_date").datepicker();
-  $("#sticky_start_date").datepicker();
-  $("#sticky_end_date").datepicker();
-  
+  $(".datepicker").datepicker({ showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true });  
   $("#ui-datepicker-div").hide();
   
   $(".pagination a").live("click", function() {
@@ -23,6 +19,27 @@ $(function(){
   $("#comments_search input").change(function() {
   // $("#comments_search input").keyup(function() {
     $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
+    return false;
+  });
+  
+  $(".field_with_errors input, .field_with_errors_cleared input, .field_with_errors textarea, .field_with_errors_cleared textarea").change(function() {
+    var el = $(this);
+    if(el.val() != '' && el.val() != null){
+      $(el).parent().removeClass('field_with_errors');
+      $(el).parent().addClass('field_with_errors_cleared');
+    }else{
+      $(el).parent().removeClass('field_with_errors_cleared');
+      $(el).parent().addClass('field_with_errors');
+    }
+  });
+  
+  $("#stickies_search input, #stickies_search select").change(function() {
+    $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
+    return false;
+  });
+  
+  $("#sticky_project_id").change(function(){
+    $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize(), null, "script")
     return false;
   });
   
@@ -91,6 +108,36 @@ function showMessage(elements){
 function toggleSticky(element){
   $(element).toggle();
   $(element+'_description').toggleClass('collapsed');
+}
+
+function increaseSelectedIndex(element){
+  var num_options = $(element + ' option').size()
+  var element = $(element);
+  var next_index = 0;
+  if(element.attr('selectedIndex') <= 0){
+    return false;
+    // next_index = num_options - 1;
+  }else{
+    next_index = element.attr('selectedIndex') - 1;
+  }
+  element.attr('selectedIndex', next_index);
+  // element.selectedIndex = next_index;
+  element.change();
+}
+
+function decreaseSelectedIndex(element){
+  var num_options = $(element + ' option').size()
+  var element = $(element);
+  var next_index = 0;
+  if(element.attr('selectedIndex') < num_options - 1){
+    next_index = element.attr('selectedIndex') + 1;
+  }else{
+    return false;
+    // next_index = element.attr('selectedIndex') - 1;
+  }
+  element.attr('selectedIndex', next_index);
+  // element.selectedIndex = next_index;
+  element.change();
 }
 
 // function genericSearchRequest(url, token, form, params){

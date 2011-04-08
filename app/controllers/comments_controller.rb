@@ -74,7 +74,7 @@ class CommentsController < ApplicationController
     @comment = current_user.all_comments.find_by_id(params[:id])
     if @comment
       @comment.destroy
-      redirect_to(comments_url)
+      redirect_to comments_path
     else
       redirect_to root_path
     end

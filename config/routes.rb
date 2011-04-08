@@ -1,7 +1,5 @@
 Notes::Application.routes.draw do
 
-  resources :project_users
-
   resources :comments do
     collection do
       get :search
@@ -9,13 +7,23 @@ Notes::Application.routes.draw do
     end
   end
 
+  resources :frames
+
+  resources :project_users
+
   resources :projects do
+    collection do
+      post :selection
+    end
     member do
       post :add_comment
     end
   end
   
   resources :stickies do
+    collection do
+      get :search
+    end
     member do
       post :add_comment
     end

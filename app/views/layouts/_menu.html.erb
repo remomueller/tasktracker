@@ -19,6 +19,7 @@
       <div id="menu_home" class="menu_dropdown_left" style="display:none">
         <div><%= link_to 'Home', root_path %></div>
         <div><%= link_to 'Projects', projects_path %></div>
+        <div><%= link_to 'Frames', frames_path %></div>
         <div><%= link_to 'Stickies', stickies_path %></div>
         <div><%= link_to 'Comments', comments_path %></div>
         <% if current_user.system_admin? %><hr><div><%= link_to 'Users', users_path %></div><% end %>
@@ -34,6 +35,16 @@
       <div id="menu_projects" class="menu_dropdown_left_center" style="display:none">
         <div><%= link_to 'Projects', projects_path %></div>
         <div><%= link_to '&raquo;New'.html_safe, new_project_path %></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="float:left">
+    <%= link_to_function 'Frames', "$('#menu_frames').show();", :onmouseover => "$('#menu_frames').show();" %>
+    <div style="position:relative;">
+      <div id="menu_frames" class="menu_dropdown_left_center" style="display:none">
+        <div><%= link_to 'Frames', frames_path %></div>
+        <div><%= link_to '&raquo;New'.html_safe, new_frame_path %></div>
       </div>
     </div>
   </div>
@@ -67,7 +78,7 @@
     </div>
   </div>
 
-  <%= javascript_tag "hideOnMouseOut(['#menu_user_settings', '#menu_home', '#menu_projects', '#menu_stickies', '#menu_comments', '#menu_users']);" %>
+  <%= javascript_tag "hideOnMouseOut(['#menu_user_settings', '#menu_home', '#menu_projects', '#menu_frames', '#menu_stickies', '#menu_comments', '#menu_users']);" %>
 <% else %>
   <div style="float:right" onmouseover="$('#menu_user_settings').show();">
     <%= link_to_function 'Login', "$('#menu_user_settings').show();" %>
@@ -86,6 +97,7 @@
       <div id="menu_home" class="menu_dropdown_left" style="display:none">
         <div><%= link_to 'Home', root_path %></div>
         <div><%= link_to 'Projects', projects_path %></div>
+        <div><%= link_to 'Frames', frames_path %></div>
         <div><%= link_to 'Stickies', stickies_path %></div>
         <div><%= link_to 'Comments', comments_path %></div>
         <hr>
