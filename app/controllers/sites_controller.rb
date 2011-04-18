@@ -6,19 +6,9 @@ class SitesController < ApplicationController
   end
   
   def dashboard
-    logger.debug "PARAMS: #{params.inspect}"
-    @order = params[:order].blank? ? 'name' : params[:order]
-    
+    @order = params[:order].blank? ? 'projects.name' : params[:order]
     project_scope = current_user.all_viewable_projects
-    
-    # if params[:order] == 'popularity'
-    #   project_scope = project_scope.popularity
-    # elsif params[:order] == 'popularity DESC'
-    #   project_scope = project_scope.popularity_desc
-    # else
-      project_scope = project_scope.order(@order)
-    # end
-    
+    project_scope = project_scope.by_favorite(current_user.id).order(@order) #.order(@order) #.order('(favorite = true) ASC, ' + @order)
     @projects = project_scope
   end
 end

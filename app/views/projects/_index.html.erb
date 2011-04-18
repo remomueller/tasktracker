@@ -1,18 +1,21 @@
 <table style="width:100%">
   <tr>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'name', 'Name') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.name', 'Name') %></th>
     <th>User</th>
     <th>Current Stickies</th>
     <th>Unseen Comments</th>
     <th>Editors/Viewers</th>
     <th>Status</th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'updated_at', 'Last Update') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.updated_at', 'Last Update') %></th>
   </tr>
 
 <% @projects.each do |project| %>
   <% @project = project %>
   <tr>
-    <td><%= link_to @project.name, @project %></td>
+    <td>
+      <span id="project_<%= @project.id %>_favorite_link"><%= render :partial => 'projects/favorite' %></span>
+      <%= link_to @project.name, @project %>
+    </td>
     <td><%= link_to @project.user.name, @project.user %></td>
     <td><%= @project.stickies.status(['planned', 'ongoing']).size %> <%#= link_to 'new sticky', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></td>
     <td><%= @project.all_comments.size %></td>

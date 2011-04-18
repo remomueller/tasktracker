@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   # Model Relationships
   has_many :authentications
   has_many :projects, :conditions => {:deleted => false}, :order => 'name'
+  has_many :project_favorites
   has_many :frames, :conditions => {:deleted => false}, :order => 'created_at'
   has_many :stickies, :conditions => {:deleted => false}, :order => 'created_at'
   has_many :comments, :conditions => {:deleted => false}, :order => 'created_at DESC'

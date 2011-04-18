@@ -2,7 +2,10 @@
 <h1>
   <table class="status-table">
     <tr>
-      <td><%= @title %> &raquo;</td>
+      <td id="project_<%= @project.id %>_favorite_link">
+        <%= render :partial => 'projects/favorite' %>
+      </td>
+      <td><%= @project.name %> &raquo;</td>
       <td style="vertical-align:top;padding:0 0 0 3px"><%= display_status(@project.status) %></td>
     </tr>
   </table>

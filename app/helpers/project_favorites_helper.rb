@@ -1,0 +1,2 @@
+module ProjectFavoritesHelper
+end

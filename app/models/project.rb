@@ -6,12 +6,15 @@ class Project < ActiveRecord::Base
   scope :current, :conditions => { :deleted => false }
   scope :with_user, lambda { |*args| { :conditions => ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
 
+  scope :by_favorite, lambda { |*args| {:include => :project_favorites, :order => "(project_favorites.favorite = 0 or project_favorites.favorite IS NULL) ASC" } }
+
   # Model Validation
   validates_presence_of :name
 
 
   # Model Relationships
   belongs_to :user
+  has_many :project_favorites
   has_many :project_users
   has_many :users, :through => :project_users, :conditions => { :deleted => false }, :order => 'last_name, first_name'
   has_many :editors, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ? and users.deleted = ?', true, false]

@@ -1,6 +1,17 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
   
+  def favorite
+    @project = current_user.all_viewable_projects.find_by_id(params[:id])
+    if @project
+      project_favorite = @project.project_favorites.find_or_create_by_user_id(current_user.id)
+      project_favorite.update_attribute :favorite, (params[:favorite] == '1')
+      # render :nothing => true
+    else
+      render :nothing => true
+    end
+  end
+  
   def selection
     @sticky = Sticky.new
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
@@ -26,7 +37,7 @@ class ProjectsController < ApplicationController
   end
   
   def index
-    @projects = current_user.all_viewable_projects.order('name')
+    @projects = current_user.all_viewable_projects.order('name') #.order('(favorite = true) ASC, name')
   end
 
   def show

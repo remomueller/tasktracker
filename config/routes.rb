@@ -17,6 +17,7 @@ Notes::Application.routes.draw do
     end
     member do
       post :add_comment
+      post :favorite
     end
   end
   
