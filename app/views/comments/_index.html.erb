@@ -11,7 +11,7 @@
 <br />
 
 <% @object.comments(@limit).each do |comment| %>
-  <div style="margin-bottom:5px">
+  <div style="margin-bottom:5px" class="<%= 'recently_updated' if current_user.last_sign_in_at < comment.updated_at %>">
     <%= link_to comment.user.name, comment.user %>
     <span class="quiet small"><%= comment.friendly_date %></span>
     <pre><%= comment.description %></pre>
