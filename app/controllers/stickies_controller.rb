@@ -21,7 +21,7 @@ class StickiesController < ApplicationController
     if @project
       @frame = Frame.find_by_id(params[:frame_id])
       stickies_scope = @project.stickies
-      @stickies = stickies_scope.with_frame(params[:frame_id]).order("(status = 'completed') ASC, end_date DESC, start_date DESC").page(params[:page]).per(current_user.stickies_per_page)
+      @stickies = stickies_scope.with_frame(params[:frame_id]).order("(status = 'completed') ASC, (status = 'ongoing') DESC, end_date DESC, start_date DESC").page(params[:page]).per(current_user.stickies_per_page)
       render "projects/show"
     else
       redirect_to root_path
