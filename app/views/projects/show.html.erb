@@ -75,18 +75,18 @@
   <%= image_tag('icons/information.png', :alt => '', :style => 'vertical-align:middle') %>
   Questions? Issues? Feature Requests? Bugs? Enter them here!
 </div>
-<br />
-<% @object = @project %>
-<% @limit = 5 %>
-<% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-<div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
-  <%= render :partial => 'comments/index' %>
-</div>
+
+<%= form_tag search_comments_path(:object_id => @project.id, :object_model => 'Project'), :method => :get, :id => "comments_search" do %>
+<% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
+<% end %>
+
+<div id="comments"></div>
 
 <% content_for :script do %>
   <%= javascript_tag do %>
     $(function(){
       $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
+      $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
     });
   <% end %>
 <% end %>
