@@ -1,23 +1,23 @@
 class StickiesController < ApplicationController
   before_filter :authenticate_user!
 
-  def add_comment
-    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
-    if @sticky and not params[:comment].blank?
-      @sticky.new_comment(current_user, params[:comment])
-
-      @object = @sticky
-      @position = params[:position]
-      @comments = @object.comments.page(params[:page]).per(5)
-      params[:controller] = 'comments'
-      params[:action] = 'search'
-      params[:object_id] = params[:id]
-      params[:object_model] = 'Sticky'
-      render "comments/add_comment"
-    else
-      render :nothing => true
-    end
-  end
+  # def add_comment
+  #   @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+  #   if @sticky and not params[:comment].blank?
+  #     @sticky.new_comment(current_user, params[:comment])
+  # 
+  #     @object = @sticky
+  #     @position = params[:position]
+  #     @comments = @object.comments.page(params[:page]).per(5)
+  #     params[:controller] = 'comments'
+  #     params[:action] = 'search'
+  #     params[:object_id] = params[:id]
+  #     params[:object_model] = 'Sticky'
+  #     render "comments/add_comment"
+  #   else
+  #     render :nothing => true
+  #   end
+  # end
 
   def search
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200

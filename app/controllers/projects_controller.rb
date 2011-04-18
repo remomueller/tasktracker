@@ -22,23 +22,23 @@ class ProjectsController < ApplicationController
     end
   end
   
-  def add_comment
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
-    if @project and not params[:comment].blank?
-      @project.new_comment(current_user, params[:comment])
-
-      @object = @project
-      @position = params[:position]
-      @comments = @object.comments.page(params[:page]).per(5)
-      params[:controller] = 'comments'
-      params[:action] = 'search'
-      params[:object_id] = params[:id]
-      params[:object_model] = 'Project'
-      render "comments/add_comment"
-    else
-      render :nothing => true
-    end
-  end
+  # def add_comment
+  #   @project = current_user.all_viewable_projects.find_by_id(params[:id])
+  #   if @project and not params[:comment].blank?
+  #     @project.new_comment(current_user, params[:comment])
+  # 
+  #     @object = @project
+  #     @position = params[:position]
+  #     @comments = @object.comments.page(params[:page]).per(5)
+  #     params[:controller] = 'comments'
+  #     params[:action] = 'search'
+  #     params[:object_id] = params[:id]
+  #     params[:object_model] = 'Project'
+  #     render "comments/add_comment"
+  #   else
+  #     render :nothing => true
+  #   end
+  # end
   
   def index
     @projects = current_user.all_viewable_projects.order('name') #.order('(favorite = true) ASC, name')

@@ -3,6 +3,7 @@ Notes::Application.routes.draw do
   resources :comments do
     collection do
       get :search
+      post :add_comment_table
       post :add_comment
     end
   end
