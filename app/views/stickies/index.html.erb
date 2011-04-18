@@ -1,7 +1,13 @@
 <h1>Listing stickies</h1>
+
+<%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path, :class => 'button positive' %>
+
 <%= form_tag stickies_path, :method => :get, :id => "stickies_search" do %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
+
+<div style="clear:both"></div>
+
 <div id="stickies"></div>
 
 <% content_for :script do %>

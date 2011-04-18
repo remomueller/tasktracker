@@ -1,5 +1,8 @@
 <h1>Listing frames</h1>
 
+<%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Frame", new_frame_path, :class => 'button positive' %>
+<div style="clear:both"></div>
+
 <table>
   <tr>
     <th>Name</th>
@@ -25,7 +28,3 @@
   </tr>
 <% end %>
 </table>
-
-<br />
-
-<%= link_to 'New Frame', new_frame_path %>

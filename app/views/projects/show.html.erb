@@ -45,38 +45,39 @@
   </p>
 <% end %>
 
-<fieldset>
-  <legend>General Project Comments</legend>
-  <div class="quiet">
-    <%= image_tag('icons/information.png', :alt => '', :style => 'vertical-align:middle') %>
-    Questions? Issues? Feature Requests? Bugs? Enter them here!
-  </div>
-  <br />
+<h2>Stickies</h2>
+
+<div style="float:left">
+  <%= form_tag search_stickies_path, :method => :get, :id => "stickies_search", :style => 'margin-bottom:0px' do %>
+    <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>
+    <%= hidden_field_tag 'project_id', @project.id %>
+    <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
+    <%= select_tag 'frame_id', options_for_select(@project.frames.collect{|f| [f.name, f.id]} + [['Backlog', 'backlog']], params[:frame_id]) %>
+    <%= link_to_function "&raquo;".html_safe, "increaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
+    <% if @frame %><br /><%= @frame.start_date %> to <%= @frame.end_date %> <% end %>
+  <% end %>
+</div>
+
+<div id="stickies">
+  <%#= render :partial => 'stickies/stickies' %>
+  <div style="clear:both"></div><br /><br />
+  <center><%= image_tag "ajax-loader.gif" %></center>
+  <br /><br />
+</div>
+
+<div style="clear:both"></div>
+
+<h2>General Project Comments</h2>
+<div class="quiet">
+  <%= image_tag('icons/information.png', :alt => '', :style => 'vertical-align:middle') %>
+  Questions? Issues? Feature Requests? Bugs? Enter them here!
+</div>
+<br />
 <% @object = @project %>
 <% @limit = 5 %>
 <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
 <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
   <%= render :partial => 'comments/index' %>
-</div>
-</fieldset>
-
-<table width="100%" style="margin-bottom:0px">
-  <tr>
-    <td style="text-align:center;border-bottom:0px">
-      <%= form_tag search_stickies_path, :method => :get, :id => "stickies_search", :style => 'margin-bottom:0px' do %>
-        <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>
-        <%= hidden_field_tag 'project_id', @project.id %>
-      <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
-        <%= select_tag 'frame_id', options_for_select(@project.frames.collect{|f| [f.name, f.id]} + [['Backlog', 'backlog']], params[:frame_id]) %>
-      <%= link_to_function "&raquo;".html_safe, "increaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
-      <% if @frame %><br /><%= @frame.start_date %> to <%= @frame.end_date %> <% end %>
-      <% end %>
-    </td>
-  </tr>
-</table>
-
-<div id="stickies">
-  <%= render :partial => 'stickies/stickies' %>
 </div>
 
 <% content_for :script do %>

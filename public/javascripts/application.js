@@ -11,13 +11,11 @@ $(function(){
   
   $(".pagination a").live("click", function() {
     // $(".pagination").html(createSpinner()); //.html("Page is loading...");
-    // $.getScript(this.href);
     $.get(this.href, null, null, "script")
     return false;
   });
   
   $("#comments_search input").change(function() {
-  // $("#comments_search input").keyup(function() {
     $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
     return false;
   });
@@ -38,38 +36,17 @@ $(function(){
     return false;
   });
   
+  $(".per_page a").live("click", function() {
+    $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize() + "&stickies_per_page="+ $(this).data('count'), null, "script");
+    return false;
+  });
+  
   $("#sticky_project_id").change(function(){
     $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize(), null, "script")
     return false;
   });
   
 });
-
-// document.observe("dom:loaded", function() {
-//   // the element in which we will observe all clicks and capture
-//   // ones originating from pagination links
-//   
-//   var container = $(document.body);
-// 
-//   if(container) {
-//     container.observe('click', function(e) {
-//       var el = e.element();
-//       if (el.match('.pagination a')) {
-//         el.up('.pagination').insert(createSpinner());
-//         var ajax_request = new Ajax.Request(el.href, { method: 'post', parameters: $('search-form').serialize()  + '&authenticity_token=' + encodeURIComponent(auth_token)  });
-//         e.stop();
-//       }
-//     });
-//     
-//     // Ajax.Responders.register({
-//     //   onComplete: function(request, transport, json) {
-//     //     if(request.transport.status == 403){
-//     //       window.location = '/users/sign_in';
-//     //     }
-//     //   }
-//     // });
-//   }
-// });
 
 /* Mouse Out Functions to Show and Hide Divs */
 
@@ -116,12 +93,10 @@ function increaseSelectedIndex(element){
   var next_index = 0;
   if(element.attr('selectedIndex') <= 0){
     return false;
-    // next_index = num_options - 1;
   }else{
     next_index = element.attr('selectedIndex') - 1;
   }
   element.attr('selectedIndex', next_index);
-  // element.selectedIndex = next_index;
   element.change();
 }
 
@@ -133,17 +108,7 @@ function decreaseSelectedIndex(element){
     next_index = element.attr('selectedIndex') + 1;
   }else{
     return false;
-    // next_index = element.attr('selectedIndex') - 1;
   }
   element.attr('selectedIndex', next_index);
-  // element.selectedIndex = next_index;
   element.change();
 }
-
-// function genericSearchRequest(url, token, form, params){
-//   new Ajax.Request(url, {asynchronous:true, evalScripts:true, method:'post', parameters: $(form).serialize() + params + '&_method=post' + '&authenticity_token=' + encodeURIComponent(token)});
-// }
-// 
-// function genericSearchUpdate(update, url, token, params){
-//   new Ajax.Updater(update, url, {asynchronous:true, evalScripts:true, method:'post', parameters: params+'&_method=post' + '&authenticity_token=' + encodeURIComponent(token)});  
-// }

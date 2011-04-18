@@ -1,4 +1,8 @@
 <h1>Listing users</h1>
+<% if current_user.system_admin? and false %>
+  <%= link_to image_tag('icons/im.png', :alt => '') + "Create New User", new_user_path, :class => 'button positive' %>
+  <div style="clear:both"></div>
+<% end %>
 
 <table>
   <tr>
