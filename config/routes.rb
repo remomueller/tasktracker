@@ -17,7 +17,6 @@ Notes::Application.routes.draw do
       post :selection
     end
     member do
-      post :add_comment
       post :favorite
     end
   end
@@ -25,9 +24,6 @@ Notes::Application.routes.draw do
   resources :stickies do
     collection do
       get :search
-    end
-    member do
-      post :add_comment
     end
   end
 
