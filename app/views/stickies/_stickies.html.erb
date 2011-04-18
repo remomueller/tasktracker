@@ -49,7 +49,7 @@
   <% @object = sticky %>
   <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
   <tbody>
-    <tr>
+    <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < sticky.updated_at %>">
       <td style="white-space:nowrap"><%= link_to sticky.name, sticky %></td>
       <td style="white-space:nowrap;text-align:center"><%= link_to_function "+ (#{sticky.comments.size})", "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}');", :id => "#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_link" %></td>
       <td><div style="width:400px"><pre class="collapsed" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_description"><%= sticky.description %></pre></div></td>

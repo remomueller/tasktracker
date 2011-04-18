@@ -2,8 +2,7 @@
   <tr>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.name', 'Name') %></th>
     <th>User</th>
-    <th>Current Stickies</th>
-    <th>Unseen Comments</th>
+    <th title="Updated since last login">Recent Stickies</th>
     <th>Editors/Viewers</th>
     <th>Status</th>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.updated_at', 'Last Update') %></th>
@@ -11,14 +10,13 @@
 
 <% @projects.each do |project| %>
   <% @project = project %>
-  <tr>
+  <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < project.updated_at %>">
     <td>
       <span id="project_<%= @project.id %>_favorite_link"><%= render :partial => 'projects/favorite' %></span>
       <%= link_to @project.name, @project %>
     </td>
     <td><%= link_to @project.user.name, @project.user %></td>
-    <td><%= @project.stickies.status(['planned', 'ongoing']).size %> <%#= link_to 'new sticky', new_sticky_path(:sticky => {:project_id => @project.id}) if current_user.all_projects.include?(@project) %></td>
-    <td><%= @project.all_comments.size %></td>
+    <td><%= @project.stickies.updated_since(current_user.last_sign_in_at).size %></td>
     <td>
       <% if @project.editors.size > 0 %><%= @project.editors.collect{|user| link_to user.name, user}.join("<br />").html_safe %><br /><% end %>
       <%= @project.viewers.collect{|user| link_to user.name, user}.join("<br />").html_safe %>
@@ -28,9 +26,9 @@
   </tr>
   <% comment = @project.all_comments(1).first %>
   <% if comment %>
-  <tr>
+  <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < project.updated_at %>">
     <td></td>
-    <td colspan="5" style="overflow:hidden;white-space:nowrap">
+    <td colspan="4" style="overflow:hidden;white-space:nowrap">
       <%= link_to comment.user.name, comment.user %> -
       <%# comment.description = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.' %>
       <%= truncate(comment.description, :length => 100, :separator => ' ', :omission => " ...").html_safe %> <%= link_to 'continued', comment %>

@@ -15,9 +15,13 @@
 
 </tr>
 <% @object.comments.each do |comment| %>
-  <tr>
+  <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < comment.updated_at %>">
     <td colspan="2"></td>
-    <td colspan="3"><span class="quiet"><%= comment.user.name %>:</span><pre><%= comment.description %></pre></td>
+    <td colspan="3">
+      <span class="quiet"><%= comment.user.name %></span>
+      <span class="quiet small"><%= comment.friendly_date %></span>
+      <pre><%= comment.description %></pre>
+    </td>
     <td></td>
   </tr>
 <% end %>

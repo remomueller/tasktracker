@@ -323,6 +323,10 @@ table.status-table td {
   vertical-align: middle;
 }
 
+.recently_updated {
+  background-color: #ffffcc;
+}
+
 /**************************************/
 /*               FOOTER               */
 /**************************************/

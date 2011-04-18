@@ -13,13 +13,7 @@
 <% @object.comments(@limit).each do |comment| %>
   <div style="margin-bottom:5px">
     <%= link_to comment.user.name, comment.user %>
-    <span class="quiet small">
-      <% if comment.created_at.to_date == Date.today %>
-        <%= comment.created_at.strftime("at %I:%M %p") %>
-      <% else %>
-        <%= comment.created_at.strftime("on %b %d, %Y at %I:%M %p") %>
-      <% end %>
-    </span>
+    <span class="quiet small"><%= comment.friendly_date %></span>
     <pre><%= comment.description %></pre>
   </div>
 <% end %>
