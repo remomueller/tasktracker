@@ -50,7 +50,7 @@ class Comment < ActiveRecord::Base
       if user_to_email.active? and user_to_email.email_on?(:send_email) and
         ((self.object_model == 'Project' and user_to_email.email_on?(:project_comments) and user_to_email.email_on?("project_#{self.object_id}")) or
         (self.object_model == 'Sticky' and user_to_email.email_on?(:sticky_comments) and user_to_email.email_on?("project_#{Sticky.find_by_id(self.object_id).project.id}")))
-        UserMailer.comment_by_mail(self, @object, user_to_email).deliver
+        UserMailer.comment_by_mail(self, @object, user_to_email).deliver if Rails.env.production?
       end
     end
   end

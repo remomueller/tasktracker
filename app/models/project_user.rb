@@ -7,7 +7,7 @@ class ProjectUser < ActiveRecord::Base
   private
   
   def notify_user
-    UserMailer.user_added_to_project(self).deliver
+    UserMailer.user_added_to_project(self).deliver if Rails.env.production?
   end
   
 end
