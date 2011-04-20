@@ -23,7 +23,7 @@ module ApplicationHelper
   end
   
   def display_status(status)
-    result = '<table class="status-table" width="100%"><tr>'
+    result = '<table class="status-table"><tr>'
     case status when 'planned'
       result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_unmarked\" title=\"Ongoing\">O</div></td><td><div class=\"status_unmarked\" title=\"Completed\">C</div></td>"
     when 'ongoing'
