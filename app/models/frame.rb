@@ -30,14 +30,14 @@ class Frame < ActiveRecord::Base
   def long_time
     result = ''
     if self.start_date and self.start_date.year == Date.today.year
-      result << self.start_date.strftime('%a, %b %d')
+      result << self.start_date.strftime('%b %d (%a)')
     elsif self.start_date
-      result << self.start_date.strftime('%a, %b %d, %Y')
+      result << self.start_date.strftime('%b %d, %Y (%a)')
     end
     if self.end_date and self.end_date.year == Date.today.year
-      result << " to #{self.end_date.strftime('%a, %b %d')}"
+      result << " to #{self.end_date.strftime('%b %d (%a)')}"
     elsif self.end_date
-      result << " to #{self.end_date.strftime('%a, %b %d, %Y')}"
+      result << " to #{self.end_date.strftime('%b %d, %Y (%a)')}"
     end
     result
   end

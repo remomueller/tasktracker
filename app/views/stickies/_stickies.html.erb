@@ -56,7 +56,12 @@
       <td style="white-space:nowrap;vertical-align:middle"><%= display_status(sticky.status) %></td>
       <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
 <% if false %>        <td style="text-align:center"><% if false %><%= sticky.start_date %><br />to<br /><% end %><%= sticky.end_date %></td><% end %>
-      <td style="vertical-align:middle"><%= link_to image_tag('icons/edit.png', :alt => ''), edit_sticky_path(sticky) if current_user.all_projects.include?(@project) %></td>
+      <td style="vertical-align:middle">
+        <% if current_user.all_stickies.include?(sticky) %>
+          <%= link_to image_tag('icons/edit.png', :alt => ''), edit_sticky_path(sticky) %>
+          <%= link_to image_tag('icons/delete.png', :alt => ''), sticky, :confirm => "Are you sure you want to delete Sticky #{sticky.name}?", :method => :delete %>
+        <% end %>
+      </td>
     </tr>
   </tbody>
   <tbody id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" style="display:none">

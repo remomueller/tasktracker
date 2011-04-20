@@ -3,7 +3,7 @@
 <%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Frame", new_frame_path, :class => 'button positive' %>
 <div style="clear:both"></div>
 
-<table>
+<table style="width:100%">
   <tr>
     <th>Name</th>
     <th>Project</th>
@@ -17,7 +17,7 @@
   <tr>
     <td><%= link_to frame.name, frame %></td>
     <td><%= link_to frame.project.name, frame.project %></td>
-    <td><%= frame.start_date %><br />to<br /><%= frame.end_date %></td>
+    <td><%= frame.long_time %></td>
     <td><%= link_to frame.user.name, frame.user %></td>
     <td><%= frame.description %></td>
     <td style="vertical-align:middle">

@@ -29,6 +29,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def destroy
+    self.comments.destroy_all
     update_attribute :deleted, true
   end
   
