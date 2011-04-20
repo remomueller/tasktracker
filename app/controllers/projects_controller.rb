@@ -45,8 +45,10 @@ class ProjectsController < ApplicationController
     
     @order = params[:order].blank? ? 'projects.name' : params[:order]
     project_scope = current_user.all_viewable_projects
-    # project_scope = project_scope.by_favorite(current_user.id)
-    project_scope = project_scope.order(@order) #.order(@order) #.order('(favorite = true) ASC, ' + @order)
+    # project_scope = project_scope.joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{current_user.id}")
+    project_scope = project_scope.by_favorite(current_user.id)
+    # project_scope = project_scope.order(@order) #.order(@order) #.order('(favorite = true) ASC, ' + @order)
+    project_scope = project_scope.order('(favorite IS NULL or favorite = 0) ASC, ' + @order)
     @projects = project_scope
   end
 
