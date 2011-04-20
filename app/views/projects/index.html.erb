@@ -1,3 +1,68 @@
+<% @title = 'Projects' %>
+
+<h1><%= @title %></h1>
+
+<%= form_tag root_path, :method => :get, :remote => true, :id => 'search_form' do %>
+  <%= hidden_field_tag :order %>
+  <div id="projects_container">
+    <%= render :partial => 'projects/index' %>
+  </div>
+<% end %>
+
+<% if false %>
+<hr>
+<br />
+<hr>
+
+
+<% current_user.all_viewable_stickies.status(['planned', 'ongoing']).limit(10).each do |sticky| %>
+  <div>
+    <%= link_to sticky.project.name, sticky.project if sticky.project %>
+    - <%= link_to sticky.user.name, sticky.user %>
+    Sticky <%= link_to sticky.sticky_type, sticky %>:
+    <% @object = sticky %>
+    <% @limit = nil %>
+    <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+    <%= link_to_function "View/Hide Comments (#{@object.comments.size})", "$('#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}').toggle()" %>
+    <pre><%= sticky.description %></pre>
+    <br />
+  </div>
+  <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box" style="display:none">
+    <%= render :partial => 'comments/index' %>
+  </div>
+  <hr>
+<% end %>
+
+
+<h4>Projects Listed in Recently Updated Order</h4>
+<ul>
+<li>Your own projects (as owner and editor).</li>
+</ul>
+<% current_user.all_viewable_projects.each do |project| %>
+  <% @project = project %>
+  <fieldset>
+    <legend><%= link_to @project.name, @project %> <span class="quiet small"><%= @project.start_date %> to <%= @project.end_date %></span></legend>
+    <% unless @project.description.blank? %>
+    <fieldset>
+      <legend>Description</legend><pre><%= @project.description %></pre>
+    </fieldset>
+    <% end %>
+    <%= render :partial => 'stickies/index' %>
+    <fieldset>
+      <legend>Comments</legend>
+    <% @object = @project %>
+    <% @limit = 5 %>
+    <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+    <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
+      <%= render :partial => 'comments/index' %>
+    </div>
+    </fieldset>
+  </fieldset>
+<% end %>
+<% end %>
+
+
+<% if false %>
 <h1>Listing projects</h1>
 
 <%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Project", new_project_path, :class => 'button positive' %>
@@ -28,3 +93,4 @@
   </tr>
 <% end %>
 </table>
+<% end %>
