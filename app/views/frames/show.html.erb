@@ -1,5 +1,5 @@
 <% @title = "Frame: #{@frame.name}" %>
-<h1><%= @title %></h1>
+<h1><% if @frame.project %><%= link_to @frame.project.name, @frame.project %> &raquo;<% end %><%= @title %></h1>
 
 <% if current_user.all_frames.include?(@frame) %>
   <%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Frame", edit_frame_path(@frame), :class => 'button' %>
@@ -13,13 +13,8 @@
 <br />
 
 <p>
-  <b>Project:</b>
-  <%= link_to @frame.project.name if @frame.project %>
-</p>
-
-<p>
   <b>User:</b>
-  <%= link_to @frame.user.name if @frame.user %>
+  <%= link_to @frame.user.name, @frame.user if @frame.user %>
 </p>
 
 <p>
