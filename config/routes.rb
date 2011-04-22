@@ -34,7 +34,6 @@ Notes::Application.routes.draw do
 
   resources :users do
     collection do
-      # post :filtered
       post :search
     end
     member do

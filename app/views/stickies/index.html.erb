@@ -2,11 +2,11 @@
 
 <%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path, :class => 'button positive' %>
 
-<%= form_tag stickies_path, :method => :get, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
+<%= form_tag stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
 
-<div id="stickies"></div>
+<div id="stickies"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <% content_for :script do %>
   <%= javascript_tag do %>
@@ -14,49 +14,4 @@
       $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
     });
   <% end %>
-<% end %>
-
-
-<% if false %>
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Creator</th>
-    <th>Project</th>
-    <% if false %>
-    <th>Parent Sticky</th>
-    <th>Position</th>
-    <% end %>
-    <th>Description</th>
-    <th>Status</th>
-    <th>Assigned To</th>
-    <th>Time Period</th>
-    <th></th>
-  </tr>
-
-<% @stickies.each do |sticky| %>
-  <tr>
-    <td style="white-space:nowrap"><%= link_to sticky.name, sticky %><% if false %> <%= sticky.sticky_type %><% end %></td>
-    <td><%= link_to sticky.user.name, sticky.user %></td>
-    <td><%= link_to sticky.project.name, sticky.project if sticky.project %></td>
-    <% if false %>
-    <td><%= link_to sticky.sticky_id, sticky.sticky if sticky.sticky %></td>
-    <td><%= sticky.position %></td>
-    <% end %>
-    <td><%= sticky.description %></td>
-    <td><%= sticky.status %></td>
-    <td><%= link_to sticky.owner.nickname, sticky.owner if sticky.owner %></td>
-    <td style="text-align:center"><%= sticky.start_date %><br />to<br /><%= sticky.end_date %></td>
-    <td style="vertical-align:middle">
-      <% if current_user.all_stickies.include?(sticky) %>
-        <%= link_to image_tag('icons/delete.png', :alt => ''), sticky, :confirm => "Are you sure you want to delete Sticky #{sticky.name}?", :method => :delete %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Sticky', new_sticky_path %>
 <% end %>

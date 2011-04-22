@@ -1,11 +1,26 @@
+<div style="float:right;margin-bottom:-5px">
+  Per Page 
+  <% [5,10,20].each do |count| %>
+    <span class="per_page">
+      <% if current_user.projects_per_page != count %>
+        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'projects', :id => "count_#{count}" %>
+      <% else %>
+        <%= count %>
+      <% end %>
+    </span>
+  <% end %>
+</div>
+
+<div style="clear:both"></div>
+
 <table style="width:100%">
   <tr>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.name', 'Name') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.name', 'Name', 'projects_search') %></th>
     <th>User</th>
     <th title="Updated since last login">Recent Stickies</th>
     <th>Editors/Viewers</th>
     <th>Status</th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.updated_at', 'Last Update') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.updated_at', 'Last Update', 'projects_search') %></th>
   </tr>
 
 <% @projects.each do |project| %>
@@ -61,3 +76,5 @@
   <% end %>
 <% end %>
 </table>
+
+<center><%= paginate @projects %></center>

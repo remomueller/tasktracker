@@ -40,11 +40,11 @@ class CommentsController < ApplicationController
   end
 
   def index
-    # @comments = current_user.all_viewable_comments
-      comments_scope = current_user.all_viewable_comments
-      @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-      @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
-      @comments = comments_scope.page(params[:page]).per(5)
+    current_user.update_attribute :comments_per_page, params[:comments_per_page].to_i if params[:comments_per_page].to_i >= 10 and params[:comments_per_page].to_i <= 200
+    comments_scope = current_user.all_viewable_comments
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
+    @comments = comments_scope.page(params[:page]).per(current_user.comments_per_page)
   end
 
   def show

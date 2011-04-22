@@ -22,34 +22,18 @@ class ProjectsController < ApplicationController
     end
   end
   
-  # def add_comment
-  #   @project = current_user.all_viewable_projects.find_by_id(params[:id])
-  #   if @project and not params[:comment].blank?
-  #     @project.new_comment(current_user, params[:comment])
-  # 
-  #     @object = @project
-  #     @position = params[:position]
-  #     @comments = @object.comments.page(params[:page]).per(5)
-  #     params[:controller] = 'comments'
-  #     params[:action] = 'search'
-  #     params[:object_id] = params[:id]
-  #     params[:object_model] = 'Project'
-  #     render "comments/add_comment"
-  #   else
-  #     render :nothing => true
-  #   end
-  # end
-  
   def index
-    # @projects = current_user.all_viewable_projects.order('name') #.order('(favorite = true) ASC, name')
+    current_user.update_attribute :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 20
     
     @order = params[:order].blank? ? 'projects.name' : params[:order]
-    project_scope = current_user.all_viewable_projects
-    # project_scope = project_scope.joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{current_user.id}")
-    project_scope = project_scope.by_favorite(current_user.id)
-    # project_scope = project_scope.order(@order) #.order(@order) #.order('(favorite = true) ASC, ' + @order)
-    project_scope = project_scope.order('(favorite IS NULL or favorite = 0) ASC, ' + @order)
-    @projects = project_scope
+    projects_scope = current_user.all_viewable_projects
+    
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| projects_scope = projects_scope.search(search_term) }
+    
+    projects_scope = projects_scope.by_favorite(current_user.id)
+    projects_scope = projects_scope.order('(favorite IS NULL or favorite = 0) ASC, ' + @order)
+    @projects = projects_scope.page(params[:page]).per(current_user.projects_per_page)
   end
 
   def show

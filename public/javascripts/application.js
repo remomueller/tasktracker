@@ -31,13 +31,15 @@ $(function(){
     }
   });
   
-  $("#stickies_search input, #stickies_search select").change(function() {
+  // $("#stickies_search input, #stickies_search select").change(function() {
+  $("#stickies_search select").change(function() {
     $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
     return false;
   });
   
   $(".per_page a").live("click", function() {
-    $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize() + "&stickies_per_page="+ $(this).data('count'), null, "script");
+    object_class = $(this).data('object')
+    $.get($("#"+object_class+"_search").attr("action"), $("#"+object_class+"_search").serialize() + "&"+object_class+"_per_page="+ $(this).data('count'), null, "script");
     return false;
   });
   

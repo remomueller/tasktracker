@@ -1,8 +1,10 @@
 <h1>Listing comments</h1>
-<%= form_tag comments_path, :method => :get, :id => "comments_search" do %>
+
+<%= form_tag comments_path, :method => :get, :remote => true, :id => "comments_search", :style => "margin-bottom:-5px" do %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
-<div id="comments"></div>
+
+<div id="comments"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <% content_for :script do %>
   <%= javascript_tag do %>

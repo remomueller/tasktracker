@@ -1,4 +1,19 @@
-<table>
+<div style="float:right">
+  Per Page 
+  <% [10,25,50].each do |count| %>
+    <span class="per_page">
+      <% if current_user.comments_per_page != count %>
+        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'comments', :id => "count_#{count}" %>
+      <% else %>
+        <%= count %>
+      <% end %>
+    </span>
+  <% end %>
+</div>
+
+<div style="clear:both"></div>
+
+<table width="100%">
   <tr>
     <th>Name</th>
     <th>User</th>
@@ -28,4 +43,4 @@
 <% end %>
 </table>
 
-<%= paginate @comments %>
+<center><%= paginate @comments %></center>

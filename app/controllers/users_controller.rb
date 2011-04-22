@@ -2,18 +2,6 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!, :except => [:new, :create]
   before_filter :check_system_admin, :except => [:new, :create, :filtered, :index, :show, :settings, :update_settings]
 
-  # # Retrieves filtered list of users.
-  # def filtered
-  #   @relation = params[:relation]
-  #   
-  #   users_scope = User.current.order('last_name, first_name')
-  #   @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-  #   @search_terms.each{|search_term| users_scope = users_scope.search(search_term) }
-  #   @users = users_scope
-  #   
-  #   render :partial => 'user_select_filter'
-  # end
-
   def settings
   end
   
@@ -28,7 +16,11 @@ class UsersController < ApplicationController
   end
   
   def index
-    @users = User.current
+    current_user.update_attribute :users_per_page, params[:users_per_page].to_i if params[:users_per_page].to_i >= 10 and params[:users_per_page].to_i <= 200
+    users_scope = User.current
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| users_scope = users_scope.search(search_term) }
+    @users = users_scope.page(params[:page]).per(current_user.users_per_page)
   end
 
   def show
