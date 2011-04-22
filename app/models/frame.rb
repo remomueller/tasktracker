@@ -12,6 +12,10 @@ class Frame < ActiveRecord::Base
   belongs_to :user
   has_many :stickies, :conditions => { :deleted => false }
 
+  def destroy
+    update_attribute :deleted, true
+  end
+
   def short_time
     result = ''
     if self.start_date and self.start_date.year == Date.today.year

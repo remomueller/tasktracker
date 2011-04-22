@@ -24,6 +24,9 @@ class Project < ActiveRecord::Base
   has_many :frames, :conditions => { :deleted => false }, :order => 'frames.end_date desc'
 
   def destroy
+    self.comments.destroy_all
+    self.stickies.destroy_all
+    self.frames.destroy_all
     update_attribute :deleted, true
   end
   
