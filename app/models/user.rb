@@ -16,8 +16,8 @@ class User < ActiveRecord::Base
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
   scope :status, lambda { |*args|  { :conditions => ["users.status IN (?)", args.first] } }
-  scope :system_admins, :conditions => { :system_admin => true }
   scope :search, lambda { |*args| {:conditions => [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :system_admins, :conditions => { :system_admin => true }
   scope :with_project, lambda { |*args| { :conditions => ["users.id in (select projects.user_id from projects where projects.id = ? and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id = ? and project_users.allow_editing IN (?))", args.first, false, args.first, args[1]] } }
   
   # Model Validation
