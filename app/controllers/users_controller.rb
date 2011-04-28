@@ -4,18 +4,31 @@ class UsersController < ApplicationController
 
   def graph
     @user = User.current.find_by_id(params[:id])
-    redirect_to users_path unless @user
+    unless @user
+      redirect_to users_path
+      return
+    end
     
     @stickies = []
     @planned = []
     @ongoing = []
     @completed = []
     params[:year] = Date.today.year if params[:year].blank?
+    @year = params[:year]
     (1..12).each do |month|
       @stickies << @user.all_stickies.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
       @planned << @stickies.last.status('planned').count
       @ongoing << @stickies.last.status('ongoing').count
       @completed << @stickies.last.status('completed').count
+    end
+    
+    @projects_hash = {}
+    (1..12).each do |month|
+      # @stickies << @user.all_stickies.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
+      current_user.all_projects.each do |project|
+        @projects_hash[project.name] = [] unless @projects_hash[project.name]
+        @projects_hash[project.name] << @stickies[month-1].with_project(project.id, @user.id).count
+      end
     end
   end
 
