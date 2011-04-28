@@ -1,0 +1,7 @@
+<% @title = 'Sticky Creation Overview' %>
+
+<% if Sticky.current.size > 0 %>
+  <%= draw_chart('highcharts', 'column', @users_hash, "month_per_fav_project_chart", {:title => "#{@year} Stickies Per User", :ytitle => 'Number of Stickies', :width => '100%', :height => 450, :stacking => 'normal'}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+<% else %>
+  No Stickies
+<% end %>
