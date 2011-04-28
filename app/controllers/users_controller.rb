@@ -21,12 +21,19 @@ class UsersController < ApplicationController
       @ongoing << @stickies.last.status('ongoing').count
       @completed << @stickies.last.status('completed').count
     end
-    
-    @projects_hash = {}
+
+    @other_projects_hash = {}
+    @favorite_projects_hash = {}
+  
     (1..12).each do |month|
       @user.all_projects.by_favorite(@user.id).order('(favorite IS NULL or favorite = 0) DESC, name DESC').each do |project|
-        @projects_hash[project.name] = [] unless @projects_hash[project.name]
-        @projects_hash[project.name] << @stickies[month-1].with_project(project.id, @user.id).count
+        if project_favorite = project.project_favorites.find_by_user_id(@user.id) and project_favorite.favorite?
+          @favorite_projects_hash[project.name] = [] unless @favorite_projects_hash[project.name]
+          @favorite_projects_hash[project.name] << @stickies[month-1].with_project(project.id, @user.id).count
+        else          
+          @other_projects_hash[project.name] = [] unless @other_projects_hash[project.name]
+          @other_projects_hash[project.name] << @stickies[month-1].with_project(project.id, @user.id).count
+        end
       end
     end
   end

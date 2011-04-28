@@ -3,13 +3,11 @@
 
 
 <% if @user.all_stickies.size > 0 %>
-  <%#= draw_chart('highcharts', 'column', {'Planned' => [2], 'Ongoing' => [3], 'Completed' => [5]}, "year_chart", {:title => "Full Overview", :width => '100%', :height => 450}, ((@user.all_stickies.last.created_at.year || Date.today.year)..(@user.all_stickies.first.created_at.year || Date.today.year)).to_a) %>
-  
   <%= draw_chart('highcharts', 'column', {'Planned' => @planned, 'Ongoing' => @ongoing, 'Completed' => @completed}, "month_chart", {:title => "#{@year} Sticky Status", :width => '100%', :height => 450}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
   
+  <%= draw_chart('highcharts', 'column', @favorite_projects_hash, "month_per_fav_project_chart", {:title => "#{@year} Stickies Per Project - Favorites", :width => '100%', :height => 450}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
   
-  
-  <%= draw_chart('highcharts', 'column', @projects_hash, "month_per_project_chart", {:title => "#{@year} Stickies Per Project", :width => '100%', :height => 450}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+  <%= draw_chart('highcharts', 'column', @other_projects_hash, "month_per_other_project_chart", {:title => "#{@year} Stickies Per Project - Other", :width => '100%', :height => 450}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
 <% else %>
   No Stickies
 <% end %>
