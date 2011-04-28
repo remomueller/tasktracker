@@ -5,7 +5,8 @@ class Comment < ActiveRecord::Base
   scope :with_object_id, lambda { |*args|  { :conditions => ["comments.object_id IN (?)", args.first] } }
   scope :with_two_object_models_and_ids, lambda { |*args|  { :conditions => ["(comments.object_model IN (?) and comments.object_id IN (?)) or (comments.object_model IN (?) and comments.object_id IN (?))", args[0], args[1], args[2], args[3]] } }
   scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
-  
+  scope :with_creator, lambda { |*args|  { :conditions => ["comments.user_id IN (?)", args.first] } }
+  scope :with_date_for_calendar, lambda { |*args| { :conditions => ["DATE(comments.created_at) >= ? and DATE(comments.created_at) <= ?", args.first, args[1]]}}
   
   after_create :send_email
   

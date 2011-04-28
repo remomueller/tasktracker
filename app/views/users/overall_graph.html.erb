@@ -1,7 +1,19 @@
-<% @title = 'Sticky Creation Overview' %>
+<% @title = 'Overview' %>
+
+<%= link_to '&laquo; Previous Year'.html_safe, overall_graph_users_path(:year => @year.to_i - 1), :class => 'button', :style => 'float:left' %>
+
+<%= link_to 'Next Year &raquo;'.html_safe, overall_graph_users_path(:year => @year.to_i + 1), :class => 'button', :style => 'float:right' %>
+
+<div style="clear:both"></div>
 
 <% if Sticky.current.size > 0 %>
-  <%= draw_chart('highcharts', 'column', @users_hash, "month_per_fav_project_chart", {:title => "#{@year} Stickies Per User", :ytitle => 'Number of Stickies', :width => '100%', :height => 450, :stacking => 'normal'}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+  <%= draw_chart('highcharts', 'column', @users_hash, "sticky_per_user", {:title => "#{@year} Stickies Per User", :ytitle => 'Number of Stickies', :width => '100%', :height => 450, :stacking => 'normal'}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
 <% else %>
   No Stickies
+<% end %>
+
+<% if Comment.current.size > 0 %>
+  <%= draw_chart('highcharts', 'column', @users_comment_hash, "comment_per_user", {:title => "#{@year} Comments Per User", :ytitle => 'Number of Comments', :width => '100%', :height => 450, :stacking => 'normal'}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+<% else %>
+  No Comments
 <% end %>

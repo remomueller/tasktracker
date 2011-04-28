@@ -5,14 +5,19 @@ class UsersController < ApplicationController
   # Stickies per user
   def overall_graph
     @stickies = []
+    @comments = []
     @users_hash = {}
+    @users_comment_hash = {}
     params[:year] = Date.today.year if params[:year].blank?
     @year = params[:year]
     (1..12).each do |month|
       @stickies << Sticky.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
+      @comments << Comment.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
       User.current.each do |user|
         @users_hash[user.nickname] = [] unless @users_hash[user.nickname]
         @users_hash[user.nickname] << @stickies[month-1].with_creator(user.id).count
+        @users_comment_hash[user.nickname] = [] unless @users_comment_hash[user.nickname]
+        @users_comment_hash[user.nickname] << @comments[month-1].with_creator(user.id).count
       end
     end
   end
