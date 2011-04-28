@@ -24,8 +24,7 @@ class UsersController < ApplicationController
     
     @projects_hash = {}
     (1..12).each do |month|
-      # @stickies << @user.all_stickies.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
-      current_user.all_projects.each do |project|
+      @user.all_projects.by_favorite(@user.id).order('(favorite IS NULL or favorite = 0) DESC, name DESC').each do |project|
         @projects_hash[project.name] = [] unless @projects_hash[project.name]
         @projects_hash[project.name] << @stickies[month-1].with_project(project.id, @user.id).count
       end
