@@ -207,6 +207,12 @@ function drawHighChartHistogramChart(element_id, values, params, categories){
     //   }
     // },
     series: my_series.reverse(),
+    
+    plotOptions: {
+       column: {
+          stacking: params['stacking']
+       }
+    },
     // plotOptions: {
     //    spline: {
     //       lineWidth: 3,
