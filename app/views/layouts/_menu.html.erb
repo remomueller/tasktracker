@@ -59,6 +59,7 @@
       <div id="menu_stickies" class="menu_dropdown_left_center" style="display:none">
         <div><%= link_to 'Stickies', stickies_path %></div>
         <div><%= link_to '&raquo;New'.html_safe, new_sticky_path %></div>
+        <div><%= link_to '&raquo;Graphs'.html_safe, graph_user_path(current_user.id) %></div>
       </div>
     </div>
   </div>

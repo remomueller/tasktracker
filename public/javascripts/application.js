@@ -187,7 +187,7 @@ function drawHighChartHistogramChart(element_id, values, params, categories){
     
     yAxis: {
       title: {
-        text: null
+        text: params['ytitle'] || null
       },
 //      labels: {
 //        formatter: function(){
