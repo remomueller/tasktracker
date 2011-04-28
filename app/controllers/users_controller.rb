@@ -2,6 +2,11 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin, :only => [:new, :create, :edit, :update, :destroy]
 
+  def graph
+    @user = User.current.find_by_id(params[:id])
+    redirect_to users_path unless @user
+  end
+
   def update_settings
     notifications = {}
     email_settings = ['send_email', 'sticky_creation', 'project_comments', 'sticky_comments'] + current_user.all_viewable_projects.collect{|p| "project_#{p.id}"}
@@ -23,7 +28,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by_id(params[:id])
+    @user = User.current.find_by_id(params[:id])
+    redirect_to users_path unless @user
   end
   
   def new
@@ -31,7 +37,8 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find_by_id(params[:id])
+    @user = User.current.find_by_id(params[:id])
+    redirect_to users_path unless @user
   end
 
   # # This is in registrations_controller.rb
@@ -39,19 +46,21 @@ class UsersController < ApplicationController
   # end
 
   def update
-    @user = User.find_by_id(params[:id])
-    if @user.update_attributes(params[:user])
+    @user = User.current.find_by_id(params[:id])
+    if @user and @user.update_attributes(params[:user])
       @user.update_attribute :system_admin, params[:user][:system_admin]
       @user.update_attribute :status, params[:user][:status]
       redirect_to(@user, :notice => 'User was successfully updated.')
-    else
+    elsif @user
       render :action => "edit"
+    else
+      redirect_to users_path
     end
   end
   
   def destroy
     @user = User.find_by_id(params[:id])
-    @user.destroy
+    @user.destroy if @user
     redirect_to users_path
   end  
 end

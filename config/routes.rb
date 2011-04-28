@@ -37,6 +37,7 @@ Notes::Application.routes.draw do
       post :search
     end
     member do
+      get :graph
       post :update_settings
     end
   end
