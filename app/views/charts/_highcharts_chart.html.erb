@@ -1,0 +1,24 @@
+<% @defaults = {:width => 320, :height => 240, :units => '', :title => '', :min => @values.values.flatten.min.to_i, :max => @values.values.flatten.max.to_i, :legend => 'right'} %>
+<% @defaults.merge!(@chart_params) %>
+<% @defaults.each do |k, v| %>
+  <% @defaults[k] = array_or_string_for_javascript(v) if v.kind_of?(String) %>
+<% end %>
+
+<% @values.each do |k, v| %>
+  <% @values[k] = array_or_string_for_javascript(v) if v.kind_of?(Array) %>
+<% end %>
+
+<% @new_values = {} %>
+<% @values.each do |k, v| %>
+  <% @new_values[array_or_string_for_javascript(k)] = v %>
+<% end %>
+
+<% @values = @new_values %>
+
+<div><div id="<%= @chart_element_id %>" style="width: <%= @defaults[:width] %>px;height: <%= @defaults[:height] %>px"></div></div>
+
+<% case @chart_type when 'column' %>
+  <%= javascript_tag "drawHighChartHistogramChart('#{@chart_element_id}', #{options_for_javascript(@values)}, #{options_for_javascript(@defaults)}, #{array_or_string_for_javascript(@categories)});" %>
+<% when 'pie' %>
+  <%= javascript_tag "drawHighChartPieChart('#{@chart_element_id}', #{options_for_javascript(@values)}, #{options_for_javascript(@defaults)});" %>
+<% end %>

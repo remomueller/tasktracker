@@ -5,6 +5,18 @@ class UsersController < ApplicationController
   def graph
     @user = User.current.find_by_id(params[:id])
     redirect_to users_path unless @user
+    
+    @stickies = []
+    @planned = []
+    @ongoing = []
+    @completed = []
+    params[:year] = Date.today.year if params[:year].blank?
+    (1..12).each do |month|
+      @stickies << @user.all_stickies.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
+      @planned << @stickies.last.status('planned').count
+      @ongoing << @stickies.last.status('ongoing').count
+      @completed << @stickies.last.status('completed').count
+    end
   end
 
   def update_settings

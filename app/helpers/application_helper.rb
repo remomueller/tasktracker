@@ -45,4 +45,18 @@ module ApplicationHelper
     result
   end
   
+  def draw_chart(chart_api, chart_type, values, chart_element_id, chart_params, categories)
+    if chart_api == 'highcharts'
+      highcharts_chart(chart_type, values, chart_element_id, chart_params, categories)
+    end
+  end
+  
+  def highcharts_chart(chart_type, values, chart_element_id, chart_params, categories)
+    @values = values
+    @chart_element_id = chart_element_id
+    @chart_type = chart_type
+    @chart_params = chart_params
+    @categories = categories
+    render :partial => 'charts/highcharts_chart'
+  end
 end
