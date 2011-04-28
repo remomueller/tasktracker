@@ -2,6 +2,21 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin, :only => [:new, :create, :edit, :update, :destroy]
 
+  # Stickies per user
+  def overall_graph
+    @stickies = []
+    @users_hash = {}
+    params[:year] = Date.today.year if params[:year].blank?
+    @year = params[:year]
+    (1..12).each do |month|
+      @stickies << Sticky.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
+      User.current.each do |user|
+        @users_hash[user.nickname] = [] unless @users_hash[user.nickname]
+        @users_hash[user.nickname] << @stickies[month-1].with_creator(user.id).count
+      end
+    end
+  end
+
   def graph
     @user = User.current.find_by_id(params[:id])
     unless @user

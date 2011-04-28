@@ -35,6 +35,7 @@ Notes::Application.routes.draw do
   resources :users do
     collection do
       post :search
+      get :overall_graph
     end
     member do
       get :graph
