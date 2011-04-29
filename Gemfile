@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.7'
 
 # Database Adapter
-gem 'mysql2'
+gem 'mysql2', '0.2.7'
 
 # Gems used by project
 gem 'devise', '1.1.7'     # User Authorization
@@ -19,7 +19,7 @@ gem 'omniauth', '0.1.6'   # User Multi-Authentication
 
 # To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
 # gem 'ruby-debug'
-# gem 'ruby-debug19'
+# gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Bundle the extra gems:
 # gem 'bj'
