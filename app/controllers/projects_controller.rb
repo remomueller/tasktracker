@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
     @search_terms.each{|search_term| projects_scope = projects_scope.search(search_term) }
     
     projects_scope = projects_scope.by_favorite(current_user.id)
-    projects_scope = projects_scope.order('(favorite IS NULL or favorite = 0) ASC, ' + @order)
+    projects_scope = projects_scope.order("(favorite IS NULL or favorite = '0') ASC, " + @order)
     @projects = projects_scope.page(params[:page]).per(current_user.projects_per_page)
   end
 
