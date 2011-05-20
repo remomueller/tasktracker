@@ -39,9 +39,9 @@ class ProjectsController < ApplicationController
   def show
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project
-      @frame = Frame.find_by_id(params[:frame_id] || 'backlog')
+      @frame = Frame.find_by_id(params[:frame_id] || 0)
       stickies_scope = @project.stickies
-      @stickies = stickies_scope.with_frame(params[:frame_id] || 'backlog').order('end_date DESC, start_date DESC').page(params[:page]).per(10)
+      @stickies = stickies_scope.with_frame(params[:frame_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
     else
       redirect_to root_path
     end

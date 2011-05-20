@@ -58,7 +58,7 @@
     <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
     <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
-    <%= select_tag 'frame_id', options_for_select(@project.frames.collect{|f| [f.name, f.id]} + [['Backlog', 'backlog']], params[:frame_id]) %>
+    <%= select_tag 'frame_id', options_for_select(@project.frames.collect{|f| [f.name, f.id]} + [['Backlog', 0]], params[:frame_id]) %>
     <%= link_to_function "&raquo;".html_safe, "increaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
     <% if @frame %><br /><%= @frame.start_date %> to <%= @frame.end_date %> <% end %>
   <% end %>
