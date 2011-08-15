@@ -22,7 +22,7 @@
   <%= javascript_tag "var root_url='#{SITE_URL + '/'}';var auth_token='#{form_authenticity_token}';" %>
   <div id="header" class="container" style="background-image: url(<%= SITE_URL %>/assets/brigham.png);">
     <div id="version" style="position:relative;display:none">
-      <span style="position:absolute;top:-10px;left:98px;font-size:0.5em;font-variant:normal" class="quiet"><%= Notes::VERSION::STRING %></span>
+      <span style="position:absolute;top:-15px;left:78px;font-size:0.5em;font-variant:normal" class="quiet"><%= Notes::VERSION::STRING %></span>
     </div>
     <%= image_tag('stylefile.png', :alt => '', :style => 'vertical-align:middle') %>
     <%= link_to DEFAULT_APP_NAME, root_path, :style => 'text-decoration:none;color:#404040;', :onmouseover => "$('#version').show();", :onmouseout => "$('#version').hide();" %>
