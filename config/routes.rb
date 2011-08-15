@@ -1,5 +1,9 @@
 Notes::Application.routes.draw do
 
+  match '/auth/failure' => 'authentications#failure'
+  match '/auth/:provider/callback' => 'authentications#create'
+  match '/auth/:provider' => 'authentications#passthru'
+
   resources :comments do
     collection do
       get :search
@@ -26,9 +30,6 @@ Notes::Application.routes.draw do
       get :search
     end
   end
-
-  match '/auth/:provider/callback' => 'authentications#create'
-  match '/auth/failure' => 'authentications#failure'
   
   devise_for :users, :controllers => {:registrations => 'registrations'}, :path_names => { :sign_up => 'register', :sign_in => 'login' }
 
