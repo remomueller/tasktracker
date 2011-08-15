@@ -25,6 +25,7 @@ db/schema.rb
 log/*.log
 tmp/**/*
 tmp/restart.txt
+.sass-cache/
 
 # OS generated files #
 .DS_Store
