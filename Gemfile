@@ -1,35 +1,28 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.1.0.rc4'
 
 # Database Adapter
-gem 'mysql2', '0.2.7'
+gem 'mysql2', '0.3.2',          :platforms => [:ruby]
+gem 'sqlite3',                  :platforms => [:mswin, :mingw]
+gem 'mongrel', '>= 1.2.0.pre2', :platforms => [:mswin, :mingw]
 
 # Gems used by project
-gem 'devise', '1.1.7'     # User Authorization
-gem 'kaminari'            # Pagination
-gem 'mail'                # Emails
-gem 'omniauth', '0.1.6'   # User Multi-Authentication
+gem 'devise', '~> 1.3.4'           # User Authorization
+gem 'kaminari'                     # Pagination
+gem 'mail'                         # Emails
+gem 'omniauth', '0.2.6'            # User Multi-Authentication
 
-# Use unicorn as the web server
-# gem 'unicorn'
+# Asset template engines
+gem 'coffee-script'                # Compiles JavaScript
+gem 'jquery-rails'                 # JavaScript Engine
+gem 'sass-rails', '~> 3.1.0.rc'    # Compiles CSS
+gem 'uglifier'                     # Minimizes and obscures JS and CSS
+gem 'sprockets', '= 2.0.0.beta.10' # Newer versions of sprockets appear to cause errors
 
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19', :require => 'ruby-debug'
-
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
+# Testing
+group :test do
+  # Pretty printed test output
+  gem 'win32console', :platforms => [:mswin, :mingw]
+  gem 'turn'
+end

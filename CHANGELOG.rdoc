@@ -15,6 +15,7 @@
   * Update Rails to 3.1
   * Update Devise to 1.3.4 and Omniauth 0.2.6
   * Modified the authentication system so that it can authenticate correctly when behind a reverse proxy and within a firewall
+  * Updated layout for consistency across projects
 
 * Refactoring
   * JavaScript rewritten using CoffeeScript

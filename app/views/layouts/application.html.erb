@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= ["#{DEFAULT_APP_NAME} #{Notes::VERSION::STRING}", @title].compact.join(' - ').html_safe %></title>
+  <title><%= [DEFAULT_APP_NAME, @title].compact.join(' - ').html_safe %></title>
   <%= favicon_link_tag %>
-  <%#= stylesheet_link_tag :all %>
-  <%= stylesheet_link_tag 'screen', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'print', :media => 'print' %>
-  <!--[if IE]>
-    <%= stylesheet_link_tag 'ie', :media => 'screen, projection' %>
-  <![endif]-->
-  <%= stylesheet_link_tag 'foundation', :media => 'screen, projection' %>
-  <%= stylesheet_link_tag 'jquery-ui-1.8.10.custom' %>
-  
-  <%= javascript_include_tag 'jquery-1.4.4.min', 'jquery-ui-1.8.10.custom.min', 'jquery.rails', 'application', 'highcharts_2_1_4', 'exporting_2_1_4' %>
-  
-  <%#= javascript_include_tag :defaults, :cache => 'cache/all' %>
+	<%= stylesheet_link_tag "application" %>
+	<%= javascript_include_tag "application" %>
   <%= csrf_meta_tag %>
+  
+  <% if false %>
+    <%= stylesheet_link_tag 'screen', :media => 'screen, projection' %>
+    <%= stylesheet_link_tag 'print', :media => 'print' %>
+    <%= stylesheet_link_tag 'foundation', :media => 'screen, projection' %>
+    <%= stylesheet_link_tag 'jquery-ui-1.8.10.custom' %>
+    <%= javascript_include_tag 'jquery-1.4.4.min', 'jquery-ui-1.8.10.custom.min', 'jquery.rails', 'application', 'highcharts_2_1_4', 'exporting_2_1_4' %>
+  <% end %>
+  
   <%= yield :script %>
+  <%# TODO: remove < % content_for :script do % > tags, then remove yield :script %>
 </head>
 <body>
   <%= javascript_tag "var root_url='#{SITE_URL + '/'}';var auth_token='#{form_authenticity_token}';" %>
-  <div id="header" class="container" style="background-image: url(<%= SITE_URL %>/images/brigham.png);">
-    <div style="position:relative">
-      <span style="position:absolute;top:-10px;left:98px;font-size:0.5em;font-variant:normal"><%= Notes::VERSION::STRING %></span>
+  <div id="header" class="container" style="background-image: url(<%= SITE_URL %>/assets/brigham.png);">
+    <div id="version" style="position:relative;display:none">
+      <span style="position:absolute;top:-10px;left:98px;font-size:0.5em;font-variant:normal" class="quiet"><%= Notes::VERSION::STRING %></span>
     </div>
     <%= image_tag('stylefile.png', :alt => '', :style => 'vertical-align:middle') %>
-    <%= link_to DEFAULT_APP_NAME, root_path, :style => 'text-decoration:none;color:#404040;' %>
+    <%= link_to DEFAULT_APP_NAME, root_path, :style => 'text-decoration:none;color:#404040;', :onmouseover => "$('#version').show();", :onmouseout => "$('#version').hide();" %>
   </div>
 
   <div class="container" style="position:relative">
