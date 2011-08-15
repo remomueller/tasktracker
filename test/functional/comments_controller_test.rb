@@ -12,17 +12,27 @@ class CommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:comments)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
+  # test "should get new" do
+  #   get :new
+  #   assert_response :success
+  # end
+
+  test "should create comment for an object in table format" do
+    assert_difference('Comment.count') do
+      post :add_comment_table, :object_model => @comment.object_model, :object_id => @comment.object_id, :comment => "This is a comment.", :position => "1", :format => 'js'
+    end
+    
+    assigns(:comment)
+    assert_template 'add_comment_table'
   end
 
-  test "should create comment" do
+  test "should create comment for an object" do
     assert_difference('Comment.count') do
-      post :create, :comment => @comment.attributes
+      post :add_comment, :object_model => @comment.object_model, :object_id => @comment.object_id, :comment => "This is a comment.", :position => "1", :format => 'js'
     end
-
-    assert_redirected_to comment_path(assigns(:comment))
+    
+    assigns(:comment)
+    assert_template 'add_comment'
   end
 
   test "should show comment" do

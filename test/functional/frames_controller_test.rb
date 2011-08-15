@@ -19,7 +19,7 @@ class FramesControllerTest < ActionController::TestCase
 
   test "should create frame" do
     assert_difference('Frame.count') do
-      post :create, :frame => @frame.attributes
+      post :create, :frame => {:name => "Frame Name", :project_id => 1, :description => "", :start_date => "08/15/2011", :end_date => "12/31/2011" }
     end
 
     assert_redirected_to frame_path(assigns(:frame))
@@ -36,7 +36,7 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should update frame" do
-    put :update, :id => @frame.to_param, :frame => @frame.attributes
+    put :update, :id => @frame.to_param, :frame => {:name => "Frame Name Update", :project_id => 1, :description => "Updated Description", :start_date => "08/15/2011", :end_date => "01/31/2012" }
     assert_redirected_to frame_path(assigns(:frame))
   end
 

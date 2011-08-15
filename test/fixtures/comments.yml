@@ -2,14 +2,14 @@
 
 one:
   user_id: 1
-  object_model: MyString
+  object_model: Project
   object_id: 1
   description: MyText
   deleted: false
 
 two:
   user_id: 1
-  object_model: MyString
+  object_model: Sticky
   object_id: 1
   description: MyText
   deleted: false
