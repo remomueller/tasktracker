@@ -47,4 +47,22 @@ class ProjectsControllerTest < ActionController::TestCase
 
     assert_redirected_to projects_path
   end
+  
+  test "should create project favorite" do
+    assert_difference('ProjectFavorite.where(:favorite => true).count') do
+      post :favorite, :id => 1, :favorite => '1', :format => 'js'
+    end
+
+    assigns(:project)
+    assert_template 'favorite'
+  end
+  
+  test "should remove project favorite" do
+    assert_difference('ProjectFavorite.where(:favorite => false).count') do
+      post :favorite, :id => 2, :favorite => '0', :format => 'js'
+    end
+    
+    assigns(:project)
+    assert_template 'favorite'
+  end
 end
