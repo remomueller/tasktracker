@@ -2,6 +2,7 @@ require 'test_helper'
 
 class CommentsControllerTest < ActionController::TestCase
   setup do
+    login(users(:valid))
     @comment = comments(:one)
   end
 
@@ -40,7 +41,7 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test "should destroy comment" do
-    assert_difference('Comment.count', -1) do
+    assert_difference('Comment.current.count', -1) do
       delete :destroy, :id => @comment.to_param
     end
 

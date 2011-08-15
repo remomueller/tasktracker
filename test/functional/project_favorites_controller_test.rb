@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ProjectFavoritesControllerTest < ActionController::TestCase
   setup do
+    login(users(:valid))
     @project_favorite = project_favorites(:one)
   end
 

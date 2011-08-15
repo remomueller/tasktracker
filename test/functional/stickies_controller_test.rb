@@ -2,6 +2,7 @@ require 'test_helper'
 
 class StickiesControllerTest < ActionController::TestCase
   setup do
+    login(users(:valid))
     @sticky = stickies(:one)
   end
 
@@ -40,7 +41,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should destroy sticky" do
-    assert_difference('Sticky.count', -1) do
+    assert_difference('Sticky.current.count', -1) do
       delete :destroy, :id => @sticky.to_param
     end
 

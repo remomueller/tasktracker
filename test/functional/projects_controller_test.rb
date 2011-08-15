@@ -2,6 +2,7 @@ require 'test_helper'
 
 class ProjectsControllerTest < ActionController::TestCase
   setup do
+    login(users(:valid))
     @project = projects(:one)
   end
 
@@ -40,7 +41,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should destroy project" do
-    assert_difference('Project.count', -1) do
+    assert_difference('Project.current.count', -1) do
       delete :destroy, :id => @project.to_param
     end
 

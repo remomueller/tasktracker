@@ -2,6 +2,7 @@ require 'test_helper'
 
 class FramesControllerTest < ActionController::TestCase
   setup do
+    login(users(:valid))
     @frame = frames(:one)
   end
 
@@ -40,7 +41,7 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should destroy frame" do
-    assert_difference('Frame.count', -1) do
+    assert_difference('Frame.current.count', -1) do
       delete :destroy, :id => @frame.to_param
     end
 
