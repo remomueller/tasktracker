@@ -115,6 +115,14 @@ pre {
 /*  font-variant: small-caps;*/	
 }
 
+.sticky {
+  position:fixed;
+  top:0;
+  width:950px;
+  margin:0 auto;
+  z-index:100;
+}
+
 #menu a {
   color: #fff;
   text-decoration: none;
