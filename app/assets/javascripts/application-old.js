@@ -90,28 +90,28 @@ function toggleSticky(element){
   $(element+'_description').toggleClass('collapsed');
 }
 
-function increaseSelectedIndex(element){
-  var num_options = $(element + ' option').size()
-  var element = $(element);
-  var next_index = 0;
-  if(element.attr('selectedIndex') <= 0){
-    return false;
-  }else{
-    next_index = element.attr('selectedIndex') - 1;
-  }
-  element.attr('selectedIndex', next_index);
-  element.change();
-}
-
-function decreaseSelectedIndex(element){
-  var num_options = $(element + ' option').size()
-  var element = $(element);
-  var next_index = 0;
-  if(element.attr('selectedIndex') < num_options - 1){
-    next_index = element.attr('selectedIndex') + 1;
-  }else{
-    return false;
-  }
-  element.attr('selectedIndex', next_index);
-  element.change();
-}
+// function increaseSelectedIndex(element){
+//   var num_options = $(element + ' option').size()
+//   var element = $(element);
+//   var next_index = 0;
+//   if(element.attr('selectedIndex') <= 0){
+//     return false;
+//   }else{
+//     next_index = element.attr('selectedIndex') - 1;
+//   }
+//   element.attr('selectedIndex', next_index);
+//   element.change();
+// }
+// 
+// function decreaseSelectedIndex(element){
+//   var num_options = $(element + ' option').size()
+//   var element = $(element);
+//   var next_index = 0;
+//   if(element.attr('selectedIndex') < num_options - 1){
+//     next_index = element.attr('selectedIndex') + 1;
+//   }else{
+//     return false;
+//   }
+//   element.attr('selectedIndex', next_index);
+//   element.change();
+// }

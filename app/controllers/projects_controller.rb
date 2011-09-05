@@ -39,7 +39,11 @@ class ProjectsController < ApplicationController
   def show
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project
-      @frame = Frame.find_by_id(params[:frame_id] || 0)
+      @frame = @project.frames.find_by_id(params[:frame_id] || 0)
+      unless @frame
+        @frame = @project.frames.active_today.first
+        params[:frame_id] = @frame.id if @frame
+      end
       stickies_scope = @project.stickies
       @stickies = stickies_scope.with_frame(params[:frame_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
     else

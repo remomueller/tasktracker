@@ -6,7 +6,9 @@
 == 0.7.0
 
 * Enhancements
-
+  * Overall Graph is now available for system administrators
+  * The currently active frame is now set initially on the project page
+  
 * Bug Fixes
   * Graphs now properly render when displaying project names that contain apostrophes
 
