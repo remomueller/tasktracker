@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :check_system_admin, :only => [:new, :create, :edit, :update, :destroy, :overall_graph]
 
   # Stickies per user
   def overall_graph
@@ -14,10 +14,11 @@ class UsersController < ApplicationController
       @stickies << Sticky.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
       @comments << Comment.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
       User.current.each do |user|
-        @users_hash[user.nickname] = [] unless @users_hash[user.nickname]
-        @users_hash[user.nickname] << @stickies[month-1].with_creator(user.id).count
-        @users_comment_hash[user.nickname] = [] unless @users_comment_hash[user.nickname]
-        @users_comment_hash[user.nickname] << @comments[month-1].with_creator(user.id).count
+        escaped_name = user.nickname.gsub("'", "\\\\'")
+        @users_hash[escaped_name] = [] unless @users_hash[escaped_name]
+        @users_hash[escaped_name] << @stickies[month-1].with_creator(user.id).count
+        @users_comment_hash[escaped_name] = [] unless @users_comment_hash[escaped_name]
+        @users_comment_hash[escaped_name] << @comments[month-1].with_creator(user.id).count
       end
     end
   end
@@ -47,12 +48,13 @@ class UsersController < ApplicationController
   
     (1..12).each do |month|
       @user.all_projects.by_favorite(@user.id).order('(favorite IS NULL or favorite = 0) DESC, name DESC').each do |project|
+        escaped_name = project.name.gsub("'", "\\\\'")
         if project_favorite = project.project_favorites.find_by_user_id(@user.id) and project_favorite.favorite?
-          @favorite_projects_hash[project.name] = [] unless @favorite_projects_hash[project.name]
-          @favorite_projects_hash[project.name] << @stickies[month-1].with_project(project.id, @user.id).count
+          @favorite_projects_hash[escaped_name] = [] unless @favorite_projects_hash[escaped_name]
+          @favorite_projects_hash[escaped_name] << @stickies[month-1].with_project(project.id, @user.id).count
         else          
-          @other_projects_hash[project.name] = [] unless @other_projects_hash[project.name]
-          @other_projects_hash[project.name] << @stickies[month-1].with_project(project.id, @user.id).count
+          @other_projects_hash[escaped_name] = [] unless @other_projects_hash[escaped_name]
+          @other_projects_hash[escaped_name] << @stickies[month-1].with_project(project.id, @user.id).count
         end
       end
     end

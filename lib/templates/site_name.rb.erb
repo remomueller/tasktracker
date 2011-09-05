@@ -1,11 +1,5 @@
 DEFAULT_APP_NAME = "<%= print "Enter Default App Name [Notes]: "; s = gets.chomp().gsub('"', '\"').gsub("\\", "\\\\"); s == '' ? 'Notes' : s %>"
-if Rails.env == 'production'
-  SITE_URL = "<%= print "Enter Production URL [http://localhost.production]: "; s = gets.chomp().gsub('"', '\"').gsub("\\", "\\\\"); s == '' ? 'http://localhost.production' : s %>"
-elsif Rails.env == 'development'
-  SITE_URL = "<%= print "Enter Development URL [http://localhost.development]: "; s = gets.chomp().gsub('"', '\"').gsub("\\", "\\\\"); s == '' ? 'http://localhost.development' : s %>"
-else
-  SITE_URL = "http://localhost:3000"
-end
+SITE_URL = "<%= print "Enter Site URL [http://localhost]: "; s = gets.chomp().gsub('"', '\"').gsub("\\", "\\\\"); s == '' ? 'http://localhost' : s %>"
 
 # Used so Devise knows what url to append.
 ActionMailer::Base.default_url_options[:host] = SITE_URL.gsub(/^https?:\/\//, '')

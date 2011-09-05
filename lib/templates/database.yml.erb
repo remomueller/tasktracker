@@ -11,10 +11,10 @@ development:
   reconnect: false
   database: notes_development
   pool: 5
-  username: <%= print "Enter Development Username [username]: "; s = gets.chomp(); s == '' ? 'username' : s %>
-  password: <%= print "Enter Development Password [password]: "; s = gets.chomp(); s == '' ? 'password' : s %>
-  socket: <%= print "Enter Development Socket [/tmp/mysql.sock]: "; s = gets.chomp(); s == '' ? '/tmp/mysql.sock' : s %>
-  host: <%= print "Enter Development Host: "; gets.chomp() %>
+  username: <%= print "Enter Database Username [username]: "; u = gets.chomp(); if u == '' then u = 'username' end; u %>
+  password: <%= print "Enter Database Password [password]: "; p = gets.chomp(); if p == '' then p = 'password' end; p %>
+  socket: <%= print "Enter Database Socket [/tmp/mysql.sock]: "; s = gets.chomp(); if s == '' then s = '/tmp/mysql.sock' end; s %>
+  host: <%= print "Enter Database Host: "; h = gets.chomp(); h %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -25,10 +25,10 @@ test:
   reconnect: false
   database: notes_test
   pool: 5
-  username: <%= print "Enter Test Username [username]: "; s = gets.chomp(); s == '' ? 'username' : s %>
-  password: <%= print "Enter Test Password [password]: "; s = gets.chomp(); s == '' ? 'password' : s %>
-  socket: <%= print "Enter Test Socket [/tmp/mysql.sock]: "; s = gets.chomp(); s == '' ? '/tmp/mysql.sock' : s %>
-  host: <%= print "Enter Test Host: "; gets.chomp() %>
+  username: <%= u %>
+  password: <%= p %>
+  socket: <%= s %>
+  host: <%= h %>
 
 production:
   adapter: mysql2
@@ -36,7 +36,7 @@ production:
   reconnect: false
   database: notes_production
   pool: 5
-  username: <%= print "Enter Production Username [username]: "; s = gets.chomp(); s == '' ? 'username' : s %>
-  password: <%= print "Enter Production Password [password]: "; s = gets.chomp(); s == '' ? 'password' : s %>
-  socket: <%= print "Enter Production Socket [/tmp/mysql.sock]: "; s = gets.chomp(); s == '' ? '/tmp/mysql.sock' : s %>
-  host: <%= print "Enter Production Host: "; gets.chomp() %>
+  username: <%= u %>
+  password: <%= p %>
+  socket: <%= s %>
+  host: <%= h %>

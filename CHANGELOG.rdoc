@@ -7,6 +7,9 @@
 
 * Enhancements
 
+* Bug Fixes
+  * Graphs now properly render when displaying project names that contain apostrophes
+
 == 0.6.1
 
 * Enhancements
