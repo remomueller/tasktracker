@@ -1,7 +1,7 @@
 <% @title = 'Projects' %>
 <h1><%= @title %></h1>
 
-<%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Project", new_project_path, :class => 'button positive' %>
+<%= link_to image_tag('stock/addfile.png', :alt => '') + "Create New Project", new_project_path, :class => 'button positive' %>
 
 <%= form_tag projects_path, :method => :get, :remote => true, :id => 'projects_search' do %>
   <%= hidden_field_tag :order %>

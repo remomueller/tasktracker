@@ -5,7 +5,7 @@
 <p>
   <%= hidden_field_tag :position, @position %>
   <%= text_area_tag "#{class_name}[#{@object.id}][comment][#{@position}]", '', :name => 'comment', :rows => 2, :style => "width:#{width}" %>
-  <%= link_to_function image_tag('icons/addfile.png', :alt => '') + 'Add Comment', "$.post($(\"##{form_name}\").attr(\"action\"), $(\"##{form_name}\").serialize(), null, \"script\");", :class => "button positive" %>
+  <%= link_to_function image_tag('stock/addfile.png', :alt => '') + 'Add Comment', "$.post($(\"##{form_name}\").attr(\"action\"), $(\"##{form_name}\").serialize(), null, \"script\");", :class => "button positive" %>
 </p>
 <% end %>
 <br />

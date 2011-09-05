@@ -1,17 +1,11 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 // TODO: Rewrite using CoffeeScript
-
-function createSpinner() {
-  return new Element('img', { src: root_url + 'images/ajax-loader.gif', 'class': 'spinner', 'height': '11', 'width': '11' });
-}
-
 $(function(){
   $(".datepicker").datepicker({ showOtherMonths: true, selectOtherMonths: true, changeMonth: true, changeYear: true });  
   $("#ui-datepicker-div").hide();
   
   $(".pagination a, .page a, .next a, .prev a").live("click", function() {
-    // $(".pagination").html(createSpinner()); //.html("Page is loading...");
     $.get(this.href, null, null, "script")
     return false;
   });

@@ -12,13 +12,13 @@
 </h1>
 
 <% if current_user.all_projects.include?(@project) %>
-  <%= link_to image_tag('icons/edit.png', :alt => '') + "Edit Project", edit_project_path(@project), :class => 'button' %>
-  <%= link_to image_tag('icons/delete.png', :alt => '') + "Delete Project", @project, :confirm => "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!", :method => :delete, :class => 'button negative' %>
+  <%= link_to image_tag('stock/edit.png', :alt => '') + "Edit Project", edit_project_path(@project), :class => 'button' %>
+  <%= link_to image_tag('stock/delete.png', :alt => '') + "Delete Project", @project, :confirm => "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!", :method => :delete, :class => 'button negative' %>
 <% end %>
-<%= link_to image_tag('icons/mydocuments.png', :alt => '') + "View All Projects", projects_path, :class => 'button' %>
+<%= link_to image_tag('stock/mydocuments.png', :alt => '') + "View All Projects", projects_path, :class => 'button' %>
 <% if current_user.all_projects.include?(@project) %>
-  <%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path(:sticky => {:project_id => @project.id}), :class => 'button positive' %>
-  <%= link_to image_tag('icons/addfile.png', :alt => '') + "Create New Frame", new_frame_path(:frame => {:project_id => @project.id}), :class => 'button positive' %>
+  <%= link_to image_tag('stock/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path(:sticky => {:project_id => @project.id}), :class => 'button positive' %>
+  <%= link_to image_tag('stock/addfile.png', :alt => '') + "Create New Frame", new_frame_path(:frame => {:project_id => @project.id}), :class => 'button positive' %>
 <% end %>
 
 <div style="clear:both"></div>
@@ -74,7 +74,7 @@
 
 <h2>General Project Comments</h2>
 <div class="quiet">
-  <%= image_tag('icons/information.png', :alt => '', :style => 'vertical-align:middle') %>
+  <%= image_tag('stock/information.png', :alt => '', :style => 'vertical-align:middle') %>
   Questions? Issues? Feature Requests? Bugs? Enter them here!
 </div>
 

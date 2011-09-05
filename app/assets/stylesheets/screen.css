@@ -250,20 +250,20 @@ a[href$=".rdf"],
 a[href^="aim:"] { padding:2px 22px 2px 0; margin:-2px 0; background-repeat: no-repeat; background-position: right center; }
 
 /*** EXTERNAL LINK ICONS ***/
-a[href^="http:"]          { background-image: url(../assets/icons/external.png); padding-right: 14px; }
-a[href^="mailto:"]        { background-image: url(../assets/icons/email.png); }
-a[href^="http:"]:visited  { background-image: url(../assets/icons/visited.png); }
+a[href^="http:"]          { background-image: url(../assets/stock/external.png); padding-right: 14px; }
+a[href^="mailto:"]        { background-image: url(../assets/stock/email.png); }
+a[href^="http:"]:visited  { background-image: url(../assets/stock/visited.png); }
 
 /*** FILE LINK ICONS ***/
-a[href$=".pdf"]   { background-image: url(../assets/icons/pdf.png); }
+a[href$=".pdf"]   { background-image: url(../assets/stock/pdf.png); }
 a[href$=".doc"],
-a[href$=".docx"]  { background-image: url(../assets/icons/doc.png); }
-a[href$=".xls"]   { background-image: url(../assets/icons/xls.png); }
+a[href$=".docx"]  { background-image: url(../assets/stock/doc.png); }
+a[href$=".xls"]   { background-image: url(../assets/stock/xls.png); }
 
 /*** MISCELLANEOUS LINK ICONS ***/
 a[href$=".rss"],
-a[href$=".rdf"]   { background-image: url(../assets/icons/feed.png); }
-a[href^="aim:"]   { background-image: url(../assets/icons/im.png); }
+a[href$=".rdf"]   { background-image: url(../assets/stock/feed.png); }
+a[href^="aim:"]   { background-image: url(../assets/stock/im.png); }
 a[href^="http://yourwebsite.com"] { background:none; padding:0; margin:0; }
 
 /*** TEXT CLASSES ***/

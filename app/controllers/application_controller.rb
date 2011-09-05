@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  layout "contour/layouts/application"
+
   def month_start_date(year, month)
     Date.parse("#{year}-#{month}-01")
   end

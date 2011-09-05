@@ -38,7 +38,7 @@
   
   <div class="actions">
     <% form_name = @frame.new_record? ? 'new_frame' : "edit_frame_#{@frame.id}" %>
-    <%= link_to_function image_tag('icons/tick.png', :alt => '') + (@frame.new_record? ? "Create Frame" : "Update Frame"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= link_to_function image_tag('stock/tick.png', :alt => '') + (@frame.new_record? ? "Create Frame" : "Update Frame"), "$('##{form_name}').submit();", :class => "button positive" %>
     <%= cancel %>
 		<br />
   </div>
