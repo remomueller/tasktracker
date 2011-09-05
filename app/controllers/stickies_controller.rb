@@ -11,8 +11,8 @@ class StickiesController < ApplicationController
   #     @comments = @object.comments.page(params[:page]).per(5)
   #     params[:controller] = 'comments'
   #     params[:action] = 'search'
-  #     params[:object_id] = params[:id]
-  #     params[:object_model] = 'Sticky'
+  #     params[:class_id] = params[:id]
+  #     params[:class_name] = 'Sticky'
   #     render "comments/add_comment"
   #   else
   #     render :nothing => true

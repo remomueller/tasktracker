@@ -36,11 +36,11 @@ class Sticky < ActiveRecord::Base
   end
   
   def comments(limit = nil)
-    Comment.current.with_object_model(self.class.name).with_object_id(self.id).order('created_at desc').limit(limit)
+    Comment.current.with_class_name(self.class.name).with_class_id(self.id).order('created_at desc').limit(limit)
   end
   
   def new_comment(current_user, description)
-    Comment.create(:object_model => self.class.name, :object_id => self.id, :user_id => current_user.id, :description => description)
+    Comment.create(:class_name => self.class.name, :class_id => self.id, :user_id => current_user.id, :description => description)
     self.touch
   end
 

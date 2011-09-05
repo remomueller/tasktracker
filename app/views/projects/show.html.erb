@@ -78,7 +78,7 @@
   Questions? Issues? Feature Requests? Bugs? Enter them here!
 </div>
 
-<%= form_tag search_comments_path(:object_id => @project.id, :object_model => 'Project'), :method => :get, :id => "comments_search" do %>
+<%= form_tag search_comments_path(:class_id => @project.id, :class_name => 'Project'), :method => :get, :id => "comments_search" do %>
 <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
 <% end %>
 

@@ -27,7 +27,7 @@
     <td style="white-space:nowrap"><%= link_to comment.name, comment %></td>
     <td><%= link_to comment.user.name, comment.user %></td>
     <td>
-      <% object = comment.object_model.constantize.find(comment.object_id) %>
+      <% object = comment.class_name.constantize.find(comment.class_id) %>
       <% if object %>
         <%= object.class.name %>
         <%= link_to object.name, object %>

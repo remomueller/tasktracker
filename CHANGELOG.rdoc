@@ -8,7 +8,10 @@
 * Enhancements
   * Overall Graph is now available for system administrators
   * The currently active frame is now set initially on the project page
-  
+
+* Refactoring
+  * Changed object_id to class_id and object_model to class_name to avoid conflicts with Rails
+
 * Bug Fixes
   * Graphs now properly render when displaying project names that contain apostrophes
   * JavaScript for the arrows next to the frame selection fixed, frames now change correctly

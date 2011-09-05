@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
 
   def all_viewable_comments
     @all_viewable_comments ||= begin
-      Comment.current.with_two_object_models_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
+      Comment.current.with_two_class_names_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
     end
   end
 

@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_filter :authenticate_user!
 
   def add_comment_table
-    @object = current_user.send("all_viewable_"+params[:object_model].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:object_id])
+    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
     if @object and not params[:comment].blank?
       @object.new_comment(current_user, params[:comment])
       @position = params[:position]
@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def add_comment
-    @object = current_user.send("all_viewable_"+params[:object_model].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:object_id])
+    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
     if @object and not params[:comment].blank?
       @object.new_comment(current_user, params[:comment])
       @position = params[:position]
@@ -28,9 +28,9 @@ class CommentsController < ApplicationController
 
 
   def search
-    @object = current_user.send("all_viewable_"+params[:object_model].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:object_id])
+    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
     if @object
-      comments_scope = current_user.all_viewable_comments.with_object_model(params[:object_model]).with_object_id(params[:object_id])
+      comments_scope = current_user.all_viewable_comments.with_class_name(params[:class_name]).with_class_id(params[:class_id])
       @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
       @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
       @comments = comments_scope.page(params[:page]).per(5)

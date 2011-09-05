@@ -16,7 +16,7 @@
 </p>
 
 <p><b>Under:</b>
-  <% object = @comment.object_model.constantize.find(@comment.object_id) %>
+  <% object = @comment.class_name.constantize.find(@comment.class_id) %>
   <% if object %>
     <%= object.class.name %>
     <%= link_to object.name, object %>

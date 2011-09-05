@@ -19,7 +19,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should create comment for an object in table format" do
     assert_difference('Comment.count') do
-      post :add_comment_table, :object_model => @comment.object_model, :object_id => @comment.object_id, :comment => "This is a comment.", :position => "1", :format => 'js'
+      post :add_comment_table, :class_name => @comment.class_name, :class_id => @comment.class_id, :comment => "This is a comment.", :position => "1", :format => 'js'
     end
     
     assigns(:comment)
@@ -28,7 +28,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should create comment for an object" do
     assert_difference('Comment.count') do
-      post :add_comment, :object_model => @comment.object_model, :object_id => @comment.object_id, :comment => "This is a comment.", :position => "1", :format => 'js'
+      post :add_comment, :class_name => @comment.class_name, :class_id => @comment.class_id, :comment => "This is a comment.", :position => "1", :format => 'js'
     end
     
     assigns(:comment)
