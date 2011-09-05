@@ -8,10 +8,11 @@ gem 'sqlite3',                  :platforms => [:mswin, :mingw]
 gem 'mongrel', '>= 1.2.0.pre2', :platforms => [:mswin, :mingw]
 
 # Gems used by project
+gem 'contour'                      # Basic Layout and Assets
 gem 'devise', '~> 1.4.4'           # User Authorization
+gem 'omniauth', '0.2.6'            # User Multi-Authentication
 gem 'kaminari'                     # Pagination
 gem 'mail'                         # Emails
-gem 'omniauth', '0.2.6'            # User Multi-Authentication
 
 # Gems used only for assets and not required
 # in production environments by default.

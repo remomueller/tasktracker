@@ -1,5 +1,7 @@
 Notes::Application.routes.draw do
 
+  resources :samples, :controller => 'contour/samples', :only => [:index]
+
   match '/auth/failure' => 'authentications#failure'
   match '/auth/:provider/callback' => 'authentications#create'
   match '/auth/:provider' => 'authentications#passthru'
