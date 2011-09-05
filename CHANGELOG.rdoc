@@ -1,13 +1,11 @@
 == Planned
 
-* Bug Fixes
-
-* Enhancements
-
 * Refactoring
   * JavaScript rewritten using CoffeeScript
 
-* Testing
+== 0.7.0
+
+* Enhancements
 
 == 0.6.1
 
