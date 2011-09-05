@@ -1,8 +1,3 @@
-== Planned
-
-* Refactoring
-  * JavaScript rewritten using CoffeeScript
-
 == 0.7.0
 
 * Enhancements
@@ -11,6 +6,7 @@
 
 * Refactoring
   * Changed object_id to class_id and object_model to class_name to avoid conflicts with Rails
+  * JavaScript rewritten using CoffeeScript
 
 * Bug Fixes
   * Graphs now properly render when displaying project names that contain apostrophes

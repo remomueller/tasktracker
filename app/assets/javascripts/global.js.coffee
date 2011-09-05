@@ -16,3 +16,7 @@
     element.change()
   else
     return false
+
+@toggleSticky = (element) ->
+  $(element).toggle()
+  $(element+'_description').toggleClass('collapsed')
