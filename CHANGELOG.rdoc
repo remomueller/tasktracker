@@ -11,6 +11,7 @@
   
 * Bug Fixes
   * Graphs now properly render when displaying project names that contain apostrophes
+  * JavaScript for the arrows next to the frame selection fixed, frames now change correctly
 
 == 0.6.1
 
