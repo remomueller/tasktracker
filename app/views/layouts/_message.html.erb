@@ -1,8 +1,0 @@
-<% unless notice.blank? %>
-  <div id="msg_notice" class="notice" style="display:none"><%= notice %></div>
-  <%= javascript_tag "showMessage(['#msg_notice']);" %>
-<% end %>
-<% unless alert.blank? %>
-  <div id="msg_alert" class="error" style="display:none"><%= alert %></div>
-  <%= javascript_tag "showMessage(['#msg_alert']);" %>
-<% end %>
