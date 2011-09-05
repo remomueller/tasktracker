@@ -3,6 +3,7 @@
 * Enhancements
   * Overall Graph is now available for system administrators
   * The currently active frame is now set initially on the project page
+  * Notes now uses Contour for application layout, registration, and authentication
 
 * Refactoring
   * Changed object_id to class_id and object_model to class_name to avoid conflicts with Rails
