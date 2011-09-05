@@ -9,10 +9,8 @@
   <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 <% end %>
 
-<% content_for :script do %>
-  <%= javascript_tag do %>
-    $(function(){
-      $.get($("#projects_search").attr("action"), $("#projects_search").serialize(), null, "script");
-    });
-  <% end %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#projects_search").attr("action"), $("#projects_search").serialize(), null, "script");
+  });
 <% end %>

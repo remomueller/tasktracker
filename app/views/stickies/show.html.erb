@@ -72,12 +72,10 @@
 
 <div id="comments"></div>
 
-<% content_for :script do %>
-  <%= javascript_tag do %>
-    $(function(){
-      $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
-    });
-  <% end %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
+  });
 <% end %>
 
 <% if false %>

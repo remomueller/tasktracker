@@ -1,0 +1,94 @@
+/*************************************
+   WELCOME TO THE CUSTOM STYLESHEET
+--------------------------------------
+              custom.css
+        BlueTrip CSS Framework
+    Put your custom styles in here.
+***************************************/
+
+/**************************************/
+/*           COLOR SCHEME             */
+/**************************************
+- black		#000
+- white		#fff
+- logo blue   #0E7799  
+- link blue   #057080
+
+- dark blue   #094E63
+- light blue  #CDEDF7
+- orange      #EB6C20
+***************************************/
+
+/* TODO extract into SCSS files */
+
+/**************************************/
+/*              GLOBALS               */
+/**************************************/
+
+a:link { color: #057080; }
+a:hover { color: #EB6C20; }
+
+/**************************************/
+/*            MAIN CONTENT            */
+/**************************************/
+
+.comment_box {
+  margin-left:20px;
+}
+
+.collapsed {
+  white-space:nowrap;
+  overflow:hidden;
+}
+
+.status_marked, .status_unmarked {
+  float: left;
+  padding: 2px;
+  width: 10px;
+/*  height: 10px;*/
+  line-height: 10px;
+  font-size: 10px;
+  text-align: center;
+  vertical-align: middle;
+  border: 2px solid #DDD;
+  background-color: #FFFFFF;
+  margin-right:2px;
+  margin-bottom: -2px;
+}
+
+.status_marked {
+  border: 2px solid #404040;
+}
+
+.status_marked.planned {
+  border-color: #FFB475;
+  background-color: #FEE5CD;
+}
+
+.status_marked.ongoing {
+  border-color: #66FF66;
+  background-color: #D4FFCD;
+}
+
+.status_marked.completed {
+  border-color: #366DC2;
+  background-color: #B1BFDB;
+}
+
+.status_unmarked {
+/*  border: 2px solid gray;*/
+}
+
+table.status-table, table.status-table tr, table.status-table td {
+  border:0px;
+  margin:0px;
+  padding:0px
+}
+
+table.status-table td {
+  vertical-align: middle;
+}
+
+.recently_updated {
+  background-color: #ffffcc;
+}

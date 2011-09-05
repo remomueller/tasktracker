@@ -11,10 +11,8 @@
   <div id="users"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 <% end %>
 
-<% content_for :script do %>
-  <%= javascript_tag do %>
-    $(function(){
-      $.get($("#users_search").attr("action"), $("#users_search").serialize(), null, "script");
-    });
-  <% end %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#users_search").attr("action"), $("#users_search").serialize(), null, "script");
+  });
 <% end %>

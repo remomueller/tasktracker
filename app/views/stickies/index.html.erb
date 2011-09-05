@@ -9,10 +9,8 @@
 
 <div id="stickies"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
-<% content_for :script do %>
-  <%= javascript_tag do %>
-    $(function(){
-      $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
-    });
-  <% end %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
+  });
 <% end %>

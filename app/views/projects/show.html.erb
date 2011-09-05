@@ -84,13 +84,11 @@
 
 <div id="comments"></div>
 
-<% content_for :script do %>
-  <%= javascript_tag do %>
-    $(function(){
-      $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
-      $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
-    });
-  <% end %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
+    $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
+  });
 <% end %>
 
 <%#= render :partial => 'stickies/index' %>
