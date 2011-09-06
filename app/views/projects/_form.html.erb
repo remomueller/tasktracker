@@ -38,7 +38,7 @@
   
   <div class="actions">
     <% form_name = @project.new_record? ? 'new_project' : "edit_project_#{@project.id}" %>
-    <%= link_to_function image_tag('stock/tick.png', :alt => '') + (@project.new_record? ? "Create Project" : "Update Project"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@project.new_record? ? "Create Project" : "Update Project"), "$('##{form_name}').submit();", :class => "button positive" %>
     <%= cancel %>
 		<br />
   </div>

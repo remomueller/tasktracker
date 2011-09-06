@@ -2,10 +2,10 @@
 <h1><%= @title %></h1>
 
 <% if current_user.all_comments.include?(@comment) %>
-  <%= link_to image_tag('stock/edit.png', :alt => '') + "Edit Comment", edit_comment_path(@comment), :class => 'button' %>
-  <%= link_to image_tag('stock/delete.png', :alt => '') + "Delete Comment", @comment, :confirm => "Are you sure you want to delete Comment #{@comment.name}?", :method => :delete, :class => 'button negative' %>
+  <%= link_to image_tag('contour/edit.png', :alt => '') + "Edit Comment", edit_comment_path(@comment), :class => 'button' %>
+  <%= link_to image_tag('contour/delete.png', :alt => '') + "Delete Comment", @comment, :confirm => "Are you sure you want to delete Comment #{@comment.name}?", :method => :delete, :class => 'button negative' %>
 <% end %>
-<%= link_to image_tag('stock/mydocuments.png', :alt => '') + "View All Comments", comments_path, :class => 'button' %>
+<%= link_to image_tag('contour/mydocuments.png', :alt => '') + "View All Comments", comments_path, :class => 'button' %>
 
 <div style="clear:both"></div>
 <br />
