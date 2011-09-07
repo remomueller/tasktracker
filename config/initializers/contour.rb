@@ -4,8 +4,14 @@ Contour.setup do |config|
   # Enter your application name here. The name will be displayed in the title of all pages, ex: AppName - PageTitle
   config.application_name = DEFAULT_APP_NAME
   
+  # If you want to style your name using html you can do so here, ex: <b>App</b>Name
+  # config.application_name_html = ''
+
   # Enter your application version here. Do not include a trailing backslash. Recommend using a predefined constant
   config.application_version = Notes::VERSION::STRING
+  
+  # Enter the url of your site without a trailing slash, ex: http://localhost/app_root
+  config.application_site_url = SITE_URL
   
   # Enter your application header background image here.
   config.header_background_image = 'brigham.png'
