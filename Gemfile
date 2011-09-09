@@ -8,7 +8,7 @@ gem 'sqlite3',                  :platforms => [:mswin, :mingw]
 gem 'mongrel', '>= 1.2.0.pre2', :platforms => [:mswin, :mingw]
 
 # Gems used by project
-gem 'contour', '~> 0.4.0'          # Basic Layout and Assets
+gem 'contour', '~> 0.5.0'          # Basic Layout and Assets
 gem 'devise',  '~> 1.4.4'          # User Authorization
 gem 'omniauth',   '0.2.6'          # User Multi-Authentication
 gem 'kaminari'                     # Pagination

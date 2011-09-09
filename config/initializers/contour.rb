@@ -10,9 +10,6 @@ Contour.setup do |config|
   # Enter your application version here. Do not include a trailing backslash. Recommend using a predefined constant
   config.application_version = Notes::VERSION::STRING
   
-  # Enter the url of your site without a trailing slash, ex: http://localhost/app_root
-  config.application_site_url = SITE_URL
-  
   # Enter your application header background image here.
   config.header_background_image = 'brigham.png'
 
