@@ -1,0 +1,13 @@
+Hello <%= @recipient.first_name %>,
+
+<%= @sticky.owner.name %> completed the following Sticky <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %>.
+
+
+<%= @sticky.description %>
+
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> System Mailer
+
+<%= @footer_txt %>

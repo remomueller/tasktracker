@@ -62,7 +62,7 @@ class UsersController < ApplicationController
 
   def update_settings
     notifications = {}
-    email_settings = ['send_email', 'sticky_creation', 'project_comments', 'sticky_comments'] + current_user.all_viewable_projects.collect{|p| "project_#{p.id}"}
+    email_settings = ['send_email', 'sticky_creation', 'sticky_completion', 'project_comments', 'sticky_comments'] + current_user.all_viewable_projects.collect{|p| "project_#{p.id}"}
     email_settings.each do |email_setting|
       notifications[email_setting] = (not params[:email].blank? and params[:email][email_setting] == '1')
     end

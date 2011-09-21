@@ -14,6 +14,8 @@ class Sticky < ActiveRecord::Base
   scope :with_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
 
   after_create :send_email
+  
+  before_update :send_completion_email
 
   # Model Validation
   validates_presence_of :description
@@ -51,6 +53,16 @@ class Sticky < ActiveRecord::Base
       all_users = (self.project.users + [self.project.user]).uniq - [self.user]
       all_users.each do |user_to_email|
         UserMailer.sticky_by_mail(self, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_creation) and user_to_email.email_on?("project_#{self.project.id}") and Rails.env.production?
+      end
+    end
+  end
+
+  # TODO: Currently assumes that the owner marks the sticky as completed.
+  def send_completion_email
+    if self.project and self.changes[:status] and self.changes[:status][1] == 'completed' and self.owner
+      all_users = (self.project.users + [self.project.user]).uniq - [self.owner]
+      all_users.each do |user_to_email|
+        UserMailer.sticky_completion_by_mail(self, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_completion) and user_to_email.email_on?("project_#{self.project.id}") and Rails.env.production?
       end
     end
   end

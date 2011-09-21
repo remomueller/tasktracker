@@ -34,7 +34,16 @@ class UserMailer < ActionMailer::Base
     @recipient = recipient
     mail(:to => recipient.email,
          :subject => @subject + "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
-         :reply_to => sticky.user.email)    
+         :reply_to => sticky.user.email)
+  end
+
+  def sticky_completion_by_mail(sticky, recipient)
+    setup_email
+    @sticky = sticky
+    @recipient = recipient
+    mail(:to => recipient.email,
+         :subject => @subject + "#{sticky.owner.name} Completed a Sticky on Project #{sticky.project.name}",
+         :reply_to => sticky.owner.email)
   end
   
   def status_activated(user)

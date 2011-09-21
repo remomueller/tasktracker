@@ -1,5 +1,8 @@
 == 0.8.0
 
+* Enhancements
+  * Emails are now sent for stickies when they are completed, can be disabled in user settings
+
 == 0.7.3
 
 * Refactoring

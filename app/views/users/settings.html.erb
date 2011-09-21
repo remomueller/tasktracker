@@ -15,7 +15,12 @@
       <b>Sticky Creation</b><br />
       <%= check_box_tag 'email[sticky_creation]', '1', current_user.email_on?(:sticky_creation) %> <%= information("Receive email when a new sticky is created") %>
     </div>
-  
+    
+    <div class="field">
+      <b>Sticky Completion</b><br />
+      <%= check_box_tag 'email[sticky_completion]', '1', current_user.email_on?(:sticky_completion) %> <%= information("Receive email when a sticky is marked as completed") %>
+    </div>
+    
     <div class="field">
       <b>Project Comments</b><br />
       <%= check_box_tag 'email[project_comments]', '1', current_user.email_on?(:project_comments) %> <%= information("Receive email when a comment is added to a project") %>
