@@ -5,4 +5,5 @@
 // the compiled file.
 //
 //= require contour
+//= require site
 //= require_tree .
