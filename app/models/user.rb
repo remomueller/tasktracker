@@ -105,6 +105,12 @@ class User < ActiveRecord::Base
       Comment.current.with_two_class_names_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
     end
   end
+  
+  def all_deletable_comments
+    @all_comments ||= begin
+      Comment.current.with_two_class_names_and_ids('Project', self.all_projects.collect{|p| p.id}, 'Sticky', self.all_stickies.collect{|s| s.id}).order('created_at DESC')
+    end
+  end
 
   def name
     "#{first_name} #{last_name}"

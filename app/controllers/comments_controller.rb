@@ -86,7 +86,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = current_user.all_comments.find_by_id(params[:id])
+    @comment = current_user.all_deletable_comments.find_by_id(params[:id])
     if @comment
       @comment.destroy
       redirect_to comments_path

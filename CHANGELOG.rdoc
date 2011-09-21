@@ -2,6 +2,7 @@
 
 * Enhancements
   * Emails are now sent for stickies when they are completed, can be disabled in user settings
+  * Owners who can edit a project or a sticky can now delete comments attached to the project or sticky
 
 == 0.7.3
 
