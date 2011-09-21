@@ -112,6 +112,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def all_movable_comments
+    self.all_deletable_comments
+  end
+
   def name
     "#{first_name} #{last_name}"
   end

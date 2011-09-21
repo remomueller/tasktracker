@@ -85,6 +85,32 @@ class CommentsController < ApplicationController
     end
   end
 
+  def move
+    @comment = current_user.all_movable_comments.find_by_id(params[:id])
+  end
+
+  def move_update
+    @comment = current_user.all_movable_comments.find_by_id(params[:id])
+    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
+    if @comment and @object
+      @comment.update_attributes({:class_name => @object.class.name, :class_id => @object.id})
+      
+      redirect_to @object, :notice => "Comment moved to #{@object.name}."
+    else
+      redirect_to root_path, :alert => "You may not move the comment."
+    end
+  end
+  
+  def object_select
+    @comment = current_user.all_movable_comments.find_by_id(params[:id])
+    @objects = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase)
+    if @comment and @objects
+      
+    else
+      render :nothing => true
+    end
+  end
+
   def destroy
     @comment = current_user.all_deletable_comments.find_by_id(params[:id])
     if @comment
