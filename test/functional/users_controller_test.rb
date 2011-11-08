@@ -1,5 +1,7 @@
 require 'test_helper'
 
+SimpleCov.command_name "test:functionals"
+
 class UsersControllerTest < ActionController::TestCase
   setup do
     login(users(:admin))

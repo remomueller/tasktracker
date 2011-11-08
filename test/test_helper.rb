@@ -1,3 +1,5 @@
+require 'simplecov'
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
@@ -31,5 +33,15 @@ class ActionController::IntegrationTest
     user.update_attribute :system_admin, user_template.system_admin?
     post_via_redirect 'users/login', :user => {:email => email, :password => password}
     user
+  end
+end
+
+module Rack
+  module Test
+    class UploadedFile
+      def tempfile
+        @tempfile
+      end
+    end
   end
 end

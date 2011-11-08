@@ -28,6 +28,7 @@ log/*.log
 tmp/**/*
 tmp/restart.txt
 .sass-cache/
+coverage/*
 
 # OS generated files #
 .DS_Store

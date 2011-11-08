@@ -53,5 +53,10 @@ Contour.setup do |config|
                  {:name => '&raquo;Overall Graph', :path => 'overall_graph_users_path', :condition => 'current_user.system_admin?'}]
     }
   ]
-    
+  
+  # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
+  config.news_feed = 'https://sleepepi.partners.org/category/informatics/notes-project-management/feed/rss'
+  
+  # Enter the max number of items you want to see in the news feed.
+  config.news_feed_items = 3 
 end
