@@ -2,7 +2,9 @@
 
 * Enhancements
   * Using Rails 3.1.1, Ruby 1.9.3.p0, and Contour 0.5.6
-  * Emails sent by notes now have consistent subjects
+  * Emails sent by notes now:
+    * Have consistent subjects lines
+    * Sticky Added email now displays who is assigned to the sticky
 
 * Testing
   * Analyzing test coverage using SimpleCov gem, test coverage now at 70%
