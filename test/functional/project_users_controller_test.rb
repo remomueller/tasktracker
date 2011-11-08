@@ -22,8 +22,17 @@ class ProjectUsersControllerTest < ActionController::TestCase
       post :create, :project_user => {:project_id => projects(:one).to_param, :allow_editing => true}, :editors_text => users(:two).name + " <#{users(:two).email}>", :format => 'js'
     end
     
-    assigns(:project_user)
+    assert_not_nil assigns(:project_user)
     assert_template 'index'
+  end
+
+  test "should not create project user with invalid project id" do
+    assert_difference('ProjectUser.count', 0) do
+      post :create, :project_user => {:project_id => -1, :allow_editing => true}, :editors_text => users(:two).name + " <#{users(:two).email}>", :format => 'js'
+    end
+    
+    assert_nil assigns(:project_user)
+    assert_response :success
   end
 
   # test "should show project_user" do
@@ -46,7 +55,16 @@ class ProjectUsersControllerTest < ActionController::TestCase
       delete :destroy, :id => @project_user.to_param, :format => 'js'
     end
     
-    assigns(:project)
+    assert_not_nil assigns(:project)
     assert_template 'index'
+  end
+  
+  test "should destroy project user with invalid id" do
+    assert_difference('ProjectUser.count', 0) do
+      delete :destroy, :id => -1, :format => 'js'
+    end
+    
+    assert_nil assigns(:project)
+    assert_response :success
   end
 end

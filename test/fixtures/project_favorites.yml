@@ -6,6 +6,6 @@ one:
   favorite: false
 
 two:
-  project: one
+  project: two
   user: valid
-  favorite: false
+  favorite: true

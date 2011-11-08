@@ -8,6 +8,91 @@ class UsersControllerTest < ActionController::TestCase
     @user = users(:valid)
   end
 
+  test "should get overall_graph" do
+    get :overall_graph
+    
+    assert_not_nil assigns(:stickies)
+    assert_not_nil assigns(:comments)
+    assert_not_nil assigns(:users_hash)
+    assert_not_nil assigns(:users_comment_hash)
+
+    assert assigns(:stickies).kind_of?(Array)
+    assert assigns(:comments).kind_of?(Array)
+    assert assigns(:users_hash).kind_of?(Hash)
+    assert assigns(:users_comment_hash).kind_of?(Hash)
+
+    assert_template 'overall_graph'
+    assert_response :success
+  end
+
+  test "should get overall_graph with javascript" do
+    get :overall_graph, :year => '2011', :format => 'js'
+    
+    assert_not_nil assigns(:stickies)
+    assert_not_nil assigns(:comments)
+    assert_not_nil assigns(:users_hash)
+    assert_not_nil assigns(:users_comment_hash)
+
+    assert assigns(:stickies).kind_of?(Array)
+    assert assigns(:comments).kind_of?(Array)
+    assert assigns(:users_hash).kind_of?(Hash)
+    assert assigns(:users_comment_hash).kind_of?(Hash)
+
+    assert_template 'overall_graph'
+    assert_response :success
+  end
+
+  test "should get graph" do
+    get :graph, :id => users(:valid).to_param
+    
+    assert_not_nil assigns(:user)
+    assert_not_nil assigns(:stickies)
+    assert_not_nil assigns(:planned)
+    assert_not_nil assigns(:ongoing)
+    assert_not_nil assigns(:completed)
+    assert_not_nil assigns(:other_projects_hash)
+    assert_not_nil assigns(:favorite_projects_hash)
+
+    assert assigns(:stickies).kind_of?(Array)
+    assert assigns(:planned).kind_of?(Array)
+    assert assigns(:ongoing).kind_of?(Array)
+    assert assigns(:completed).kind_of?(Array)
+    assert assigns(:other_projects_hash).kind_of?(Hash)
+    assert assigns(:favorite_projects_hash).kind_of?(Hash)
+
+    assert_template 'graph'
+    assert_response :success
+  end
+
+  test "should get graph with javascript" do
+    get :graph, :id => users(:valid).to_param, :year => '2011', :format => 'js'
+    
+    assert_not_nil assigns(:user)
+    assert_not_nil assigns(:stickies)
+    assert_not_nil assigns(:planned)
+    assert_not_nil assigns(:ongoing)
+    assert_not_nil assigns(:completed)
+    assert_not_nil assigns(:other_projects_hash)
+    assert_not_nil assigns(:favorite_projects_hash)
+
+    assert assigns(:stickies).kind_of?(Array)
+    assert assigns(:planned).kind_of?(Array)
+    assert assigns(:ongoing).kind_of?(Array)
+    assert assigns(:completed).kind_of?(Array)
+    assert assigns(:other_projects_hash).kind_of?(Hash)
+    assert assigns(:favorite_projects_hash).kind_of?(Hash)
+    
+    assert_template 'graph'
+    assert_response :success
+  end
+  
+  test "should not get graph without valid user id" do
+    get :graph, :id => -1
+    
+    assert_nil assigns(:user)
+    assert_redirected_to users_path
+  end
+
   test "should update settings and enable email" do
     post :update_settings, :id => users(:admin).to_param, :email => {:send_email => '1'}
     users(:admin).reload # Needs reload to avoid stale object
@@ -38,6 +123,7 @@ class UsersControllerTest < ActionController::TestCase
 
   # test "should get new" do
   #   get :new
+  #   assert_not_nil assigns(:user)
   #   assert_response :success
   # end
 
@@ -68,6 +154,12 @@ class UsersControllerTest < ActionController::TestCase
     put :update, :id => @user.to_param, :user => {:first_name => '', :last_name => ''}
     assert_not_nil assigns(:user)
     assert_template 'edit'
+  end
+
+  test "should not update user with invalid id" do
+    put :update, :id => -1, :user => @user.attributes
+    assert_nil assigns(:user)
+    assert_redirected_to users_path
   end
 
   test "should destroy user" do

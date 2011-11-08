@@ -10,14 +10,15 @@ class ApplicationController < ActionController::Base
   def month_end_date(year, month)
     Date.parse("#{year.to_i+month.to_i/12}-#{(month.to_i)%12+1}-01")-1.day
   end
-  
-  def year_start_date(year)
-    Date.parse("#{year}-01-01")
-  end
-  
-  def year_end_date(year)
-    Date.parse("#{year.to_i+1}-01-01")-1.day
-  end
+
+  # Currently unused ver 0.9.0
+  # def year_start_date(year)
+  #   Date.parse("#{year}-01-01")
+  # end
+  # 
+  # def year_end_date(year)
+  #   Date.parse("#{year.to_i+1}-01-01")-1.day
+  # end
 
   protected
   

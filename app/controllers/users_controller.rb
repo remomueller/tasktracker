@@ -85,9 +85,9 @@ class UsersController < ApplicationController
     redirect_to users_path unless @user
   end
   
-  def new
-    @user = User.new
-  end
+  # def new
+  #   @user = User.new
+  # end
 
   def edit
     @user = User.current.find_by_id(params[:id])

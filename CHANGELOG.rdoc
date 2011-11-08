@@ -5,12 +5,13 @@
   * Emails sent by notes now:
     * Have consistent subjects lines
     * Sticky Added email now displays who is assigned to the sticky
+  * Right and Left Keyboard clicks now navigate between frames on the project show page
 
 * Bug Fix
   * Deleting a frame now moves the associated stickies to the project backlog
 
 * Testing
-  * Analyzing test coverage using SimpleCov gem, test coverage now at 70%
+  * Analyzing test coverage using SimpleCov gem, test coverage now at 92%
 
 == 0.8.0
 

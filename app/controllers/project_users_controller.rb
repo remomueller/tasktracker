@@ -40,12 +40,8 @@ class ProjectUsersController < ApplicationController
     if @project and @user
       @project_user = @project.project_users.find_or_create_by_user_id(@user.id)
       if @project_user
-        @project_user.allow_editing = params[:project_user][:allow_editing]
-        if @project_user.save
-          render 'index'
-        else
-          render :nothing => true
-        end
+        @project_user.update_attribute :allow_editing, (params[:project_user][:allow_editing] == 'true')
+        render 'index'
       end
     else
       render :nothing => true
