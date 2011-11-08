@@ -19,7 +19,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test "should create project user" do
     assert_difference('ProjectUser.count') do
-      post :create, :project_user => {:project_id => 1, :allow_editing => true}, :editors_text => "MyString MyString <EmailTwo>", :format => 'js'
+      post :create, :project_user => {:project_id => projects(:one).to_param, :allow_editing => true}, :editors_text => users(:two).name + " <#{users(:two).email}>", :format => 'js'
     end
     
     assigns(:project_user)

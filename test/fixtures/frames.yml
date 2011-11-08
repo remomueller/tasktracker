@@ -1,16 +1,16 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  project_id: 1
-  user_id: 1
+  project: one
+  user: valid
   name: MyString
   description: MyText
   start_date: 2011-03-28
   end_date: 2011-03-28
 
 two:
-  project_id: 1
-  user_id: 1
+  project: one
+  user: valid
   name: MyString
   description: MyText
   start_date: 2011-03-28

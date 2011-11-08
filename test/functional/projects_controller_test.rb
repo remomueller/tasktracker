@@ -50,7 +50,7 @@ class ProjectsControllerTest < ActionController::TestCase
   
   test "should create project favorite" do
     assert_difference('ProjectFavorite.where(:favorite => true).count') do
-      post :favorite, :id => 1, :favorite => '1', :format => 'js'
+      post :favorite, :id => projects(:one).to_param, :favorite => '1', :format => 'js'
     end
 
     assigns(:project)
@@ -59,7 +59,7 @@ class ProjectsControllerTest < ActionController::TestCase
   
   test "should remove project favorite" do
     assert_difference('ProjectFavorite.where(:favorite => false).count') do
-      post :favorite, :id => 2, :favorite => '0', :format => 'js'
+      post :favorite, :id => projects(:two).to_param, :favorite => '0', :format => 'js'
     end
     
     assigns(:project)

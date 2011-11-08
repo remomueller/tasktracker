@@ -1,10 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  id: 1
-  user_id: 1
+  user: valid
   position: 1
-  name: MyString
+  name: ProjectOne
   status: MyString
   description: MyText
   start_date: 2011-02-24
@@ -12,8 +11,7 @@ one:
   deleted: false
 
 two:
-  id: 2
-  user_id: 1
+  user: valid
   position: 1
   name: MyString
   status: MyString
