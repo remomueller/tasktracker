@@ -2,6 +2,7 @@
 
 * Enhancements
   * Using Rails 3.1.1, Ruby 1.9.3.p0, and Contour 0.5.6
+  * Emails sent by notes now have consistent subjects
 
 * Testing
   * Analyzing test coverage using SimpleCov gem, test coverage now at 70%

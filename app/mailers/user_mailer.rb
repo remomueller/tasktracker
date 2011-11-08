@@ -14,7 +14,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @project_user = project_user
     mail(:to => project_user.user.email,
-         :subject => @subject + "#{project_user.project.user.name} allows you to #{project_user.allow_editing? ? 'edit' : 'view'} #{project_user.project.name}",
+         :subject => @subject + "#{project_user.project.user.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}",
          :reply_to => project_user.project.user.email)
   end
   
@@ -24,7 +24,7 @@ class UserMailer < ActionMailer::Base
     @object = object
     @recipient = recipient
     mail(:to => recipient.email,
-         :subject => @subject + "#{comment.user.name} commented on #{object.class.name} #{object.name}",
+         :subject => @subject + "#{comment.user.name} Commented on #{object.class.name} #{object.name}",
          :reply_to => comment.user.email)    
   end
   
