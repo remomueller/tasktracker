@@ -55,6 +55,7 @@
 
 <div style="float:left">
   <%= form_tag search_stickies_path, :method => :get, :id => "stickies_search", :style => 'margin-bottom:0px' do %>
+    <%= hidden_field_tag :direction, 0 %>
     <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
     <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>

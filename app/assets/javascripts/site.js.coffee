@@ -33,3 +33,9 @@ jQuery ->
     false
   )
   
+  $(document).keydown( (e) ->
+    if e.keyCode == 37
+      decreaseSelectedIndex('#frame_id');
+    if e.keyCode == 39
+      increaseSelectedIndex('#frame_id');
+  )
