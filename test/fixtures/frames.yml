@@ -5,7 +5,7 @@ one:
   user: valid
   name: MyString
   description: MyText
-  start_date: 2011-03-28
+  start_date: 2011-03-21
   end_date: 2011-03-28
 
 two:
@@ -13,5 +13,5 @@ two:
   user: valid
   name: MyString
   description: MyText
-  start_date: 2011-03-28
-  end_date: 2011-03-28
+  start_date: 2011-03-29
+  end_date: 2011-04-07

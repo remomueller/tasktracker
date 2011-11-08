@@ -11,6 +11,7 @@ one:
   start_date: 2011-02-24
   end_date: 2011-02-24
   deleted: false
+  frame: one
 
 two:
   user: valid
@@ -23,3 +24,4 @@ two:
   start_date: 2011-02-24
   end_date: 2011-02-24
   deleted: false
+  frame: one

@@ -40,12 +40,16 @@ class FramesControllerTest < ActionController::TestCase
     assert_redirected_to frame_path(assigns(:frame))
   end
 
-  test "should destroy frame" do
-    
-    assert_difference('Frame.current.count', -1) do
-      delete :destroy, :id => @frame.to_param
+  test "should destroy frame and move attached stickies to project backlog" do
+    assert_difference('Sticky.with_frame(0).count', @frame.stickies.size) do
+      assert_difference('Sticky.current.count', 0) do
+        assert_difference('Frame.current.count', -1) do
+          delete :destroy, :id => @frame.to_param
+        end
+      end
     end
-
+    
+    assert_equal 0, @frame.stickies.size
     assert_redirected_to frames_path
   end
 end

@@ -6,6 +6,9 @@
     * Have consistent subjects lines
     * Sticky Added email now displays who is assigned to the sticky
 
+* Bug Fix
+  * Deleting a frame now moves the associated stickies to the project backlog
+
 * Testing
   * Analyzing test coverage using SimpleCov gem, test coverage now at 70%
 

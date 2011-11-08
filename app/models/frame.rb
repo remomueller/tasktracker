@@ -17,6 +17,7 @@ class Frame < ActiveRecord::Base
 
   def destroy
     update_attribute :deleted, true
+    self.stickies.update_all(:frame_id => nil)
   end
 
   def short_time
