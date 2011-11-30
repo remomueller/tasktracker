@@ -5,4 +5,4 @@
 <% end %>
 
 <%= label :sticky, :owner_id, 'Assigned To' %><br />
-<%= select :sticky, :owner_id, options_for_select([['----', nil]] + owners.order('last_name, first_name').collect{|u| [u.rev_name, u.id]}, @sticky.owner_id) %>
+<%= select :sticky, :owner_id, options_for_select([['----', nil]] + owners.order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, @sticky.owner_id) %>

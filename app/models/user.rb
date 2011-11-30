@@ -120,7 +120,7 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
   
-  def rev_name
+  def reverse_name
     "#{last_name}, #{first_name}"
   end
   
