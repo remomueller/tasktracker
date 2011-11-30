@@ -13,7 +13,7 @@ one:
   deleted: false
   frame: one
 
-two:
+assigned_to_user:
   user: valid
   project: one
   sticky: one
@@ -25,3 +25,4 @@ two:
   end_date: 2011-02-24
   deleted: false
   frame: one
+  owner: valid
