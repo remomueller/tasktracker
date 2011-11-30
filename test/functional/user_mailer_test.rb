@@ -73,7 +73,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{sticky.user.name} Completed a Sticky to Project #{sticky.project.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{sticky.user.name} Completed a Sticky on Project #{sticky.project.name}", email.subject
     assert_match(/#{sticky.user.name} completed the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
