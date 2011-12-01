@@ -13,6 +13,10 @@ class Sticky < ActiveRecord::Base
   scope :updated_since, lambda {|*args| {:conditions => ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
 
+  scope :due_today,     lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) = ?", Date.today]}}
+  scope :past_due,      lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) < ?", Date.today]}}
+  scope :due_this_week, lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", Date.today, Date.today + (7-Date.today.wday).days]}}
+
   after_create :send_email
   
   before_update :send_completion_email
