@@ -49,18 +49,16 @@
             $('#project_<%= @project.id %>_collaborators')
               .qtip({
                 content:{
-                  text: '<%== escape_javascript(("<strong>Owner:</strong><ul><li>" + link_to(@project.user.name, @project.user) + "</li></ul><strong>Editors:</strong><ul>" + @project.editors.collect{|u| "<li>#{link_to u.name, u}</li>"}.join + "</ul><strong>Viewers:</strong><ul>" + @project.viewers.collect{|u| "<li>#{link_to u.name, u}</li>"}.join + "</ul>").html_safe) %>',
+                  text: '<%== escape_javascript(("<strong>Owner:</strong><ul><li>" + @project.user.name + "</li></ul><strong>Editors:</strong><ul>" + @project.editors.collect{|u| "<li>#{u.name}</li>"}.join + "</ul><strong>Viewers:</strong><ul>" + @project.viewers.collect{|u| "<li>#{u.name}</li>"}.join + "</ul>").html_safe) %>',
                   title:{
-                    text: 'Collaborators:',
-                    button: true
+                    text: 'Collaborators:'
                   }
                 },
                 show:{
-                  solo: true,
-                  event: 'mouseover'
+                  event: 'mouseenter'
                 },
                 hide: {
-                  event: 'unfocus'
+                  event: 'mouseleave'
                 },
                 position:{
                   my: 'left center',
