@@ -1,5 +1,4 @@
 Notes::Application.routes.draw do
-
   match '/contour' => 'contour/samples#index'
 
   match '/auth/failure' => 'contour/authentications#failure'
@@ -37,6 +36,16 @@ Notes::Application.routes.draw do
   resources :stickies do
     collection do
       get :search
+      get :template
+    end
+  end
+  
+  resources :templates do
+    collection do
+      post :add_item
+    end
+    member do
+      post :generate_stickies
     end
   end
   

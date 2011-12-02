@@ -1,0 +1,17 @@
+<% @title = 'Templates' %>
+<h1><%= @title %></h1>
+
+<%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Template", new_template_path, :class => 'button positive' %>
+
+<%= form_tag templates_path, :method => :get, :remote => true, :id => "templates_search", :style => "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :order, params[:order] %>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+<% end %>
+
+<div id="templates"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#templates_search").attr("action"), $("#templates_search").serialize(), null, "script");
+  });
+<% end %>

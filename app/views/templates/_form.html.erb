@@ -1,0 +1,44 @@
+<% width = '914px' %>
+<%= form_for(@template) do |f| %>
+  <% if @template.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+
+      <ul>
+      <% @template.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend><%= @title %></legend>
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+    <div class="field">
+      <%= f.label :project_id %><br />
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @template.project_id) %>
+    </div>
+    <div id="items_container">
+      <% if @template.items.size == 0 %>
+        <% @item = { description: '', interval: 0, units: 'days' } %>
+        <%= render partial: 'edit_item' %>
+      <% else %>
+        <% @template.items.each do |item| %>
+          <%= @item = item; render partial: 'edit_item' %>
+        <% end %>
+      <% end %>
+    </div>
+    <%= link_to 'Add More', add_item_templates_path, remote: true, method: :post %>
+  </fieldset>
+  
+  <div class="actions">
+    <% form_name = @template.new_record? ? 'new_template' : "edit_template_#{@template.id}" %>
+    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@template.new_record? ? "Create Template" : "Update Template"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= cancel %>
+		<br />
+  </div>
+<% end %>

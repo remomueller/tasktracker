@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: valid
+  project: one
+  name: Create Two Items
+  items: [{description: 'Item 1', interval: 0, units: 'days'},{description: 'Item 2', interval: 1, units: 'days'}]
+
+two:
+  user: valid
+  project: one
+  name: A Single Template 1 Week Reminder
+  items: [{description: 'Reminder in a Week', interval: 1, units: 'weeks'}]

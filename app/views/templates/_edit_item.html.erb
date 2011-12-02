@@ -1,0 +1,14 @@
+<% width = '914px' %>
+<% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<fieldset id="item_<%= position %>" class="<%= 'fieldset_with_errors' if @template.errors.keys.include?(:items) %>">
+  <legend>Sticky Template <%= link_to_function image_tag('contour/delete.png', style: 'vertical-align:text-bottom', alt: '', title: 'Remove Item'), "$('#item_#{position}').remove()" %></legend>
+  <div class="field">
+    <b>Description:</b><br />
+
+    <%= text_field_tag "template[item_tokens][#{position}][description]", @item[:description], style: "width:#{width}" %>
+
+    <br />
+    <b>Offset from Initial Due Date:</b><br />
+    <%= number_field_tag "template[item_tokens][#{position}][interval]", @item[:interval] %> <%= select_tag "item_tokens[#{position}][units]", options_for_select(['days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:units]) %>
+  </div>
+</fieldset>

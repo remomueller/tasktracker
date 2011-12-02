@@ -43,6 +43,11 @@ Contour.setup do |config|
                  {:name => '&raquo;Graphs', :path => 'graph_user_path(current_user.id)'}]
     },
     {
+      :name => 'Templates', :id => 'templates', :display => 'signed_in', :position => 'left', :position_class => 'left_center',
+      :links => [{:name => 'Templates', :path => 'templates_path'},
+                 {:name => '&raquo;New', :path => 'new_template_path'}]
+    },
+    {
       :name => 'Comments', :id => 'comments', :display => 'signed_in', :position => 'left', :position_class => 'left_center',
       :links => [{:name => 'Comments', :path => 'comments_path'},
                  {:name => '&raquo;New', :path => 'new_comment_path'}]
