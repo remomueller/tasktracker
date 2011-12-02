@@ -34,16 +34,17 @@
       <% if project %>
         <% @project = project %>
         <td style="border: 1px solid #eee" id="project_<%= project.id %>_collaborators">
-          <span id="project_<%= @project.id %>_favorite_link"><%= render :partial => 'projects/favorite' %></span><br />
+          <span id="project_<%= @project.id %>_favorite_link"><%= render :partial => 'projects/favorite' %></span>
+          <div style="float:right;text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
+          <div style="clear:both"></div>
           <div style="text-align:center;font-size:1.2em">
             <%= link_to project.name, project %>
           </div>
-          <div style="text-align:center;font-size:0.8em">
+          <div style="text-align:center;font-size:0.8em;min-height:10px">
             <%== pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />" if @project.stickies.due_today.size > 0 %>
             <%== pluralize(@project.stickies.past_due.size, 'Sticky') + " Past Due<br />" if @project.stickies.past_due.size > 0 %>
             <%== pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week" if @project.stickies.due_this_week.size > 0 %>
           </div>
-          <div style="text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
           <%= javascript_tag do %>
             $('#project_<%= @project.id %>_collaborators')
               .qtip({

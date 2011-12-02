@@ -12,17 +12,17 @@
 </div>
 
 <% if @frame %>
-<center>
-  <%= @frame.long_time %>
-</center>
-<div style="clear:both"></div>
-<center>
-    <% if @frame.end_date > Date.today %>
-      <b><%= pluralize((@frame.end_date - Date.today).to_i, 'Day') %> Left</b>
-    <% else %>
-      &nbsp;
-    <% end %>
-</center>
+  <center>
+    <%= @frame.long_time %>
+  </center>
+  <div style="clear:both"></div>
+  <center>
+      <% if @frame.end_date > Date.today %>
+        <b><%= pluralize((@frame.end_date - Date.today).to_i, 'Day') %> Left</b>
+      <% else %>
+        &nbsp;
+      <% end %>
+  </center>
 <% else %>
   <center>&nbsp;</center>
   <div style="clear:both"></div>
@@ -36,7 +36,6 @@
     <th>Description</th>
     <th><%== sort_field_helper(@order, 'stickies.status', 'Status', 'stickies_search') %></th>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.owner_id', 'Assigned To', 'stickies_search') %></th>
-<% if false %>      <th style="white-space:nowrap">End Date</th> <% end %>
     <th></th>
   </tr>
 
@@ -55,7 +54,6 @@
       </td>
       <td style="white-space:nowrap;vertical-align:middle"><%= display_status(sticky.status) %></td>
       <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
-<% if false %>        <td style="text-align:center"><% if false %><%= sticky.start_date %><br />to<br /><% end %><%= sticky.end_date %></td><% end %>
       <td style="vertical-align:middle">
         <% if current_user.all_stickies.include?(sticky) %>
           <%= link_to image_tag('contour/edit.png', :alt => ''), edit_sticky_path(sticky) %>
