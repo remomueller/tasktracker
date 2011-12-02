@@ -35,7 +35,7 @@
     <th><%== sort_field_helper(@order, 'stickies.due_date', 'Due Date', 'stickies_search') %></th>
     <th>Description</th>
     <th><%== sort_field_helper(@order, 'stickies.status', 'Status', 'stickies_search') %></th>
-    <th style="white-space:nowrap">Assigned To</th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.owner_id', 'Assigned To', 'stickies_search') %></th>
 <% if false %>      <th style="white-space:nowrap">End Date</th> <% end %>
     <th></th>
   </tr>
