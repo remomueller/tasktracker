@@ -21,6 +21,21 @@ module ApplicationHelper
   def information(message = ' Press Enter to Search')
     "<span class=\"quiet small\">#{image_tag('contour/information.png', :alt => '', :style=>'vertical-align:text-bottom')}#{message}</span>".html_safe
   end
+
+  def simple_date(past_date)
+    return '' if past_date.blank?
+    if past_date == Date.today
+      'Today'
+    elsif past_date == Date.today - 1.day
+      'Yesterday'
+    elsif past_date == Date.today + 1.day
+      'Tomorrow'
+    elsif past_date.year == Date.today.year
+      past_date.strftime("%b %d")
+    else
+      past_date.strftime("%b %d, %Y")
+    end
+  end
   
   def display_status(status)
     result = '<table class="status-table"><tr>'

@@ -31,10 +31,10 @@
 
 <table width="100%">
   <tr>
-    <th>Sticky</th>
-    <th>Comments</th>
-    <th>Name/Description</th>
-    <th>Status</th>
+    <th><%== sort_field_helper(@order, 'stickies.id', 'Sticky', 'stickies_search') %></th>
+    <th><%== sort_field_helper(@order, 'stickies.due_date', 'Due Date', 'stickies_search') %></th>
+    <th>Description</th>
+    <th><%== sort_field_helper(@order, 'stickies.status', 'Status', 'stickies_search') %></th>
     <th style="white-space:nowrap">Assigned To</th>
 <% if false %>      <th style="white-space:nowrap">End Date</th> <% end %>
     <th></th>
@@ -46,8 +46,13 @@
   <tbody>
     <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < sticky.updated_at %>">
       <td style="white-space:nowrap"><%= link_to sticky.name, sticky %></td>
-      <td style="white-space:nowrap;text-align:center"><%= link_to_function "+ (#{sticky.comments.size})", "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}');", :id => "#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_link" %></td>
-      <td><div style="width:400px"><pre class="collapsed" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_description"><%= sticky.description %></pre></div></td>
+      <td style="white-space:nowrap;text-align:center">
+        <%= simple_date(sticky.due_date) %>
+      </td>
+      <td>
+        <div style="width:400px"><pre class="collapsed" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_description"><%= sticky.description %></pre></div>
+        <div style="padding-left:20px"><%= link_to_function (sticky.comments.size > 0 ? pluralize(sticky.comments.size, "comment") : 'more...'), "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}');", :id => "#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_link" %></div>
+      </td>
       <td style="white-space:nowrap;vertical-align:middle"><%= display_status(sticky.status) %></td>
       <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
 <% if false %>        <td style="text-align:center"><% if false %><%= sticky.start_date %><br />to<br /><% end %><%= sticky.end_date %></td><% end %>

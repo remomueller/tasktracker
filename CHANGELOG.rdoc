@@ -5,6 +5,8 @@
   * Sticky start date and sticky end date are now automatically set
     * Start Date set when the sticky is created
     * End Date set when the sticky status is changed from planned or ongoing to completed
+    * End Date is cleared when status is changed from completed to planned or ongoing
+  * Stickies can now be sorted by id, status, and due date
   * Projects Index has been simplified and now displays:
     * Number of stickies that are past due, due today, and due this week
     * Owner, editors, and viewers on project

@@ -6,8 +6,10 @@ class StickiesController < ApplicationController
     @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
     if @project
       @frame = Frame.find_by_id(params[:frame_id])
-      stickies_scope = @project.stickies
-      @stickies = stickies_scope.with_frame(params[:frame_id]).order("(status = 'completed') ASC, (status = 'ongoing') DESC, end_date DESC, start_date DESC").page(params[:page]).per(current_user.stickies_per_page)
+      @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "(status = 'completed') ASC, (status = 'ongoing') DESC, due_date ASC, end_date DESC, start_date DESC"
+      sticky_scope = @project.stickies.with_frame(params[:frame_id])
+      sticky_scope = sticky_scope.order(@order)
+      @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
       render "projects/show"
     else
       redirect_to root_path
@@ -16,10 +18,12 @@ class StickiesController < ApplicationController
     
   def index
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
-    stickies_scope = current_user.all_viewable_stickies
+    @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "(status = 'completed') ASC, (status = 'ongoing') DESC, due_date ASC, end_date DESC, start_date DESC"
+    sticky_scope = current_user.all_viewable_stickies
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| stickies_scope = stickies_scope.search(search_term) }
-    @stickies = stickies_scope.page(params[:page]).per(current_user.stickies_per_page)
+    @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
+    sticky_scope = sticky_scope.order(@order)
+    @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
   end
 
   def show

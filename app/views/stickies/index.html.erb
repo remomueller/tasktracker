@@ -4,6 +4,7 @@
 <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path, :class => 'button positive' %>
 
 <%= form_tag stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :order, params[:order] %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
 

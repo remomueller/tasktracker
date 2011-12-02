@@ -22,3 +22,7 @@
 @toggleSticky = (element) ->
   $(element).toggle()
   $(element+'_description').toggleClass('collapsed')
+  if $(element+'_link').html() == 'more...'
+    $(element+'_link').html('less...')
+  else if $(element+'_link').html() == 'less...'
+    $(element+'_link').html('more...')

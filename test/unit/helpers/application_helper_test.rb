@@ -1,6 +1,31 @@
 require 'test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
+  test "should show date" do
+    date = Date.today + 5.days
+    assert_equal date.strftime("%b %d"), simple_date(date)
+  end
+  
+  test "should show date today" do
+    date = Date.today
+    assert_equal 'Today', simple_date(date)
+  end
+  
+  test "should show date yesterday" do
+    date = Date.today - 1.day
+    assert_equal 'Yesterday', simple_date(date)
+  end
+  
+  test "should show date tomorrow" do
+    date = Date.today + 1.day
+    assert_equal 'Tomorrow', simple_date(date)
+  end
+  
+  test "should show full date from last year" do
+    date = Date.today - 1.year
+    assert_equal date.strftime("%b %d, %Y"), simple_date(date)
+  end
+
   # test "should show time" do
   #   time = Time.now
   #   assert_equal time.strftime("at %I:%M %p"), simple_time(time)
