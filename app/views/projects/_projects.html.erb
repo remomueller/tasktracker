@@ -27,50 +27,54 @@
   </tr>
 </table>
 <br />
-<table class="blank padded" style="width:100%;table-layout:fixed;margin-bottom:20px">
-<% @projects.in_groups_of(3, false) do |row_projects| %>
+<table class="blank padded" style="width:100%;table-layout:fixed;margin-bottom:20px;">
+<% @projects.in_groups_of(3) do |row_projects| %>
   <tr>
     <% for project in row_projects %>
-      <td style="border: 1px solid #eee">
+      <% if project %>
         <% @project = project %>
-        <span id="project_<%= @project.id %>_favorite_link"><%= render :partial => 'projects/favorite' %></span><br />
-        <div style="text-align:center;font-size:1.2em" id="project_<%= @project.id %>_collaborators">
-          <%= link_to project.name, project %>
-        </div>
-        <div style="text-align:center;font-size:0.8em">
-          <%== pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />" if @project.stickies.due_today.size > 0 %>
-          <%== pluralize(@project.stickies.past_due.size, 'Sticky') + " Past Due<br />" if @project.stickies.past_due.size > 0 %>
-          <%== pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week" if @project.stickies.due_this_week.size > 0 %>
-        </div>
-        <div style="text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
-        <%= javascript_tag do %>
-          $('#project_<%= @project.id %>_collaborators')
-            .qtip({
-              content:{
-                text: '<%= escape_javascript simple_format("<strong>Owner:</strong> " + link_to(@project.user.name, @project.user) + "<br /><br /><strong>Editors:</strong><ul>" + @project.editors.collect{|u| "<li>#{link_to u.name, u}</li>"}.join + "</ul><strong>Viewers:</strong><ul>" + @project.viewers.collect{|u| "<li>#{link_to u.name, u}</li>"}.join + "</ul>") %>',
-                title:{
-                  text: 'Collaborators:',
-                  button: true
+        <td style="border: 1px solid #eee" id="project_<%= project.id %>_collaborators">
+          <span id="project_<%= @project.id %>_favorite_link"><%= render :partial => 'projects/favorite' %></span><br />
+          <div style="text-align:center;font-size:1.2em">
+            <%= link_to project.name, project %>
+          </div>
+          <div style="text-align:center;font-size:0.8em">
+            <%== pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />" if @project.stickies.due_today.size > 0 %>
+            <%== pluralize(@project.stickies.past_due.size, 'Sticky') + " Past Due<br />" if @project.stickies.past_due.size > 0 %>
+            <%== pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week" if @project.stickies.due_this_week.size > 0 %>
+          </div>
+          <div style="text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
+          <%= javascript_tag do %>
+            $('#project_<%= @project.id %>_collaborators')
+              .qtip({
+                content:{
+                  text: '<%== escape_javascript(("<strong>Owner:</strong><ul><li>" + link_to(@project.user.name, @project.user) + "</li></ul><strong>Editors:</strong><ul>" + @project.editors.collect{|u| "<li>#{link_to u.name, u}</li>"}.join + "</ul><strong>Viewers:</strong><ul>" + @project.viewers.collect{|u| "<li>#{link_to u.name, u}</li>"}.join + "</ul>").html_safe) %>',
+                  title:{
+                    text: 'Collaborators:',
+                    button: true
+                  }
+                },
+                show:{
+                  solo: true,
+                  event: 'mouseover'
+                },
+                hide: {
+                  event: 'unfocus'
+                },
+                position:{
+                  my: 'left center',
+                  at: 'right center',
+                  viewport: $(window)
+                },
+                style:{
+                  classes: 'ui-tooltip-shadow ui-tooltip-green'
                 }
-              },
-              show:{
-                solo: true,
-                event: 'mouseover'
-              },
-              hide: {
-                event: 'unfocus'
-              },
-              position:{
-                my: 'left center',
-                at: 'right center',
-                viewport: $(window)
-              },
-              style:{
-                classes: 'ui-tooltip-shadow ui-tooltip-green'
-              }
-            });
-        <% end %>
-      </td>
+              });
+          <% end %>
+        </td>
+      <% else %>
+        <td></td>
+      <% end %>
     <% end %>
   </tr>
 <% end %>

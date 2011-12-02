@@ -5,8 +5,8 @@ one:
   project: one
   sticky: one
   position: 1
-  status: MyString
-  sticky_type: MyString
+  status: planned
+  # sticky_type: MyString
   description: StickyOne
   start_date: 2011-02-24
   end_date: 2011-02-24
@@ -26,3 +26,36 @@ assigned_to_user:
   deleted: false
   frame: one
   owner: valid
+
+planned:
+  user: valid
+  project: one
+  # frame: 
+  status: planned
+  description: This is a planned sticky
+  due_date: 2011-12-10
+  start_date: 2011-12-01
+  # end_date:
+  deleted: false
+
+ongoing:
+  user: valid
+  project: one
+  # frame:
+  status: ongoing
+  description: This is an ongoing sticky
+  due_date: 2011-12-10
+  start_date: 2011-12-01
+  # end_date:
+  deleted: false
+
+completed:
+  user: valid
+  project: one
+  # frame:
+  status: completed
+  description: This is a planned sticky
+  due_date: 2011-12-10
+  start_date: 2011-11-30
+  end_date: 2011-12-01
+  deleted: false
