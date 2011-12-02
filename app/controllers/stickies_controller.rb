@@ -39,10 +39,7 @@ class StickiesController < ApplicationController
   end
 
   def create
-    [:start_date, :end_date, :due_date].each do |key|
-      params[:sticky][key] = Date.strptime(params[:sticky][key], "%m/%d/%Y") if params[:sticky] and not params[:sticky][key].blank?
-    end
-    
+    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?    
     @sticky = current_user.stickies.new(params[:sticky])
     if @sticky.save
       redirect_to(@sticky, :notice => 'Sticky was successfully created.')
@@ -52,10 +49,7 @@ class StickiesController < ApplicationController
   end
 
   def update
-    [:start_date, :end_date, :due_date].each do |key|
-      params[:sticky][key] = Date.strptime(params[:sticky][key], "%m/%d/%Y") if params[:sticky] and not params[:sticky][key].blank?
-    end
-    
+    params[:sticky][:due_date]   = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       if @sticky.update_attributes(params[:sticky])

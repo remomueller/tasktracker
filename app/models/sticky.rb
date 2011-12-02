@@ -17,9 +17,10 @@ class Sticky < ActiveRecord::Base
   scope :past_due,      lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) < ?", Date.today]}}
   scope :due_this_week, lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", Date.today, Date.today + (7-Date.today.wday).days]}}
 
+  before_create :set_start_date
   after_create :send_email
   
-  before_update :send_completion_email
+  before_save :send_completion_email, :set_end_date
 
   # Model Validation
   validates_presence_of :description
@@ -69,6 +70,14 @@ class Sticky < ActiveRecord::Base
         UserMailer.sticky_completion_by_mail(self, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_completion) and user_to_email.email_on?("project_#{self.project.id}") and Rails.env.production?
       end
     end
+  end
+
+  def set_start_date
+    self.start_date = Date.today
+  end
+
+  def set_end_date
+    self.end_date = ((self.changes[:status] and self.changes[:status][1] == 'completed') ? Date.today : nil) unless self.status == 'completed' and self.changes[:status] == nil
   end
 
 end
