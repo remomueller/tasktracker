@@ -20,7 +20,7 @@ class Sticky < ActiveRecord::Base
   before_create :set_start_date
   after_create :send_email
   
-  before_save :send_completion_email, :set_end_date
+  before_save :set_end_date, :send_completion_email
 
   # Model Validation
   validates_presence_of :description
