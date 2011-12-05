@@ -29,6 +29,7 @@ class Template < ActiveRecord::Base
   end
   
   def generate_stickies!(frame_id, initial_date = Date.today)
+    Rails.logger.debug "FRAME_ID: #{frame_id}"
     self.items.each_with_index do |item|
       self.user.stickies.create({project_id: self.project_id, frame_id: frame_id, description: item[:description], status: 'ongoing', due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
     end

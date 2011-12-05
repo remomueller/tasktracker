@@ -3,11 +3,12 @@ class TemplatesController < ApplicationController
 
   def generate_stickies
     @template = current_user.all_templates.find_by_id(params[:id])
-    @frame = (@template ? nil : @template.project.all_frames.find_by_id(params[:frame_id]))
+    @frame = (@template ? @template.project.frames.find_by_id(params[:frame_id]) : nil)
     @frame_id = @frame.id if @frame
+    frame_name = (@frame ? @frame.name + ' - ' + @frame.short_time : 'Backlog')
     if @template
       @template.generate_stickies!(@frame_id)
-      redirect_to @template, notice: @template.items.size.to_s + ' ' + ((@template.items.size == 1) ? 'Sticky' : 'Stickies') + " Created!"
+      redirect_to @template, notice: @template.items.size.to_s + ' ' + ((@template.items.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}."
     else
       redirect_to root_path
     end
@@ -36,7 +37,7 @@ class TemplatesController < ApplicationController
   end
 
   def new
-    @template = current_user.all_templates.new
+    @template = current_user.all_templates.new(params[:template])
   end
   
   def edit

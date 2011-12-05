@@ -19,6 +19,7 @@
 <% if current_user.all_projects.include?(@project) %>
   <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path(:sticky => {:project_id => @project.id}), :class => 'button positive' %>
   <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Frame", new_frame_path(:frame => {:project_id => @project.id}), :class => 'button positive' %>
+  <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Template", new_template_path(:template => {:project_id => @project.id}), :class => 'button positive' %>
 <% end %>
 
 <div style="clear:both"></div>
