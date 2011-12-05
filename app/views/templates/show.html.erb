@@ -5,11 +5,11 @@
   <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Template", edit_template_path(@template), :class => 'button' %>
   <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Template", @template, :confirm => "Are you sure you want to delete Template #{@template.name}?", :method => :delete, :class => 'button negative' %>
   
-  <% if @template.project and @template.project.frames.size > 0 %>
+  <%# if @template.project and @template.project.frames.size > 0 %>
     <%= link_to_function image_tag('contour/addfile.png', alt: '') + "Generate Stickies", 'return false;', class: 'button positive', id: 'generate-stickies' %>
-  <% else %>
-    <%= link_to image_tag('contour/addfile.png', alt: '') + "Generate Stickies", generate_stickies_template_path(@template), method: :post, class: 'button positive' %>
-  <% end %>  
+  <%# else %>
+    <%#= link_to image_tag('contour/addfile.png', alt: '') + "Generate Stickies", generate_stickies_template_path(@template), method: :post, class: 'button positive' %>
+  <%# end %>  
 <% end %>
 <%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Templates", templates_path, :class => 'button' %>
 
@@ -40,8 +40,11 @@
 
 <div id="dialog-form" title="Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %>:">
 	<%= form_tag generate_stickies_template_path(@template), method: :post, id: 'template_frame_form' do %>
-	  <p><%= label_tag :frame_id %><br />
+	  <div class="field"><%= label_tag :frame_id %><br />
 	  <%= select_tag :frame_id, options_for_select([['Backlog', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %>
-	  </p>
+	  </div>
+	  <div class="field"><%= label_tag :initial_due_date %><br />
+	    <%= text_field_tag :initial_due_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
+	  </div>
   <% end %>
 </div>

@@ -43,7 +43,7 @@ class StickiesController < ApplicationController
   end
 
   def create
-    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?    
+    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
     @sticky = current_user.stickies.new(params[:sticky])
     if @sticky.save
       redirect_to(@sticky, :notice => 'Sticky was successfully created.')

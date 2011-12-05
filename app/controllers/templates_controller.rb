@@ -2,12 +2,13 @@ class TemplatesController < ApplicationController
   before_filter :authenticate_user!
 
   def generate_stickies
+    params[:initial_due_date] = begin Date.strptime(params[:initial_due_date], "%m/%d/%Y") rescue Date.today end
     @template = current_user.all_templates.find_by_id(params[:id])
     @frame = (@template ? @template.project.frames.find_by_id(params[:frame_id]) : nil)
     @frame_id = @frame.id if @frame
     frame_name = (@frame ? @frame.name + ' - ' + @frame.short_time : 'Backlog')
     if @template
-      @template.generate_stickies!(@frame_id)
+      @template.generate_stickies!(@frame_id, params[:initial_due_date])
       redirect_to @template, notice: @template.items.size.to_s + ' ' + ((@template.items.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}."
     else
       redirect_to root_path
