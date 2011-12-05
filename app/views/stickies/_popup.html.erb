@@ -1,4 +1,4 @@
-<div class="calendar-entry-name stickies_<%= @sticky.status %>" style="margin-bottom:2px" id="sticky_<%= @sticky.id %>_popup">
+<div class="calendar-entry-name stickies_<%= @sticky.status %> project_<%= @sticky.project_id %>" style="margin-bottom:2px" id="sticky_<%= @sticky.id %>_popup">
   <%= link_to @sticky.description.truncate(27), @sticky %>
   <% color = 'green' if @sticky.status == 'ongoing' %>
   <% color = 'blue' if @sticky.status == 'completed' %>

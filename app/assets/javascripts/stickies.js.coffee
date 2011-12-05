@@ -8,6 +8,13 @@ jQuery ->
       if e.keyCode == 39
         goForwardOneMonth()
     )
+  
+  $("#sticky_calendar_form")
+    .on("change", (event) -> 
+      $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script")
+    )
+  
+  $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script");
 
 @goBackOneYear = () -> 
   year_selector = $('#year')

@@ -43,6 +43,10 @@ Contour.setup do |config|
                  {:name => '&raquo;Graphs', :path => 'graph_user_path(current_user.id)'}]
     },
     {
+      :name => 'Calendar', :id => 'calendar', :display => 'signed_in', :position => 'left', :position_class => 'left_center',
+      :links => [{:name => 'Calendar', :path => 'calendar_stickies_path'}]
+    },
+    {
       :name => 'Templates', :id => 'templates', :display => 'signed_in', :position => 'left', :position_class => 'left_center',
       :links => [{:name => 'Templates', :path => 'templates_path'},
                  {:name => '&raquo;New', :path => 'new_template_path'}]

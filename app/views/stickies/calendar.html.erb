@@ -5,14 +5,15 @@
 <div style="text-align:center;margin-top:-10px;float:middle">
   <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form' do %>
     <%= hidden_field_tag :direction, 0 %>
-    <%= link_to_function '&laquo;'.html_safe, "goBackOneYear();", :style => 'text-decoration:none', :title => 'Previous Year' %>
-    <%= link_to_function '&lsaquo;'.html_safe, "goBackOneMonth();", :style => 'text-decoration:none', :title => 'Previous Month' %>
-    <%= text_field_tag :selected_date, '', class: 'datepicker' %>
-    <%= select_tag :month, options_for_select( Date::MONTHNAMES[1..12].collect{|month| [month,Date::MONTHNAMES.index(month)]}, (params[:month] || Date.today.month)) %>
-    <%= select_tag :year, options_for_select( (Date.today.year..Date.today.year+1).to_a, (params[:year] || Date.today.year) ) %>
+    <%#= link_to_function '&laquo;'.html_safe, "goBackOneYear();", :style => 'text-decoration:none', :title => 'Previous Year' %>
+    <%#= link_to_function '&lsaquo;'.html_safe, "goBackOneMonth();", :style => 'text-decoration:none', :title => 'Previous Month' %>
+    <%= text_field_tag :selected_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
+    <%#= select_tag :month, options_for_select( Date::MONTHNAMES[1..12].collect{|month| [month,Date::MONTHNAMES.index(month)]}, (params[:month] || Date.today.month)) %>
+    <%#= select_tag :year, options_for_select( (Date.today.year..Date.today.year+1).to_a, (params[:year] || Date.today.year) ) %>
     <%#= link_to_function image_tag('001_44.png', :style => 'border:none', :align => 'absmiddle', :size => '15x15'), "goToCurrentMonth();", :title => 'Go To Current Month' %>
-    <%= link_to_function '&rsaquo;'.html_safe, "goForwardOneMonth();", :style => 'text-decoration:none', :title => 'Next Month' %>
-    <%= link_to_function '&raquo;'.html_safe, "goForwardOneYear();", :style => 'text-decoration:none', :title => 'Next Year' %>
+    <%#= link_to_function '&rsaquo;'.html_safe, "goForwardOneMonth();", :style => 'text-decoration:none', :title => 'Next Month' %>
+    <%#= link_to_function '&raquo;'.html_safe, "goForwardOneYear();", :style => 'text-decoration:none', :title => 'Next Year' %>
+    <%= select_tag :date_type, options_for_select([['Due Date', 'due_date'],['Start Date', 'start_date'],['End Date', 'end_date']]) %>
   <% end %>
 </div>
 
@@ -20,8 +21,28 @@
   <br /><center><%= image_tag "ajax-loader.gif" %></center>
 </div>
 
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script");
-  });
-<% end %>
+<table class='blank padded'>
+  <tr>
+    <td>
+      <fieldset>
+        <legend>Projects</legend>
+        <% current_user.all_viewable_projects.each do |project| %>
+          <div class="field">
+            <%= check_box_tag "projects[#{project.id}][selected]", '1', true, onclick: "$('.project_#{project.id}').toggle()" %> <%= link_to_function project.name, "" %>
+          </div>
+        <% end %>
+      </fieldset>
+    </td>
+    <td>
+      <fieldset>
+        <legend>Sticky Status</legend>
+        <% ['planned', 'ongoing', 'completed'].each do |status| %>
+          <div class="field">
+            <%= check_box_tag "status[#{status}][selected]", '1', true, onclick: "$('.stickies_#{status}').toggle()" %> <span class="<%= status %>"><%= status.titleize %></span>
+          </div>
+        <% end %>
+      </fieldset>
+    </td>
+  </tr>
+</table>
+</fieldset>

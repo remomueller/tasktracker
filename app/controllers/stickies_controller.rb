@@ -5,12 +5,21 @@ class StickiesController < ApplicationController
     @selected_date = begin Date.strptime(params[:selected_date], "%m/%d/%Y") rescue Date.today end
     @start_date = @selected_date.beginning_of_month
     @end_date = @selected_date.end_of_month
-    @stickies = current_user.all_viewable_stickies.with_due_date_for_calendar(@start_date, @end_date)
     
     @first_sunday = @start_date - @start_date.wday.day
     @last_saturday = @end_date + (6 - @end_date.wday).day
     
-    # @stickies = current_user.all_viewable_stickies.with_date_for_calendar(@start_date, @end_date)
+    sticky_scope = current_user.all_viewable_stickies
+    
+    case params[:date_type]
+    when 'start_date'
+      sticky_scope = sticky_scope.with_start_date_for_calendar(@start_date, @end_date)
+    when 'end_date'
+      sticky_scope = sticky_scope.with_end_date_for_calendar(@start_date, @end_date)
+    else
+      sticky_scope = sticky_scope.with_due_date_for_calendar(@start_date, @end_date)
+    end
+    @stickies = sticky_scope
   end
 
   def search

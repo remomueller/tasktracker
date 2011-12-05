@@ -17,7 +17,7 @@
             onmouseover="$(this).addClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').show();" onmouseout="$(this).removeClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').hide();">
           <div style="width:100%">
             <div class="calendar-entry-heading">
-              <%= link_to image_tag('contour/addfile.png', :style => 'border:none;vertical-align:text-bottom', :size => '11x11', :title => "New Entry for #{iDate.strftime("%B %e, %Y")}"), new_sticky_path(:sticky => {:due_date => iDate}, :from_calendar => 1), :style => 'display:none', :id => "calendar_box_#{first_day_offset}_new_entry_link" %>
+              <%= link_to image_tag('contour/addfile.png', :style => 'border:none;vertical-align:text-bottom', :size => '11x11', :title => "New Sticky due on #{iDate.strftime("%B %e, %Y")}"), new_sticky_path(:sticky => {:due_date => iDate}, :from_calendar => 1), :style => 'display:none', :id => "calendar_box_#{first_day_offset}_new_entry_link" %>
               <% if [@start_date, (@end_date + 1.day)].include?(iDate) %>
                 <%= iDate.strftime("%b %e") %>
               <% else %>
@@ -26,9 +26,19 @@
             </div>
             <div style="min-height:60px">
               <%# @stickies.with_due_date_for_calendar(iDate,iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
-              <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
               <%# @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
-                <%= @sticky = sticky; render partial: 'popup' %>
+              <% case params[:date_type] when 'start_date' %>
+                <% @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                  <%= @sticky = sticky; render partial: 'popup' %>
+                <% end %>
+              <% when 'end_date' %>
+                <% @stickies.where(:end_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                  <%= @sticky = sticky; render partial: 'popup' %>
+                <% end %>
+              <% else %>
+                <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                  <%= @sticky = sticky; render partial: 'popup' %>
+                <% end %>
               <% end %>
             </div>
           </div>
