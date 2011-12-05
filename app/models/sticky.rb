@@ -12,10 +12,13 @@ class Sticky < ActiveRecord::Base
   scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :updated_since, lambda {|*args| {:conditions => ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
+  scope :with_due_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", args.first, args[1]]}}
+  # scope :with_due_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ? or (stickies.due_date IS NULL and stickies.frame_id in (select frames.id from frames where DATE(frames.end_date) >= ? and DATE(frames.end_date) <= ?))", args.first, args[1], args.first, args[1]]}}
 
   scope :due_today,     lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) = ?", Date.today]}}
   scope :past_due,      lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) < ?", Date.today]}}
   scope :due_this_week, lambda { |*args| { :conditions => ["stickies.status != 'completed' and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", Date.today, Date.today + (7-Date.today.wday).days]}}
+
 
   before_create :set_start_date
   after_create :send_email

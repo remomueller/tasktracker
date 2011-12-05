@@ -4,6 +4,8 @@
   * Adding support for templates
     * Templates define a series of stickies
     * Once created, a template can Generate Stickies for the project, with due_date (+1.day, +2.weeks, +5.weeks)
+  * Calendar View is now available for Stickies with a Due Date
+    * New Stickies with Due Date can be created directly from Due Date calendar by hovering over the date and clicking the new sticky icon
 
 == 0.10.0
 

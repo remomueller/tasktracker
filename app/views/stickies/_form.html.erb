@@ -12,6 +12,8 @@
     </div>
   <% end %>
 
+  <%= hidden_field_tag 'from_calendar', params[:from_calendar].to_i %>
+
   <fieldset>
     <legend><%= @title %></legend>
     <div class="field">

@@ -60,19 +60,35 @@ a:hover { color: #EB6C20; }
   border: 2px solid #404040;
 }
 
-.status_marked.planned {
+.status_marked.planned, .planned {
   border-color: #FFB475;
   background-color: #FEE5CD;
 }
 
-.status_marked.ongoing {
+.status_marked.ongoing, .ongoing {
   border-color: #66FF66;
   background-color: #D4FFCD;
 }
 
-.status_marked.completed {
+.status_marked.completed, .completed {
   border-color: #366DC2;
   background-color: #B1BFDB;
+}
+
+.stickies_planned a {
+  color: #FFB475;
+/*  background-color: #FEE5CD;*/
+}
+
+.stickies_ongoing a {
+/*  color: #66FF66;*/
+  color: #336633;
+/*  background-color: #D4FFCD;*/
+}
+
+.stickies_completed a {
+  color: #366DC2;
+/*  background-color: #B1BFDB;*/
 }
 
 .status_unmarked {
@@ -91,4 +107,52 @@ table.status-table td {
 
 .recently_updated {
   background-color: #ffffcc;
+}
+
+/* Sticky Calendar */
+.calendar-entry-heading{
+  text-align: right;
+  background-color: #E1EAF9;
+}
+
+.calendar-entry-body-today{
+  background-color: #C6CAF5;
+}
+
+.calendar-entry-body-today .calendar-entry-heading{
+  background-color: #9999CC;
+}
+
+/* Other Month */
+.last-month .calendar-entry-heading, .next-month .calendar-entry-heading{
+  background-color: #FBF8F2;
+}
+
+.last-month.calendar-entry-body-today, .next-month.calendar-entry-body-today{
+  background-color: #F9E0C8;
+}
+
+.calendar-entry-body-today.last-month .calendar-entry-heading, .calendar-entry-body-today.next-month .calendar-entry-heading{
+  background-color: #FFB475;
+}
+
+/* Hover */
+.hover{
+  background-color: #CCFFCC;
+}
+
+.hover .calendar-entry-heading{
+  background-color: #669966;
+}
+
+.calendar-entry-amount{
+  width: 65px;
+  text-align: right;
+  float: left;
+  margin-right: 5px;
+}
+
+.calendar-entry-name{
+  overflow: hidden;
+  white-space: nowrap;
 }

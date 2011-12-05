@@ -1,0 +1,40 @@
+<table style="width:100%;border-collapse:collapse;table-layout: fixed;"><%#= '<col width="14%"/>'*7 %>
+  <thead>
+    <tr>
+      <% (0..6).each do |iDay| %>
+        <th><%= Date::DAYNAMES[iDay] %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody style="font-size:11px">
+    <tr>
+      <% (0..@last_saturday - @first_sunday).each do |first_day_offset| %>
+        <% iDate = @first_sunday + first_day_offset.day %>
+        <td valign="top" style="border:1px solid #777;padding:0px"
+            class="<%= 'calendar-entry-body-today' if iDate == Date.today %>
+                   <%= 'last-month' if iDate < @start_date %>
+                   <%= 'next-month' if iDate > @end_date %>"
+            onmouseover="$(this).addClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').show();" onmouseout="$(this).removeClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').hide();">
+          <div style="width:100%">
+            <div class="calendar-entry-heading">
+              <%= link_to image_tag('contour/addfile.png', :style => 'border:none;vertical-align:text-bottom', :size => '11x11', :title => "New Entry for #{iDate.strftime("%B %e, %Y")}"), new_sticky_path(:sticky => {:due_date => iDate}, :from_calendar => 1), :style => 'display:none', :id => "calendar_box_#{first_day_offset}_new_entry_link" %>
+              <% if [@start_date, (@end_date + 1.day)].include?(iDate) %>
+                <%= iDate.strftime("%b %e") %>
+              <% else %>
+                <%= iDate.strftime("%e") %>
+              <% end %>
+            </div>
+            <div style="min-height:60px">
+              <%# @stickies.with_due_date_for_calendar(iDate,iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+              <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+              <%# @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                <%= @sticky = sticky; render partial: 'popup' %>
+              <% end %>
+            </div>
+          </div>
+        </td>
+        <%= "</tr><tr>".html_safe if first_day_offset % 7 == 6 and first_day_offset != @last_saturday - @first_sunday %>
+      <% end %>
+    </tr>
+  </tbody>
+</table>

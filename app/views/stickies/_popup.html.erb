@@ -1,0 +1,42 @@
+<div class="calendar-entry-name stickies_<%= @sticky.status %>" style="margin-bottom:2px" id="sticky_<%= @sticky.id %>_popup">
+  <%= link_to @sticky.description.truncate(27), @sticky %>
+  <% color = 'green' if @sticky.status == 'ongoing' %>
+  <% color = 'blue' if @sticky.status == 'completed' %>
+  <% color = 'yellow' if @sticky.status == 'planned' %>
+  <%= javascript_tag do %>
+    $('#sticky_<%= @sticky.id %>_popup')
+      .qtip({
+        content:{
+          text: '<%== escape_javascript((
+            "<strong>Description:</strong> " + @sticky.description + "<br /><br />" + 
+            
+            (@sticky.owner ? "<strong>Assigned To:</strong><ul><li>" + @sticky.owner.name + "</li></ul>" : '' ) +
+
+            (@sticky.project ? "<strong>Project:</strong><ul><li>" + @sticky.project.name + "</li></ul>" : '') + 
+            
+            (@sticky.project.frames.size > 0 ? "<strong>Frame:</strong><ul><li>" + (@sticky.frame ? @sticky.frame.name : 'Backlog') + "</li></ul>" : '') + 
+            
+            "<strong>Created By:</strong><ul><li>" + @sticky.user.name + "</li></ul>"
+            
+          ).html_safe) %>',
+          title:{
+            text: 'Sticky <%= @sticky.name %> - <%= @sticky.status %>'
+          }
+        },
+        show:{
+          event: 'mouseenter'
+        },
+        hide: {
+          event: 'mouseleave'
+        },
+        position:{
+          my: 'left center',
+          at: 'right center',
+          viewport: $(window)
+        },
+        style:{
+          classes: 'ui-tooltip-shadow ui-tooltip-<%= color %>'
+        }
+      });
+  <% end %>
+</div>
