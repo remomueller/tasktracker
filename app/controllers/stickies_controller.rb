@@ -11,8 +11,7 @@ class StickiesController < ApplicationController
     
     sticky_scope = current_user.all_viewable_stickies
     
-    case params[:date_type]
-    when 'start_date'
+    case params[:date_type] when 'start_date'
       sticky_scope = sticky_scope.with_start_date_for_calendar(@start_date, @end_date)
     when 'end_date'
       sticky_scope = sticky_scope.with_end_date_for_calendar(@start_date, @end_date)
