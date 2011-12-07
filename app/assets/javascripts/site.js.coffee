@@ -34,8 +34,9 @@ jQuery ->
   )
   
   $(document).keydown( (e) ->
-    if e.keyCode == 37
+    if $("input, select, textarea").is(":focus") then return
+    if e.which == 37
       decreaseSelectedIndex('#frame_id');
-    if e.keyCode == 39
+    if e.which == 39
       increaseSelectedIndex('#frame_id');
   )
