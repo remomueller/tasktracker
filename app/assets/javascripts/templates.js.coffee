@@ -17,3 +17,8 @@ jQuery ->
     .click( () ->
       $( "#dialog-form" ).dialog( "open" )
   )
+  
+  $('#template_project_id').change( () ->
+    $.post(root_url + 'templates/items', $("form").serialize(), null, "script")
+    false
+  )

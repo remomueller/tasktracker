@@ -24,14 +24,17 @@ class Template < ActiveRecord::Base
   def item_tokens=(tokens)
     self.items = []
     tokens.each_pair do |key, item_hash|
-      self.items << { description: item_hash[:description], interval: item_hash[:interval].to_i.abs, units: (['days','weeks','months','years'].include?(item_hash[:units]) ? item_hash[:units] : 'days') } unless item_hash[:description].blank?
+      self.items << { description: item_hash[:description],
+                      interval: item_hash[:interval].to_i.abs,
+                      units: (['days','weeks','months','years'].include?(item_hash[:units]) ? item_hash[:units] : 'days'),
+                      owner_id: item_hash[:owner_id]
+                    } unless item_hash[:description].blank?
     end
   end
   
   def generate_stickies!(frame_id, initial_date = Date.today)
-    Rails.logger.debug "FRAME_ID: #{frame_id}"
     self.items.each_with_index do |item|
-      self.user.stickies.create({project_id: self.project_id, frame_id: frame_id, description: item[:description], status: 'ongoing', due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
+      self.user.stickies.create({project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: item[:description], status: 'ongoing', due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
     end
   end
 end

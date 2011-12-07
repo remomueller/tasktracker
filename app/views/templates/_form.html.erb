@@ -23,14 +23,7 @@
       <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @template.project_id) %>
     </div>
     <div id="items_container">
-      <% if @template.items.size == 0 %>
-        <% @item = { description: '', interval: 0, units: 'days' } %>
-        <%= render partial: 'edit_item' %>
-      <% else %>
-        <% @template.items.each do |item| %>
-          <%= @item = item; render partial: 'edit_item' %>
-        <% end %>
-      <% end %>
+      <%= render partial: 'items' %>
     </div>
     <%= link_to 'Add More', add_item_templates_path, remote: true, method: :post %>
   </fieldset>

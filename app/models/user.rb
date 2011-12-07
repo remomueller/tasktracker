@@ -14,11 +14,11 @@ class User < ActiveRecord::Base
   serialize :email_notifications, Hash
 
   # Named Scopes
-  scope :current, :conditions => { :deleted => false }
-  scope :status, lambda { |*args|  { :conditions => ["users.status IN (?)", args.first] } }
-  scope :search, lambda { |*args| {:conditions => [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
-  scope :system_admins, :conditions => { :system_admin => true }
-  scope :with_project, lambda { |*args| { :conditions => ["users.id in (select projects.user_id from projects where projects.id = ? and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id = ? and project_users.allow_editing IN (?))", args.first, false, args.first, args[1]] } }
+  scope :current, conditions: { deleted: false }
+  scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
+  scope :search, lambda { |*args| {conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :system_admins, conditions: { system_admin: true }
+  scope :with_project, lambda { |*args| { conditions: ["users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1]] } }
   
   # Model Validation
   validates_presence_of     :first_name
@@ -26,14 +26,14 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :authentications
-  has_many :projects, :conditions => {:deleted => false}, :order => 'name'
+  has_many :projects, conditions: { deleted: false }, order: 'name'
   has_many :project_favorites
-  has_many :frames, :conditions => {:deleted => false}, :order => 'created_at'
-  has_many :templates, conditions: { :deleted => false }, :order => 'created_at'
-  has_many :stickies, :conditions => {:deleted => false}, :order => 'created_at'
-  has_many :comments, :conditions => {:deleted => false}, :order => 'created_at DESC'
+  has_many :frames, conditions: { deleted: false }, order: 'created_at'
+  has_many :templates, conditions: { deleted: false }, order: 'created_at'
+  has_many :stickies, conditions: { deleted: false }, order: 'created_at'
+  has_many :comments, conditions: { deleted: false }, order: 'created_at DESC'
 
-  has_many :owned_stickies, :class_name => 'Sticky', :foreign_key => 'owner_id', :conditions => {:deleted => false}, :order => 'created_at'
+  has_many :owned_stickies, class_name: 'Sticky', foreign_key: 'owner_id', conditions: { deleted: false }, order: 'created_at'
 
   # User Methods
   
@@ -155,7 +155,7 @@ class User < ActiveRecord::Base
       self.first_name = omniauth['user_info']['first_name'] if first_name.blank?
       self.last_name = omniauth['user_info']['last_name'] if last_name.blank?
     end
-    authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
+    authentications.build(provider: omniauth['provider'], uid: omniauth['uid'])
   end
 
   def password_required?

@@ -45,6 +45,10 @@ class TemplatesController < ApplicationController
     @template = current_user.all_templates.find_by_id(params[:id])
     redirect_to root_path unless @template
   end
+
+  def items
+    @template = current_user.templates.new(params[:template])
+  end
   
   def create
     @template = current_user.templates.new(params[:template])

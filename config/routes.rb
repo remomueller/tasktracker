@@ -44,6 +44,7 @@ Notes::Application.routes.draw do
   resources :templates do
     collection do
       post :add_item
+      post :items
     end
     member do
       post :generate_stickies
