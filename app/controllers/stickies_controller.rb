@@ -100,7 +100,12 @@ class StickiesController < ApplicationController
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       @sticky.destroy
-      redirect_to stickies_path
+      flash[:notice] = 'Sticky was successfully deleted.'
+      if params[:from_calendar] == '1'
+        redirect_to calendar_stickies_path(selected_date: @sticky.due_date)
+      else
+        redirect_to stickies_path
+      end
     else
       redirect_to root_path
     end
