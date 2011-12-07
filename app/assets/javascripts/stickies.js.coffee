@@ -17,20 +17,6 @@ jQuery ->
   
   $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script");
 
-# @goBackOneYear = () -> 
-#   year_selector = $('#year')
-#   year_selector.val(year_selector.val() - 1)
-#   $('#direction').val(-1)
-#   year_selector.change()
-# 
-# @goForwardOneYear = () ->
-#   year_selector = $('#year')
-#   num_years = $(year_selector).find('option').size()
-#   if parseInt(year_selector.val()) != num_years - 1
-#     year_selector.val(parseInt(year_selector.val()) + 1)
-#     $('#direction').val(1)
-#     year_selector.change()
-
 @goBackOneMonth = () ->
   now = new Date $('#selected_date').val()
   now = new Date() if isNaN(now.getFullYear())
@@ -52,38 +38,3 @@ jQuery ->
   $('#selected_date').val((now.getMonth() + 1) + "/" + now.getDate() + "/" + now.getFullYear())
   $('#direction').val(0)
   $('#selected_date').change()
-
-# @goBackOneMonth = () ->
-#   month_selector = $("#month")
-#   year_selector = $("#year")
-#   if month_selector.val() == '1'
-#     if year_selector.val() != '1'
-#       month_selector.val('12')
-#       year_selector.val(year_selector.val() - 1)
-#   else
-#     month_selector.val(month_selector.val() - 1)
-#   $('#direction').val(-1)
-#   month_selector.change()
-# 
-# @goForwardOneMonth = () ->
-#   month_selector = $('#month')
-#   year_selector = $('#year')
-#   num_years = $(year_selector).find('option').size()
-#   if month_selector.val() == '12'
-#     if year_selector.val() != num_years - 1
-#       month_selector.val('1')
-#       year_selector.val(parseInt(year_selector.val()) + 1)
-#   else
-#     month_selector.val(parseInt(month_selector.val()) + 1)
-#   $('#direction').val(1)
-#   month_selector.change()
-
-@goToCurrentMonth = () ->
-  month_selector = $('#month')
-  year_selector = $('#year')
-  today = new Date()
-  month_selector.attr('selectedIndex', today.getMonth())
-  available_years = new Array()
-  available_years.push(item.value) for item in year_selector.options
-  year_selector.attr('selectedIndex', available_years.indexOf(today.getFullYear().toString(10)))
-  $('#direction').val(0)
