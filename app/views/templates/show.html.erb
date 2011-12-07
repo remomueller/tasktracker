@@ -46,5 +46,8 @@
 	  <div class="field"><%= label_tag :initial_due_date %><br />
 	    <%= text_field_tag :initial_due_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
 	  </div>
+	  <div class="field"><%= label_tag :additional_text %><br />
+	    <%= text_area_tag :additional_text, '', :rows => 7, :style => "width:470px" %>
+	  </div>
   <% end %>
 </div>

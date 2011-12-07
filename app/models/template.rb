@@ -32,9 +32,9 @@ class Template < ActiveRecord::Base
     end
   end
   
-  def generate_stickies!(frame_id, initial_date = Date.today)
+  def generate_stickies!(frame_id, initial_date = Date.today, additional_text = nil)
     self.items.each_with_index do |item|
-      self.user.stickies.create({project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: item[:description], status: 'ongoing', due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
+      self.user.stickies.create({project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: [item[:description].to_s, additional_text.to_s].select{|i| not i.blank?}.join("\n\n"), status: 'ongoing', due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
     end
   end
 end

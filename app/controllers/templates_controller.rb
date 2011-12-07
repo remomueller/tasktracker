@@ -8,7 +8,7 @@ class TemplatesController < ApplicationController
     @frame_id = @frame.id if @frame
     frame_name = (@frame ? @frame.name + ' - ' + @frame.short_time : 'Backlog')
     if @template
-      @template.generate_stickies!(@frame_id, params[:initial_due_date])
+      @template.generate_stickies!(@frame_id, params[:initial_due_date], params[:additional_text])
       redirect_to @template, notice: @template.items.size.to_s + ' ' + ((@template.items.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}."
     else
       redirect_to root_path

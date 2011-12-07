@@ -1,8 +1,8 @@
 jQuery ->
   $( "#dialog-form" ).dialog(
     autoOpen: false
-    height: 190
-    width: 350
+    height: 300
+    width: 500
     modal: true
     buttons:
       "Create Stickies": () ->
