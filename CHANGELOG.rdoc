@@ -11,6 +11,9 @@
     * New Stickies with Due Date can be created directly from Due Date calendar by hovering over the date and clicking the new sticky icon
   * Emails are sent out to inform users if a sticky assigned to them is due that day or is past due
 
+* Bug Fix
+  * Graphs now render correctly in IE7 and IE8
+
 == 0.10.0
 
 * Enhancements
