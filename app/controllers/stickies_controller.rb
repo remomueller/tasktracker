@@ -66,10 +66,11 @@ class StickiesController < ApplicationController
     params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
     @sticky = current_user.stickies.new(params[:sticky])
     if @sticky.save
+      flash[:notice] = 'Sticky was successfully created.'
       if params[:from_calendar] == '1'
-        redirect_to(calendar_stickies_path(selected_date: @sticky.due_date), :notice => 'Sticky was successfully created.')
+        redirect_to calendar_stickies_path(selected_date: @sticky.due_date)
       else
-        redirect_to(@sticky, :notice => 'Sticky was successfully created.')
+        redirect_to @sticky
       end
     else
       render :action => "new"
@@ -81,7 +82,12 @@ class StickiesController < ApplicationController
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       if @sticky.update_attributes(params[:sticky])
-        redirect_to(@sticky, :notice => 'Sticky was successfully updated.')
+        flash[:notice] = 'Sticky was successfully updated.'
+        if params[:from_calendar] == '1'
+          redirect_to calendar_stickies_path(selected_date: @sticky.due_date)
+        else
+          redirect_to @sticky
+        end
       else
         render :action => "edit"
       end
