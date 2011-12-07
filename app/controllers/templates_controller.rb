@@ -16,7 +16,7 @@ class TemplatesController < ApplicationController
   end
 
   def add_item
-    @template = current_user.all_templates.new
+    @template = current_user.templates.new(params[:template])
     @item = { description: '', interval: 0, units: 'days' }
   end
 

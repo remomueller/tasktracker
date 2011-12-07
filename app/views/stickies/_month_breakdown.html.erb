@@ -29,7 +29,7 @@
               <%# @stickies.with_due_date_for_calendar(iDate,iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
               <%# @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
               <% case params[:date_type] when 'start_date' %>
-                <% @stickies.where(:start_date => iDate).group(:project_id).order(:id).each do |sticky| %>
+                <% @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
                   <%= @sticky = sticky; render partial: 'popup' %>
                 <% end %>
               <% when 'end_date' %>

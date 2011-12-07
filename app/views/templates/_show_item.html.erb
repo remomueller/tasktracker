@@ -6,6 +6,10 @@
     <pre><%= @item[:description] %></pre>
     <br />
     
-    <b>Offset from Initial Due Date:</b><%= @item[:interval] %> <%= @item[:units] %><br />
+    <b>Offset from Initial Due Date:</b> <%= @item[:interval] %> <%= @item[:units] %><br />
+    <% if owner = User.current.find_by_id(@item[:owner_id]) %>
+      <br />
+      <b>Assign To:</b> <%= link_to owner.name, owner %><br />
+    <% end %>
   </div>
 </fieldset>

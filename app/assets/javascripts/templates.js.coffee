@@ -2,7 +2,7 @@ jQuery ->
   $( "#dialog-form" ).dialog(
     autoOpen: false
     height: 300
-    width: 500
+    width: 520
     modal: true
     buttons:
       "Create Stickies": () ->
@@ -19,6 +19,11 @@ jQuery ->
   )
   
   $('#template_project_id').change( () ->
-    $.post(root_url + 'templates/items', $("form").serialize(), null, "script")
+    $.post(root_url + 'templates/items', $("form").serialize() + "&_method=post", null, "script")
+    false
+  )
+  
+  $('#add_more_items').click( () ->
+    $.post(root_url + 'templates/add_item', $("form").serialize() + "&_method=post", null, "script")
     false
   )

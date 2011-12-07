@@ -25,7 +25,8 @@
     <div id="items_container">
       <%= render partial: 'items' %>
     </div>
-    <%= link_to 'Add More', add_item_templates_path, remote: true, method: :post %>
+    <%#= link_to 'Add More', add_item_templates_path, remote: true, method: :post %>
+    <%= link_to 'Add More', '#', id: 'add_more_items' %>
   </fieldset>
   
   <div class="actions">
