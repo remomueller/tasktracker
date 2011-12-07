@@ -54,6 +54,15 @@ class UserMailer < ActionMailer::Base
 #         :reply_to => user.email)
   end
   
+  def daily_stickies_due(user)
+    setup_email
+    @user = user
+    due_today = (user.all_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
+    past_due = (user.all_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
+    mail(:to => user.email,
+         :subject => @subject + [due_today, past_due].join(' and '))
+  end
+  
   protected
   
   def setup_email

@@ -60,36 +60,34 @@ a:hover { color: #EB6C20; }
   border: 2px solid #404040;
 }
 
-.status_marked.planned, .planned {
+.status_marked.planned {
   border-color: #FFB475;
   background-color: #FEE5CD;
 }
 
-.status_marked.ongoing, .ongoing {
+.status_marked.ongoing {
   border-color: #66FF66;
   background-color: #D4FFCD;
 }
 
-.status_marked.completed, .completed {
+.status_marked.completed {
   border-color: #366DC2;
   background-color: #B1BFDB;
 }
 
+/*
 .stickies_planned a {
   color: #FFB475;
-/*  background-color: #FEE5CD;*/
 }
 
 .stickies_ongoing a {
-/*  color: #66FF66;*/
   color: #336633;
-/*  background-color: #D4FFCD;*/
 }
 
 .stickies_completed a {
   color: #366DC2;
-/*  background-color: #B1BFDB;*/
 }
+*/
 
 .status_unmarked {
 /*  border: 2px solid gray;*/
@@ -146,7 +144,7 @@ table.status-table td {
 }
 
 .calendar-entry-amount{
-  width: 65px;
+  width: 15px;
   text-align: right;
   float: left;
   margin-right: 5px;

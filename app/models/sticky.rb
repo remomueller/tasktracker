@@ -8,6 +8,7 @@ class Sticky < ActiveRecord::Base
   scope :status, lambda { |*args|  { :conditions => ["stickies.status IN (?)", args.first] } }
   scope :with_project, lambda { |*args| { :conditions => ["stickies.project_id IN (?) or (stickies.project_id IS NULL and stickies.user_id = ?)", args.first, args[1]] } }
   scope :with_creator, lambda { |*args|  { :conditions => ["stickies.user_id IN (?)", args.first] } }
+  scope :with_owner, lambda { |*args|  { :conditions => ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
   scope :with_frame, lambda { |*args| { :conditions => ["stickies.frame_id IN (?) or (stickies.frame_id IS NULL and 0 IN (?))", args.first, args.first] } }
   scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :updated_since, lambda {|*args| {:conditions => ["stickies.updated_at > ?", args.first] }}

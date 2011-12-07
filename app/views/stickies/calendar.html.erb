@@ -38,7 +38,12 @@
         <legend>Sticky Status</legend>
         <% ['planned', 'ongoing', 'completed'].each do |status| %>
           <div class="field">
-            <%= check_box_tag "status[#{status}][selected]", '1', true, onclick: "$('.stickies_#{status}').toggle()" %> <span class="<%= status %>"><%= status.titleize %></span>
+            <table class="blank">
+              <tr>
+                <td><%= check_box_tag "status[#{status}][selected]", '1', true, onclick: "$('.stickies_#{status}').toggle()" %></td>
+                <td><%= display_single_status(status) %></td>
+                <td><span class="<%= status %>"><%= status.titleize %></span></td>
+            </table>
           </div>
         <% end %>
       </fieldset>

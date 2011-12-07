@@ -30,6 +30,12 @@
       <b>Sticky Comments</b><br />
       <%= check_box_tag 'email[sticky_comments]', '1', current_user.email_on?(:sticky_comments) %> <%= information("Receive email when a comment is added to a sticky") %>
     </div>
+    
+    <div class="field">
+      <b>Daily Weekday Stickies Due</b><br />
+      <%= check_box_tag 'email[daily_stickies_due]', '1', current_user.email_on?(:daily_stickies_due) %> <%= information("Receive daily weekday emails if there are stickies due or past due") %>
+    </div>
+    
     <br />
     <hr />
     <br />

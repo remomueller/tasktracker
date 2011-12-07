@@ -77,6 +77,14 @@ class User < ActiveRecord::Base
     end
   end
   
+  def all_stickies_due_today
+    self.all_stickies.due_today.with_owner(self.id)
+  end
+  
+  def all_stickies_past_due
+    self.all_stickies.past_due.with_owner(self.id)
+  end
+    
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
       Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) # .order('created_at DESC')
