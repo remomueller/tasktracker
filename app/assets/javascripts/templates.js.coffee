@@ -1,7 +1,7 @@
 jQuery ->
   $( "#dialog-form" ).dialog(
     autoOpen: false
-    height: 300
+    height: 310
     width: 520
     modal: true
     buttons:
