@@ -4,6 +4,13 @@ module ApplicationHelper
     link_to image_tag('contour/cross.png', :alt => '') + 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), :class => 'button negative'
   end
 
+  def colors(index)
+    # colors = ['#92A8CD', '#AA4643', '#89A54E', '#4572A7', '#80699B', '#3D96AE', '#DB843D', '#A47D7C', '#B5CA92', '#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']
+    # colors = ["#AC725E", "rgb(208, 107, 100)", "rgb(248, 58, 34)", "rgb(250, 87, 60)", "rgb(255, 117, 55)", "#FFAD46", "rgb(66, 214, 146)", "rgb(22, 167, 101)", "rgb(123, 209, 72)", "rgb(179, 220, 108)", "rgb(251, 233, 131)", "rgb(250, 209, 101)", "rgb(146, 225, 192)", "rgb(159, 225, 231)", "rgb(159, 198, 231)", "rgb(73, 134, 231)", "rgb(154, 156, 255)", "rgb(185, 154, 255)", "rgb(194, 194, 194)", "rgb(202, 189, 191)", "rgb(204, 166, 172)", "#F691B2", "rgb(205, 116, 230)", "rgb(164, 122, 226)"]
+    colors = ["#4733e6", "rgb(123, 209, 72)", "#bfbf0d", "rgb(154, 156, 255)", "rgb(22, 167, 101)", "rgb(73, 134, 231)", "rgb(205, 116, 230)", "#9f33e6", "rgb(255, 117, 55)", "rgb(146, 225, 192)", "rgb(208, 107, 100)", "rgb(159, 198, 231)", "rgb(194, 194, 194)", "rgb(250, 87, 60)", "#AC725E", "rgb(204, 166, 172)", "rgb(185, 154, 255)", "rgb(248, 58, 34)", "rgb(66, 214, 146)", "#F691B2", "rgb(164, 122, 226)", "#FFAD46", "rgb(179, 220, 108)"] # "rgb(251, 233, 131)"
+    colors[index % colors.size]
+  end
+
   # Prints out '6 hours ago, Yesterday, 2 weeks ago, 5 months ago, 1 year ago'
   def recent_activity(past_time)
     return '' unless past_time.kind_of?(Time)

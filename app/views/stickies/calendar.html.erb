@@ -27,9 +27,9 @@
     <td>
       <fieldset>
         <legend>Projects</legend>
-        <% current_user.all_viewable_projects.each do |project| %>
+        <% current_user.all_viewable_projects.each_with_index do |project, index| %>
           <div class="field">
-            <%= check_box_tag "projects[#{project.id}][selected]", '1', true, onclick: "$('.project_#{project.id}').toggle()" %> <%= link_to_function project.name, "" %>
+            <%= check_box_tag "projects[#{project.id}][selected]", '1', true, onclick: "$('.project_#{project.id}').toggle()" %> <%= link_to_function project.name, "", style: "color:#{colors(index)}" %>
           </div>
         <% end %>
       </fieldset>
