@@ -2,26 +2,43 @@
 
 <h1>Month Breakdown</h1>
 
+<%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form' do %>
+<div style="position:relative; float:right; margin-top:-25px">
+  <table class="blank">
+    <% ['planned', 'ongoing', 'completed'].each do |status| %>
+    <tr>
+      <td><%= check_box_tag "status_selected[#{status}]", '1', params[:status_selected] ? params[:status_selected].keys.include?(status) : true, onclick: "$('.stickies_#{status}').toggle()" %></td>
+      <td><%= display_single_status(status) %></td>
+      <td><span class="<%= status %>"><%= status.titleize %></span></td>
+    </tr>
+    <% end %>
+  </table>
+</div>
+
+
 <div style="text-align:center;margin-top:-10px;float:middle">
-  <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form' do %>
+
     <%= hidden_field_tag :direction, 0 %>
+    
     <%#= link_to_function '&laquo;'.html_safe, "goBackOneYear();", :style => 'text-decoration:none', :title => 'Previous Year' %>
-    <%= text_field_tag :selected_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
-    <%#= select_tag :month, options_for_select( Date::MONTHNAMES[1..12].collect{|month| [month,Date::MONTHNAMES.index(month)]}, (params[:month] || Date.today.month)) %>
-    <%#= select_tag :year, options_for_select( (Date.today.year..Date.today.year+1).to_a, (params[:year] || Date.today.year) ) %>
     <%= link_to_function '&laquo;'.html_safe, "goBackOneMonth();", :style => 'text-decoration:none', :title => 'Previous Month' %>
     <%= link_to_function 'Today', 'getToday()' %>
     <%= link_to_function '&raquo;'.html_safe, "goForwardOneMonth();", :style => 'text-decoration:none', :title => 'Next Month' %>
+    <%= text_field_tag :selected_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
+    <%#= select_tag :month, options_for_select( Date::MONTHNAMES[1..12].collect{|month| [month,Date::MONTHNAMES.index(month)]}, (params[:month] || Date.today.month)) %>
+    <%#= select_tag :year, options_for_select( (Date.today.year..Date.today.year+1).to_a, (params[:year] || Date.today.year) ) %>
     <%= select_tag :date_type, options_for_select([['Due Date', 'due_date'],['Start Date', 'start_date'],['End Date', 'end_date']]) %>
     <%#= link_to_function '&raquo;'.html_safe, "goForwardOneYear();", :style => 'text-decoration:none', :title => 'Next Year' %>
 
-  <% end %>
 </div>
+<% end %>
+
 
 <div id="month-breakdown">
   <br /><center><%= image_tag "ajax-loader.gif" %></center>
 </div>
 
+<% if false %>
 <table class='blank padded'>
   <tr>
     <td>
@@ -51,7 +68,9 @@
     </td>
   </tr>
 </table>
-</fieldset>
+<% end %>
+
+<hr><br />
 
 <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Project", new_project_path, :class => 'button positive' %>
 

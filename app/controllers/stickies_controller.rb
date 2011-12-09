@@ -9,7 +9,7 @@ class StickiesController < ApplicationController
     @first_sunday = @start_date - @start_date.wday.day
     @last_saturday = @end_date + (6 - @end_date.wday).day
     
-    sticky_scope = current_user.all_viewable_stickies
+    sticky_scope = current_user.all_viewable_stickies.status((params[:status_selected] || {}).collect{|k,v| k.to_s})
     
     case params[:date_type] when 'start_date'
       sticky_scope = sticky_scope.with_start_date_for_calendar(@start_date, @end_date)
