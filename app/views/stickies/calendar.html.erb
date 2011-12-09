@@ -29,7 +29,7 @@
         <legend>Projects</legend>
         <% current_user.all_viewable_projects.each_with_index do |project, index| %>
           <div class="field">
-            <%= check_box_tag "projects[#{project.id}][selected]", '1', true, onclick: "$('.project_#{project.id}').toggle()" %> <%= link_to_function project.name, "", style: "color:#{colors(index)}" %>
+            <%= check_box_tag "projects[#{project.id}][selected]", '1', true, onclick: "$('.project_#{project.id}').toggle()" %> <%= link_to project.name, project, style: "color:#{colors(index)}" %>
           </div>
         <% end %>
       </fieldset>
@@ -52,3 +52,17 @@
   </tr>
 </table>
 </fieldset>
+
+<%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Project", new_project_path, :class => 'button positive' %>
+
+<%= form_tag projects_path, :method => :get, :remote => true, :id => 'projects_search' do %>
+  <%= hidden_field_tag :order %>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+  <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+<% end %>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#projects_search").attr("action"), $("#projects_search").serialize(), null, "script");
+  });
+<% end %>
