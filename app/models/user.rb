@@ -48,11 +48,7 @@ class User < ActiveRecord::Base
   end
 
   def email_on?(value)
-    if self.email_notifications
-      [nil, true].include?(self.email_notifications[value.to_s])
-    else
-      true
-    end
+    [nil, true].include?(self.email_notifications[value.to_s])
   end
 
   def all_projects
