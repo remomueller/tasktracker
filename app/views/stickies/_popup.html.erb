@@ -15,7 +15,7 @@
             
             (@sticky.owner ? "<strong>Assigned To:</strong><ul><li>" + @sticky.owner.name + "</li></ul>" : '' ) +
 
-            (@sticky.project ? "<strong>Project:</strong><ul><li>" + @sticky.project.name + "</li></ul>" : '') + 
+            (@sticky.project ? "<strong>Project:</strong><ul><li style='color:#{colors(current_user.all_viewable_projects.collect{|p| p.id}.index(@sticky.project_id))}'>" + @sticky.project.name + "</li></ul>" : '') + 
             
             (@sticky.project.frames.size > 0 ? "<strong>Frame:</strong><ul><li>" + (@sticky.frame ? @sticky.frame.name : 'Backlog') + "</li></ul>" : '') + 
             
