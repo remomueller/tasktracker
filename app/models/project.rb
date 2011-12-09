@@ -34,15 +34,7 @@ class Project < ActiveRecord::Base
   def comments(limit = nil)
     Comment.current.with_class_name(self.class.name).with_class_id(self.id).order('created_at desc').limit(limit)
   end
-  
-  def related_sticky_comments(limit = nil)
-    Comment.current.with_class_name('Sticky').with_class_id(self.stickies.collect{|sticky| sticky.id}).order('created_at desc').limit(limit)
-  end
-  
-  def all_comments(limit = nil)
-    (comments(limit) | related_sticky_comments(limit)).sort{|a,b| b.created_at <=> a.created_at}[0..((limit || 1).to_i-1)]
-  end
-  
+
   def new_comment(current_user, description)
     Comment.create(:class_name => self.class.name, :class_id => self.id, :user_id => current_user.id, :description => description)
     self.touch
