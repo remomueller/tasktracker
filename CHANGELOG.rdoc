@@ -16,7 +16,7 @@
   * Graphs now render correctly in IE7 and IE8
 
 * Testing
-  * Test Coverage at 98%
+  * Test Coverage at 100%
 
 == 0.10.0
 

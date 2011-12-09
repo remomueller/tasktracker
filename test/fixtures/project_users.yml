@@ -14,3 +14,8 @@ three:
   project: one
   user: pending
   allow_editing: false
+
+four:
+  project: one
+  user: admin
+  allow_editing: true

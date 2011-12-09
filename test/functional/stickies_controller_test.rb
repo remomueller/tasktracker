@@ -17,8 +17,19 @@ class StickiesControllerTest < ActionController::TestCase
     assert_template 'calendar'
   end
 
+  test "should get calendar by due date" do
+    get :calendar, format: 'js'
+    assert_not_nil assigns(:selected_date)
+    assert_not_nil assigns(:start_date)
+    assert_not_nil assigns(:end_date)
+    assert_not_nil assigns(:first_sunday)
+    assert_not_nil assigns(:last_saturday)
+    assert_not_nil assigns(:stickies)
+    assert_template 'calendar'
+  end
+
   test "should get calendar stickies by start date" do
-    get :calendar, date_type: 'start_date'
+    get :calendar, date_type: 'start_date', format: 'js'
     assert_not_nil assigns(:selected_date)
     assert_not_nil assigns(:start_date)
     assert_not_nil assigns(:end_date)
@@ -29,7 +40,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get calendar stickies by end date" do
-    get :calendar, date_type: 'end_date'
+    get :calendar, date_type: 'end_date', format: 'js'
     assert_not_nil assigns(:selected_date)
     assert_not_nil assigns(:start_date)
     assert_not_nil assigns(:end_date)

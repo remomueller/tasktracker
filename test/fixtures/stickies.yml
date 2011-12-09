@@ -37,6 +37,7 @@ planned:
   start_date: 2011-12-01
   # end_date:
   deleted: false
+  owner: valid
 
 ongoing:
   user: valid
@@ -54,7 +55,7 @@ completed:
   project: one
   # frame:
   status: completed
-  description: This is a planned sticky
+  description: This is a completed sticky
   due_date: 2011-12-10
   start_date: 2011-11-30
   end_date: 2011-12-01

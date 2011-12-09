@@ -28,6 +28,12 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:projects)
   end
 
+  test "should get paginated index" do
+    get :index, format: 'js'
+    assert_not_nil assigns(:projects)
+    assert_template 'index'
+  end
+
   test "should get new" do
     get :new
     assert_response :success

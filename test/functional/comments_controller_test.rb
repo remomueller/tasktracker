@@ -53,6 +53,16 @@ class CommentsControllerTest < ActionController::TestCase
     assert_template 'add_comment'
   end
 
+  test "should create comment for a sticky and send email to the sticky owner" do
+    login(users(:admin))
+    assert_difference('Comment.count') do
+      post :add_comment, :class_name => comments(:two).class_name, :class_id => comments(:two).class_id, :comment => "This is a comment.", :position => "1", :format => 'js'
+    end
+    
+    assert_not_nil assigns(:object)
+    assert_template 'add_comment'
+  end
+
   test "should create comment for a comment" do
     assert_difference('Comment.count') do
       post :add_comment, :class_name => comments(:three).class_name, :class_id => comments(:three).class_id, :comment => "This is a comment.", :position => "1", :format => 'js'
