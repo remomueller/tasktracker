@@ -53,11 +53,11 @@ Contour.setup do |config|
               { html: "<hr>" },
               { name: 'About', path: 'about_path' }]
     },
-    {
-      name: 'Projects', id: 'projects', display: 'signed_in', position: 'left', position_class: 'left_center',
-      links: [{ name: 'Projects', path: 'projects_path' },
-              { name: '&raquo;New', path: 'new_project_path' }]
-    },
+    # {
+    #   name: 'Projects', id: 'projects', display: 'signed_in', position: 'left', position_class: 'left_center',
+    #   links: [{ name: 'Projects', path: 'projects_path' },
+    #           { name: '&raquo;New', path: 'new_project_path' }]
+    # },
     # {
     #   name: 'Templates', id: 'templates', display: 'signed_in', position: 'left', position_class: 'left_center',
     #   links: [{ name: 'Templates', path: 'templates_path' },

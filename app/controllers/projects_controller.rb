@@ -15,11 +15,7 @@ class ProjectsController < ApplicationController
   def selection
     @sticky = Sticky.new
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
-    if @project
-      @project_id = @project.id
-    else
-      render :nothing => true
-    end
+    @project_id = @project.id if @project
   end
   
   def index

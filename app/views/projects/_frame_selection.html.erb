@@ -1,8 +1,3 @@
-<% if @project_id.blank? %>
-  <%# frames = current_user.all_frames %>
-  <% frames = current_user.all_frames %>
-<% else %>
-  <% frames = Frame.current.with_project(@project_id, current_user.id) %>
-<% end %>
+<% frames = Frame.current.with_project(@project_id, current_user.id) %>
 <%= label :sticky, :frame_id %><br />
 <%= select :sticky, :frame_id, options_for_select([['Backlog', nil]] + frames.order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]}, @sticky.frame_id) %>
