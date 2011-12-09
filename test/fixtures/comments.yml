@@ -13,3 +13,10 @@ two:
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
   description: MyText
   deleted: false
+
+three:
+  user: valid
+  class_name: Comment
+  class_id: <%= ActiveRecord::Fixtures.identify(:two) %>
+  description: MyText
+  deleted: false

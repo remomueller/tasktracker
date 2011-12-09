@@ -32,6 +32,11 @@ class Comment < ActiveRecord::Base
     Comment.create(:class_name => self.class.name, :class_id => self.id, :user_id => current_user.id, :description => description)
   end
   
+  # Currently owner and user is the same (for stickies it's different)
+  def owner
+    self.user
+  end
+  
   private
   
   def send_email
