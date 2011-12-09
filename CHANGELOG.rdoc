@@ -1,3 +1,8 @@
+== 0.11.1
+
+* Bug Fix
+  * Rake task now correctly sends out reminder emails (except weekend)
+
 == 0.11.0
 
 * Enhancements
