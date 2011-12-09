@@ -43,7 +43,11 @@ Contour.setup do |config|
     #           { name: '&raquo;Graphs', path: 'graph_user_path(current_user.id)' }]
     # },
     {
-      name: 'Calendar', id: 'calendar', display: 'always', position: 'left', position_class: 'left',
+      name: 'About', id: 'about', display: 'not_signed_in', position: 'left', position_class: 'left',
+      links: [{ name: 'About', path: 'about_path' }]
+    },
+    {
+      name: 'Calendar', id: 'calendar', display: 'signed_in', position: 'left', position_class: 'left',
       links: [{ name: 'Calendar', path: 'calendar_stickies_path' },
               { name: 'Templates', path: 'templates_path' },
               { html: "<hr>" },

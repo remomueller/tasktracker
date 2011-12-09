@@ -57,10 +57,6 @@ class User < ActiveRecord::Base
     end
   end
   
-  def all_editable_projects
-    self.all_projects
-  end
-  
   def all_viewable_projects
     @all_viewable_projects ||= begin
       Project.current.with_user(self.id, [true, false]) #.order('name')

@@ -9,3 +9,8 @@ two:
   project: two
   user: valid
   allow_editing: false
+
+three:
+  project: one
+  user: pending
+  allow_editing: false
