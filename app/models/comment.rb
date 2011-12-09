@@ -20,16 +20,6 @@ class Comment < ActiveRecord::Base
     "ID ##{self.id}"
   end
   
-  def friendly_date
-    if self.created_at.to_date == Date.today
-      self.created_at.strftime("at %I:%M %p")
-    elsif self.created_at.year == Date.today.year
-      self.created_at.strftime("on %b %d at %I:%M %p")
-    else
-      self.created_at.strftime("on %b %d, %Y at %I:%M %p")
-    end
-  end
-  
   def destroy
     update_attribute :deleted, true
   end

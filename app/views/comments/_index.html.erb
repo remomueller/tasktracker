@@ -14,7 +14,7 @@
 <% @comments.each do |comment| %>
   <div style="margin-bottom:5px" class="<%= 'recently_updated' if current_user.last_sign_in_at < comment.updated_at %>">
     <%= link_to comment.user.name, comment.user %>
-    <span class="quiet small"><%= comment.friendly_date %></span>
+    <span class="quiet small"><%= simple_time(comment.created_at) %></span>
     <% if current_user.all_movable_comments.include?(comment) %>
       <%= link_to image_tag('contour/open.png', :alt => ''), move_comment_path(comment) %>
     <% end %>

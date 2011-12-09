@@ -77,4 +77,18 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sticky.user.name} completed the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
+  test "daily stickies due email" do
+    valid = users(:valid)
+    
+    email = UserMailer.daily_stickies_due(valid).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    due_today = (valid.all_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
+    past_due = (valid.all_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
+
+    assert_equal [valid.email], email.to
+    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{[due_today, past_due].join(' and ')}", email.subject
+    assert_match(/View stickies on a calendar here: #{"#{SITE_URL}/stickies/calendar"}/, email.encoded)
+  end
+
 end

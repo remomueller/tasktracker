@@ -44,6 +44,17 @@ module ApplicationHelper
     end
   end
   
+  def simple_time(past_time)
+    return '' if past_time.blank?
+    if past_time.to_date == Date.today
+      past_time.strftime("at %I:%M %p")
+    elsif past_time.year == Date.today.year
+      past_time.strftime("on %b %d at %I:%M %p")
+    else
+      past_time.strftime("on %b %d, %Y at %I:%M %p")
+    end
+  end
+  
   def display_status(status)
     result = '<table class="status-table"><tr>'
     case status when 'planned'

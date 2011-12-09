@@ -6,6 +6,39 @@ class StickiesControllerTest < ActionController::TestCase
     @sticky = stickies(:one)
   end
 
+  test "should get calendar" do
+    get :calendar
+    assert_not_nil assigns(:selected_date)
+    assert_not_nil assigns(:start_date)
+    assert_not_nil assigns(:end_date)
+    assert_not_nil assigns(:first_sunday)
+    assert_not_nil assigns(:last_saturday)
+    assert_not_nil assigns(:stickies)
+    assert_template 'calendar'
+  end
+
+  test "should get calendar stickies by start date" do
+    get :calendar, date_type: 'start_date'
+    assert_not_nil assigns(:selected_date)
+    assert_not_nil assigns(:start_date)
+    assert_not_nil assigns(:end_date)
+    assert_not_nil assigns(:first_sunday)
+    assert_not_nil assigns(:last_saturday)
+    assert_not_nil assigns(:stickies)
+    assert_template 'calendar'
+  end
+
+  test "should get calendar stickies by end date" do
+    get :calendar, date_type: 'end_date'
+    assert_not_nil assigns(:selected_date)
+    assert_not_nil assigns(:start_date)
+    assert_not_nil assigns(:end_date)
+    assert_not_nil assigns(:first_sunday)
+    assert_not_nil assigns(:last_saturday)
+    assert_not_nil assigns(:stickies)
+    assert_template 'calendar'
+  end
+
   test "should get search" do
     get :search, project_id: projects(:one).to_param, frame_id: frames(:one).to_param
     assert_not_nil assigns(:project)
@@ -46,6 +79,20 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal 'ongoing', assigns(:sticky).status
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
     assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should create sticky from calendar" do
+    assert_difference('Sticky.count') do
+      post :create, from_calendar: 1, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, status: 'ongoing', due_date: "08/15/2011" }
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description", assigns(:sticky).description
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_equal frames(:one), assigns(:sticky).frame
+    assert_equal 'ongoing', assigns(:sticky).status
+    assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date)
   end
 
   test "should create a planned sticky" do
@@ -98,6 +145,17 @@ class StickiesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should not create sticky with blank project" do
+    assert_difference('Sticky.count', 0) do
+      post :create, sticky: { description: "Sticky Description", project_id: nil, frame_id: frames(:one).to_param, status: 'ongoing', due_date: "08/15/2011" }
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert assigns(:sticky).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:sticky).errors[:project_id]
+    assert_template 'new'
+  end
+
   test "should show sticky" do
     get :show, id: @sticky.to_param
     assert_response :success
@@ -120,11 +178,31 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
+  test "should update sticky from calendar" do
+    put :update, id: @sticky.to_param, from_calendar: 1, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, status: 'completed', due_date: "08/15/2011" }
+    assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal 'completed', assigns(:sticky).status
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal frames(:one), assigns(:sticky).frame
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date)
+  end
+
   test "should not update sticky with blank description" do
     put :update, id: @sticky.to_param, sticky: { description: "", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, status: 'completed', due_date: "08/15/2011" }
     assert_not_nil assigns(:sticky)
     assert assigns(:sticky).errors.size > 0
     assert_equal ["can't be blank"], assigns(:sticky).errors[:description]
+    assert_template 'edit'
+  end
+
+  test "should not update sticky with blank project" do
+    put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: nil, frame_id: frames(:one).to_param, status: 'completed', due_date: "08/15/2011" }
+    assert_not_nil assigns(:sticky)
+    assert assigns(:sticky).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:sticky).errors[:project_id]
     assert_template 'edit'
   end
 
@@ -212,8 +290,16 @@ class StickiesControllerTest < ActionController::TestCase
     assert_difference('Sticky.current.count', -1) do
       delete :destroy, id: @sticky.to_param
     end
-
+    assert_not_nil assigns(:sticky)
     assert_redirected_to stickies_path
+  end
+  
+  test "should destroy sticky from calendar" do
+    assert_difference('Sticky.current.count', -1) do
+      delete :destroy, from_calendar: 1, id: @sticky.to_param
+    end
+    assert_not_nil assigns(:sticky)
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date)
   end
   
   test "should not destroy sticky without valid id" do

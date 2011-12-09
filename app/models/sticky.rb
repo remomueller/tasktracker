@@ -29,7 +29,7 @@ class Sticky < ActiveRecord::Base
   before_save :set_end_date, :send_completion_email
 
   # Model Validation
-  validates_presence_of :description
+  validates_presence_of :description, :project_id
 
   # Model Relationships
   belongs_to :user

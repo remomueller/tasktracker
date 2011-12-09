@@ -67,7 +67,7 @@ Notes::Application.routes.draw do
   match "/about" => "sites#about", :as => :about
   match "/settings" => "users#settings", :as => :settings
 
-  root :to => "projects#index"
+  root :to => "stickies#calendar"
   
   # See how all your routes lay out with "rake routes"
 end
