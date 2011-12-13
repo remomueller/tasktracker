@@ -9,7 +9,7 @@ gem 'thin', '~> 1.2.11',                  :platforms => [:mswin, :mingw]
 gem 'eventmachine', '~> 1.0.0.beta.4.1',  :platforms => [:mswin, :mingw]
 
 # Gems used by project
-gem 'contour', '~> 0.6.0'           # Basic Layout and Assets
+gem 'contour', '~> 0.7.0'           # Basic Layout and Assets
 gem 'devise'                        # User Authorization
 gem 'omniauth'                      # User Multi-Authentication
 gem 'kaminari'                      # Pagination
