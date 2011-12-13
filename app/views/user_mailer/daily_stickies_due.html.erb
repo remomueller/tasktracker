@@ -4,7 +4,8 @@ Hello <%= @user.first_name %>,<br />
 You have <%= pluralize @user.all_stickies_past_due.size, 'sticky' %> past due.<br />
 <ul>
 <% @user.all_stickies_past_due.order(:due_date).each do |sticky| %>
-<li><%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %> <% if sticky.owner %>Assigned To: <b><%= sticky.owner.name %></b><% end %></li>
+<li><%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %> <% if sticky.owner %>Assigned To: <b><%= sticky.owner.name %></b><% end %>
+  <% unless sticky.due_date.blank? %>Due Date: <b><%= simple_date(sticky.due_date) %></b><% end %></li>
 <% end %>
 </ul>
 <br />
@@ -13,7 +14,8 @@ You have <%= pluralize @user.all_stickies_past_due.size, 'sticky' %> past due.<b
 You have <%= pluralize @user.all_stickies_due_today.size, 'sticky' %> due today.<br />
 <ul>
 <% @user.all_stickies_due_today.order(:start_date).each do |sticky| %>
-<li><%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %> <% if sticky.owner %>Assigned To: <b><%= sticky.owner.name %></b><% end %></li>
+<li><%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %> <% if sticky.owner %>Assigned To: <b><%= sticky.owner.name %></b><% end %>
+  <% unless sticky.due_date.blank? %>Due Date: <b><%= simple_date_and_weekday(sticky.due_date) %></b><% end %></li>
 <% end %>
 </ul>
 <br />
@@ -23,3 +25,5 @@ View stickies on a calendar here: <%= link_to SITE_URL, "#{SITE_URL}/stickies/ca
 Thank you!<br />
 <br />
 <%= DEFAULT_APP_NAME %> System Mailer
+<br />
+<%= @footer_html %>

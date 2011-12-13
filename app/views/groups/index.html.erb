@@ -1,0 +1,16 @@
+<% @title = 'Groups' %>
+<h1><%= @title %></h1>
+
+<%#= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Group", new_group_path, :class => 'button positive' %>
+
+<%= form_tag groups_path, :method => :get, :remote => true, :id => "groups_search", :style => "margin-bottom:-5px" do %>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+<% end %>
+
+<div id="groups"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#groups_search").attr("action"), $("#groups_search").serialize(), null, "script");
+  });
+<% end %>

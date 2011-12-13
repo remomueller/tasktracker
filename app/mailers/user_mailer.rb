@@ -1,5 +1,6 @@
 class UserMailer < ActionMailer::Base
   default :from => ActionMailer::Base.smtp_settings[:user_name]
+  add_template_helper(ApplicationHelper)
   
   def notify_system_admin(system_admin, user)
     setup_email
@@ -35,6 +36,15 @@ class UserMailer < ActionMailer::Base
     mail(:to => recipient.email,
          :subject => @subject + "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
          :reply_to => sticky.user.email)
+  end
+
+  def group_by_mail(group, recipient)
+    setup_email
+    @group = group
+    @recipient = recipient
+    mail(:to => recipient.email,
+         :subject => @subject + "#{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}",
+         :reply_to => group.user.email)
   end
 
   def sticky_completion_by_mail(sticky, recipient)

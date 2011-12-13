@@ -1,0 +1,48 @@
+<% if false %>
+<div style="float:right">
+  Per Page 
+  <% [10,25,50].each do |count| %>
+    <span class="per_page">
+      <% if current_user.groups_per_page != count %>
+        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'groups', :id => "count_#{count}" %>
+      <% else %>
+        <%= count %>
+      <% end %>
+    </span>
+  <% end %>
+</div>
+<% else %>
+<div style="float:right">
+  Per Page <span class="per_page">20</span>
+</div>
+<% end %>
+
+<div style="clear:both"></div>
+
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Template</th>
+    <th>Description</th>
+    <th>Stickies</th>
+    <th>User</th>
+    <th></th>
+  </tr>
+
+<% @groups.each do |group| %>
+  <tr>
+    <td><%= link_to group.name, group %></td>
+    <td><%= link_to group.template.name, group.template if group.template %></td>
+    <td><%= group.description %></td>
+    <td><%= group.stickies.size %></td>
+    <td><%= link_to group.user.name, group.user %></td>
+    <td style="vertical-align:middle">
+      <% if current_user.all_groups.include?(group) %>
+        <%= link_to image_tag('contour/delete.png', :alt => ''), group, :confirm => "Are you sure you want to delete Group #{group.name} and the associated #{pluralize group.stickies.size, 'Sticky'}?", :method => :delete %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<center><%= paginate @groups %></center>

@@ -1,0 +1,17 @@
+Hello <%= @recipient.first_name %>,<br />
+<br />
+<%= @group.user.name %> added the following Group <%= link_to @group.name, "#{SITE_URL}/groups/#{@group.id}" %> of <%= pluralize @group.stickies.size, 'Sticky' %> to Project <%= link_to @group.template.project.name, "#{SITE_URL}/projects/#{@group.template.project.id}" %>.<br />
+<br />
+<ul>
+<% @group.stickies.each do |sticky| %>
+<li><%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %> <% if sticky.owner %>Assigned To: <b><%= sticky.owner.name %></b><% end %>
+  <% unless sticky.due_date.blank? %>Due Date: <b><%= simple_date_and_weekday(sticky.due_date) %></b><% end %></li>
+<% end %>
+</ul>
+<br />
+<br />
+Thank you!<br />
+<br />
+<%= DEFAULT_APP_NAME %> System Mailer<br />
+<br />
+<%= @footer_html %>

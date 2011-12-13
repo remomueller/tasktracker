@@ -12,7 +12,7 @@ You have <%= pluralize @user.all_stickies_past_due.size, 'sticky' %> past due.
 You have <%= pluralize @user.all_stickies_due_today.size, 'sticky' %> due today.
 
 <% @user.all_stickies_due_today.order(:start_date).each do |sticky| %>
-    <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>
+    <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>    <% unless sticky.due_date.blank? %>Due Date: <%= simple_date_and_weekday(sticky.due_date) %><% end %>
 <% end %>
 
 <% end %>
@@ -21,3 +21,5 @@ View stickies on a calendar here: <%= "#{SITE_URL}/stickies/calendar" %>
 Thank you!
 
 <%= DEFAULT_APP_NAME %> System Mailer
+
+<%= @footer_txt %>

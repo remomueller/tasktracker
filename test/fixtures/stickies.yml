@@ -13,6 +13,21 @@ one:
   deleted: false
   frame: one
 
+grouped:
+  user: valid
+  project: one
+  # sticky: one
+  position: 1
+  status: planned
+  # sticky_type: MyString
+  description: StickyGrouped
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  due_date: 2011-12-13
+  deleted: false
+  frame: one
+  group: one
+
 assigned_to_user:
   user: valid
   project: one

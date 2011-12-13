@@ -32,10 +32,19 @@ class Template < ActiveRecord::Base
     end
   end
   
-  def generate_stickies!(frame_id, initial_date = Date.today, additional_text = nil)
+  def generate_stickies!(current_user, frame_id, initial_date = Date.today, additional_text = nil)
+    group = current_user.all_groups.create({description: additional_text, template_id: self.id})
     self.items.each_with_index do |item|
       item = item.symbolize_keys
-      self.user.stickies.create({project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: [item[:description].to_s, additional_text.to_s].select{|i| not i.blank?}.join("\n\n"), status: 'ongoing', due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
+      current_user.stickies.create({group_id: group.id, project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: item[:description].to_s, status: 'ongoing', due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
     end
+    group.reload
+    
+    all_users = (self.project.users + [self.project.user]).uniq - [current_user]
+    all_users.each do |user_to_email|
+      UserMailer.group_by_mail(group, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_creation) and user_to_email.email_on?("project_#{self.project.id}") and Rails.env.production?
+    end
+    
+    group
   end
 end

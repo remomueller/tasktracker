@@ -91,4 +91,16 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/View stickies on a calendar here: #{"#{SITE_URL}/stickies/calendar"}/, email.encoded)
   end
 
+  test "group by mail email" do
+    group = groups(:one)
+    valid = users(:valid)
+    
+    email = UserMailer.group_by_mail(group, valid).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [valid.email], email.to
+    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}", email.subject
+    assert_match(/#{group.user.name} added the following Group #{group.name} #{SITE_URL}\/groups\/#{group.id} of #{group.stickies.size} #{group.stickies.size == 1 ? 'Sticky' : 'Stickies'} to Project #{group.template.project.name} #{SITE_URL}\/projects\/#{group.template.project.id}\./, email.encoded)
+  end
+
 end

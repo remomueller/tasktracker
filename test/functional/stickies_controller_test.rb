@@ -172,6 +172,11 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show sticky with group description" do
+    get :show, id: stickies(:grouped).to_param
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, id: @sticky.to_param
     assert_response :success

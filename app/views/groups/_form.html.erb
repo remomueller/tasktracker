@@ -1,0 +1,29 @@
+<% width = '914px' %>
+<%= form_for(@group) do |f| %>
+  <% if @group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
+
+      <ul>
+      <% @group.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <legend><%= @title %></legend>
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
+    </div>
+  </fieldset>
+  
+  <div class="actions">
+    <% form_name = @group.new_record? ? 'new_group' : "edit_group_#{@group.id}" %>
+    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@group.new_record? ? "Create Group" : "Update Group"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= cancel %>
+		<br />
+  </div>
+<% end %>

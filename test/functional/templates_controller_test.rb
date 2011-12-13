@@ -13,12 +13,28 @@ class TemplatesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:template)
     assert_equal assigns(:frame), frames(:one)
     assert_equal assigns(:frame_id).to_s, frames(:one).to_param
-    assert_redirected_to assigns(:template)
+    assert_redirected_to assigns(:group)
+  end
+
+  test "should generate stickies and place them in a group" do
+    assert_difference('Sticky.count', @template.items.size) do
+      assert_difference('Group.count') do
+        post :generate_stickies, id: @template.to_param, frame_id: frames(:one).to_param
+      end
+    end
+    assert_not_nil assigns(:template)
+    assert_not_nil assigns(:group)
+    assert_equal @template.items.size, assigns(:group).stickies.size
+    assert_equal assigns(:frame), frames(:one)
+    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_redirected_to assigns(:group)
   end
 
   test "should not generate stickies for invalid id" do
     assert_difference('Sticky.count', 0) do
-      post :generate_stickies, id: -1, frame_id: frames(:one).to_param
+      assert_difference('Group.count', 0) do
+        post :generate_stickies, id: -1, frame_id: frames(:one).to_param
+      end
     end
     assert_nil assigns(:template)
     assert_nil assigns(:frame)

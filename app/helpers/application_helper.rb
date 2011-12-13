@@ -44,6 +44,15 @@ module ApplicationHelper
     end
   end
   
+  def simple_weekday(date)
+    return '' unless date.kind_of?(Time) or date.kind_of?(Date)
+    date.strftime("%A")
+  end
+  
+  def simple_date_and_weekday(date)
+    [simple_date(date), simple_weekday(date)].select{|i| not i.blank?}.join(', ')
+  end
+  
   def simple_time(past_time)
     return '' if past_time.blank?
     if past_time.to_date == Date.today

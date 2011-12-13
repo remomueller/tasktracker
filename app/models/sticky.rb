@@ -26,7 +26,8 @@ class Sticky < ActiveRecord::Base
   before_create :set_start_date
   after_create :send_email
   
-  before_save :set_end_date, :send_completion_email
+  before_save :set_end_date
+  after_save :send_completion_email
 
   # Model Validation
   validates_presence_of :description, :project_id
@@ -34,6 +35,7 @@ class Sticky < ActiveRecord::Base
   # Model Relationships
   belongs_to :user
   belongs_to :project, :touch => true
+  belongs_to :group
   belongs_to :frame
   belongs_to :sticky
 
@@ -57,10 +59,20 @@ class Sticky < ActiveRecord::Base
     self.touch
   end
 
+  def full_description
+    @full_description ||= begin
+      if self.group and not self.group.description.blank?
+        self.description + "\n\n" + self.group.description
+      else
+        self.description
+      end
+    end
+  end
+
   private
   
   def send_email
-    if self.project
+    if self.project and not self.group
       all_users = (self.project.users + [self.project.user]).uniq - [self.user]
       all_users.each do |user_to_email|
         UserMailer.sticky_by_mail(self, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_creation) and user_to_email.email_on?("project_#{self.project.id}") and Rails.env.production?

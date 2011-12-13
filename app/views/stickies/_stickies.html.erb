@@ -49,7 +49,7 @@
         <%= simple_date(sticky.due_date) %>
       </td>
       <td>
-        <div style="width:400px"><pre class="collapsed" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_description"><%= sticky.description %></pre></div>
+        <div style="width:400px"><pre class="collapsed" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_description"><%= sticky.full_description %></pre></div>
         <div style="padding-left:20px"><%= link_to_function (sticky.comments.size > 0 ? pluralize(sticky.comments.size, "comment") : 'more...'), "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}');", :id => "#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_link" %></div>
       </td>
       <td style="white-space:nowrap;vertical-align:middle"><%= display_status(sticky.status) %></td>

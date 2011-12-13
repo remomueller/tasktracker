@@ -1,0 +1,28 @@
+<% @title = "Group: #{@group.name}" %>
+<h1><% if @group.template and @group.template.project %><%= link_to @group.template.project.name, @group.template.project %> &raquo;<% end %><%= @title %></h1>
+
+<% if current_user.all_groups.include?(@group) %>
+  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Group", edit_group_path(@group), :class => 'button' %>
+  <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Group", @group, :confirm => "Are you sure you want to delete Group #{@group.name} and the associated #{pluralize @group.stickies.size, 'Sticky'}?", :method => :delete, :class => 'button negative' %>
+<% end %>
+<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Groups", groups_path, :class => 'button' %>
+
+<div style="clear:both"></div>
+
+<p>
+  <b>User:</b>
+  <%= link_to @group.user.name, @group.user %>
+</p>
+
+<p>
+  <b>Generated From Template:</b>
+  <%= link_to @group.template.name, @group.template if @group.template %>
+</p>
+
+<p>
+  <b>Description (Additional Information):</b>
+  <%= @group.description %>
+</p>
+
+<%= @order = 'due_date ASC'; @stickies = @group.stickies.page(1).per(-1); render partial: 'stickies/stickies' %>
+

@@ -1,4 +1,6 @@
 Notes::Application.routes.draw do
+  resources :groups
+
   resources :comments do
     member do
       get :move
