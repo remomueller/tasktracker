@@ -5,7 +5,6 @@ Hello <%= @recipient.first_name %>,
 <% @group.stickies.each do |sticky| %>
     <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>    <% unless sticky.due_date.blank? %>Due Date: <%= simple_date_and_weekday(sticky.due_date) %><% end %>
 <% end %>
-
 Thank you!
 
 <%= DEFAULT_APP_NAME %> System Mailer
