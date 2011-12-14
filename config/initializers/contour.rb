@@ -26,7 +26,7 @@ Contour.setup do |config|
       name: 'current_user.name', eval: true, id: 'auth', display: 'signed_in', path: 'user_path(current_user)', position: 'right',
       links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true },
               { name: 'Settings', path: 'settings_path' },
-              { name: 'Authentications', path: 'authentications_path' },
+              { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
               { html: "<br />" },
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
@@ -63,7 +63,7 @@ Contour.setup do |config|
     # },
     {
       name: 'Users', id: 'users', display: 'signed_in', name: 'Users', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
-      links: [{ name: '&raquo;Overall Graph', path: 'overall_graph_users_path', condition: 'current_user.system_admin?' }]
+      links: [{ name: 'Overall Graph', path: 'overall_graph_users_path', condition: 'current_user.system_admin?' }]
     }
   ]
   
