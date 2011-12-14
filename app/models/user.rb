@@ -86,15 +86,13 @@ class User < ActiveRecord::Base
   
   def all_groups
     @all_groups ||= begin
-      # Group.current.with_sticky(self.all_stickies.collect{|s| s.id}, self.id).order('created_at DESC')
-      self.groups
+      Group.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
   
   def all_viewable_groups
     @all_viewable_groups ||= begin
-      # Group.current.with_sticky(self.all_viewable_stickies.collect{|s| s.id}, self.id).order('created_at DESC')
-      self.groups
+      Group.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
   

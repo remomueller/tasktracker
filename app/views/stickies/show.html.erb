@@ -22,10 +22,10 @@
   <b>Creator:</b>
   <%= link_to @sticky.user.name, @sticky.user %>
 </p>
-<% if false %>
+<% if @sticky.group %>
 <p>
-  <b>Project:</b>
-  <%= link_to @sticky.project.name, @sticky.project if @sticky.project %>
+  <b>Group:</b>
+  <%= link_to @sticky.group.name, @sticky.group if @sticky.group %>
 </p>
 <% end %>
 
