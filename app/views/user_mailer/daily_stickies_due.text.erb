@@ -4,7 +4,7 @@ Hello <%= @user.first_name %>,
 You have <%= pluralize @user.all_stickies_past_due.size, 'sticky' %> past due.
 
 <% @user.all_stickies_past_due.order(:due_date).each do |sticky| %>
-    <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>
+    <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>    <% unless sticky.due_date.blank? %>Due Date: <%= simple_date_and_weekday(sticky.due_date) %><% end %>
 <% end %>
 
 <% end %>

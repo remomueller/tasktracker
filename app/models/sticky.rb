@@ -72,7 +72,7 @@ class Sticky < ActiveRecord::Base
   private
   
   def send_email
-    if self.project and not self.group
+    if self.project and not self.group and self.status != 'completed'
       all_users = (self.project.users + [self.project.user]).uniq - [self.user]
       all_users.each do |user_to_email|
         UserMailer.sticky_by_mail(self, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_creation) and user_to_email.email_on?("project_#{self.project.id}") and Rails.env.production?
