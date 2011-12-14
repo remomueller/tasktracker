@@ -1,5 +1,8 @@
 == 0.13.0
 
+* Enhancements
+  * GUI updates for the Calendar
+
 * Bug Fix
   * Daily stickies due email fixed to include weekday for items past due
   * Creating a sticky that's already marked as completed now only sends out a "sticky completed" email
