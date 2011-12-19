@@ -4,7 +4,7 @@
     <strong><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></strong>
     <ul>
       <% stickies.each do |sticky| %>
-        <li><%= @sticky = sticky; render partial: 'sticky_line_item' %></li>
+        <li><%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %></li>
       <% end %>
     </ul>
   </li>

@@ -2,7 +2,7 @@
   <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
 
   <% stickies.each do |sticky| %>
-    <%= @sticky = sticky; render partial: 'sticky_line_item' %>
+    <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
   <% end %>
 
 <% end %>

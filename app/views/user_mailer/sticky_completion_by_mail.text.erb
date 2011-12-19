@@ -6,6 +6,13 @@ Hello <%= @recipient.first_name %>,
 <%= @sticky.description %>
 
 
+<% if @sticky.group %>
+  This sticky is part of Group <%= @sticky.group.name %> <%= "#{SITE_URL}/groups/#{@sticky.group.id}" %>.
+  <% @sticky.group.stickies.each do |sticky| %>
+    <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
+  <% end %>
+<% end %>
+
 Thank you!
 
 <%= DEFAULT_APP_NAME %> System Mailer

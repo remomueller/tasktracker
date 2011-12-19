@@ -3,7 +3,16 @@ Hello <%= @recipient.first_name %>,<br />
 <%= @sticky.owner.name %> completed the following Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %>.<br />
 <br />
 <em><%= @sticky.description %></em>
-<br />
+<br /><br />
+<% if @sticky.group %>
+  This sticky is part of Group <%= link_to @sticky.group.name, "#{SITE_URL}/groups/#{@sticky.group.id}" %>.
+  <ul>
+    <% @sticky.group.stickies.each do |sticky| %>
+    <li><%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %></li>
+    <% end %>
+  </ul>
+  <br />
+<% end %>
 <br />
 Thank you!<br />
 <br />

@@ -4,7 +4,7 @@ Hello <%= @recipient.first_name %>,<br />
 <br />
 <ul>
 <% @group.stickies.each do |sticky| %>
-<li><%= @sticky = sticky; render partial: 'sticky_line_item' %></li>
+<li><%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %></li>
 <% end %>
 </ul>
 <br />
