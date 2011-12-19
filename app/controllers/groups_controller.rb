@@ -31,16 +31,12 @@ class GroupsController < ApplicationController
   
   def update
     @group = current_user.all_groups.find_by_id(params[:id])
-    if @group
-      
-      @group.update_attributes(params[:group])
-      redirect_to(@group, :notice => 'Group was successfully updated.')
-      
-      # if @group.update_attributes(params[:group])
-      #   redirect_to(@group, :notice => 'Group was successfully updated.')
-      # else
-      #   render :action => "edit"
-      # end
+    if @group      
+      if @group.update_attributes(params[:group])
+        redirect_to(@group, :notice => 'Group was successfully updated.')
+      else
+        render :action => "edit"
+      end
     else
       redirect_to root_path
     end

@@ -5,9 +5,11 @@ one:
   user: valid
   deleted: false
   template: one
+  project: one
 
 two:
   description: MyText
   user: valid
   deleted: false
   template: two
+  project: one

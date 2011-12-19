@@ -40,12 +40,14 @@ class GroupsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:group)
     assert_redirected_to group_path(assigns(:group))
   end
-  
-  # test "should not update group with invalid parameters" do
-  #   put :update, id: @group.to_param, group: { description: "Group Description Update", invalid: 'Invalid' }
-  #   assert_not_nil assigns(:group)
-  #   assert_template 'edit'
-  # end
+
+  test "should not update group with blank project" do
+    put :update, id: @group.to_param, group: { description: 'Group Description Update', project_id: nil }
+    assert_not_nil assigns(:group)
+    assert assigns(:group).errors.size > 0
+    assert_equal ["can't be blank"], assigns(:group).errors[:project_id]
+    assert_template 'edit'
+  end
   
   test "should not update group with invalid id" do
     put :update, :id => -1, group: { description: "Group Description Update" }
