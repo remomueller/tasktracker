@@ -86,3 +86,78 @@ viewable_by_valid:
   start_date: 2011-12-19
   # end_date: 
   deleted: false
+
+grouped_one:
+  user: valid
+  project: one
+  # sticky: one
+  position: 1
+  status: planned
+  # sticky_type: MyString
+  description: Task A
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  due_date: 2011-12-01
+  deleted: false
+  # frame: one
+  group: three
+
+grouped_two:
+  user: valid
+  project: one
+  # sticky: one
+  position: 1
+  status: planned
+  # sticky_type: MyString
+  description: Task B
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  due_date: 2011-12-02
+  deleted: false
+  # frame: one
+  group: three
+
+grouped_three:
+  user: valid
+  project: one
+  # sticky: one
+  position: 1
+  status: planned
+  # sticky_type: MyString
+  description: Task C
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  due_date: 2011-12-03
+  deleted: false
+  # frame: one
+  group: three
+  
+grouped_four:
+  user: valid
+  project: one
+  # sticky: one
+  position: 1
+  status: planned
+  # sticky_type: MyString
+  description: Task D
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  due_date: 2011-12-04
+  deleted: false
+  # frame: one
+  group: three
+
+grouped_five:
+  user: valid
+  project: one
+  # sticky: one
+  position: 1
+  status: planned
+  # sticky_type: MyString
+  description: Task E
+  start_date: 2011-02-24
+  end_date: 2011-02-24
+  due_date: 2011-12-05
+  deleted: false
+  # frame: one
+  group: three

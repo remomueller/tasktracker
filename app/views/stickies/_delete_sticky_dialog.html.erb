@@ -1,0 +1,27 @@
+<div id="delete-sticky-dialog_<%= sticky.id %>" title="Delete Sticky in Group:">
+	<%= form_tag sticky_path(sticky, from_calendar: params[:from_calendar].to_i), method: :delete, id: "sticky_delete_form_#{sticky.id}" do %>
+	  <div class="field">
+	    <%= radio_button_tag 'discard', 'single', true %> Only this sticky<br />
+	    <%= radio_button_tag 'discard', 'following' %> This sticky and all following<br />
+	    <%= radio_button_tag 'discard', 'all' %> All stickies in group<br />
+	  </div>
+  <% end %>
+</div>
+
+<%= javascript_tag do %>
+  $( "#delete-sticky-dialog_<%= sticky.id %>" ).dialog({
+    autoOpen: false,
+    height: 180,
+    width: 320,
+    modal: true,
+    buttons:{
+      "Delete Stickies": function(){
+        $('#sticky_delete_form_<%= sticky.id %>').submit();
+        $( this ).dialog( "close" );
+      },
+      Cancel: function(){
+        $( this ).dialog( "close" );
+      }
+    }
+  });
+<% end %>

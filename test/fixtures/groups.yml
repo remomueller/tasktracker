@@ -13,3 +13,10 @@ two:
   deleted: false
   template: two
   project: one
+
+three:
+  description: "Testing deleting single stickies, all following stickies, and all stickies in group"
+  user: valid
+  deleted: false
+  template: three
+  project: one

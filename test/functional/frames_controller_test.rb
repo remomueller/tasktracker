@@ -21,6 +21,9 @@ class FramesControllerTest < ActionController::TestCase
     assert_difference('Frame.count') do
       post :create, :frame => {:name => "Frame Name", :project_id => projects(:one).to_param, :description => "", :start_date => "08/15/2011", :end_date => "12/31/2011" }
     end
+    
+    assert_not_nil assigns(:frame)
+    assert_equal assigns(:frame).user_id.to_s, users(:valid).to_param
 
     assert_redirected_to frame_path(assigns(:frame))
   end

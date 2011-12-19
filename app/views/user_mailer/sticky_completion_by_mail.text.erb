@@ -8,7 +8,7 @@ Hello <%= @recipient.first_name %>,
 
 <% if @sticky.group %>
   This sticky is part of Group <%= @sticky.group.name %> <%= "#{SITE_URL}/groups/#{@sticky.group.id}" %>.
-  <% @sticky.group.stickies.each do |sticky| %>
+  <% @sticky.group.stickies.order(:due_date).each do |sticky| %>
     <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
   <% end %>
 <% end %>

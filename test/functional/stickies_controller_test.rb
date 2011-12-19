@@ -89,6 +89,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal frames(:one), assigns(:sticky).frame
     assert_equal 'ongoing', assigns(:sticky).status
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
@@ -335,6 +336,26 @@ class StickiesControllerTest < ActionController::TestCase
       delete :destroy, id: @sticky.to_param
     end
     assert_not_nil assigns(:sticky)
+    assert_redirected_to stickies_path
+  end
+  
+  test "should destroy sticky and all following" do
+    assert_difference('Sticky.current.count', -1 * stickies(:grouped_two).group.stickies.where("due_date >= ?", stickies(:grouped_two).due_date).size) do
+      delete :destroy, id: stickies(:grouped_two).to_param, discard: 'following'
+    end
+    assert_not_nil assigns(:sticky)
+    assert_equal 1, assigns(:sticky).group.stickies.size
+    assert_redirected_to stickies_path
+  end
+
+  test "should destroy sticky and all in group" do
+    assert_difference('Group.current.count', -1) do
+      assert_difference('Sticky.current.count', -1 * stickies(:grouped_two).group.stickies.size) do
+        delete :destroy, id: stickies(:grouped_two).to_param, discard: 'all'
+      end
+    end
+    assert_not_nil assigns(:sticky)
+    assert_equal 0, assigns(:sticky).group.stickies.size
     assert_redirected_to stickies_path
   end
   

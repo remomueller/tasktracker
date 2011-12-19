@@ -24,5 +24,16 @@
   <%= @group.description %>
 </p>
 
-<%= @order = 'due_date ASC'; @stickies = @group.stickies.page(1).per(-1); render partial: 'stickies/stickies' %>
+<div style="float:left">
+  <%= form_tag search_stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => 'margin-bottom:0px' do %>
+    <%= hidden_field_tag :order, params[:order] %>
+    <%= hidden_field_tag :direction, 0 %>
+    <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>
+    <%= hidden_field_tag 'group_id', @group.id %>
+  <% end %>
+</div>
+
+<div id="stickies">
+  <%= @order = 'stickies.due_date'; @stickies = @group.stickies.page(1).per(-1); render partial: 'stickies/stickies' %>
+</div>
 

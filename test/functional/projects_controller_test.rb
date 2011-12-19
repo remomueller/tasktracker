@@ -43,7 +43,8 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_difference('Project.count') do
       post :create, :project => {:name => "New Project", :description => '', :status => 'ongoing', :start_date => "01/01/2011", :end_date => ''}
     end
-
+    assert_not_nil assigns(:project)
+    assert_equal assigns(:project).user_id.to_s, users(:valid).to_param
     assert_redirected_to project_path(assigns(:project))
   end
 

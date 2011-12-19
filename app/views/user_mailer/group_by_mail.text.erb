@@ -2,7 +2,7 @@ Hello <%= @recipient.first_name %>,
 
 <%= @group.user.name %> added the following Group <%= @group.name %> <%= "#{SITE_URL}/groups/#{@group.id}" %> of <%= pluralize @group.stickies.size, 'Sticky' %> to Project <%= @group.template.project.name %> <%= "#{SITE_URL}/projects/#{@group.template.project.id}" %>.
 
-<% @group.stickies.each do |sticky| %>
+<% @group.stickies.order(:due_date).each do |sticky| %>
     <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
 <% end %>
 Thank you!

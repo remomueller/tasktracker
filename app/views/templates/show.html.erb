@@ -39,7 +39,7 @@
 </p>
 
 <div id="dialog-form" title="Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %>:">
-	<%= form_tag generate_stickies_template_path(@template), method: :post, id: 'template_frame_form' do %>
+	<%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_frame_form' do %>
 	  <div class="field"><%= label_tag :frame_id %><br />
 	  <%= select_tag :frame_id, options_for_select([['Backlog', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %>
 	  </div>

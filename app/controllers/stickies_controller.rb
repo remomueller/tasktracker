@@ -23,14 +23,18 @@ class StickiesController < ApplicationController
 
   def search
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
-    @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    if @project
+    if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
       @frame = Frame.find_by_id(params[:frame_id])
       @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "(status = 'completed') ASC, (status = 'ongoing') DESC, due_date ASC, end_date DESC, start_date DESC"
       sticky_scope = @project.stickies.with_frame(params[:frame_id])
       sticky_scope = sticky_scope.order(@order)
       @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
       render "projects/show"
+    elsif @group = current_user.all_viewable_groups.find_by_id(params[:group_id])
+      @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "stickies.due_date"
+      sticky_scope = @group.stickies
+      sticky_scope = sticky_scope.order(@order)
+      @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
     else
       redirect_to root_path
     end
@@ -105,7 +109,14 @@ class StickiesController < ApplicationController
   def destroy
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
-      @sticky.destroy
+      if @sticky.group and params[:discard] == 'following'
+        @sticky.group.stickies.where('DATE(due_date) >= ?', @sticky.due_date).destroy_all
+      elsif @sticky.group and params[:discard] == 'all'
+        @sticky.group.destroy
+      else # 'single'
+        @sticky.destroy
+      end
+      
       flash[:notice] = 'Sticky was successfully deleted.'
       if params[:from_calendar] == '1'
         redirect_to calendar_stickies_path(selected_date: @sticky.due_date)

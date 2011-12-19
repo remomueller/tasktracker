@@ -16,6 +16,7 @@ jQuery ->
     )
   
   $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script");
+  
 
 @goBackOneMonth = () ->
   now = new Date $('#selected_date').val()

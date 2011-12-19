@@ -14,7 +14,7 @@ class Group < ActiveRecord::Base
   belongs_to :user
   belongs_to :template #, conditions: { deleted: false }
   belongs_to :project #, conditions: { deleted: false }
-  has_many :stickies, conditions: { deleted: false }, order: 'stickies.due_date desc'
+  has_many :stickies, conditions: { deleted: false } #, order: 'stickies.due_date desc'
 
   def name
     "ID ##{self.id}"

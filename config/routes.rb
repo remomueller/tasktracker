@@ -40,9 +40,9 @@ Notes::Application.routes.draw do
       post :add_item
       post :items
     end
-    member do
-      post :generate_stickies
-    end
+    # member do
+    #   post :generate_stickies
+    # end
   end
   
   devise_for :users, :controllers => {:registrations => 'contour/registrations', :sessions => 'contour/sessions', :passwords => 'contour/passwords'}, :path_names => { :sign_up => 'register', :sign_in => 'login' }
