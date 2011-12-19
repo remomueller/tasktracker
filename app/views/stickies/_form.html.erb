@@ -75,7 +75,7 @@
     <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
     <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", :class => "button positive" %>
     <% if params[:from_calendar] == '1' %>
-      <%= link_to image_tag('contour/cross.png', :alt => '') + 'Cancel', calendar_stickies_path(selected_date: @sticky.due_date.strftime('%m/%d/%Y')), :class => 'button negative' %>
+      <%= link_to image_tag('contour/cross.png', :alt => '') + 'Cancel', calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')), :class => 'button negative' %>
     <% else %>
       <%= cancel %>
     <% end %>
