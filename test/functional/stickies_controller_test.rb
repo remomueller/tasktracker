@@ -182,6 +182,19 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not edit but show for project viewers" do
+    get :edit, id: stickies(:viewable_by_valid).to_param
+    assert_nil assigns(:stickies)
+    assert_redirected_to sticky_path(stickies(:viewable_by_valid))
+  end
+  
+  test "should not edit for users not on project" do
+    login(users(:two))
+    get :edit, id: stickies(:viewable_by_valid).to_param
+    assert_nil assigns(:stickies)
+    assert_redirected_to root_path
+  end
+
   test "should update sticky" do
     put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, status: 'completed', due_date: "08/15/2011" }
     assert_not_nil assigns(:sticky)
