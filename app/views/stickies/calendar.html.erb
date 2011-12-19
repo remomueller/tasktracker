@@ -24,7 +24,7 @@
     <%= link_to_function '&laquo;'.html_safe, "goBackOneMonth();", :style => 'text-decoration:none', :title => 'Previous Month' %>
     <%= link_to_function 'Today', 'getToday()' %>
     <%= link_to_function '&raquo;'.html_safe, "goForwardOneMonth();", :style => 'text-decoration:none', :title => 'Next Month' %>
-    <%= text_field_tag :selected_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
+    <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker' %>
     <%#= select_tag :month, options_for_select( Date::MONTHNAMES[1..12].collect{|month| [month,Date::MONTHNAMES.index(month)]}, (params[:month] || Date.today.month)) %>
     <%#= select_tag :year, options_for_select( (Date.today.year..Date.today.year+1).to_a, (params[:year] || Date.today.year) ) %>
     <%= select_tag :date_type, options_for_select([['Due Date', 'due_date'],['Start Date', 'start_date'],['End Date', 'end_date']]) %>

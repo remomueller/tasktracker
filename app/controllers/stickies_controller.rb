@@ -78,7 +78,7 @@ class StickiesController < ApplicationController
     if @sticky.save
       flash[:notice] = 'Sticky was successfully created.'
       if params[:from_calendar] == '1'
-        redirect_to calendar_stickies_path(selected_date: @sticky.due_date)
+        redirect_to calendar_stickies_path(selected_date: @sticky.due_date.strftime('%m/%d/%Y'))
       else
         redirect_to @sticky
       end
@@ -94,7 +94,7 @@ class StickiesController < ApplicationController
       if @sticky.update_attributes(params[:sticky])
         flash[:notice] = 'Sticky was successfully updated.'
         if params[:from_calendar] == '1'
-          redirect_to calendar_stickies_path(selected_date: @sticky.due_date)
+          redirect_to calendar_stickies_path(selected_date: @sticky.due_date.strftime('%m/%d/%Y'))
         else
           redirect_to @sticky
         end
@@ -119,7 +119,7 @@ class StickiesController < ApplicationController
       
       flash[:notice] = 'Sticky was successfully deleted.'
       if params[:from_calendar] == '1'
-        redirect_to calendar_stickies_path(selected_date: @sticky.due_date)
+        redirect_to calendar_stickies_path(selected_date: @sticky.due_date.strftime('%m/%d/%Y'))
       else
         redirect_to stickies_path
       end

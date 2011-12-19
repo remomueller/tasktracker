@@ -112,7 +112,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal frames(:one), assigns(:sticky).frame
     assert_equal 'ongoing', assigns(:sticky).status
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
-    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date)
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
   test "should create a planned sticky" do
@@ -240,7 +240,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
     assert_equal frames(:one), assigns(:sticky).frame
     assert_equal projects(:one), assigns(:sticky).project
-    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date)
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
   test "should not update sticky with blank description" do
@@ -372,7 +372,7 @@ class StickiesControllerTest < ActionController::TestCase
       delete :destroy, from_calendar: 1, id: @sticky.to_param
     end
     assert_not_nil assigns(:sticky)
-    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date)
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
   
   test "should not destroy sticky without valid id" do
