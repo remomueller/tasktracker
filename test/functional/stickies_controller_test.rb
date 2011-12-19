@@ -59,6 +59,14 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get search from group" do
+    get :search, group_id: groups(:three).to_param, format: 'js'
+    assert_not_nil assigns(:group)
+    assert_not_nil assigns(:stickies)
+    assert_template 'search'
+    assert_response :success
+  end
+
   test "should not get search without valid project id" do
     get :search, project_id: -1, frame_id: frames(:one).to_param
     assert_nil assigns(:project)
