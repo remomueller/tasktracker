@@ -83,11 +83,13 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.daily_stickies_due(valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
-    due_today = (valid.all_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
-    past_due = (valid.all_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
+    due_today = "#{valid.all_stickies_due_today.size} " + (valid.all_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
+    past_due = "#{valid.all_stickies_past_due.size} " + (valid.all_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
+    due_today = nil if valid.all_stickies_due_today.size == 0
+    past_due = nil if valid.all_stickies_past_due.size == 0
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{[due_today, past_due].join(' and ')}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{[due_today, past_due].compact.join(' and ')}", email.subject
     assert_match(/View stickies on a calendar here: #{"#{SITE_URL}/stickies/calendar"}/, email.encoded)
   end
 

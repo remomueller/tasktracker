@@ -1,0 +1,13 @@
+<ul>
+<% @stickies.order(:due_date).group_by{|s| s.project_id}.each do |project_id, stickies| %>
+  <li>
+    <strong><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></strong>
+    <ul>
+      <% stickies.each do |sticky| %>
+        <li><%= @sticky = sticky; render partial: 'sticky_line_item' %></li>
+      <% end %>
+    </ul>
+  </li>
+  <br />
+<% end %>
+</ul>

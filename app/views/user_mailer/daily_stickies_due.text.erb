@@ -3,17 +3,13 @@ Hello <%= @user.first_name %>,
 <% if @user.all_stickies_past_due.size > 0 %>
 You have <%= pluralize @user.all_stickies_past_due.size, 'sticky' %> past due.
 
-<% @user.all_stickies_past_due.order(:due_date).each do |sticky| %>
-    <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>    <% unless sticky.due_date.blank? %>Due Date: <%= simple_date_and_weekday(sticky.due_date) %><% end %>
-<% end %>
+<%= @stickies = @user.all_stickies_past_due; render partial: 'sticky_list' %>
 
 <% end %>
 <% if @user.all_stickies_due_today.size > 0 %>
 You have <%= pluralize @user.all_stickies_due_today.size, 'sticky' %> due today.
 
-<% @user.all_stickies_due_today.order(:start_date).each do |sticky| %>
-    <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>    <% unless sticky.due_date.blank? %>Due Date: <%= simple_date_and_weekday(sticky.due_date) %><% end %>
-<% end %>
+<%= @stickies = @user.all_stickies_due_today; render partial: 'sticky_list' %>
 
 <% end %>
 View stickies on a calendar here: <%= "#{SITE_URL}/stickies/calendar" %>

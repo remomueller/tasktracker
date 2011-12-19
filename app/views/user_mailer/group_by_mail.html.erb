@@ -4,8 +4,7 @@ Hello <%= @recipient.first_name %>,<br />
 <br />
 <ul>
 <% @group.stickies.each do |sticky| %>
-<li><%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %> <% if sticky.owner %>Assigned To: <b><%= sticky.owner.name %></b><% end %>
-  <% unless sticky.due_date.blank? %>Due Date: <b><%= simple_date_and_weekday(sticky.due_date) %></b><% end %></li>
+<li><%= @sticky = sticky; render partial: 'sticky_line_item' %></li>
 <% end %>
 </ul>
 <br />

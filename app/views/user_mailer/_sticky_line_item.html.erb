@@ -1,0 +1,1 @@
+<%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> <% if @sticky.owner %>Assigned To: <b><%= @sticky.owner.name %></b><% end %><% unless @sticky.due_date.blank? %> Due Date: <b><%= simple_date_and_weekday(@sticky.due_date) %></b><% end %>

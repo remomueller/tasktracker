@@ -3,7 +3,7 @@ Hello <%= @recipient.first_name %>,
 <%= @group.user.name %> added the following Group <%= @group.name %> <%= "#{SITE_URL}/groups/#{@group.id}" %> of <%= pluralize @group.stickies.size, 'Sticky' %> to Project <%= @group.template.project.name %> <%= "#{SITE_URL}/projects/#{@group.template.project.id}" %>.
 
 <% @group.stickies.each do |sticky| %>
-    <%= sticky.name %> <%= "#{SITE_URL}/stickies/#{sticky.id}" %><% if sticky.owner %>    Assigned To: <%= sticky.owner.name %><% end %>    <% unless sticky.due_date.blank? %>Due Date: <%= simple_date_and_weekday(sticky.due_date) %><% end %>
+    <%= @sticky = sticky; render partial: 'sticky_line_item' %>
 <% end %>
 Thank you!
 
