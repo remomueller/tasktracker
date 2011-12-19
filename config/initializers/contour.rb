@@ -49,6 +49,12 @@ Contour.setup do |config|
               { html: "<br />" },
               { name: 'About', path: 'about_path' }]
     },
+    {
+      name: '@project.name', eval: true, display: 'signed_in', path: 'project_path(@project)', position: 'left',
+      condition: '@project and not @project.new_record?',
+      links: [{ name: 'Frames', path: 'frames_path(project_id: @project.id)' },
+              { name: 'Templates', path: 'templates_path(project_id: @project.id)' }]
+    },
     # {
     #   name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
     #   links: [{ name: '&raquo;New', path: 'new_project_path' }]

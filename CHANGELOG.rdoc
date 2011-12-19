@@ -6,6 +6,7 @@
   * Templates can now have negative due date offsets
   * Daily Stickies Due now groups the stickies by project
   * Sticky Completion emails now list other stickies in the same group
+  * When a viewing a project page, the menu now contains links to that project's templates and frames
 
 * Bug Fix
   * Daily stickies due email fixed to include weekday for items past due

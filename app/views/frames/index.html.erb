@@ -1,9 +1,10 @@
 <% @title = 'Frames' %>
-<h1><%= @title %></h1>
+<h1><% if @project %><%= link_to @project.name, @project %> &raquo;<% end %> <%= @title %></h1>
 
-<%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Frame", new_frame_path, :class => 'button positive' %>
+<%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Frame", (@project ? new_frame_path(:frame => {:project_id => @project.id}) : new_frame_path), :class => 'button positive' %>
 
 <%= form_tag frames_path, :method => :get, :remote => true, :id => "frames_search", :style => "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :project_id, params[:project_id] %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
 

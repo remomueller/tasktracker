@@ -3,10 +3,13 @@ class FramesController < ApplicationController
 
   def index
     current_user.update_attribute :frames_per_page, params[:frames_per_page].to_i if params[:frames_per_page].to_i >= 10 and params[:frames_per_page].to_i <= 200
-    frames_scope = current_user.all_viewable_frames
+    frame_scope = current_user.all_viewable_frames
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| frames_scope = frames_scope.search(search_term) }
-    @frames = frames_scope.page(params[:page]).per(current_user.frames_per_page)
+    @search_terms.each{|search_term| frame_scope = frame_scope.search(search_term) }
+    
+    frame_scope = frame_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+    
+    @frames = frame_scope.page(params[:page]).per(current_user.frames_per_page)
   end
 
   def show
