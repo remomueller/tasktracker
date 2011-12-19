@@ -179,19 +179,21 @@ class StickiesControllerTest < ActionController::TestCase
 
   test "should get edit" do
     get :edit, id: @sticky.to_param
+    assert_not_nil assigns(:sticky)
+    assert_not_nil assigns(:project_id)
     assert_response :success
   end
 
   test "should not edit but show for project viewers" do
     get :edit, id: stickies(:viewable_by_valid).to_param
-    assert_nil assigns(:stickies)
+    assert_not_nil assigns(:sticky)
     assert_redirected_to sticky_path(stickies(:viewable_by_valid))
   end
   
   test "should not edit for users not on project" do
     login(users(:two))
     get :edit, id: stickies(:viewable_by_valid).to_param
-    assert_nil assigns(:stickies)
+    assert_nil assigns(:sticky)
     assert_redirected_to root_path
   end
 

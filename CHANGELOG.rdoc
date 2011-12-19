@@ -1,3 +1,8 @@
+== 0.12.1
+
+* Bug Fix
+  * Project Viewers are now correctly redirected to the sticky show page from the calendar view
+
 == 0.12.0
 
 * Enhancements
