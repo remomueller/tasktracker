@@ -57,9 +57,15 @@ class StickiesController < ApplicationController
   end
 
   def edit
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
-    @project_id = @sticky.project_id
-    redirect_to root_path unless @sticky
+    if @sticky = current_user.all_stickies.find_by_id(params[:id])
+      @project_id = @sticky.project_id
+    else
+      if @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+        redirect_to @sticky
+      else
+        redirect_to root_path
+      end
+    end
   end
 
   def create

@@ -19,3 +19,8 @@ four:
   project: one
   user: admin
   allow_editing: true
+
+five:
+  project: three
+  user: valid
+  allow_editing: false

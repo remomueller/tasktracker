@@ -7,6 +7,11 @@
   * Daily stickies due email fixed to include weekday for items past due
   * Creating a sticky that's already marked as completed now only sends out a "sticky completed" email
 
+== 0.12.1
+
+* Bug Fix
+  * Project Viewers are now correctly redirected to the sticky show page from the calendar view
+
 == 0.12.0
 
 * Enhancements

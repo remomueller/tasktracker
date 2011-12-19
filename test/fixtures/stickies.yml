@@ -75,3 +75,14 @@ completed:
   start_date: 2011-11-30
   end_date: 2011-12-01
   deleted: false
+
+viewable_by_valid:
+  user: admin
+  project: three
+  # frame:
+  status: pending
+  description: This is a pending viewable sticky but valid may not edit this
+  due_date: 2011-12-31
+  start_date: 2011-12-19
+  # end_date: 
+  deleted: false
