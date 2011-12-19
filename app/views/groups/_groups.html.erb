@@ -25,6 +25,7 @@
     <th>Template</th>
     <th>Description</th>
     <th>Stickies</th>
+    <th>Project</th>
     <th>User</th>
     <th></th>
   </tr>
@@ -35,6 +36,7 @@
     <td><%= link_to group.template.name, group.template if group.template %></td>
     <td><%= group.description %></td>
     <td><%= group.stickies.size %></td>
+    <td><%= link_to group.project.name, group.project %></td>
     <td><%= link_to group.user.name, group.user %></td>
     <td style="vertical-align:middle">
       <% if current_user.all_groups.include?(group) %>

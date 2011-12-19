@@ -18,6 +18,11 @@
       <%= f.label :description %><br />
       <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
     </div>
+    <div class="field">
+      <%= f.label :project_id %><br />
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @group.project_id) %>
+      <span class="quiet">Changing the project will move all the stickies in this group to the backlog in the selected project</span>
+    </div>
   </fieldset>
   
   <div class="actions">

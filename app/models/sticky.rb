@@ -26,7 +26,7 @@ class Sticky < ActiveRecord::Base
   before_create :set_start_date
   after_create :send_email
   
-  before_save :set_end_date
+  before_save :set_end_date, :set_project_and_frame
   after_save :send_completion_email
 
   # Model Validation
@@ -96,6 +96,15 @@ class Sticky < ActiveRecord::Base
 
   def set_end_date
     self.end_date = ((self.changes[:status] and self.changes[:status][1] == 'completed') ? Date.today : nil) unless self.status == 'completed' and self.changes[:status] == nil
+  end
+
+  def set_project_and_frame
+    if self.group
+      self.project_id = self.group.project_id
+      if not self.group.project.frames.collect{|f| f.id}.include?(self.frame_id) and self.changes[:frame_id]
+        self.frame_id = self.changes[:frame_id][0]
+      end
+    end
   end
 
 end

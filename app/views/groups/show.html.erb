@@ -1,5 +1,5 @@
 <% @title = "Group: #{@group.name}" %>
-<h1><% if @group.template and @group.template.project %><%= link_to @group.template.project.name, @group.template.project %> &raquo;<% end %><%= @title %></h1>
+<h1><%= link_to @group.project.name, @group.project %> &raquo;<%= @title %></h1>
 
 <% if current_user.all_groups.include?(@group) %>
   <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Group", edit_group_path(@group), :class => 'button' %>

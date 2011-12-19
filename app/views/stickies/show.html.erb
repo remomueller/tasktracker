@@ -29,6 +29,11 @@
 </p>
 <% end %>
 
+<p>
+  <b>Frame:</b>
+  <%= @sticky.frame ? @sticky.frame.name : 'Backlog' %>
+</p>
+
 <% if @sticky.sticky %>
 <p>
   <b>Parent Sticky:</b>

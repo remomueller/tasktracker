@@ -25,7 +25,7 @@ class Template < ActiveRecord::Base
     self.items = []
     tokens.each_pair do |key, item_hash|
       self.items << { description: item_hash[:description],
-                      interval: item_hash[:interval].to_i.abs,
+                      interval: item_hash[:interval].to_i,
                       units: (['days','weeks','months','years'].include?(item_hash[:units]) ? item_hash[:units] : 'days'),
                       owner_id: item_hash[:owner_id]
                     } unless item_hash[:description].blank?

@@ -15,3 +15,11 @@ two:
   description: MyText
   start_date: 2011-03-29
   end_date: 2011-04-07
+
+three:
+  project: two
+  user: valid
+  name: MyString
+  description: MyText
+  start_date: 2011-12-18
+  end_date: 2011-12-31

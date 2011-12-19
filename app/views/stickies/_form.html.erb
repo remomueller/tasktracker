@@ -22,7 +22,12 @@
     </div>
     <div class="field">
       <%= f.label :project_id %><br />
-      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @sticky.project_id) %>
+      <% if @sticky.group != nil %>
+        <%= @sticky.project.name %><br />
+        <span class="quiet">This sticky is part of Group: <%= link_to @sticky.group.name, @sticky.group %></span>
+      <% else %>
+        <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @sticky.project_id) %>
+      <% end %>
     </div>
     <div class="field" id="frame_selection_container">
       <%= render :partial => 'projects/frame_selection' %>

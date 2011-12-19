@@ -2,6 +2,8 @@
 
 * Enhancements
   * GUI updates for the Calendar
+  * Grouped stickies can now be moved to a different project by editing the group
+  * Templates can now have negative due date offsets
 
 * Bug Fix
   * Daily stickies due email fixed to include weekday for items past due

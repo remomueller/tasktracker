@@ -38,6 +38,16 @@ class GroupsControllerTest < ActionController::TestCase
   test "should update group" do
     put :update, id: @group.to_param, group: { description: "Group Description Update" }
     assert_not_nil assigns(:group)
+    assert_equal [@group.project_id], assigns(:group).stickies.collect{|s| s.project_id}.uniq
+    assert_equal [frames(:one).to_param], assigns(:group).stickies.collect{|s| s.frame_id.to_s}.uniq
+    assert_redirected_to group_path(assigns(:group))
+  end
+
+  test "should update group and move group and stickies to another project" do
+    put :update, id: @group.to_param, group: { description: "Group Description Update", project_id: projects(:two).to_param }
+    assert_not_nil assigns(:group)
+    assert_equal [projects(:two).to_param], assigns(:group).stickies.collect{|s| s.project_id.to_s}.uniq
+    assert_equal [nil], assigns(:group).stickies.collect{|s| s.frame_id}.uniq
     assert_redirected_to group_path(assigns(:group))
   end
 

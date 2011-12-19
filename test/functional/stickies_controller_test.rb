@@ -209,6 +209,19 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
+  # Stickies in groups can only have their project changed by editing the group meta data
+  test "should update sticky in a group but not change project" do
+    put :update, id: stickies(:grouped).to_param, sticky: { description: "Sticky Description Update", project_id: projects(:two).to_param, frame_id: frames(:three).to_param, status: 'completed', due_date: "08/15/2011" }
+    assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal 'completed', assigns(:sticky).status
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal frames(:one), assigns(:sticky).frame # Should keep original frame or nil since sticky frame must be in same project
+    assert_equal projects(:one), assigns(:sticky).project # Should keep original project since grouped stickies can only be moved to another project from editing the group
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
   test "should update sticky from calendar" do
     put :update, id: @sticky.to_param, from_calendar: 1, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, status: 'completed', due_date: "08/15/2011" }
     assert_not_nil assigns(:sticky)
