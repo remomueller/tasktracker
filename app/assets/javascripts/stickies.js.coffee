@@ -1,7 +1,7 @@
 jQuery ->
   $(document)
-    .on('click', '.last-month', () -> goBackOneMonth())
-    .on('click', '.next-month', () -> goForwardOneMonth())
+    # .on('click', '.last-month', () -> goBackOneMonth())
+    # .on('click', '.next-month', () -> goForwardOneMonth())
     .keydown( (e) ->
       if $("input, textarea").is(":focus") then return
       if e.which == 37

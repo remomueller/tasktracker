@@ -1,0 +1,34 @@
+<%= hidden_field_tag 'from_calendar', params[:from_calendar].to_i %>
+
+<div class="field">
+  <%= f.label :description %><br />
+  <%= f.text_area :description, :rows => 7, :style => "width:#{@width}" %>
+</div>
+
+<div class="field">
+  <%= f.label :project_id %><br />
+  <% if @sticky.group != nil %>
+    <%= @sticky.project.name %><br />
+    <span class="quiet">This sticky is part of Group: <%= link_to @sticky.group.name, @sticky.group %></span>
+  <% else %>
+    <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @sticky.project_id) %>
+  <% end %>
+</div>
+
+<div class="field" id="frame_selection_container">
+  <%= render :partial => 'projects/frame_selection' %>
+</div>
+
+<div class="field">
+  <%= f.label :status %><br />
+  <%= f.select :status, Sticky::STATUS %>
+</div>
+
+<div class="field" id="owner_selection_container">
+  <%= render :partial => 'projects/user_selection' %>
+</div>
+    
+<div class="field">
+  <%= f.label :due_date %><br />
+  <%= f.text_field :due_date, :class => 'datepicker', :value => @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %>
+</div>

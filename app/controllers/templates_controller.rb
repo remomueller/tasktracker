@@ -1,6 +1,10 @@
 class TemplatesController < ApplicationController
   before_filter :authenticate_user!
 
+  def selection
+    @template = current_user.all_templates.find_by_id(params[:template_id])
+  end
+
   # def generate_stickies
   #   params[:initial_due_date] = begin Date.strptime(params[:initial_due_date], "%m/%d/%Y") rescue Date.today end
   #   @template = current_user.all_templates.find_by_id(params[:id])

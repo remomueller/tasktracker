@@ -1,4 +1,4 @@
-<% width = '914px' %>
+<% @width = '914px' %>
 <%= form_for(@sticky) do |f| %>
   <% if @sticky.errors.any? %>
     <div id="error_explanation">
@@ -12,63 +12,11 @@
     </div>
   <% end %>
 
-  <%= hidden_field_tag 'from_calendar', params[:from_calendar].to_i %>
-
   <fieldset>
     <legend><%= @title %></legend>
-    <div class="field">
-      <%= f.label :description %><br />
-      <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
-    </div>
-    <div class="field">
-      <%= f.label :project_id %><br />
-      <% if @sticky.group != nil %>
-        <%= @sticky.project.name %><br />
-        <span class="quiet">This sticky is part of Group: <%= link_to @sticky.group.name, @sticky.group %></span>
-      <% else %>
-        <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @sticky.project_id) %>
-      <% end %>
-    </div>
-    <div class="field" id="frame_selection_container">
-      <%= render :partial => 'projects/frame_selection' %>
-    </div>
-    <% if false %>
-    <div class="field">
-      <%= f.label :sticky_id %><br />
-      <%= f.select :sticky_id, options_for_select([['---', nil]] + current_user.all_stickies.collect{|s| [s.id, s.id]}) %>
-    </div>
-    <% end %>
-    <div class="field">
-      <%= f.label :status %><br />
-      <%= f.select :status, Sticky::STATUS %>
-    </div>
     
-    <div class="field" id="owner_selection_container">
-      <%= render :partial => 'projects/user_selection' %>
-    </div>
+    <%= render partial: 'stickies/inner_form', locals: { f: f } %>
     
-    <% if false %>
-    <div class="field">
-      <%= f.label :sticky_type %><br />
-      <%= f.select :sticky_type, Sticky::STICKY_TYPE %>
-    </div>
-    <% end %>
-    
-    <div class="field">
-      <%= f.label :due_date %><br />
-      <%= f.text_field :due_date, :class => 'datepicker', :value => @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %>
-    </div>
-    
-    <% if false %>
-    <div class="field">
-      <%= f.label :start_date %><br />
-      <%= f.text_field :start_date, :class => 'datepicker', :value => @sticky.start_date ? @sticky.start_date.strftime('%m/%d/%Y') : '' %>
-    </div>
-    <div class="field">
-      <%= f.label :end_date %><br />
-      <%= f.text_field :end_date, :class => 'datepicker', :value => @sticky.end_date ? @sticky.end_date.strftime('%m/%d/%Y') : '' %>
-    </div>
-    <% end %>
   </fieldset>
   
   <div class="actions">

@@ -27,3 +27,8 @@ jQuery ->
     $.post(root_url + 'templates/add_item', $("form").serialize() + "&_method=post", null, "script")
     false
   )
+  
+  $("#template_id").change( () ->
+    $.post(root_url + 'templates/selection', $("#template_id").serialize(), null, "script")
+    false
+  )

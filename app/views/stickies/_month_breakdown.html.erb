@@ -17,7 +17,8 @@
                    <%= 'next-month' if iDate > @end_date %>"
             onmouseover="$(this).addClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').show();"
             onmouseout="$(this).removeClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').hide();"
-            ondblclick="window.location.href = $('#calendar_box_<%= first_day_offset %>_new_entry_link').attr('href');">
+<% if false %>            ondblclick="window.location.href = $('#calendar_box_<%= first_day_offset %>_new_entry_link').attr('href');" <% end %>
+            ondblclick="$('#initial_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>');$('#sticky_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>'); $('#new-sticky-or-group-dialog').dialog('open');">
           <div style="width:100%">
             <div class="calendar-entry-heading">
               <%= link_to image_tag('contour/addfile.png', :style => 'border:none;vertical-align:text-bottom', :size => '11x11', :title => "New Sticky due on #{iDate.strftime("%B %e, %Y")}"), new_sticky_path(:sticky => {:due_date => iDate}, :from_calendar => 1), :style => 'display:none', :id => "calendar_box_#{first_day_offset}_new_entry_link" %>

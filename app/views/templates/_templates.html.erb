@@ -26,13 +26,7 @@
     <td><%= link_to template.name, template %></td>
     <td><%= link_to template.project.name, template.project %></td>
     <td>
-      <% template.items.each do |item| %>
-        <div style="border-bottom:1px solid #eee;margin-bottom:8px">
-          <%= item[:description] %>
-          <% if item[:interval] != 0 %> <b>+<%= item[:interval] %> <%= item[:units] %></b><% end %>
-          <% if owner = User.current.find_by_id(item[:owner_id]) %><i>Assign To: <%= link_to owner.name, owner %></i><% end %>
-        </div>
-      <% end %>
+      <% @template = template; render partial: 'compact_items' %>
     </td>
     <td style="vertical-align:middle;white-space:nowrap">
       <% if current_user.all_templates.include?(template) %>

@@ -32,6 +32,7 @@ Notes::Application.routes.draw do
       get :search
       get :template
       get :calendar
+      post :sticky_or_template
     end
   end
   
@@ -39,6 +40,7 @@ Notes::Application.routes.draw do
     collection do
       post :add_item
       post :items
+      post :selection
     end
     # member do
     #   post :generate_stickies

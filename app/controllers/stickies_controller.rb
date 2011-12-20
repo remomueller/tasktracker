@@ -57,6 +57,7 @@ class StickiesController < ApplicationController
 
   def new
     @sticky = current_user.stickies.new(params[:sticky])
+    @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1
     @project_id = @sticky.project_id
   end
 
