@@ -2,12 +2,11 @@ Hello <%= @recipient.first_name %>,
 
 <%= @sticky.owner.name %> completed the following Sticky <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %>.
 
-
-<%= @sticky.description %>
-
+<%= render partial: 'sticky_note' %>
 
 <% if @sticky.group %>
   This sticky is part of Group <%= @sticky.group.name %> <%= "#{SITE_URL}/groups/#{@sticky.group.id}" %>.
+
   <% @sticky.group.stickies.order(:due_date).each do |sticky| %>
     <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
   <% end %>
