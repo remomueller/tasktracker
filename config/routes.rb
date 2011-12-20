@@ -32,7 +32,6 @@ Notes::Application.routes.draw do
       get :search
       get :template
       get :calendar
-      post :sticky_or_template
     end
   end
   
