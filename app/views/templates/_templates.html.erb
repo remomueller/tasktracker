@@ -26,7 +26,7 @@
     <td><%= link_to template.name, template %></td>
     <td><%= link_to template.project.name, template.project %></td>
     <td>
-      <% @template = template; render partial: 'compact_items' %>
+      <%= @template = template; render partial: 'compact_items' %>
     </td>
     <td style="vertical-align:middle;white-space:nowrap">
       <% if current_user.all_templates.include?(template) %>
