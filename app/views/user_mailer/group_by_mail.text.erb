@@ -5,6 +5,7 @@ Hello <%= @recipient.first_name %>,
 <% @group.stickies.order(:due_date).each do |sticky| %>
     <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
 <% end %>
+
 Thank you!
 
 <%= DEFAULT_APP_NAME %> System Mailer

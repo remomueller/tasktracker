@@ -1,4 +1,6 @@
-<%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %>
-<% if sticky.owner %> Assigned To: <b><%= sticky.owner.name %></b><% end %>
-<% unless sticky.due_date.blank? %> Due Date: <b><%= simple_date_and_weekday(sticky.due_date) %></b><% end %>
-<% if sticky.status == 'completed' %> <strong style="color:blue">completed</strong> <% end %>
+<td></td>
+<td style="padding-right:10px"><%= link_to sticky.name, "#{SITE_URL}/stickies/#{sticky.id}" %></td>
+<td style="padding-right:10px"><%= simple_date(sticky.due_date) unless sticky.due_date.blank? %></td>
+<td style="padding-right:20px"><%= simple_weekday(sticky.due_date) unless sticky.due_date.blank? %></td>
+<td style="padding-right:10px;<%= 'font-weight: bold;' if sticky.owner == @recipient %>"><%= sticky.owner.name if sticky.owner %></td>
+<td style="padding-right:10px"><% if sticky.status == 'completed' %> <span style="color:#366DC2">completed</span> <% end %></td>

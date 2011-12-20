@@ -46,7 +46,7 @@ module ApplicationHelper
   
   def simple_weekday(date)
     return '' unless date.kind_of?(Time) or date.kind_of?(Date)
-    date.strftime("%A")
+    date.strftime("%a")
   end
   
   def simple_date_and_weekday(date)

@@ -1,13 +1,25 @@
-<ul>
-<% @stickies.order(:due_date).group_by{|s| s.project_id}.each do |project_id, stickies| %>
-  <li>
-    <strong><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></strong>
-    <ul>
-      <% stickies.each do |sticky| %>
-        <li><%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %></li>
-      <% end %>
-    </ul>
-  </li>
-  <br />
-<% end %>
-</ul>
+<br />
+<table>
+  <thead>
+    <tr style="text-align:left">
+      <th>Project</th>
+      <th>Sticky</th>
+      <th>Due Date</th>
+      <th></th>
+      <th>Assigned To</th>
+      <th></th>
+    </tr>
+  </thead>
+  <% @stickies.order(:due_date).group_by{|s| s.project_id}.each do |project_id, stickies| %>
+    <tr><td colspan="6" style="border-top:1px solid #ddd;"></td></tr>
+    <tr>
+      <td style="text-align:left;padding-top:10px;padding-right:20px;font-weight:bold"><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></td>
+      <td colspan="5"></td>
+    </tr>
+    <% stickies.each do |sticky| %>
+      <tr><%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %></tr>
+    <% end %>
+    <tr><td colspan="5" style="padding-bottom:10px"></td></tr>
+  <% end %>
+</table>
+<br />

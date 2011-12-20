@@ -10,6 +10,14 @@ class UserMailer < ActionMailer::Base
          :subject => @subject + "#{user.name} Signed Up",
          :reply_to => user.email)
   end
+
+  def status_activated(user)
+    setup_email
+    @user = user
+    mail(:to => user.email,
+         :subject => @subject + "#{user.name}'s Account Activated") #,
+#         :reply_to => user.email)
+  end
   
   def user_added_to_project(project_user)
     setup_email
@@ -56,24 +64,14 @@ class UserMailer < ActionMailer::Base
          :reply_to => sticky.owner.email)
   end
   
-  def status_activated(user)
+  def daily_stickies_due(recipient)
     setup_email
-    @user = user
-    mail(:to => user.email,
-         :subject => @subject + "#{user.name}'s Account Activated") #,
-#         :reply_to => user.email)
-  end
-  
-  def daily_stickies_due(user)
-    setup_email
-    @user = user
-    due_today = "#{user.all_stickies_due_today.size} " + (user.all_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
-    past_due = "#{user.all_stickies_past_due.size} " + (user.all_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
-    due_today = nil if user.all_stickies_due_today.size == 0
-    past_due = nil if user.all_stickies_past_due.size == 0
-    puts "PAST_DUE #{past_due}"
-    puts @subject + [due_today, past_due].compact.join(' and ')
-    mail(:to => user.email,
+    @recipient = recipient
+    due_today = "#{recipient.all_stickies_due_today.size} " + (recipient.all_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
+    past_due = "#{recipient.all_stickies_past_due.size} " + (recipient.all_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
+    due_today = nil if recipient.all_stickies_due_today.size == 0
+    past_due = nil if recipient.all_stickies_past_due.size == 0
+    mail(:to => recipient.email,
          :subject => @subject + [due_today, past_due].compact.join(' and '))
   end
   
