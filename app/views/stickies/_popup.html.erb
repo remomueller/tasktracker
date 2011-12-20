@@ -19,7 +19,9 @@
             
             (@sticky.project.frames.size > 0 ? "<strong>Frame:</strong><ul><li>" + (@sticky.frame ? @sticky.frame.name : 'Backlog') + "</li></ul>" : '') + 
             
-            "<strong>Created By:</strong><ul><li>" + @sticky.user.name + "</li></ul>"
+            "<strong>Created By:</strong><ul><li>" + @sticky.user.name + "</li></ul>" +
+            
+            (@sticky.tags.size > 0 ? "<strong>Tags:</strong> " + @sticky.tags.join(', ') + "<br /><br />" : '')
             
           ).html_safe) %>',
           title:{

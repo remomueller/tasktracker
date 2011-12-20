@@ -1,6 +1,8 @@
 class Project < ActiveRecord::Base
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
+  serialize :tags, Array
+  attr_reader :tag_tokens
 
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
@@ -23,6 +25,14 @@ class Project < ActiveRecord::Base
   has_many :viewers, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ? and users.deleted = ?', false, false]
   has_many :stickies, :conditions => { :deleted => false } #, :order => 'stickies.created_at desc'
   has_many :frames, :conditions => { :deleted => false }, :order => 'frames.end_date desc'
+
+  def tag_tokens
+    self.tags.join(',')
+  end
+
+  def tag_tokens=(ids)
+    self.tags = ids.to_s.split(',')
+  end
 
   def destroy
     self.comments.destroy_all

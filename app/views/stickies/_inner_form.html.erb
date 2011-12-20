@@ -32,3 +32,7 @@
   <%= f.label :due_date %><br />
   <%= f.text_field :due_date, :class => 'datepicker', :value => @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %>
 </div>
+
+<div id="tag_selection_container">
+  <%= render partial: 'projects/tag_selection' %>
+</div>

@@ -65,18 +65,19 @@
   <%= @sticky.due_date %>
 </p>
 
-<% if false %>
-<p>
-  <b>Sticky type:</b>
-  <%= @sticky.sticky_type %>
-</p>
-<% end %>
-
-
 <p>
   <b>Time Period:</b>
   <%= @sticky.start_date %> to <%= @sticky.end_date %>
 </p>
+
+<% if @sticky.tags.size > 0 %>
+<p>
+  <b>Tags:</b>
+  <% @sticky.tags.each do |t| %>
+    <span style="margin-right:10px;border:2px solid #ddd;padding:1px"><%= t %></span>
+  <% end %>
+</p>
+<% end %>
 
 <p>
   <b>Comments:</b>

@@ -65,5 +65,6 @@
 <%= javascript_tag do %>
   $(function(){
     $.get($("#projects_search").attr("action"), $("#projects_search").serialize(), null, "script");
+    $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script");
   });
 <% end %>

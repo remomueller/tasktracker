@@ -32,13 +32,6 @@
   <%= link_to @project.user.name, @project.user %>
 </p>
 
-<% if false %>
-<p>
-  <b>Status:</b>
-  <%= @project.status %>
-</p>
-<% end %>
-
 <p>
   <b>Time Period:</b>
   <%= @project.start_date %> to <%= @project.end_date %>
@@ -51,6 +44,11 @@
     <div id="<%= @relation %>_list"><%= render :partial => 'project_users/index' %></div>
   </p>
 <% end %>
+
+<p>
+  <b>Sticky Tags:</b>
+  <%= @project.tags.join(', ') %>
+</p>
 
 <h2>Stickies</h2>
 

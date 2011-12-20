@@ -2,6 +2,7 @@ class Sticky < ActiveRecord::Base
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
   STICKY_TYPE = ["generic", "action item", "goal", "roadblock"].collect{|i| [i,i]}
+  serialize :tags, Array
 
   # Named Scopes
   scope :current, :conditions => { :deleted => false }
@@ -10,7 +11,7 @@ class Sticky < ActiveRecord::Base
   scope :with_creator, lambda { |*args|  { :conditions => ["stickies.user_id IN (?)", args.first] } }
   scope :with_owner, lambda { |*args|  { :conditions => ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
   scope :with_frame, lambda { |*args| { :conditions => ["stickies.frame_id IN (?) or (stickies.frame_id IS NULL and 0 IN (?))", args.first, args.first] } }
-  scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ? or LOWER(tags) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :updated_since, lambda {|*args| {:conditions => ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
   scope :with_due_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", args.first, args[1]]}}

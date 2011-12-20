@@ -84,6 +84,7 @@ class StickiesController < ApplicationController
         redirect_to @sticky
       end
     else
+      @project_id = @sticky.project_id
       render :action => "new"
     end
   end
@@ -100,6 +101,7 @@ class StickiesController < ApplicationController
           redirect_to @sticky
         end
       else
+        @project_id = @sticky.project_id
         render :action => "edit"
       end
     else
