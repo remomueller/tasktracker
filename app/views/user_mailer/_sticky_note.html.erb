@@ -1,0 +1,19 @@
+<div style="margin:20px">
+<table style="border:0px; border-collapse:collapse; margin:0px; padding:0px;table-layout:fixed;background-color: #F9F2B6;border:2px solid #ddd"><col width="20%"/><col width="60%"/><col width="20%"/>
+  <tr>
+    <td style="padding-top:10px;padding-left:10px;vertical-align:top"><% if @sticky.owner %>Assigned to:<br /><b><%= @sticky.owner.name %></b><% end %></td>
+    <td style="padding-top:10px;padding-left:20px;padding-right: 20px; text-align:center;vertical-align:top"><%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %><% if @sticky.status == 'completed' %><br /><span style="color:#366DC2;font-weight:bold">completed</span><% end %></td>
+    <td style="padding-top:10px;padding-right:10px;text-align:right;vertical-align:top"><% if @sticky.due_date %>Due Date:<br /><b><%= simple_date_and_weekday(@sticky.due_date) %></b><% end %></td>
+  </tr>
+  <tr>
+    <td colspan="3" style="padding:20px">
+      <em><%= simple_format @sticky.description %></em>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3" style="padding:0px 10px 10px 10px">
+      <% if @sticky.tags.size > 0 %>Tags: <b><%= @sticky.tags.join(', ') %></b><% end %>
+    </td>
+  </tr>
+</table>
+</div>

@@ -1,9 +1,9 @@
 Hello <%= @recipient.first_name %>,<br />
 <br />
-<%= @sticky.owner.name %> completed the following Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %>.<br />
-<br />
-<em><%= @sticky.description %></em>
-<br /><br />
+<%= @sticky.owner.name %> <span style="color:#366DC2;font-weight:bold">completed</span> the following Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %>.<br />
+
+<%= render partial: 'sticky_note' %>
+
 <% if @sticky.group %>
   This sticky is part of Group <%= link_to @sticky.group.name, "#{SITE_URL}/groups/#{@sticky.group.id}" %>.<br />  
   <%= @stickies = @sticky.group.stickies; render partial: 'sticky_list' %>

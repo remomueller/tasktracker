@@ -31,7 +31,7 @@ class Project < ActiveRecord::Base
   end
 
   def tag_tokens=(ids)
-    self.tags = ids.to_s.split(',')
+    self.tags = ids.to_s.split(',').collect{|t| t.strip}
   end
 
   def destroy

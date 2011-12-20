@@ -48,6 +48,15 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(assigns(:project))
   end
 
+  test "should create project with tags" do
+    assert_difference('Project.count') do
+      post :create, project: { name: "New Project", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '', tag_tokens: 'pending,ongoing,completed'}
+    end
+    assert_not_nil assigns(:project)
+    assert_equal assigns(:project).user_id.to_s, users(:valid).to_param
+    assert_redirected_to project_path(assigns(:project))
+  end
+
   test "should not create project with blank name" do
     assert_difference('Project.count', 0) do
       post :create, :project => {:name => "", :description => '', :status => 'ongoing', :start_date => "01/01/2011", :end_date => ''}

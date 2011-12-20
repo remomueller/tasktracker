@@ -46,6 +46,7 @@ Contour.setup do |config|
     {
       name: 'Calendar', display: 'signed_in', path: 'calendar_stickies_path', position: 'left',
       links: [{ name: 'Stickies', path: 'stickies_path' },
+              { name: 'Groups', path: 'groups_path' },
               { html: "<br />" },
               { name: 'About', path: 'about_path' }]
     },

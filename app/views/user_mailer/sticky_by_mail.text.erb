@@ -4,8 +4,11 @@ Hello <%= @recipient.first_name %>,
 
 <%= "Assigned to: #{@sticky.owner.name}" if @sticky.owner %>
 
+<%= "Due Date: #{simple_date_and_weekday(@sticky.due_date)}" unless @sticky.due_date.blank? %>
+
 <%= @sticky.description %>
 
+<%= "Tags: #{@sticky.tags.join(', ')}" if @sticky.tags.size > 0 %>
 
 Thank you!
 
