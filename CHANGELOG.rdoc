@@ -1,6 +1,9 @@
 == 0.13.0
 
 * Enhancements
+  * Calendar Improvements
+    * Double clicking on calendar allows creation of a sticky or a sticky group
+    * Today's Date and Mouse Hover colors have been lightened
   * Sticky Groups
     * Deleting a grouped sticky now prompts the user to delete:
       * a single sticky
@@ -17,7 +20,6 @@
     * Sticky Completion emails now list additional stickies in the group
     * Due Date, Tags, and Group information added across sticky emails
   * Templates can now have negative due date offsets
-  * Calendar has received a minor facelift, lighter colors for hover
 
 * Bug Fix
   * Daily stickies due email fixed to include weekday for items past due
