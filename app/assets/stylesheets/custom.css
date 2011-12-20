@@ -114,11 +114,11 @@ table.status-table td {
 }
 
 .calendar-entry-body-today{
-  background-color: #C6CAF5;
+  background-color: #E8EEFF; /* #C6CAF5; */
 }
 
 .calendar-entry-body-today .calendar-entry-heading{
-  background-color: #9999CC;
+  background-color: #BCCDFF; /* #9999CC; */
 }
 
 /* Other Month */
@@ -136,11 +136,11 @@ table.status-table td {
 
 /* Hover */
 .hover{
-  background-color: #CCFFCC;
+  background-color: #EFFFEF; /* #CCFFCC; */
 }
 
 .hover .calendar-entry-heading{
-  background-color: #669966;
+  background-color: #9DEA9F; /* #669966; */
 }
 
 .calendar-entry-amount{
