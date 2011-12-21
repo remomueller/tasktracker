@@ -44,6 +44,19 @@ class StickiesController < ApplicationController
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "(status = 'completed') ASC, (status = 'ongoing') DESC, due_date ASC, end_date DESC, start_date DESC"
     sticky_scope = current_user.all_viewable_stickies
+    
+    sticky_scope = sticky_scope.with_owner(params[:owner_id]) unless params[:owner_id].blank?
+    
+    @start_date = begin Date.strptime(params[:due_date_start_date], "%m/%d/%Y") rescue nil end
+    @end_date = begin Date.strptime(params[:due_date_end_date], "%m/%d/%Y") rescue nil end
+    sticky_scope = sticky_scope.due_date_within(@start_date, @end_date)
+    
+    # TODO: Remove once ongoing is removed
+    params[:status] << 'ongoing' if params[:status] and params[:status].include?('planned')    
+    sticky_scope = sticky_scope.status(params[:status])
+    
+    sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
+    
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
     sticky_scope = sticky_scope.order(@order)

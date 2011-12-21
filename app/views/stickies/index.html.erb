@@ -3,9 +3,18 @@
 
 <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path, :class => 'button positive' %>
 
+<div style="clear:both"></div>
+
+
 <%= form_tag stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order, params[:order] %>
-  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %><br />
+  Assigned To <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %><br />
+  Project <%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}) %><br />
+  Due Date Between <%= text_field_tag 'due_date_start_date', '', class: 'datepicker' %> and <%= text_field_tag 'due_date_end_date', '', class: 'datepicker' %><br />
+  Planned <%= check_box_tag 'status[]', 'planned', true %><br />
+  Completed <%= check_box_tag 'status[]', 'completed', true %><br />
+  <%= submit_tag 'Filter Search' %>
 <% end %>
 
 <div id="stickies"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

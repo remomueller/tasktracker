@@ -14,7 +14,12 @@ class Sticky < ActiveRecord::Base
   scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ? or LOWER(tags) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :updated_since, lambda {|*args| {:conditions => ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
+  
   scope :with_due_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", args.first, args[1]]}}
+  
+  scope :due_date_within, lambda { |*args| { conditions: ["(DATE(stickies.due_date) >= ? or ? IS NULL) and (DATE(stickies.due_date) <= ? or ? IS NULL)", args.first, args.first, args[1], args[1]] }}
+  
+  
   scope :with_start_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.start_date) >= ? and DATE(stickies.start_date) <= ?", args.first, args[1]]}}
   scope :with_end_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.end_date) >= ? and DATE(stickies.end_date) <= ?", args.first, args[1]]}}
   # scope :with_due_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ? or (stickies.due_date IS NULL and stickies.frame_id in (select frames.id from frames where DATE(frames.end_date) >= ? and DATE(frames.end_date) <= ?))", args.first, args[1], args.first, args[1]]}}
