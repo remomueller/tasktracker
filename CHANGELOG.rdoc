@@ -1,5 +1,10 @@
 == 0.14.0
 
+* Enhancements
+  * Sticky edit page now contains:
+    * Group description if the sticky is part of a group
+    * Comments that may have been added to sticky
+
 == 0.13.0
 
 * Enhancements

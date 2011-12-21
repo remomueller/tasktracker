@@ -1,3 +1,22 @@
 <% @title = "Edit Sticky: #{@sticky.name}" %>
 
 <%= render 'form' %>
+
+<br />
+<br />
+<hr>
+<br />
+<p>
+  <b>Comments:</b>
+</p>
+<%= form_tag search_comments_path(:class_id => @sticky.id, :class_name => 'Sticky'), :method => :get, :id => "comments_search" do %>
+<% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
+<% end %>
+
+<div id="comments"></div>
+
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
+  });
+<% end %>
