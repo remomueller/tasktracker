@@ -1,11 +1,9 @@
-<div class="calendar-entry-amount stickies_<%= @sticky.status %> project_<%= @sticky.project_id %>">
-  <%= display_single_status(@sticky.status) %>
+<div class="calendar-entry-amount stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %>">
+  <%= display_completion(@sticky.completed) %>
 </div>
-<div class="calendar-entry-name stickies_<%= @sticky.status %> project_<%= @sticky.project_id %>" id="sticky_<%= @sticky.id %>_popup">
+<div class="calendar-entry-name stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %>" id="sticky_<%= @sticky.id %>_popup">
   <%= link_to @sticky.full_description.truncate(27), edit_sticky_path(@sticky, :from_calendar => 1), style: "color: #{colors(current_user.all_viewable_projects.collect{|p| p.id}.index(@sticky.project_id))}" %>
-  <% color = 'green' if @sticky.status == 'ongoing' %>
-  <% color = 'blue' if @sticky.status == 'completed' %>
-  <% color = 'yellow' if @sticky.status == 'planned' %>
+  <% color = @sticky.completed? ? 'blue' : 'yellow' %>
   <%= javascript_tag do %>
     $('#sticky_<%= @sticky.id %>_popup')
       .qtip({
@@ -25,7 +23,7 @@
             
           ).html_safe) %>',
           title:{
-            text: 'Sticky <%= @sticky.name %> - <%= @sticky.status %>'
+            text: 'Sticky <%= @sticky.name %> - <%= @sticky.completed ? 'completed' : 'planned' %>'
           }
         },
         show:{

@@ -3,7 +3,7 @@
   <table class="status-table">
     <tr>
       <td><% if @sticky.project %><%= link_to @sticky.project.name, @sticky.project %> &raquo;<% end %><%= @title %> &raquo;</td>
-      <td style="vertical-align:top;padding:0 0 0 3px"><%= display_status(@sticky.status) %></td>
+      <td style="vertical-align:top;padding:0 0 0 3px"><%= display_completion(@sticky.completed) %></td>
     </tr>
   </table>
 </h1>
@@ -43,13 +43,6 @@
 <p>
   <b>Parent Sticky:</b>
   <%= link_to @sticky.sticky_id, @sticky.sticky if @sticky.sticky %>
-</p>
-<% end %>
-
-<% if false %>
-<p>
-  <b>Status:</b>
-  <%= @sticky.status %>
 </p>
 <% end %>
 

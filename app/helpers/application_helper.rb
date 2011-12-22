@@ -76,19 +76,31 @@ module ApplicationHelper
     result << '</tr></table>'
     result.html_safe
   end
-  
-  def display_single_status(status)
+
+  def display_completion(completed)
     result = '<table class="status-table"><tr>'
-    case status when 'planned'
-      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td>"
-    when 'ongoing'
-      result << "<td><div class=\"status_marked ongoing\" title=\"Ongoing\">O</div></td>"
-    when 'completed'
+    if completed
       result << "<td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
+    else
+      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td>"
     end
     result << '</tr></table>'
     result.html_safe
   end
+
+  # TODO: Remove deprecated
+  # def display_single_status(status)
+  #   result = '<table class="status-table"><tr>'
+  #   case status when 'planned'
+  #     result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td>"
+  #   when 'ongoing'
+  #     result << "<td><div class=\"status_marked ongoing\" title=\"Ongoing\">O</div></td>"
+  #   when 'completed'
+  #     result << "<td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
+  #   end
+  #   result << '</tr></table>'
+  #   result.html_safe
+  # end
   
   def sort_field_helper(order, sort_field, display_name, search_form_id  = 'search_form')
     result = ''
