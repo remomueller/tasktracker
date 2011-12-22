@@ -32,15 +32,13 @@ class UsersController < ApplicationController
     
     @stickies = []
     @planned = []
-    @ongoing = []
     @completed = []
     params[:year] = Date.today.year if params[:year].blank?
     @year = params[:year]
     (1..12).each do |month|
       @stickies << @user.all_stickies.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
-      @planned << @stickies.last.status('planned').count
-      @ongoing << @stickies.last.status('ongoing').count
-      @completed << @stickies.last.status('completed').count
+      @planned << @stickies.last.where(completed: false).count
+      @completed << @stickies.last.where(completed: true).count
     end
 
     @other_projects_hash = {}

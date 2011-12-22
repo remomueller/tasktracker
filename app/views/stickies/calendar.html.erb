@@ -18,11 +18,13 @@
   <div style="position:relative; float:right; margin-top:-31px">
     <table class="blank">
       <tr>
-      <% ['planned', 'ongoing', 'completed'].each do |status| %>
-        <td><%= check_box_tag "status_selected[#{status}]", '1', params[:status_selected] ? params[:status_selected].keys.include?(status) : true, onclick: "$('.stickies_#{status}').toggle()" %></td>
-        <td><%= display_single_status(status) %></td>
-        <td class="<%= status %>" style="padding-right:10px"><%= status.titleize %></td>
-      <% end %>
+        <td><%= check_box_tag 'status[]', 'planned', params[:status] ? params[:status].include?('planned') : true %></td>
+        <td><%= display_single_status('planned') %></td>
+        <td class="planned" style="padding-right:10px">Not Completed</td>
+        
+        <td><%= check_box_tag 'status[]', 'completed', params[:status] ? params[:status].include?('completed') : true %></td>
+        <td><%= display_single_status('completed') %></td>
+        <td class="completed" style="padding-right:10px">Completed</td>
       </tr>
     </table>
   </div>

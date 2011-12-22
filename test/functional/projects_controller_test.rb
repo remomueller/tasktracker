@@ -72,6 +72,12 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show ongoing project" do
+    get :show, :id => projects(:ongoing).to_param
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should not show project without valid id" do
     get :show, :id => -1
     assert_nil assigns(:project)

@@ -7,7 +7,7 @@
 <div style="clear:both"></div>
 
 <% if @user.all_stickies.size > 0 %>
-  <%= draw_chart('highcharts', 'column', {'Planned' => @planned, 'Ongoing' => @ongoing, 'Completed' => @completed}, "month_chart", {:title => "#{@year} Stickies by Status", :ytitle => 'Number of Stickies', :width => '100%', :height => 450}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+  <%= draw_chart('highcharts', 'column', {'Not Completed' => @planned, 'Completed' => @completed}, "month_chart", {:title => "#{@year} Stickies by Status", :ytitle => 'Number of Stickies', :width => '100%', :height => 450}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
   
   <%= draw_chart('highcharts', 'column', @favorite_projects_hash, "month_per_fav_project_chart", {:title => "#{@year} Stickies Per Project - Favorites", :ytitle => 'Number of Stickies', :width => '100%', :height => 450, :stacking => 'normal'}, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
   
