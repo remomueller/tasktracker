@@ -1,6 +1,8 @@
 == 0.14.0
 
 * Enhancements
+  * Stickies no longer have status of 'planned', 'ongoing', 'completed', and now are either completed or not completed
+    * NOTE: Stickies can have tags added to them on a per project basis if more fine-grained labeling is required
   * Sticky edit page now contains:
     * Group description if the sticky is part of a group
     * Comments that may have been added to sticky
