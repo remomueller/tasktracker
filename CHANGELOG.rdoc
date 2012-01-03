@@ -11,6 +11,7 @@
     * Assigned To
     * Due Date
     * Status
+  * Using Rails 3.2.0.rc1 and Contour 0.8.0
 
 * Refactoring
   * qTip2 is now provided by Contour 0.8.0
