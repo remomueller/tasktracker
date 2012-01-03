@@ -1,20 +1,15 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.0.rc1'
-# gem 'rails', '3.1.3'
 
 # Database Adapter
 gem 'mysql2', '0.3.11',                    :platforms => [:ruby]
-# gem 'mysql2', '0.3.7',                    :platforms => [:ruby]
 gem 'sqlite3',                            :platforms => [:mswin, :mingw]
 gem 'thin', '~> 1.2.11',                  :platforms => [:mswin, :mingw]
 gem 'eventmachine', '~> 1.0.0.beta.4.1',  :platforms => [:mswin, :mingw]
 
 # Gems used by project
-gem 'contour', '~> 0.8.0.pre'           # Basic Layout and Assets
-# gem 'contour', '~> 0.7.0'           # Basic Layout and Assets
-# gem 'devise'                        # User Authorization
-# gem 'omniauth'                      # User Multi-Authentication
+gem 'contour', '~> 0.8.0'           # Basic Layout and Assets
 gem 'kaminari'                      # Pagination
 
 # Gems used only for assets and not required
@@ -22,8 +17,6 @@ gem 'kaminari'                      # Pagination
 group :assets do
   gem 'sass-rails',   '~> 3.2.2'    # Compiles CSS
   gem 'coffee-rails', '~> 3.2.0'    # Compiles JavaScript
-  # gem 'sass-rails',   '~> 3.1.5'    # Compiles CSS
-  # gem 'coffee-rails', '~> 3.1.1'    # Compiles JavaScript
   gem 'uglifier',     '>= 1.0.3'    # Minimizes and obscures JS and CSS
 end
 
