@@ -12,6 +12,9 @@
     * Due Date
     * Status
 
+* Refactoring
+  * qTip2 is now provided by Contour 0.8.0
+
 == 0.13.0
 
 * Enhancements
