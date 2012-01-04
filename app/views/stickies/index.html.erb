@@ -8,13 +8,36 @@
 
 <%= form_tag stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order, params[:order] %>
-  Search <%= text_field_tag 'search', params[:search] %> <%= information %><br />
-  Assigned To <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %><br />
-  Project <%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}) %><br />
-  Due Date Between <%= text_field_tag 'due_date_start_date', '', class: 'datepicker' %> and <%= text_field_tag 'due_date_end_date', '', class: 'datepicker' %><br />
-  Not Completed <%= check_box_tag 'status[]', 'planned', true %><br />
-  Completed <%= check_box_tag 'status[]', 'completed', true %><br />
-  <%= submit_tag 'Filter Search' %>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+  <%= link_to_function 'advanced search', "$(this).hide();$('#advanced_search').show();" %><br />
+  <div id="advanced_search" style="display:none">
+    <fieldset>
+      <legend>
+        Advanced Search
+      </legend>
+      <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
+        <thead>
+          <tr>
+            <th>Project</th>        
+            <th>Due Date After</th>
+            <th>Due Date Before</th>
+            <th>Status</th>
+            <th>Assigned To</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}) %></td>
+            <td><%= text_field_tag 'due_date_start_date', '', class: 'datepicker' %></td>
+            <td><%= text_field_tag 'due_date_end_date', '', class: 'datepicker' %></td>
+            <td><%= render partial: 'stickies/check_box_status' %></td>
+            <td><%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %></td>
+          </tr>
+        </tbody>
+      </table>
+      <%= button_tag image_tag('contour/gentleface/cog_16.png') + 'Filter Search' %>
+    </fieldset>
+  </div>
 <% end %>
 
 <div id="stickies"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

@@ -14,19 +14,8 @@
     <%= select_tag :date_type, options_for_select([['Due Date', 'due_date'],['Start Date', 'start_date'],['End Date', 'end_date']]) %>
     <%#= link_to_function '&raquo;'.html_safe, "goForwardOneYear();", :style => 'text-decoration:none', :title => 'Next Year' %>
   </div>
-
   <div style="position:relative; float:right; margin-top:-31px">
-    <table class="blank">
-      <tr>
-        <td><%= check_box_tag 'status[]', 'planned', params[:status] ? params[:status].include?('planned') : true %></td>
-        <td><%= display_completion(false) %></td>
-        <td class="planned" style="padding-right:10px">Not Completed</td>
-        
-        <td><%= check_box_tag 'status[]', 'completed', params[:status] ? params[:status].include?('completed') : true %></td>
-        <td><%= display_completion(true) %></td>
-        <td class="completed" style="padding-right:10px">Completed</td>
-      </tr>
-    </table>
+    <%= render partial: 'stickies/check_box_status' %>
   </div>
 <% end %>
 <div style="clear:both"></div>
