@@ -1,8 +1,8 @@
-<% if @template.items.size == 0 %>
+<% if @template.sorted_items.size == 0 %>
   <% @item = { description: '', interval: 0, units: 'days' } %>
   <%= render partial: 'edit_item' %>
 <% else %>
-  <% @template.items.each do |item| %>
+  <% @template.sorted_items.each do |item| %>
     <%= @item = item; render partial: 'edit_item' %>
   <% end %>
 <% end %>

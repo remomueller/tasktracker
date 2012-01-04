@@ -33,9 +33,10 @@
 
 <p>
   <b>Items:</b>
-  <% @template.items.each do |item| %>
-    <%= @item = item; render partial: 'show_item' %>
-  <% end %>
+  <%= render partial: 'compact_items' %>
+  <%# @template.items.each do |item| %>
+    <%#= @item = item; render partial: 'show_item' %>
+  <%# end %>
 </p>
 
 <div id="dialog-form" title="Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %>:">

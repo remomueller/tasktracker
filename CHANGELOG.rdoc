@@ -11,6 +11,9 @@
     * Assigned To
     * Due Date
     * Status
+  * Template show page has been improved
+    * Items listed in a template are now sorted by their offset from the initial due date
+    * Items are now displayed more succinctly
   * Using Rails 3.2.0.rc1 and Contour 0.8.0
   * Calendar updated have consistent look across browsers and operating systems
 

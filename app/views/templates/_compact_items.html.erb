@@ -6,24 +6,14 @@
       <th>Assign To</th>
     </tr>
   </thead>
-  <% @template.items.each do |item| %>
+  <% @template.sorted_items.each do |item| %>
     <% owner = User.current.find_by_id(item[:owner_id]) %>
     <tr style="border-bottom:1px solid #eee;margin-bottom:8px">
       <td>
         <%= item[:description] %>
       </td>
-      <td><% if item[:interval] != 0 %> <b>+<%= item[:interval] %> <%= item[:units] %></b><% end %></td>
+      <td><% if item[:interval] != 0 %> <b><%= '+' if item[:interval] > 0 %><%= item[:interval] %> <%= item[:units] %></b><% end %></td>
       <td style="<%= 'font-weight:bold' if current_user == owner %>"><%= link_to owner.name, owner if owner %></td>
     </tr>
   <% end %>
 </table>
-
-<% if false %>
-  <% @template.items.each do |item| %>
-    <div style="border-bottom:1px solid #eee;margin-bottom:8px">
-      <%= item[:description] %>
-      <% if item[:interval] != 0 %> <b>+<%= item[:interval] %> <%= item[:units] %></b><% end %>
-      <% if owner = User.current.find_by_id(item[:owner_id]) %><i>Assign To: <%= link_to owner.name, owner %></i><% end %>
-    </div>
-  <% end %>
-<% end %>
