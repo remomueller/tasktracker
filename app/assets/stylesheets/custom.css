@@ -75,6 +75,11 @@ a:hover { color: #EB6C20; }
   background-color: #B1BFDB;
 }
 
+.status_marked.not-completed {
+  border-color: #E2E2E2; /* #66FF66; */
+  background-color: #EDEDED; /* #D4FFCD; */
+}
+
 /*
 .stickies_planned a {
   color: #FFB475;

@@ -82,7 +82,7 @@ module ApplicationHelper
     if completed
       result << "<td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
     else
-      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td>"
+      result << "<td><div class=\"status_unmarked\" title=\"Not Completed\">!</div></td>"
     end
     result << '</tr></table>'
     result.html_safe
