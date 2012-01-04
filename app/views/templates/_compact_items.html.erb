@@ -7,6 +7,7 @@
     </tr>
   </thead>
   <% @template.sorted_items.each do |item| %>
+    <% item = item.symbolize_keys %>
     <% owner = User.current.find_by_id(item[:owner_id]) %>
     <tr style="border-bottom:1px solid #eee;margin-bottom:8px">
       <td>

@@ -30,7 +30,7 @@ class Template < ActiveRecord::Base
                       owner_id: item_hash[:owner_id]
                     } unless item_hash[:description].blank?
     end
-    self.items.sort!{|a,b| a[:interval].send(a[:units]) <=> b[:interval].send(b[:units])}
+    self.items.sort!{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]) <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units])}
   end
   
   def generate_stickies!(current_user, frame_id, initial_date = Date.today, additional_text = nil)
@@ -50,6 +50,6 @@ class Template < ActiveRecord::Base
   end
   
   def sorted_items
-    self.items.sort{|a,b| a[:interval].send(a[:units]) <=> b[:interval].send(b[:units])}
+    self.items.sort{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]) <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units])}
   end
 end
