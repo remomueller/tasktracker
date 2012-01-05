@@ -4,3 +4,4 @@ rvm:
 before_script:
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "mysql -e 'create database notes_test;'"
+  - "bundle exec rake db:migrate"
