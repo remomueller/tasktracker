@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.0.rc1'
+gem 'rails', '3.2.0.rc2'
 
 # Database Adapter
 gem 'mysql2', '0.3.11',                    :platforms => [:ruby]
@@ -15,7 +15,7 @@ gem 'kaminari'                      # Pagination
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.2'    # Compiles CSS
+  gem 'sass-rails',   '~> 3.2.3'    # Compiles CSS
   gem 'coffee-rails', '~> 3.2.0'    # Compiles JavaScript
   gem 'uglifier',     '>= 1.0.3'    # Minimizes and obscures JS and CSS
 end
