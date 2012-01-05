@@ -12,7 +12,10 @@ puts root_folder
 files = [['config','database.yml'],
   ['config/initializers', 'action_mailer.rb'],
   ['config/initializers', 'secret_token.rb'],
-  ['config/initializers', '00_site_name.rb']]
+  ['config/initializers', '00_site_name.rb'],
+  ['config/initializers', 'devise.rb'],
+  ['config/initializers', 'omniauth.rb'],
+  ['config/initializers', 'contour.rb']]
   
 files.each do |folder_name, file_name|
   file_template = File.join(template_folder, file_name + '.erb')
