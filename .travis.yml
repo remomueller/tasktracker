@@ -2,5 +2,5 @@ language: ruby
 rvm:
   - 1.9.3
 before_script:
-  - "(echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; cat) | ruby lib/initial_setup.rb"
+  - "(echo 'username'; echo; echo; echo; echo 'localhost'; echo '25'; echo; echo 'username'; echo 'password'; echo 'Notes'; echo 'http://localhost'; echo -e '\n'; echo -e '\n'; echo -e '\n';) | ruby lib/initial_setup.rb | (echo -e '\n'; cat)"
   - "mysql -e 'create database notes_test;'"
