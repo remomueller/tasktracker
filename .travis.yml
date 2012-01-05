@@ -1,3 +1,6 @@
 language: ruby
 rvm:
   - 1.9.3
+before_script:
+  - "(echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; cat) | ruby lib/initial_setup.rb"
+  - "mysql -e 'create database notes_test;'"

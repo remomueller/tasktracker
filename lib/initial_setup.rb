@@ -2,7 +2,6 @@ require 'fileutils'
 require 'erb'
 require 'digest/sha1'
 
-FileUtils.cd('..')
 root_folder = FileUtils.pwd
 FileUtils.cd('lib/templates')
 template_folder = FileUtils.pwd
