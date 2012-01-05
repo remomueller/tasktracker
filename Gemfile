@@ -3,9 +3,9 @@ source 'http://rubygems.org'
 gem 'rails', '3.2.0.rc2'
 
 # Database Adapter
-gem 'mysql2', '0.3.11',                    :platforms => [:ruby]
+gem 'mysql2', '0.3.11',                   :platforms => [:ruby]
 gem 'sqlite3',                            :platforms => [:mswin, :mingw]
-gem 'thin', '~> 1.3.1',                  :platforms => [:mswin, :mingw]
+gem 'thin', '~> 1.3.1',                   :platforms => [:mswin, :mingw]
 gem 'eventmachine', '~> 1.0.0.beta.4.1',  :platforms => [:mswin, :mingw]
 
 # Gems used by project
