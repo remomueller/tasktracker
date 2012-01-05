@@ -13,8 +13,8 @@ development:
   pool: 5
   username: <%= print "Enter Database Username [username]: "; u = gets.chomp(); if u == '' then u = 'username' end; u %>
   <%= print "Enter Database Password: "; p = gets.chomp(); if p == '' then p = '# password:' else p = "password: #{p}" end; p %>
-  socket: <%= print "Enter Database Socket [/tmp/mysql.sock]: "; s = gets.chomp(); if s == '' then s = '/tmp/mysql.sock' end; s %>
-  host: <%= print "Enter Database Host: "; h = gets.chomp(); h %>
+  <%= print "Enter Database Socket: "; s = gets.chomp(); if s == '' then s = '# socket:' else s = "socket: #{s}" end; s %>
+  <%= print "Enter Database Host: "; h = gets.chomp(); if h == '' then h = '# host:' else h = "host: #{h}" end; h %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -26,9 +26,9 @@ test:
   database: notes_test
   pool: 5
   username: <%= u %>
-  password: <%= p %>
-  socket: <%= s %>
-  host: <%= h %>
+  <%= p %>
+  <%= s %>
+  <%= h %>
 
 production:
   adapter: mysql2
@@ -37,6 +37,6 @@ production:
   database: notes_production
   pool: 5
   username: <%= u %>
-  password: <%= p %>
-  socket: <%= s %>
-  host: <%= h %>
+  <%= p %>
+  <%= s %>
+  <%= h %>
