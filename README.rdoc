@@ -1,0 +1,3 @@
+== Build Status {<img src="https://secure.travis-ci.org/remomueller/notes.png"/>}[http://travis-ci.org/remomueller/notes]
+
+== Dependency Status {<img src="https://gemnasium.com/remomueller/notes.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/notes]
