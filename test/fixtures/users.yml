@@ -10,7 +10,6 @@ valid:
   users_per_page: 10
   email: valid@example.com
   encrypted_password: MyString
-  password_salt: MyString
   reset_password_token: ResetTokenOne
   remember_token: MyString
   remember_created_at: 2011-02-23
@@ -37,7 +36,6 @@ two:
   users_per_page: 10
   email: EmailTwo
   encrypted_password: MyString
-  password_salt: MyString
   reset_password_token: ResetTokenTwo
   remember_token: MyString
   remember_created_at: 2011-02-23
@@ -64,7 +62,6 @@ admin:
   users_per_page: 10
   email: admin@example.com
   encrypted_password: MyString
-  password_salt: MyString
   reset_password_token: ResetTokenThree
   remember_token: MyString
   remember_created_at: 2011-02-23
@@ -91,7 +88,6 @@ pending:
   users_per_page: 10
   email: pending@example.com
   encrypted_password: MyString
-  password_salt: MyString
   reset_password_token: ResetTokenFour
   remember_token: MyString
   remember_created_at: 2011-02-23
@@ -118,7 +114,6 @@ deleted:
   users_per_page: 10
   email: deleted@example.com
   encrypted_password: MyString
-  password_salt: MyString
   reset_password_token: ResetTokenFive
   remember_token: MyString
   remember_created_at: 2011-02-23
