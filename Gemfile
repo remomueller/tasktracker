@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.0.rc2'
+gem 'rails', '3.2.0.rc1'
 
 # Database Adapter
 gem 'mysql2', '0.3.11',                    :platforms => [:ruby]
