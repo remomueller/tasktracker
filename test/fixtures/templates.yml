@@ -17,3 +17,9 @@ three:
   project: one
   name: Five Items
   items: [{description: 'Task A', interval: 0, units: 'days'},{description: 'Task B', interval: 1, units: 'days'},{description: 'Task C', interval: 2, units: 'days'},{description: 'Task D', interval: 3, units: 'days'},{description: 'Task E', interval: 4, units: 'days'},{description: 'Task F', interval: 5, units: 'days'}]
+
+with_tag:
+  user: valid
+  project: one
+  name: Tagged Item
+  items: [{description: 'Tagged A', interval: 0, units: 'days', tags: ['alpha']}]

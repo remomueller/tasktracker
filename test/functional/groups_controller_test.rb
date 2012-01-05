@@ -32,6 +32,22 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
+  test "should create group and generate stickies with default tags" do
+    assert_difference('Sticky.count', templates(:with_tag).items.size) do
+      assert_difference('Group.count') do
+        post :create, template_id: templates(:with_tag).to_param, frame_id: frames(:one).to_param
+      end
+    end
+    assert_not_nil assigns(:template)
+    assert_not_nil assigns(:group)
+    assert_equal templates(:with_tag).items.size, assigns(:group).stickies.size
+    assert_equal assigns(:frame), frames(:one)
+    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
+    assert_equal ['alpha'], assigns(:group).stickies.first.tags
+    assert_redirected_to group_path(assigns(:group))
+  end
+
   test "should not create group and generate stickies for invalid template id" do
     assert_difference('Sticky.count', 0) do
       assert_difference('Group.count', 0) do

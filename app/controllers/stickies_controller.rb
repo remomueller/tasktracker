@@ -55,6 +55,10 @@ class StickiesController < ApplicationController
     
     sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
     
+    # params[:tags] = (params[:tags] || []).collect{|tag| '%- ' + tag + '%' }
+    # sticky_scope = sticky_scope.with_tags(params[:tags]) unless params[:tags].blank?
+    (params[:tags] || []).collect{|tag| sticky_scope = sticky_scope.with_tag(tag) }
+    
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
     sticky_scope = sticky_scope.order(@order)

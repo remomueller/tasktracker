@@ -159,3 +159,21 @@ table.status-table td {
   overflow: hidden;
   white-space: nowrap;
 }
+
+table.tags {
+  table-layout:fixed;
+  margin-bottom:0px;
+  padding: 0px;
+  border-collapse: separate;
+}
+
+table.tags td div {
+  background-color: #ddd;
+  padding: 2px;
+  margin: 0px 2px;
+  border: 1px solid #bbb;
+}
+
+table.tags td {
+  padding: 0px;
+}

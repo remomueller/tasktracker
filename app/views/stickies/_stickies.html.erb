@@ -31,11 +31,12 @@
 
 <table width="100%">
   <tr>
-    <th><%== sort_field_helper(@order, 'stickies.id', 'Sticky', 'stickies_search') %></th>
-    <th><%== sort_field_helper(@order, 'stickies.due_date', 'Due Date', 'stickies_search') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.id', 'Sticky', 'stickies_search') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.due_date', 'Due Date', 'stickies_search') %></th>
     <th>Description</th>
-    <th><%== sort_field_helper(@order, 'stickies.completed', 'Status', 'stickies_search') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.completed', 'Status', 'stickies_search') %></th>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.owner_id', 'Assigned To', 'stickies_search') %></th>
+    <th>Tags</th>
     <th></th>
   </tr>
 
@@ -54,6 +55,17 @@
       </td>
       <td style="white-space:nowrap;vertical-align:middle;"><div style="margin:0 auto;width:20px;"><%= display_completion(sticky.completed) %></div></td>
       <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
+      <td>
+        <table class="blank padded tags">
+        <% sticky.tags.in_groups_of(5).each do |row_tags| %>
+          <tr>
+            <% row_tags.each do |tag| %>
+              <% if tag %><td><div><%= tag %></div></td><% end %>
+            <% end %>
+          </tr>
+        <% end %>
+        </table>
+      </td>
       <td style="vertical-align:middle">
         <% if current_user.all_stickies.include?(sticky) %>
           <%= link_to image_tag('contour/edit.png', :alt => ''), edit_sticky_path(sticky) %>

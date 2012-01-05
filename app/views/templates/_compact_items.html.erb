@@ -4,6 +4,7 @@
       <th>Sticky</th>
       <th>Offset</th>
       <th>Assign To</th>
+      <th>Tags</th>
     </tr>
   </thead>
   <% @template.sorted_items.each do |item| %>
@@ -15,6 +16,17 @@
       </td>
       <td><% if item[:interval] != 0 %> <b><%= '+' if item[:interval] > 0 %><%= item[:interval] %> <%= item[:units] %></b><% end %></td>
       <td style="<%= 'font-weight:bold' if current_user == owner %>"><%= link_to owner.name, owner if owner %></td>
+      <td>
+        <table class="blank tags">
+          <% (item[:tags] || []).in_groups_of(5).each do |row_tags| %>
+            <tr>
+              <% row_tags.each do |tag| %>
+                <% if tag %><td><div><%= tag %></div></td><% end %>
+              <% end %>
+            </tr>
+          <% end %>
+        </table>
+      </td>
     </tr>
   <% end %>
 </table>

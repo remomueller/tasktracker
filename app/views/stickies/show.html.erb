@@ -66,9 +66,15 @@
 <% if @sticky.tags.size > 0 %>
 <p>
   <b>Tags:</b>
-  <% @sticky.tags.each do |t| %>
-    <span style="margin-right:10px;border:2px solid #ddd;padding:1px"><%= t %></span>
-  <% end %>
+  <table class="blank tags">
+    <% @sticky.tags.in_groups_of(5).each do |row_tags| %>
+      <tr>
+        <% row_tags.each do |tag| %>
+          <% if tag %><td><div><%= tag %></div></td><% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 </p>
 <% end %>
 

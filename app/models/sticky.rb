@@ -24,6 +24,8 @@ class Sticky < ActiveRecord::Base
   scope :past_due,      lambda { |*args| { :conditions => ["stickies.completed = ? and DATE(stickies.due_date) < ?", false, Date.today]}}
   scope :due_this_week, lambda { |*args| { :conditions => ["stickies.completed = ? and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", false, Date.today, Date.today + (7-Date.today.wday).days]}}
 
+  # scope :with_tags, lambda { |*args| { conditions: ["stickies.tags IN (?)", args.first] } }
+  scope :with_tag, lambda { |*args| { conditions: [ "stickies.tags LIKE ?", '%- ' + args.first + '%' ] } }
 
   before_create :set_start_date
   after_create :send_email

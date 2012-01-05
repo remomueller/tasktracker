@@ -26,3 +26,13 @@
     $(element+'_link').html('less...')
   else if $(element+'_link').html() == 'less...'
     $(element+'_link').html('more...')
+
+@checkAllWithSelector = (selector) ->
+  elements = $(selector).each( () ->
+    $(this).attr('checked','checked')
+  )
+
+@uncheckAllWithSelector = (selector) ->
+  elements = $(selector).each( () ->
+    $(this).removeAttr('checked')
+  )
