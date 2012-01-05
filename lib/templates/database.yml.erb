@@ -11,7 +11,7 @@ development:
   reconnect: false
   database: notes_development
   pool: 5
-  username: <%= print "Enter Database Username [username]: "; u = gets.chomp(); if u == '' then u = 'username' end; u %>
+  username: <%= print "Enter Database Username: "; u = gets.chomp(); u %>
   <%= print "Enter Database Password: "; p = gets.chomp(); if p == '' then p = '# password:' else p = "password: #{p}" end; p %>
   <%= print "Enter Database Socket: "; s = gets.chomp(); if s == '' then s = '# socket:' else s = "socket: #{s}" end; s %>
   <%= print "Enter Database Host: "; h = gets.chomp(); if h == '' then h = '# host:' else h = "host: #{h}" end; h %>
