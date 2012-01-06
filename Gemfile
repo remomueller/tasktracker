@@ -9,7 +9,7 @@ gem 'thin', '~> 1.3.1',                   :platforms => [:mswin, :mingw]
 gem 'eventmachine', '~> 1.0.0.beta.4.1',  :platforms => [:mswin, :mingw]
 
 # Gems used by project
-gem 'contour', '~> 0.8.0'           # Basic Layout and Assets
+gem 'contour', '~> 0.8.1'           # Basic Layout and Assets
 gem 'kaminari'                      # Pagination
 
 # Gems used only for assets and not required

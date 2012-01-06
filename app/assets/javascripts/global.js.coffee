@@ -36,3 +36,19 @@
   elements = $(selector).each( () ->
     $(this).removeAttr('checked')
   )
+
+@enableAllWithSelector = (selector) ->
+  elements = $(selector).each( () ->
+    enable = true
+    classList = $(this).attr('class').split(/\s+/)
+    $.each(classList, (index, c) ->
+      if $('.' + c + '_parent').is(':checkbox')
+        enable = false unless $('.' + c + '_parent').is(':checked')
+    )
+    if enable
+      $(this).attr('checked','checked')
+      $(this).removeAttr('disabled')
+    else
+      $(this).removeAttr('checked')
+      $(this).attr('disabled', 'disabled')
+  )

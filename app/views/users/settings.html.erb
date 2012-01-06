@@ -6,45 +6,39 @@
     <legend>Email Notifications</legend>
     <div class="field">
       <label>Emails</label><br />
-      <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email) %> <%= information('Receive Emails') %>
+      <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email), onclick: "enableAllWithSelector('.all_email')", class: "all_email_parent" %> <%= information('Receive Emails') %>
     </div>
-    <br />
-    <hr />
-    <br />
-    <div class="field">
-      <b>Sticky Creation</b><br />
-      <%= check_box_tag 'email[sticky_creation]', '1', current_user.email_on?(:sticky_creation) %> <%= information("Receive email when a new sticky is created") %>
-    </div>
-    
-    <div class="field">
-      <b>Sticky Completion</b><br />
-      <%= check_box_tag 'email[sticky_completion]', '1', current_user.email_on?(:sticky_completion) %> <%= information("Receive email when a sticky is marked as completed") %>
-    </div>
-    
-    <div class="field">
-      <b>Project Comments</b><br />
-      <%= check_box_tag 'email[project_comments]', '1', current_user.email_on?(:project_comments) %> <%= information("Receive email when a comment is added to a project") %>
-    </div>
-  
-    <div class="field">
-      <b>Sticky Comments</b><br />
-      <%= check_box_tag 'email[sticky_comments]', '1', current_user.email_on?(:sticky_comments) %> <%= information("Receive email when a comment is added to a sticky") %>
-    </div>
-    
-    <div class="field">
-      <b>Daily Weekday Stickies Due</b><br />
-      <%= check_box_tag 'email[daily_stickies_due]', '1', current_user.email_on?(:daily_stickies_due) %> <%= information("Receive daily weekday emails if there are stickies due or past due") %>
-    </div>
-    
-    <br />
-    <hr />
-    <br />
-    <% current_user.all_viewable_projects.order('name').each do |project| %>
-      <div class="field">
-        Project: <b><%= project.name %></b><br />
-        <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}") %> <%= information("Receive email for Project: #{project.name} ") %>
+    <% User::EMAILABLES.each do |notification, description| %>
+      <div class="field" style="margin:0px 0px 20px 20px">
+        <b><%= notification.to_s.titleize %></b><br />
+        <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= information(description) %>
       </div>
     <% end %>
+    <hr />
+    <br />
+    <table class="blank padded" style="table-layout:fixed; width:100%">
+      <% current_user.all_viewable_projects.order('name').in_groups_of(3).each do |row_projects| %>
+        <tr>
+          <% row_projects.each do |project| %>
+            <td>
+              <% if project %>
+                <div class="field">
+                  Project: <b><%= project.name %></b><br />
+                  <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}"), onclick: "enableAllWithSelector('.project_detail_#{project.id}')", class: "project_detail_#{project.id}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= information("Receive email for Project: #{project.name} ") %>
+                </div>
+                <div class="field" style="margin:0px 0px 20px 20px">
+                  <% User::EMAILABLES.each do |notification, description| %>
+                    <div class="field">
+                      <%= check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}"), class: "project_detail_#{project.id} notification_#{notification.to_s} all_email", disabled: (current_user.email_on?(:send_email) and current_user.email_on?("project_#{project.id}") and current_user.email_on?("project_#{project.id}_#{notification.to_s}") ? nil : 'disabled') %> <%= notification.to_s.titleize %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
   </fieldset>
 
   <div class="actions">

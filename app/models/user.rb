@@ -11,6 +11,13 @@ class User < ActiveRecord::Base
   before_update :status_activated
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
+  
+  EMAILABLES = [ [:sticky_creation, 'Receive email when a new sticky is created'],
+                 [:sticky_completion, 'Receive email when a sticky is marked as completed'],
+                 [:project_comments, 'Receive email when a comment is added to a project'],
+                 [:sticky_comments, 'Receive email when a comment is added to a sticky'],
+                 [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'] ]
+  
   serialize :email_notifications, Hash
 
   # Named Scopes
