@@ -17,13 +17,13 @@
   * Template show page has been improved
     * Items listed in a template are now sorted by their offset from the initial due date
     * Items are now displayed more succinctly
-  * Using Rails 3.2.0.rc2 and Contour 0.8.0
+  * Using Rails 3.2.0.rc2 and Contour 0.8.1
   * Calendar updated have consistent look across browsers and operating systems
   * Templates can now have default sticky tags assigned to each item
   * Projects emails can now be fine-tuned to receive only certain types of updates on a per-project basis
 
 * Refactoring
-  * qTip2 is now provided by Contour 0.8.0
+  * qTip2 is now provided by Contour 0.8.1
 
 == 0.13.0
 
