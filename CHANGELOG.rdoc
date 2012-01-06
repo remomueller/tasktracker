@@ -1,5 +1,8 @@
 == 0.14.1
 
+* Bug Fix
+  * Use update_column instead of update_attribute to avoid emails being sent out during a migration
+
 == 0.14.0
 
 * Enhancements
