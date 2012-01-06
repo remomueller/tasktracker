@@ -12,9 +12,7 @@ NOTE: We assume you have already installed RVM, or the very least the latest ver
 
   gem install bundler
 
-In terminal go to your preferred Hybrid folder.
-
-This install assumes you'll install it in: /var/wwww/notes
+This readme assumes the following installation directory: /var/wwww/notes
 
   cd /var/www
 
