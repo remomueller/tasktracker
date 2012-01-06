@@ -6,11 +6,13 @@
   * Sticky edit page now contains:
     * Group description if the sticky is part of a group
     * Comments that may have been added to sticky
-  * Stickies on the sticky list page can now be filtered by:
-    * Project
-    * Assigned To
-    * Due Date
-    * Status
+  * Stickies on the sticky list page:
+    * Can now be filtered by:
+      * Project
+      * Assigned To
+      * Due Date
+      * Status
+    * Display the total count of filtered stickies
   * Template show page has been improved
     * Items listed in a template are now sorted by their offset from the initial due date
     * Items are now displayed more succinctly

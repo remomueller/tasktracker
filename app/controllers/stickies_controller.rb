@@ -62,6 +62,7 @@ class StickiesController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
     sticky_scope = sticky_scope.order(@order)
+    @sticky_count = sticky_scope.count
     @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
   end
 

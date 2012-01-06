@@ -8,54 +8,54 @@
 
 <%= form_tag stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order, params[:order] %>
-  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
-  <%= link_to_function 'advanced search', "$(this).hide();$('#advanced_search').show();" %><br />
-  <div id="advanced_search" style="display:none">
-    <fieldset>
-      <legend>
-        Advanced Search
-      </legend>
-      <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
-        <thead>
-          <tr>
-            <th>Project</th>
-            <th>Due Date After</th>
-            <th>Due Date Before</th>
-            <th>Status</th>
-            <th>Assigned To</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}) %></td>
-            <td><%= text_field_tag 'due_date_start_date', '', class: 'datepicker' %></td>
-            <td><%= text_field_tag 'due_date_end_date', '', class: 'datepicker' %></td>
-            <td><%= render partial: 'stickies/check_box_status' %></td>
-            <td><%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %></td>
-          </tr>
-        </tbody>
-      </table>
-      <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
-        <thead>
-          <tr>
-            <th>Tags
-              <%= link_to_function image_tag('contour/gentleface/checkbox_checked_16.png', :alt => 'Select All', :title => 'Select All Tags', :class => 'smudge', :style => 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", :class => 'bubble-azure', :style => 'padding-top:10px' %>
-              <%= link_to_function image_tag('contour/gentleface/checkbox_unchecked_16.png', :alt => 'Deselect All', :title => 'Deselect All Tags', :class => 'smudge', :style => 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", :class => 'bubble-azure', :style => 'padding-top:10px' %></th>
-          </tr>
-        </thead>
-        <tbody>
-          <% current_user.all_viewable_projects.collect{|p| p.tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
-          <tr>
-            <% row_tags.each do |tag| %>
-              <% if tag %><td><%= check_box_tag "tags[]", tag, false, class: 'tag-box' %><%= tag %></td><% end %>
-            <% end %>
-          </tr>
+  <fieldset>
+    <legend>
+      Search Filters
+    </legend>
+    <div class="field">
+      <b>Search <%= text_field_tag 'search', params[:search] %> <%= information %></b><br />
+    </div>
+    
+    <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Due Date After</th>
+          <th>Due Date Before</th>
+          <th>Status</th>
+          <th>Assigned To</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}) %></td>
+          <td><%= text_field_tag 'due_date_start_date', '', class: 'datepicker' %></td>
+          <td><%= text_field_tag 'due_date_end_date', '', class: 'datepicker' %></td>
+          <td><%= render partial: 'stickies/check_box_status' %></td>
+          <td><%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
+      <thead>
+        <tr>
+          <th>Tags
+            <%= link_to_function image_tag('contour/gentleface/checkbox_checked_16.png', :alt => 'Select All', :title => 'Select All Tags', :class => 'smudge', :style => 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", :class => 'bubble-azure', :style => 'padding-top:10px' %>
+            <%= link_to_function image_tag('contour/gentleface/checkbox_unchecked_16.png', :alt => 'Deselect All', :title => 'Deselect All Tags', :class => 'smudge', :style => 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", :class => 'bubble-azure', :style => 'padding-top:10px' %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_user.all_viewable_projects.collect{|p| p.tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
+        <tr>
+          <% row_tags.each do |tag| %>
+            <% if tag %><td><%= check_box_tag "tags[]", tag, false, class: 'tag-box' %><%= tag %></td><% end %>
           <% end %>
-        </tbody>
-      </table>
-      <%= button_tag image_tag('contour/gentleface/cog_16.png') + 'Filter Search' %>
-    </fieldset>
-  </div>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= button_tag image_tag('contour/gentleface/cog_16.png') + 'Filter Search' %>
+  </fieldset>
 <% end %>
 
 <div id="stickies"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
