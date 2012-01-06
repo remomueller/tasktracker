@@ -67,10 +67,10 @@ class UserMailer < ActionMailer::Base
   def daily_stickies_due(recipient)
     setup_email
     @recipient = recipient
-    due_today = "#{recipient.all_stickies_due_today.size} " + (recipient.all_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
-    past_due = "#{recipient.all_stickies_past_due.size} " + (recipient.all_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
-    due_today = nil if recipient.all_stickies_due_today.size == 0
-    past_due = nil if recipient.all_stickies_past_due.size == 0
+    due_today = "#{recipient.all_deliverable_stickies_due_today.size} " + (recipient.all_deliverable_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
+    past_due = "#{recipient.all_deliverable_stickies_past_due.size} " + (recipient.all_deliverable_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
+    due_today = nil if recipient.all_deliverable_stickies_due_today.size == 0
+    past_due = nil if recipient.all_deliverable_stickies_past_due.size == 0
     mail(:to => recipient.email,
          :subject => @subject + [due_today, past_due].compact.join(' and '))
   end

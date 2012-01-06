@@ -44,8 +44,8 @@ class Comment < ActiveRecord::Base
     all_users = (@object.comments.collect{|c| c.user} + [@object.user, @object.owner]).compact.uniq - [self.user]
     all_users.each do |user_to_email|
       if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and
-        ((self.class_name == 'Project' and user_to_email.email_on?(:project_comments) and user_to_email.email_on?("project_#{self.class_id}")) or
-        (self.class_name == 'Sticky' and user_to_email.email_on?(:sticky_comments) and user_to_email.email_on?("project_#{Sticky.find_by_id(self.class_id).project.id}")))
+        ((self.class_name == 'Project' and user_to_email.email_on?(:project_comments) and user_to_email.email_on?("project_#{self.class_id}") and user_to_email.email_on?("project_#{self.class_id}_project_comments")) or
+        (self.class_name == 'Sticky' and user_to_email.email_on?(:sticky_comments) and user_to_email.email_on?("project_#{Sticky.find_by_id(self.class_id).project.id}") and user_to_email.email_on?("project_#{Sticky.find_by_id(self.class_id).project.id}_sticky_comments")))
         UserMailer.comment_by_mail(self, @object, user_to_email).deliver if Rails.env.production?
       end
     end
