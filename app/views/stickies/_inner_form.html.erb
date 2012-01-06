@@ -5,13 +5,15 @@
   <%= f.text_area :description, :rows => 7, :style => "width:#{@width}" %>
 </div>
 
-<% if @sticky.group and not @sticky.group.description.blank? %>
+<% if @sticky.group %>
 <span class="quiet">This sticky is part of Group: <%= link_to @sticky.group.name, @sticky.group %></span><br /><br />
 
-<div class="field">
-  <%= label_tag 'group_description', 'Group Description' %>
-  <%= simple_format @sticky.group.description %>
-</div>
+  <% unless @sticky.group.description.blank? %>
+    <div class="field">
+      <%= label_tag 'group_description', 'Group Description' %>
+      <%= simple_format @sticky.group.description %>
+    </div>
+  <% end %>
 <% end %>
 
 <div class="field">

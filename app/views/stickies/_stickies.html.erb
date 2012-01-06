@@ -38,7 +38,10 @@
   <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
   <tbody>
     <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < sticky.updated_at %>">
-      <td style="white-space:nowrap"><%= link_to sticky.name, sticky %></td>
+      <td style="white-space:nowrap">
+        <%= link_to sticky.name, sticky %>
+        <%= link_to image_tag('contour/gentleface/list_bullets_16.png', alt: '', title: "Group #{sticky.group.name}", size: '10x10'), sticky.group if sticky.group %>
+      </td>
       <td style="white-space:nowrap;text-align:center">
         <%= simple_date(sticky.due_date) %>
       </td>

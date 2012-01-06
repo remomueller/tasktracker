@@ -13,6 +13,7 @@
       * Due Date
       * Status
     * Display the total count of filtered stickies
+    * Contain a link to the group if grouped with other stickies
   * Template show page has been improved
     * Items listed in a template are now sorted by their offset from the initial due date
     * Items are now displayed more succinctly

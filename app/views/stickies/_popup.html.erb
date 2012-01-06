@@ -23,7 +23,7 @@
             
           ).html_safe) %>',
           title:{
-            text: 'Sticky <%= @sticky.name %> - <%= @sticky.completed ? 'completed' : 'planned' %>'
+            text: 'Sticky <%= @sticky.name %> <%= image_tag('contour/gentleface/list_bullets_16.png', alt: '', size: '9x9') %> <%= '- completed' if @sticky.completed %>'
           }
         },
         show:{
