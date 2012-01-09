@@ -1,6 +1,13 @@
 <% @title = 'Calendar' %>
 
-<br />
+<div>&nbsp;</div>
+
+<div id="month-breakdown" style="min-height:450px;margin-top:-20px">
+  <br /><br /><center><%= image_tag "ajax-loader.gif" %></center>
+</div>
+
+<div style="margin-top:-20px">&nbsp;</div>
+
 <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form' do %>
   <div style="text-align:center;float:middle">
     <%= hidden_field_tag :direction, 0 %>
@@ -9,9 +16,7 @@
     <%= link_to_function 'Today', 'getToday()' %>
     <%= link_to_function '&raquo;'.html_safe, "goForwardOneMonth();", :style => 'text-decoration:none', :title => 'Next Month' %>
     <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker' %>
-    <%#= select_tag :month, options_for_select( Date::MONTHNAMES[1..12].collect{|month| [month,Date::MONTHNAMES.index(month)]}, (params[:month] || Date.today.month)) %>
-    <%#= select_tag :year, options_for_select( (Date.today.year..Date.today.year+1).to_a, (params[:year] || Date.today.year) ) %>
-    <%= select_tag :date_type, options_for_select([['Due Date', 'due_date'],['Start Date', 'start_date'],['End Date', 'end_date']]) %>
+    <%#= select_tag :date_type, options_for_select([['Due Date', 'due_date'],['Start Date', 'start_date'],['End Date', 'end_date']]) %>
     <%#= link_to_function '&raquo;'.html_safe, "goForwardOneYear();", :style => 'text-decoration:none', :title => 'Next Year' %>
   </div>
   <div style="position:relative; float:right; margin-top:-31px">
@@ -19,10 +24,6 @@
   </div>
 <% end %>
 <div style="clear:both"></div>
-
-<div id="month-breakdown" style="min-height:486px;margin-top:-10px">
-  <br /><br /><center><%= image_tag "ajax-loader.gif" %></center>
-</div>
 
 <%= render partial: 'new_sticky_or_group_dialog' %>
 
@@ -52,6 +53,7 @@
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
   <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 <% end %>
+
 
 <%= javascript_tag do %>
   $(function(){

@@ -1,10 +1,16 @@
-<h4 style="float:left"><%= Date::MONTHNAMES[@selected_date.month] %> <%= @selected_date.year %></h4>
-<div style="clear:both"></div>
-<table style="width:100%;border-collapse:collapse;table-layout: fixed;"><%#= '<col width="14%"/>'*7 %>
+<h4><%= Date::MONTHNAMES[@selected_date.month] %> <%= @selected_date.year %>
+  <span style='font-size: 11px;font-weight:normal'>
+    <%= link_to_function '&laquo;'.html_safe, "goBackOneMonth();", :style => 'text-decoration:none', :title => 'Previous Month' %>
+    <%= link_to_function 'Today', 'getToday()' %>
+    <%= link_to_function '&raquo;'.html_safe, "goForwardOneMonth();", :style => 'text-decoration:none', :title => 'Next Month' %>
+  </span>
+</h4>
+
+<table style="width:100%;border-collapse:collapse;table-layout: fixed;">
   <thead>
     <tr>
       <% (0..6).each do |iDay| %>
-        <th><%= Date::DAYNAMES[iDay] %></th>
+        <th style="padding:0px"><%= Date::DAYNAMES[iDay] %></th>
       <% end %>
     </tr>
   </thead>
@@ -18,31 +24,37 @@
                    <%= 'next-month' if iDate > @end_date %>"
             onmouseover="$(this).addClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').show();"
             onmouseout="$(this).removeClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').hide();"
-<% if false %>            ondblclick="window.location.href = $('#calendar_box_<%= first_day_offset %>_new_entry_link').attr('href');" <% end %>
             ondblclick="$('#initial_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>');$('#sticky_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>'); $('#new-sticky-or-group-dialog').dialog('open');">
           <div style="width:100%">
-            <div class="calendar-entry-heading">
+            <div class="calendar-entry-heading" style="padding-right:2px;">
               <%= link_to_function image_tag('contour/addfile.png', style: 'border:none;vertical-align:text-bottom', size: '11x11', title: "New Sticky due on #{iDate.strftime("%B %e, %Y")}"), "$('#initial_due_date').val('#{iDate.strftime('%m/%d/%Y')}');$('#sticky_due_date').val('#{iDate.strftime('%m/%d/%Y')}'); $('#new-sticky-or-group-dialog').dialog('open');", style: 'display:none', id: "calendar_box_#{first_day_offset}_new_entry_link" %>
-              <% if [@start_date, (@end_date + 1.day)].include?(iDate) %>
-                <%= iDate.strftime("%b %e") %>
-              <% else %>
-                <%= iDate.strftime("%e") %>
-              <% end %>
+              <%= ([@start_date, (@end_date + 1.day)].include?(iDate) ? iDate.strftime("%b %e") : iDate.strftime("%e") ) %>
             </div>
             <div style="min-height:60px">
               <%# @stickies.with_due_date_for_calendar(iDate,iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
               <%# @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
-              <% case params[:date_type] when 'start_date' %>
-                <% @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
-                  <%= @sticky = sticky; render partial: 'popup' %>
-                <% end %>
-              <% when 'end_date' %>
-                <% @stickies.where(:end_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
-                  <%= @sticky = sticky; render partial: 'popup' %>
+              <% if false %>
+                <% case params[:date_type] when 'start_date' %>
+                  <% @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                    <%= @sticky = sticky; render partial: 'popup' %>
+                  <% end %>
+                <% when 'end_date' %>
+                  <% @stickies.where(:end_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                    <%= @sticky = sticky; render partial: 'popup' %>
+                  <% end %>
+                <% else %>
+                  <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                    <%= @sticky = sticky; render partial: 'popup' %>
+                  <% end %>
                 <% end %>
               <% else %>
-                <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
-                  <%= @sticky = sticky; render partial: 'popup' %>
+                <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').group_by(&:tags).sort.each do |tags, stickies| %>
+                  <div style="padding-bottom:5px;">
+                    <% if tags.size > 0 %><div class="calendar-entry-amount"><%= image_tag('gentleface/16/tag.png', alt: '', size: '11x11', style: 'vertical-align:text-bottom') %></div><div class="calendar-entry-name" style="font-variant:small-caps;"><%= tags.sort.join(', ') %></div><% else %><div style="padding-top:5px"></div><% end %>
+                    <% stickies.each do |sticky| %>
+                      <%= @sticky = sticky; render partial: 'popup' %>
+                    <% end %>
+                  </div>
                 <% end %>
               <% end %>
             </div>
@@ -53,7 +65,6 @@
     </tr>
   </tbody>
 </table>
-<br />
 <%= javascript_tag do %>
   $('#month-breakdown')
     .qtip({
