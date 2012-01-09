@@ -39,8 +39,36 @@
 </div>
     
 <div class="field">
-  <%= f.label :due_date %><br />
-  <%= f.text_field :due_date, :class => 'datepicker', :value => @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %>
+  <table class="blank padded">
+    <thead>
+      <tr>
+        <th style="text-align:left"><%= f.label :due_date %></th>
+        <% if @sticky.group %><th style="text-align:left">Group Due Date Shift Options</th><% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= f.text_field :due_date, :class => 'datepicker', :value => @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %></td>
+          <% if @sticky.group %>
+            <td>
+              <div class="field">
+                <table class="blank padded">
+                  <tr>
+                    <td><%= radio_button_tag 'shift', 'single', true %> <b>Single:</b></td><td>Only change this sticky's due date</td>
+                  </tr>
+                  <tr>
+                    <td><%= radio_button_tag 'shift', 'incomplete' %> <b>Incomplete:</b></td><td>Shift this sticky's due date and all incomplete stickies in group</td>
+                  </tr>
+                  <tr>
+                    <td><%= radio_button_tag 'shift', 'all' %>  <b>All:</b></td><td>Shift all stickies in group</td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          <% end %>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <div id="tag_selection_container">

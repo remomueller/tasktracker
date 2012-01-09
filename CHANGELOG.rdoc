@@ -1,5 +1,8 @@
 == 0.15.0
 
+* Enhancements
+  * Groups of stickies can now have their due dates shifted by editing a single sticky in the group and selecting either 'incomplete' to shift all other not completed stickies, or 'all' to shift all the stickies in the group
+
 == 0.14.1
 
 * Bug Fix

@@ -161,3 +161,16 @@ grouped_five:
   deleted: false
   # frame: one
   group: three
+
+grouped_six:
+  user: valid
+  project: one
+  position: 1
+  completed: false
+  description: Task F - No Due Date
+  start_date: 2011-02-24
+  # end_date:
+  # due_date:
+  deleted: false
+  # frame: one
+  group: three

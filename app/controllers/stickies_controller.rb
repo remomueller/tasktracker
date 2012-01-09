@@ -109,8 +109,12 @@ class StickiesController < ApplicationController
     params[:sticky][:due_date]   = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
+      original_due_date = @sticky.due_date
       if @sticky.update_attributes(params[:sticky])
         flash[:notice] = 'Sticky was successfully updated.'
+        
+        @sticky.shift_group((@sticky.due_date - original_due_date).to_i, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+                
         if params[:from_calendar] == '1'
           redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
         else

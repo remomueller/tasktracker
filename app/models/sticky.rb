@@ -73,6 +73,15 @@ class Sticky < ActiveRecord::Base
     end
   end
 
+  def shift_group(days_to_shift, shift)
+    if days_to_shift != 0 and self.group and ['incomplete', 'all'].include?(shift)
+      sticky_scope = self.group.stickies.where("stickies.id != ?", self.id)
+      sticky_scope = sticky_scope.where(completed: false) if shift == 'incomplete'
+      sticky_scope.select{ |s| not s.due_date.blank? }.each{ |s| s.update_attribute :due_date, s.due_date + days_to_shift.days }
+    end
+  end
+
+
   private
   
   def send_email
