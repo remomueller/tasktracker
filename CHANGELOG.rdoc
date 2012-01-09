@@ -6,6 +6,7 @@
 
 * Bug Fix
   * Minor table GUI fix when expanding a sticky
+  * Templates page is now sortable by name
 
 * Refactoring
   * Removed unused sticky attributes sticky type, sticky position, and sticky parent

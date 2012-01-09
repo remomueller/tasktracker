@@ -5,21 +5,6 @@ class TemplatesController < ApplicationController
     @template = current_user.all_templates.find_by_id(params[:template_id])
   end
 
-  # def generate_stickies
-  #   params[:initial_due_date] = begin Date.strptime(params[:initial_due_date], "%m/%d/%Y") rescue Date.today end
-  #   @template = current_user.all_templates.find_by_id(params[:id])
-  #   @frame = (@template ? @template.project.frames.find_by_id(params[:frame_id]) : nil)
-  #   @frame_id = @frame.id if @frame
-  #   frame_name = (@frame ? @frame.name + ' - ' + @frame.short_time : 'Backlog')
-  #   if @template
-  #     @group = @template.generate_stickies!(current_user, @frame_id, params[:initial_due_date], params[:additional_text])
-  #     redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}."
-  #     # redirect_to @template, notice: @template.items.size.to_s + ' ' + ((@template.items.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}."
-  #   else
-  #     redirect_to root_path
-  #   end
-  # end
-
   def add_item
     @template = current_user.templates.new(params[:template])
     @item = { description: '', interval: 0, units: 'days' }

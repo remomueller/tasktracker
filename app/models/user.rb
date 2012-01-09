@@ -131,13 +131,13 @@ class User < ActiveRecord::Base
   
   def all_templates
     @all_templates ||= begin
-      Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
   
   def all_viewable_templates
     @all_viewable_templates ||= begin
-      Template.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Template.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
   
