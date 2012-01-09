@@ -12,7 +12,7 @@
     <tr>
       <% (0..@last_saturday - @first_sunday).each do |first_day_offset| %>
         <% iDate = @first_sunday + first_day_offset.day %>
-        <td valign="top" style="border:1px solid #777;padding:0px"
+        <td valign="top" style="padding:0px"
             class="<%= 'calendar-entry-body-today' if iDate == Date.today %>
                    <%= 'last-month' if iDate < @start_date %>
                    <%= 'next-month' if iDate > @end_date %>"
