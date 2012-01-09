@@ -12,27 +12,36 @@
     <legend>
       Search Filters
     </legend>
-    <div class="field">
-      <b>Search <%= text_field_tag 'search', params[:search] %> <%= information %></b><br />
-    </div>
-    
-    <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
+    <table class="blank padded" style="table-layout:fixed;width:100%;text-align:left;margin:10px 0px">
       <thead>
         <tr>
+          <th>Search</th>
           <th>Project</th>
-          <th>Due Date After</th>
-          <th>Due Date Before</th>
-          <th>Status</th>
           <th>Assigned To</th>
         </tr>
       </thead>
       <tbody>
         <tr>
+          <td><%= text_field_tag 'search', params[:search] %></td>
           <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}) %></td>
+          <td><%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <table class="blank padded" style="table-layout:fixed;width:100%;text-align:left;margin:10px 0px">
+      <thead>
+        <tr>
+          <th>Due Date After</th>
+          <th>Due Date Before</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
           <td><%= text_field_tag 'due_date_start_date', '', class: 'datepicker' %></td>
           <td><%= text_field_tag 'due_date_end_date', '', class: 'datepicker' %></td>
           <td><%= render partial: 'stickies/check_box_status' %></td>
-          <td><%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %></td>
         </tr>
       </tbody>
     </table>
