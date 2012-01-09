@@ -39,13 +39,6 @@
   <%= @sticky.frame ? @sticky.frame.name : 'Backlog' %>
 </p>
 
-<% if @sticky.sticky %>
-<p>
-  <b>Parent Sticky:</b>
-  <%= link_to @sticky.sticky_id, @sticky.sticky if @sticky.sticky %>
-</p>
-<% end %>
-
 <% if @sticky.owner %>
   <p>
     <b>Assigned To:</b>

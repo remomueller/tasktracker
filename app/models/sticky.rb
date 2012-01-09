@@ -41,7 +41,6 @@ class Sticky < ActiveRecord::Base
   belongs_to :project, :touch => true
   belongs_to :group
   belongs_to :frame
-  belongs_to :sticky
 
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id' 
 
