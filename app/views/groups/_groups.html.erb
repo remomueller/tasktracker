@@ -1,4 +1,3 @@
-<% if false %>
 <div style="float:right">
   Per Page 
   <% [10,25,50].each do |count| %>
@@ -11,17 +10,12 @@
     </span>
   <% end %>
 </div>
-<% else %>
-<div style="float:right">
-  Per Page <span class="per_page">20</span>
-</div>
-<% end %>
 
 <div style="clear:both"></div>
 
 <table style="width:100%">
   <tr>
-    <th>Name</th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.id', 'Name', 'groups_search') %></th>
     <th>Template</th>
     <th>Description</th>
     <th>Stickies</th>

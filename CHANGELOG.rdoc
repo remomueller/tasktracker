@@ -9,6 +9,7 @@
 * Bug Fix
   * Minor table GUI fix when expanding a sticky
   * Templates page is now sortable by name
+  * Searching and filtering is now possible in the groups list view
 
 * Refactoring
   * Removed unused sticky attributes sticky type, sticky position, and sticky parent

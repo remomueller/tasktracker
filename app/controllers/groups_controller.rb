@@ -1,9 +1,18 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
 
-  def index
+  def index    
+    current_user.update_attribute :groups_per_page, params[:groups_per_page].to_i if params[:groups_per_page].to_i >= 10 and params[:groups_per_page].to_i <= 200
     group_scope = current_user.all_viewable_groups
-    @groups = group_scope.page(params[:page]).per(20) #current_user.groups_per_page)
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| group_scope = group_scope.search(search_term) }
+    
+    group_scope = group_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+    
+    @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "groups.id"
+    group_scope = group_scope.order(@order)
+    
+    @groups = group_scope.page(params[:page]).per(current_user.groups_per_page)
   end
 
   def show
