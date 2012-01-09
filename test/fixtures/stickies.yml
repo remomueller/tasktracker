@@ -107,7 +107,7 @@ grouped_two:
   project: one
   # sticky: one
   position: 1
-  completed: false
+  completed: true
   # sticky_type: MyString
   description: Task B
   start_date: 2011-02-24
