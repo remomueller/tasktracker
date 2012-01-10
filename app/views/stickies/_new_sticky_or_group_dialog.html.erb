@@ -27,7 +27,7 @@
         <%= form_tag groups_path, method: :post, id: 'new_group_form' do %>
           <div class="field">
             <%= label_tag :template_id %><br />
-            <%= select_tag :template_id, options_for_select([['---', nil]] + current_user.all_templates.order('name').collect{|t| [[t.name, (t.project ? t.project.name : nil)].compact.join(' - '), t.id]}) %>
+            <%= select_tag :template_id, options_for_select([['---', nil]] + current_user.all_templates.order('project_id, name').collect{|t| [[t.name, (t.project ? t.project.name : nil)].compact.join(' - '), t.id]}) %>
           </div>
 
           <div class="field" id="frame_selection_container">
