@@ -5,6 +5,7 @@
   * Calendar now groups stickies together by their tags
   * Layout of search filters on sticky page cleaned up
   * Items on template index are now aligned across various templates
+  * Project stickies can now be displayed and hidden on the calendar by selecting or deselecting the project
 
 * Bug Fix
   * Minor table GUI fix when expanding a sticky

@@ -44,7 +44,7 @@ class ProjectUsersController < ApplicationController
         render 'index'
       end
     else
-      render :nothing => true
+      render nothing: true
     end
   end
   # 
@@ -76,7 +76,7 @@ class ProjectUsersController < ApplicationController
       # end
       render 'index'
     else
-      render :nothing => true
+      render nothing: true
     end
   end
 end

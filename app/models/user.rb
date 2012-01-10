@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
                  [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'] ]
   
   serialize :email_notifications, Hash
+  serialize :hidden_project_ids, Array
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

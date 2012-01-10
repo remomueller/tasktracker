@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
       @comments = @object.comments
       render "comments/add_comment_table"
     else
-      render :nothing => true
+      render nothing: true
     end
   end
 
@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
       params[:action] = 'search' # Trick for pagination
       render "comments/add_comment"
     else
-      render :nothing => true
+      render nothing: true
     end
   end
 
@@ -35,7 +35,7 @@ class CommentsController < ApplicationController
       @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
       @comments = comments_scope.page(params[:page]).per(5)
     else
-      render :nothing => true
+      render nothing: true
     end
   end
 
@@ -107,7 +107,7 @@ class CommentsController < ApplicationController
     if @comment and @objects
       
     else
-      render :nothing => true
+      render nothing: true
     end
   end
 

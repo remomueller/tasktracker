@@ -24,6 +24,7 @@ Notes::Application.routes.draw do
     end
     member do
       post :favorite
+      post :visible
     end
   end
   

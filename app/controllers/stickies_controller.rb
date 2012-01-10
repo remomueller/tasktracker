@@ -11,6 +11,8 @@ class StickiesController < ApplicationController
     
     sticky_scope = current_user.all_viewable_stickies.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
     
+    sticky_scope = sticky_scope.with_project(current_user.all_viewable_projects.collect{|p| p.id} - current_user.hidden_project_ids, current_user.id)
+    
     case params[:date_type] when 'start_date'
       sticky_scope = sticky_scope.with_start_date_for_calendar(@start_date, @end_date)
     when 'end_date'

@@ -38,6 +38,10 @@
           <div style="float:right;text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
           <div style="clear:both"></div>
           <div style="text-align:center;font-size:1.2em">
+            <% form_name = "project_#{@project.id}_visible" %>
+            <%= form_tag visible_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
+              <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(@project.id), onclick: "$('##{form_name}').submit();" %>
+            <% end %>
             <%= link_to project.name, project, style: "color:#{colors(current_user.all_viewable_projects.index(project))}" %>
           </div>
           <div style="text-align:center;font-size:0.8em;min-height:10px">

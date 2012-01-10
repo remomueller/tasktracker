@@ -1,14 +1,29 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
+
+  def visible
+    @project = current_user.all_viewable_projects.find_by_id(params[:id])
+    if @project
+      hidden_project_ids = current_user.hidden_project_ids
+      if params[:visible] == '1'
+        hidden_project_ids.delete(@project.id)
+      else
+        hidden_project_ids << @project.id
+      end
+      current_user.update_attribute :hidden_project_ids, hidden_project_ids
+    else
+      render nothing: true
+    end
+  end
   
   def favorite
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project
       project_favorite = @project.project_favorites.find_or_create_by_user_id(current_user.id)
       project_favorite.update_attribute :favorite, (params[:favorite] == '1')
-      # render :nothing => true
+      # render nothing: true
     else
-      render :nothing => true
+      render nothing: true
     end
   end
   
