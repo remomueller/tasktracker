@@ -130,3 +130,93 @@ deleted:
   unlock_token: UnlockTokenFive
   locked_at: 2011-02-23
   authentication_token: MyString
+
+send_no_email:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { send_email: false }
+  email: send_no_email@example.com
+
+send_no_email_for_project_one:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { "project_<%= ActiveRecord::Fixtures.identify(:one) %>": false }
+  email: send_no_email_for_project_one@example.com
+
+send_no_email_for_sticky_creation:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { sticky_creation: false }
+  email: send_no_email_for_sticky_creation@example.com
+
+send_no_email_for_project_one_sticky_creation:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { "project_<%= ActiveRecord::Fixtures.identify(:one) %>_sticky_creation": false }
+  email: send_no_email_for_project_one_sticky_creation@example.com
+
+send_no_email_for_sticky_completion:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { sticky_completion: false }
+  email: send_no_email_for_sticky_completion@example.com
+
+send_no_email_for_project_one_sticky_completion:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { "project_<%= ActiveRecord::Fixtures.identify(:one) %>_sticky_completion": false }
+  email: send_no_email_for_project_one_sticky_completion@example.com
+
+send_no_email_for_project_comments:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { project_comments: false }
+  email: send_no_email_for_project_comments@example.com
+  
+send_no_email_for_project_one_project_comments:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { "project_<%= ActiveRecord::Fixtures.identify(:one) %>_project_comments": false }
+  email: send_no_email_for_project_one_project_comments@example.com
+  
+send_no_email_for_sticky_comments:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { sticky_comments: false }
+  email: send_no_email_for_sticky_comments@example.com
+
+send_no_email_for_project_one_sticky_comments:
+  first_name: FirstName
+  last_name: LastName
+  status: active
+  deleted: false
+  system_admin: false
+  email_notifications: { "project_<%= ActiveRecord::Fixtures.identify(:one) %>_sticky_comments": false }
+  email: send_no_email_for_project_one_sticky_comments@example.com

@@ -24,3 +24,53 @@ five:
   project: three
   user: valid
   allow_editing: false
+
+six:
+  project: one
+  user: send_no_email
+  allow_editing: true
+
+seven:
+  project: one
+  user: send_no_email_for_project_one
+  allow_editing: true
+
+eight:
+  project: one
+  user: send_no_email_for_sticky_creation
+  allow_editing: true
+
+nine:
+  project: one
+  user: send_no_email_for_project_one_sticky_creation
+  allow_editing: true
+
+ten:
+  project: one
+  user: send_no_email_for_sticky_completion
+  allow_editing: true
+
+eleven:
+  project: one
+  user: send_no_email_for_project_one_sticky_completion
+  allow_editing: true
+  
+twelve:
+  project: one
+  user: send_no_email_for_project_comments
+  allow_editing: true
+  
+thirteen:
+  project: one
+  user: send_no_email_for_project_one_project_comments
+  allow_editing: true
+  
+fourteen:
+  project: one
+  user: send_no_email_for_sticky_comments
+  allow_editing: true
+  
+fifteen:
+  project: one
+  user: send_no_email_for_project_one_sticky_comments
+  allow_editing: true

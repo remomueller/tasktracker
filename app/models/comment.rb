@@ -37,17 +37,29 @@ class Comment < ActiveRecord::Base
     self.user
   end
   
+  def users_to_email(action, project_id, object)
+    result = (object.comments.collect{|c| c.user} + [object.user, object.owner]).compact.uniq
+    result = result.select{|u| u.active_for_authentication? and u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{project_id}") and u.email_on?("project_#{project_id}_#{action}") }
+  end
+  
   private
   
   def send_email
     @object = self.class_name.constantize.find_by_id(self.class_id)
-    all_users = (@object.comments.collect{|c| c.user} + [@object.user, @object.owner]).compact.uniq - [self.user]
+    
+    all_users = []
+    if self.class_name == 'Project'
+      all_users = users_to_email(:project_comments, self.class_id, @object)
+    elsif self.class_name == 'Sticky'
+      all_users = users_to_email(:sticky_comments, Sticky.find_by_id(self.class_id).project_id, @object)
+    elsif self.class_name == 'Comment'
+      all_users = users_to_email(:comment_comments, nil, @object)
+    end
+    
+    all_users = all_users - [self.user]
+    
     all_users.each do |user_to_email|
-      if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and
-        ((self.class_name == 'Project' and user_to_email.email_on?(:project_comments) and user_to_email.email_on?("project_#{self.class_id}") and user_to_email.email_on?("project_#{self.class_id}_project_comments")) or
-        (self.class_name == 'Sticky' and user_to_email.email_on?(:sticky_comments) and user_to_email.email_on?("project_#{Sticky.find_by_id(self.class_id).project.id}") and user_to_email.email_on?("project_#{Sticky.find_by_id(self.class_id).project.id}_sticky_comments")))
-        UserMailer.comment_by_mail(self, @object, user_to_email).deliver if Rails.env.production?
-      end
+      UserMailer.comment_by_mail(self, @object, user_to_email).deliver if Rails.env.production?
     end
   end
   

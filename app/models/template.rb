@@ -42,9 +42,9 @@ class Template < ActiveRecord::Base
     end
     group.reload
     
-    all_users = (self.project.users + [self.project.user]).uniq - [current_user]
+    all_users = self.project.users_to_email(:sticky_creation) - [current_user]
     all_users.each do |user_to_email|
-      UserMailer.group_by_mail(group, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_creation) and user_to_email.email_on?("project_#{self.project.id}") and user_to_email.email_on?("project_#{self.project.id}_sticky_creation") and Rails.env.production?
+      UserMailer.group_by_mail(group, user_to_email).deliver if Rails.env.production?
     end
     
     group

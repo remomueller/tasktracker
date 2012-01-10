@@ -2,27 +2,27 @@ class Sticky < ActiveRecord::Base
   serialize :tags, Array
 
   # Named Scopes
-  scope :current, :conditions => { :deleted => false }
-  scope :with_project, lambda { |*args| { :conditions => ["stickies.project_id IN (?) or (stickies.project_id IS NULL and stickies.user_id = ?)", args.first, args[1]] } }
-  scope :with_creator, lambda { |*args|  { :conditions => ["stickies.user_id IN (?)", args.first] } }
-  scope :with_owner, lambda { |*args|  { :conditions => ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
-  scope :with_frame, lambda { |*args| { :conditions => ["stickies.frame_id IN (?) or (stickies.frame_id IS NULL and 0 IN (?))", args.first, args.first] } }
-  scope :search, lambda { |*args| {:conditions => [ 'LOWER(description) LIKE ? or LOWER(tags) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
-  scope :updated_since, lambda {|*args| {:conditions => ["stickies.updated_at > ?", args.first] }}
-  scope :with_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
+  scope :current, conditions: { deleted: false }
+  scope :with_project, lambda { |*args| { conditions: ["stickies.project_id IN (?) or (stickies.project_id IS NULL and stickies.user_id = ?)", args.first, args[1]] } }
+  scope :with_creator, lambda { |*args|  { conditions: ["stickies.user_id IN (?)", args.first] } }
+  scope :with_owner, lambda { |*args|  { conditions: ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
+  scope :with_frame, lambda { |*args| { conditions: ["stickies.frame_id IN (?) or (stickies.frame_id IS NULL and 0 IN (?))", args.first, args.first] } }
+  scope :search, lambda { |*args| { conditions: [ 'LOWER(description) LIKE ? or LOWER(tags) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :updated_since, lambda { |*args| { conditions: ["stickies.updated_at > ?", args.first] }}
+  scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
   
-  scope :with_due_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", args.first, args[1]]}}
+  scope :with_due_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", args.first, args[1]]}}
   
   scope :due_date_within, lambda { |*args| { conditions: ["(DATE(stickies.due_date) >= ? or ? IS NULL) and (DATE(stickies.due_date) <= ? or ? IS NULL)", args.first, args.first, args[1], args[1]] }}
   
   
-  scope :with_start_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.start_date) >= ? and DATE(stickies.start_date) <= ?", args.first, args[1]]}}
-  scope :with_end_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.end_date) >= ? and DATE(stickies.end_date) <= ?", args.first, args[1]]}}
-  # scope :with_due_date_for_calendar, lambda { |*args| { :conditions => ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ? or (stickies.due_date IS NULL and stickies.frame_id in (select frames.id from frames where DATE(frames.end_date) >= ? and DATE(frames.end_date) <= ?))", args.first, args[1], args.first, args[1]]}}
+  scope :with_start_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.start_date) >= ? and DATE(stickies.start_date) <= ?", args.first, args[1]]}}
+  scope :with_end_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.end_date) >= ? and DATE(stickies.end_date) <= ?", args.first, args[1]]}}
+  # scope :with_due_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ? or (stickies.due_date IS NULL and stickies.frame_id in (select frames.id from frames where DATE(frames.end_date) >= ? and DATE(frames.end_date) <= ?))", args.first, args[1], args.first, args[1]]}}
 
-  scope :due_today,     lambda { |*args| { :conditions => ["stickies.completed = ? and DATE(stickies.due_date) = ?", false, Date.today]}}
-  scope :past_due,      lambda { |*args| { :conditions => ["stickies.completed = ? and DATE(stickies.due_date) < ?", false, Date.today]}}
-  scope :due_this_week, lambda { |*args| { :conditions => ["stickies.completed = ? and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", false, Date.today, Date.today + (7-Date.today.wday).days]}}
+  scope :due_today,     lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) = ?", false, Date.today]}}
+  scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) < ?", false, Date.today]}}
+  scope :due_this_week, lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", false, Date.today, Date.today + (7-Date.today.wday).days]}}
 
   # scope :with_tags, lambda { |*args| { conditions: ["stickies.tags IN (?)", args.first] } }
   scope :with_tag, lambda { |*args| { conditions: [ "stickies.tags LIKE ?", '%- ' + args.first + '%' ] } }
@@ -38,11 +38,11 @@ class Sticky < ActiveRecord::Base
 
   # Model Relationships
   belongs_to :user
-  belongs_to :project, :touch => true
+  belongs_to :project, touch: true
   belongs_to :group
   belongs_to :frame
 
-  belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id' 
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id' 
 
   def name
     "ID ##{self.id}"
@@ -58,7 +58,7 @@ class Sticky < ActiveRecord::Base
   end
   
   def new_comment(current_user, description)
-    Comment.create(:class_name => self.class.name, :class_id => self.id, :user_id => current_user.id, :description => description)
+    Comment.create(class_name: self.class.name, class_id: self.id, user_id: current_user.id, description: description)
     self.touch
   end
 
@@ -80,24 +80,23 @@ class Sticky < ActiveRecord::Base
     end
   end
 
-
   private
-  
+    
   def send_email
-    if self.project and not self.group and not self.completed?
-      all_users = (self.project.users + [self.project.user]).uniq - [self.user]
+    if not self.group and not self.completed?
+      all_users = self.project.users_to_email(:sticky_creation) - [self.user]
       all_users.each do |user_to_email|
-        UserMailer.sticky_by_mail(self, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_creation) and user_to_email.email_on?("project_#{self.project.id}") and user_to_email.email_on?("project_#{self.project.id}_sticky_creation") and Rails.env.production?
+        UserMailer.sticky_by_mail(self, user_to_email).deliver if Rails.env.production?
       end
     end
   end
 
   # TODO: Currently assumes that the owner marks the sticky as completed.
   def send_completion_email
-    if self.project and self.changes[:completed] and self.changes[:completed][1] == true and self.owner
-      all_users = (self.project.users + [self.project.user]).uniq - [self.owner]
+    if self.changes[:completed] and self.changes[:completed][1] == true and self.owner
+      all_users = self.project.users_to_email(:sticky_completion) - [self.owner]
       all_users.each do |user_to_email|
-        UserMailer.sticky_completion_by_mail(self, user_to_email).deliver if user_to_email.active_for_authentication? and user_to_email.email_on?(:send_email) and user_to_email.email_on?(:sticky_completion) and user_to_email.email_on?("project_#{self.project.id}") and user_to_email.email_on?("project_#{self.project.id}_sticky_completion") and Rails.env.production?
+        UserMailer.sticky_completion_by_mail(self, user_to_email).deliver if Rails.env.production?
       end
     end
   end
