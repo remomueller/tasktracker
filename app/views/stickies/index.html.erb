@@ -8,6 +8,7 @@
 
 <%= form_tag stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order, params[:order] %>
+  <%= hidden_field_tag :format, 'js' %>
   <fieldset>
     <legend>
       Search Filters
@@ -64,6 +65,7 @@
       </tbody>
     </table>
     <%= button_tag image_tag('gentleface/16/cog.png') + 'Filter Search' %>
+    <%= link_to_function image_tag('gentleface/16/doc_lines_stright.png') + 'Export CSV', "$('#stickies_search').attr('data-remote', '');$('#format').val('csv');$('#stickies_search').submit();$('#format').val('js');$('#stickies_search').attr('data-remote', 'true');", class: 'button' %>
   </fieldset>
 <% end %>
 
