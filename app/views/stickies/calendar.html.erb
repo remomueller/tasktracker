@@ -29,12 +29,9 @@
   </table>
 <% end %>
 
-<div id="month-breakdown" style="min-height:450px;">
+<div id="month-breakdown" style="min-height:350px;">
   <br /><br /><center><%= image_tag "ajax-loader.gif" %></center>
 </div>
-
-
-<div style="clear:both"></div>
 
 <%= render partial: 'new_sticky_or_group_dialog' %>
 
@@ -55,7 +52,7 @@
 </table>
 <% end %>
 
-<hr><br />
+<h4>Projects</h4>
 
 <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Project", new_project_path, :class => 'button positive' %>
 

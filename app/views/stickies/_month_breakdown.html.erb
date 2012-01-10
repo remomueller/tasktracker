@@ -57,31 +57,3 @@
     </tr>
   </tbody>
 </table>
-<br />
-<%= javascript_tag do %>
-  $('#month-breakdown')
-    .qtip({
-      content:{
-        text: '<%== escape_javascript((
-          Project.where(id: @stickies.collect(&:project_id).uniq).order(:name).collect{|project| "<span style=\"color: #{colors(current_user.all_viewable_projects.collect{|p| p.id}.index(project.id))}\">#{project.name}<span>"}.join(' <span class="quiet">-</span> ')
-        ).html_safe) %>',
-        title:{
-          text: 'Projects'
-        }
-      },
-      show:{
-        event: 'mouseenter'
-      },
-      hide: {
-        event: 'mouseleave'
-      },
-      position:{
-        my: 'top right',
-        at: 'bottom right',
-        viewport: $(window)
-      },
-      style:{
-        classes: 'ui-tooltip-shadow ui-tooltip-light'
-      }
-    });
-<% end %>
