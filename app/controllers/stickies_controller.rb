@@ -106,7 +106,8 @@ class StickiesController < ApplicationController
   end
 
   def update
-    params[:sticky][:due_date]   = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
+    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
+    params[:sticky][:tags] ||= [] if params[:sticky]
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       original_due_date = @sticky.due_date

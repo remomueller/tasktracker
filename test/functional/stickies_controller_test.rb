@@ -243,6 +243,32 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
+  test "should update sticky and remove all tags" do
+    put :update, id: stickies(:tagged).to_param, from_calendar: 1, sticky: { description: "Sticky Tags Removed", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '0', due_date: "08/15/2011" }
+    assert_not_nil assigns(:sticky)
+    assert_equal [], assigns(:sticky).tags
+    assert_equal "Sticky Tags Removed", assigns(:sticky).description
+    assert_equal false, assigns(:sticky).completed
+    assert_nil assigns(:sticky).end_date
+    assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal frames(:one), assigns(:sticky).frame
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
+  end
+
+  test "should update sticky and add tags" do
+    put :update, id: @sticky.to_param, from_calendar: 1, sticky: { description: "Sticky Tags Added", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '0', due_date: "08/15/2011", tags: ['alpha'] }
+    assert_not_nil assigns(:sticky)
+    assert_equal ['alpha'], assigns(:sticky).tags
+    assert_equal "Sticky Tags Added", assigns(:sticky).description
+    assert_equal false, assigns(:sticky).completed
+    assert_nil assigns(:sticky).end_date
+    assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal frames(:one), assigns(:sticky).frame
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
+  end
+
   test "should update sticky in a group and not shift the remaining stickies" do
     put :update, id: stickies(:grouped_one).to_param, from_calendar: 1, sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, frame_id: stickies(:grouped_one).frame_id, completed: '0', due_date: "12/06/2011" }, shift: 'single'
     assert_not_nil assigns(:sticky)

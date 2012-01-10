@@ -149,3 +149,16 @@ grouped_six:
   deleted: false
   # frame: one
   group: three
+
+tagged:
+  user: valid
+  project: one
+  # frame: 
+  completed: false
+  description: This is a sticky with tags
+  due_date: 2011-12-10
+  start_date: 2011-12-01
+  # end_date:
+  deleted: false
+  owner: valid
+  tags: ['alpha', 'beta']
