@@ -27,7 +27,7 @@
 <% @groups.each do |group| %>
   <tr>
     <td><%= link_to group.name, group %></td>
-    <td><%= link_to group.template.name, group.template if group.template %></td>
+    <td><%= group.template.name if group.template %></td>
     <td><%= group.description %></td>
     <td><%= group.stickies.size %></td>
     <td><%= link_to group.project.name, group.project %></td>
