@@ -2,10 +2,14 @@
 
 * Enhancements
   * Groups of stickies can now have their due dates shifted by editing a single sticky in the group and selecting either 'incomplete' to shift all other not completed stickies, or 'all' to shift all the stickies in the group
-  * Calendar now groups stickies together by their tags
-  * Layout of search filters on sticky page cleaned up
+  * Calendar improvements
+    * Stickies are now displayed under their tags
+    * Stickies can now be displayed or hidden per project
+    * Project colors can now be personalized
+  * Sticky list page has the following improvements:
+    * Stickies can now be filtered and downloaded in a CSV file
+    * Cleaner layout of search filters
   * Items on template index are now aligned across various templates
-  * Project stickies can now be displayed and hidden on the calendar by selecting or deselecting the project
 
 * Bug Fix
   * Minor table GUI fix when expanding a sticky

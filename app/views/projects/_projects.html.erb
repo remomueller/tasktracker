@@ -38,11 +38,30 @@
           <div style="float:right;text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
           <div style="clear:both"></div>
           <div style="text-align:center;font-size:1.2em">
-            <% form_name = "project_#{@project.id}_visible" %>
-            <%= form_tag visible_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
-              <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(@project.id), onclick: "$('##{form_name}').submit();" %>
-            <% end %>
-            <%= link_to project.name, project, style: "color:#{colors(current_user.all_viewable_projects.index(project))}" %>
+            <table class="blank" style="table-layout:fixed;width:100%">
+              <tr style="margin:0px; padding: 0px">
+                <td style="vertical-align:top;text-align:right;margin: 0px; padding: 10px 0px 0px 0px">
+                  <div>
+                    <% form_name = "project_#{@project.id}_visible" %>
+                    <%= form_tag visible_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
+                      <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(@project.id), onclick: "$('##{form_name}').submit();" %>
+                    <% end %>
+                    <%= link_to project.name, project, style: "color: #{@project.color(current_user)}", class: "project_#{@project.id}_color" %>
+                  </div>
+                </td>
+                <td style="vertical-align:top;margin:0px; padding: 0px">
+                <% form_name = "project_#{@project.id}_colorpicker_form" %>
+                <%= form_tag colorpicker_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
+                  <%= hidden_field_tag :color, '', id: "project_#{@project.id}_hexcolor" %>
+                  <div class="custom_widget">
+                    <div id="project_<%= @project.id %>_colorselector" class="colorselector">
+                      <div style="background-color: <%= @project.color(current_user) %>"></div>
+                    </div>
+                  </div>
+                <% end %>
+                </td>
+              </tr>
+            </table>
           </div>
           <div style="text-align:center;font-size:0.8em;min-height:10px">
             <%== pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />" if @project.stickies.due_today.size > 0 %>
@@ -50,6 +69,27 @@
             <%== pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week" if @project.stickies.due_this_week.size > 0 %>
           </div>
           <%= javascript_tag do %>
+            $('#project_<%= @project.id %>_colorselector')
+              .ColorPicker({
+                color: '<%= @project.color(current_user) %>',
+                onShow: function (colpkr) {
+                	$(colpkr).fadeIn(500);
+                	return false;
+                },
+              	onHide: function (colpkr) {
+                	$(colpkr).fadeOut(500);
+                	$('#project_<%= @project.id %>_colorpicker_form').submit();
+                	return false;
+                },
+              	onChange: function (hsb, hex, rgb) {
+              	  $('#project_<%= @project.id %>_hexcolor').val('#' + hex);
+              		$('#project_<%= @project.id %>_colorselector div').css('backgroundColor', '#' + hex);
+              		$('.project_<%= @project.id %>_color').css('color', '#' + hex);
+              	},
+              	onSubmit: function(hsb, hex, rgb, el) {
+                	$(el).ColorPickerHide();
+                },
+              });
             $('#project_<%= @project.id %>_collaborators')
               .qtip({
                 content:{
@@ -65,8 +105,8 @@
                   event: 'mouseleave'
                 },
                 position:{
-                  my: 'left center',
-                  at: 'right center',
+                  my: 'right center',
+                  at: 'left center',
                   viewport: $(window)
                 },
                 style:{

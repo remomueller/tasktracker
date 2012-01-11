@@ -25,6 +25,7 @@ Notes::Application.routes.draw do
     member do
       post :favorite
       post :visible
+      post :colorpicker
     end
   end
   

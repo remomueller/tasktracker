@@ -2,7 +2,7 @@
   <%= display_completion(@sticky.completed) %>
 </div>
 <div class="calendar-entry-name stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %>" id="sticky_<%= @sticky.id %>_popup">
-  <%= link_to @sticky.full_description.truncate(27), edit_sticky_path(@sticky, :from_calendar => 1), style: "color: #{colors(current_user.all_viewable_projects.collect{|p| p.id}.index(@sticky.project_id))}" %>
+  <%= link_to @sticky.full_description.truncate(27), edit_sticky_path(@sticky, :from_calendar => 1), style: "color: #{@sticky.project.color(current_user)}", class: "project_#{@sticky.project_id}_color" %>
   <% color = @sticky.completed? ? 'blue' : 'yellow' %>
   <%= javascript_tag do %>
     $('#sticky_<%= @sticky.id %>_popup')
@@ -13,7 +13,7 @@
             
             (@sticky.owner ? "<strong>Assigned To:</strong><ul><li>" + @sticky.owner.name + "</li></ul>" : '' ) +
 
-            (@sticky.project ? "<strong>Project:</strong><ul><li style='color:#{colors(current_user.all_viewable_projects.collect{|p| p.id}.index(@sticky.project_id))}'>" + @sticky.project.name + "</li></ul>" : '') + 
+            (@sticky.project ? "<strong>Project:</strong><ul><li style='color:#{@sticky.project.color(current_user)}' class='project_#{@sticky.project_id}_color'>" + @sticky.project.name + "</li></ul>" : '') + 
             
             (@sticky.project.frames.size > 0 ? "<strong>Frame:</strong><ul><li>" + (@sticky.frame ? @sticky.frame.name : 'Backlog') + "</li></ul>" : '') + 
             

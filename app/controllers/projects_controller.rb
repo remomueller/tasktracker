@@ -1,6 +1,17 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
 
+  def colorpicker
+    @project = current_user.all_viewable_projects.find_by_id(params[:id])
+    if @project
+      current_user.colors["project_#{@project.id}"] = params[:color]
+      current_user.update_attribute :colors, current_user.colors
+      render nothing: true
+    else
+      render nothing: true
+    end
+  end
+
   def visible
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project

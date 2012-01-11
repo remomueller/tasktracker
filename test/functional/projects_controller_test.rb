@@ -6,6 +6,20 @@ class ProjectsControllerTest < ActionController::TestCase
     @project = projects(:one)
   end
 
+  test "should set project color" do
+    post :colorpicker, id: @project.to_param, color: '#aabbcc', format: 'js'
+    users(:valid).reload # Needs reload to avoid stale object
+    assert_not_nil assigns(:project)
+    assert_equal '#aabbcc', users(:valid).colors["project_#{@project.to_param}"]
+    assert_response :success
+  end
+  
+  test "should not set project color" do
+    post :colorpicker, id: -1, color: '#aabbcc', format: 'js'
+    assert_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should remove hidden attribute for project" do
     post :visible, id: projects(:hidden).to_param, visible: '1', format: 'js'
     users(:valid).reload # Needs reload to avoid stale object

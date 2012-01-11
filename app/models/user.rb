@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   
   serialize :email_notifications, Hash
   serialize :hidden_project_ids, Array
+  serialize :colors, Hash
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

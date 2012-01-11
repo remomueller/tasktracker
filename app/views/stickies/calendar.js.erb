@@ -21,7 +21,7 @@ $('#month-breakdown').qtip('destroy');
     .qtip({
       content:{
         text: '<%== escape_javascript((
-          projects.collect{|project| "<span style=\"color: #{colors(current_user.all_viewable_projects.collect{|p| p.id}.index(project.id))}\">#{project.name}<span>"}.join(' <span class="quiet">-</span> ')
+          projects.collect{|project| "<span style=\"color: #{project.color(current_user)}\" class=\"project_#{project.id}_color\">#{project.name}<span>"}.join(' <span class="quiet">-</span> ')
         ).html_safe) %>',
         title:{
           text: 'Projects'

@@ -65,8 +65,9 @@ class StickiesController < ApplicationController
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
     sticky_scope = sticky_scope.order(@order)
     @sticky_count = sticky_scope.count
+
     if params[:format] == 'csv'
-      csv_string = CSV.generate do |csv|
+      @csv_string = CSV.generate do |csv|
         csv << ["Name", "Due Date", "Description", "Status", "Assigned To", "Tags", "Project", "Creator", "Frame"]
         sticky_scope.each do |sticky|
           csv << [sticky.name,
@@ -80,7 +81,7 @@ class StickiesController < ApplicationController
                   sticky.frame ? sticky.frame.name : '']
         end
       end
-      send_data csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                             disposition: "attachment; filename=\"Stickies #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
       return
     end
