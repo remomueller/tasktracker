@@ -5,11 +5,9 @@ Hello <%= @recipient.first_name %>,
 <%= render partial: 'sticky_note' %>
 
 <% if @sticky.group %>
-  This sticky is part of Group <%= @sticky.group.name %> <%= "#{SITE_URL}/groups/#{@sticky.group.id}" %>.
+  This sticky is part of Group <%= @sticky.group.name %> <%= "#{SITE_URL}/groups/#{@sticky.group.id}" %><% if @sticky.group.template %> from Template <%= @sticky.group.template.name %><% end %>.
 
-  <% @sticky.group.stickies.order(:due_date).each do |sticky| %>
-    <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
-  <% end %>
+  <%= @stickies = @sticky.group.stickies; render partial: 'sticky_list' %>
 <% end %>
 
 Thank you!

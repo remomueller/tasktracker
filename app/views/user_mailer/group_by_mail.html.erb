@@ -1,7 +1,11 @@
 Hello <%= @recipient.first_name %>,<br />
 <br />
-<%= @group.user.name %> added the following Group <%= link_to @group.name, "#{SITE_URL}/groups/#{@group.id}" %> of <%= pluralize @group.stickies.size, 'Sticky' %> to Project <%= link_to @group.template.project.name, "#{SITE_URL}/projects/#{@group.template.project.id}" %>.<br />
+<%= @group.user.name %> created Group <%= link_to @group.name, "#{SITE_URL}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Sticky' %><% if @group.template %> from Template <strong><%= @group.template.name %></strong><% end %>.<br />
 <br />
+<% unless @group.description.blank? %>
+<strong>Additional Group Information</strong><br />
+<%= simple_format @group.description %>
+<% end %>
 <%= @stickies = @group.stickies; render partial: 'sticky_list' %>
 <br />
 Thank you!<br />

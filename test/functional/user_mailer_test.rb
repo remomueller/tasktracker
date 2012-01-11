@@ -102,7 +102,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}", email.subject
-    assert_match(/#{group.user.name} added the following Group #{group.name} #{SITE_URL}\/groups\/#{group.id} of #{group.stickies.size} #{group.stickies.size == 1 ? 'Sticky' : 'Stickies'} to Project #{group.template.project.name} #{SITE_URL}\/projects\/#{group.template.project.id}\./, email.encoded)
+    assert_match(/#{group.user.name} created Group #{group.name} #{SITE_URL}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Sticky' : 'Stickies'}#{" from Template #{group.template.name}" if group.template}\./, email.encoded)
   end
 
 end

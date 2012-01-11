@@ -1,10 +1,14 @@
 Hello <%= @recipient.first_name %>,
 
-<%= @group.user.name %> added the following Group <%= @group.name %> <%= "#{SITE_URL}/groups/#{@group.id}" %> of <%= pluralize @group.stickies.size, 'Sticky' %> to Project <%= @group.template.project.name %> <%= "#{SITE_URL}/projects/#{@group.template.project.id}" %>.
+<%= @group.user.name %> created Group <%= @group.name %> <%= "#{SITE_URL}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Sticky' %><% if @group.template %> from Template <%= @group.template.name %><% end %>.
 
-<% @group.stickies.order(:due_date).each do |sticky| %>
-    <%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %>
+<% unless @group.description.blank? %>
+Additional Group Information
+
+  <%= @group.description %>
 <% end %>
+
+<%= @stickies = @group.stickies; render partial: 'sticky_list' %>
 
 Thank you!
 

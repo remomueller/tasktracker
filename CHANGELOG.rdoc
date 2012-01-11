@@ -10,6 +10,9 @@
     * Stickies can now be filtered and downloaded in a CSV file
     * Cleaner layout of search filters
   * Items on template index are now aligned across various templates
+  * Emails for group creation and sticky completion now display:
+    * Group Template name
+    * Stickies now have first 16 characters of description
 
 * Bug Fix
   * Minor table GUI fix when expanding a sticky

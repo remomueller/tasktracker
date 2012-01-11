@@ -5,7 +5,7 @@ Hello <%= @recipient.first_name %>,<br />
 <%= render partial: 'sticky_note' %>
 
 <% if @sticky.group %>
-  This sticky is part of Group <%= link_to @sticky.group.name, "#{SITE_URL}/groups/#{@sticky.group.id}" %>.<br />  
+  This sticky is part of Group <%= link_to @sticky.group.name, "#{SITE_URL}/groups/#{@sticky.group.id}" %><% if @sticky.group.template %> from Template <strong><%= @sticky.group.template.name %></strong><% end %>.<br />
   <%= @stickies = @sticky.group.stickies; render partial: 'sticky_list' %>
   <br />
 <% end %>
