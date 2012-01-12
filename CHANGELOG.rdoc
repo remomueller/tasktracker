@@ -1,5 +1,8 @@
 == 0.15.1
 
+* Bug Fix
+  * Fixed default colors specified in RGB format from loading properly in the color picker
+
 == 0.15.0
 
 * Enhancements
