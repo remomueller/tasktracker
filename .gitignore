@@ -28,9 +28,9 @@
 /config/initializers/omniauth.rb
 /config/initializers/secret_token.rb
 
-public/cache/*
-public/stylesheets/cache/*
-public/javascripts/cache/*
+/public/cache/*
+/public/stylesheets/cache/*
+/public/javascripts/cache/*
 
 # Other Files
 
