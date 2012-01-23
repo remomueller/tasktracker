@@ -1,7 +1,7 @@
 <div style="float:right;text-align:right">
-  Per Page 
+  Per Page
   <% [10,25,50].each do |count| %> <span class="per_page"><%= link_to_if current_user.stickies_per_page != count, count, "#", 'data-count' => count, 'data-object' => 'stickies', :id => "count_#{count}" %></span><% end %><br />
-  <%= "<b>Displaying #{@stickies.count} of #{@sticky_count}</b>".html_safe if @sticky_count %> 
+  <%= "<b>Displaying #{@stickies.count} of #{@sticky_count}</b>".html_safe if @sticky_count %>
 </div>
 
 <% if @frame %>
@@ -37,7 +37,7 @@
   <% @object = sticky %>
   <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
   <tbody>
-    <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < sticky.updated_at %>">
+    <tr class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < sticky.updated_at %>">
       <td style="white-space:nowrap">
         <%= link_to sticky.name, sticky %>
         <%= link_to image_tag('gentleface/16/list_bullets.png', alt: '', title: "Group #{sticky.group.name}", size: '10x10'), sticky.group if sticky.group %>

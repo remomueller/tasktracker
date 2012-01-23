@@ -15,7 +15,7 @@
 
 </tr>
 <% @object.comments.each do |comment| %>
-  <tr class="<%= 'recently_updated' if current_user.last_sign_in_at < comment.updated_at %>">
+  <tr class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < comment.updated_at %>">
     <td colspan="2"></td>
     <td colspan="4">
       <span class="quiet"><%= comment.user.name %></span>
