@@ -5,6 +5,7 @@
     * Rails 3.2.0
     * Contour ~> 0.9.3
   * Devise migration and configuration file updated
+  * Notes RSS feed has moved to Task Tracker
 
 == 0.15.1
 

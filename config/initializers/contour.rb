@@ -1,21 +1,21 @@
 # Use to configure basic appearance of template
 Contour.setup do |config|
-  
+
   # Enter your application name here. The name will be displayed in the title of all pages, ex: AppName - PageTitle
   config.application_name = DEFAULT_APP_NAME
-  
+
   # If you want to style your name using html you can do so here, ex: <b>App</b>Name
   # config.application_name_html = ''
 
   # Enter your application version here. Do not include a trailing backslash. Recommend using a predefined constant
   config.application_version = Notes::VERSION::STRING
-  
+
   # Enter your application header background image here.
   config.header_background_image = 'brigham.png'
 
   # Enter your application header title image here.
   config.header_title_image = 'stylefile.png'
-  
+
   # Enter the items you wish to see in the menu
   config.menu_items = [
     {
@@ -73,10 +73,10 @@ Contour.setup do |config|
       links: [{ name: 'Overall Graph', path: 'overall_graph_users_path', condition: 'current_user.system_admin?' }]
     }
   ]
-  
+
   # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
-  config.news_feed = 'https://sleepepi.partners.org/category/informatics/notes-project-management/feed/rss'
-  
+  config.news_feed = 'https://sleepepi.partners.org/category/informatics/task-tracker/feed/rss'
+
   # Enter the max number of items you want to see in the news feed.
-  config.news_feed_items = 3 
+  config.news_feed_items = 3
 end
