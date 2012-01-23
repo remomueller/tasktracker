@@ -13,7 +13,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :linked_in, 'CONSUMER_KEY', 'CONSUMER_SECRET'
   provider :open_id, OpenID::Store::Filesystem.new('/tmp')
   provider :CAS, :cas_server => 'https://www.example.com/cas'
-  provider :LDAP, :host => 'ldap.example.com', :port => 389, :method => :plain, :base => 'cn=users,dc=example,dc=com', :uid => 'sAMAccountName', :try_sasl => true, :sasl_mechanisms => "GSS-SPNEGO", :domain => ''
+  provider :LDAP, :host => 'ldap.example.com', :port => 389, :method => :plain, :base => 'cn=users,dc=example,dc=com', :uid => 'sAMAccountName', :domain => ''
 end
 
 # This list will show the first choice as the default, and the rest as potential secondary login methods.
