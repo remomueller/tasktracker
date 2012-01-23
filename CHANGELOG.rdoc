@@ -1,5 +1,8 @@
 == 0.15.3
 
+* Refactoring
+  * Removed initializer fix for Rack that is now handled by Contour
+
 == 0.15.2
 
 * Refactoring
