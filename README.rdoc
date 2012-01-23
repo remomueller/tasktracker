@@ -8,7 +8,7 @@ NOTE: We assume you have already installed RVM, or the very least the latest ver
 
   gem install bundler
 
-This readme assumes the following installation directory: /var/wwww/notes
+This readme assumes the following installation directory: /var/www/notes
 
   cd /var/www
 
@@ -19,11 +19,11 @@ This readme assumes the following installation directory: /var/wwww/notes
   bundle install
 
 Install default configuration files for database connection, email server connection, server url, and application name.
-  
+
   ruby lib/initial_setup.rb
 
   bundle exec rake db:migrate RAILS_ENV=production
-  
+
   bundle exec rake assets:precompile RAILS_ENV=production
 
 Run Rails Server (or use Apache or nginx)
@@ -39,11 +39,11 @@ All done!
 This will run the task lib/tasks/reminder_email.rake using Cron
 
   sudo crontab -e
-  
+
   0 1 * * * source /etc/profile && /usr/local/rvm/gems/ruby-1.9.3-p0/bin/rake --rakefile /var/www/notes/Rakefile reminder_email RAILS_ENV=production
 
 == Contributing to Notes
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project

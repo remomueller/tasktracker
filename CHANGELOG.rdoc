@@ -1,5 +1,11 @@
 == 0.15.2
 
+* Refactoring
+  * Gem dependencies updated:
+    * Rails 3.2.0
+    * Contour ~> 0.9.3
+  * Devise migration and configuration file updated
+
 == 0.15.1
 
 * Bug Fix

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable, and :lockable
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable
-         
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
 
@@ -11,13 +11,13 @@ class User < ActiveRecord::Base
   before_update :status_activated
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
-  
+
   EMAILABLES = [ [:sticky_creation, 'Receive email when a new sticky is created'],
                  [:sticky_completion, 'Receive email when a sticky is marked as completed'],
                  [:project_comments, 'Receive email when a comment is added to a project'],
                  [:sticky_comments, 'Receive email when a comment is added to a sticky'],
                  [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'] ]
-  
+
   serialize :email_notifications, Hash
   serialize :hidden_project_ids, Array
   serialize :colors, Hash
@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   scope :search, lambda { |*args| {conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :system_admins, conditions: { system_admin: true }
   scope :with_project, lambda { |*args| { conditions: ["users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1]] } }
-  
+
   # Model Validation
   validates_presence_of     :first_name
   validates_presence_of     :last_name
@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   has_many :owned_stickies, class_name: 'Sticky', foreign_key: 'owner_id', conditions: { deleted: false }, order: 'created_at'
 
   # User Methods
-  
+
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
     super and self.status == 'active' and not self.deleted?
@@ -66,83 +66,83 @@ class User < ActiveRecord::Base
       Project.current.with_user(self.id, true) #.order('name')
     end
   end
-  
+
   def all_viewable_projects
     @all_viewable_projects ||= begin
       Project.current.with_user(self.id, [true, false]) #.order('name')
     end
   end
-  
+
   def all_stickies
     @all_stickies ||= begin
       Sticky.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
-  
+
   def all_stickies_due_today
     self.all_stickies.due_today.with_owner(self.id)
   end
-  
+
   def all_stickies_past_due
     self.all_stickies.past_due.with_owner(self.id)
   end
-  
+
   def all_deliverable_projects
     @all_deliverable_projects ||= begin
       self.all_projects.select{|p| self.email_on?(:send_email) and self.email_on?(:daily_stickies_due) and self.email_on?("project_#{p.id}") and self.email_on?("project_#{p.id}_daily_stickies_due") }
     end
   end
-  
+
   def all_deliverable_stickies_due_today
     self.all_stickies_due_today.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
   end
-  
+
   def all_deliverable_stickies_past_due
     self.all_stickies_past_due.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
   end
-    
+
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
       Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) # .order('created_at DESC')
     end
   end
-  
+
   def all_groups
     @all_groups ||= begin
       Group.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
-  
+
   def all_viewable_groups
     @all_viewable_groups ||= begin
       Group.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
-  
+
   def all_frames
     @all_frames ||= begin
       Frame.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
-  
+
   def all_viewable_frames
     @all_viewable_frames ||= begin
       Frame.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
     end
   end
-  
+
   def all_templates
     @all_templates ||= begin
       Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
-  
+
   def all_viewable_templates
     @all_viewable_templates ||= begin
       Template.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
-  
+
   def all_comments
     @all_comments ||= begin
       self.comments
@@ -154,7 +154,7 @@ class User < ActiveRecord::Base
       Comment.current.with_two_class_names_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
     end
   end
-  
+
   def all_deletable_comments
     @all_comments ||= begin
       Comment.current.with_two_class_names_and_ids('Project', self.all_projects.collect{|p| p.id}, 'Sticky', self.all_stickies.collect{|s| s.id}).order('created_at DESC')
@@ -168,36 +168,36 @@ class User < ActiveRecord::Base
   def name
     "#{first_name} #{last_name}"
   end
-  
+
   def reverse_name
     "#{last_name}, #{first_name}"
   end
-  
+
   def nickname
     "#{first_name} #{last_name.first}"
   end
-  
+
   def apply_omniauth(omniauth)
-    unless omniauth['user_info'].blank?
-      self.email = omniauth['user_info']['email'] if email.blank?
-      self.first_name = omniauth['user_info']['first_name'] if first_name.blank?
-      self.last_name = omniauth['user_info']['last_name'] if last_name.blank?
+    unless omniauth['info'].blank?
+      self.email = omniauth['info']['email'] if email.blank?
+      self.first_name = omniauth['info']['first_name'] if first_name.blank?
+      self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
-    authentications.build(provider: omniauth['provider'], uid: omniauth['uid'])
+    authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
   end
 
   def password_required?
     (authentications.empty? || !password.blank?) && super
   end
-  
+
   private
-  
+
   def notify_system_admins
     User.current.system_admins.each do |system_admin|
       UserMailer.notify_system_admin(system_admin, self).deliver if Rails.env.production?
     end
   end
-  
+
   def status_activated
     unless self.new_record? or self.changes.blank?
       if self.changes['status'] and self.changes['status'][1] == 'active'

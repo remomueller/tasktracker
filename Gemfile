@@ -1,31 +1,33 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '3.2.0.rc2'
+gem 'rails', '3.2.0'
 
 # Database Adapter
-gem 'mysql2', '0.3.11',                   :platforms => [:ruby]
-gem 'sqlite3',                            :platforms => [:mswin, :mingw]
-gem 'thin', '~> 1.3.1',                   :platforms => [:mswin, :mingw]
-gem 'eventmachine', '~> 1.0.0.beta.4.1',  :platforms => [:mswin, :mingw]
+# Install instructions for Windows: http://blog.mmediasys.com/2011/07/07/installing-mysql-on-windows-7-x64-and-using-ruby-with-it/
+gem 'mysql2',         '0.3.11'
+gem 'thin',           '~> 1.3.1',           :platforms => [ :mswin, :mingw ]
+gem 'eventmachine',   '~> 1.0.0.beta.4.1',  :platforms => [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour', '~> 0.8.3'           # Basic Layout and Assets
-gem 'kaminari'                      # Pagination
+                                    # Contour: Basic Layout and Assets
+gem 'contour',        '~> 0.9.3'
+                                    # Kaminari: Pagination
+gem 'kaminari'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'    # Compiles CSS
-  gem 'coffee-rails', '~> 3.2.0'    # Compiles JavaScript
-  gem 'uglifier',     '>= 1.0.3'    # Minimizes and obscures JS and CSS
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'uglifier',     '>= 1.0.3'
 end
 
-gem 'jquery-rails'                  # JavaScript Engine
+gem 'jquery-rails'
 
 # Testing
 group :test do
   # Pretty printed test output
-  gem 'win32console', :platforms => [:mswin, :mingw]
-  gem 'turn', '~> 0.8.3', :require => false
-  gem 'simplecov', :require => false
+  gem 'win32console',                       :platforms => [ :mswin, :mingw ]
+  gem 'turn', '~> 0.8.3',                   :require => false
+  gem 'simplecov',                          :require => false
 end
