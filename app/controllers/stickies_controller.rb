@@ -65,6 +65,8 @@ class StickiesController < ApplicationController
 
     sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
 
+    sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unnassigned].to_s != '1'
+
     # params[:tags] = (params[:tags] || []).collect{|tag| '%- ' + tag + '%' }
     # sticky_scope = sticky_scope.with_tags(params[:tags]) unless params[:tags].blank?
     (params[:tags] || []).collect{|tag| sticky_scope = sticky_scope.with_tag(tag) }
