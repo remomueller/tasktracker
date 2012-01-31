@@ -24,6 +24,19 @@ class StickiesControllerTest < ActionController::TestCase
     assert_template 'calendar'
   end
 
+  test "should get calendar and set user calendar status" do
+    get :calendar, status: ['completed'], format: 'js'
+    users(:valid).reload # Needs reload to avoid stale object
+    assert_equal ['completed'], users(:valid).settings[:calendar_status]
+    assert_not_nil assigns(:selected_date)
+    assert_not_nil assigns(:start_date)
+    assert_not_nil assigns(:end_date)
+    assert_not_nil assigns(:first_sunday)
+    assert_not_nil assigns(:last_saturday)
+    assert_not_nil assigns(:stickies)
+    assert_template 'calendar'
+  end
+
   test "should get calendar by due date" do
     get :calendar, format: 'js'
     assert_not_nil assigns(:selected_date)
@@ -144,7 +157,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal Date.today, assigns(:sticky).start_date
     assert_nil assigns(:sticky).end_date
     assert_equal false, assigns(:sticky).completed
-    
+
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
@@ -205,7 +218,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sticky)
     assert_redirected_to sticky_path(stickies(:viewable_by_valid))
   end
-  
+
   test "should not edit for users not on project" do
     login(users(:two))
     get :edit, id: stickies(:viewable_by_valid).to_param
@@ -325,11 +338,11 @@ class StickiesControllerTest < ActionController::TestCase
 
   test "should update planned sticky and not set end_date" do
     put :update, id: stickies(:planned).to_param, sticky: { description: "Sticky Description Update", completed: '0', due_date: "12/15/2011" }
-    
+
     assert_not_nil assigns(:sticky)
     assert_nil assigns(:sticky).end_date
     assert_equal false, assigns(:sticky).completed
-    
+
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
@@ -340,7 +353,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal false, assigns(:sticky).completed
     assert_redirected_to sticky_path(assigns(:sticky))
   end
-  
+
   test "should update planned sticky to completed and set end_date" do
     put :update, id: stickies(:planned).to_param, sticky: { description: "Sticky Description Update", completed: '1', due_date: "12/15/2011" }
     assert_not_nil assigns(:sticky)
@@ -404,7 +417,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sticky)
     assert_redirected_to stickies_path
   end
-  
+
   test "should destroy sticky and all following" do
     assert_difference('Sticky.current.count', -1 * stickies(:grouped_two).group.stickies.where("due_date >= ?", stickies(:grouped_two).due_date).size) do
       delete :destroy, id: stickies(:grouped_two).to_param, discard: 'following'
@@ -425,7 +438,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal 0, assigns(:sticky).group.stickies.size
     assert_redirected_to stickies_path
   end
-  
+
   test "should destroy sticky from calendar" do
     assert_difference('Sticky.current.count', -1) do
       delete :destroy, from_calendar: 1, id: @sticky.to_param
@@ -433,12 +446,12 @@ class StickiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sticky)
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
-  
+
   test "should not destroy sticky without valid id" do
     assert_difference('Sticky.current.count', 0) do
       delete :destroy, id: -1
     end
-    
+
     assert_nil assigns(:sticky)
     assert_redirected_to root_path
   end
