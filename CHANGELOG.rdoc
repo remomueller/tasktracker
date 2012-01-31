@@ -6,6 +6,7 @@
 
 * Bug Fix
   * Generating a template from the calendar view now correctly updates the selected templates available project frames
+  * Daily Stickies Due email no longer includes stickies from projects that have email delivery off
 
 * Refactoring
   * Updated to Rails 3.2.1 and fixed Devise 2.0.0 locales file
