@@ -43,7 +43,26 @@
 
   <div class="actions">
     <% form_name = "email_settings" %>
-    <%= link_to_function image_tag('contour/tick.png', :alt => '') + "Save Settings", "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= link_to_function image_tag('contour/tick.png', alt: '') + "Save Settings", "isDirty=false;$('##{form_name}').submit();", class: "button positive" %>
   	<br />
   </div>
+<% end %>
+
+<%= javascript_tag do %>
+  var isDirty = false;
+  var msg = 'You haven\'t saved your changes.';
+
+  $(document).ready(function(){
+    $(':input').change(function(){
+        if(!isDirty){
+            isDirty = true;
+        }
+    });
+
+    window.onbeforeunload = function(el){
+        if(isDirty){
+            return msg;
+        }
+    };
+  });
 <% end %>
