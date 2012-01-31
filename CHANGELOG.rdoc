@@ -1,5 +1,8 @@
 == 0.16.0
 
+* Refactoring
+  * Updated to Rails 3.2.1 and fixed Devise 2.0.0 locales file
+
 == 0.15.3
 
 * Refactoring
