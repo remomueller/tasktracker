@@ -4,6 +4,9 @@
   * Saves checked 'completed' or 'not completed' filters on calendar
   * Calendar now displays stickies in the following or preceding month
 
+* Bug Fix
+  * Generating a template from the calendar view now correctly updates the selected templates available project frames
+
 * Refactoring
   * Updated to Rails 3.2.1 and fixed Devise 2.0.0 locales file
 
