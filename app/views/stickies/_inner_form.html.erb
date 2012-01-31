@@ -21,7 +21,7 @@
   <% if @sticky.group %>
     <%= @sticky.project.name %>
   <% else %>
-    <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @sticky.project_id) %>
+    <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @sticky.project_id) %>
   <% end %>
 </div>
 
@@ -37,7 +37,7 @@
 <div class="field" id="owner_selection_container">
   <%= render :partial => 'projects/user_selection' %>
 </div>
-    
+
 <div class="field">
   <table class="blank padded">
     <thead>

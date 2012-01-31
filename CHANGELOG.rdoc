@@ -3,6 +3,7 @@
 * Enhancements
   * Saves checked 'completed' or 'not completed' filters on calendar
   * Calendar now displays stickies in the following or preceding month
+  * Project selection dropdowns are now sorted by favorites first
 
 * Bug Fix
   * Generating a template from the calendar view now correctly updates the selected templates available project frames
