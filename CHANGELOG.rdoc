@@ -1,5 +1,9 @@
 == 0.16.0
 
+* Enhancements
+  * Saves checked 'completed' or 'not completed' filters on calendar
+  * Calendar now displays stickies in the following or preceding month
+
 * Refactoring
   * Updated to Rails 3.2.1 and fixed Devise 2.0.0 locales file
 

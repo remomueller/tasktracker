@@ -2,23 +2,31 @@ class StickiesController < ApplicationController
   before_filter :authenticate_user!
 
   def calendar
+    if params[:status].blank?
+      params[:status] = current_user.settings[:calendar_status]
+    else
+      user_settings = current_user.settings
+      user_settings[:calendar_status] = params[:status] || []
+      current_user.update_attribute :settings, user_settings
+    end
+
     @selected_date = begin Date.strptime(params[:selected_date], "%m/%d/%Y") rescue Date.today end
     @start_date = @selected_date.beginning_of_month
     @end_date = @selected_date.end_of_month
-    
+
     @first_sunday = @start_date - @start_date.wday.day
     @last_saturday = @end_date + (6 - @end_date.wday).day
-    
+
     sticky_scope = current_user.all_viewable_stickies.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
-    
+
     sticky_scope = sticky_scope.with_project(current_user.all_viewable_projects.collect{|p| p.id} - current_user.hidden_project_ids, current_user.id)
-    
+
     case params[:date_type] when 'start_date'
-      sticky_scope = sticky_scope.with_start_date_for_calendar(@start_date, @end_date)
+      sticky_scope = sticky_scope.with_start_date_for_calendar(@first_sunday, @last_saturday)
     when 'end_date'
-      sticky_scope = sticky_scope.with_end_date_for_calendar(@start_date, @end_date)
+      sticky_scope = sticky_scope.with_end_date_for_calendar(@first_sunday, @last_saturday)
     else
-      sticky_scope = sticky_scope.with_due_date_for_calendar(@start_date, @end_date)
+      sticky_scope = sticky_scope.with_due_date_for_calendar(@first_sunday, @last_saturday)
     end
     @stickies = sticky_scope
   end
@@ -41,26 +49,26 @@ class StickiesController < ApplicationController
       redirect_to root_path
     end
   end
-    
+
   def index
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "completed, due_date, end_date DESC, start_date DESC"
     sticky_scope = current_user.all_viewable_stickies
-    
+
     sticky_scope = sticky_scope.with_owner(params[:owner_id]) unless params[:owner_id].blank?
-    
+
     @start_date = begin Date.strptime(params[:due_date_start_date], "%m/%d/%Y") rescue nil end
     @end_date = begin Date.strptime(params[:due_date_end_date], "%m/%d/%Y") rescue nil end
     sticky_scope = sticky_scope.due_date_within(@start_date, @end_date)
-    
+
     sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
-    
+
     sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
-    
+
     # params[:tags] = (params[:tags] || []).collect{|tag| '%- ' + tag + '%' }
     # sticky_scope = sticky_scope.with_tags(params[:tags]) unless params[:tags].blank?
     (params[:tags] || []).collect{|tag| sticky_scope = sticky_scope.with_tag(tag) }
-    
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
     sticky_scope = sticky_scope.order(@order)
@@ -135,9 +143,9 @@ class StickiesController < ApplicationController
       original_due_date = @sticky.due_date
       if @sticky.update_attributes(params[:sticky])
         flash[:notice] = 'Sticky was successfully updated.'
-        
+
         @sticky.shift_group((@sticky.due_date - original_due_date).to_i, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
-                
+
         if params[:from_calendar] == '1'
           redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
         else
@@ -162,7 +170,7 @@ class StickiesController < ApplicationController
       else # 'single'
         @sticky.destroy
       end
-      
+
       flash[:notice] = 'Sticky was successfully deleted.'
       if params[:from_calendar] == '1'
         redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
