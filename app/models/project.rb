@@ -25,7 +25,7 @@ class Project < ActiveRecord::Base
   has_many :viewers, through: :project_users, source: :user, conditions: ['project_users.allow_editing = ? and users.deleted = ?', false, false]
   has_many :stickies, conditions: { deleted: false } #, order: 'stickies.created_at desc'
   has_many :frames, conditions: { deleted: false }, order: 'frames.end_date desc'
-  # has_many :tags, conditions: { deleted: false }, order: 'tags.name'
+  has_many :tags, conditions: { deleted: false }, order: 'tags.name'
 
   def color(current_user)
     current_user.colors["project_#{self.id}"].blank? ? colors(Project.pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]

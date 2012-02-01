@@ -14,6 +14,15 @@ class CreateTags < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index :tags, :project_id
+    add_index :tags, :user_id
+
+    Project.all.each do |project|
+      project.old_tags.compact.uniq.each do |old_tag|
+        project.tags.create({ name: old_tag, user_id: project.user_id })
+      end
+    end
+
   end
 
   def down
