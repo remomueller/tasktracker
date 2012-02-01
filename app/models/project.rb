@@ -25,6 +25,7 @@ class Project < ActiveRecord::Base
   has_many :viewers, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ? and users.deleted = ?', false, false]
   has_many :stickies, :conditions => { :deleted => false } #, :order => 'stickies.created_at desc'
   has_many :frames, :conditions => { :deleted => false }, :order => 'frames.end_date desc'
+  # has_many :tags, conditions: { deleted: false }, order: 'tags.name'
 
   def color(current_user)
     current_user.colors["project_#{self.id}"].blank? ? colors(Project.pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]
@@ -44,7 +45,7 @@ class Project < ActiveRecord::Base
     self.frames.destroy_all
     update_attribute :deleted, true
   end
-  
+
   def comments(limit = nil)
     Comment.current.with_class_name(self.class.name).with_class_id(self.id).order('created_at desc').limit(limit)
   end
@@ -65,7 +66,7 @@ class Project < ActiveRecord::Base
   end
 
   private
-  
+
   def colors(index)
     colors = ["#4733e6", "#7dd148", "#bfbf0d", "#9a9cff", "#16a766", "#4986e7", "#cb74e6", "#9f33e6", "#ff7637", "#92e1c0", "#d06c64", "#9fc6e7", "#c2c2c2", "#fa583c", "#AC725E", "#cca6ab", "#b89aff", "#f83b22", "#43d691", "#F691B2", "#a67ae2", "#FFAD46", "#b3dc6c"]
     colors[index.to_i % colors.size]

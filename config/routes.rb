@@ -28,7 +28,7 @@ Notes::Application.routes.draw do
       post :colorpicker
     end
   end
-  
+
   resources :stickies do
     collection do
       get :search
@@ -36,7 +36,9 @@ Notes::Application.routes.draw do
       get :calendar
     end
   end
-  
+
+  resources :tags
+
   resources :templates do
     collection do
       post :add_item
@@ -47,8 +49,8 @@ Notes::Application.routes.draw do
     #   post :generate_stickies
     # end
   end
-  
-  devise_for :users, :controllers => {:registrations => 'contour/registrations', :sessions => 'contour/sessions', :passwords => 'contour/passwords'}, :path_names => { :sign_up => 'register', :sign_in => 'login' }
+
+  devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords' }, path_names: { sign_up: 'register', sign_in: 'login' }
 
   resources :users do
     collection do
@@ -61,10 +63,10 @@ Notes::Application.routes.draw do
     end
   end
 
-  match "/about" => "sites#about", :as => :about
-  match "/settings" => "users#settings", :as => :settings
+  match "/about" => "sites#about", as: :about
+  match "/settings" => "users#settings", as: :settings
 
-  root :to => "stickies#calendar"
-  
+  root to: "stickies#calendar"
+
   # See how all your routes lay out with "rake routes"
 end
