@@ -1,12 +1,14 @@
 == 0.16.0
 
 * Enhancements
-  * Saves checked 'completed' or 'not completed' filters on calendar
-  * Calendar now displays stickies in the following or preceding month
+  * Calendar improvements:
+    * Saves checked 'completed' or 'not completed' filters on calendar
+    * Displays stickies in the following or preceding month
+    * Can filter stickies assigned to the user
   * Project selection dropdowns are now sorted by favorites first
   * Stickies search now allows users to filter unnassigned stickies
   * Email settings page now prompts user if the user navigates away without saving updated settings
-  * Tags have been improved:
+  * Tagging improvements:
     * Sticky list page can now filter stickies which contain at least one, or all selected tags
     * Tags can now be given an additional color and description
     * Sticky list page tag filters now only shows tags for the selected project
