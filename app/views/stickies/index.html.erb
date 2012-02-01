@@ -57,14 +57,8 @@
           </th>
         </tr>
       </thead>
-      <tbody>
-        <% current_user.all_viewable_projects.collect{|p| p.tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
-        <tr>
-          <% row_tags.each do |tag| %>
-            <% if tag %><td style="padding-top:5px"><%= check_box_tag "tag_ids[]", tag.id, false, class: 'tag-box' %> <%= @tag = tag; render partial: 'tags/show' %></td><% end %>
-          <% end %>
-        </tr>
-        <% end %>
+      <tbody id="sticky_tag_selection_container">
+        <%= render partial: 'tags/multi_tag_selection' %>
       </tbody>
     </table>
     <%= button_tag image_tag('gentleface/16/cog.png') + 'Filter Search' %>

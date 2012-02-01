@@ -1,0 +1,10 @@
+<% projects = current_user.all_viewable_projects %>
+<% projects = projects.where(id: params[:project_id]) unless params[:project_id].blank? %>
+
+<% projects.collect{|p| p.tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
+<tr>
+  <% row_tags.each do |tag| %>
+    <% if tag %><td style="padding-top:5px"><%= check_box_tag "tag_ids[]", tag.id, (params[:tag_ids] || []).include?(tag.id.to_s), class: 'tag-box' %> <%= @tag = tag; render partial: 'tags/show' %></td><% end %>
+  <% end %>
+</tr>
+<% end %>
