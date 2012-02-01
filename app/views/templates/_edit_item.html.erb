@@ -24,12 +24,12 @@
           <%= select_tag "template[item_tokens][#{position}][owner_id]", options_for_select([['---', nil]] + owners.collect{|u| [u.reverse_name,u.id]}, @item[:owner_id]) %>
         </td>
         <td>
-          <% if @template.project and @template.project.tags.size > 0 %>
+          <% if @template.project and @template.project.old_tags.size > 0 %>
             <table class="blank padded">
-              <% @template.project.tags.in_groups_of(5).each do |row_tags| %>
+              <% @template.project.old_tags.in_groups_of(5).each do |row_tags| %>
                 <tr>
                   <% row_tags.each do |tag| %>
-                    <td><% if tag %><%= check_box_tag "template[item_tokens][#{position}][tags][]", tag, (@item[:tags] || []).include?(tag) %> <%= tag %><% end %></td>
+                    <td><% if tag %><%= check_box_tag "template[item_tokens][#{position}][old_tags][]", tag, (@item[:tags] || []).include?(tag) %> <%= tag %><% end %></td>
                   <% end %>
                 </tr>
               <% end %>

@@ -19,7 +19,7 @@
 
             "<strong>Created By:</strong><ul><li>" + @sticky.user.name + "</li></ul>" +
 
-            (@sticky.tags.size > 0 ? "<strong>Tags:</strong> " + @sticky.tags.join(', ') + "<br /><br />" : '')
+            (@sticky.old_tags.size > 0 ? "<strong>Tags:</strong> " + @sticky.old_tags.join(', ') + "<br /><br />" : '')
 
           ).html_safe) %>',
           title:{

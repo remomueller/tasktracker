@@ -36,7 +36,7 @@
     </div>
     <div class="field">
       <%= f.label :tag_tokens, 'Sticky Tags' %><br />
-      <%= f.text_field :tag_tokens, "data-pre" => @project.tags.collect{|t| {name: t, id: t}}.to_json %>
+      <%= f.text_field :tag_tokens, "data-pre" => @project.old_tags.collect{|t| {name: t, id: t}}.to_json %>
     </div>
   </fieldset>
 

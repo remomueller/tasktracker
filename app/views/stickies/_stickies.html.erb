@@ -53,7 +53,7 @@
       <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
       <td>
         <table class="blank padded tags">
-        <% sticky.tags.in_groups_of(5).each do |row_tags| %>
+        <% sticky.old_tags.in_groups_of(5).each do |row_tags| %>
           <tr>
             <% row_tags.each do |tag| %>
               <% if tag %><td><div><%= tag %></div></td><% end %>

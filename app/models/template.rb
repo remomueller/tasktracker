@@ -38,7 +38,7 @@ class Template < ActiveRecord::Base
     group = current_user.groups.create({ project_id: self.project_id, description: additional_text, template_id: self.id })
     self.sorted_items.each_with_index do |item|
       item = item.symbolize_keys
-      current_user.stickies.create({ group_id: group.id, project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: item[:description].to_s, tags: (item[:tags] || []), completed: false, due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
+      current_user.stickies.create({ group_id: group.id, project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: item[:description].to_s, old_tags: (item[:tags] || []), completed: false, due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
     end
     group.reload
 

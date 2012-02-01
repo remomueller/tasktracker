@@ -1,5 +1,8 @@
 class CreateTags < ActiveRecord::Migration
-  def change
+  def up
+    rename_column :projects, :tags, :old_tags
+    rename_column :stickies, :tags, :old_tags
+
     create_table :tags do |t|
       t.string :name
       t.text :description
@@ -10,5 +13,12 @@ class CreateTags < ActiveRecord::Migration
 
       t.timestamps
     end
+
+  end
+
+  def down
+    drop_table :tags
+    rename_column :projects, :old_tags, :tags
+    rename_column :stickies, :old_tags, :tags
   end
 end

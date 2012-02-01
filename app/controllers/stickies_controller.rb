@@ -67,9 +67,7 @@ class StickiesController < ApplicationController
 
     sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unnassigned].to_s != '1'
 
-    # params[:tags] = (params[:tags] || []).collect{|tag| '%- ' + tag + '%' }
-    # sticky_scope = sticky_scope.with_tags(params[:tags]) unless params[:tags].blank?
-    (params[:tags] || []).collect{|tag| sticky_scope = sticky_scope.with_tag(tag) }
+    (params[:old_tags] || []).collect{|tag| sticky_scope = sticky_scope.with_tag(tag) }
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
@@ -85,7 +83,7 @@ class StickiesController < ApplicationController
                   sticky.description,
                   sticky.completed? ? 'completed' : '',
                   sticky.owner ? sticky.owner.name : '',
-                  sticky.tags.join('; '),
+                  sticky.old_tags.join('; '),
                   sticky.project.name,
                   sticky.user.name,
                   sticky.frame ? sticky.frame.name : '']
@@ -139,7 +137,7 @@ class StickiesController < ApplicationController
 
   def update
     params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
-    params[:sticky][:tags] ||= [] if params[:sticky]
+    params[:sticky][:old_tags] ||= [] if params[:sticky]
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       original_due_date = @sticky.due_date

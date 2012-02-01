@@ -56,10 +56,10 @@
         </tr>
       </thead>
       <tbody>
-        <% current_user.all_viewable_projects.collect{|p| p.tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
+        <% current_user.all_viewable_projects.collect{|p| p.old_tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
         <tr>
           <% row_tags.each do |tag| %>
-            <% if tag %><td><%= check_box_tag "tags[]", tag, false, class: 'tag-box' %><%= tag %></td><% end %>
+            <% if tag %><td><%= check_box_tag "old_tags[]", tag, false, class: 'tag-box' %><%= tag %></td><% end %>
           <% end %>
         </tr>
         <% end %>

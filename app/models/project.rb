@@ -1,7 +1,7 @@
 class Project < ActiveRecord::Base
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
-  serialize :tags, Array
+  serialize :old_tags, Array
   attr_reader :tag_tokens
 
   # Named Scopes
@@ -32,11 +32,11 @@ class Project < ActiveRecord::Base
   end
 
   def tag_tokens
-    self.tags.join(',')
+    self.old_tags.join(',')
   end
 
   def tag_tokens=(ids)
-    self.tags = ids.to_s.split(',').collect{|t| t.strip}
+    self.old_tags = ids.to_s.split(',').collect{|t| t.strip}
   end
 
   def destroy

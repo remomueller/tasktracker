@@ -1,5 +1,5 @@
 class Sticky < ActiveRecord::Base
-  serialize :tags, Array
+  serialize :old_tags, Array
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -7,15 +7,15 @@ class Sticky < ActiveRecord::Base
   scope :with_creator, lambda { |*args|  { conditions: ["stickies.user_id IN (?)", args.first] } }
   scope :with_owner, lambda { |*args|  { conditions: ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
   scope :with_frame, lambda { |*args| { conditions: ["stickies.frame_id IN (?) or (stickies.frame_id IS NULL and 0 IN (?))", args.first, args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(description) LIKE ? or LOWER(tags) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |*args| { conditions: [ 'LOWER(description) LIKE ? or LOWER(old_tags) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :updated_since, lambda { |*args| { conditions: ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
-  
+
   scope :with_due_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", args.first, args[1]]}}
-  
+
   scope :due_date_within, lambda { |*args| { conditions: ["(DATE(stickies.due_date) >= ? or ? IS NULL) and (DATE(stickies.due_date) <= ? or ? IS NULL)", args.first, args.first, args[1], args[1]] }}
-  
-  
+
+
   scope :with_start_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.start_date) >= ? and DATE(stickies.start_date) <= ?", args.first, args[1]]}}
   scope :with_end_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.end_date) >= ? and DATE(stickies.end_date) <= ?", args.first, args[1]]}}
   # scope :with_due_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ? or (stickies.due_date IS NULL and stickies.frame_id in (select frames.id from frames where DATE(frames.end_date) >= ? and DATE(frames.end_date) <= ?))", args.first, args[1], args.first, args[1]]}}
@@ -24,12 +24,11 @@ class Sticky < ActiveRecord::Base
   scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) < ?", false, Date.today]}}
   scope :due_this_week, lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", false, Date.today, Date.today + (7-Date.today.wday).days]}}
 
-  # scope :with_tags, lambda { |*args| { conditions: ["stickies.tags IN (?)", args.first] } }
-  scope :with_tag, lambda { |*args| { conditions: [ "stickies.tags LIKE ?", '%- ' + args.first + '%' ] } }
+  scope :with_tag, lambda { |*args| { conditions: [ "stickies.old_tags LIKE ?", '%- ' + args.first + '%' ] } }
 
   before_create :set_start_date
   after_create :send_email
-  
+
   before_save :set_end_date, :set_project_and_frame
   after_save :send_completion_email
 
@@ -42,7 +41,7 @@ class Sticky < ActiveRecord::Base
   belongs_to :group
   belongs_to :frame
 
-  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id' 
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
 
   def name
     "ID ##{self.id}"
@@ -52,11 +51,11 @@ class Sticky < ActiveRecord::Base
     self.comments.destroy_all
     update_attribute :deleted, true
   end
-  
+
   def comments(limit = nil)
     Comment.current.with_class_name(self.class.name).with_class_id(self.id).order('created_at desc').limit(limit)
   end
-  
+
   def new_comment(current_user, description)
     Comment.create(class_name: self.class.name, class_id: self.id, user_id: current_user.id, description: description)
     self.touch
@@ -81,7 +80,7 @@ class Sticky < ActiveRecord::Base
   end
 
   private
-    
+
   def send_email
     if not self.group and not self.completed?
       all_users = self.project.users_to_email(:sticky_creation) - [self.user]

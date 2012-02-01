@@ -36,7 +36,7 @@ assigned_to_user:
 planned:
   user: valid
   project: one
-  # frame: 
+  # frame:
   completed: false
   description: This is a planned sticky
   due_date: 2011-12-10
@@ -75,7 +75,7 @@ viewable_by_valid:
   description: This is a pending viewable sticky but valid may not edit this
   due_date: 2011-12-31
   start_date: 2011-12-19
-  # end_date: 
+  # end_date:
   deleted: false
 
 grouped_one:
@@ -113,7 +113,7 @@ grouped_three:
   deleted: false
   # frame: one
   group: three
-  
+
 grouped_four:
   user: valid
   project: one
@@ -153,7 +153,7 @@ grouped_six:
 tagged:
   user: valid
   project: one
-  # frame: 
+  # frame:
   completed: false
   description: This is a sticky with tags
   due_date: 2011-12-10
@@ -161,4 +161,4 @@ tagged:
   # end_date:
   deleted: false
   owner: valid
-  tags: ['alpha', 'beta']
+  old_tags: ['alpha', 'beta']
