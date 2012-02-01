@@ -18,10 +18,10 @@
       <td style="<%= 'font-weight:bold' if current_user == owner %>"><%= link_to owner.name, owner if owner %></td>
       <td>
         <table class="blank tags">
-          <% (item[:tags] || []).in_groups_of(5).each do |row_tags| %>
+          <% (item[:tag_ids] || []).in_groups_of(5).each do |row_tags| %>
             <tr>
-              <% row_tags.each do |tag| %>
-                <% if tag %><td><div><%= tag %></div></td><% end %>
+              <% row_tags.each do |tag_id| %>
+                <% if tag = @template.project.tags.find_by_id(tag_id) %><td><%= @tag = tag; render partial: 'tags/show' %></td><% end %>
               <% end %>
             </tr>
           <% end %>

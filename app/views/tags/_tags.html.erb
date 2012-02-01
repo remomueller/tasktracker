@@ -27,7 +27,7 @@
 
 <% @tags.each do |tag| %>
   <tr>
-    <td><%= link_to tag.name, tag %></td>
+    <td><%= @tag = tag; link_to render(partial: 'tags/show'), tag %></td>
     <td><%= link_to tag.project.name, tag.project %></td>
     <td><%= link_to tag.user.name, tag.user %></td>
     <td><%= tag.description %></td>

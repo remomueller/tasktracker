@@ -161,4 +161,30 @@ tagged:
   # end_date:
   deleted: false
   owner: valid
-  old_tags: ['alpha', 'beta']
+  tags: alpha, beta
+
+only_alpha:
+  user: valid
+  project: one
+  # frame:
+  completed: false
+  description: Only Tag Alpha
+  due_date: 2011-12-10
+  start_date: 2011-12-01
+  # end_date:
+  deleted: false
+  owner: valid
+  tags: alpha
+
+only_beta:
+  user: valid
+  project: one
+  # frame:
+  completed: false
+  description: Only Tag Beta
+  due_date: 2011-12-10
+  start_date: 2011-12-01
+  # end_date:
+  deleted: false
+  owner: valid
+  tags: beta

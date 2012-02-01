@@ -47,19 +47,21 @@
         </tr>
       </tbody>
     </table>
-    <table class="blank padded" style="width:100%;text-align:left;margin:10px 0px">
+    <table class="blank padded tags" style="width:100%;text-align:left;margin:10px 0px">
       <thead>
         <tr>
-          <th>Tags
+          <th colspan="10">Tags
             <%= link_to_function image_tag('gentleface/16/checkbox_checked.png', alt: 'Select All', title: 'Select All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
-            <%= link_to_function image_tag('gentleface/16/checkbox_unchecked.png', alt: 'Deselect All', title: 'Deselect All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %></th>
+            <%= link_to_function image_tag('gentleface/16/checkbox_unchecked.png', alt: 'Deselect All', title: 'Deselect All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
+            contains <%= select_tag 'tag_filter', options_for_select([['at least one', 'any'],['all', 'all']]) %> selected tag(s)
+          </th>
         </tr>
       </thead>
       <tbody>
-        <% current_user.all_viewable_projects.collect{|p| p.old_tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
+        <% current_user.all_viewable_projects.collect{|p| p.tags}.flatten.uniq.sort.in_groups_of(10).each do |row_tags| %>
         <tr>
           <% row_tags.each do |tag| %>
-            <% if tag %><td><%= check_box_tag "old_tags[]", tag, false, class: 'tag-box' %><%= tag %></td><% end %>
+            <% if tag %><td style="padding-top:5px"><%= check_box_tag "tag_ids[]", tag.id, false, class: 'tag-box' %> <%= @tag = tag; render partial: 'tags/show' %></td><% end %>
           <% end %>
         </tr>
         <% end %>

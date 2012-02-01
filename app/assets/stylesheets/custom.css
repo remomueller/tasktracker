@@ -11,7 +11,7 @@
 /**************************************
 - black		#000
 - white		#fff
-- logo blue   #0E7799  
+- logo blue   #0E7799
 - link blue   #057080
 
 - dark blue   #094E63
@@ -167,12 +167,12 @@ table.tags {
   border-collapse: separate;
 }
 
-table.tags td div {
+table.tags td div, .tag_bubble {
   background-color: #ddd;
   padding: 1px 2px;
   margin: 0px 2px;
   border: 1px solid #bbb;
-  
+
   -moz-border-radius: 5px; /* Mozilla */
   -webkit-border-radius: 5px; /* Webkit */
   border-radius: 5px;

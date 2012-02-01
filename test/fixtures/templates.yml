@@ -22,4 +22,4 @@ with_tag:
   user: valid
   project: one
   name: Tagged Item
-  items: [{description: 'Tagged A', interval: 0, units: 'days', tags: ['alpha']}]
+  items: [{description: 'Tagged A', interval: 0, units: 'days', tag_ids: [<%= ActiveRecord::Fixtures.identify(:alpha) %>]}]

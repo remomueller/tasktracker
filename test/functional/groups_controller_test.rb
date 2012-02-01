@@ -44,7 +44,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal assigns(:frame), frames(:one)
     assert_equal assigns(:frame_id).to_s, frames(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
-    assert_equal ['alpha'], assigns(:group).stickies.first.old_tags
+    assert_equal ['alpha'], assigns(:group).stickies.first.tags.collect{|t| t.name}
     assert_redirected_to group_path(assigns(:group))
   end
 

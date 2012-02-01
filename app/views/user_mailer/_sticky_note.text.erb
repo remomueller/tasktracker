@@ -4,4 +4,4 @@
 
 <%= @sticky.full_description %>
 
-<%= "Tags: #{@sticky.old_tags.join(', ')}" if @sticky.old_tags.size > 0 %>
+<%= "Tags: #{@sticky.tags.collect{|t| t.name}.join(', ')}" if @sticky.tags.size > 0 %>

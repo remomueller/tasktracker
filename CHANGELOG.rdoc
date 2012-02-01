@@ -6,6 +6,9 @@
   * Project selection dropdowns are now sorted by favorites first
   * Stickies search now allows users to filter unnassigned stickies
   * Email settings page now prompts user if the user navigates away without saving updated settings
+  * Tags have been improved:
+    * Sticky list page can now filter stickies which contain at least one, or all selected tags
+    * Tags can now be given an additional color and description
 
 * Bug Fix
   * Generating a template from the calendar view now correctly updates the selected templates available project frames

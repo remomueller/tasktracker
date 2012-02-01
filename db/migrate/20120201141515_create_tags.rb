@@ -23,6 +23,18 @@ class CreateTags < ActiveRecord::Migration
       end
     end
 
+    Template.all.each do |template|
+      template.items.each do |item|
+        tag_ids = []
+        (item[:tags] || []).each do |tag_name|
+          tag = template.project.tags.find_by_name(tag_name)
+          tag_ids << tag.id if tag
+        end
+        item[:tag_ids] = tag_ids
+      end
+      template.save
+    end
+
   end
 
   def down

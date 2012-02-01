@@ -34,12 +34,6 @@
       <%= f.label :end_date %><br />
       <%= f.text_field :end_date, class: 'datepicker', value: @project.end_date ? @project.end_date.strftime('%m/%d/%Y') : '' %>
     </div>
-    <% if false %>
-    <div class="field">
-      <%= f.label :tag_tokens, 'Sticky Tags' %><br />
-      <%= f.text_field :tag_tokens, "data-pre" => @project.old_tags.collect{|t| {name: t, id: t}}.to_json %>
-    </div>
-    <% end %>
   </fieldset>
 
   <div class="actions">

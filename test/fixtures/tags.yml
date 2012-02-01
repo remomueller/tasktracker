@@ -15,3 +15,27 @@ two:
   project: one
   user: valid
   deleted: false
+
+alpha:
+  name: alpha
+  description: My Alpha Tag
+  color: '#dddddd'
+  project: one
+  user: valid
+  deleted: false
+
+beta:
+  name: beta
+  description: My Beta Tag
+  color: '#dddddd'
+  project: one
+  user: valid
+  deleted: false
+
+gamma:
+  name: gamma
+  description: My Gamma Tag
+  color: '#dddddd'
+  project: one
+  user: valid
+  deleted: false

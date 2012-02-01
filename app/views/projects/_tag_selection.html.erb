@@ -1,11 +1,11 @@
-<% if @project_id and project = Project.find_by_id(@project_id) and project.old_tags.size > 0 %>
+<% if @project_id and project = Project.find_by_id(@project_id) and project.tags.size > 0 %>
   <div class="field">
-    <%= label :sticky, :old_tags %><br />
-    <table class="blank padded" style="width:100%;table-layout:fixed;margin-bottom:0px;">
-    <% project.old_tags.in_groups_of(5).each do |row_tags| %>
+    <%= label :sticky, :tag_ids %><br />
+    <table class="blank tags" style="width:100%;table-layout:fixed;margin-bottom:0px;">
+    <% project.tags.in_groups_of(5).each do |row_tags| %>
       <tr>
         <% row_tags.each do |tag| %>
-          <td><% if tag %><%= check_box_tag "sticky[old_tags][]", tag, @sticky.old_tags.include?(tag) %> <%= tag %><% end %></td>
+          <td><% if tag %><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <%= @tag = tag; render partial: 'tags/show' %><% end %></td>
         <% end %>
       </tr>
     <% end %>

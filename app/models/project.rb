@@ -1,8 +1,7 @@
 class Project < ActiveRecord::Base
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
-  serialize :old_tags, Array
-  attr_reader :tag_tokens
+  serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -31,14 +30,6 @@ class Project < ActiveRecord::Base
   def color(current_user)
     current_user.colors["project_#{self.id}"].blank? ? colors(Project.pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]
   end
-
-  # def tag_tokens
-  #   self.old_tags.join(',')
-  # end
-
-  # def tag_tokens=(ids)
-  #   self.old_tags = ids.to_s.split(',').collect{|t| t.strip}
-  # end
 
   def destroy
     self.comments.destroy_all

@@ -13,16 +13,11 @@
 <br />
 
 <p>
-  <b>User:</b>
+  <b>Creator:</b>
   <%= link_to @tag.user.name, @tag.user if @tag.user %>
 </p>
 
 <p>
   <b>Color:</b>
-  <%= @tag.color %>
-</p>
-
-<p>
-  <b>Creator:</b>
-  <%= @tag.user_id %>
+  <span style="background-color: <%= @tag.color %>"><%= @tag.color %></span>
 </p>
