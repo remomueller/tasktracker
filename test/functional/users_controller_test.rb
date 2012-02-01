@@ -10,7 +10,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should get overall_graph" do
     get :overall_graph
-    
+
     assert_not_nil assigns(:stickies)
     assert_not_nil assigns(:comments)
     assert_not_nil assigns(:users_hash)
@@ -26,8 +26,8 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get overall_graph with javascript" do
-    get :overall_graph, :year => '2011', :format => 'js'
-    
+    get :overall_graph, year: '2011', format: 'js'
+
     assert_not_nil assigns(:stickies)
     assert_not_nil assigns(:comments)
     assert_not_nil assigns(:users_hash)
@@ -43,8 +43,8 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get graph" do
-    get :graph, :id => users(:valid).to_param
-    
+    get :graph, id: users(:valid).to_param
+
     assert_not_nil assigns(:user)
     assert_not_nil assigns(:stickies)
     assert_not_nil assigns(:planned)
@@ -63,8 +63,8 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get graph with javascript" do
-    get :graph, :id => users(:valid).to_param, :year => '2011', :format => 'js'
-    
+    get :graph, id: users(:valid).to_param, year: '2011', format: 'js'
+
     assert_not_nil assigns(:user)
     assert_not_nil assigns(:stickies)
     assert_not_nil assigns(:planned)
@@ -77,20 +77,20 @@ class UsersControllerTest < ActionController::TestCase
     assert assigns(:completed).kind_of?(Array)
     assert assigns(:other_projects_hash).kind_of?(Hash)
     assert assigns(:favorite_projects_hash).kind_of?(Hash)
-    
+
     assert_template 'graph'
     assert_response :success
   end
-  
+
   test "should not get graph without valid user id" do
-    get :graph, :id => -1
-    
+    get :graph, id: -1
+
     assert_nil assigns(:user)
     assert_redirected_to users_path
   end
 
   test "should update settings and enable email" do
-    post :update_settings, :id => users(:admin).to_param, :email => {:send_email => '1'}
+    post :update_settings, id: users(:admin).to_param, email: {send_email: '1'}
     users(:admin).reload # Needs reload to avoid stale object
     assert_equal true, users(:admin).email_on?(:send_email)
     assert_equal 'Email settings saved.', flash[:notice]
@@ -98,7 +98,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update settings and disable email" do
-    post :update_settings, :id => users(:admin).to_param, :email => {:send_email => '0'}
+    post :update_settings, id: users(:admin).to_param, email: {send_email: '0'}
     users(:admin).reload # Needs reload to avoid stale object
     assert_equal false, users(:admin).email_on?(:send_email)
     assert_equal 'Email settings saved.', flash[:notice]
@@ -110,9 +110,9 @@ class UsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:users)
     assert_response :success
   end
-  
+
   test "should get index with pagination" do
-    get :index, :format => 'js'
+    get :index, format: 'js'
     assert_not_nil assigns(:users)
     assert_template 'index'
   end
@@ -131,7 +131,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal "You do not have sufficient privileges to access that page.", flash[:alert]
     assert_redirected_to root_path
   end
-  
+
   test "should not get index with pagination for non-system admin" do
     login(users(:valid))
     get :index, format: 'js'
@@ -148,42 +148,42 @@ class UsersControllerTest < ActionController::TestCase
 
   # test "should create user" do
   #   assert_difference('User.count') do
-  #     post :create, :user => @user.attributes
+  #     post :create, user: @user.attributes
   #   end
-  # 
+  #
   #   assert_redirected_to user_path(assigns(:user))
   # end
 
   test "should show user" do
-    get :show, :id => @user.to_param
+    get :show, id: @user.to_param
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, :id => @user.to_param
+    get :edit, id: @user.to_param
     assert_response :success
   end
 
   test "should update user" do
-    put :update, :id => @user.to_param, :user => @user.attributes
+    put :update, id: @user.to_param, user: @user.attributes
     assert_redirected_to user_path(assigns(:user))
   end
 
   test "should not update user with blank name" do
-    put :update, :id => @user.to_param, :user => {:first_name => '', :last_name => ''}
+    put :update, id: @user.to_param, user: {first_name: '', last_name: ''}
     assert_not_nil assigns(:user)
     assert_template 'edit'
   end
 
   test "should not update user with invalid id" do
-    put :update, :id => -1, :user => @user.attributes
+    put :update, id: -1, user: @user.attributes
     assert_nil assigns(:user)
     assert_redirected_to users_path
   end
 
   test "should destroy user" do
     assert_difference('User.current.count', -1) do
-      delete :destroy, :id => @user.to_param
+      delete :destroy, id: @user.to_param
     end
 
     assert_redirected_to users_path

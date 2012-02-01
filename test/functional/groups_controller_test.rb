@@ -95,7 +95,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "should not update group with invalid id" do
-    put :update, :id => -1, group: { description: "Group Description Update" }
+    put :update, id: -1, group: { description: "Group Description Update" }
     assert_nil assigns(:group)
     assert_redirected_to root_path
   end
@@ -103,7 +103,7 @@ class GroupsControllerTest < ActionController::TestCase
   test "should destroy group and attached stickies" do
     assert_difference('Sticky.current.count', -1 * @group.stickies.size) do
       assert_difference('Group.current.count', -1) do
-        delete :destroy, :id => @group.to_param
+        delete :destroy, id: @group.to_param
       end
     end
 
@@ -114,7 +114,7 @@ class GroupsControllerTest < ActionController::TestCase
   test "should not destroy with invalid id" do
     assert_difference('Sticky.current.count', 0) do
       assert_difference('Group.current.count', 0) do
-        delete :destroy, :id => -1
+        delete :destroy, id: -1
       end
     end
 
