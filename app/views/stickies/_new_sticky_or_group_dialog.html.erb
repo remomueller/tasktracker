@@ -16,8 +16,8 @@
         <br />
         <div class="actions">
           <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
-          <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", :class => "button positive" %>
-          <%= link_to_function image_tag('contour/cross.png', :alt => '') + 'Cancel', "$( '#new-sticky-or-group-dialog' ).dialog('close');", :class => 'button negative' %>
+          <%= link_to_function image_tag('contour/tick.png', alt: '') + (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", class: "button positive" %>
+          <%= link_to_function image_tag('contour/cross.png', alt: '') + 'Cancel', "$( '#new-sticky-or-group-dialog' ).dialog('close');", class: 'button negative' %>
         </div>
 
       <% end %>
@@ -31,7 +31,7 @@
           </div>
 
           <div class="field" id="template_frame_selection_container">
-            <%= render :partial => 'templates/frame_selection' %>
+            <%= render partial: 'templates/frame_selection' %>
           </div>
 
       	  <div class="field">
@@ -40,14 +40,14 @@
       	  </div>
       	  <div class="field">
       	    <%= label_tag :additional_text %><br />
-      	    <%= text_area_tag :additional_text, '', :rows => 7, :style => "width:#{@width}" %>
+      	    <%= text_area_tag :additional_text, '', rows: 7, style: "width:#{@width}" %>
       	  </div>
 
       	  <br />
       	  <div class="actions">
             <% form_name = 'new_group_form' %>
-            <%= link_to_function image_tag('contour/tick.png', :alt => '') + "Create Group", "$('##{form_name}').submit();", :class => "button positive" %>
-            <%= link_to_function image_tag('contour/cross.png', :alt => '') + 'Cancel', "$( '#new-sticky-or-group-dialog' ).dialog('close');", :class => 'button negative' %>
+            <%= link_to_function image_tag('contour/tick.png', alt: '') + "Create Group", "$('##{form_name}').submit();", class: "button positive" %>
+            <%= link_to_function image_tag('contour/cross.png', alt: '') + 'Cancel', "$( '#new-sticky-or-group-dialog' ).dialog('close');", class: 'button negative' %>
           </div>
         <% end %>
         <br /><br />

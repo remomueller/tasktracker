@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
       render nothing: true
     end
   end
-  
+
   def favorite
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project
@@ -37,22 +37,22 @@ class ProjectsController < ApplicationController
       render nothing: true
     end
   end
-  
+
   def selection
     @sticky = Sticky.new
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
     @project_id = @project.id if @project
   end
-  
+
   def index
     current_user.update_attribute :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 20
-    
+
     @order = params[:order].blank? ? 'projects.name' : params[:order]
     projects_scope = current_user.all_viewable_projects
-    
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| projects_scope = projects_scope.search(search_term) }
-    
+
     projects_scope = projects_scope.by_favorite(current_user.id)
     projects_scope = projects_scope.order("(favorite IS NULL or favorite = '0') ASC, " + @order)
     @projects = projects_scope.page(params[:page]).per(current_user.projects_per_page)
@@ -85,25 +85,25 @@ class ProjectsController < ApplicationController
   def create
     params[:project][:start_date] = Date.strptime(params[:project][:start_date], "%m/%d/%Y") if params[:project] and not params[:project][:start_date].blank?
     params[:project][:end_date] = Date.strptime(params[:project][:end_date], "%m/%d/%Y") if params[:project] and not params[:project][:end_date].blank?
-    
+
     @project = current_user.projects.new(params[:project])
     if @project.save
-      redirect_to(@project, :notice => 'Project was successfully created.')
+      redirect_to(@project, notice: 'Project was successfully created.')
     else
-      render :action => "new"
+      render action: "new"
     end
   end
 
   def update
     params[:project][:start_date] = Date.strptime(params[:project][:start_date], "%m/%d/%Y") if params[:project] and not params[:project][:start_date].blank?
     params[:project][:end_date] = Date.strptime(params[:project][:end_date], "%m/%d/%Y") if params[:project] and not params[:project][:end_date].blank?
-    
+
     @project = current_user.all_projects.find_by_id(params[:id])
     if @project
       if @project.update_attributes(params[:project])
-        redirect_to(@project, :notice => 'Project was successfully updated.')
+        redirect_to(@project, notice: 'Project was successfully updated.')
       else
-        render :action => "edit"
+        render action: "edit"
       end
     else
       redirect_to root_path

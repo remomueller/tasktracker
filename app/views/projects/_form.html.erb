@@ -16,11 +16,11 @@
     <legend><%= @title %></legend>
     <div class="field">
       <%= f.label :name %><br />
-      <%= f.text_field :name, :style => "width:#{width}" %>
+      <%= f.text_field :name, style: "width:#{width}" %>
     </div>
     <div class="field">
       <%= f.label :description %><br />
-      <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
+      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
     </div>
     <div class="field">
       <%= f.label :status %><br />
@@ -28,21 +28,21 @@
     </div>
     <div class="field">
       <%= f.label :start_date %><br />
-      <%= f.text_field :start_date, :class => 'datepicker', :value => @project.start_date ? @project.start_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :start_date, class: 'datepicker', value: @project.start_date ? @project.start_date.strftime('%m/%d/%Y') : '' %>
     </div>
     <div class="field">
       <%= f.label :end_date %><br />
-      <%= f.text_field :end_date, :class => 'datepicker', :value => @project.end_date ? @project.end_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :end_date, class: 'datepicker', value: @project.end_date ? @project.end_date.strftime('%m/%d/%Y') : '' %>
     </div>
     <div class="field">
       <%= f.label :tag_tokens, 'Sticky Tags' %><br />
-      <%= f.text_field :tag_tokens, "data-pre" => @project.tags.collect{|t| {:name => t, :id => t}}.to_json %>
+      <%= f.text_field :tag_tokens, "data-pre" => @project.tags.collect{|t| {name: t, id: t}}.to_json %>
     </div>
   </fieldset>
-  
+
   <div class="actions">
     <% form_name = @project.new_record? ? 'new_project' : "edit_project_#{@project.id}" %>
-    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@project.new_record? ? "Create Project" : "Update Project"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= link_to_function image_tag('contour/tick.png', alt: '') + (@project.new_record? ? "Create Project" : "Update Project"), "$('##{form_name}').submit();", class: "button positive" %>
     <%= cancel %>
 		<br />
   </div>

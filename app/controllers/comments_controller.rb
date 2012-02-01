@@ -66,9 +66,9 @@ class CommentsController < ApplicationController
   # def create
   #   @comment = current_user.comments.new(params[:comment])
   #   if @comment.save
-  #     redirect_to(@comment, :notice => 'Comment was successfully created.')
+  #     redirect_to(@comment, notice: 'Comment was successfully created.')
   #   else
-  #     render :action => "new"
+  #     render action: "new"
   #   end
   # end
 
@@ -76,9 +76,9 @@ class CommentsController < ApplicationController
     @comment = current_user.all_comments.find_by_id(params[:id])
     if @comment
       if @comment.update_attributes(params[:comment])
-        redirect_to(@comment, :notice => 'Comment was successfully updated.')
+        redirect_to(@comment, notice: 'Comment was successfully updated.')
       else
-        render :action => "edit"
+        render action: "edit"
       end
     else
       redirect_to root_path
@@ -93,19 +93,19 @@ class CommentsController < ApplicationController
     @comment = current_user.all_movable_comments.find_by_id(params[:id])
     @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
     if @comment and @object
-      @comment.update_attributes({:class_name => @object.class.name, :class_id => @object.id})
-      
-      redirect_to @object, :notice => "Comment moved to #{@object.name}."
+      @comment.update_attributes({class_name: @object.class.name, class_id: @object.id})
+
+      redirect_to @object, notice: "Comment moved to #{@object.name}."
     else
-      redirect_to root_path, :alert => "You may not move the comment."
+      redirect_to root_path, alert: "You may not move the comment."
     end
   end
-  
+
   def object_select
     @comment = current_user.all_movable_comments.find_by_id(params[:id])
     @objects = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase)
     if @comment and @objects
-      
+
     else
       render nothing: true
     end

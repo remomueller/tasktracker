@@ -17,7 +17,7 @@
       <td colspan="5"></td>
     </tr>
     <% stickies.each do |sticky| %>
-      <tr><%= render partial: 'sticky_line_item', :locals => { :sticky => sticky } %></tr>
+      <tr><%= render partial: 'sticky_line_item', locals: { sticky: sticky } %></tr>
     <% end %>
     <tr><td colspan="5" style="padding-bottom:10px"></td></tr>
   <% end %>

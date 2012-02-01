@@ -36,7 +36,7 @@
   </fieldset>
   <div class="actions">
     <% form_name = @user.new_record? ? 'new_user' : "edit_user_#{@user.id}" %>
-    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@user.new_record? ? "Create User" : "Update User"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= link_to_function image_tag('contour/tick.png', alt: '') + (@user.new_record? ? "Create User" : "Update User"), "$('##{form_name}').submit();", class: "button positive" %>
     <%= cancel %>
 		<br />
   </div>

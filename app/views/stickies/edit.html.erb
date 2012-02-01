@@ -9,7 +9,7 @@
 <p>
   <b>Comments:</b>
 </p>
-<%= form_tag search_comments_path(:class_id => @sticky.id, :class_name => 'Sticky'), :method => :get, :id => "comments_search" do %>
+<%= form_tag search_comments_path(class_id: @sticky.id, class_name: 'Sticky'), method: :get, id: "comments_search" do %>
 <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
 <% end %>
 

@@ -1,7 +1,7 @@
 <% @title = 'Comments' %>
 <h1><%= @title %></h1>
 
-<%= form_tag comments_path, :method => :get, :remote => true, :id => "comments_search", :style => "margin-bottom:-5px" do %>
+<%= form_tag comments_path, method: :get, remote: true, id: "comments_search", style: "margin-bottom:-5px" do %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
 

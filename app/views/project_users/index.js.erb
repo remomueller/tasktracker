@@ -1,5 +1,5 @@
 <% @relation = 'editors' %>
-$("#<%= @relation %>_list").html("<%= escape_javascript(render :partial => 'index') %>");
+$("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index') %>");
 
 <% @relation = 'viewers' %>
-$("#<%= @relation %>_list").html("<%= escape_javascript(render :partial => 'index') %>");
+$("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index') %>");

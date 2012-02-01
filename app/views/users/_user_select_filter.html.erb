@@ -5,4 +5,4 @@
 <%# end %>
 <%# concept_scope = concept_scope.order('search_name ASC') %>
 
-<%= select_tag "#{@relation}_id", options_for_select([['-------', nil]] + @users.collect{|user| [user.reverse_name, user.id]}), :size => 10, :style => "width:500px;" %>
+<%= select_tag "#{@relation}_id", options_for_select([['-------', nil]] + @users.collect{|user| [user.reverse_name, user.id]}), size: 10, style: "width:500px;" %>

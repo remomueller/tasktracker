@@ -16,7 +16,7 @@
     <legend><%= @title %></legend>
     <div class="field">
       <%= f.label :name %><br />
-      <%= f.text_field :name, :style => "width:#{width}" %>
+      <%= f.text_field :name, style: "width:#{width}" %>
     </div>
     <div class="field">
       <%= f.label :project_id %><br />
@@ -28,10 +28,10 @@
     <%#= link_to 'Add More', add_item_templates_path, remote: true, method: :post %>
     <%= link_to 'Add More', '#', id: 'add_more_items' %>
   </fieldset>
-  
+
   <div class="actions">
     <% form_name = @template.new_record? ? 'new_template' : "edit_template_#{@template.id}" %>
-    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@template.new_record? ? "Create Template" : "Update Template"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= link_to_function image_tag('contour/tick.png', alt: '') + (@template.new_record? ? "Create Template" : "Update Template"), "$('##{form_name}').submit();", class: "button positive" %>
     <%= cancel %>
 		<br />
   </div>

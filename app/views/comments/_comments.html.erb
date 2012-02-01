@@ -1,9 +1,9 @@
 <div style="float:right">
-  Per Page 
+  Per Page
   <% [10,25,50].each do |count| %>
     <span class="per_page">
       <% if current_user.comments_per_page != count %>
-        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'comments', :id => "count_#{count}" %>
+        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'comments', id: "count_#{count}" %>
       <% else %>
         <%= count %>
       <% end %>
@@ -36,7 +36,7 @@
     <td><%= comment.description %></td>
     <td style="vertical-align:middle">
       <% if current_user.all_deletable_comments.include?(comment) %>
-        <%= link_to image_tag('contour/delete.png', :alt => ''), comment, :confirm => "Are you sure you want to delete Comment #{comment.name}?", :method => :delete %>
+        <%= link_to image_tag('contour/delete.png', alt: ''), comment, confirm: "Are you sure you want to delete Comment #{comment.name}?", method: :delete %>
       <% end %>
     </td>
   </tr>

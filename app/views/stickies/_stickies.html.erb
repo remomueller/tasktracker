@@ -1,6 +1,6 @@
 <div style="float:right;text-align:right">
   Per Page
-  <% [10,25,50].each do |count| %> <span class="per_page"><%= link_to_if current_user.stickies_per_page != count, count, "#", 'data-count' => count, 'data-object' => 'stickies', :id => "count_#{count}" %></span><% end %><br />
+  <% [10,25,50].each do |count| %> <span class="per_page"><%= link_to_if current_user.stickies_per_page != count, count, "#", 'data-count' => count, 'data-object' => 'stickies', id: "count_#{count}" %></span><% end %><br />
   <%= "<b>Displaying #{@stickies.count} of #{@sticky_count}</b>".html_safe if @sticky_count %>
 </div>
 
@@ -47,7 +47,7 @@
       </td>
       <td>
         <div style="width:400px"><pre class="collapsed" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_description"><%= sticky.full_description %></pre></div>
-        <div style="padding-left:20px"><%= link_to_function (sticky.comments.size > 0 ? pluralize(sticky.comments.size, "comment") : 'more...'), "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}');", :id => "#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_link" %></div>
+        <div style="padding-left:20px"><%= link_to_function (sticky.comments.size > 0 ? pluralize(sticky.comments.size, "comment") : 'more...'), "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}');", id: "#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_link" %></div>
       </td>
       <td style="white-space:nowrap;vertical-align:middle;"><div style="margin:0 auto;width:20px;"><%= display_completion(sticky.completed) %></div></td>
       <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
@@ -64,14 +64,14 @@
       </td>
       <td style="vertical-align:middle">
         <% if current_user.all_stickies.include?(sticky) %>
-          <%= link_to image_tag('contour/edit.png', :alt => ''), edit_sticky_path(sticky) %>
-          <%= link_to image_tag('contour/delete.png', :alt => ''), sticky, :confirm => "Are you sure you want to delete Sticky #{sticky.name}?", :method => :delete %>
+          <%= link_to image_tag('contour/edit.png', alt: ''), edit_sticky_path(sticky) %>
+          <%= link_to image_tag('contour/delete.png', alt: ''), sticky, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", method: :delete %>
         <% end %>
       </td>
     </tr>
   </tbody>
   <tbody id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" style="display:none">
-    <%= render :partial => 'comments/index_table' %>
+    <%= render partial: 'comments/index_table' %>
   </tbody>
 <% end %>
 </table>

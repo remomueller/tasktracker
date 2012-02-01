@@ -1,4 +1,4 @@
-<% @defaults = {:width => 320, :height => 240, :units => '', :title => '', :min => @values.values.flatten.min.to_i, :max => @values.values.flatten.max.to_i, :legend => 'right'} %>
+<% @defaults = {width: 320, height: 240, units: '', title: '', min: @values.values.flatten.min.to_i, max: @values.values.flatten.max.to_i, legend: 'right'} %>
 <% @defaults.merge!(@chart_params) %>
 <% @defaults.each do |k, v| %>
   <% @defaults[k] = array_or_string_for_javascript(v) if v.kind_of?(String) %>

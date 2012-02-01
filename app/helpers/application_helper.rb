@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def cancel
-    link_to image_tag('contour/cross.png', :alt => '') + 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), :class => 'button negative'
+    link_to image_tag('contour/cross.png', alt: '') + 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'button negative'
   end
 
   # Prints out '6 hours ago, Yesterday, 2 weeks ago, 5 months ago, 1 year ago'
@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def information(message = ' Press Enter to Search')
-    "<span class=\"quiet small\">#{image_tag('contour/information.png', :alt => '', :style=>'vertical-align:text-bottom')}#{message}</span>".html_safe
+    "<span class=\"quiet small\">#{image_tag('contour/information.png', alt: '', :style=>'vertical-align:text-bottom')}#{message}</span>".html_safe
   end
 
   def simple_date(past_date)
@@ -36,16 +36,16 @@ module ApplicationHelper
       past_date.strftime("%b %d, %Y")
     end
   end
-  
+
   def simple_weekday(date)
     return '' unless date.kind_of?(Time) or date.kind_of?(Date)
     date.strftime("%a")
   end
-  
+
   def simple_date_and_weekday(date)
     [simple_date(date), simple_weekday(date)].select{|i| not i.blank?}.join(', ')
   end
-  
+
   def simple_time(past_time)
     return '' if past_time.blank?
     if past_time.to_date == Date.today
@@ -56,7 +56,7 @@ module ApplicationHelper
       past_time.strftime("on %b %d, %Y at %I:%M %p")
     end
   end
-  
+
   def display_status(status)
     result = '<table class="status-table"><tr>'
     case status when 'planned'
@@ -94,29 +94,29 @@ module ApplicationHelper
   #   result << '</tr></table>'
   #   result.html_safe
   # end
-  
+
   def sort_field_helper(order, sort_field, display_name, search_form_id  = 'search_form')
     result = ''
     if order == sort_field
-      result = "<span class='selected' style='color:#DD6767;'>#{display_name} #{ link_to_function('&raquo;'.html_safe, "$('#order').val('#{sort_field} DESC');$('##{search_form_id}').submit();", :style => 'text-decoration:none')}</span>"
+      result = "<span class='selected' style='color:#DD6767;'>#{display_name} #{ link_to_function('&raquo;'.html_safe, "$('#order').val('#{sort_field} DESC');$('##{search_form_id}').submit();", style: 'text-decoration:none')}</span>"
     elsif order == sort_field + ' DESC' or order.split(' ').first != sort_field
-      result = "<span class='selected' #{'style="color:#DD6767;"' if order == sort_field + ' DESC'}>#{display_name} #{link_to_function((order == sort_field + ' DESC' ? '&laquo;'.html_safe : '&laquo;&raquo;'.html_safe), "$('#order').val('#{sort_field}');$('##{search_form_id}').submit();", :style => 'text-decoration:none')}</span>"
+      result = "<span class='selected' #{'style="color:#DD6767;"' if order == sort_field + ' DESC'}>#{display_name} #{link_to_function((order == sort_field + ' DESC' ? '&laquo;'.html_safe : '&laquo;&raquo;'.html_safe), "$('#order').val('#{sort_field}');$('##{search_form_id}').submit();", style: 'text-decoration:none')}</span>"
     end
     result
   end
-  
+
   def draw_chart(chart_api, chart_type, values, chart_element_id, chart_params, categories)
     if chart_api == 'highcharts'
       highcharts_chart(chart_type, values, chart_element_id, chart_params, categories)
     end
   end
-  
+
   def highcharts_chart(chart_type, values, chart_element_id, chart_params, categories)
     @values = values
     @chart_element_id = chart_element_id
     @chart_type = chart_type
     @chart_params = chart_params
     @categories = categories
-    render :partial => 'charts/highcharts_chart'
+    render partial: 'charts/highcharts_chart'
   end
 end

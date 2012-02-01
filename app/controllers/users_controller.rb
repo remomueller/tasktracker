@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :check_system_admin, :only => [:new, :create, :edit, :update, :destroy, :overall_graph]
+  before_filter :check_system_admin, only: [:new, :create, :edit, :update, :destroy, :overall_graph]
 
   # Stickies per user
   def overall_graph
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       redirect_to users_path
       return
     end
-    
+
     @stickies = []
     @planned = []
     @completed = []
@@ -43,14 +43,14 @@ class UsersController < ApplicationController
 
     @other_projects_hash = {}
     @favorite_projects_hash = {}
-  
+
     (1..12).each do |month|
       @user.all_projects.by_favorite(@user.id).order('(favorite IS NULL or favorite = 0) DESC, name DESC').each do |project|
         escaped_name = project.name.gsub("'", "\\\\'")
         if project_favorite = project.project_favorites.find_by_user_id(@user.id) and project_favorite.favorite?
           @favorite_projects_hash[escaped_name] = [] unless @favorite_projects_hash[escaped_name]
           @favorite_projects_hash[escaped_name] << @stickies[month-1].with_project(project.id, @user.id).count
-        else          
+        else
           @other_projects_hash[escaped_name] = [] unless @other_projects_hash[escaped_name]
           @other_projects_hash[escaped_name] << @stickies[month-1].with_project(project.id, @user.id).count
         end
@@ -60,21 +60,21 @@ class UsersController < ApplicationController
 
   def update_settings
     notifications = {}
-    
+
     email_settings = ['send_email'] + User::EMAILABLES.collect{|emailable, description| emailable.to_s} + current_user.all_viewable_projects.collect{|p| ["project_#{p.id}"] + User::EMAILABLES.collect{|emailable, description| "project_#{p.id}_#{emailable.to_s}"}}.flatten
     # email_settings = ['send_email', 'sticky_creation', 'sticky_completion', 'project_comments', 'sticky_comments'] + current_user.all_viewable_projects.collect{|p| "project_#{p.id}"}
-    
-    
+
+
     email_settings.each do |email_setting|
       notifications[email_setting] = (not params[:email].blank? and params[:email][email_setting] == '1')
     end
     current_user.update_attribute :email_notifications, notifications
-    redirect_to settings_path, :notice => 'Email settings saved.'
+    redirect_to settings_path, notice: 'Email settings saved.'
   end
-  
+
   def index
     unless current_user.system_admin? or params[:format] == 'json'
-      redirect_to root_path, :alert => "You do not have sufficient privileges to access that page."
+      redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
       return
     end
     current_user.update_attribute :users_per_page, params[:users_per_page].to_i if params[:users_per_page].to_i >= 10 and params[:users_per_page].to_i <= 200
@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json { render :json => params[:q].to_s.split(',').collect{|u| (u.strip.downcase == 'me') ? {:name => current_user.name, :id => current_user.name} : {:name => u.strip.titleize, :id => u.strip.titleize}} + @users.collect{|u| {:name => u.name, :id => u.name}}}
+      format.json { render json: params[:q].to_s.split(',').collect{|u| (u.strip.downcase == 'me') ? {name: current_user.name, id: current_user.name} : {name: u.strip.titleize, id: u.strip.titleize}} + @users.collect{|u| {name: u.name, id: u.name}}}
     end
   end
 
@@ -95,7 +95,7 @@ class UsersController < ApplicationController
     @user = User.current.find_by_id(params[:id])
     redirect_to users_path unless @user
   end
-  
+
   # def new
   #   @user = User.new
   # end
@@ -114,17 +114,17 @@ class UsersController < ApplicationController
     if @user and @user.update_attributes(params[:user])
       @user.update_attribute :system_admin, params[:user][:system_admin]
       @user.update_attribute :status, params[:user][:status]
-      redirect_to(@user, :notice => 'User was successfully updated.')
+      redirect_to(@user, notice: 'User was successfully updated.')
     elsif @user
-      render :action => "edit"
+      render action: "edit"
     else
       redirect_to users_path
     end
   end
-  
+
   def destroy
     @user = User.find_by_id(params[:id])
     @user.destroy if @user
     redirect_to users_path
-  end  
+  end
 end

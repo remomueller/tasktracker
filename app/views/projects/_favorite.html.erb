@@ -1,2 +1,2 @@
 <% project_favorite = @project.project_favorites.find_by_user_id(current_user.id) %>
-<%= link_to image_tag("contour/favorite_#{(project_favorite and project_favorite.favorite?) ? 'yes' : 'no'}.png", :alt => ''), favorite_project_path(@project, :favorite => (project_favorite and project_favorite.favorite?) ? '0' : '1'), :remote => true, :method => :post %>&nbsp;
+<%= link_to image_tag("contour/favorite_#{(project_favorite and project_favorite.favorite?) ? 'yes' : 'no'}.png", alt: ''), favorite_project_path(@project, favorite: (project_favorite and project_favorite.favorite?) ? '0' : '1'), remote: true, method: :post %>&nbsp;

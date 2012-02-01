@@ -3,7 +3,7 @@
   <table class="status-table">
     <tr>
       <td id="project_<%= @project.id %>_favorite_link">
-        <%= render :partial => 'projects/favorite' %>
+        <%= render partial: 'projects/favorite' %>
       </td>
       <td><%= @project.name %> &raquo;</td>
       <td style="vertical-align:top;padding:0 0 0 3px"><%= display_status(@project.status) %></td>
@@ -12,14 +12,14 @@
 </h1>
 
 <% if current_user.all_projects.include?(@project) %>
-  <%= link_to image_tag('contour/edit.png', :alt => '') + "Edit Project", edit_project_path(@project), :class => 'button' %>
-  <%= link_to image_tag('contour/delete.png', :alt => '') + "Delete Project", @project, :confirm => "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!", :method => :delete, :class => 'button negative' %>
+  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Project", edit_project_path(@project), class: 'button' %>
+  <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Project", @project, confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!", method: :delete, class: 'button negative' %>
 <% end %>
-<%= link_to image_tag('contour/mydocuments.png', :alt => '') + "View All Projects", projects_path, :class => 'button' %>
+<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Projects", projects_path, class: 'button' %>
 <% if current_user.all_projects.include?(@project) %>
-  <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path(:sticky => {:project_id => @project.id}), :class => 'button positive' %>
-  <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Frame", new_frame_path(:frame => {:project_id => @project.id}), :class => 'button positive' %>
-  <%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Template", new_template_path(:template => {:project_id => @project.id}), :class => 'button positive' %>
+  <%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Sticky", new_sticky_path(sticky: {project_id: @project.id}), class: 'button positive' %>
+  <%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Frame", new_frame_path(frame: {project_id: @project.id}), class: 'button positive' %>
+  <%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Template", new_template_path(template: {project_id: @project.id}), class: 'button positive' %>
 <% end %>
 
 <div style="clear:both"></div>
@@ -41,7 +41,7 @@
   <% @relation = relation; @allow_editing = allow_editing %>
   <% @users = User.current.order('last_name, first_name') %>
   <p>
-    <div id="<%= @relation %>_list"><%= render :partial => 'project_users/index' %></div>
+    <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
   </p>
 <% end %>
 
@@ -53,19 +53,19 @@
 <h2>Stickies</h2>
 
 <div style="float:left">
-  <%= form_tag search_stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => 'margin-bottom:0px' do %>
+  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px' do %>
     <%= hidden_field_tag :order, params[:order] %>
     <%= hidden_field_tag :direction, 0 %>
     <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
-    <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
+    <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", style: 'text-decoration:none' %>
     <%= select_tag 'frame_id', options_for_select(@project.frames.collect{|f| [f.name, f.id]} + [['Backlog', 0]], params[:frame_id]) %>
-    <%= link_to_function "&raquo;".html_safe, "increaseSelectedIndex('#frame_id');", :style => 'text-decoration:none' %>
+    <%= link_to_function "&raquo;".html_safe, "increaseSelectedIndex('#frame_id');", style: 'text-decoration:none' %>
   <% end %>
 </div>
 
 <div id="stickies">
-  <%#= render :partial => 'stickies/stickies' %>
+  <%#= render partial: 'stickies/stickies' %>
   <div style="clear:both"></div><br /><br />
   <center><%= image_tag "ajax-loader.gif" %></center>
   <br /><br />
@@ -75,11 +75,11 @@
 
 <h2>General Project Comments</h2>
 <div class="quiet">
-  <%= image_tag('contour/information.png', :alt => '', :style => 'vertical-align:middle') %>
+  <%= image_tag('contour/information.png', alt: '', style: 'vertical-align:middle') %>
   Questions? Issues? Feature Requests? Bugs? Enter them here!
 </div>
 
-<%= form_tag search_comments_path(:class_id => @project.id, :class_name => 'Project'), :method => :get, :id => "comments_search" do %>
+<%= form_tag search_comments_path(class_id: @project.id, class_name: 'Project'), method: :get, id: "comments_search" do %>
 <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
 <% end %>
 
@@ -92,4 +92,4 @@
   });
 <% end %>
 
-<%#= render :partial => 'stickies/index' %>
+<%#= render partial: 'stickies/index' %>

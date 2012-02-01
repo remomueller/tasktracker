@@ -5,12 +5,12 @@ class Project < ActiveRecord::Base
   attr_reader :tag_tokens
 
   # Named Scopes
-  scope :current, :conditions => { :deleted => false }
-  scope :with_user, lambda { |*args| { :conditions => ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
-  scope :search, lambda { |*args| {:conditions => [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :current, conditions: { deleted: false }
+  scope :with_user, lambda { |*args| { conditions: ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
+  scope :search, lambda { |*args| {conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
-  # scope :by_favorite, lambda { |*args| {:include => :project_favorites, :conditions => ["project_favorites.user_id = ? or project_favorites.user_id IS NULL", args.first], :order => "(project_favorites.favorite = 0) ASC" } }
-  scope :by_favorite, lambda { |*args| {:joins => "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first}"}} #, :order => "(project_favorites.favorite = 1) DESC"
+  # scope :by_favorite, lambda { |*args| {include: :project_favorites, conditions: ["project_favorites.user_id = ? or project_favorites.user_id IS NULL", args.first], order: "(project_favorites.favorite = 0) ASC" } }
+  scope :by_favorite, lambda { |*args| {joins: "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first}"}} #, order: "(project_favorites.favorite = 1) DESC"
 
   # Model Validation
   validates_presence_of :name
@@ -20,11 +20,11 @@ class Project < ActiveRecord::Base
   belongs_to :user
   has_many :project_favorites
   has_many :project_users
-  has_many :users, :through => :project_users, :conditions => { :deleted => false }, :order => 'last_name, first_name'
-  has_many :editors, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ? and users.deleted = ?', true, false]
-  has_many :viewers, :through => :project_users, :source => :user, :conditions => ['project_users.allow_editing = ? and users.deleted = ?', false, false]
-  has_many :stickies, :conditions => { :deleted => false } #, :order => 'stickies.created_at desc'
-  has_many :frames, :conditions => { :deleted => false }, :order => 'frames.end_date desc'
+  has_many :users, through: :project_users, conditions: { deleted: false }, order: 'last_name, first_name'
+  has_many :editors, through: :project_users, source: :user, conditions: ['project_users.allow_editing = ? and users.deleted = ?', true, false]
+  has_many :viewers, through: :project_users, source: :user, conditions: ['project_users.allow_editing = ? and users.deleted = ?', false, false]
+  has_many :stickies, conditions: { deleted: false } #, order: 'stickies.created_at desc'
+  has_many :frames, conditions: { deleted: false }, order: 'frames.end_date desc'
   # has_many :tags, conditions: { deleted: false }, order: 'tags.name'
 
   def color(current_user)
@@ -51,7 +51,7 @@ class Project < ActiveRecord::Base
   end
 
   def new_comment(current_user, description)
-    Comment.create(:class_name => self.class.name, :class_id => self.id, :user_id => current_user.id, :description => description)
+    Comment.create(class_name: self.class.name, class_id: self.id, user_id: current_user.id, description: description)
     self.touch
   end
 

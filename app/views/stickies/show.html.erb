@@ -8,15 +8,15 @@
   </table>
 </h1>
 <% if current_user.all_stickies.include?(@sticky)  %>
-  <%= link_to image_tag('contour/edit.png', :alt => '') + "Edit Sticky", edit_sticky_path(@sticky), :class => 'button' %>
+  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Sticky", edit_sticky_path(@sticky), class: 'button' %>
   <% if @sticky.group %>
     <%= link_to_function image_tag('contour/delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'button negative' %>
     <%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
   <% else %>
-    <%= link_to image_tag('contour/delete.png', :alt => '') + "Delete Sticky", @sticky, :confirm => "Are you sure you want to delete Sticky #{@sticky.name}?", :method => :delete, :class => 'button negative' %>
+    <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'button negative' %>
   <% end %>
 <% end %>
-<%= link_to image_tag('contour/mydocuments.png', :alt => '') + "View All Stickies", stickies_path, :class => 'button' %>
+<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Stickies", stickies_path, class: 'button' %>
 
 <div style="clear:both"></div>
 
@@ -74,7 +74,7 @@
 <p>
   <b>Comments:</b>
 </p>
-<%= form_tag search_comments_path(:class_id => @sticky.id, :class_name => 'Sticky'), :method => :get, :id => "comments_search" do %>
+<%= form_tag search_comments_path(class_id: @sticky.id, class_name: 'Sticky'), method: :get, id: "comments_search" do %>
 <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
 <% end %>
 
@@ -91,6 +91,6 @@
 <% @limit = nil %>
 <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
 <div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
-  <%= render :partial => 'comments/index' %>
+  <%= render partial: 'comments/index' %>
 </div>
 <% end %>

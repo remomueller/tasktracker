@@ -26,13 +26,13 @@
     <% end %>
     <div class="field">
       <%= f.label :description, 'Comment' %><br />
-      <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
+      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
     </div>
   </fieldset>
-  
+
   <div class="actions">
-    <% form_name = @comment.new_record? ? 'new_comment' : "edit_comment_#{@comment.id}" %>    
-    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@comment.new_record? ? "Create Comment" : "Update Comment"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <% form_name = @comment.new_record? ? 'new_comment' : "edit_comment_#{@comment.id}" %>
+    <%= link_to_function image_tag('contour/tick.png', alt: '') + (@comment.new_record? ? "Create Comment" : "Update Comment"), "$('##{form_name}').submit();", class: "button positive" %>
     <%= cancel %>
 		<br />
   </div>

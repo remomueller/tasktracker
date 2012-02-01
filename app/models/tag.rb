@@ -1,6 +1,6 @@
 class Tag < ActiveRecord::Base
   # Named Scopes
-  scope :current, :conditions => { :deleted => false }
+  scope :current, conditions: { deleted: false }
 
   # Model Validation
   validates_presence_of :name

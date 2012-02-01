@@ -2,10 +2,10 @@
 <h1><%= @title %></h1>
 
 <% if current_user.system_admin? and false %>
-  <%= link_to image_tag('contour/im.png', :alt => '') + "Create New User", new_user_path, :class => 'button positive' %>
+  <%= link_to image_tag('contour/im.png', alt: '') + "Create New User", new_user_path, class: 'button positive' %>
 <% end %>
 
-<%= form_tag users_path, :method => :get, :remote => true, :id => "users_search" do %>
+<%= form_tag users_path, method: :get, remote: true, id: "users_search" do %>
   <%= hidden_field_tag :order %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
   <div id="users"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

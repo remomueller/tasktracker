@@ -2,10 +2,10 @@
 <h1><%= link_to @group.project.name, @group.project %> &raquo;<%= @title %></h1>
 
 <% if current_user.all_groups.include?(@group) %>
-  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Group", edit_group_path(@group), :class => 'button' %>
-  <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Group", @group, :confirm => "Are you sure you want to delete Group #{@group.name} and the associated #{pluralize @group.stickies.size, 'Sticky'}?", :method => :delete, :class => 'button negative' %>
+  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Group", edit_group_path(@group), class: 'button' %>
+  <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Group", @group, confirm: "Are you sure you want to delete Group #{@group.name} and the associated #{pluralize @group.stickies.size, 'Sticky'}?", method: :delete, class: 'button negative' %>
 <% end %>
-<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Groups", groups_path, :class => 'button' %>
+<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Groups", groups_path, class: 'button' %>
 
 <div style="clear:both"></div>
 
@@ -25,7 +25,7 @@
 </p>
 
 <div style="float:left">
-  <%= form_tag search_stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => 'margin-bottom:0px' do %>
+  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px' do %>
     <%= hidden_field_tag :order, params[:order] %>
     <%= hidden_field_tag :direction, 0 %>
     <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>

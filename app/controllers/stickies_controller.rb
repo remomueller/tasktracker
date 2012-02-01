@@ -133,7 +133,7 @@ class StickiesController < ApplicationController
       end
     else
       @project_id = @sticky.project_id
-      render :action => "new"
+      render action: "new"
     end
   end
 
@@ -155,7 +155,7 @@ class StickiesController < ApplicationController
         end
       else
         @project_id = @sticky.project_id
-        render :action => "edit"
+        render action: "edit"
       end
     else
       redirect_to root_path

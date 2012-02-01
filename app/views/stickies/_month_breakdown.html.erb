@@ -24,23 +24,23 @@
             </div>
             <div style="min-height:60px">
               <%# @stickies.with_due_date_for_calendar(iDate,iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
-              <%# @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+              <%# @stickies.where(start_date: iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
               <% if false %>
                 <% case params[:date_type] when 'start_date' %>
-                  <% @stickies.where(:start_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                  <% @stickies.where(start_date: iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
                     <%= @sticky = sticky; render partial: 'popup' %>
                   <% end %>
                 <% when 'end_date' %>
-                  <% @stickies.where(:end_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                  <% @stickies.where(end_date: iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
                     <%= @sticky = sticky; render partial: 'popup' %>
                   <% end %>
                 <% else %>
-                  <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
+                  <% @stickies.where(due_date: iDate).order('stickies.project_id, stickies.id').each do |sticky| %>
                     <%= @sticky = sticky; render partial: 'popup' %>
                   <% end %>
                 <% end %>
               <% else %>
-                <% @stickies.where(:due_date => iDate).order('stickies.project_id, stickies.id').group_by(&:tags).sort.each do |tags, stickies| %>
+                <% @stickies.where(due_date: iDate).order('stickies.project_id, stickies.id').group_by(&:tags).sort.each do |tags, stickies| %>
                   <div style="padding-bottom:5px;">
                     <% if tags.size > 0 %><div class="calendar-entry-amount"><%= image_tag('gentleface/16/tag.png', alt: '', size: '11x11', style: 'vertical-align:text-bottom') %></div><div class="calendar-entry-name" style="font-size:11px"><em><%= tags.sort.join(', ') %></em></div><% else %><div style="padding-top:5px"></div><% end %>
                     <% stickies.each do |sticky| %>

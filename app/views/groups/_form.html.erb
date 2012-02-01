@@ -16,7 +16,7 @@
     <legend><%= @title %></legend>
     <div class="field">
       <%= f.label :description %><br />
-      <%= f.text_area :description, :rows => 7, :style => "width:#{width}" %>
+      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
     </div>
     <div class="field">
       <%= f.label :project_id %><br />
@@ -24,10 +24,10 @@
       <span class="quiet">Changing the project will move all the stickies in this group to the backlog in the selected project</span>
     </div>
   </fieldset>
-  
+
   <div class="actions">
     <% form_name = @group.new_record? ? 'new_group' : "edit_group_#{@group.id}" %>
-    <%= link_to_function image_tag('contour/tick.png', :alt => '') + (@group.new_record? ? "Create Group" : "Update Group"), "$('##{form_name}').submit();", :class => "button positive" %>
+    <%= link_to_function image_tag('contour/tick.png', alt: '') + (@group.new_record? ? "Create Group" : "Update Group"), "$('##{form_name}').submit();", class: "button positive" %>
     <%= cancel %>
 		<br />
   </div>

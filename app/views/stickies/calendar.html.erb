@@ -7,18 +7,18 @@
         <h4 style="margin-top:0px">
           <span id="calendar-title"><%= render partial: 'calendar_title' %></span>
           <span style='font-size: 11px;font-weight:normal'>
-            <%= link_to_function '&laquo;'.html_safe, "goBackOneMonth();", :style => 'text-decoration:none', :title => 'Previous Month' %>
+            <%= link_to_function '&laquo;'.html_safe, "goBackOneMonth();", style: 'text-decoration:none', title: 'Previous Month' %>
             <%= link_to_function 'Today', 'getToday()' %>
-            <%= link_to_function '&raquo;'.html_safe, "goForwardOneMonth();", :style => 'text-decoration:none', :title => 'Next Month' %>
+            <%= link_to_function '&raquo;'.html_safe, "goForwardOneMonth();", style: 'text-decoration:none', title: 'Next Month' %>
           </span>
         </h4>
       </td>
       <td style="vertical-align:top;text-align:center;">
         <%= hidden_field_tag :direction, 0 %>
-        <%#= link_to_function '&laquo;'.html_safe, "goBackOneYear();", :style => 'text-decoration:none', :title => 'Previous Year' %>
+        <%#= link_to_function '&laquo;'.html_safe, "goBackOneYear();", style: 'text-decoration:none', title: 'Previous Year' %>
         <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker' %>
         <%#= select_tag :date_type, options_for_select([['Due Date', 'due_date'],['Start Date', 'start_date'],['End Date', 'end_date']]) %>
-        <%#= link_to_function '&raquo;'.html_safe, "goForwardOneYear();", :style => 'text-decoration:none', :title => 'Next Year' %>
+        <%#= link_to_function '&raquo;'.html_safe, "goForwardOneYear();", style: 'text-decoration:none', title: 'Next Year' %>
       </td>
       <td style="vertical-align:top">
         <div style="float:right">
@@ -54,9 +54,9 @@
 
 <h4>Projects</h4>
 
-<%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Project", new_project_path, :class => 'button positive' %>
+<%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Project", new_project_path, class: 'button positive' %>
 
-<%= form_tag projects_path, :method => :get, :remote => true, :id => 'projects_search' do %>
+<%= form_tag projects_path, method: :get, remote: true, id: 'projects_search' do %>
   <%= hidden_field_tag :order %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>
   <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

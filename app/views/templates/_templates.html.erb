@@ -1,9 +1,9 @@
 <div style="float:right">
-  Per Page 
+  Per Page
   <% [10,25,50].each do |count| %>
     <span class="per_page">
       <% if current_user.templates_per_page != count %>
-        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'templates', :id => "count_#{count}" %>
+        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'templates', id: "count_#{count}" %>
       <% else %>
         <%= count %>
       <% end %>
@@ -30,8 +30,8 @@
     </td>
     <td style="vertical-align:middle;white-space:nowrap">
       <% if current_user.all_templates.include?(template) %>
-        <%#= link_to image_tag('contour/addfile.png', :alt => ''), generate_stickies_template_path(template), confirm: "Are you sure you want to generate #{pluralize(template.items.size, 'Sticky')} from Template #{template.name}?", method: :post %>
-        <%= link_to image_tag('contour/delete.png', :alt => ''), template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete %>
+        <%#= link_to image_tag('contour/addfile.png', alt: ''), generate_stickies_template_path(template), confirm: "Are you sure you want to generate #{pluralize(template.items.size, 'Sticky')} from Template #{template.name}?", method: :post %>
+        <%= link_to image_tag('contour/delete.png', alt: ''), template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete %>
       <% end %>
     </td>
   </tr>

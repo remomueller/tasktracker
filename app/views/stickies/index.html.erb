@@ -1,11 +1,11 @@
 <% @title = 'Stickies' %>
 <h1><%= @title %></h1>
 
-<%= link_to image_tag('contour/addfile.png', :alt => '') + "Create New Sticky", new_sticky_path, :class => 'button positive' %>
+<%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Sticky", new_sticky_path, class: 'button positive' %>
 
 <div style="clear:both"></div>
 
-<%= form_tag stickies_path, :method => :get, :remote => true, :id => "stickies_search", :style => "margin-bottom:-5px" do %>
+<%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order, params[:order] %>
   <fieldset>
     <legend>
@@ -51,8 +51,8 @@
       <thead>
         <tr>
           <th>Tags
-            <%= link_to_function image_tag('gentleface/16/checkbox_checked.png', :alt => 'Select All', :title => 'Select All Tags', :class => 'smudge', :style => 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", :class => 'bubble-azure', :style => 'padding-top:10px' %>
-            <%= link_to_function image_tag('gentleface/16/checkbox_unchecked.png', :alt => 'Deselect All', :title => 'Deselect All Tags', :class => 'smudge', :style => 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", :class => 'bubble-azure', :style => 'padding-top:10px' %></th>
+            <%= link_to_function image_tag('gentleface/16/checkbox_checked.png', alt: 'Select All', title: 'Select All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
+            <%= link_to_function image_tag('gentleface/16/checkbox_unchecked.png', alt: 'Deselect All', title: 'Deselect All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %></th>
         </tr>
       </thead>
       <tbody>

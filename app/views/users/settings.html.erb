@@ -1,7 +1,7 @@
 <% @title = "My Settings" %>
 <h1><%= @title %></h1>
 
-<%= form_tag update_settings_user_path(current_user), :method => :post, :id => 'email_settings' do %>
+<%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings' do %>
   <fieldset>
     <legend>Email Notifications</legend>
     <div class="field">

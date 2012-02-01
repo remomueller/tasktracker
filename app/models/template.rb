@@ -4,21 +4,21 @@ class Template < ActiveRecord::Base
   attr_reader :item_tokens
 
   # Named Scopes
-  scope :current, :conditions => { :deleted => false }
-  scope :with_project, lambda { |*args| { :conditions => ["templates.project_id IN (?) or (templates.project_id IS NULL and templates.user_id = ?)", args.first, args[1]] } }
-  scope :search, lambda { |*args| {:conditions => [ 'LOWER(name) LIKE ? or LOWER(items) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :current, conditions: { deleted: false }
+  scope :with_project, lambda { |*args| { conditions: ["templates.project_id IN (?) or (templates.project_id IS NULL and templates.user_id = ?)", args.first, args[1]] } }
+  scope :search, lambda { |*args| {conditions: [ 'LOWER(name) LIKE ? or LOWER(items) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
   validates_presence_of :name, :project_id, :items
-  
+
   # Model Relationships
   belongs_to :project
   belongs_to :user
-  has_many :stickies, :conditions => { :deleted => false }
+  has_many :stickies, conditions: { deleted: false }
 
   def destroy
     update_attribute :deleted, true
-    # self.stickies.update_all(:frame_id => nil)
+    # self.stickies.update_all(frame_id: nil)
   end
 
   def item_tokens=(tokens)
@@ -33,7 +33,7 @@ class Template < ActiveRecord::Base
     end
     self.items.sort!{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]) <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units])}
   end
-  
+
   def generate_stickies!(current_user, frame_id, initial_date = Date.today, additional_text = nil)
     group = current_user.groups.create({ project_id: self.project_id, description: additional_text, template_id: self.id })
     self.sorted_items.each_with_index do |item|
@@ -41,15 +41,15 @@ class Template < ActiveRecord::Base
       current_user.stickies.create({ group_id: group.id, project_id: self.project_id, frame_id: frame_id, owner_id: item[:owner_id], description: item[:description].to_s, tags: (item[:tags] || []), completed: false, due_date: (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])) })
     end
     group.reload
-    
+
     all_users = self.project.users_to_email(:sticky_creation) - [current_user]
     all_users.each do |user_to_email|
       UserMailer.group_by_mail(group, user_to_email).deliver if Rails.env.production?
     end
-    
+
     group
   end
-  
+
   def sorted_items
     self.items.sort{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]) <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units])}
   end
