@@ -1,5 +1,8 @@
 == 0.16.1
 
+* Bug Fix
+  * Stickies on calendar view are now correctly grouped by tags
+
 == 0.16.0
 
 * Enhancements

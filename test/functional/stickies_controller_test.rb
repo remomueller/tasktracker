@@ -25,7 +25,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get calendar and set user calendar status" do
-    get :calendar, status: ['completed'], format: 'js'
+    get :calendar, status: ['completed'], format: 'js', selected_date: '12/01/2011'
     users(:valid).reload # Needs reload to avoid stale object
     assert_equal ['completed'], users(:valid).settings[:calendar_status]
     assert_not_nil assigns(:selected_date)
