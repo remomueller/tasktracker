@@ -1,83 +1,60 @@
 class TagsController < ApplicationController
-  # GET /tags
-  # GET /tags.json
+  before_filter :authenticate_user!
+
   def index
-    @tags = Tag.all
+    # current_user.update_attribute :tags_per_page, params[:tags_per_page].to_i if params[:tags_per_page].to_i >= 10 and params[:tags_per_page].to_i <= 200
+    tag_scope = current_user.all_viewable_tags
+    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
+    @search_terms.each{|search_term| tag_scope = tag_scope.search(search_term) }
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @tags }
-    end
+    tag_scope = tag_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+
+    @tags = tag_scope.page(params[:page]).per( 20 ) #current_user.tags_per_page)
   end
 
-  # GET /tags/1
-  # GET /tags/1.json
   def show
-    @tag = Tag.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @tag }
-    end
+    @tag = current_user.all_viewable_tags.find_by_id(params[:id])
+    redirect_to root_path unless @tag
   end
 
-  # GET /tags/new
-  # GET /tags/new.json
   def new
-    @tag = Tag.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @tag }
-    end
+    @tag = current_user.tags.new(params[:tag])
   end
 
-  # GET /tags/1/edit
   def edit
-    @tag = Tag.find(params[:id])
+    @tag = current_user.all_tags.find_by_id(params[:id])
+    redirect_to root_path unless @tag
   end
 
-  # POST /tags
-  # POST /tags.json
   def create
-    @tag = Tag.new(params[:tag])
-
-    respond_to do |format|
-      if @tag.save
-        format.html { redirect_to @tag, notice: 'Tag was successfully created.' }
-        format.json { render json: @tag, status: :created, location: @tag }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
-      end
+    @tag = current_user.tags.new(params[:tag])
+    if @tag.save
+      redirect_to(@tag, notice: 'Tag was successfully created.')
+    else
+      render action: "new"
     end
   end
 
-  # PUT /tags/1
-  # PUT /tags/1.json
   def update
-    @tag = Tag.find(params[:id])
-
-    respond_to do |format|
+    @tag = current_user.all_tags.find_by_id(params[:id])
+    if @tag
       if @tag.update_attributes(params[:tag])
-        format.html { redirect_to @tag, notice: 'Tag was successfully updated.' }
-        format.json { head :no_content }
+        redirect_to(@tag, notice: 'Tag was successfully updated.')
       else
-        format.html { render action: "edit" }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
+        render action: "edit"
       end
+    else
+      redirect_to root_path
     end
   end
 
-  # DELETE /tags/1
-  # DELETE /tags/1.json
   def destroy
-    @tag = Tag.find(params[:id])
-    @tag.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tags_url }
-      format.json { head :no_content }
+    @tag = current_user.all_tags.find_by_id(params[:id])
+    if @tag
+      @tag.destroy
+      redirect_to tags_path
+    else
+      redirect_to root_path
     end
   end
 end

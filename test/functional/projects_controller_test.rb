@@ -13,7 +13,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal '#aabbcc', users(:valid).colors["project_#{@project.to_param}"]
     assert_response :success
   end
-  
+
   test "should not set project color" do
     post :colorpicker, id: -1, color: '#aabbcc', format: 'js'
     assert_nil assigns(:project)
@@ -27,7 +27,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal false, users(:valid).hidden_project_ids.include?(assigns(:project).id)
     assert_response :success
   end
-  
+
   test "should set hidden attribute for project" do
     post :visible, id: @project.to_param, visible: '0', format: 'js'
     users(:valid).reload # Needs reload to avoid stale object
@@ -35,7 +35,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal true, users(:valid).hidden_project_ids.include?(assigns(:project).id)
     assert_response :success
   end
-  
+
   test "should not set hidden attribute for invalid project" do
     post :visible, id: -1, visible: '0', format: 'js'
     assert_nil assigns(:project)
@@ -84,20 +84,11 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(assigns(:project))
   end
 
-  test "should create project with tags" do
-    assert_difference('Project.count') do
-      post :create, project: { name: "New Project", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '', tag_tokens: 'pending,ongoing,completed' }
-    end
-    assert_not_nil assigns(:project)
-    assert_equal assigns(:project).user_id.to_s, users(:valid).to_param
-    assert_redirected_to project_path(assigns(:project))
-  end
-
   test "should not create project with blank name" do
     assert_difference('Project.count', 0) do
       post :create, project: { name: "", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '' }
     end
-    
+
     assert_not_nil assigns(:project)
     assert_template 'new'
   end
@@ -149,7 +140,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
     assert_redirected_to projects_path
   end
-  
+
   test "should not destroy project with invalid id" do
     assert_difference('Project.current.count', 0) do
       delete :destroy, id: -1
@@ -157,7 +148,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
     assert_redirected_to root_path
   end
-  
+
   test "should create project favorite" do
     assert_difference('ProjectFavorite.where(favorite: true).count') do
       post :favorite, id: projects(:one).to_param, favorite: '1', format: 'js'
@@ -166,7 +157,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:project)
     assert_template 'favorite'
   end
-  
+
   test "should not create project favorite without valid id" do
     assert_difference('ProjectFavorite.where(favorite: true).count', 0) do
       post :favorite, id: -1, favorite: '1', format: 'js'
@@ -175,12 +166,12 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:project)
     assert_response :success
   end
-  
+
   test "should remove project favorite" do
     assert_difference('ProjectFavorite.where(favorite: false).count') do
       post :favorite, id: projects(:two).to_param, favorite: '0', format: 'js'
     end
-    
+
     assert_not_nil assigns(:project)
     assert_template 'favorite'
   end

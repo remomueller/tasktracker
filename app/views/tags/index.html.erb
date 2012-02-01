@@ -1,33 +1,53 @@
-<h1>Listing tags</h1>
+<% @title = 'Tags' %>
+<h1><% if @project %><%= link_to @project.name, @project %> &raquo;<% end %> <%= @title %></h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Description</th>
-    <th>Color</th>
-    <th>Project</th>
-    <th>User</th>
-    <th>Deleted</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<%= link_to image_tag('contour/addfile.png', alt: '') + "Create New Tag", (@project ? new_tag_path(tag: { project_id: @project.id }) : new_tag_path), class: 'button positive' %>
 
-<% @tags.each do |tag| %>
-  <tr>
-    <td><%= tag.name %></td>
-    <td><%= tag.description %></td>
-    <td><%= tag.color %></td>
-    <td><%= tag.project_id %></td>
-    <td><%= tag.user_id %></td>
-    <td><%= tag.deleted %></td>
-    <td><%= link_to 'Show', tag %></td>
-    <td><%= link_to 'Edit', edit_tag_path(tag) %></td>
-    <td><%= link_to 'Destroy', tag, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<%= form_tag tags_path, method: :get, remote: true, id: "tags_search", style: "margin-bottom:-5px" do %>
+  <%= hidden_field_tag :project_id, params[:project_id] %>
+  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
 <% end %>
-</table>
 
-<br />
+<div id="tags"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 
-<%= link_to 'New Tag', new_tag_path %>
+<%= javascript_tag do %>
+  $(function(){
+    $.get($("#tags_search").attr("action"), $("#tags_search").serialize(), null, "script");
+  });
+<% end %>
+
+<% if false %>
+  <h1>Listing tags</h1>
+
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Color</th>
+      <th>Project</th>
+      <th>User</th>
+      <th>Deleted</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+
+  <% @tags.each do |tag| %>
+    <tr>
+      <td><%= tag.name %></td>
+      <td><%= tag.description %></td>
+      <td><%= tag.color %></td>
+      <td><%= tag.project_id %></td>
+      <td><%= tag.user_id %></td>
+      <td><%= tag.deleted %></td>
+      <td><%= link_to 'Show', tag %></td>
+      <td><%= link_to 'Edit', edit_tag_path(tag) %></td>
+      <td><%= link_to 'Destroy', tag, confirm: 'Are you sure?', method: :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <br />
+
+  <%= link_to 'New Tag', new_tag_path %>
+<% end %>

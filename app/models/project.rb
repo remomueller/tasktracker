@@ -26,23 +26,26 @@ class Project < ActiveRecord::Base
   has_many :stickies, conditions: { deleted: false } #, order: 'stickies.created_at desc'
   has_many :frames, conditions: { deleted: false }, order: 'frames.end_date desc'
   has_many :tags, conditions: { deleted: false }, order: 'tags.name'
+  has_many :templates, conditions: { deleted: false }, order: 'templates.name'
 
   def color(current_user)
     current_user.colors["project_#{self.id}"].blank? ? colors(Project.pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]
   end
 
-  def tag_tokens
-    self.old_tags.join(',')
-  end
+  # def tag_tokens
+  #   self.old_tags.join(',')
+  # end
 
-  def tag_tokens=(ids)
-    self.old_tags = ids.to_s.split(',').collect{|t| t.strip}
-  end
+  # def tag_tokens=(ids)
+  #   self.old_tags = ids.to_s.split(',').collect{|t| t.strip}
+  # end
 
   def destroy
     self.comments.destroy_all
     self.stickies.destroy_all
     self.frames.destroy_all
+    self.templates.destroy_all
+    self.tags.destroy_all
     update_attribute :deleted, true
   end
 

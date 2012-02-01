@@ -4,14 +4,14 @@ one:
   name: MyString
   description: MyText
   color: MyString
-  project_id: 1
-  user_id: 1
+  project: one
+  user: valid
   deleted: false
 
 two:
-  name: MyString
+  name: MyStringTwo
   description: MyText
   color: MyString
-  project_id: 1
-  user_id: 1
+  project: one
+  user: valid
   deleted: false

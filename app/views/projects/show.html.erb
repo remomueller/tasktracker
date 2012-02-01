@@ -47,7 +47,8 @@
 
 <p>
   <b>Sticky Tags:</b>
-  <%= @project.old_tags.join(', ') %>
+  <%= @project.old_tags.join(', ') %><br />
+  <%= link_to 'Tags', tags_path(project_id: @project.id) %>
 </p>
 
 <h2>Stickies</h2>

@@ -1,0 +1,43 @@
+<div style="float:right">
+  Per Page
+  20
+  <% if false %>
+  <% [10,25,50].each do |count| %>
+    <span class="per_page">
+      <% if current_user.tags_per_page != count %>
+        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'tags', id: "count_#{count}" %>
+      <% else %>
+        <%= count %>
+      <% end %>
+    </span>
+  <% end %>
+  <% end %>
+</div>
+
+<div style="clear:both"></div>
+
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Project</th>
+    <th>Creator</th>
+    <th>Description</th>
+    <th></th>
+  </tr>
+
+<% @tags.each do |tag| %>
+  <tr>
+    <td><%= link_to tag.name, tag %></td>
+    <td><%= link_to tag.project.name, tag.project %></td>
+    <td><%= link_to tag.user.name, tag.user %></td>
+    <td><%= tag.description %></td>
+    <td style="vertical-align:middle">
+      <% if current_user.all_tags.include?(tag) %>
+        <%= link_to image_tag('contour/delete.png', alt: ''), tag, confirm: "Are you sure you want to delete Tag #{tag.name}?", method: :delete %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<center><%= paginate @tags %></center>

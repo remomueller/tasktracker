@@ -1,3 +1,4 @@
+<% width = '914px' %>
 <%= form_for(@tag) do |f| %>
   <% if @tag.errors.any? %>
     <div id="error_explanation">
@@ -11,31 +12,61 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <%= f.label :color %><br />
-    <%= f.text_field :color %>
-  </div>
-  <div class="field">
-    <%= f.label :project_id %><br />
-    <%= f.number_field :project_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :deleted %><br />
-    <%= f.check_box :deleted %>
-  </div>
+  <fieldset>
+    <legend><%= @title %></legend>
+
+    <div class="field">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="field">
+      <%= f.label :project_id %><br />
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @tag.project_id) %>
+    </div>
+
+    <div class="field">
+      <%= f.label :description %><br />
+      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :color %><br />
+      <%= f.hidden_field :color, id: "tag_hexcolor" %>
+      <div class="custom_widget">
+        <div id="tag_colorselector" class="colorselector">
+          <div style="background-color: <%= @tag.color %>"></div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
   <div class="actions">
-    <%= f.submit %>
+    <% form_name = @tag.new_record? ? 'new_tag' : "edit_tag_#{@tag.id}" %>
+    <%= link_to_function image_tag('contour/tick.png', alt: '') + (@tag.new_record? ? "Create Tag" : "Update Tag"), "$('##{form_name}').submit();", class: "button positive" %>
+    <%= cancel %>
   </div>
+<% end %>
+
+<%= javascript_tag do %>
+  $('#tag_colorselector')
+    .ColorPicker({
+//      flat: true,
+      color: '<%= @tag.color %>',
+      onShow: function (colpkr) {
+        $(colpkr).fadeIn(500);
+        return false;
+      },
+//      onHide: function (colpkr) {
+//        $(colpkr).fadeOut(500);
+//        return false;
+//      },
+      onChange: function (hsb, hex, rgb) {
+        $('#tag_hexcolor').val('#' + hex);
+        $('#tag_colorselector div').css('backgroundColor', '#' + hex);
+      }//,
+//      onSubmit: function(hsb, hex, rgb, el) {
+//        $(el).ColorPickerHide();
+//      },
+    });
 <% end %>

@@ -54,6 +54,7 @@ Contour.setup do |config|
       name: '@project.name', eval: true, display: 'signed_in', path: 'project_path(@project)', position: 'left',
       condition: '@project and not @project.new_record?',
       links: [{ name: 'Frames', path: 'frames_path(project_id: @project.id)' },
+              { name: 'Tags', path: 'tags_path(project_id: @project.id)' },
               { name: 'Templates', path: 'templates_path(project_id: @project.id)' }]
     },
     # {
