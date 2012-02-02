@@ -1,5 +1,9 @@
 == 0.16.2
 
+* Bug Fix
+  * Removed "assigned to me" option for sticky list page as it was redundant
+  * "Assigned to Me" now correctly saves user settings on calendar
+
 == 0.16.1
 
 * Bug Fix

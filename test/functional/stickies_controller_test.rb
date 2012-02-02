@@ -25,7 +25,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get calendar and set user calendar status" do
-    get :calendar, status: ['completed'], format: 'js', selected_date: '12/01/2011'
+    get :calendar, status: ['completed'], save_settings: '1', format: 'js', selected_date: '12/01/2011'
     users(:valid).reload # Needs reload to avoid stale object
     assert_equal ['completed'], users(:valid).settings[:calendar_status]
     assert_not_nil assigns(:selected_date)
@@ -34,6 +34,27 @@ class StickiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:first_sunday)
     assert_not_nil assigns(:last_saturday)
     assert_not_nil assigns(:stickies)
+    assert_template 'calendar'
+  end
+
+  test "should set assigned_to_me status" do
+    get :calendar, assigned_to_me: '1', save_settings: '1', format: 'js'
+    users(:valid).reload # Needs reload to avoid stale object
+    assert_equal '1', users(:valid).settings[:assigned_to_me]
+    assert_template 'calendar'
+  end
+
+  test "should unset assigned_to_me status" do
+    get :calendar, save_settings: '1', format: 'js'
+    users(:valid).reload # Needs reload to avoid stale object
+    assert_equal '0', users(:valid).settings[:assigned_to_me]
+    assert_template 'calendar'
+  end
+
+  test "should not change assigned_to_me status" do
+    get :calendar
+    users(:valid).reload # Needs reload to avoid stale object
+    assert_equal '', users(:valid).settings[:assigned_to_me].to_s
     assert_template 'calendar'
   end
 
@@ -312,7 +333,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
-  test "should update sticky in a group and not shift the remaining stickies" do
+  test "should update sticky and not shift grouped stickies" do
     put :update, id: stickies(:grouped_one).to_param, from_calendar: 1, sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, frame_id: stickies(:grouped_one).frame_id, completed: '0', due_date: "12/06/2011" }, shift: 'single'
     assert_not_nil assigns(:sticky)
     assert_equal Date.strptime('12/06/2011', '%m/%d/%Y'), assigns(:sticky).due_date
@@ -320,7 +341,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
-  test "should update sticky in a group and shift the remaining incomplete stickies based on the amount the original sticky shifted" do
+  test "should update sticky and shift grouped incomplete stickies by original sticky shift" do
     put :update, id: stickies(:grouped_one).to_param, from_calendar: 1, sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, frame_id: stickies(:grouped_one).frame_id, completed: '0', due_date: "12/06/2011" }, shift: 'incomplete'
     assert_not_nil assigns(:sticky)
     assert_equal Date.strptime('12/06/2011', '%m/%d/%Y'), assigns(:sticky).due_date
@@ -329,7 +350,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
-  test "should update sticky in a group and shift all other stickies based on the amount the original sticky shifted" do
+  test "should update sticky and shift grouped stickies by original sticky shift" do
     put :update, id: stickies(:grouped_one).to_param, from_calendar: 1, sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, frame_id: stickies(:grouped_one).frame_id, completed: '0', due_date: "12/06/2011" }, shift: 'all'
     assert_not_nil assigns(:sticky)
     assert_equal Date.strptime('12/06/2011', '%m/%d/%Y'), assigns(:sticky).due_date

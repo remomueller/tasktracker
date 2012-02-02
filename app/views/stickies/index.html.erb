@@ -43,7 +43,7 @@
         <tr>
           <td><%= text_field_tag 'due_date_start_date', '', class: 'datepicker' %></td>
           <td><%= text_field_tag 'due_date_end_date', '', class: 'datepicker' %></td>
-          <td><%= render partial: 'stickies/check_box_status' %></td>
+          <td><table class="blank"><tr><%= render partial: 'stickies/check_box_status' %></tr></table></td>
         </tr>
       </tbody>
     </table>

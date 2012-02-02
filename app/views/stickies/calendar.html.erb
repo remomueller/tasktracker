@@ -1,6 +1,7 @@
 <% @title = 'Calendar' %>
 
 <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px' do %>
+  <%= hidden_field_tag :save_settings, '1' %>
   <table class="blank" style="width:100%;table-layout: fixed;">
     <tr>
       <td style="vertical-align:top">
@@ -22,7 +23,12 @@
       </td>
       <td style="vertical-align:top">
         <div style="float:right">
-          <%= render partial: 'stickies/check_box_status' %>
+          <table class="blank">
+            <tr>
+              <td style="padding-right:10px;white-space:nowrap"><%= check_box_tag 'assigned_to_me', '1', (params[:assigned_to_me] == '1') %> Assigned To Me</td>
+              <%= render partial: 'stickies/check_box_status' %>
+            </tr>
+          </table>
         </div>
       </td>
     </tr>

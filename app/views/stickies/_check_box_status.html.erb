@@ -1,13 +1,7 @@
-<table class="blank">
-  <tr>
-    <td style="padding-right:10px;white-space:nowrap"><%= check_box_tag 'assigned_to_me', '1', params[:assigned_to_me] != '0' %> Assigned To Me</td>
+<td><%= check_box_tag 'status[]', 'planned', params[:status] ? params[:status].include?('planned') : true %></td>
+<td><%= display_completion(false) %></td>
+<td class="planned" style="padding-right:10px;white-space:nowrap">Not Completed</td>
 
-    <td><%= check_box_tag 'status[]', 'planned', params[:status] ? params[:status].include?('planned') : true %></td>
-    <td><%= display_completion(false) %></td>
-    <td class="planned" style="padding-right:10px;white-space:nowrap">Not Completed</td>
-
-    <td><%= check_box_tag 'status[]', 'completed', params[:status] ? params[:status].include?('completed') : true %></td>
-    <td><%= display_completion(true) %></td>
-    <td class="completed" style="padding-right:10px">Completed</td>
-  </tr>
-</table>
+<td><%= check_box_tag 'status[]', 'completed', params[:status] ? params[:status].include?('completed') : true %></td>
+<td><%= display_completion(true) %></td>
+<td class="completed" style="padding-right:10px">Completed</td>

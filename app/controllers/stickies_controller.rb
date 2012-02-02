@@ -2,12 +2,14 @@ class StickiesController < ApplicationController
   before_filter :authenticate_user!
 
   def calendar
-    if params[:status].blank?
-      params[:status] = current_user.settings[:calendar_status]
-    else
+    if params[:save_settings] == '1'
       user_settings = current_user.settings
       user_settings[:calendar_status] = params[:status] || []
+      user_settings[:assigned_to_me] = (params[:assigned_to_me] == '1') ? '1' : '0'
       current_user.update_attribute :settings, user_settings
+    else
+      params[:status] = current_user.settings[:calendar_status] || []
+      params[:assigned_to_me] = (current_user.settings[:assigned_to_me] == '1') ? '1' : '0'
     end
 
     @selected_date = begin Date.strptime(params[:selected_date], "%m/%d/%Y") rescue Date.today end
