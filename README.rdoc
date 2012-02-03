@@ -1,4 +1,4 @@
-= Notes Agile Project Management {<img src="https://secure.travis-ci.org/remomueller/notes.png"/>}[http://travis-ci.org/remomueller/notes] {<img src="https://gemnasium.com/remomueller/notes.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/notes] {<img style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png"/>}[http://creativecommons.org/licenses/by-nc-sa/3.0/]
+= Notes Agile Project Management {<img src="https://secure.travis-ci.org/remomueller/notes.png"/>}[http://travis-ci.org/remomueller/notes] {<img src="https://gemnasium.com/remomueller/notes.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/notes]
 
 Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 3.2+ and Ruby 1.9.3+.
 
@@ -52,7 +52,7 @@ This will run the task lib/tasks/reminder_email.rake using Cron
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
-== Copyright
+== Copyright {<img style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png"/>}[http://creativecommons.org/licenses/by-nc-sa/3.0/]
 
 Copyright (c) 2012 Remo Mueller. See {LICENSE}[https://github.com/remomueller/notes/blob/master/LICENSE] for further details.
 
