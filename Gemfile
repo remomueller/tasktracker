@@ -11,6 +11,7 @@ gem 'eventmachine',   '~> 1.0.0.beta.4.1',  :platforms => [ :mswin, :mingw ]
 # Gems used by project
 gem 'contour',        '~> 0.9.3'
 gem 'kaminari'
+gem 'ri_cal',         '~> 0.8.8'
 
 # Gems used only for assets and not required
 # in production environments by default.
