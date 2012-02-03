@@ -71,12 +71,12 @@ class StickiesController < ApplicationController
 
     sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unnassigned].to_s != '1'
 
-    unless params[:tag_ids].blank?
+    unless params[:tag_names].blank?
       if params[:tag_filter] == 'any'
-        sticky_scope = sticky_scope.with_tag(params[:tag_ids])
+        sticky_scope = sticky_scope.with_tag_name(params[:tag_names])
       elsif params[:tag_filter] == 'all'
-        params[:tag_ids].each do |tag_id|
-          sticky_scope = sticky_scope.with_tag(tag_id)
+        params[:tag_names].each do |tag_name|
+          sticky_scope = sticky_scope.with_tag_name(tag_name)
         end
       end
     end

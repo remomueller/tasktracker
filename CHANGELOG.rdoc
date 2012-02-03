@@ -1,6 +1,7 @@
 == 0.17.0
 
 * Enhancements
+  * Sticky filters now combines duplicate tags
   * Minor graphical tag changes on calendar
 
 * Bug Fix
