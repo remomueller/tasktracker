@@ -181,3 +181,10 @@ table.tags td div, .tag_bubble {
 table.tags td {
   padding: 0px;
 }
+
+.small_tag_bubble {
+  border: 1px solid #bbb;
+  -moz-border-radius: 3px; /* Mozilla */
+  -webkit-border-radius: 3px; /* Webkit */
+  border-radius: 3px;
+}

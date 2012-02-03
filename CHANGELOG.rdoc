@@ -1,5 +1,8 @@
 == 0.17.0
 
+* Enhancements
+  * Minor graphical tag changes on calendar
+
 == 0.16.2
 
 * Bug Fix

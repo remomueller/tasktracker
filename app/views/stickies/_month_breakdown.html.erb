@@ -26,7 +26,7 @@
               <% @stickies.where(due_date: iDate).order('stickies.project_id, stickies.id').group_by(&:tag_ids).sort.each do |tag_ids, stickies| %>
                 <% tags = Tag.find_all_by_id(tag_ids) %>
                 <div style="padding-bottom:5px;">
-                  <% if tags.size > 0 %><div class="calendar-entry-amount"><%= image_tag('gentleface/16/tag.png', alt: '', size: '11x11', style: 'vertical-align:text-bottom') %></div><div class="calendar-entry-name" style="font-size:11px"><%= tags.collect{|t| "<span style='background-color: #{t.color}'>"+t.name+"</span>"}.join(',').html_safe %></div><% else %><div style="padding-top:5px"></div><% end %>
+                  <% if tags.size > 0 %><div class="calendar-entry-amount"><%= image_tag('gentleface/16/tag.png', alt: '', size: '11x11', style: 'vertical-align:text-bottom') %></div><div class="calendar-entry-name" style="font-size:11px"><%= tags.collect{|t| "<span style='background-color: #{t.color}' class='small_tag_bubble'>"+t.name+"</span>"}.join(' ').html_safe %></div><% else %><div style="padding-top:5px"></div><% end %>
                   <% stickies.each do |sticky| %>
                     <%= @sticky = sticky; render partial: 'popup' %>
                   <% end %>
