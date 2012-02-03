@@ -29,7 +29,7 @@
                 <div class="field" style="margin:0px 0px 20px 20px">
                   <% User::EMAILABLES.each do |notification, description| %>
                     <div class="field">
-                      <%= check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}"), class: "project_detail_#{project.id} notification_#{notification.to_s} all_email", disabled: (current_user.email_on?(:send_email) and current_user.email_on?("project_#{project.id}") and current_user.email_on?("project_#{project.id}_#{notification.to_s}") ? nil : 'disabled') %> <%= notification.to_s.titleize %>
+                      <%= check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}"), class: "project_detail_#{project.id} notification_#{notification.to_s} all_email", disabled: (current_user.email_on?(:send_email) and current_user.email_on?("project_#{project.id}") and current_user.email_on?(notification) ? nil : 'disabled') %> <%= notification.to_s.titleize %>
                     </div>
                   <% end %>
                 </div>

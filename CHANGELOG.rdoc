@@ -3,6 +3,9 @@
 * Enhancements
   * Minor graphical tag changes on calendar
 
+* Bug Fix
+  * Email setting checkboxes for project notifications are no longer incorrectly disabled
+
 == 0.16.2
 
 * Bug Fix
