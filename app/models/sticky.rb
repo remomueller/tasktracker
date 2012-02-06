@@ -48,8 +48,16 @@ class Sticky < ActiveRecord::Base
     due_at.blank? ? '' : due_at.localtime.strftime("%l:%M %p").strip
   end
 
+  def due_at_string_short
+    self.due_at_string.gsub(':00', '').gsub(' AM', '').gsub(' PM', 'p')
+  end
+
   def due_at_end_string
     (due_at.blank? or self.duration <= 0) ? '' : (due_at + self.duration.send(self.duration_units)).localtime.strftime("%l:%M %p").strip
+  end
+
+  def due_at_end_string_short
+    self.due_at_end_string.gsub(':00', '').gsub(' AM', '').gsub(' PM', 'p')
   end
 
   def due_at_end_string_with_duration

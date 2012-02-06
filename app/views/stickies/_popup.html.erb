@@ -2,13 +2,14 @@
   <%= display_completion(@sticky.completed) %>
 </div>
 <div class="calendar-entry-name stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %>" id="sticky_<%= @sticky.id %>_popup">
-  <%= link_to @sticky.full_description.truncate(27), edit_sticky_path(@sticky, from_calendar: 1), style: "color: #{@sticky.project.color(current_user)}", class: "project_#{@sticky.project_id}_color" %>
+  <%= @sticky.due_at_string_short %> <%= link_to @sticky.full_description.truncate(27), edit_sticky_path(@sticky, from_calendar: 1), style: "color: #{@sticky.project.color(current_user)}", class: "project_#{@sticky.project_id}_color" %>
   <% color = @sticky.completed? ? 'blue' : 'yellow' %>
   <%= javascript_tag do %>
     $('#sticky_<%= @sticky.id %>_popup')
       .qtip({
         content:{
           text: '<%== escape_javascript((
+            (@sticky.due_at.blank? ? '' : "<strong>Due At</strong> " + @sticky.due_at_string_short + (@sticky.due_at_end_string_short.blank? ? '' : ' to ' + @sticky.due_at_end_string_short) + "<br /><br />" ) +
             "<strong>Description:</strong> " + @sticky.full_description + "<br /><br />" +
 
             (@sticky.owner ? "<strong>Assigned To:</strong><ul><li>" + @sticky.owner.name + "</li></ul>" : '' ) +

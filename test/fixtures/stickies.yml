@@ -195,11 +195,11 @@ due_at_ics:
   # frame:
   completed: false
   description: With Due Date and ICS attachment
-  due_date: 2012-02-06
-  due_at: 09:00:00 AM
+  due_date: 2011-12-06
+  due_at: 09:00:00
   duration: 45
   duration_units: minutes
-  start_date: 2012-02-06
+  start_date: 2011-12-04
   # end_date:
   deleted: false
   owner: valid

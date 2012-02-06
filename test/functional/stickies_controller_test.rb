@@ -45,7 +45,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should unset assigned_to_me status" do
-    get :calendar, save_settings: '1', format: 'js'
+    get :calendar, save_settings: '1', status: ['planned', 'completed'], selected_date: '12/01/2011', format: 'js'
     users(:valid).reload # Needs reload to avoid stale object
     assert_equal '0', users(:valid).settings[:assigned_to_me]
     assert_template 'calendar'
