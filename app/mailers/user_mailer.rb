@@ -41,6 +41,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @sticky = sticky
     @recipient = recipient
+    attachments['event.ics'] = @sticky.export_ics if @sticky.include_ics?
     mail(to: recipient.email,
          subject: @subject + "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
          reply_to: sticky.user.email)

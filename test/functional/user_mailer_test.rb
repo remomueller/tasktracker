@@ -15,7 +15,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{valid.name} Signed Up", email.subject
     assert_match(/#{valid.name} \[#{valid.email}\] has signed up for an account\./, email.encoded)
   end
-  
+
   test "status activated email" do
     valid = users(:valid)
 
@@ -44,7 +44,7 @@ class UserMailerTest < ActionMailer::TestCase
     comment = comments(:one)
     object = comment.class_name.constantize.find_by_id(comment.class_id)
     valid = users(:valid)
-    
+
     email = UserMailer.comment_by_mail(comment, object, valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
@@ -56,7 +56,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "sticky by mail email" do
     sticky = stickies(:one)
     valid = users(:valid)
-    
+
     email = UserMailer.sticky_by_mail(sticky, valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
@@ -65,10 +65,24 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sticky.user.name} added the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
+  test "sticky by mail email with ics attachment" do
+    sticky = stickies(:due_at_ics)
+    valid = users(:valid)
+
+    email = UserMailer.sticky_by_mail(sticky, valid).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert email.has_attachments?
+    assert_equal 'event.ics', email.attachments.first.filename
+    assert_equal [valid.email], email.to
+    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
+    assert_match(/#{sticky.user.name} added the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
+  end
+
   test "sticky completion by mail email" do
     sticky = stickies(:assigned_to_user)
     valid = users(:valid)
-    
+
     email = UserMailer.sticky_completion_by_mail(sticky, valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
@@ -79,7 +93,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   test "daily stickies due email" do
     valid = users(:valid)
-    
+
     email = UserMailer.daily_stickies_due(valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
@@ -96,7 +110,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "group by mail email" do
     group = groups(:one)
     valid = users(:valid)
-    
+
     email = UserMailer.group_by_mail(group, valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 

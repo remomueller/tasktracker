@@ -4,6 +4,7 @@
   * Sticky filters now combines duplicate tags
   * Minor graphical tag changes on calendar
   * Stickies can now have a due time and duration
+  * Sticky creation emails now include an ICS event file if a due date time is set
 
 * Bug Fix
   * Email setting checkboxes for project notifications are no longer incorrectly disabled

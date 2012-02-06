@@ -49,13 +49,41 @@ class Sticky < ActiveRecord::Base
   end
 
   def due_at_end_string
-    (due_at.blank? or self.duration <= 0) ? '' : (due_at + self.duration.send(self.duration_units)).localtime.strftime("%l:%M %p").strip + " (#{self.duration} #{self.duration_units})"
+    (due_at.blank? or self.duration <= 0) ? '' : (due_at + self.duration.send(self.duration_units)).localtime.strftime("%l:%M %p").strip
+  end
+
+  def due_at_end_string_with_duration
+    (due_at.blank? or self.duration <= 0) ? '' : self.due_at_end_string + " (#{self.duration} #{self.duration_units})"
   end
 
   def due_at_string=(due_at_str)
     self.due_at = Time.parse(due_at_str)
   rescue
     self.due_at = nil
+  end
+
+  def due_date_time_start
+    Time.zone.parse(self.due_date.to_s + " " + self.due_at_string)
+  end
+
+  def due_date_time_end
+    Time.zone.parse((self.due_date_time_start + self.duration.send(self.duration_units)).to_s + " " + self.due_at_end_string)
+  end
+
+  def export_ics
+    RiCal.Calendar do |cal|
+      cal.event do |evt|
+        evt.summary self.full_description.truncate(27)
+        evt.description "Project: #{self.project.name}\n\n" + self.full_description + "\n\n#{SITE_URL}/stickies/#{self.id}"
+        evt.dtstart     self.due_date_time_start unless self.due_at.blank?
+        evt.dtend       self.due_date_time_end   unless self.due_at.blank? or self.duration <= 0
+        evt.uid         "#{SITE_URL}/stickies/#{self.id}"
+      end
+    end.to_s
+  end
+
+  def include_ics?
+    not self.due_at.blank?
   end
 
   def tag_ids

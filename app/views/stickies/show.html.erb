@@ -54,7 +54,7 @@
 <% unless @sticky.due_at.blank? %>
 <p>
   <b>Due At:</b>
-  <%= @sticky.due_at_string %> <%= "to #{@sticky.due_at_end_string}" unless @sticky.due_at_end_string.blank? %>
+  <%= @sticky.due_at_string %> <%= "to #{@sticky.due_at_end_string_with_duration}" unless @sticky.due_at_end_string_with_duration.blank? %>
 </p>
 <% end %>
 
