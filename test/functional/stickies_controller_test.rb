@@ -228,7 +228,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal Date.today, assigns(:sticky).end_date
     assert_equal true, assigns(:sticky).completed
     assert_equal "9:00 PM", assigns(:sticky).due_at_string
-    assert_equal "9:30 PM", assigns(:sticky).due_at_end_string
+    assert_equal "9:30 PM (30 minutes)", assigns(:sticky).due_at_end_string
 
     assert_redirected_to sticky_path(assigns(:sticky))
   end
@@ -305,7 +305,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal Date.today, assigns(:sticky).end_date
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
     assert_equal "10:00 AM", assigns(:sticky).due_at_string
-    assert_equal "11:00 AM", assigns(:sticky).due_at_end_string
+    assert_equal "11:00 AM (1 hours)", assigns(:sticky).due_at_end_string
     assert_equal frames(:one), assigns(:sticky).frame
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))
