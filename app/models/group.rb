@@ -26,6 +26,14 @@ class Group < ActiveRecord::Base
     self.stickies.destroy_all
   end
 
+  def export_ics
+    RiCal.Calendar do |cal|
+      self.stickies.each do |sticky|
+        sticky.export_ics_block_evt(cal)
+      end
+    end.to_s
+  end
+
   private
 
   def update_stickies_project

@@ -1,6 +1,6 @@
 Hello <%= @recipient.first_name %>,
 
-<%= @group.user.name %> created Group <%= @group.name %> <%= "#{SITE_URL}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Sticky' %><% if @group.template %> from Template <%= @group.template.name %><% end %>.
+<%= @group.user.name %> added Group <%= @group.name %> <%= "#{SITE_URL}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Sticky' %><% if @group.template %> from Template <%= @group.template.name %><% end %>.
 
 <% unless @group.description.blank? %>
 Additional Group Information

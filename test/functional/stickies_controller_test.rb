@@ -298,11 +298,9 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should update sticky with due time and duration" do
-    put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "08/15/2011", due_at_string: '10am', duration: '1', duration_units: 'hours' }
+    put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, due_date: "08/15/2011", due_at_string: '10am', duration: '1', duration_units: 'hours' }
     assert_not_nil assigns(:sticky)
     assert_equal "Sticky Description Update", assigns(:sticky).description
-    assert_equal true, assigns(:sticky).completed
-    assert_equal Date.today, assigns(:sticky).end_date
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
     assert_equal "10:00 AM", assigns(:sticky).due_at_string
     assert_equal "11:00 AM (1 hours)", assigns(:sticky).due_at_end_string_with_duration

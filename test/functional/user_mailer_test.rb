@@ -91,6 +91,20 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sticky.user.name} completed the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
+  test "sticky due at changed by mail email" do
+    sticky = stickies(:due_at_ics)
+    valid = users(:valid)
+
+    email = UserMailer.sticky_due_at_changed_by_mail(sticky, valid).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert email.has_attachments?
+    assert_equal 'event.ics', email.attachments.first.filename
+    assert_equal [valid.email], email.to
+    assert_equal "[#{DEFAULT_APP_NAME.downcase}] Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}", email.subject
+    assert_match(/Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id} has an updated due time\./, email.encoded)
+  end
+
   test "daily stickies due email" do
     valid = users(:valid)
 
@@ -116,7 +130,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}", email.subject
-    assert_match(/#{group.user.name} created Group #{group.name} #{SITE_URL}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Sticky' : 'Stickies'}#{" from Template #{group.template.name}" if group.template}\./, email.encoded)
+    assert_match(/#{group.user.name} added Group #{group.name} #{SITE_URL}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Sticky' : 'Stickies'}#{" from Template #{group.template.name}" if group.template}\./, email.encoded)
   end
 
 end

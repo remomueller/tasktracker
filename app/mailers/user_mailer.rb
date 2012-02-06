@@ -41,7 +41,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @sticky = sticky
     @recipient = recipient
-    attachments['event.ics'] = @sticky.export_ics if @sticky.include_ics?
+    attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
          subject: @subject + "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
          reply_to: sticky.user.email)
@@ -51,6 +51,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @group = group
     @recipient = recipient
+    attachments['event.ics'] = { mime_type: 'text/calendar', content: @group.export_ics }
     mail(to: recipient.email,
          subject: @subject + "#{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}",
          reply_to: group.user.email)
@@ -63,6 +64,15 @@ class UserMailer < ActionMailer::Base
     mail(to: recipient.email,
          subject: @subject + "#{sticky.owner.name} Completed a Sticky on Project #{sticky.project.name}",
          reply_to: sticky.owner.email)
+  end
+
+  def sticky_due_at_changed_by_mail(sticky, recipient)
+    setup_email
+    @sticky = sticky
+    @recipient = recipient
+    attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } # Always include
+    mail(to: recipient.email,
+         subject: @subject + "Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}")
   end
 
   def daily_stickies_due(recipient)
@@ -80,7 +90,7 @@ class UserMailer < ActionMailer::Base
 
   def setup_email
     @subject = "[#{DEFAULT_APP_NAME.downcase}#{'-development' if Rails.env == 'development'}] "
-    @footer_html = "Change email settings here: <a href=\"#{SITE_URL}/settings\">#{SITE_URL}/settings</a>.".html_safe
+    @footer_html = "Change email settings here: <a href=\"#{SITE_URL}/settings\">#{SITE_URL}/settings</a>.<br /><br />".html_safe
     @footer_txt = "Change email settings here: #{SITE_URL}/settings."
   end
 end

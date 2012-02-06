@@ -1,0 +1,17 @@
+Hello <%= @recipient.first_name %>,
+
+Sticky <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %> has an updated due time.
+
+<%= render partial: 'sticky_note' %>
+
+<% if @sticky.group %>
+  This sticky is part of Group <%= @sticky.group.name %> <%= "#{SITE_URL}/groups/#{@sticky.group.id}" %><% if @sticky.group.template %> from Template <%= @sticky.group.template.name %><% end %>.
+
+  <%= @stickies = @sticky.group.stickies; render partial: 'sticky_list' %>
+<% end %>
+
+Thank you!
+
+<%= DEFAULT_APP_NAME %> System Mailer
+
+<%= @footer_txt %>

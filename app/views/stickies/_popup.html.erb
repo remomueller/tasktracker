@@ -9,7 +9,7 @@
       .qtip({
         content:{
           text: '<%== escape_javascript((
-            (@sticky.due_at.blank? ? '' : "<strong>Due At</strong> " + @sticky.due_at_string_short + (@sticky.due_at_end_string_short.blank? ? '' : ' to ' + @sticky.due_at_end_string_short) + "<br /><br />" ) +
+            (@sticky.due_at.blank? ? '' : "<strong>Due At</strong> " + @sticky.due_at_range_short + "<br /><br />" ) +
             "<strong>Description:</strong> " + @sticky.full_description + "<br /><br />" +
 
             (@sticky.owner ? "<strong>Assigned To:</strong><ul><li>" + @sticky.owner.name + "</li></ul>" : '' ) +

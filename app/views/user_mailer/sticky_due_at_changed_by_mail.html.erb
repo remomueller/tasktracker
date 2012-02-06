@@ -1,6 +1,6 @@
 Hello <%= @recipient.first_name %>,<br />
 <br />
-<%= @sticky.owner.name %> <span style="border:1px solid #366DC2;background-color:#c2daff">COMPLETED</span> the following Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %>.<br />
+Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %> has an <span style="border:1px solid #ffcc00;background-color:#ffeda6">UPDATED</span> <b>due time</b>.<br />
 
 <%= render partial: 'sticky_note' %>
 

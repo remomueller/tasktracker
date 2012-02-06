@@ -31,7 +31,7 @@ class Sticky < ActiveRecord::Base
   after_create :send_email
 
   before_save :set_end_date, :set_project_and_frame
-  after_save :send_completion_email
+  after_save :send_completion_email, :send_due_at_updated
 
   # Model Validation
   validates_presence_of :description, :project_id
@@ -64,6 +64,14 @@ class Sticky < ActiveRecord::Base
     (due_at.blank? or self.duration <= 0) ? '' : self.due_at_end_string + " (#{self.duration} #{self.duration_units})"
   end
 
+  def due_at_range_short
+    self.due_at_string_short + (self.due_at_end_string_short.blank? ? '' : '-' + self.due_at_end_string_short)
+  end
+
+  def due_at_range
+    self.due_at_string + (self.due_at_end_string.blank? ? '' : ' to ' + self.due_at_end_string)
+  end
+
   def due_at_string=(due_at_str)
     self.due_at = Time.parse(due_at_str)
   rescue
@@ -80,18 +88,22 @@ class Sticky < ActiveRecord::Base
 
   def export_ics
     RiCal.Calendar do |cal|
-      cal.event do |evt|
-        evt.summary self.full_description.truncate(27)
-        evt.description "Project: #{self.project.name}\n\n" + self.full_description + "\n\n#{SITE_URL}/stickies/#{self.id}"
-        evt.dtstart     self.due_date_time_start unless self.due_at.blank?
-        evt.dtend       self.due_date_time_end   unless self.due_at.blank? or self.duration <= 0
-        evt.uid         "#{SITE_URL}/stickies/#{self.id}"
-      end
+      self.export_ics_block_evt(cal)
     end.to_s
   end
 
+  def export_ics_block_evt(cal)
+    cal.event do |evt|
+      evt.summary     = self.full_description.truncate(27)
+      evt.description = "Project: #{self.project.name}\n\n" + self.full_description + "\n\n#{SITE_URL}/stickies/#{self.id}"
+      evt.dtstart     = self.due_date_time_start unless self.due_at.blank?
+      evt.dtend       = self.due_date_time_end   unless self.due_at.blank? or self.duration <= 0
+      evt.uid         = "#{SITE_URL}/stickies/#{self.id}"
+    end
+  end
+
   def include_ics?
-    not self.due_at.blank?
+    not self.due_at.blank? and not self.due_date.blank?
   end
 
   def tag_ids
@@ -151,6 +163,20 @@ class Sticky < ActiveRecord::Base
       all_users = self.project.users_to_email(:sticky_completion) - [self.owner]
       all_users.each do |user_to_email|
         UserMailer.sticky_completion_by_mail(self, user_to_email).deliver if Rails.env.production?
+      end
+    end
+  end
+
+  # Only send if completion email was not sent
+  def send_due_at_updated
+    if self.changes[:due_at] and not self.changes[:completed]
+      first_time = Time.parse(self.changes[:due_at][0].to_s).strftime("%r") rescue ""
+      last_time = Time.parse(self.changes[:due_at][1].to_s).strftime("%r") rescue ""
+      unless first_time == last_time
+        all_users = self.project.users_to_email(:sticky_due_time_changed) - [self.owner]
+        all_users.each do |user_to_email|
+          UserMailer.sticky_due_at_changed_by_mail(self, user_to_email).deliver if Rails.env.production?
+        end
       end
     end
   end
