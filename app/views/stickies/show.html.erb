@@ -51,10 +51,28 @@
   <%= @sticky.due_date %>
 </p>
 
+<% unless @sticky.due_at.blank? %>
+<p>
+  <b>Due At:</b>
+  <%= @sticky.due_at_string %> <%= "to #{@sticky.due_at_end_string}" unless @sticky.due_at_end_string.blank? %>
+</p>
+<% end %>
+
+<% if false %>
+  <% unless @sticky.duration.blank? %>
+  <p>
+    <b>Duration:</b>
+    <%= @sticky.duration %> <%= @sticky.duration_units %>
+  </p>
+  <% end %>
+<% end %>
+
+<% if false %>
 <p>
   <b>Time Period:</b>
   <%= @sticky.start_date %> to <%= @sticky.end_date %>
 </p>
+<% end %>
 
 <% if @sticky.tags.size > 0 %>
 <p>

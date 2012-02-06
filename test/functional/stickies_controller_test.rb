@@ -218,6 +218,21 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
+  test "should create a sticky with a due time" do
+    assert_difference('Sticky.count') do
+      post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "12/10/2011", due_at_string: '9pm', duration: '30', duration_units: 'minutes' }
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_equal Date.today, assigns(:sticky).start_date
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal true, assigns(:sticky).completed
+    assert_equal "9:00 PM", assigns(:sticky).due_at_string
+    assert_equal "9:30 PM", assigns(:sticky).due_at_end_string
+
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
   test "should not create sticky with blank description" do
     assert_difference('Sticky.count', 0) do
       post :create, sticky: { description: "", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '0', due_date: "08/15/2011" }
@@ -277,6 +292,34 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal frames(:one), assigns(:sticky).frame
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should update sticky with due time and duration" do
+    put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "08/15/2011", due_at_string: '10am', duration: '1', duration_units: 'hours' }
+    assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal true, assigns(:sticky).completed
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal "10:00 AM", assigns(:sticky).due_at_string
+    assert_equal "11:00 AM", assigns(:sticky).due_at_end_string
+    assert_equal frames(:one), assigns(:sticky).frame
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should update sticky with blank due time and duration" do
+    put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "08/15/2011", due_at_string: 'wrong time', duration: '', duration_units: '' }
+    assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal true, assigns(:sticky).completed
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_equal "", assigns(:sticky).due_at_string
+    assert_equal "", assigns(:sticky).due_at_end_string
     assert_equal frames(:one), assigns(:sticky).frame
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))

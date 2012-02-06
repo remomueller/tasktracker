@@ -44,6 +44,20 @@ class Sticky < ActiveRecord::Base
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   has_and_belongs_to_many :tags
 
+  def due_at_string
+    due_at.blank? ? '' : due_at.localtime.strftime("%l:%M %p").strip
+  end
+
+  def due_at_end_string
+    (due_at.blank? or self.duration <= 0) ? '' : (due_at + self.duration.send(self.duration_units)).localtime.strftime("%l:%M %p").strip + " (#{self.duration} #{self.duration_units})"
+  end
+
+  def due_at_string=(due_at_str)
+    self.due_at = Time.parse(due_at_str)
+  rescue
+    self.due_at = nil
+  end
+
   def tag_ids
     self.tags.order('tags.name').pluck('tags.id')
   end

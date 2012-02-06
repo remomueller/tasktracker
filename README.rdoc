@@ -1,4 +1,4 @@
-= Notes Agile Project Management {<img src="https://secure.travis-ci.org/remomueller/notes.png"/>}[http://travis-ci.org/remomueller/notes] {<img src="https://gemnasium.com/remomueller/notes.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/notes]
+= Task Tracker {<img src="https://secure.travis-ci.org/remomueller/notes.png"/>}[http://travis-ci.org/remomueller/notes] {<img src="https://gemnasium.com/remomueller/notes.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/notes]
 
 Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 3.2+ and Ruby 1.9.3+.
 

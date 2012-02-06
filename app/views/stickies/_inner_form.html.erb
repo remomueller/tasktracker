@@ -48,7 +48,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><%= f.text_field :due_date, class: 'datepicker', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %></td>
+        <td>
+          <%= f.text_field :due_date, class: 'datepicker', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %><br />
+        </td>
           <% if @sticky.group %>
             <td>
               <div class="field">
@@ -66,6 +68,28 @@
               </div>
             </td>
           <% end %>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="field">
+  <table class="blank padded">
+    <thead>
+      <tr>
+        <th style="text-align:left"><%= f.label :due_at_string, 'Due at' %> (optional)</th>
+        <th style="text-align:left"><%= f.label :duration %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <%= f.text_field :due_at_string %>
+        </td>
+        <td>
+          <%= f.number_field :duration, { min: 0 } %>
+          <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units) %>
+        </td>
       </tr>
     </tbody>
   </table>
