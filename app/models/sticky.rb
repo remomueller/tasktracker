@@ -96,6 +96,7 @@ class Sticky < ActiveRecord::Base
     cal.event do |evt|
       evt.summary     = self.full_description.truncate(27)
       evt.description = self.ics_description
+      evt.dtstart     = self.due_date            if self.due_at.blank? and not self.due_date.blank?
       evt.dtstart     = self.due_date_time_start unless self.due_at.blank?
       evt.dtend       = self.due_date_time_end   unless self.due_at.blank? or self.duration <= 0
       evt.uid         = "#{SITE_URL}/stickies/#{self.id}"
@@ -103,7 +104,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def include_ics?
-    not self.due_at.blank? and not self.due_date.blank?
+    (not self.due_at.blank? and not self.due_date.blank?) or not self.due_date.blank?
   end
 
   def tag_ids
@@ -178,7 +179,7 @@ class Sticky < ActiveRecord::Base
     end
   end
 
-  # Only send if completion email was not sent
+  # Only send if completion email was not sent and if the sticky is not newly created
   def send_due_at_updated
     if self.changes[:due_at] and not self.changes[:completed] and self.created_at != self.updated_at
       first_time = Time.parse(self.changes[:due_at][0].to_s).strftime("%r") rescue ""

@@ -1,5 +1,8 @@
 == 0.17.1
 
+* Enhancements
+  * ICS files are also included in emails for stickies with a due date but no due time
+
 * Bug Fix
   * Due Date Changed email no longer triggers when a sticky with a due time is created
 

@@ -61,6 +61,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @sticky = sticky
     @recipient = recipient
+    attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
          subject: @subject + "#{sticky.owner.name} Completed a Sticky on Project #{sticky.project.name}",
          reply_to: sticky.owner.email)
