@@ -180,7 +180,7 @@ class Sticky < ActiveRecord::Base
 
   # Only send if completion email was not sent
   def send_due_at_updated
-    if self.changes[:due_at] and not self.changes[:completed]
+    if self.changes[:due_at] and not self.changes[:completed] and self.created_at != self.updated_at
       first_time = Time.parse(self.changes[:due_at][0].to_s).strftime("%r") rescue ""
       last_time = Time.parse(self.changes[:due_at][1].to_s).strftime("%r") rescue ""
       unless first_time == last_time

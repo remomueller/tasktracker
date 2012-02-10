@@ -1,5 +1,8 @@
 == 0.17.1
 
+* Bug Fix
+  * Due Date Changed email no longer triggers when a sticky with a due time is created
+
 == 0.17.0
 
 * Enhancements
