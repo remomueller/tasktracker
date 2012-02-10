@@ -14,7 +14,7 @@
   </tr>
   <tr>
     <td colspan="3" style="padding:0px 10px 10px 10px">
-      <% if @sticky.tags.size > 0 %>Tags: <b><%= @sticky.tags.collect{|t| "<span style='border:1px solid #bbb;background-color: #{t.color}'>"+t.name+"</span>"}.join(', ').html_safe %></b><% end %>
+      <% if @sticky.tags.size > 0 %>Tags: <b><%= @tags = @sticky.tags; render partial: 'sticky_tags' %></b><% end %>
     </td>
   </tr>
 </table>

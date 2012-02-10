@@ -1,12 +1,13 @@
 == 0.17.0
 
 * Enhancements
-  * Sticky filters now combines duplicate tags
+  * Sticky filters now combine duplicate tags
   * Minor graphical tag changes on calendar
   * Stickies and templates can now have a due time and duration
   * Sticky emails are now sent if the sticky due time is changed
   * Sticky and group creation emails now include an ICS event file if a due date time is set
   * Calendar now sorts stickies by project, then by tags, then by due date time
+  * Sticky tags have minor GUI update in emails
 
 * Bug Fix
   * Email setting checkboxes for project notifications are no longer incorrectly disabled
