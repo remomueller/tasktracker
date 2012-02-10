@@ -95,7 +95,7 @@ class Sticky < ActiveRecord::Base
   def export_ics_block_evt(cal)
     cal.event do |evt|
       evt.summary     = self.full_description.truncate(27)
-      evt.description = "Project: #{self.project.name}\n\n" + self.full_description + "\n\n#{SITE_URL}/stickies/#{self.id}"
+      evt.description = self.ics_description
       evt.dtstart     = self.due_date_time_start unless self.due_at.blank?
       evt.dtend       = self.due_date_time_end   unless self.due_at.blank? or self.duration <= 0
       evt.uid         = "#{SITE_URL}/stickies/#{self.id}"
@@ -136,6 +136,17 @@ class Sticky < ActiveRecord::Base
         self.description
       end
     end
+  end
+
+  def ics_description
+    result = ''
+    result << "To Update Sticky: #{SITE_URL}/stickies/#{self.id}\n\n"
+    result << "Status: #{self.completed? ? 'Completed' : 'Not Completed'}\n\n"
+    result << "Assigned To: #{self.owner.name}\n\n" if self.owner
+    result << "Project: #{self.project.name}\n\n"
+    result << self.full_description + "\n\n"
+    result << "Tags: #{self.tags.collect{|t| t.name}.join(', ')}\n\n" if self.tags.size > 0
+    result
   end
 
   def shift_group(days_to_shift, shift)
