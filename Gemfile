@@ -27,6 +27,6 @@ gem 'jquery-rails'
 group :test do
   # Pretty printed test output
   gem 'win32console',                       :platforms => [ :mswin, :mingw ]
-  gem 'turn',         '~> 0.9.1',           :require => false
+  gem 'turn',         '~> 0.9.2',           :require => false
   gem 'simplecov',                          :require => false
 end

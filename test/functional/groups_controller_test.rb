@@ -48,6 +48,42 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
+  test "should create group of stickies with due_at time and duration" do
+    assert_difference('Sticky.count', templates(:with_due_at).items.size) do
+      assert_difference('Group.count') do
+        post :create, template_id: templates(:with_due_at).to_param, frame_id: frames(:one).to_param
+      end
+    end
+    assert_not_nil assigns(:template)
+    assert_not_nil assigns(:group)
+    assert_equal templates(:with_due_at).items.size, assigns(:group).stickies.size
+    assert_equal assigns(:frame), frames(:one)
+    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
+    assert_equal '9:00 PM', assigns(:group).stickies.first.due_at_string
+    assert_equal 45, assigns(:group).stickies.first.duration
+    assert_equal 'minutes', assigns(:group).stickies.first.duration_units
+    assert_redirected_to group_path(assigns(:group))
+  end
+
+  test "should create group of stickies and set invalid due_at time and duration to default" do
+    assert_difference('Sticky.count', templates(:with_due_at_invalid).items.size) do
+      assert_difference('Group.count') do
+        post :create, template_id: templates(:with_due_at_invalid).to_param, frame_id: frames(:one).to_param
+      end
+    end
+    assert_not_nil assigns(:template)
+    assert_not_nil assigns(:group)
+    assert_equal templates(:with_due_at_invalid).items.size, assigns(:group).stickies.size
+    assert_equal assigns(:frame), frames(:one)
+    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
+    assert_equal '', assigns(:group).stickies.first.due_at_string
+    assert_equal 0, assigns(:group).stickies.first.duration
+    assert_equal 'hours', assigns(:group).stickies.first.duration_units
+    assert_redirected_to group_path(assigns(:group))
+  end
+
   test "should not create group and generate stickies for invalid template id" do
     assert_difference('Sticky.count', 0) do
       assert_difference('Group.count', 0) do

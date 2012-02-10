@@ -10,18 +10,18 @@
     <br /><br />
     <table class="blank">
       <tr>
-        <td style="padding-right:20px"><b>Offset from Initial Due Date:</b></td>
         <td style="padding-right:20px"><b>Assigned To:</b></td>
+        <td style="padding-right:20px"><b>Offset from Initial Due Date:</b></td>
         <td><b>Tags:</b></td>
       </tr>
       <tr>
         <td style="padding-right:20px">
-          <%= number_field_tag "template[item_tokens][#{position}][interval]", @item[:interval] %>
-          <%= select_tag "template[item_tokens][#{position}][units]", options_for_select(['days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:units]) %>
-        </td>
-        <td style="padding-right:20px">
           <% owners = User.current.with_project(current_user.all_projects.where(id: @template.project_id), true).order('last_name, first_name') %>
           <%= select_tag "template[item_tokens][#{position}][owner_id]", options_for_select([['---', nil]] + owners.collect{|u| [u.reverse_name,u.id]}, @item[:owner_id]) %>
+        </td>
+        <td style="padding-right:20px">
+          <%= number_field_tag "template[item_tokens][#{position}][interval]", @item[:interval] %>
+          <%= select_tag "template[item_tokens][#{position}][units]", options_for_select(['days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:units]) %>
         </td>
         <td>
           <% if @template.project and @template.project.tags.size > 0 %>
@@ -37,6 +37,19 @@
           <% else %>
             <span class="quiet">Edit project to add sticky tags.</span>
           <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-right:20px"><b>Due At:</b></td>
+        <td style="padding-right:20px"><b>Duration:</b></td>
+      </tr>
+      <tr>
+        <td style="padding-right:20px">
+          <%= text_field_tag "template[item_tokens][#{position}][due_at_string]", (Time.parse(@item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue '') %>
+        </td>
+        <td style="padding-right:20px">
+          <%= number_field_tag "template[item_tokens][#{position}][duration]", @item[:duration] || 0, { min: 0 } %>
+          <%= select_tag "template[item_tokens][#{position}][duration_units]", options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:duration_units] || 'hours') %>
         </td>
       </tr>
     </table>

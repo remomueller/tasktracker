@@ -3,7 +3,7 @@
 * Enhancements
   * Sticky filters now combines duplicate tags
   * Minor graphical tag changes on calendar
-  * Stickies can now have a due time and duration
+  * Stickies and templates can now have a due time and duration
   * Sticky emails are now sent if the sticky due time is changed
   * Sticky and group creation emails now include an ICS event file if a due date time is set
   * Calendar now sorts stickies by project, then by tags, then by due date time

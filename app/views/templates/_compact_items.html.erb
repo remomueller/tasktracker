@@ -4,6 +4,7 @@
       <th>Sticky</th>
       <th>Offset</th>
       <th>Assign To</th>
+      <th>Due At</th>
       <th>Tags</th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       </td>
       <td><% if item[:interval] != 0 %> <b><%= '+' if item[:interval] > 0 %><%= item[:interval] %> <%= item[:units] %></b><% end %></td>
       <td style="<%= 'font-weight:bold' if current_user == owner %>"><%= link_to owner.name, owner if owner %></td>
+      <td><%= Time.parse(item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue '' %><% if item[:duration].to_i > 0 %> for <%= item[:duration] %> <%= item[:duration_units] %><% end %></td>
       <td>
         <table class="blank tags">
           <% (item[:tag_ids] || []).in_groups_of(5).each do |row_tags| %>
