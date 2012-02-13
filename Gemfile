@@ -10,7 +10,7 @@ gem 'eventmachine',         '~> 1.0.0.beta.4.1',  :platforms => [ :mswin, :mingw
 
 # Gems used by project
 gem 'contour',              '~> 0.10.0'
-gem 'contour-minimalist',   '~> 0.1.1'
+gem 'contour-minimalist',   '~> 0.1.2'
 gem 'kaminari'
 gem 'ri_cal',               '~> 0.8.8'
 
