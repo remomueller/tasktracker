@@ -13,32 +13,34 @@
 
 <div style="clear:both"></div>
 
-<table style="width:100%">
-  <tr>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.id', 'Name', 'groups_search') %></th>
-    <th>Template</th>
-    <th>Description</th>
-    <th>Stickies</th>
-    <th>Project</th>
-    <th>Creator</th>
-    <th></th>
-  </tr>
+<div class="frame">
+  <table style="width:100%">
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.id', 'Name', 'groups_search') %></th>
+      <th>Template</th>
+      <th>Description</th>
+      <th>Stickies</th>
+      <th>Project</th>
+      <th>Creator</th>
+      <th></th>
+    </tr>
 
-<% @groups.each do |group| %>
-  <tr>
-    <td><%= link_to group.name, group %></td>
-    <td><%= group.template.name if group.template %></td>
-    <td><%= group.description %></td>
-    <td><%= group.stickies.size %></td>
-    <td><%= link_to group.project.name, group.project %></td>
-    <td><%= link_to group.user.name, group.user %></td>
-    <td style="vertical-align:middle">
-      <% if current_user.all_groups.include?(group) %>
-        <%= link_to image_tag('contour/delete.png', alt: ''), group, confirm: "Are you sure you want to delete Group #{group.name} and the associated #{pluralize group.stickies.size, 'Sticky'}?", method: :delete %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
-</table>
+    <% @groups.each do |group| %>
+      <tr>
+        <td><%= link_to group.name, group %></td>
+        <td><%= group.template.name if group.template %></td>
+        <td><%= group.description %></td>
+        <td><%= group.stickies.size %></td>
+        <td><%= link_to group.project.name, group.project %></td>
+        <td><%= link_to group.user.name, group.user %></td>
+        <td style="vertical-align:middle">
+          <% if current_user.all_groups.include?(group) %>
+            <%= link_to image_tag('contour/delete.png', alt: ''), group, confirm: "Are you sure you want to delete Group #{group.name} and the associated #{pluralize group.stickies.size, 'Sticky'}?", method: :delete %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
 
 <center><%= paginate @groups %></center>

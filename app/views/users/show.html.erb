@@ -8,21 +8,23 @@
 <% end %>
 
 <div style="clear:both"></div>
-<br />
-
-<p>
-  <b>Email:</b>
-  <%= @user.email %>
-</p>
-
-<% if current_user.system_admin? %>
-  <p>
-    <b>Status:</b>
-    <%= @user.status %>
-  </p>
+<fieldset>
+  <br />
 
   <p>
-    <b>System Admin:</b>
-    <%= @user.system_admin? %>
+    <b>Email:</b>
+    <%= @user.email %>
   </p>
-<% end %>
+
+  <% if current_user.system_admin? %>
+    <p>
+      <b>Status:</b>
+      <%= @user.status %>
+    </p>
+
+    <p>
+      <b>System Admin:</b>
+      <%= @user.system_admin? %>
+    </p>
+  <% end %>
+</fieldset>

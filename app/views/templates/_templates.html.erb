@@ -13,29 +13,31 @@
 
 <div style="clear:both"></div>
 
-<table style="width:100%"><col width="10%"/><col width="10%"/><col width="80%"/><col width="1%"/>
-  <tr>
-    <th><%== sort_field_helper(@order, 'templates.name', 'Name', 'templates_search') %></th>
-    <th>Project</th>
-    <th>Items</th>
-    <th></th>
-  </tr>
+<div class="frame">
+  <table style="width:100%"><col width="10%"/><col width="10%"/><col width="80%"/><col width="1%"/>
+    <tr>
+      <th><%== sort_field_helper(@order, 'templates.name', 'Name', 'templates_search') %></th>
+      <th>Project</th>
+      <th>Items</th>
+      <th></th>
+    </tr>
 
-<% @templates.each do |template| %>
-  <tr>
-    <td><%= link_to template.name, template %></td>
-    <td><%= link_to template.project.name, template.project %></td>
-    <td>
-      <%= @template = template; render partial: 'compact_items' %>
-    </td>
-    <td style="vertical-align:middle;white-space:nowrap">
-      <% if current_user.all_templates.include?(template) %>
-        <%#= link_to image_tag('contour/addfile.png', alt: ''), generate_stickies_template_path(template), confirm: "Are you sure you want to generate #{pluralize(template.items.size, 'Sticky')} from Template #{template.name}?", method: :post %>
-        <%= link_to image_tag('contour/delete.png', alt: ''), template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
-</table>
+  <% @templates.each do |template| %>
+    <tr>
+      <td><%= link_to template.name, template %></td>
+      <td><%= link_to template.project.name, template.project %></td>
+      <td>
+        <%= @template = template; render partial: 'compact_items' %>
+      </td>
+      <td style="vertical-align:middle;white-space:nowrap">
+        <% if current_user.all_templates.include?(template) %>
+          <%#= link_to image_tag('contour/addfile.png', alt: ''), generate_stickies_template_path(template), confirm: "Are you sure you want to generate #{pluralize(template.items.size, 'Sticky')} from Template #{template.name}?", method: :post %>
+          <%= link_to image_tag('contour/delete.png', alt: ''), template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
 
 <center><%= paginate @templates %></center>

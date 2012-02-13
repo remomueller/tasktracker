@@ -16,28 +16,32 @@
 <div style="clear:both"></div>
 <% if false %>
 <pre><%= @template.description %></pre>
-<br />
 <% end %>
 
-<p>
-  <b>User:</b>
-  <%= link_to @template.user.name, @template.user if @template.user %>
-</p>
+<fieldset><br />
+  <p>
+    <b>User:</b>
+    <%= link_to @template.user.name, @template.user if @template.user %>
+  </p>
 
-<% if false %>
-<p>
-  <b>Project:</b>
-  <%= link_to @template.project.name, @template.project if @template.project %>
-</p>
-<% end %>
+  <% if false %>
+  <p>
+    <b>Project:</b>
+    <%= link_to @template.project.name, @template.project if @template.project %>
+  </p>
+  <% end %>
+</fieldset>
 
 <p>
   <b>Items:</b>
+  <div class="frame">
   <%= render partial: 'compact_items' %>
+  </div>
   <%# @template.items.each do |item| %>
     <%#= @item = item; render partial: 'show_item' %>
   <%# end %>
 </p>
+
 
 <div id="dialog-form" title="Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %>:">
 	<%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_frame_form' do %>

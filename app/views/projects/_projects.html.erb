@@ -27,101 +27,102 @@
   </tr>
 </table>
 <br />
-<table class="blank padded" style="width:100%;table-layout:fixed;margin-bottom:20px;">
-<% @projects.in_groups_of(3) do |row_projects| %>
-  <tr>
-    <% for project in row_projects %>
-      <% if project %>
-        <% @project = project %>
-        <td style="border: 1px solid #eee" id="project_<%= project.id %>_collaborators">
-          <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
-          <div style="float:right;text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
-          <div style="clear:both"></div>
-          <div style="text-align:center;font-size:1.2em">
-            <table class="blank" style="table-layout:fixed;width:100%">
-              <tr style="margin:0px; padding: 0px">
-                <td style="vertical-align:top;text-align:right;margin: 0px; padding: 10px 0px 0px 0px">
-                  <div>
-                    <% form_name = "project_#{@project.id}_visible" %>
-                    <%= form_tag visible_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
-                      <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(@project.id), onclick: "$('##{form_name}').submit();" %>
-                    <% end %>
-                    <%= link_to project.name, project, style: "color: #{@project.color(current_user)}", class: "project_#{@project.id}_color" %>
-                  </div>
-                </td>
-                <td style="vertical-align:top;margin:0px; padding: 0px">
-                <% form_name = "project_#{@project.id}_colorpicker_form" %>
-                <%= form_tag colorpicker_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
-                  <%= hidden_field_tag :color, '', id: "project_#{@project.id}_hexcolor" %>
-                  <div class="custom_widget">
-                    <div id="project_<%= @project.id %>_colorselector" class="colorselector">
-                      <div style="background-color: <%= @project.color(current_user) %>"></div>
+<div class="frame">
+  <table class="blank padded" style="width:100%;table-layout:fixed;">
+  <% @projects.in_groups_of(3) do |row_projects| %>
+    <tr>
+      <% for project in row_projects %>
+        <% if project %>
+          <% @project = project %>
+          <td style="border: 1px solid #eee" id="project_<%= project.id %>_collaborators">
+            <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
+            <div style="float:right;text-align:right;font-size: 0.8em"><%= recent_activity(@project.updated_at) %></div>
+            <div style="clear:both"></div>
+            <div style="text-align:center;font-size:1.2em">
+              <table class="blank" style="table-layout:fixed;width:100%">
+                <tr style="margin:0px; padding: 0px">
+                  <td style="vertical-align:top;text-align:right;margin: 0px; padding: 10px 0px 0px 0px">
+                    <div>
+                      <% form_name = "project_#{@project.id}_visible" %>
+                      <%= form_tag visible_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
+                        <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(@project.id), onclick: "$('##{form_name}').submit();" %>
+                      <% end %>
+                      <%= link_to project.name, project, style: "color: #{@project.color(current_user)}", class: "project_#{@project.id}_color" %>
                     </div>
-                  </div>
-                <% end %>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div style="text-align:center;font-size:0.8em;min-height:10px">
-            <%== pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />" if @project.stickies.due_today.size > 0 %>
-            <%== pluralize(@project.stickies.past_due.size, 'Sticky') + " Past Due<br />" if @project.stickies.past_due.size > 0 %>
-            <%== pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week" if @project.stickies.due_this_week.size > 0 %>
-          </div>
-          <%= javascript_tag do %>
-            $('#project_<%= @project.id %>_colorselector')
-              .ColorPicker({
-                color: '<%= @project.color(current_user) %>',
-                onShow: function (colpkr) {
-                	$(colpkr).fadeIn(500);
-                	return false;
-                },
-              	onHide: function (colpkr) {
-                	$(colpkr).fadeOut(500);
-                	$('#project_<%= @project.id %>_colorpicker_form').submit();
-                	return false;
-                },
-              	onChange: function (hsb, hex, rgb) {
-              	  $('#project_<%= @project.id %>_hexcolor').val('#' + hex);
-              		$('#project_<%= @project.id %>_colorselector div').css('backgroundColor', '#' + hex);
-              		$('.project_<%= @project.id %>_color').css('color', '#' + hex);
-              	},
-              	onSubmit: function(hsb, hex, rgb, el) {
-                	$(el).ColorPickerHide();
-                },
-              });
-            $('#project_<%= @project.id %>_collaborators')
-              .qtip({
-                content:{
-                  text: '<%== escape_javascript(("<strong>Owner:</strong><ul><li>" + @project.user.name + "</li></ul><strong>Editors:</strong><ul>" + @project.editors.collect{|u| "<li>#{u.name}</li>"}.join + "</ul><strong>Viewers:</strong><ul>" + @project.viewers.collect{|u| "<li>#{u.name}</li>"}.join + "</ul>").html_safe) %>',
-                  title:{
-                    text: 'Collaborators:'
+                  </td>
+                  <td style="vertical-align:top;margin:0px; padding: 0px">
+                  <% form_name = "project_#{@project.id}_colorpicker_form" %>
+                  <%= form_tag colorpicker_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
+                    <%= hidden_field_tag :color, '', id: "project_#{@project.id}_hexcolor" %>
+                    <div class="custom_widget">
+                      <div id="project_<%= @project.id %>_colorselector" class="colorselector">
+                        <div style="background-color: <%= @project.color(current_user) %>"></div>
+                      </div>
+                    </div>
+                  <% end %>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div style="text-align:center;font-size:0.8em;min-height:10px">
+              <%== pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />" if @project.stickies.due_today.size > 0 %>
+              <%== pluralize(@project.stickies.past_due.size, 'Sticky') + " Past Due<br />" if @project.stickies.past_due.size > 0 %>
+              <%== pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week" if @project.stickies.due_this_week.size > 0 %>
+            </div>
+            <%= javascript_tag do %>
+              $('#project_<%= @project.id %>_colorselector')
+                .ColorPicker({
+                  color: '<%= @project.color(current_user) %>',
+                  onShow: function (colpkr) {
+                  	$(colpkr).fadeIn(500);
+                  	return false;
+                  },
+                	onHide: function (colpkr) {
+                  	$(colpkr).fadeOut(500);
+                  	$('#project_<%= @project.id %>_colorpicker_form').submit();
+                  	return false;
+                  },
+                	onChange: function (hsb, hex, rgb) {
+                	  $('#project_<%= @project.id %>_hexcolor').val('#' + hex);
+                		$('#project_<%= @project.id %>_colorselector div').css('backgroundColor', '#' + hex);
+                		$('.project_<%= @project.id %>_color').css('color', '#' + hex);
+                	},
+                	onSubmit: function(hsb, hex, rgb, el) {
+                  	$(el).ColorPickerHide();
+                  },
+                });
+              $('#project_<%= @project.id %>_collaborators')
+                .qtip({
+                  content:{
+                    text: '<%== escape_javascript(("<strong>Owner:</strong><ul><li>" + @project.user.name + "</li></ul><strong>Editors:</strong><ul>" + @project.editors.collect{|u| "<li>#{u.name}</li>"}.join + "</ul><strong>Viewers:</strong><ul>" + @project.viewers.collect{|u| "<li>#{u.name}</li>"}.join + "</ul>").html_safe) %>',
+                    title:{
+                      text: 'Collaborators:'
+                    }
+                  },
+                  show:{
+                    event: 'mouseenter'
+                  },
+                  hide: {
+                    event: 'mouseleave'
+                  },
+                  position:{
+                    my: 'right center',
+                    at: 'left center',
+                    viewport: $(window)
+                  },
+                  style:{
+                    classes: 'ui-tooltip-shadow ui-tooltip-green'
                   }
-                },
-                show:{
-                  event: 'mouseenter'
-                },
-                hide: {
-                  event: 'mouseleave'
-                },
-                position:{
-                  my: 'right center',
-                  at: 'left center',
-                  viewport: $(window)
-                },
-                style:{
-                  classes: 'ui-tooltip-shadow ui-tooltip-green'
-                }
-              });
-          <% end %>
-        </td>
-      <% else %>
-        <td></td>
+                });
+            <% end %>
+          </td>
+        <% else %>
+          <td></td>
+        <% end %>
       <% end %>
-    <% end %>
-  </tr>
-<% end %>
-</table>
-<br />
+    </tr>
+  <% end %>
+  </table>
+</div>
 <br />
 <center><%= paginate @projects %></center>

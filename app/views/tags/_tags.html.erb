@@ -16,28 +16,30 @@
 
 <div style="clear:both"></div>
 
-<table style="width:100%">
-  <tr>
-    <th>Name</th>
-    <th>Project</th>
-    <th>Creator</th>
-    <th>Description</th>
-    <th></th>
-  </tr>
+<div class="frame">
+  <table style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>Project</th>
+      <th>Creator</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
 
-<% @tags.each do |tag| %>
-  <tr>
-    <td><%= @tag = tag; link_to render(partial: 'tags/show'), tag %></td>
-    <td><%= link_to tag.project.name, tag.project %></td>
-    <td><%= link_to tag.user.name, tag.user %></td>
-    <td><%= tag.description %></td>
-    <td style="vertical-align:middle">
-      <% if current_user.all_tags.include?(tag) %>
-        <%= link_to image_tag('contour/delete.png', alt: ''), tag, confirm: "Are you sure you want to delete Tag #{tag.name}?", method: :delete %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
-</table>
+  <% @tags.each do |tag| %>
+    <tr>
+      <td><%= @tag = tag; link_to render(partial: 'tags/show'), tag %></td>
+      <td><%= link_to tag.project.name, tag.project %></td>
+      <td><%= link_to tag.user.name, tag.user %></td>
+      <td><%= tag.description %></td>
+      <td style="vertical-align:middle">
+        <% if current_user.all_tags.include?(tag) %>
+          <%= link_to image_tag('contour/delete.png', alt: ''), tag, confirm: "Are you sure you want to delete Tag #{tag.name}?", method: :delete %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
 
 <center><%= paginate @tags %></center>

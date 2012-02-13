@@ -1,5 +1,8 @@
 == 0.17.2
 
+* Enhancements
+  * Using Contour-Minimalist for styling
+
 == 0.17.1
 
 * Enhancements

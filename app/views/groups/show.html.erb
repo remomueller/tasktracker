@@ -9,20 +9,23 @@
 
 <div style="clear:both"></div>
 
-<p>
-  <b>Creator:</b>
-  <%= link_to @group.user.name, @group.user %>
-</p>
+<fieldset>
+  <br />
+  <p>
+    <b>Creator:</b>
+    <%= link_to @group.user.name, @group.user %>
+  </p>
 
-<p>
-  <b>Generated From Template:</b>
-  <%= link_to @group.template.name, @group.template if @group.template %>
-</p>
+  <p>
+    <b>Generated From Template:</b>
+    <%= link_to @group.template.name, @group.template if @group.template %>
+  </p>
 
-<p>
-  <b>Description (Additional Information):</b>
-  <%= @group.description %>
-</p>
+  <p>
+    <b>Description (Additional Information):</b>
+    <%= @group.description %>
+  </p>
+</fieldset>
 
 <div style="float:left">
   <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px' do %>

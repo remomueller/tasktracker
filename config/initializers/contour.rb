@@ -11,10 +11,10 @@ Contour.setup do |config|
   config.application_version = Notes::VERSION::STRING
 
   # Enter your application header background image here.
-  config.header_background_image = 'brigham.png'
+  config.header_background_image = ''
 
   # Enter your application header title image here.
-  config.header_title_image = 'stylefile.png'
+  # config.header_title_image = 'stylefile.png'
 
   # Enter the items you wish to see in the menu
   config.menu_items = [

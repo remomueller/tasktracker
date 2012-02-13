@@ -10,14 +10,17 @@
 <div style="clear:both"></div>
 
 <pre><%= @frame.description %></pre>
-<br />
 
-<p>
-  <b>User:</b>
-  <%= link_to @frame.user.name, @frame.user if @frame.user %>
-</p>
+<fieldset>
+  <br />
 
-<p>
-  <b>Time Period:</b>
-  <%= @frame.long_time %>
-</p>
+  <p>
+    <b>User:</b>
+    <%= link_to @frame.user.name, @frame.user if @frame.user %>
+  </p>
+
+  <p>
+    <b>Time Period:</b>
+    <%= @frame.long_time %>
+  </p>
+</fieldset>

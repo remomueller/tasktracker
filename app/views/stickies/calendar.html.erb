@@ -35,28 +35,11 @@
   </table>
 <% end %>
 
-<div id="month-breakdown" style="min-height:350px;">
-  <br /><br /><center><%= image_tag "ajax-loader.gif" %></center>
+<div id="month-breakdown" class="frame" style="min-height:350px;">
+  <br /><br /><center style="background-color:transparent"><%= image_tag "ajax-loader.gif" %></center>
 </div>
 
 <%= render partial: 'new_sticky_or_group_dialog' %>
-
-<% if false %>
-<table class='blank padded'>
-  <tr>
-    <td>
-      <fieldset>
-        <legend>Projects</legend>
-        <% current_user.all_viewable_projects.each_with_index do |project, index| %>
-          <div class="field">
-            <%= check_box_tag "projects[#{project.id}][selected]", '1', true, onclick: "$('.project_#{project.id}').toggle()" %> <%= link_to project.name, project, style: "color:#{colors(index)}" %>
-          </div>
-        <% end %>
-      </fieldset>
-    </td>
-  </tr>
-</table>
-<% end %>
 
 <h4>Projects</h4>
 

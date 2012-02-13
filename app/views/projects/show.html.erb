@@ -25,6 +25,8 @@
 <div style="clear:both"></div>
 
 <pre><%= @project.description %></pre>
+
+<fieldset>
 <br />
 
 <p>
@@ -50,6 +52,8 @@
   <%= @project.tags.collect{|t| @tag = t; render partial: 'tags/show'}.join('').html_safe %><br />
 </p>
 
+</fieldset>
+
 <h2>Stickies</h2>
 
 <div style="float:left">
@@ -70,7 +74,6 @@
   <center><%= image_tag "ajax-loader.gif" %></center>
   <br /><br />
 </div>
-
 <div style="clear:both"></div>
 
 <h2>General Project Comments</h2>

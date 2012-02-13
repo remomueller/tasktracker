@@ -10,14 +10,17 @@
 <div style="clear:both"></div>
 
 <pre><%= @tag.description %></pre>
-<br />
 
-<p>
-  <b>Creator:</b>
-  <%= link_to @tag.user.name, @tag.user if @tag.user %>
-</p>
+<fieldset>
+  <br />
 
-<p>
-  <b>Color:</b>
-  <span style="background-color: <%= @tag.color %>"><%= @tag.color %></span>
-</p>
+  <p>
+    <b>Creator:</b>
+    <%= link_to @tag.user.name, @tag.user if @tag.user %>
+  </p>
+
+  <p>
+    <b>Color:</b>
+    <span style="background-color: <%= @tag.color %>"><%= @tag.color %></span>
+  </p>
+</fieldset>

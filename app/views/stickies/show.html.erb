@@ -21,8 +21,9 @@
 <div style="clear:both"></div>
 
 <pre><%= @sticky.full_description %></pre>
-<br />
 
+<fieldset>
+<br />
 <p>
   <b>Creator:</b>
   <%= link_to @sticky.user.name, @sticky.user %>
@@ -112,3 +113,4 @@
   <%= render partial: 'comments/index' %>
 </div>
 <% end %>
+</fieldset>
