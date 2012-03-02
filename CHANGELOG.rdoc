@@ -1,5 +1,8 @@
 == 0.18.0
 
+* Enhancements
+  * Using Rails 3.2.2 and Contour 0.10.2
+
 == 0.17.2
 
 * Enhancements

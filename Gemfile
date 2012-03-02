@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '3.2.1'
+gem 'rails',                '3.2.2'
 
 # Database Adapter
 # Install instructions for Windows: http://blog.mmediasys.com/2011/07/07/installing-mysql-on-windows-7-x64-and-using-ruby-with-it/
@@ -9,8 +9,8 @@ gem 'thin',                 '~> 1.3.1',           :platforms => [ :mswin, :mingw
 gem 'eventmachine',         '~> 1.0.0.beta.4.1',  :platforms => [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              '~> 0.10.0'
-gem 'contour-minimalist',   '~> 0.1.2'
+gem 'contour',              '~> 0.10.2'
+gem 'contour-minimalist',   '~> 0.1.3'
 gem 'kaminari'
 gem 'ri_cal',               '~> 0.8.8'
 
@@ -28,6 +28,6 @@ gem 'jquery-rails'
 group :test do
   # Pretty printed test output
   gem 'win32console',                             :platforms => [ :mswin, :mingw ]
-  gem 'turn',               '~> 0.9.2',           :require => false
-  gem 'simplecov',                                :require => false
+  gem 'turn',               '~> 0.9.3'
+  gem 'simplecov',          '~> 0.6.1',           :require => false
 end

@@ -59,6 +59,7 @@ class ApplicationHelperTest < ActionView::TestCase
     assert recent_activity(Time.now - 2.days).kind_of?(String)
     assert recent_activity(Time.now - 1.week).kind_of?(String)
     assert recent_activity(Time.now - 1.month).kind_of?(String)
+    assert recent_activity(Time.now - 6.month).kind_of?(String)
     assert recent_activity(Time.now - 1.year).kind_of?(String)
     assert recent_activity(Time.now - 2.year).kind_of?(String)
   end
