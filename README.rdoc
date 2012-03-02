@@ -4,7 +4,7 @@ Manage multiple projects, view stickies (tasks) in a calendar, receive reminder 
 
 == Installation
 
-NOTE: We assume you have already installed RVM, or the very least the latest version of Ruby (1.9.3 of this writing), and that you have the bundler gem installed.
+Instructions for installing prerequisites (Ruby, Git, JavaScript compiler, etc.) can be found here: {Prerequisites for 64-bit Platforms}[https://github.com/remomueller/documentation]
 
   gem install bundler
 
