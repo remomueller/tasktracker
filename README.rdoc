@@ -4,7 +4,9 @@ Manage multiple projects, view stickies (tasks) in a calendar, receive reminder 
 
 == Installation
 
-Instructions for installing prerequisites (Ruby, Git, JavaScript compiler, etc.) can be found here: {Prerequisites for 64-bit Platforms}[https://github.com/remomueller/documentation]
+{Prerequisites Install Guide}[https://github.com/remomueller/documentation]: Instructions for installing prerequisites like Ruby, Git, JavaScript compiler, etc.
+
+Once you have the prerequisites in place, you can proceed to install bundler which will handle most of the remaining dependencies.
 
   gem install bundler
 
