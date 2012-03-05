@@ -8,109 +8,110 @@
   </table>
 </h1>
 <% if current_user.all_stickies.include?(@sticky)  %>
-  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Sticky", edit_sticky_path(@sticky), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Sticky", edit_sticky_path(@sticky), class: 'button' %>
   <% if @sticky.group %>
-    <%= link_to_function image_tag('contour/delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'button negative' %>
+    <%= link_to_function image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'button negative' %>
     <%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
   <% else %>
-    <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'button negative' %>
+    <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'button negative' %>
   <% end %>
 <% end %>
-<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Stickies", stickies_path, class: 'button' %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Stickies", stickies_path, class: 'button' %>
 
 <div style="clear:both"></div>
 
-<pre><%= @sticky.full_description %></pre>
+<div class="frame">
+  <table class="blank padded" style="width:100%"><col width="25%" />
+    <tr>
+      <td style="vertical-align:top">
+        <p>
+          <b>Creator:</b>
+          <%= link_to @sticky.user.name, @sticky.user %>
+        </p>
+        <% if @sticky.group %>
+        <p>
+          <b>Group:</b>
+          <%= link_to @sticky.group.name, @sticky.group if @sticky.group %>
+        </p>
+        <% end %>
+
+        <p>
+          <b>Frame:</b>
+          <%= @sticky.frame ? @sticky.frame.name : 'Backlog' %>
+        </p>
+
+        <% if @sticky.owner %>
+          <p>
+            <b>Assigned To:</b>
+            <%= link_to @sticky.owner.name if @sticky.owner %>
+          </p>
+        <% end %>
+
+        <p>
+          <b>Due Date:</b>
+          <%= @sticky.due_date %>
+        </p>
+
+        <% unless @sticky.due_at.blank? %>
+        <p>
+          <b>Due At:</b>
+          <%= @sticky.due_at_string %> <%= "to #{@sticky.due_at_end_string_with_duration}" unless @sticky.due_at_end_string_with_duration.blank? %>
+        </p>
+        <% end %>
+
+        <% if false %>
+          <% unless @sticky.duration.blank? %>
+          <p>
+            <b>Duration:</b>
+            <%= @sticky.duration %> <%= @sticky.duration_units %>
+          </p>
+          <% end %>
+        <% end %>
+
+        <% if false %>
+        <p>
+          <b>Time Period:</b>
+          <%= @sticky.start_date %> to <%= @sticky.end_date %>
+        </p>
+        <% end %>
+
+        <% if @sticky.tags.size > 0 %>
+        <p>
+          <b>Tags:</b>
+          <table class="blank tags">
+            <% @sticky.tags.in_groups_of(5).each do |row_tags| %>
+              <tr>
+                <% row_tags.each do |tag| %>
+                  <% if tag %><td><%= @tag = tag; render partial: 'tags/show' %></td><% end %>
+                <% end %>
+              </tr>
+            <% end %>
+          </table>
+        </p>
+        <% end %>
+
+      </td>
+      <td style="vertical-align:top">
+        <b>Description:</b><br /><br />
+        <pre style="margin:0px;padding:0px"><%= @sticky.full_description %></pre><br /><br />
+      </td>
+    </tr>
+  </table>
+</div>
 
 <fieldset>
-<br />
-<p>
-  <b>Creator:</b>
-  <%= link_to @sticky.user.name, @sticky.user %>
-</p>
-<% if @sticky.group %>
-<p>
-  <b>Group:</b>
-  <%= link_to @sticky.group.name, @sticky.group if @sticky.group %>
-</p>
-<% end %>
-
-<p>
-  <b>Frame:</b>
-  <%= @sticky.frame ? @sticky.frame.name : 'Backlog' %>
-</p>
-
-<% if @sticky.owner %>
-  <p>
-    <b>Assigned To:</b>
-    <%= link_to @sticky.owner.name if @sticky.owner %>
-  </p>
-<% end %>
-
-<p>
-  <b>Due Date:</b>
-  <%= @sticky.due_date %>
-</p>
-
-<% unless @sticky.due_at.blank? %>
-<p>
-  <b>Due At:</b>
-  <%= @sticky.due_at_string %> <%= "to #{@sticky.due_at_end_string_with_duration}" unless @sticky.due_at_end_string_with_duration.blank? %>
-</p>
-<% end %>
-
-<% if false %>
-  <% unless @sticky.duration.blank? %>
-  <p>
-    <b>Duration:</b>
-    <%= @sticky.duration %> <%= @sticky.duration_units %>
-  </p>
+  <%= form_tag search_comments_path(class_id: @sticky.id, class_name: 'Sticky'), method: :get, id: "comments_search", style: 'display:inline' do %>
+    <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
   <% end %>
-<% end %>
 
-<% if false %>
-<p>
-  <b>Time Period:</b>
-  <%= @sticky.start_date %> to <%= @sticky.end_date %>
-</p>
-<% end %>
+  <legend>Comments</legend>
 
-<% if @sticky.tags.size > 0 %>
-<p>
-  <b>Tags:</b>
-  <table class="blank tags">
-    <% @sticky.tags.in_groups_of(5).each do |row_tags| %>
-      <tr>
-        <% row_tags.each do |tag| %>
-          <% if tag %><td><%= @tag = tag; render partial: 'tags/show' %></td><% end %>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
-</p>
-<% end %>
+  <div id="comments"></div>
 
-<p>
-  <b>Comments:</b>
-</p>
-<%= form_tag search_comments_path(class_id: @sticky.id, class_name: 'Sticky'), method: :get, id: "comments_search" do %>
-<% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
-<% end %>
-
-<div id="comments"></div>
+</fieldset>
 
 <%= javascript_tag do %>
   $(function(){
     $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
   });
 <% end %>
-
-<% if false %>
-<% @object = @sticky %>
-<% @limit = nil %>
-<% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-<div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
-  <%= render partial: 'comments/index' %>
-</div>
-<% end %>
-</fieldset>

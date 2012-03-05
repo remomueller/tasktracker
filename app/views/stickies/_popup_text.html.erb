@@ -1,0 +1,11 @@
+<% unless @sticky.due_at.blank? %><strong>Due At:</strong> <%= @sticky.due_at_range_short %><br /><br /><% end %>
+<strong>Description:</strong> <%= @sticky.full_description %><br /><br />
+<% if @sticky.owner %><strong>Assigned To:</strong> <%= @sticky.owner.name %><br /><br /><% end %>
+
+<strong>Project:</strong><span style='color:<%= @sticky.project.color(current_user) %>' class='project_<%= @sticky.project.id %>_color'> <%= @sticky.project.name %></span><br /><br />
+
+<% if @sticky.project.frames.size > 0 %><strong>Frame:</strong> <%= @sticky.frame ? @sticky.frame.name : 'Backlog' %><br /><br /><% end %>
+
+<strong>Created By:</strong> <%= @sticky.user.name %><br /><br />
+
+<% if @sticky.tags.size > 0 %><strong>Tags:</strong> <%= @sticky.tags.collect{|t| @tag = t; render partial: 'tags/show'}.join('').html_safe %><br /><br /><% end %>

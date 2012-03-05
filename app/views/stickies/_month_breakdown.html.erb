@@ -19,7 +19,7 @@
             ondblclick="$('#initial_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>');$('#sticky_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>'); $('#new-sticky-or-group-dialog').dialog('open');">
           <div style="width:100%">
             <div class="calendar-entry-heading" style="padding-right:2px;">
-              <%= link_to_function image_tag('contour/addfile.png', style: 'border:none;vertical-align:text-bottom', size: '11x11', title: "New Sticky due on #{iDate.strftime("%B %e, %Y")}"), "$('#initial_due_date').val('#{iDate.strftime('%m/%d/%Y')}');$('#sticky_due_date').val('#{iDate.strftime('%m/%d/%Y')}'); $('#new-sticky-or-group-dialog').dialog('open');", style: 'display:none', id: "calendar_box_#{first_day_offset}_new_entry_link" %>
+              <%= link_to_function image_tag('gentleface/16/doc_new.png', style: 'border:none;vertical-align:text-bottom', size: '11x11', title: "New Sticky due on #{iDate.strftime("%B %e, %Y")}"), "$('#initial_due_date').val('#{iDate.strftime('%m/%d/%Y')}');$('#sticky_due_date').val('#{iDate.strftime('%m/%d/%Y')}'); $('#new-sticky-or-group-dialog').dialog('open');", style: 'display:none', id: "calendar_box_#{first_day_offset}_new_entry_link" %>
               <%= ([@start_date, (@end_date + 1.day)].include?(iDate) ? iDate.strftime("%b %e") : iDate.strftime("%e") ) %>
             </div>
             <div style="min-height:60px">

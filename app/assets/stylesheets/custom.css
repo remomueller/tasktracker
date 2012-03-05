@@ -34,10 +34,6 @@ a:hover { color: #EB6C20; }
 /*            MAIN CONTENT            */
 /**************************************/
 
-.comment_box {
-  margin-left:20px;
-}
-
 .collapsed {
   white-space:nowrap;
   overflow:hidden;
@@ -189,4 +185,25 @@ table.tags td {
   -moz-border-radius: 3px; /* Mozilla */
   -webkit-border-radius: 3px; /* Webkit */
   border-radius: 3px;
+}
+
+span.selected {
+  background-color: #404040;
+  color: white;
+  padding: 3px 5px;
+
+  border: 1px solid #bbb;
+  -moz-border-radius: 3px; /* Mozilla */
+  -webkit-border-radius: 3px; /* Webkit */
+  border-radius: 3px;
+}
+
+/* TODO: To be fixed in Contour */
+table {
+  margin-bottom: 0;
+}
+
+.qtip{
+  max-width: 280px; /* Change this? */
+  min-width: 280px; /* ...and this! */
 }

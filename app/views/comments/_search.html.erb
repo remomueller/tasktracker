@@ -1,6 +1,4 @@
-<br />
-<%# @limit = 5 %>
 <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-<div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" class = "comment_box">
+<div id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>">
   <%= render partial: 'comments/index' %>
 </div>

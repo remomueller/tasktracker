@@ -2,10 +2,10 @@
 <h1><% if @tag.project %><%= link_to @tag.project.name, @tag.project %> &raquo;<% end %><%= @title %></h1>
 
 <% if current_user.all_tags.include?(@tag) %>
-  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Tag", edit_tag_path(@tag), class: 'button' %>
-  <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Tag", @tag, confirm: "Are you sure you want to delete Tag #{@tag.name}?", method: :delete, class: 'button negative' %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Tag", edit_tag_path(@tag), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Tag", @tag, confirm: "Are you sure you want to delete Tag #{@tag.name}?", method: :delete, class: 'button negative' %>
 <% end %>
-<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Tags", tags_path, class: 'button' %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Tags", tags_path, class: 'button' %>
 
 <div style="clear:both"></div>
 

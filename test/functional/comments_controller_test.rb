@@ -17,24 +17,6 @@ class CommentsControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
-  test "should create comment for an object in table format" do
-    assert_difference('Comment.count') do
-      post :add_comment_table, class_name: @comment.class_name, class_id: @comment.class_id, comment: "This is a comment.", position: "1", format: 'js'
-    end
-
-    assert_not_nil assigns(:object)
-    assert_template 'add_comment_table'
-  end
-
-  test "should not add_comment_table without valid id" do
-    assert_difference('Comment.count', 0) do
-      post :add_comment_table, class_name: @comment.class_name, class_id: -1, comment: "This is a comment.", position: "1", format: 'js'
-    end
-
-    assert_nil assigns(:object)
-    assert_response :success
-  end
-
   test "should create comment for an object" do
     assert_difference('Comment.count') do
       post :add_comment, class_name: @comment.class_name, class_id: @comment.class_id, comment: "This is a comment.", position: "1", format: 'js'

@@ -65,14 +65,20 @@
         </td>
         <td style="vertical-align:middle">
           <% if current_user.all_stickies.include?(sticky) %>
-            <%= link_to image_tag('contour/edit.png', alt: ''), edit_sticky_path(sticky) %>
-            <%= link_to image_tag('contour/delete.png', alt: ''), sticky, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", method: :delete %>
+            <%= link_to image_tag('gentleface/16/doc_edit.png', alt: ''), edit_sticky_path(sticky) %>
+            <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), sticky, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", method: :delete %>
           <% end %>
         </td>
       </tr>
     </tbody>
-    <tbody id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" style="display:none">
-      <%= render partial: 'comments/index_table' %>
+    <tbody>
+      <tr>
+        <td colspan="7" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>" style="display:none">
+          <div >
+            <%= @comments = @object.comments.page(0).per(0); render partial: 'comments/index' %>
+          </div>
+        </td>
+      </tr>
     </tbody>
   <% end %>
   </table>

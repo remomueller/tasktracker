@@ -2,16 +2,16 @@
 <h1><% if @template.project %><%= link_to @template.project.name, @template.project %> &raquo;<% end %><%= @title %></h1>
 
 <% if current_user.all_templates.include?(@template) %>
-  <%= link_to image_tag('contour/edit.png', alt: '') + "Edit Template", edit_template_path(@template), class: 'button' %>
-  <%= link_to image_tag('contour/delete.png', alt: '') + "Delete Template", @template, confirm: "Are you sure you want to delete Template #{@template.name}?", method: :delete, class: 'button negative' %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Template", edit_template_path(@template), class: 'button' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Template", @template, confirm: "Are you sure you want to delete Template #{@template.name}?", method: :delete, class: 'button negative' %>
 
   <%# if @template.project and @template.project.frames.size > 0 %>
-    <%= link_to_function image_tag('contour/addfile.png', alt: '') + "Generate Stickies", 'return false;', class: 'button positive', id: 'generate-stickies' %>
+    <%= link_to_function image_tag('gentleface/16/doc_new.png', alt: '') + "Generate Stickies", 'return false;', class: 'button positive', id: 'generate-stickies' %>
   <%# else %>
-    <%#= link_to image_tag('contour/addfile.png', alt: '') + "Generate Stickies", generate_stickies_template_path(@template), method: :post, class: 'button positive' %>
+    <%#= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Generate Stickies", generate_stickies_template_path(@template), method: :post, class: 'button positive' %>
   <%# end %>
 <% end %>
-<%= link_to image_tag('contour/mydocuments.png', alt: '') + "View All Templates", templates_path, class: 'button' %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Templates", templates_path, class: 'button' %>
 
 <div style="clear:both"></div>
 <% if false %>

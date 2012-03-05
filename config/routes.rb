@@ -7,7 +7,6 @@ Notes::Application.routes.draw do
     end
     collection do
       get :search
-      post :add_comment_table
       post :add_comment
     end
   end
@@ -34,6 +33,9 @@ Notes::Application.routes.draw do
       get :search
       get :template
       get :calendar
+    end
+    member do
+      post :popup
     end
   end
 

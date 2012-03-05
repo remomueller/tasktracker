@@ -19,14 +19,14 @@
           <% if current_user.projects_per_page != count %>
             <%= link_to count, "#", 'data-count' => count, 'data-object' => 'projects', id: "count_#{count}" %>
           <% else %>
-            <%= count %>
+            <span class="selected"><%= count %></span>
           <% end %>
         </span>
       <% end %>
     </td>
   </tr>
 </table>
-<br />
+
 <div class="frame">
   <table class="blank padded" style="width:100%;table-layout:fixed;">
   <% @projects.in_groups_of(3) do |row_projects| %>
@@ -124,5 +124,5 @@
   <% end %>
   </table>
 </div>
-<br />
+
 <center><%= paginate @projects %></center>

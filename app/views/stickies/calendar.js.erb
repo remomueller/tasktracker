@@ -16,7 +16,12 @@ $("#direction").val(0);
 
 $('#month-breakdown').qtip('destroy');
 
-<% if projects = Project.where(id: @stickies.collect(&:project_id).uniq).order(:name) and projects.size > 0 %>
+<% if projects = Project.where(id: @stickies.uniq.pluck(:project_id)).order(:name) and projects.size > 0 %>
+
+  <% projects.each do |project| %>
+    $(".project_<%= project.id %>_color").css('color', '<%= project.color(current_user) %>');
+  <% end %>
+
   $('#month-breakdown')
     .qtip({
       content:{
@@ -39,7 +44,42 @@ $('#month-breakdown').qtip('destroy');
         viewport: $(window)
       },
       style:{
-        classes: 'ui-tooltip-shadow ui-tooltip-light'
+        classes: 'ui-tooltip-shadow ui-tooltip-light',
+        tip:{
+          width: 80
+        }
       }
     });
 <% end %>
+
+$(".sticky_popup").each( function(index, element) {
+  $(element).qtip({
+    content:{
+      text: '<div id="' + element.id + '_text"><center><%= image_tag 'ajax-loader.gif', alt: '' %></center></div>',
+      ajax: {
+        url: $(element).attr('rel'),
+        type: 'POST',
+        success: function(data, status) {
+          eval(data);
+        }
+      },
+      title:{
+        text: $(element).attr('data-title')
+      }
+    },
+    show:{
+      event: 'mouseenter'
+    },
+    hide: {
+      event: 'mouseleave'
+    },
+    position:{
+      my: 'left center',
+      at: 'right center',
+      viewport: $(window)
+    },
+    style:{
+      classes: 'ui-tooltip-shadow ui-tooltip-yellow'
+    }
+  });
+});

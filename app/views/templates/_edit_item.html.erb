@@ -1,7 +1,7 @@
 <% width = '914px' %>
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 <fieldset id="item_<%= position %>" class="<%= 'fieldset_with_errors' if @template.errors.keys.include?(:items) %>">
-  <legend>Sticky Template <%= link_to_function image_tag('contour/delete.png', style: 'vertical-align:text-bottom', alt: '', title: 'Remove Item'), "$('#item_#{position}').remove()" %></legend>
+  <legend>Sticky Template <%= link_to_function image_tag('gentleface/16/doc_delete.png', style: 'vertical-align:text-bottom', alt: '', title: 'Remove Item'), "$('#item_#{position}').remove()" %></legend>
   <div class="field">
     <b>Description:</b><br />
 

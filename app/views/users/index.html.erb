@@ -2,7 +2,7 @@
 <h1><%= @title %></h1>
 
 <% if current_user.system_admin? and false %>
-  <%= link_to image_tag('contour/im.png', alt: '') + "Create New User", new_user_path, class: 'button positive' %>
+  <%= link_to image_tag('gentleface/16/user.png', alt: '') + "Create New User", new_user_path, class: 'button positive' %>
 <% end %>
 
 <%= form_tag users_path, method: :get, remote: true, id: "users_search" do %>

@@ -1,7 +1,7 @@
 <% @title = 'Groups' %>
 <h1><%= @title %></h1>
 
-<%#= link_to image_tag('contour/addfile.png', alt: '') + "Create New Group", new_group_path, class: 'button positive' %>
+<%#= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Group", new_group_path, class: 'button positive' %>
 
 <%= form_tag groups_path, method: :get, remote: true, id: "groups_search", style: "margin-bottom:-5px" do %>
   Search <%= text_field_tag 'search', params[:search] %> <%= information %>

@@ -1,18 +1,6 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
 
-  def add_comment_table
-    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
-    if @object and not params[:comment].blank?
-      @object.new_comment(current_user, params[:comment])
-      @position = params[:position]
-      @comments = @object.comments
-      render "comments/add_comment_table"
-    else
-      render nothing: true
-    end
-  end
-
   def add_comment
     @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
     if @object and not params[:comment].blank?
@@ -25,7 +13,6 @@ class CommentsController < ApplicationController
       render nothing: true
     end
   end
-
 
   def search
     @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
