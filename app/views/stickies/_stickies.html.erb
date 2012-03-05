@@ -1,6 +1,6 @@
 <div style="float:right;text-align:right">
   Per Page
-  <% [10,25,50].each do |count| %> <span class="per_page"><%= link_to_if current_user.stickies_per_page != count, count, "#", 'data-count' => count, 'data-object' => 'stickies', id: "count_#{count}" %></span><% end %><br />
+  <% [10,25,50].each do |count| %><span class="per_page"><% if current_user.stickies_per_page != count %> <%= link_to count, "#", 'data-count' => count, 'data-object' => 'stickies', id: "count_#{count}" %><% else %><span class="selected"> <%= count %></span><% end %></span><% end %><br />
   <%= "<b>Displaying #{@stickies.count} of #{@sticky_count}</b>".html_safe if @sticky_count %>
 </div>
 

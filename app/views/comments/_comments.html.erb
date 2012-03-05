@@ -5,7 +5,7 @@
       <% if current_user.comments_per_page != count %>
         <%= link_to count, "#", 'data-count' => count, 'data-object' => 'comments', id: "count_#{count}" %>
       <% else %>
-        <%= count %>
+        <span class="selected"><%= count %></span>
       <% end %>
     </span>
   <% end %>
@@ -13,34 +13,36 @@
 
 <div style="clear:both"></div>
 
-<table width="100%">
-  <tr>
-    <th>Name</th>
-    <th>User</th>
-    <th>Under</th>
-    <th>Description</th>
-    <th></th>
-  </tr>
+<div class="frame">
+  <table width="100%">
+    <tr>
+      <th>Name</th>
+      <th>User</th>
+      <th>Under</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
 
-<% @comments.each do |comment| %>
-  <tr>
-    <td style="white-space:nowrap"><%= link_to comment.name, comment %></td>
-    <td><%= link_to comment.user.name, comment.user %></td>
-    <td>
-      <% object = comment.class_name.constantize.find(comment.class_id) %>
-      <% if object %>
-        <%= object.class.name %>
-        <%= link_to object.name, object %>
-      <% end %>
-    </td>
-    <td><%= comment.description %></td>
-    <td style="vertical-align:middle">
-      <% if current_user.all_deletable_comments.include?(comment) %>
-        <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), comment, confirm: "Are you sure you want to delete Comment #{comment.name}?", method: :delete %>
-      <% end %>
-    </td>
-  </tr>
-<% end %>
-</table>
+  <% @comments.each do |comment| %>
+    <tr>
+      <td style="white-space:nowrap"><%= link_to comment.name, comment %></td>
+      <td><%= link_to comment.user.name, comment.user %></td>
+      <td>
+        <% object = comment.class_name.constantize.find(comment.class_id) %>
+        <% if object %>
+          <%= object.class.name %>
+          <%= link_to object.name, object %>
+        <% end %>
+      </td>
+      <td><%= comment.description %></td>
+      <td style="vertical-align:middle">
+        <% if current_user.all_deletable_comments.include?(comment) %>
+          <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), comment, confirm: "Are you sure you want to delete Comment #{comment.name}?", method: :delete %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+</div>
 
 <center><%= paginate @comments %></center>

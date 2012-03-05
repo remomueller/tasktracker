@@ -22,6 +22,10 @@
       <%= f.label :project_id %><br />
       <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @template.project_id) %>
     </div>
+    <div class="field">
+      <%= f.label :avoid_weekends %> <span class="quiet">Set this if you prefer stickies to fall during a weekday.  Saturday gets pushed back to Friday and Sunday gets pushed forward to Monday.</span><br />
+      <%= f.check_box :avoid_weekends %>
+    </div>
     <div id="items_container">
       <%= render partial: 'items' %>
     </div>

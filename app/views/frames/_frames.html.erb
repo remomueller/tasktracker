@@ -5,7 +5,7 @@
       <% if current_user.frames_per_page != count %>
         <%= link_to count, "#", 'data-count' => count, 'data-object' => 'frames', id: "count_#{count}" %>
       <% else %>
-        <%= count %>
+        <span class="selected"><%= count %></span>
       <% end %>
     </span>
   <% end %>

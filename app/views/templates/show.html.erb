@@ -24,12 +24,12 @@
     <%= link_to @template.user.name, @template.user if @template.user %>
   </p>
 
-  <% if false %>
   <p>
-    <b>Project:</b>
-    <%= link_to @template.project.name, @template.project if @template.project %>
+    <b>Avoid Weekends:</b>
+    <%= check_box_tag 'template', 'avoid_weekends', @template.avoid_weekends?, disabled: true %>
   </p>
-  <% end %>
+
+
 </fieldset>
 
 <p>

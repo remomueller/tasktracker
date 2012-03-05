@@ -35,3 +35,11 @@ with_due_at_invalid:
   project: one
   name: Due At Item Invalid
   items: [{description: 'Due At will be default when sticky is created', interval: 0, units: 'days', due_at_string: 'Evening', duration: '', duration_units: ''}]
+
+avoid_weekends:
+  user: valid
+  project: one
+  name: Avoid Weekends
+  avoid_weekends: true
+  items: [{description: 'Should schedule on Friday', interval: 0, units: 'days'},
+          {description: 'Should schedule on Monday', interval: 1, units: 'days'}]

@@ -5,7 +5,7 @@
       <% if current_user.templates_per_page != count %>
         <%= link_to count, "#", 'data-count' => count, 'data-object' => 'templates', id: "count_#{count}" %>
       <% else %>
-        <%= count %>
+        <span class="selected"><%= count %></span>
       <% end %>
     </span>
   <% end %>

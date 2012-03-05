@@ -7,7 +7,7 @@
       <% if current_user.tags_per_page != count %>
         <%= link_to count, "#", 'data-count' => count, 'data-object' => 'tags', id: "count_#{count}" %>
       <% else %>
-        <%= count %>
+        <span class="selected"><%= count %></span>
       <% end %>
     </span>
   <% end %>

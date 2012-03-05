@@ -1,6 +1,7 @@
 == 0.18.0
 
 * Enhancements
+  * Templates can now specify that generated stickies avoid weekends
   * Updated GUI for sticky show page and comments
   * Improved Calendar performance using a combination of caching and AJAX
   * Using Rails 3.2.2 and Contour 0.10.2

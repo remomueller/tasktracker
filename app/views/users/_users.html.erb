@@ -1,11 +1,11 @@
-<div style="float:right;margin-bottom:-5px">
+<div style="float:right;">
   Per Page
   <% [10,25,50].each do |count| %>
     <span class="per_page">
       <% if current_user.users_per_page != count %>
         <%= link_to count, "#", 'data-count' => count, 'data-object' => 'users', id: "count_#{count}" %>
       <% else %>
-        <%= count %>
+        <span class="selected"><%= count %></span>
       <% end %>
     </span>
   <% end %>

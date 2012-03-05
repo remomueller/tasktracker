@@ -66,6 +66,23 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
+  test "should create group of stickies avoid weekends" do
+    assert_difference('Sticky.count', templates(:avoid_weekends).items.size) do
+      assert_difference('Group.count') do
+        post :create, template_id: templates(:avoid_weekends).to_param, frame_id: frames(:one).to_param, initial_due_date: "3/10/2012"
+      end
+    end
+    assert_not_nil assigns(:template)
+    assert_not_nil assigns(:group)
+    assert_equal templates(:avoid_weekends).items.size, assigns(:group).stickies.size
+    assert_equal assigns(:frame), frames(:one)
+    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
+    assert_equal Date.strptime('3/9/2012', '%m/%d/%Y'), assigns(:group).stickies.first.due_date
+    assert_equal Date.strptime('3/12/2012', '%m/%d/%Y'), assigns(:group).stickies.last.due_date
+    assert_redirected_to group_path(assigns(:group))
+  end
+
   test "should create group of stickies and set invalid due_at time and duration to default" do
     assert_difference('Sticky.count', templates(:with_due_at_invalid).items.size) do
       assert_difference('Group.count') do

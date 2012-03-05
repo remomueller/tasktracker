@@ -41,6 +41,11 @@ class Template < ActiveRecord::Base
     group = current_user.groups.create({ project_id: self.project_id, description: additional_text, template_id: self.id })
     self.sorted_items.each_with_index do |item|
       item = item.symbolize_keys
+      due_date = (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units]))
+      if self.avoid_weekends? and due_date
+        due_date -= 1.day if due_date.saturday? # Change to Friday
+        due_date += 1.day if due_date.sunday?   # Change to Monday
+      end
       current_user.stickies.create({  group_id:       group.id,
                                       project_id:     self.project_id,
                                       frame_id:       frame_id,
@@ -48,7 +53,7 @@ class Template < ActiveRecord::Base
                                       description:    item[:description].to_s,
                                       tag_ids:        (item[:tag_ids] || []),
                                       completed:      false,
-                                      due_date:       (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units])),
+                                      due_date:       due_date,
                                       due_at_string:  item[:due_at_string],
                                       duration:       item[:duration].to_i.abs,
                                       duration_units: item[:duration_units].blank? ? 'hours' : item[:duration_units]
