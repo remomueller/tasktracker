@@ -1,5 +1,5 @@
 <% unless @sticky.due_at.blank? %><strong>Due At:</strong> <%= @sticky.due_at_range_short %><br /><br /><% end %>
-<strong>Description:</strong> <%= @sticky.full_description %><br /><br />
+<strong>Description:</strong> <%= simple_format @sticky.full_description %>
 <% if @sticky.owner %><strong>Assigned To:</strong> <%= @sticky.owner.name %><br /><br /><% end %>
 
 <strong>Project:</strong><span style='color:<%= @sticky.project.color(current_user) %>' class='project_<%= @sticky.project.id %>_color'> <%= @sticky.project.name %></span><br /><br />
