@@ -9,7 +9,7 @@ class GroupsController < ApplicationController
 
     group_scope = group_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
-    @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "groups.id"
+    @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : 'groups.id DESC'
     group_scope = group_scope.order(@order)
 
     @groups = group_scope.page(params[:page]).per(current_user.groups_per_page)

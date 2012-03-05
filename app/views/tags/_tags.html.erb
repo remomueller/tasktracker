@@ -19,9 +19,9 @@
 <div class="frame">
   <table style="width:100%">
     <tr>
-      <th>Name</th>
-      <th>Project</th>
-      <th>Creator</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.name', 'Name', 'tags_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.project_id', 'Project', 'tags_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.user_id', 'Creator', 'tags_search') %></th>
       <th>Description</th>
       <th></th>
     </tr>

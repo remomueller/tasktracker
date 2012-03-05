@@ -39,9 +39,9 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_many :projects, conditions: { deleted: false }, order: 'name'
   has_many :project_favorites
-  has_many :frames, conditions: { deleted: false }, order: 'created_at'
-  has_many :groups, conditions: { deleted: false }, order: 'created_at'
-  has_many :tags, conditions: { deleted: false }, order: 'created_at'
+  has_many :frames, conditions: { deleted: false }
+  has_many :groups, conditions: { deleted: false }
+  has_many :tags, conditions: { deleted: false }
   has_many :templates, conditions: { deleted: false }, order: 'created_at'
   has_many :stickies, conditions: { deleted: false }, order: 'created_at'
   has_many :comments, conditions: { deleted: false }, order: 'created_at DESC'
@@ -112,37 +112,37 @@ class User < ActiveRecord::Base
 
   def all_groups
     @all_groups ||= begin
-      Group.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Group.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_groups
     @all_viewable_groups ||= begin
-      Group.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Group.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
 
   def all_frames
     @all_frames ||= begin
-      Frame.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Frame.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_frames
     @all_viewable_frames ||= begin
-      Frame.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Frame.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
 
   def all_tags
     @all_tags ||= begin
-      Tag.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Tag.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_tags
     @all_viewable_tags ||= begin
-      Tag.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Tag.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
 

@@ -9,6 +9,9 @@ class TagsController < ApplicationController
 
     tag_scope = tag_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
+    @order = Tag.column_names.collect{|column_name| "tags.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "tags.name"
+    tag_scope = tag_scope.order(@order)
+
     @tags = tag_scope.page(params[:page]).per( 20 ) #current_user.tags_per_page)
   end
 
