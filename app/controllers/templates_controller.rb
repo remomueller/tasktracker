@@ -15,24 +15,24 @@ class TemplatesController < ApplicationController
     template_scope = current_user.all_viewable_templates
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| template_scope = template_scope.search(search_term) }
-    
+
     template_scope = template_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-    
+
     @order = Template.column_names.collect{|column_name| "templates.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "templates.name"
     template_scope = template_scope.order(@order)
-    
+
     @templates = template_scope.page(params[:page]).per(current_user.templates_per_page)
   end
 
   def show
-    @template = current_user.all_templates.find_by_id(params[:id])
+    @template = current_user.all_viewable_templates.find_by_id(params[:id])
     redirect_to root_path unless @template
   end
 
   def new
     @template = current_user.templates.new(params[:template])
   end
-  
+
   def edit
     @template = current_user.all_templates.find_by_id(params[:id])
     redirect_to root_path unless @template
@@ -41,17 +41,17 @@ class TemplatesController < ApplicationController
   def items
     @template = current_user.templates.new(params[:template])
   end
-  
+
   def create
     @template = current_user.templates.new(params[:template])
-    
+
     if @template.save
       redirect_to @template, notice: 'Template was successfully created.'
     else
       render action: "new"
     end
   end
-  
+
   def update
     @template = current_user.all_templates.find_by_id(params[:id])
     if @template

@@ -11,6 +11,7 @@
 </span>
 <ul>
 <% @project.send(@relation).each do |user| %>
-  <li><%= link_to user.name, user %> <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '', style: 'vertical-align:middle'), project_user_path(@project.project_users.find_by_user_id(user.id)), method: :delete, confirm: "Are you sure you want to remove #{user.name} from the list of #{@relation}?", remote: true %></li>
+  <% project_user = @project.project_users.find_by_user_id(user.id) %>
+  <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();"><%= link_to user.name, user %> <span id="project_user_<%= project_user.id %>_delete" style="display:none"><%= link_to image_tag('gentleface/16/doc_delete.png', alt: '', style: 'vertical-align:middle'), project_user, method: :delete, confirm: "Are you sure you want to remove #{user.name} from the list of #{@relation}?", remote: true if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %></span></li>
 <% end %>
 </ul>

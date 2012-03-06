@@ -61,7 +61,7 @@
     <%= @project.status %>
   </p>
 
-  <table class="blank padded" style="width:100%">
+  <table class="blank padded" style="width:100%;table-layout:fixed">
     <tr>
       <% ['editors', 'viewers'].each do |relation, allow_editing| %>
         <td style="vertical-align:top">
