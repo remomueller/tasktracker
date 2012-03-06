@@ -1,0 +1,42 @@
+$('#new-sticky-or-group-dialog').dialog('close');
+$('#sticky_description').val('');
+$('.field_with_errors').each( function() { $(this).removeClass('field_with_errors');});
+<% unless @sticky.due_date.blank? %>
+  $("#day_<%= @sticky.due_date.strftime('%Y%m%d') %>").append("<%= @tags = @sticky.tags; escape_javascript(render("tags/small_tags")) %>")
+  $("#day_<%= @sticky.due_date.strftime('%Y%m%d') %>").append("<%= escape_javascript(render("stickies/popup")) %>");
+  $("#day_<%= @sticky.due_date.strftime('%Y%m%d') %>").effect("highlight", {}, 3000);
+<% end %>
+
+
+// Following copied from calendar.js.erb
+$(".sticky_popup").each( function(index, element) {
+  $(element).qtip({
+    content:{
+      text: '<div id="' + element.id + '_text"><center><%= image_tag 'ajax-loader.gif', alt: '' %></center></div>',
+      ajax: {
+        url: $(element).attr('rel'),
+        type: 'POST',
+        success: function(data, status) {
+          eval(data);
+        }
+      },
+      title:{
+        text: $(element).attr('data-title')
+      }
+    },
+    show:{
+      event: 'mouseenter'
+    },
+    hide: {
+      event: 'mouseleave'
+    },
+    position:{
+      my: 'left top',
+      at: 'right center',
+      viewport: $(window)
+    },
+    style:{
+      classes: 'ui-tooltip-shadow ui-tooltip-yellow'
+    }
+  });
+});

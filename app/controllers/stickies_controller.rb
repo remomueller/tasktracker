@@ -142,13 +142,15 @@ class StickiesController < ApplicationController
     if @sticky.save
       flash[:notice] = 'Sticky was successfully created.'
       if params[:from_calendar] == '1'
-        redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
+        # redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
+        # Will render create.js instead
+        render 'create'
       else
         redirect_to @sticky
       end
     else
       @project_id = @sticky.project_id
-      render action: "new"
+      render "new"
     end
   end
 
@@ -188,14 +190,22 @@ class StickiesController < ApplicationController
         @sticky.destroy
       end
 
-      flash[:notice] = 'Sticky was successfully deleted.'
-      if params[:from_calendar] == '1'
-        redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
-      else
-        redirect_to stickies_path
+      respond_to do |format|
+        format.html do
+          flash[:notice] = 'Sticky was successfully deleted.'
+          if params[:from_calendar] == '1'
+            redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
+          else
+            redirect_to stickies_path
+          end
+        end
+        format.js  { render 'destroy' }
       end
     else
-      redirect_to root_path
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.js { render nothing: true }
+      end
     end
   end
 end

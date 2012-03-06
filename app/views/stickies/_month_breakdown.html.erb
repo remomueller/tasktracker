@@ -22,11 +22,11 @@
               <%= link_to_function image_tag('gentleface/16/doc_new.png', style: 'border:none;vertical-align:text-bottom', size: '11x11', title: "New Sticky due on #{iDate.strftime("%B %e, %Y")}"), "$('#initial_due_date').val('#{iDate.strftime('%m/%d/%Y')}');$('#sticky_due_date').val('#{iDate.strftime('%m/%d/%Y')}'); $('#new-sticky-or-group-dialog').dialog('open');", style: 'display:none', id: "calendar_box_#{first_day_offset}_new_entry_link" %>
               <%= ([@start_date, (@end_date + 1.day)].include?(iDate) ? iDate.strftime("%b %e") : iDate.strftime("%e") ) %>
             </div>
-            <div style="min-height:60px">
+            <div style="min-height:60px;padding-left:2px" id="day_<%= iDate.strftime("%Y%m%d") %>">
               <% @stickies.where(due_date: iDate).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies| %>
-                <% tags = Tag.find_all_by_id(tag_ids) %>
-                <div style="padding-bottom:5px;padding-left:2px">
-                  <% if tags.size > 0 %><div class="calendar-entry-name"><%= tags.collect{|t| "<span style='background-color: #{t.color}' class='small_tag_bubble'>"+t.name+"</span>"}.join(' ').html_safe %></div><% else %><div style="padding-top:5px"></div><% end %>
+                <% @tags = Tag.find_all_by_id(tag_ids) %>
+                <div style="padding-bottom:5px">
+                  <% if @tags.size > 0 %><%= render partial: 'tags/small_tags' %><% else %><div style="padding-top:5px"></div><% end %>
                   <% stickies.sort{|a,b| a.due_date_time_start <=> b.due_date_time_start}.each do |sticky| %>
                     <%= @sticky = sticky; render partial: 'popup' %>
                   <% end %>

@@ -35,7 +35,7 @@
   <% @stickies.each do |sticky| %>
     <% @object = sticky %>
     <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-    <tbody>
+    <tbody id="sticky_<%= sticky.id %>">
       <tr class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < sticky.updated_at %>">
         <td>
           <%= image_tag("gentleface/16/checkmark.png", alt: '', size: '10x10') if sticky.completed? %>
@@ -64,7 +64,7 @@
         <td style="vertical-align:middle">
           <% if current_user.all_stickies.include?(sticky) %>
             <%= link_to image_tag('gentleface/16/doc_edit.png', alt: ''), edit_sticky_path(sticky) %>
-            <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), sticky, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", method: :delete %>
+            <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), sticky, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", method: :delete, remote: true %>
           <% end %>
         </td>
       </tr>

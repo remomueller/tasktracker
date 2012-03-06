@@ -202,3 +202,7 @@ table {
   max-width: 280px; /* Change this? */
   min-width: 280px; /* ...and this! */
 }
+
+.field_with_errors {
+  display: block;
+}

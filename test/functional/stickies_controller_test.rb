@@ -173,7 +173,7 @@ class StickiesControllerTest < ActionController::TestCase
 
   test "should create sticky from calendar" do
     assert_difference('Sticky.count') do
-      post :create, from_calendar: 1, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '0', due_date: "08/15/2011" }
+      post :create, from_calendar: 1, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '0', due_date: "08/15/2011" }, format: 'js'
     end
 
     assert_not_nil assigns(:sticky)
@@ -509,6 +509,15 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to stickies_path
   end
 
+  test "should destroy sticky with ajax" do
+    assert_difference('Sticky.current.count', -1) do
+      delete :destroy, id: @sticky.to_param, format: 'js'
+    end
+    assert_not_nil assigns(:sticky)
+    assert_template 'destroy'
+    assert_response :success
+  end
+
   test "should destroy sticky and all following" do
     assert_difference('Sticky.current.count', -1 * stickies(:grouped_two).group.stickies.where("due_date >= ?", stickies(:grouped_two).due_date).size) do
       delete :destroy, id: stickies(:grouped_two).to_param, discard: 'following'
@@ -545,5 +554,14 @@ class StickiesControllerTest < ActionController::TestCase
 
     assert_nil assigns(:sticky)
     assert_redirected_to root_path
+  end
+
+  test "should not destroy sticky using ajax without valid id" do
+    assert_difference('Sticky.current.count', 0) do
+      delete :destroy, id: -1, format: 'js'
+    end
+
+    assert_nil assigns(:sticky)
+    assert_response :success
   end
 end

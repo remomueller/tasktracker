@@ -10,14 +10,13 @@
       <% @sticky = current_user.stickies.new() %>
       <% @sticky.project = current_user.all_projects.first if current_user.all_projects.size == 1 %>
       <% @project_id = @sticky.project_id %>
-      <%= form_for(@sticky) do |f| %>
+      <%= form_for(@sticky, remote: true) do |f| %>
         <%= params[:from_calendar] = '1'; render partial: 'stickies/inner_form', locals: { f: f } %>
-
         <br />
         <div class="actions">
           <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
           <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", class: "button positive" %>
-          <%= link_to_function image_tag('gentleface/16/cancel.png', alt: '') + 'Cancel', "$( '#new-sticky-or-group-dialog' ).dialog('close');", class: 'button negative' %>
+          <%= link_to_function image_tag('gentleface/16/cancel.png', alt: '') + 'Cancel', "$('.field_with_errors').each( function() { $(this).removeClass('field_with_errors');});$( '#new-sticky-or-group-dialog' ).dialog('close');", class: 'button negative' %>
         </div>
 
       <% end %>
