@@ -39,7 +39,7 @@ class Comment < ActiveRecord::Base
 
   def users_to_email(action, project_id, object)
     result = (object.comments.collect{|c| c.user} + [object.user, object.owner]).compact.uniq
-    result = result.select{|u| u.active_for_authentication? and u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{project_id}") and u.email_on?("project_#{project_id}_#{action}") }
+    result = result.select{|u| u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{project_id}") and u.email_on?("project_#{project_id}_#{action}") }
   end
 
   private

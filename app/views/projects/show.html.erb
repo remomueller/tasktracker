@@ -1,14 +1,7 @@
 <% @title = "Project: #{@project.name}" %>
 <h1>
-  <table class="status-table" style="background-color:transparent">
-    <tr>
-      <td id="project_<%= @project.id %>_favorite_link">
-        <%= render partial: 'projects/favorite' %>
-      </td>
-      <td><%= @project.name %> &raquo;</td>
-      <td style="vertical-align:top;padding:0 0 0 3px"><%= display_status(@project.status) %></td>
-    </tr>
-  </table>
+  <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
+  <%= @project.name %>
 </h1>
 
 <% if current_user.all_projects.include?(@project) %>
@@ -24,38 +17,7 @@
 
 <div style="clear:both"></div>
 
-<pre><%= @project.description %></pre>
-
-<fieldset>
 <br />
-
-<p>
-  <b>Owner:</b>
-  <%= link_to @project.user.name, @project.user %>
-</p>
-
-<p>
-  <b>Time Period:</b>
-  <%= @project.start_date %> to <%= @project.end_date %>
-</p>
-
-<% ['editors', 'viewers'].each do |relation, allow_editing| %>
-  <% @relation = relation; @allow_editing = allow_editing %>
-  <% @users = User.current.order('last_name, first_name') %>
-  <p>
-    <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
-  </p>
-<% end %>
-
-<p>
-  <b>Sticky <%= link_to 'Tags', tags_path(project_id: @project.id) %>:</b>
-  <%= @project.tags.collect{|t| @tag = t; render partial: 'tags/show'}.join('').html_safe %><br />
-</p>
-
-</fieldset>
-
-<h2>Stickies</h2>
-
 <div style="float:left">
   <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px' do %>
     <%= hidden_field_tag :order, params[:order] %>
@@ -74,25 +36,55 @@
   <center><%= image_tag "ajax-loader.gif" %></center>
   <br /><br />
 </div>
-<div style="clear:both"></div>
 
-<h2>General Project Comments</h2>
-<div class="quiet">
-  <%= image_tag('gentleface/16/info.png', alt: '', style: 'vertical-align:middle') %>
-  Questions? Issues? Feature Requests? Bugs? Enter them here!
-</div>
+<fieldset>
 
-<%= form_tag search_comments_path(class_id: @project.id, class_name: 'Project'), method: :get, id: "comments_search" do %>
-<% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
-<% end %>
+  <legend>Project Details</legend>
 
-<div id="comments"></div>
+  <p>
+    <b>Description:</b>
+    <%= simple_format @project.description %>
+  </p>
+
+  <p>
+    <b>Owner:</b>
+    <%= link_to @project.user.name, @project.user %>
+  </p>
+
+  <p>
+    <b>Time Period:</b>
+    <%= @project.start_date %> to <%= @project.end_date %>
+  </p>
+
+  <p>
+    <b>Status:</b>
+    <%= @project.status %>
+  </p>
+
+  <table class="blank padded" style="width:100%">
+    <tr>
+      <% ['editors', 'viewers'].each do |relation, allow_editing| %>
+        <td style="vertical-align:top">
+          <% @relation = relation; @allow_editing = allow_editing %>
+          <% @users = User.current.order('last_name, first_name') %>
+          <p>
+            <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
+          </p>
+        </td>
+      <% end %>
+    </tr>
+  </table>
+
+  <p>
+    <b>Sticky <%= link_to 'Tags', tags_path(project_id: @project.id) %>:</b>
+    <%= @project.tags.collect{|t| @tag = t; render partial: 'tags/show'}.join('').html_safe %><br />
+  </p>
+
+</fieldset>
+
 
 <%= javascript_tag do %>
   $(function(){
     $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
-    $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
   });
 <% end %>
-
-<%#= render partial: 'stickies/index' %>

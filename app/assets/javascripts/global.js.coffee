@@ -21,11 +21,8 @@
 
 @toggleSticky = (element) ->
   $(element).toggle()
-  $(element+'_description').toggleClass('collapsed')
-  if $(element+'_link').html() == 'more...'
-    $(element+'_link').html('less...')
-  else if $(element+'_link').html() == 'less...'
-    $(element+'_link').html('more...')
+  $(element+'_short_description').toggle()
+  $(element+'_description').toggle('slide', { direction: 'up' })
 
 @checkAllWithSelector = (selector) ->
   elements = $(selector).each( () ->

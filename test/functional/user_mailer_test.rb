@@ -12,7 +12,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     # Test the body of the sent email contains what we expect it to
     assert_equal [admin.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{valid.name} Signed Up", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{valid.name} Signed Up", email.subject
     assert_match(/#{valid.name} \[#{valid.email}\] has signed up for an account\./, email.encoded)
   end
 
@@ -25,7 +25,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     # Test the body of the sent email contains what we expect it to
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{valid.name}'s Account Activated", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{valid.name}'s Account Activated", email.subject
     assert_match(/Your account \[#{valid.email}\] has been activated\./, email.encoded)
   end
 
@@ -36,7 +36,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [project_user.user.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{project_user.project.user.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{project_user.project.user.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}", email.subject
     assert_match(/#{project_user.project.user.name} has added you to Project #{project_user.project.name}/, email.encoded)
   end
 
@@ -49,7 +49,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{comment.user.name} Commented on #{object.class.name} #{object.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{comment.user.name} Commented on #{object.class.name} #{object.name}", email.subject
     assert_match(/#{comment.user.name} made the following comment on #{object.class.name} #{object.name} located at #{SITE_URL}\/#{object.class.name.downcase.pluralize}\/#{object.id}\./, email.encoded)
   end
 
@@ -61,7 +61,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
     assert_match(/#{sticky.user.name} added the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
@@ -75,7 +75,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert email.has_attachments?
     assert_equal 'event.ics', email.attachments.first.filename
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
     assert_match(/#{sticky.user.name} added the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
@@ -87,7 +87,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{sticky.user.name} Completed a Sticky on Project #{sticky.project.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{sticky.user.name} Completed a Sticky on Project #{sticky.project.name}", email.subject
     assert_match(/#{sticky.user.name} completed the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
@@ -101,7 +101,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert email.has_attachments?
     assert_equal 'event.ics', email.attachments.first.filename
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}", email.subject
     assert_match(/Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id} has an updated due time\./, email.encoded)
   end
 
@@ -117,7 +117,7 @@ class UserMailerTest < ActionMailer::TestCase
     past_due = nil if valid.all_stickies_past_due.size == 0
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{[due_today, past_due].compact.join(' and ')}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{[due_today, past_due].compact.join(' and ')}", email.subject
     assert_match(/View stickies on a calendar here: #{"#{SITE_URL}/stickies/calendar"}/, email.encoded)
   end
 
@@ -129,7 +129,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME.downcase}] #{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}", email.subject
+    assert_equal "[#{DEFAULT_APP_NAME}] #{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}", email.subject
     assert_match(/#{group.user.name} added Group #{group.name} #{SITE_URL}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Sticky' : 'Stickies'}#{" from Template #{group.template.name}" if group.template}\./, email.encoded)
   end
 

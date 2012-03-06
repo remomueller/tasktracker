@@ -34,11 +34,6 @@ a:hover { color: #EB6C20; }
 /*            MAIN CONTENT            */
 /**************************************/
 
-.collapsed {
-  white-space:nowrap;
-  overflow:hidden;
-}
-
 .status_marked, .status_unmarked {
   float: left;
   padding: 2px;

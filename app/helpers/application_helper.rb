@@ -72,17 +72,6 @@ module ApplicationHelper
     result.html_safe
   end
 
-  def display_completion(completed)
-    result = '<table class="status-table" style="background-color:transparent"><tr>'
-    if completed
-      result << "<td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
-    else
-      result << "<td><div class=\"status_unmarked\" title=\"Not Completed\">!</div></td>"
-    end
-    result << '</tr></table>'
-    result.html_safe
-  end
-
   def sort_field_helper(order, sort_field, display_name, search_form_id  = 'search_form')
     result = ''
     if order == sort_field

@@ -59,6 +59,15 @@ class ProjectUsersControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should allow viewer to remove self from project" do
+    assert_difference('ProjectUser.count', -1) do
+      delete :destroy, id: project_users(:five), format: 'js'
+    end
+
+    assert_not_nil assigns(:project)
+    assert_template 'index'
+  end
+
   test "should destroy project user with invalid id" do
     assert_difference('ProjectUser.count', 0) do
       delete :destroy, id: -1, format: 'js'
