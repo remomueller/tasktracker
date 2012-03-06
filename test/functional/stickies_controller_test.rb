@@ -182,7 +182,8 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal frames(:one), assigns(:sticky).frame
     assert_equal false, assigns(:sticky).completed
     assert_equal Date.strptime('08/15/2011', '%m/%d/%Y'), assigns(:sticky).due_date
-    assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
+    assert_template 'create'
+    assert_response :success
   end
 
   test "should create a planned sticky" do
