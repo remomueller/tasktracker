@@ -99,7 +99,7 @@ a:hover { color: #EB6C20; }
 table.status-table, table.status-table tr, table.status-table td {
   border:0px;
   margin:0px;
-  padding:0px
+  padding:0px;
 }
 
 table.status-table td {

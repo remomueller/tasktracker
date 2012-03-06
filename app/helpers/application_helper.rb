@@ -60,7 +60,7 @@ module ApplicationHelper
   end
 
   def display_status(status)
-    result = '<table class="status-table"><tr>'
+    result = '<table class="status-table" style="background-color:transparent"><tr>'
     case status when 'planned'
       result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_unmarked\" title=\"Ongoing\">O</div></td><td><div class=\"status_unmarked\" title=\"Completed\">C</div></td>"
     when 'ongoing'
@@ -73,7 +73,7 @@ module ApplicationHelper
   end
 
   def display_completion(completed)
-    result = '<table class="status-table"><tr>'
+    result = '<table class="status-table" style="background-color:transparent"><tr>'
     if completed
       result << "<td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
     else
@@ -82,20 +82,6 @@ module ApplicationHelper
     result << '</tr></table>'
     result.html_safe
   end
-
-  # TODO: Remove deprecated
-  # def display_single_status(status)
-  #   result = '<table class="status-table"><tr>'
-  #   case status when 'planned'
-  #     result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td>"
-  #   when 'ongoing'
-  #     result << "<td><div class=\"status_marked ongoing\" title=\"Ongoing\">O</div></td>"
-  #   when 'completed'
-  #     result << "<td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
-  #   end
-  #   result << '</tr></table>'
-  #   result.html_safe
-  # end
 
   def sort_field_helper(order, sort_field, display_name, search_form_id  = 'search_form')
     result = ''
