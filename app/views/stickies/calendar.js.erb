@@ -22,34 +22,36 @@ $('#month-breakdown').qtip('destroy');
     $(".project_<%= project.id %>_color").css('color', '<%= project.color(current_user) %>');
   <% end %>
 
-  $('#month-breakdown')
-    .qtip({
-      content:{
-        text: '<%== escape_javascript((
-          projects.collect{|project| "<span style=\"color: #{project.color(current_user)}\" class=\"project_#{project.id}_color\">#{project.name}<span>"}.join(' <span class="quiet">-</span> ')
-        ).html_safe) %>',
-        title:{
-          text: 'Projects'
+  <% if false %>
+    $('#month-breakdown')
+      .qtip({
+        content:{
+          text: '<%== escape_javascript((
+            projects.collect{|project| "<span style=\"color: #{project.color(current_user)}\" class=\"project_#{project.id}_color\">#{project.name}<span>"}.join(' <span class="quiet">-</span> ')
+          ).html_safe) %>',
+          title:{
+            text: 'Projects'
+          }
+        },
+        show:{
+          event: 'mouseenter'
+        },
+        hide: {
+          event: 'mouseleave'
+        },
+        position:{
+          my: 'top right',
+          at: 'bottom right',
+          viewport: $(window)
+        },
+        style:{
+          classes: 'ui-tooltip-shadow ui-tooltip-light',
+          tip:{
+            width: 80
+          }
         }
-      },
-      show:{
-        event: 'mouseenter'
-      },
-      hide: {
-        event: 'mouseleave'
-      },
-      position:{
-        my: 'top right',
-        at: 'bottom right',
-        viewport: $(window)
-      },
-      style:{
-        classes: 'ui-tooltip-shadow ui-tooltip-light',
-        tip:{
-          width: 80
-        }
-      }
-    });
+      });
+  <% end %>
 <% end %>
 
 $(".sticky_popup").each( function(index, element) {

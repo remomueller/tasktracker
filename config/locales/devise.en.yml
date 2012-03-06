@@ -50,8 +50,8 @@ en:
       failure: 'Could not authorize you from %{kind} because "%{reason}".'
     mailer:
       confirmation_instructions:
-        subject: '[notes] Confirmation instructions'
+        subject: 'Confirmation instructions'
       reset_password_instructions:
-        subject: '[notes] Reset password instructions'
+        subject: 'Reset password instructions'
       unlock_instructions:
-        subject: '[notes] Unlock Instructions'
+        subject: 'Unlock Instructions'

@@ -1,6 +1,5 @@
 <% cache [ "stickies-popup-v1", @sticky ] do %>
-  <div class="stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %> sticky_popup" rel="<%= popup_sticky_path(@sticky) %>" data-title="Sticky <%= @sticky.name %> <%= '- completed' if @sticky.completed %>" id="sticky_<%= @sticky.id %>_popup">
-    <div class="calendar-entry-amount"><%= display_completion(@sticky.completed) %></div>
-    <div class="calendar-entry-name"><%= @sticky.due_at_string_short %> <%= link_to @sticky.description.truncate(27), edit_sticky_path(@sticky, from_calendar: 1), class: "project_#{@sticky.project_id}_color" %></div>
+  <div class="stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %> sticky_popup calendar-entry-name" rel="<%= popup_sticky_path(@sticky) %>" data-title="Sticky <%= @sticky.name %> <%= '- completed' if @sticky.completed %>" id="sticky_<%= @sticky.id %>_popup">
+    <b><%= @sticky.due_at_string_short %></b> <%= link_to @sticky.description.truncate(27), edit_sticky_path(@sticky, from_calendar: 1), class: "project_#{@sticky.project_id}_color", style: (@sticky.completed? ? 'text-decoration:line-through' : '') %>
   </div>
 <% end %>

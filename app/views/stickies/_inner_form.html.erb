@@ -19,7 +19,7 @@
 <div class="field">
   <%= f.label :project_id %><br />
   <% if @sticky.group %>
-    <%= @sticky.project.name %>
+    <%= link_to @sticky.project.name, @sticky.project %>
   <% else %>
     <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @sticky.project_id) %>
   <% end %>
