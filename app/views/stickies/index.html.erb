@@ -24,7 +24,7 @@
           <td><%= text_field_tag 'search', params[:search] %></td>
           <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id]) %></td>
           <td>
-            <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}) %>
+            <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:owner_id]) %>
             <%= check_box_tag "unnassigned", '1', true %> Include Unnassigned
           </td>
         </tr>
