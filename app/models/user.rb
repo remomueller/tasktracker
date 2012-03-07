@@ -108,6 +108,10 @@ class User < ActiveRecord::Base
     self.all_stickies_past_due.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
   end
 
+  def all_deliverable_stickies_due_upcoming
+    self.all_stickies_due_upcoming.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
+  end
+
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
       Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) # .order('created_at DESC')
