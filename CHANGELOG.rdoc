@@ -2,17 +2,22 @@
 
 * Enhancements
   * Templates can now specify that generated stickies avoid weekends
-  * Updated GUI for sticky show page and comments
-  * Improved Calendar performance using a combination of caching and AJAX
+  * Calendar Updates
+    * Stickies can now be dragged to a new date
+    * Improved performance using a combination of caching and AJAX
+  * Email Updates
+    * Daily Stickies Due now also includes stickies due the following day (or the following Monday)
+    * Daily Stickies Due now includes an ICS file to allow syncing with an external calendar
+  * Sticky Updates
+    * Stickies can be exported to an ICS calendar format from the stickies list
+    * Updated GUI for sticky show page and comments
+    * Stickies in lists can now be deleted inline
   * Using Rails 3.2.2 and Contour 0.10.2
-  * Stickies in lists can now be removed inline
-  * Daily Stickies Due now also includes stickies due the following day (or the following Monday)
-  * Stickies can be exported to an ICS calendar format from the stickies list
-  * Daily Stickies Due now includes an ICS file to allow syncing with an external calendar
-  * Stickies can now be dragged to a new date on the calendar
 
 * Bug Fix
   * Viewers can now remove themselves from projects to which they've been added
+  * Users assigned to stickies that have been removed from a project are no longer removed as sticky owner if the sticky is updated
+    * NOTE: Unless of course, the sticky is assigned to someone else
 
 == 0.17.2
 
