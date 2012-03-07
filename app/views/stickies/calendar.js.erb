@@ -61,9 +61,9 @@ $(".sticky_popup").each( function(index, element) {
 $(".droppable").droppable({
   hoverClass: "hover",
   drop: function( event, ui ) {
+    date = $(this).attr('data-due-date').replace(/day_/, '').replace(/_/g, '/');
     element_id = ui.draggable.attr('id');
     sticky_id = element_id.replace(/sticky_/, '').replace(/_popup/,'');
-    date = $(this).attr('id').replace(/day_/, '').replace(/_/g, '/');
     if($(ui.draggable).parent().children(".sticky_popup").size() == 2){
       $(ui.draggable).parent().remove();
     }else{
