@@ -85,6 +85,15 @@ class UserMailer < ActionMailer::Base
     due_today = nil if recipient.all_deliverable_stickies_due_today.size == 0
     past_due = nil if recipient.all_deliverable_stickies_past_due.size == 0
     due_upcoming = nil if recipient.all_deliverable_stickies_due_upcoming.size == 0
+
+    @ics_string = RiCal.Calendar do |cal|
+      [recipient.all_deliverable_stickies_due_today, recipient.all_deliverable_stickies_past_due, recipient.all_deliverable_stickies_due_upcoming].flatten.compact.uniq.each do |sticky|
+        sticky.export_ics_block_evt(cal)
+      end
+    end.to_s
+
+    attachments['event.ics'] = { mime_type: 'text/calendar', content: @ics_string }
+
     mail(to: recipient.email,
          subject: @subject + [due_today, past_due, due_upcoming].compact.join(' and '))
   end

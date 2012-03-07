@@ -118,6 +118,9 @@ class UserMailerTest < ActionMailer::TestCase
     past_due = nil if valid.all_stickies_past_due.size == 0
     due_upcoming = nil if valid.all_stickies_due_upcoming.size == 0
 
+    assert email.has_attachments?
+    assert_equal 'event.ics', email.attachments.first.filename
+
     assert_equal [valid.email], email.to
     assert_equal "[#{DEFAULT_APP_NAME}] #{[due_today, past_due, due_upcoming].compact.join(' and ')}", email.subject
     assert_match(/View stickies on a calendar here: #{"#{SITE_URL}/stickies/calendar"}/, email.encoded)
