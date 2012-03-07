@@ -22,36 +22,6 @@ $('#month-breakdown').qtip('destroy');
     $(".project_<%= project.id %>_color").css('color', '<%= project.color(current_user) %>');
   <% end %>
 
-  <% if false %>
-    $('#month-breakdown')
-      .qtip({
-        content:{
-          text: '<%== escape_javascript((
-            projects.collect{|project| "<span style=\"color: #{project.color(current_user)}\" class=\"project_#{project.id}_color\">#{project.name}<span>"}.join(' <span class="quiet">-</span> ')
-          ).html_safe) %>',
-          title:{
-            text: 'Projects'
-          }
-        },
-        show:{
-          event: 'mouseenter'
-        },
-        hide: {
-          event: 'mouseleave'
-        },
-        position:{
-          my: 'top right',
-          at: 'bottom right',
-          viewport: $(window)
-        },
-        style:{
-          classes: 'ui-tooltip-shadow ui-tooltip-light',
-          tip:{
-            width: 80
-          }
-        }
-      });
-  <% end %>
 <% end %>
 
 // Following should also be modified in create.js.erb
@@ -85,4 +55,22 @@ $(".sticky_popup").each( function(index, element) {
       classes: 'ui-tooltip-shadow ui-tooltip-yellow'
     }
   });
+  $(element).draggable({ revert: 'invalid', helper: "clone" });
+});
+
+$(".droppable").droppable({
+  hoverClass: "hover",
+  drop: function( event, ui ) {
+    element_id = ui.draggable.attr('id');
+    sticky_id = element_id.replace(/sticky_/, '').replace(/_popup/,'');
+    date = $(this).attr('id').replace(/day_/, '').replace(/_/g, '/');
+    if($(ui.draggable).parent().children(".sticky_popup").size() == 2){
+      $(ui.draggable).parent().remove();
+    }else{
+      $(ui.draggable).remove();
+    }
+
+    $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date="+date, null, "script");
+    return false;
+  }
 });

@@ -9,6 +9,7 @@
   * Daily Stickies Due now also includes stickies due the following day (or the following Monday)
   * Stickies can be exported to an ICS calendar format from the stickies list
   * Daily Stickies Due now includes an ICS file to allow syncing with an external calendar
+  * Stickies can now be dragged to a new date on the calendar
 
 * Bug Fix
   * Viewers can now remove themselves from projects to which they've been added

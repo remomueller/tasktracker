@@ -162,6 +162,21 @@ class StickiesController < ApplicationController
     end
   end
 
+  def move
+    params[:due_date] = Date.strptime(params[:due_date], "%m/%d/%Y") unless params[:due_date].blank?
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
+    if @sticky and not params[:due_date].blank?
+      @sticky.update_attribute :due_date, params[:due_date]
+    else
+      @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+    end
+    if @sticky
+      render 'create'
+    else
+      render nothing: true
+    end
+  end
+
   def update
     params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
     params[:sticky][:tag_ids] ||= [] if params[:sticky]

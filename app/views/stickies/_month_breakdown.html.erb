@@ -14,19 +14,16 @@
             class="<%= 'calendar-entry-body-today' if iDate == Date.today %>
                    <%= 'last-month' if iDate < @start_date %>
                    <%= 'next-month' if iDate > @end_date %>"
-            onmouseover="$(this).addClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').show();"
-            onmouseout="$(this).removeClass('hover');$('#calendar_box_<%= first_day_offset %>_new_entry_link').hide();"
             ondblclick="$('#initial_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>');$('#sticky_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>'); $('#new-sticky-or-group-dialog').dialog('open');">
           <div style="width:100%">
             <div class="calendar-entry-heading" style="padding-right:2px;">
-              <%= link_to_function image_tag('gentleface/16/doc_new.png', style: 'border:none;vertical-align:text-bottom', size: '11x11', title: "New Sticky due on #{iDate.strftime("%B %e, %Y")}"), "$('#initial_due_date').val('#{iDate.strftime('%m/%d/%Y')}');$('#sticky_due_date').val('#{iDate.strftime('%m/%d/%Y')}'); $('#new-sticky-or-group-dialog').dialog('open');", style: 'display:none', id: "calendar_box_#{first_day_offset}_new_entry_link" %>
               <%= ([@start_date, (@end_date + 1.day)].include?(iDate) ? iDate.strftime("%b %e") : iDate.strftime("%e") ) %>
             </div>
-            <div style="min-height:60px;padding-left:2px" id="day_<%= iDate.strftime("%Y%m%d") %>">
+            <div style="min-height:60px;padding-left:2px" id="day_<%= iDate.strftime("%m_%d_%Y") %>" class="droppable">
               <% @stickies.where(due_date: iDate).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies| %>
                 <% @tags = Tag.find_all_by_id(tag_ids) %>
-                <div style="padding-bottom:5px">
-                  <% if @tags.size > 0 %><%= render partial: 'tags/small_tags' %><% else %><div style="padding-top:5px"></div><% end %>
+                <div style="padding-bottom:5px" id="day_<%= iDate.strftime("%m_%d_%Y") %>_tag_container_<%= tag_ids.sort.join('_') %>">
+                  <%= render partial: 'tags/small_tags' %>
                   <% stickies.sort{|a,b| a.due_date_time_start <=> b.due_date_time_start}.each do |sticky| %>
                     <%= @sticky = sticky; render partial: 'popup' %>
                   <% end %>

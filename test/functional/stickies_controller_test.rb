@@ -299,6 +299,31 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should move sticky on calendar" do
+    post :move, id: @sticky, due_date: "03/07/2012", format: 'js'
+
+    assert_not_nil assigns(:sticky)
+    assert_equal Date.strptime('03/07/2012', '%m/%d/%Y'), assigns(:sticky).due_date
+    assert_template 'create'
+    assert_response :success
+  end
+
+  test "should not move sticky on calendar for project viewers" do
+    post :move, id: stickies(:viewable_by_valid), due_date: "03/07/2012", format: 'js'
+
+    assert_not_nil assigns(:sticky)
+    assert_equal stickies(:viewable_by_valid).due_date, assigns(:sticky).due_date
+    assert_template 'create'
+    assert_response :success
+  end
+
+  test "should not move for users not on project" do
+    login(users(:two))
+    post :move, id: @sticky, due_date: "03/07/2012", format: 'js'
+    assert_nil assigns(:sticky)
+    assert_response :success
+  end
+
   test "should update sticky" do
     put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "08/15/2011" }
     assert_not_nil assigns(:sticky)
