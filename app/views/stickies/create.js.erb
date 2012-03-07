@@ -11,7 +11,7 @@ if(tag_container.length > 0){
   $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>").append("<div style='padding-bottom:5px' id='day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>'><%= @tags = @sticky.tags; escape_javascript(render("tags/small_tags")) %><%= escape_javascript(render("stickies/popup")) %></div>")
 }
 
-  $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>").effect("highlight", {}, 3000);
+  $("#sticky_<%= @sticky.id %>_popup").effect("highlight", {}, 3000);
 <% end %>
 $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.color(current_user) %>');
 
