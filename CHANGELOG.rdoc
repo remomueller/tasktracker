@@ -7,6 +7,7 @@
   * Using Rails 3.2.2 and Contour 0.10.2
   * Stickies in lists can now be removed inline
   * Daily Stickies Due now also includes stickies due the following day (or the following Monday)
+  * Stickies can be exported to an ICS calendar format from the stickies list
 
 * Bug Fix
   * Viewers can now remove themselves from projects to which they've been added

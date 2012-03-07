@@ -19,6 +19,13 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get ics" do
+    get :index, format: 'ics', status: ['completed', 'not completed']
+    assert_not_nil assigns(:ics_string)
+    assert_not_nil assigns(:sticky_count)
+    assert_response :success
+  end
+
   test "should get calendar" do
     get :calendar
     assert_not_nil assigns(:selected_date)

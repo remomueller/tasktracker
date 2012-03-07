@@ -104,6 +104,14 @@ class StickiesController < ApplicationController
       send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
                             disposition: "attachment; filename=\"Stickies #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
       return
+    elsif params[:format] == 'ics'
+      @ics_string = RiCal.Calendar do |cal|
+        sticky_scope.each do |sticky|
+          sticky.export_ics_block_evt(cal)
+        end
+      end.to_s
+      send_data @ics_string, type: 'text/calendar', disposition: "attachment; filename=\"stickies.ics\""
+      return
     end
     @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
   end
