@@ -59,9 +59,9 @@
               </table>
             </div>
             <div style="text-align:center;font-size:0.8em;min-height:10px">
-              <%== pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />" if @project.stickies.due_today.size > 0 %>
-              <%== pluralize(@project.stickies.past_due.size, 'Sticky') + " Past Due<br />" if @project.stickies.past_due.size > 0 %>
-              <%== pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week" if @project.stickies.due_this_week.size > 0 %>
+              <%== link_to (pluralize(@project.stickies.due_today.size, 'Sticky') + " Due Today<br />").html_safe, stickies_path(project_id: @project.id, due_before: Date.today.strftime("%m/%d/%Y"), due_after: Date.today.strftime("%m/%d/%Y"), status: ['planned']) if @project.stickies.due_today.size > 0 %>
+              <%== link_to (pluralize(@project.stickies.past_due.size, 'Sticky') + " Past Due<br />").html_safe, stickies_path(project_id: @project.id, due_before: (Date.today - 1.day).strftime("%m/%d/%Y"), status: ['planned']) if @project.stickies.past_due.size > 0 %>
+              <%== link_to (pluralize(@project.stickies.due_this_week.size, 'Sticky') + " Due This Week").html_safe, stickies_path(project_id: @project.id, due_before: (Date.today + (6 - Date.today.wday).days).strftime("%m/%d/%Y"), due_after: (Date.today - Date.today.wday.days).strftime("%m/%d/%Y"), status: ['planned']) if @project.stickies.due_this_week.size > 0 %>
             </div>
             <%= javascript_tag do %>
               $('#project_<%= @project.id %>_colorselector')

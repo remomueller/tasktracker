@@ -22,7 +22,8 @@ class Sticky < ActiveRecord::Base
 
   scope :due_today,     lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) = ?", false, Date.today]}}
   scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) < ?", false, Date.today]}}
-  scope :due_this_week, lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) > ? and DATE(stickies.due_date) < ?", false, Date.today, Date.today + (7-Date.today.wday).days]}}
+  scope :due_upcoming,  lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) > ? and DATE(stickies.due_date) <= ?", false, Date.today, (Date.today.friday? ? Date.today + 3.days : Date.tomorrow)]}}
+  scope :due_this_week, lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", false, (Date.today - Date.today.wday.days), (Date.today + (6-Date.today.wday).days)]}}
 
   scope :with_tag, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", args.first ] } }
   scope :with_tag_name, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags, tags where stickies_tags.tag_id = tags.id and tags.name IN (?))", args.first ] } }

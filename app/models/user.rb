@@ -90,6 +90,10 @@ class User < ActiveRecord::Base
     self.all_stickies.past_due.with_owner(self.id)
   end
 
+  def all_stickies_due_upcoming
+    self.all_stickies.due_upcoming.with_owner(self.id)
+  end
+
   def all_deliverable_projects
     @all_deliverable_projects ||= begin
       self.all_projects.select{|p| self.email_on?(:send_email) and self.email_on?(:daily_stickies_due) and self.email_on?("project_#{p.id}") and self.email_on?("project_#{p.id}_daily_stickies_due") }

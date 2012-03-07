@@ -10,6 +10,11 @@ Hello <%= @recipient.first_name %>,<br />
   <%= @stickies = @recipient.all_deliverable_stickies_past_due; render partial: 'sticky_list' %>
 <% end %>
 
+<% if @recipient.all_deliverable_stickies_due_upcoming.size > 0 %>
+  You have <%= pluralize @recipient.all_deliverable_stickies_due_upcoming.size, 'sticky' %> upcoming.<br />
+  <%= @stickies = @recipient.all_deliverable_stickies_due_upcoming; render partial: 'sticky_list' %>
+<% end %>
+
 View stickies on a calendar here: <%= link_to SITE_URL, "#{SITE_URL}/stickies/calendar" %><br />
 <br />
 Thank you!<br />
