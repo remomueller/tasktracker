@@ -22,6 +22,7 @@
       <% if current_user.system_admin? %>
         <th><%== sort_field_helper(@order, 'users.status', 'Status', 'users_search') %></th>
         <th><%== sort_field_helper(@order, 'users.system_admin', 'System Admin', 'users_search') %></th>
+        <th><%== sort_field_helper(@order, 'users.service_account', 'Service Account', 'users_search') %></th>
         <th></th>
         <th></th>
       <% end %>
@@ -35,6 +36,7 @@
       <% if current_user.system_admin? %>
         <td><%= user.status %></td>
         <td style="text-align:center"><%= check_box_tag 'user', 'system_admin', user.system_admin?, disabled: true %></td>
+        <td style="text-align:center"><%= check_box_tag 'user', 'service_account', user.service_account?, disabled: true %></td>
         <td style="vertical-align:middle"><%= link_to image_tag('gentleface/16/doc_edit.png', alt: ''), edit_user_path(user) %></td>
         <td style="vertical-align:middle">
           <% unless current_user == user %>
