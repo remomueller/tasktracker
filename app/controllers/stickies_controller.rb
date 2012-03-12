@@ -145,7 +145,24 @@ class StickiesController < ApplicationController
   end
 
   def create
-    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
+
+    # params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
+
+    params[:sticky] ||= {}
+    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") unless params[:sticky][:due_date].blank?
+
+    params[:sticky][:all_day] = begin
+      unless params[:sticky][:due_at_string].blank?
+      t = Time.parse(params[:sticky][:due_at_string])
+      params[:sticky][:due_date] = Time.parse(params[:sticky][:due_date].strftime("%Y-%m-%d ") + params[:sticky][:due_at_string])
+      false
+      else
+        true
+      end
+    rescue
+      true
+    end
+
     @sticky = current_user.stickies.new(params[:sticky])
     if @sticky.save
       flash[:notice] = 'Sticky was successfully created.'
@@ -164,7 +181,11 @@ class StickiesController < ApplicationController
 
   def move
     params[:due_date] = Date.strptime(params[:due_date], "%m/%d/%Y") unless params[:due_date].blank?
+
     @sticky = current_user.all_stickies.find_by_id(params[:id])
+
+    params[:due_date] = Time.parse(params[:due_date].strftime("%Y-%m-%d ") + @sticky.due_at_string) rescue ''
+
     if @sticky and not params[:due_date].blank?
       @sticky.update_attribute :due_date, params[:due_date]
     else
@@ -178,7 +199,21 @@ class StickiesController < ApplicationController
   end
 
   def update
-    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") if params[:sticky] and not params[:sticky][:due_date].blank?
+    params[:sticky] ||= {}
+    params[:sticky][:due_date] = Date.strptime(params[:sticky][:due_date], "%m/%d/%Y") unless params[:sticky][:due_date].blank?
+
+    params[:sticky][:all_day] = begin
+      unless params[:sticky][:due_at_string].blank?
+      t = Time.parse(params[:sticky][:due_at_string])
+      params[:sticky][:due_date] = Time.parse(params[:sticky][:due_date].strftime("%Y-%m-%d ") + params[:sticky][:due_at_string])
+      false
+      else
+        true
+      end
+    rescue
+      true
+    end
+
     params[:sticky][:tag_ids] ||= [] if params[:sticky]
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
@@ -186,7 +221,7 @@ class StickiesController < ApplicationController
       if @sticky.update_attributes(params[:sticky])
         flash[:notice] = 'Sticky was successfully updated.'
 
-        @sticky.shift_group((@sticky.due_date - original_due_date).to_i, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+        @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
 
         if params[:from_calendar] == '1'
           redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))

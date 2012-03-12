@@ -3,6 +3,9 @@
 * Enhancements
   * Service Accounts added to provide interface for other web applications
 
+* Bug Fix
+  * Due Times corrected to account for Daylight Savings Time
+
 == 0.18.0
 
 * Enhancements

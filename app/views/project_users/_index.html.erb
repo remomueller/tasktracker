@@ -4,7 +4,7 @@
       <b><%= @relation.humanize %>:<br /></b>
       <%= text_field_tag "#{@relation}_text", '', style: "width:300px;" %><%= information("Press Enter to Add #{@relation.humanize}") %>
     <% end %>
-    <%= javascript_tag "$(function(){$(\"##{@relation}_text\").autocomplete({source:[#{User.current.collect{|user| "'#{user.name} <#{user.email}>'"}.join(', ')}]});});" %>
+    <%= javascript_tag "$(function(){$(\"##{@relation}_text\").autocomplete({source:[#{User.current.human.collect{|user| "'#{user.name} <#{user.email}>'"}.join(', ')}]});});" %>
   <% else %>
       <b><%= @relation.humanize %>:</b>
   <% end %>

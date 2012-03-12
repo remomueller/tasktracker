@@ -78,8 +78,8 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal assigns(:frame), frames(:one)
     assert_equal assigns(:frame_id).to_s, frames(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
-    assert_equal Date.strptime('3/9/2012', '%m/%d/%Y'), assigns(:group).stickies.first.due_date
-    assert_equal Date.strptime('3/12/2012', '%m/%d/%Y'), assigns(:group).stickies.last.due_date
+    assert_equal Time.local(2012, 3, 9, 0, 0, 0), assigns(:group).stickies.first.due_date
+    assert_equal Time.local(2012, 3, 12, 0, 0, 0), assigns(:group).stickies.last.due_date
     assert_redirected_to group_path(assigns(:group))
   end
 

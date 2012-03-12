@@ -46,6 +46,19 @@ class Template < ActiveRecord::Base
         due_date -= 1.day if due_date.saturday? # Change to Friday
         due_date += 1.day if due_date.sunday?   # Change to Monday
       end
+
+      all_day = begin
+        unless item[:due_at_string].blank?
+          t = Time.parse(item[:due_at_string])
+          due_date = Time.parse(due_date.strftime("%Y-%m-%d ") + item[:due_at_string])
+          false
+        else
+          true
+        end
+      rescue
+        true
+      end
+
       current_user.stickies.create({  group_id:       group.id,
                                       project_id:     self.project_id,
                                       frame_id:       frame_id,
@@ -54,7 +67,7 @@ class Template < ActiveRecord::Base
                                       tag_ids:        (item[:tag_ids] || []),
                                       completed:      false,
                                       due_date:       due_date,
-                                      due_at_string:  item[:due_at_string],
+                                      all_day:        all_day,
                                       duration:       item[:duration].to_i.abs,
                                       duration_units: item[:duration_units].blank? ? 'hours' : item[:duration_units]
                                     })

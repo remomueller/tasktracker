@@ -20,7 +20,7 @@
             <%= ([@start_date, (@end_date + 1.day)].include?(iDate) ? iDate.strftime("%b %e") : iDate.strftime("%e") ) %>
           </div>
           <div style="min-height:60px;padding-left:2px;padding-right:2px" id="day_<%= iDate.strftime("%m_%d_%Y") %>">
-            <% @stickies.where(due_date: iDate).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies| %>
+            <% @stickies.order('stickies.project_id, stickies.id').select{|s| (s.all_day? and s.due_date.utc.strftime("%Y-%m-%d") == iDate.strftime("%Y-%m-%d") or (not s.all_day? and s.due_date.strftime("%Y-%m-%d") == iDate.strftime("%Y-%m-%d")) )}.group_by(&:tag_ids).each do |tag_ids, stickies| %>
               <% @tags = Tag.find_all_by_id(tag_ids) %>
               <div style="padding-bottom:5px" id="day_<%= iDate.strftime("%m_%d_%Y") %>_tag_container_<%= tag_ids.sort.join('_') %>">
                 <%= render partial: 'tags/small_tags' %>

@@ -48,8 +48,17 @@
 
         <p>
           <b>Due Date:</b>
-          <%= @sticky.due_date %>
+          <%= simple_date_and_weekday @sticky.due_date %>
         </p>
+
+        <% unless @sticky.all_day? and false %>
+        <p>
+          <b>Due At:</b>
+          <%= simple_time @sticky.due_date %>
+        </p>
+        <% end %>
+
+        All Day: <%= @sticky.all_day? %><br /><br />
 
         <% unless @sticky.due_at.blank? %>
         <p>

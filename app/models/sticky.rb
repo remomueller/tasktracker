@@ -46,7 +46,8 @@ class Sticky < ActiveRecord::Base
   has_and_belongs_to_many :tags
 
   def due_at_string
-    due_at.blank? ? '' : due_at.localtime.strftime("%l:%M %p").strip
+    # due_at.blank? ? '' : due_at.localtime.strftime("%l:%M %p").strip
+    (all_day? ? '' : due_date.strftime("%l:%M %p").strip) rescue ''
   end
 
   def due_at_string_short
@@ -54,7 +55,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def due_at_end_string
-    (due_at.blank? or self.duration <= 0) ? '' : (due_at + self.duration.send(self.duration_units)).localtime.strftime("%l:%M %p").strip
+    (all_day? or self.duration <= 0) ? '' : (due_date + self.duration.send(self.duration_units)).localtime.strftime("%l:%M %p").strip
   end
 
   def due_at_end_string_short
@@ -62,7 +63,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def due_at_end_string_with_duration
-    (due_at.blank? or self.duration <= 0) ? '' : self.due_at_end_string + " (#{self.duration} #{self.duration_units})"
+    (all_day? or self.duration <= 0) ? '' : self.due_at_end_string + " (#{self.duration} #{self.duration_units})"
   end
 
   def due_at_range_short
@@ -74,9 +75,9 @@ class Sticky < ActiveRecord::Base
   end
 
   def due_at_string=(due_at_str)
-    self.due_at = Time.parse(due_at_str)
-  rescue
-    self.due_at = nil
+  #   self.due_at = Time.parse(due_at_str)
+  # rescue
+  #   self.due_at = nil
   end
 
   def due_date_time_start
@@ -182,16 +183,18 @@ class Sticky < ActiveRecord::Base
 
   # Only send if completion email was not sent and if the sticky is not newly created
   def send_due_at_updated
-    if self.changes[:due_at] and not self.changes[:completed] and self.created_at != self.updated_at
-      first_time = Time.parse(self.changes[:due_at][0].to_s).strftime("%r") rescue ""
-      last_time = Time.parse(self.changes[:due_at][1].to_s).strftime("%r") rescue ""
-      unless first_time == last_time
-        all_users = self.project.users_to_email(:sticky_due_time_changed) - [self.owner]
-        all_users.each do |user_to_email|
-          UserMailer.sticky_due_at_changed_by_mail(self, user_to_email).deliver if Rails.env.production?
-        end
-      end
-    end
+    # TODO: Reenable if due_date is changed...
+
+    # if self.changes[:due_at] and not self.changes[:completed] and self.created_at != self.updated_at
+    #   first_time = Time.parse(self.changes[:due_at][0].to_s).strftime("%r") rescue ""
+    #   last_time = Time.parse(self.changes[:due_at][1].to_s).strftime("%r") rescue ""
+    #   unless first_time == last_time
+    #     all_users = self.project.users_to_email(:sticky_due_time_changed) - [self.owner]
+    #     all_users.each do |user_to_email|
+    #       UserMailer.sticky_due_at_changed_by_mail(self, user_to_email).deliver if Rails.env.production?
+    #     end
+    #   end
+    # end
   end
 
   def set_start_date

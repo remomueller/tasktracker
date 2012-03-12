@@ -195,8 +195,9 @@ due_at_ics:
   # frame:
   completed: false
   description: With Due Date and ICS attachment
-  due_date: 2011-12-06
-  due_at: 09:00:00
+  # Due Date is 9am EST with no DST in effect
+  due_date: 2011-12-06 14:00:00
+  all_day: false
   duration: 45
   duration_units: minutes
   start_date: 2011-12-04
