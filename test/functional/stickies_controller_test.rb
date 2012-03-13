@@ -362,7 +362,7 @@ class StickiesControllerTest < ActionController::TestCase
     post :move, id: stickies(:due_at_ics), due_date: "03/07/2012", format: 'js'
 
     assert_not_nil assigns(:sticky)
-    assert_equal Time.local(2012, 3, 7, 9, 0, 0), assigns(:sticky).due_date.localtime
+    assert_equal "03/07/2012 09:00", assigns(:sticky).due_date.strftime("%m/%d/%Y %H:%M")
     assert_template 'create'
     assert_response :success
   end
