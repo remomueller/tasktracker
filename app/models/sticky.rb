@@ -46,7 +46,6 @@ class Sticky < ActiveRecord::Base
   has_and_belongs_to_many :tags
 
   def due_at_string
-    # due_at.blank? ? '' : due_at.localtime.strftime("%l:%M %p").strip
     (all_day? ? '' : due_date.localtime.strftime("%l:%M %p").strip) rescue ''
   end
 
@@ -98,15 +97,15 @@ class Sticky < ActiveRecord::Base
     cal.event do |evt|
       evt.summary     = self.full_description.truncate(27)
       evt.description = self.ics_description
-      evt.dtstart     = self.due_date            if self.due_at.blank? and not self.due_date.blank?
-      evt.dtstart     = self.due_date_time_start unless self.due_at.blank?
-      evt.dtend       = self.due_date_time_end   unless self.due_at.blank? or self.duration <= 0
+      evt.dtstart     = self.due_date.to_date    if self.all_day? and not self.due_date.blank?
+      evt.dtstart     = self.due_date            if not self.all_day? and not self.due_date.blank?
+      evt.dtend       = self.due_date_time_end   if not self.all_day? and not self.due_date.blank? and self.duration > 0
       evt.uid         = "#{SITE_URL}/stickies/#{self.id}"
     end
   end
 
   def include_ics?
-    (not self.due_at.blank? and not self.due_date.blank?) or not self.due_date.blank?
+    not self.due_date.blank?
   end
 
   def tag_ids

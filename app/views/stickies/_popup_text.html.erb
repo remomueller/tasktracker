@@ -1,4 +1,4 @@
-<% unless @sticky.due_at.blank? %><strong>Due At:</strong> <%= @sticky.due_at_range_short %><br /><br /><% end %>
+<% unless @sticky.all_day? %><strong>Due At:</strong> <%= @sticky.due_at_range_short %><br /><br /><% end %>
 <strong>Description:</strong> <%= simple_format @sticky.full_description %>
 <% if @sticky.owner %><strong>Assigned To:</strong> <%= @sticky.owner.name %><br /><br /><% end %>
 

@@ -1,7 +1,7 @@
 <%= "Assigned to: #{@sticky.owner.name}" if @sticky.owner %>
 
 <%= "Due Date: #{simple_date_and_weekday(@sticky.due_date)}" unless @sticky.due_date.blank? %>
-<%= "          #{@sticky.due_at_range}" unless @sticky.due_at.blank? %>
+<%= "          #{@sticky.due_at_range}" unless @sticky.all_day? %>
 
 <%= @sticky.full_description %>
 

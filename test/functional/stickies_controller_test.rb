@@ -211,6 +211,23 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
+  test "should create sticky with blank time and duration" do
+    assert_difference('Sticky.count') do
+      post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '0', due_date: "03/12/2012", due_at_string: 'wrong time', duration: '0', duration_units: 'minutes' }
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description", assigns(:sticky).description
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_equal frames(:one), assigns(:sticky).frame
+    assert_equal false, assigns(:sticky).completed
+    assert_equal Time.local(2012, 3, 12, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal true, assigns(:sticky).all_day?
+
+    assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
   test "should create sticky from calendar" do
     assert_difference('Sticky.count') do
       post :create, from_calendar: 1, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '0', due_date: "08/15/2011" }, format: 'js'
@@ -345,7 +362,7 @@ class StickiesControllerTest < ActionController::TestCase
     post :move, id: stickies(:due_at_ics), due_date: "03/07/2012", format: 'js'
 
     assert_not_nil assigns(:sticky)
-    assert_equal Time.local(2012, 3, 7, 9, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.local(2012, 3, 7, 9, 0, 0), assigns(:sticky).due_date.localtime
     assert_template 'create'
     assert_response :success
   end
