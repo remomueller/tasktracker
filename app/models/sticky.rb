@@ -47,7 +47,7 @@ class Sticky < ActiveRecord::Base
 
   def due_at_string
     # due_at.blank? ? '' : due_at.localtime.strftime("%l:%M %p").strip
-    (all_day? ? '' : due_date.strftime("%l:%M %p").strip) rescue ''
+    (all_day? ? '' : due_date.localtime.strftime("%l:%M %p").strip) rescue ''
   end
 
   def due_at_string_short
