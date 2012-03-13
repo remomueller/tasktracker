@@ -241,7 +241,7 @@ class StickiesController < ApplicationController
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
       if @sticky.group and params[:discard] == 'following'
-        @sticky.group.stickies.where('DATE(due_date) >= ?', @sticky.due_date).destroy_all
+        @sticky.group.stickies.where('due_date >= ?', @sticky.due_date).destroy_all
       elsif @sticky.group and params[:discard] == 'all'
         @sticky.group.destroy
       else # 'single'
