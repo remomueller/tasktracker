@@ -25,13 +25,8 @@ class StickiesController < ApplicationController
 
     sticky_scope = sticky_scope.where(owner_id: current_user.id) if params[:assigned_to_me] == '1'
 
-    case params[:date_type] when 'start_date'
-      sticky_scope = sticky_scope.with_start_date_for_calendar(@first_sunday, @last_saturday)
-    when 'end_date'
-      sticky_scope = sticky_scope.with_end_date_for_calendar(@first_sunday, @last_saturday)
-    else
-      sticky_scope = sticky_scope.with_due_date_for_calendar(@first_sunday, @last_saturday)
-    end
+    sticky_scope = sticky_scope.with_due_date_for_calendar(@first_sunday, @last_saturday)
+
     @stickies = sticky_scope
   end
 
@@ -63,7 +58,15 @@ class StickiesController < ApplicationController
 
     @start_date = begin Date.strptime(params[:due_date_start_date], "%m/%d/%Y") rescue nil end
     @end_date = begin Date.strptime(params[:due_date_end_date], "%m/%d/%Y") rescue nil end
-    sticky_scope = sticky_scope.due_date_within(@start_date, @end_date)
+
+
+    sticky_scope = sticky_scope.due_date_before(@end_date) unless @end_date.blank?
+    sticky_scope = sticky_scope.due_date_after(@start_date) unless @start_date.blank?
+
+    # sticky_scope = sticky_scope.due_date_within(@start_date, @end_date)
+
+
+
 
     sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
 
