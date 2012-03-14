@@ -11,24 +11,15 @@ class Sticky < ActiveRecord::Base
   scope :updated_since, lambda { |*args| { conditions: ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
 
-  # scope :with_due_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", args.first, args[1]]}} # Deprecating
   scope :with_due_date_for_calendar, lambda { |*args| { conditions: { due_date: args.first.at_midnight..(args[1]+1.day).at_midnight } } }
 
   scope :due_date_before, lambda { |*args| { conditions: ["stickies.due_date < ?", (args.first+1.day).at_midnight]} }
   scope :due_date_after, lambda { |*args| { conditions: ["stickies.due_date >= ?", args.first.at_midnight]} }
 
-  # scope :due_date_within, lambda { |*args| { conditions: ["(DATE(stickies.due_date) >= ? or ? IS NULL) and (DATE(stickies.due_date) <= ? or ? IS NULL)", args.first, args.first, args[1], args[1]] }}
-
-
-  # Deprecating
-  # scope :with_start_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.start_date) >= ? and DATE(stickies.start_date) <= ?", args.first, args[1]]}}
-  # scope :with_end_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.end_date) >= ? and DATE(stickies.end_date) <= ?", args.first, args[1]]}}
-
-
-  scope :due_today,     lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) = ?", false, Date.today]}}
-  scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) < ?", false, Date.today]}}
-  scope :due_upcoming,  lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) > ? and DATE(stickies.due_date) <= ?", false, Date.today, (Date.today.friday? ? Date.today + 3.days : Date.tomorrow)]}}
-  scope :due_this_week, lambda { |*args| { conditions: ["stickies.completed = ? and DATE(stickies.due_date) >= ? and DATE(stickies.due_date) <= ?", false, (Date.today - Date.today.wday.days), (Date.today + (6-Date.today.wday).days)]}}
+  scope :due_today,     lambda { |*args| { conditions: { completed: false, due_date: Date.today.at_midnight..Date.today.end_of_day } } }
+  scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date < ?", false, Date.today.at_midnight] } }
+  scope :due_upcoming,  lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date >= ? and stickies.due_date < ?", false, Date.tomorrow.at_midnight, (Date.today.friday? ? Date.tomorrow + 3.days : Date.tomorrow + 1.day).at_midnight]}}
+  scope :due_this_week, lambda { |*args| { conditions: { completed: false, due_date: (Date.today - Date.today.wday.days).at_midnight..(Date.today + (7-Date.today.wday).days).at_midnight} } }
 
   scope :with_tag, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", args.first ] } }
   scope :with_tag_name, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags, tags where stickies_tags.tag_id = tags.id and tags.name IN (?))", args.first ] } }
@@ -63,7 +54,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def due_at_end_string_short
-    self.due_at_end_string.gsub(':00', '').gsub(' AM', '').gsub(' PM', 'p')
+    self.due_at_end_string.gsub(':00', '').gsub(' AM', 'a').gsub(' PM', 'p')
   end
 
   def due_at_end_string_with_duration
@@ -84,12 +75,8 @@ class Sticky < ActiveRecord::Base
   #   self.due_at = nil
   end
 
-  def due_date_time_start
-    Time.zone.parse(self.due_date.to_s + " " + self.due_at_string)
-  end
-
   def due_date_time_end
-    Time.zone.parse((self.due_date_time_start + self.duration.send(self.duration_units)).to_s + " " + self.due_at_end_string)
+    self.due_date + self.duration.send(self.duration_units)
   end
 
   def export_ics
@@ -104,7 +91,7 @@ class Sticky < ActiveRecord::Base
       evt.description = self.ics_description
       evt.dtstart     = self.due_date.to_date    if self.all_day? and not self.due_date.blank?
       evt.dtstart     = self.due_date            if not self.all_day? and not self.due_date.blank?
-      evt.dtend       = self.due_date_time_end   if not self.all_day? and not self.due_date.blank? and self.duration > 0
+      evt.dtend       = self.due_date_time_end   if not self.all_day? and not self.due_date.blank?
       evt.uid         = "#{SITE_URL}/stickies/#{self.id}"
     end
   end

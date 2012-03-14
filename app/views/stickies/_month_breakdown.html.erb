@@ -24,7 +24,7 @@
               <% @tags = Tag.find_all_by_id(tag_ids) %>
               <div style="padding-bottom:5px" id="day_<%= iDate.strftime("%m_%d_%Y") %>_tag_container_<%= tag_ids.sort.join('_') %>">
                 <%= render partial: 'tags/small_tags' %>
-                <% stickies.sort{|a,b| a.due_date_time_start <=> b.due_date_time_start}.each do |sticky| %>
+                <% stickies.sort{|a,b| a.due_date <=> b.due_date}.each do |sticky| %>
                   <%= @sticky = sticky; render partial: 'popup' %>
                 <% end %>
               </div>
