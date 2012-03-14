@@ -11,7 +11,7 @@ class Sticky < ActiveRecord::Base
   scope :updated_since, lambda { |*args| { conditions: ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
 
-  scope :with_due_date_for_calendar, lambda { |*args| { conditions: { due_date: args.first.at_midnight..(args[1]+1.day).at_midnight } } }
+  scope :with_due_date_for_calendar, lambda { |*args| { conditions: { due_date: args.first.at_midnight..args[1].end_of_day } } }
 
   scope :due_date_before, lambda { |*args| { conditions: ["stickies.due_date < ?", (args.first+1.day).at_midnight]} }
   scope :due_date_after, lambda { |*args| { conditions: ["stickies.due_date >= ?", args.first.at_midnight]} }
@@ -19,7 +19,7 @@ class Sticky < ActiveRecord::Base
   scope :due_today,     lambda { |*args| { conditions: { completed: false, due_date: Date.today.at_midnight..Date.today.end_of_day } } }
   scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date < ?", false, Date.today.at_midnight] } }
   scope :due_upcoming,  lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date >= ? and stickies.due_date < ?", false, Date.tomorrow.at_midnight, (Date.today.friday? ? Date.tomorrow + 3.days : Date.tomorrow + 1.day).at_midnight]}}
-  scope :due_this_week, lambda { |*args| { conditions: { completed: false, due_date: (Date.today - Date.today.wday.days).at_midnight..(Date.today + (7-Date.today.wday).days).at_midnight} } }
+  scope :due_this_week, lambda { |*args| { conditions: { completed: false, due_date: (Date.today - Date.today.wday.days).at_midnight..(Date.today + (6-Date.today.wday).days).end_of_day} } }
 
   scope :with_tag, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", args.first ] } }
   scope :with_tag_name, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags, tags where stickies_tags.tag_id = tags.id and tags.name IN (?))", args.first ] } }
