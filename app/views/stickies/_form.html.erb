@@ -13,7 +13,7 @@
   <% end %>
 
   <fieldset>
-    <legend><%= @title %></legend>
+    <legend><%= "#{link_to @sticky.project.name, @sticky.project} &raquo; ".html_safe if @sticky.project %><%= @title %></legend>
     <%= render partial: 'stickies/inner_form', locals: { f: f } %>
   </fieldset>
 

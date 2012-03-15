@@ -1,4 +1,4 @@
-<% @title = "Edit Sticky: #{@sticky.name}" %>
+<% @title = "Edit Sticky: #{link_to @sticky.name, @sticky}".html_safe %>
 
 <%= render 'form' %>
 
