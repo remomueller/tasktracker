@@ -2,6 +2,7 @@
 
 * Enhancements
   * Service Accounts added to provide interface for other web applications
+  * Export Dictionary rake task added for automated integration with the Hybrid Sleep Portal
 
 * Bug Fix
   * Due Times corrected to account for Daylight Savings Time
