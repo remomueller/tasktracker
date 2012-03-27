@@ -30,14 +30,26 @@ class GroupsController < ApplicationController
   end
 
   def create
+
+    user = if User::VALID_API_TOKENS.include?(params[:api_token])
+      User.find_by_api_token(params[:api_token], params[params[:api_token]])
+    else
+      current_user
+    end
+
+
+
     params[:initial_due_date] = begin Date.strptime(params[:initial_due_date], "%m/%d/%Y") rescue Date.today end
-    @template = current_user.all_templates.find_by_id(params[:template_id])
+    @template = user.all_templates.find_by_id(params[:template_id])
     @frame = (@template ? @template.project.frames.find_by_id(params[:frame_id]) : nil)
     @frame_id = @frame.id if @frame
     frame_name = (@frame ? @frame.name + ' - ' + @frame.short_time : 'Backlog')
     if @template
-      @group = @template.generate_stickies!(current_user, @frame_id, params[:initial_due_date], params[:additional_text])
-      redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}."
+      @group = @template.generate_stickies!(user, @frame_id, params[:initial_due_date], params[:additional_text])
+      respond_to do |format|
+        format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}." }
+        format.json { render json: @group }
+      end
     else
       redirect_to root_path
     end

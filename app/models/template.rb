@@ -4,6 +4,7 @@ class Template < ActiveRecord::Base
   attr_reader :item_tokens
 
   # Named Scopes
+  scope :none, conditions: ["1 = 0"]
   scope :current, conditions: { deleted: false }
   scope :with_project, lambda { |*args| { conditions: ["templates.project_id IN (?) or (templates.project_id IS NULL and templates.user_id = ?)", args.first, args[1]] } }
   scope :search, lambda { |*args| {conditions: [ 'LOWER(name) LIKE ? or LOWER(items) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }

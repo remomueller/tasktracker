@@ -2,6 +2,14 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
   before_filter :check_system_admin, only: [:new, :create, :edit, :update, :destroy, :overall_graph]
 
+  def api_token
+    if User::VALID_API_TOKENS.include?(params[:api_token])
+      @message = current_user.generate_api_token!(params[:api_token])
+    else
+      render nothing: true
+    end
+  end
+
   # Stickies per user
   def overall_graph
     @stickies = []

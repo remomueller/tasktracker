@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
+  VALID_API_TOKENS = ['screen_token']
+
   EMAILABLES = [ [:sticky_creation, 'Receive email when a new sticky is created'],
                  [:sticky_completion, 'Receive email when a sticky is marked as completed'],
                  [:sticky_due_time_changed, 'Receive email when a sticky\'s due date time is changed'],
@@ -51,6 +53,24 @@ class User < ActiveRecord::Base
   has_many :owned_stickies, class_name: 'Sticky', foreign_key: 'owner_id', conditions: { deleted: false }, order: 'created_at'
 
   # User Methods
+
+  def self.find_by_api_token(api_service, api_token)
+    User.send("find_by_"+api_service, api_token)
+  end
+
+
+  def generate_api_token!(api_token)
+    message = ''
+    if User::VALID_API_TOKENS.include?(api_token)
+      begin
+        self.update_attribute api_token.to_sym, (Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s))[0..127]
+      rescue ActiveRecord::RecordNotUnique
+        message = 'Error - Please try regenerating'
+      end
+    end
+    self.reload
+    message
+  end
 
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
@@ -158,7 +178,11 @@ class User < ActiveRecord::Base
 
   def all_templates
     @all_templates ||= begin
-      Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      if self.service_account?
+        Template.current
+      else
+        Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      end
     end
   end
 

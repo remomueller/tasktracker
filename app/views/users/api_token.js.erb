@@ -1,0 +1,2 @@
+$("#<%= params[:api_token] %>").html("<%= escape_javascript(current_user.send(params[:api_token]).to_s) %>")
+$("#<%= params[:api_token] %>_message").html("<%= escape_javascript(@message) %>")

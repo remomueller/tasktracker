@@ -63,6 +63,7 @@ Notes::Application.routes.draw do
     member do
       get :graph
       post :update_settings
+      post :api_token
     end
   end
 
