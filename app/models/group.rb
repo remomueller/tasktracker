@@ -34,6 +34,14 @@ class Group < ActiveRecord::Base
     end.to_s
   end
 
+  def creator_name
+    self.user.name
+  end
+
+  def group_link
+    SITE_URL + "/groups/#{self.id}"
+  end
+
   private
 
   def update_stickies_project

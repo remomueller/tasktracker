@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :api_authentication!, only: [:create]
+  before_filter :api_authentication!, only: [:create, :show]
 
   def index
     current_user.update_attribute :groups_per_page, params[:groups_per_page].to_i if params[:groups_per_page].to_i >= 10 and params[:groups_per_page].to_i <= 200
@@ -18,7 +18,17 @@ class GroupsController < ApplicationController
 
   def show
     @group = current_user.all_viewable_groups.find_by_id(params[:id])
-    redirect_to root_path unless @group
+    if @group
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @group, methods: [:stickies, :template, :creator_name, :group_link] }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
+    end
   end
 
   # def new
