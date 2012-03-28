@@ -12,7 +12,8 @@ class TemplatesController < ApplicationController
   end
 
   def index
-    template_scope = current_user.all_viewable_templates
+    template_scope = (params[:editable_only] == '1') ? current_user.all_viewable_templates : current_user.all_templates
+
     current_user.update_attribute :templates_per_page, params[:templates_per_page].to_i if params[:templates_per_page].to_i >= 10 and params[:templates_per_page].to_i <= 200
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
