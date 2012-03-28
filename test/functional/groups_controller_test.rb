@@ -132,7 +132,20 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should show group" do
     get :show, id: @group.to_param
+    assert_not_nil assigns(:group)
     assert_response :success
+  end
+
+  test "should show group with json" do
+    get :show, id: @group.to_param, format: 'json'
+    assert_not_nil assigns(:group)
+    assert_response :success
+  end
+
+  test "should not show group with invalid id" do
+    get :show, id: -1
+    assert_nil assigns(:group)
+    assert_redirected_to root_path
   end
 
   test "should get edit" do
