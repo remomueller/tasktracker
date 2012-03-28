@@ -59,11 +59,11 @@ class User < ActiveRecord::Base
   end
 
 
-  def generate_api_token!(api_token)
+  def generate_api_token!(api_token, time = Time.now)
     message = ''
     if User::VALID_API_TOKENS.include?(api_token)
       begin
-        self.update_attribute api_token.to_sym, (Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s) + Digest::SHA1.hexdigest(Time.now.usec.to_s))[0..127]
+        self.update_attribute api_token.to_sym, (Digest::SHA1.hexdigest(time.usec.to_s) + Digest::SHA1.hexdigest((time + 0.3.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.7.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.11.seconds).usec.to_s))[0..127]
       rescue ActiveRecord::RecordNotUnique
         message = 'Error - Please try regenerating'
       end
@@ -178,11 +178,7 @@ class User < ActiveRecord::Base
 
   def all_templates
     @all_templates ||= begin
-      if self.service_account?
-        Template.current
-      else
-        Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
-      end
+      Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
     end
   end
 

@@ -1,5 +1,10 @@
 == 0.20.0
 
+* Enhancements
+  * Service Accounts can now be used by other applications to authenticate users through the use of application specific tokens
+    * Allows authenticated applications to create view templates and create new groups
+  * Using Rails 3.2.3.rc1
+
 == 0.19.0
 
 * Enhancements

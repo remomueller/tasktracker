@@ -8,6 +8,19 @@ class UsersControllerTest < ActionController::TestCase
     @user = users(:valid)
   end
 
+  test "should set api token" do
+    post :api_token, api_token: 'screen_token', format: 'js'
+    assert_not_nil assigns(:message)
+    assert_template 'api_token'
+    assert_response :success
+  end
+
+  test "should not set invalid api token" do
+    post :api_token, api_token: 'authentication_token', format: 'js'
+    assert_nil assigns(:message)
+    assert_response :success
+  end
+
   test "should get overall_graph" do
     get :overall_graph
 

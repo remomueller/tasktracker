@@ -17,6 +17,10 @@ class Template < ActiveRecord::Base
   belongs_to :user
   has_many :stickies, conditions: { deleted: false }
 
+  def full_name
+    [self.name, (self.project ? self.project.name : nil)].compact.join(' - ')
+  end
+
   def destroy
     update_attribute :deleted, true
     # self.stickies.update_all(frame_id: nil)

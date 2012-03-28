@@ -18,4 +18,10 @@ class UserTest < ActiveSupport::TestCase
   test "should not allow send_email for email_on?" do
     assert_equal false, users(:two).email_on?(:send_email)
   end
+
+  test "should not allow the same api_token to be assigned to two users" do
+    t = Time.now
+    assert_equal '', users(:valid).generate_api_token!('screen_token', t)
+    assert_equal 'Error - Please try regenerating', users(:two).generate_api_token!('screen_token', t)
+  end
 end

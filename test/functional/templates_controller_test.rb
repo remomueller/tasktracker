@@ -22,7 +22,7 @@ class TemplatesControllerTest < ActionController::TestCase
     post :add_item, template: @template.attributes, format: 'js'
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:item)
-    assert_template 'add_item'    
+    assert_template 'add_item'
   end
 
   test "should get items" do
@@ -35,6 +35,13 @@ class TemplatesControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:templates)
+  end
+
+  test "should get index for api user using service account" do
+    login(users(:service_account))
+    get :index, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
+    assert_not_nil assigns(:templates)
+    assert_response :success
   end
 
   test "should get new" do
@@ -116,7 +123,7 @@ class TemplatesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:template)
     assert_redirected_to templates_path
   end
-  
+
   test "should not destroy template with invalid id" do
     assert_difference('Template.current.count', 0) do
       delete :destroy, id: -1
