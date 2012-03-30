@@ -29,7 +29,7 @@ class TemplatesController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json { render json: template_scope, only: [:id], methods: [:full_name] }
+      format.json { render json: template_scope, only: [:id, :items], methods: [:full_name] }
     end
   end
 
