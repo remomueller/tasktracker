@@ -42,7 +42,7 @@ This will run the task lib/tasks/reminder_email.rake using Cron
 
   sudo crontab -e
 
-  0 1 * * * source /etc/profile && /usr/local/rvm/gems/ruby-1.9.3-p0/bin/rake --rakefile /var/www/notes/Rakefile reminder_email RAILS_ENV=production
+  0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/notes && /usr/local/rvm/gems/ruby-1.9.3-p125/bin/bundle exec rake reminder_email RAILS_ENV=production
 
 == Contributing to Notes
 
