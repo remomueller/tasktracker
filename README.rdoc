@@ -38,9 +38,7 @@ All done!
 
 == Setting up Daily Stickies Due Emails
 
-This will run the task lib/tasks/reminder_email.rake using Cron
-
-  sudo crontab -e
+This will run the task lib/tasks/reminder_email.rake using Cron <tt>sudo crontab -e</tt>
 
   0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/notes && /usr/local/rvm/gems/ruby-1.9.3-p125/bin/bundle exec rake reminder_email RAILS_ENV=production
 
