@@ -44,7 +44,13 @@ This will run the task lib/tasks/reminder_email.rake using Cron
 
   0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/notes && /usr/local/rvm/gems/ruby-1.9.3-p125/bin/bundle exec rake reminder_email RAILS_ENV=production
 
-== Contributing to Notes
+== Exporting the Task Tracker Data Dictionary for use by {Hybrid}[https://github.com/remomueller/hybrid] for dynamic reporting and searches
+
+  sudo crontab -e
+
+  30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/notes && /usr/local/rvm/gems/ruby-1.9.3-p125/bin/bundle exec rake export_dictionary RAILS_ENV=production
+
+== Contributing to Task Tracker
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
