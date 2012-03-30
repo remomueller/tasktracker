@@ -37,6 +37,7 @@ Notes::Application.routes.draw do
     member do
       post :popup
       post :move
+      post :complete
     end
   end
 

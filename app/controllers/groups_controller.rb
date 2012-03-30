@@ -21,7 +21,7 @@ class GroupsController < ApplicationController
     if @group
       respond_to do |format|
         format.html # show.html.erb
-        format.json { render json: @group, methods: [:stickies, :template, :creator_name, :group_link] }
+        format.json { render json: @group, methods: [:stickies, :template, :creator_name, :group_link], location: @group }
       end
     else
       respond_to do |format|

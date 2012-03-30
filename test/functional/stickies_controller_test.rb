@@ -383,6 +383,20 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should complete sticky" do
+    post :complete, id: @sticky, format: 'js'
+    assert_not_nil assigns(:sticky)
+    assert_equal true, assigns(:sticky).completed
+    assert_template 'complete'
+    assert_response :success
+  end
+
+  test "should not complete sticky for viewer" do
+    post :complete, id: stickies(:viewable_by_valid), format: 'js'
+    assert_nil assigns(:sticky)
+    assert_response :success
+  end
+
   test "should update sticky" do
     put :update, id: @sticky.to_param, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "08/15/2011" }
     assert_not_nil assigns(:sticky)
