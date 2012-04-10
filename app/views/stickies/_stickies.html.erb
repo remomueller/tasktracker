@@ -37,7 +37,9 @@
   <% @stickies.each do |sticky| %>
     <% @object = sticky %>
     <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-    <tbody id="sticky_<%= sticky.id %>" onmouseover="$('#sticky_<%= sticky.id %>_empty').hide();$('#sticky_<%= sticky.id %>_checkmark').show()" onmouseout="$('#sticky_<%= sticky.id %>_checkmark').hide();$('#sticky_<%= sticky.id %>_empty').show()">
+    <tbody id="sticky_<%= sticky.id %>"
+      onmouseover="if(!$('#sticky_<%= sticky.id %>_wait').is(':visible')){$('#sticky_<%= sticky.id %>_empty').hide();$('#sticky_<%= sticky.id %>_checkmark').show()}"
+      onmouseout="if(!$('#sticky_<%= sticky.id %>_wait').is(':visible')){$('#sticky_<%= sticky.id %>_checkmark').hide();$('#sticky_<%= sticky.id %>_empty').show()}">
       <tr class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < sticky.updated_at %>">
         <td>
           <span id="sticky_<%= sticky.id %>_icon">

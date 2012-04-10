@@ -2,6 +2,7 @@
 
 * Bug Fix
   * Fixed graphical bug that caused table rows borders to disappear in Google Chrome
+  * Fixed bug where sticky description would shift after completing an inline sticky and moving the mouse
 
 == 0.20.0
 
