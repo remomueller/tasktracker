@@ -22,13 +22,15 @@ class UsersController < ApplicationController
       @stickies << Sticky.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
       @comments << Comment.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
       User.current.each do |user|
-        escaped_name = user.nickname.gsub("'", "\\\\'")
+        escaped_name = "<" + user.id.to_s + ">" + user.nickname.gsub("'", "\\\\'")
         @users_hash[escaped_name] = [] unless @users_hash[escaped_name]
-        @users_hash[escaped_name] << @stickies[month-1].with_creator(user.id).count
+        @users_hash[escaped_name] << @stickies[month-1].with_owner(user.id).count == 0
         @users_comment_hash[escaped_name] = [] unless @users_comment_hash[escaped_name]
         @users_comment_hash[escaped_name] << @comments[month-1].with_creator(user.id).count
       end
     end
+    @users_hash.reject!{|k, v| v == [0]*12}
+    @users_comment_hash.reject!{|k, v| v == [0]*12}
   end
 
   def graph
@@ -64,6 +66,8 @@ class UsersController < ApplicationController
         end
       end
     end
+    @favorite_projects_hash.reject!{|k, v| v == [0]*12}
+    @other_projects_hash.reject!{|k, v| v == [0]*12}
   end
 
   def update_settings

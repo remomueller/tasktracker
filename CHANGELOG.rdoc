@@ -3,6 +3,7 @@
 * Bug Fix
   * Fixed graphical bug that caused table rows borders to disappear in Google Chrome
   * Fixed bug where sticky description would shift after completing an inline sticky and moving the mouse
+  * Fixed bug in display of overall graph for users with identical names
 
 == 0.20.0
 
