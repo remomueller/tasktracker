@@ -1,5 +1,8 @@
 == 0.21.0
 
+* Bug Fix
+  * Fixed graphical bug that caused table rows borders to disappear in Google Chrome
+
 == 0.20.0
 
 * Enhancements
