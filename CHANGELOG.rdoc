@@ -1,5 +1,8 @@
 == 0.21.0
 
+* Enhancements
+  * Using Rails 3.2.3
+
 * Bug Fix
   * Fixed graphical bug that caused table rows borders to disappear in Google Chrome
   * Fixed bug where sticky description would shift after completing an inline sticky and moving the mouse
