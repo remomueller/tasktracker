@@ -158,6 +158,13 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get index for api user using service account" do
+    login(users(:service_account))
+    get :index, api_token: 'screen_token', screen_token: users(:valid).screen_token, tag_filter: 'any', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed'], format: 'json'
+    assert_not_nil assigns(:stickies)
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success

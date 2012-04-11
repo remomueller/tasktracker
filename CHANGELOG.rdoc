@@ -1,6 +1,7 @@
 == 0.21.0
 
 * Enhancements
+  * API expanded and now allows stickies index to be retrieved as JSON objects
   * Using Rails 3.2.3
 
 * Bug Fix

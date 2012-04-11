@@ -41,6 +41,10 @@ class Sticky < ActiveRecord::Base
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   has_and_belongs_to_many :tags
 
+  def sticky_link
+    SITE_URL + "/stickies/#{self.id}"
+  end
+
   def due_at_string
     (all_day? ? '' : due_date.localtime.strftime("%l:%M %p").strip) rescue ''
   end

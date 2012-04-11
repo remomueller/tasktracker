@@ -1,5 +1,6 @@
 class StickiesController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :api_authentication!, only: [:index]
 
   def calendar
     if params[:save_settings] == '1'
@@ -51,8 +52,9 @@ class StickiesController < ApplicationController
 
   def index
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
+
     @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "completed, due_date, end_date DESC, start_date DESC"
-    sticky_scope = current_user.all_viewable_stickies
+    sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
 
     sticky_scope = sticky_scope.with_owner(params[:owner_id]) unless params[:owner_id].blank?
 
@@ -117,6 +119,14 @@ class StickiesController < ApplicationController
       return
     end
     @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
+
+    respond_to do |format|
+      format.html
+      format.js
+      format.json { render json: sticky_scope.page(params[:page]).limit(50),
+                           only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :frame_id, :due_date, :group_id, :duration, :duration_units, :all_day, :created_at, :updated_at],
+                           methods: [:sticky_link, :tags] }
+    end
   end
 
   def show
