@@ -41,6 +41,10 @@ class Sticky < ActiveRecord::Base
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   has_and_belongs_to_many :tags
 
+  def as_json(options={})
+    super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :frame_id, :due_date, :group_id, :duration, :duration_units, :all_day, :created_at, :updated_at], methods: [:sticky_link, :tags])
+  end
+
   def sticky_link
     SITE_URL + "/stickies/#{self.id}"
   end

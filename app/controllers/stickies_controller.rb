@@ -1,6 +1,6 @@
 class StickiesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :api_authentication!, only: [:index]
+  before_filter :api_authentication!, only: [:index, :show, :create, :update]
 
   def calendar
     if params[:save_settings] == '1'
@@ -55,25 +55,18 @@ class StickiesController < ApplicationController
 
     @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "completed, due_date, end_date DESC, start_date DESC"
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
-
     sticky_scope = sticky_scope.with_owner(params[:owner_id]) unless params[:owner_id].blank?
 
     @start_date = begin Date.strptime(params[:due_date_start_date], "%m/%d/%Y") rescue nil end
     @end_date = begin Date.strptime(params[:due_date_end_date], "%m/%d/%Y") rescue nil end
-
 
     sticky_scope = sticky_scope.due_date_before(@end_date) unless @end_date.blank?
     sticky_scope = sticky_scope.due_date_after(@start_date) unless @start_date.blank?
 
     # sticky_scope = sticky_scope.due_date_within(@start_date, @end_date)
 
-
-
-
     sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
-
     sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
-
     sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unnassigned].to_s != '1'
 
     unless params[:tag_names].blank?
@@ -123,15 +116,21 @@ class StickiesController < ApplicationController
     respond_to do |format|
       format.html
       format.js
-      format.json { render json: sticky_scope.page(params[:page]).limit(50),
-                           only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :frame_id, :due_date, :group_id, :duration, :duration_units, :all_day, :created_at, :updated_at],
-                           methods: [:sticky_link, :tags] }
+      format.json { render json: sticky_scope.page(params[:page]).limit(50) }
     end
   end
 
   def show
     @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
-    redirect_to root_path unless @sticky
+    respond_to do |format|
+      if @sticky
+        format.html # show.html.erb
+        format.json { render json: @sticky }
+      else
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
+    end
   end
 
   def popup
@@ -177,18 +176,22 @@ class StickiesController < ApplicationController
     end
 
     @sticky = current_user.stickies.new(params[:sticky])
-    if @sticky.save
-      flash[:notice] = 'Sticky was successfully created.'
-      if params[:from_calendar] == '1'
-        # redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
-        # Will render create.js instead
-        render 'create'
+    respond_to do |format|
+      if @sticky.save
+        flash[:notice] = 'Sticky was successfully created.'
+        if params[:from_calendar] == '1'
+          # redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
+          # Will render create.js instead
+          format.js { render 'create' }
+        else
+          format.html { redirect_to @sticky }
+        end
+        format.json { render json: @sticky, status: :created, location: @sticky }
       else
-        redirect_to @sticky
+        @project_id = @sticky.project_id
+        format.html { render "new" }
+        format.json { render json: @sticky.errors, status: :unprocessable_entity }
       end
-    else
-      @project_id = @sticky.project_id
-      render "new"
     end
   end
 
@@ -238,39 +241,44 @@ class StickiesController < ApplicationController
 
     params[:sticky][:tag_ids] ||= [] if params[:sticky]
     @sticky = current_user.all_stickies.find_by_id(params[:id])
-    if @sticky
-      original_due_date = @sticky.due_date
-      if @sticky.update_attributes(params[:sticky])
-        flash[:notice] = 'Sticky was successfully updated.'
 
-        @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+    respond_to do |format|
+      if @sticky
+        original_due_date = @sticky.due_date
+        if @sticky.update_attributes(params[:sticky])
+          flash[:notice] = 'Sticky was successfully updated.'
 
-        if params[:from_calendar] == '1'
-          redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
+          @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+
+          if params[:from_calendar] == '1'
+            format.html { redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')) }
+          else
+            format.html { redirect_to @sticky }
+          end
+          format.json { render json: @sticky, status: :created, location: @sticky }
         else
-          redirect_to @sticky
+          @project_id = @sticky.project_id
+          format.html { render action: "edit" }
+          format.json { render json: @sticky.errors, status: :unprocessable_entity }
         end
       else
-        @project_id = @sticky.project_id
-        render action: "edit"
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
       end
-    else
-      redirect_to root_path
     end
   end
 
   def destroy
     @sticky = current_user.all_stickies.find_by_id(params[:id])
-    if @sticky
-      if @sticky.group and params[:discard] == 'following'
-        @sticky.group.stickies.where('due_date >= ?', @sticky.due_date).destroy_all
-      elsif @sticky.group and params[:discard] == 'all'
-        @sticky.group.destroy
-      else # 'single'
-        @sticky.destroy
-      end
-
-      respond_to do |format|
+    respond_to do |format|
+      if @sticky
+        if @sticky.group and params[:discard] == 'following'
+          @sticky.group.stickies.where('due_date >= ?', @sticky.due_date).destroy_all
+        elsif @sticky.group and params[:discard] == 'all'
+          @sticky.group.destroy
+        else # 'single'
+          @sticky.destroy
+        end
         format.html do
           flash[:notice] = 'Sticky was successfully deleted.'
           if params[:from_calendar] == '1'
@@ -280,9 +288,7 @@ class StickiesController < ApplicationController
           end
         end
         format.js  { render 'destroy' }
-      end
-    else
-      respond_to do |format|
+      else
         format.html { redirect_to root_path }
         format.js { render nothing: true }
       end
