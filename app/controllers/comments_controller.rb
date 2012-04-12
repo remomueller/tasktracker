@@ -1,26 +1,13 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
 
-  def add_comment
-    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
-    if @object and not params[:comment].blank?
-      @object.new_comment(current_user, params[:comment])
-      @position = params[:position]
-      @comments = @object.comments.page(params[:page]).per(5)
-      params[:action] = 'search' # Trick for pagination
-      render "comments/add_comment"
-    else
-      render nothing: true
-    end
-  end
-
   def search
-    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
-    if @object
-      comments_scope = current_user.all_viewable_comments.with_class_name(params[:class_name]).with_class_id(params[:class_id])
+    @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
+    if @sticky
+      comments_scope = @sticky.comments
       @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
       @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
-      @comments = comments_scope.page(params[:page]).per(5)
+      @comments = comments_scope.page(params[:page]).per(params[:per])
     else
       render nothing: true
     end
@@ -40,14 +27,26 @@ class CommentsController < ApplicationController
   end
 
   def new
-    # @comment = current_user.comments.new
-    flash[:notice] = 'Comments should be added directly to Projects or Stickies!'
+    flash[:notice] = 'Comments should be added directly to Stickies!'
     redirect_to root_path
   end
 
   def edit
     @comment = current_user.all_comments.find_by_id(params[:id])
     redirect_to root_path unless @comment
+  end
+
+  def create
+    @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
+
+    if @sticky and not params[:comment].blank?
+      @sticky.comments.create(class_name: 'Sticky', class_id: @sticky.id, user_id: current_user.id, description: params[:comment])
+      @position = params[:position]
+      @comments = @sticky.comments.page(params[:page]).per(params[:per])
+      params[:action] = 'search' # Trick for pagination
+    else
+      render nothing: true
+    end
   end
 
   # def create
@@ -69,32 +68,6 @@ class CommentsController < ApplicationController
       end
     else
       redirect_to root_path
-    end
-  end
-
-  def move
-    @comment = current_user.all_movable_comments.find_by_id(params[:id])
-  end
-
-  def move_update
-    @comment = current_user.all_movable_comments.find_by_id(params[:id])
-    @object = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase).find_by_id(params[:class_id])
-    if @comment and @object
-      @comment.update_attributes({class_name: @object.class.name, class_id: @object.id})
-
-      redirect_to @object, notice: "Comment moved to #{@object.name}."
-    else
-      redirect_to root_path, alert: "You may not move the comment."
-    end
-  end
-
-  def object_select
-    @comment = current_user.all_movable_comments.find_by_id(params[:id])
-    @objects = current_user.send("all_viewable_"+params[:class_name].to_s.titleize.pluralize.gsub(' ', '_').downcase)
-    if @comment and @objects
-
-    else
-      render nothing: true
     end
   end
 

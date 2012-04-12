@@ -17,7 +17,6 @@ class User < ActiveRecord::Base
   EMAILABLES = [ [:sticky_creation, 'Receive email when a new sticky is created'],
                  [:sticky_completion, 'Receive email when a sticky is marked as completed'],
                  [:sticky_due_time_changed, 'Receive email when a sticky\'s due date time is changed'],
-                 [:project_comments, 'Receive email when a comment is added to a project'],
                  [:sticky_comments, 'Receive email when a comment is added to a sticky'],
                  [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'] ]
 
@@ -100,7 +99,7 @@ class User < ActiveRecord::Base
 
   def all_stickies
     @all_stickies ||= begin
-      Sticky.current.with_project(self.all_projects.collect{|p| p.id}, self.id).order('created_at DESC')
+      Sticky.current.with_project(self.all_projects.pluck(:id), self.id).order('created_at DESC')
     end
   end
 
@@ -136,55 +135,55 @@ class User < ActiveRecord::Base
 
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
-      Sticky.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) # .order('created_at DESC')
+      Sticky.current.with_project(self.all_viewable_projects.pluck(:id), self.id) # .order('created_at DESC')
     end
   end
 
   def all_groups
     @all_groups ||= begin
-      Group.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Group.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_groups
     @all_viewable_groups ||= begin
-      Group.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Group.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_frames
     @all_frames ||= begin
-      Frame.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Frame.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_frames
     @all_viewable_frames ||= begin
-      Frame.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Frame.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_tags
     @all_tags ||= begin
-      Tag.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Tag.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_tags
     @all_viewable_tags ||= begin
-      Tag.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Tag.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_templates
     @all_templates ||= begin
-      Template.current.with_project(self.all_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Template.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_templates
     @all_viewable_templates ||= begin
-      Template.current.with_project(self.all_viewable_projects.collect{|p| p.id}, self.id) #.order('created_at DESC')
+      Template.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
@@ -196,18 +195,14 @@ class User < ActiveRecord::Base
 
   def all_viewable_comments
     @all_viewable_comments ||= begin
-      Comment.current.with_two_class_names_and_ids('Project', self.all_viewable_projects.collect{|p| p.id}, 'Sticky', self.all_viewable_stickies.collect{|s| s.id}).order('created_at DESC')
+      Comment.current.where(sticky_id: self.all_viewable_stickies.pluck(:id)).order('created_at DESC')
     end
   end
 
   def all_deletable_comments
     @all_comments ||= begin
-      Comment.current.with_two_class_names_and_ids('Project', self.all_projects.collect{|p| p.id}, 'Sticky', self.all_stickies.collect{|s| s.id}).order('created_at DESC')
+      Comment.current.where(sticky_id: self.all_stickies.pluck(:id)).order('created_at DESC')
     end
-  end
-
-  def all_movable_comments
-    self.all_deletable_comments
   end
 
   def name

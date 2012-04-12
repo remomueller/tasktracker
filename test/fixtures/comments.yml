@@ -1,22 +1,9 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
-one:
-  user: valid
-  class_name: Project
-  class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
-  description: MyText
-  deleted: false
-
 two:
   user: valid
   class_name: Sticky
   class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
   description: MyText
   deleted: false
-
-three:
-  user: valid
-  class_name: Comment
-  class_id: <%= ActiveRecord::Fixtures.identify(:two) %>
-  description: MyText
-  deleted: false
+  sticky: one

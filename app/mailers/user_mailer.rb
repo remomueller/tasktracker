@@ -27,13 +27,13 @@ class UserMailer < ActionMailer::Base
          reply_to: project_user.project.user.email)
   end
 
-  def comment_by_mail(comment, object, recipient)
+  def comment_by_mail(comment, sticky, recipient)
     setup_email
     @comment = comment
-    @object = object
+    @sticky = sticky
     @recipient = recipient
     mail(to: recipient.email,
-         subject: @subject + "#{comment.user.name} Commented on #{object.class.name} #{object.name}",
+         subject: @subject + "#{comment.user.name} Commented on Sticky #{sticky.name}",
          reply_to: comment.user.email)
   end
 

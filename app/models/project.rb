@@ -32,26 +32,11 @@ class Project < ActiveRecord::Base
   end
 
   def destroy
-    self.comments.destroy_all
     self.stickies.destroy_all
     self.frames.destroy_all
     self.templates.destroy_all
     self.tags.destroy_all
     update_attribute :deleted, true
-  end
-
-  def comments(limit = nil)
-    Comment.current.with_class_name(self.class.name).with_class_id(self.id).order('created_at desc').limit(limit)
-  end
-
-  def new_comment(current_user, description)
-    Comment.create(class_name: self.class.name, class_id: self.id, user_id: current_user.id, description: description)
-    self.touch
-  end
-
-  # Currently owner and user is the same (for stickies it's different)
-  def owner
-    self.user
   end
 
   def users_to_email(action)

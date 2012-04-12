@@ -55,16 +55,6 @@ eleven:
   user: send_no_email_for_project_one_sticky_completion
   allow_editing: true
 
-twelve:
-  project: one
-  user: send_no_email_for_project_comments
-  allow_editing: true
-
-thirteen:
-  project: one
-  user: send_no_email_for_project_one_project_comments
-  allow_editing: true
-
 fourteen:
   project: one
   user: send_no_email_for_sticky_comments

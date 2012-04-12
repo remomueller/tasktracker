@@ -18,7 +18,7 @@
     <tr>
       <th>Name</th>
       <th>User</th>
-      <th>Under</th>
+      <th>Sticky</th>
       <th>Description</th>
       <th></th>
     </tr>
@@ -27,13 +27,7 @@
     <tr>
       <td style="white-space:nowrap"><%= link_to comment.name, comment %></td>
       <td><%= link_to comment.user.name, comment.user %></td>
-      <td>
-        <% object = comment.class_name.constantize.find(comment.class_id) %>
-        <% if object %>
-          <%= object.class.name %>
-          <%= link_to object.name, object %>
-        <% end %>
-      </td>
+      <td><%= link_to comment.sticky.name, comment.sticky if comment.sticky %></td>
       <td><%= comment.description %></td>
       <td style="vertical-align:middle">
         <% if current_user.all_deletable_comments.include?(comment) %>

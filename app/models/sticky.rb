@@ -40,6 +40,7 @@ class Sticky < ActiveRecord::Base
   belongs_to :frame
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   has_and_belongs_to_many :tags
+  has_many :comments, order: 'created_at desc', conditions: { deleted: false }
 
   def as_json(options={})
     super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :frame_id, :due_date, :group_id, :duration, :duration_units, :all_day, :created_at, :updated_at], methods: [:sticky_link, :tags])
@@ -121,15 +122,6 @@ class Sticky < ActiveRecord::Base
     update_attribute :deleted, true
   end
 
-  def comments(limit = nil)
-    Comment.current.with_class_name(self.class.name).with_class_id(self.id).order('created_at desc').limit(limit)
-  end
-
-  def new_comment(current_user, description)
-    Comment.create(class_name: self.class.name, class_id: self.id, user_id: current_user.id, description: description)
-    self.touch
-  end
-
   def full_description
     @full_description ||= begin
       if self.group and not self.group.description.blank?
@@ -147,7 +139,7 @@ class Sticky < ActiveRecord::Base
     result << "Assigned To: #{self.owner.name}\n\n" if self.owner
     result << "Project: #{self.project.name}\n\n"
     result << self.full_description + "\n\n"
-    result << "Tags: #{self.tags.collect{|t| t.name}.join(', ')}\n\n" if self.tags.size > 0
+    result << "Tags: #{self.tags.pluck(:name).join(', ')}\n\n" if self.tags.size > 0
     result
   end
 
@@ -207,7 +199,7 @@ class Sticky < ActiveRecord::Base
   def set_project_and_frame
     if self.group
       self.project_id = self.group.project_id
-      if not self.group.project.frames.collect{|f| f.id}.include?(self.frame_id) and self.changes[:frame_id]
+      if not self.group.project.frames.pluck(:id).include?(self.frame_id) and self.changes[:frame_id]
         self.frame_id = self.changes[:frame_id][0]
       end
     end

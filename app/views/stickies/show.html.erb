@@ -99,7 +99,7 @@
 </div>
 
 <fieldset>
-  <%= form_tag search_comments_path(class_id: @sticky.id, class_name: 'Sticky'), method: :get, id: "comments_search", style: 'display:inline' do %>
+  <%= form_tag search_comments_path(sticky_id: @sticky.id, class_name: 'Sticky', per: 10), method: :get, id: "comments_search", style: 'display:inline' do %>
     <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
   <% end %>
 

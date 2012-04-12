@@ -1,6 +1,6 @@
 Hello <%= @recipient.first_name %>,
 
-<%= @comment.user.name %> made the following comment on <%= @object.class.name %> <%= @object.name %> located at <%= "#{SITE_URL}/#{@object.class.name.downcase.pluralize}/#{@object.id}" %>.
+<%= @comment.user.name %> made the following comment on Sticky <%= @sticky.name %> located at <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>.
 
 
 <%= @comment.description %>

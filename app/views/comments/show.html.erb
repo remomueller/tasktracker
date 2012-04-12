@@ -8,22 +8,21 @@
 <%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Comments", comments_path, class: 'button' %>
 
 <div style="clear:both"></div>
-<br />
 
-<p>
-  <b>User:</b>
-  <%= link_to @comment.user.name, @comment.user %>
-</p>
+<fieldset>
+  <legend><%= @title %></legend>
+  <p>
+    <b>User:</b>
+    <%= link_to @comment.user.name, @comment.user %>
+  </p>
 
-<p><b>Under:</b>
-  <% object = @comment.class_name.constantize.find(@comment.class_id) %>
-  <% if object %>
-    <%= object.class.name %>
-    <%= link_to object.name, object %>
-  <% end %>
-</p>
+  <p>
+    <b>Sticky:</b>
+    <%= link_to @comment.sticky.name, @comment.sticky if @comment.sticky %>
+  </p>
 
-<p>
-  <b>Description:</b>
-  <%= @comment.description %>
-</p>
+  <p>
+    <b>Description:</b>
+    <%= @comment.description %>
+  </p>
+</fieldset>

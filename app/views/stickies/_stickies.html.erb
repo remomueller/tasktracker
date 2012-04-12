@@ -35,7 +35,7 @@
     </thead>
 
   <% @stickies.each do |sticky| %>
-    <% @object = sticky %>
+    <% @sticky = sticky %>
     <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
     <tbody id="sticky_<%= sticky.id %>"
       onmouseover="if(!$('#sticky_<%= sticky.id %>_wait').is(':visible')){$('#sticky_<%= sticky.id %>_empty').hide();$('#sticky_<%= sticky.id %>_checkmark').show()}"
@@ -55,13 +55,13 @@
           </span>
           <%= link_to sticky.name, sticky, style: sticky.completed? ? "text-decoration:line-through" : "", id: "sticky_#{sticky.id}_name" %> <%= link_to image_tag('gentleface/16/list_bullets.png', alt: '', title: "Group #{sticky.group.name}", size: '10x10'), sticky.group if sticky.group %>
           <span id="sticky_<%= sticky.id %>_description" style="<%= "color:#999" if sticky.completed? %>">
-            <span id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_tbody_short_description">
-              <%= sticky.full_description.truncate(100, omission: '') %> <%= link_to_function (sticky.comments.size > 0 ? pluralize(sticky.comments.size, "comment") : 'more...'), "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_tbody');", id: "#{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_link" %>
+            <span id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_short_description">
+              <%= sticky.full_description.truncate(100, omission: '') %> <%= link_to_function (sticky.comments.size > 0 ? pluralize(sticky.comments.size, "comment") : 'more...'), "toggleSticky('#sticky_#{@sticky.id}_comments_#{@position}_tbody');", id: "sticky_#{@sticky.id}_comments_#{@position}_link" %>
             </span>
           </span>
-          <div style="max-width:600px;display:none" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_tbody_description">
+          <div style="max-width:600px;display:none" id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_description">
             <%= simple_format sticky.full_description %>
-            <%= link_to_function 'less...', "toggleSticky('##{@object.class.name.downcase}_#{@object.id}_comments_#{@position}_tbody');" %>
+            <%= link_to_function 'less...', "toggleSticky('#sticky_#{@sticky.id}_comments_#{@position}_tbody');" %>
            </div>
         </td>
         <td style="white-space:nowrap;text-align:center"><%= simple_date(sticky.due_date) %><%= " at #{sticky.due_at_string_short}" unless sticky.all_day? %></td>
@@ -85,10 +85,10 @@
         </td>
       </tr>
     </tbody>
-    <tbody id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>_tbody" style="display:none">
+    <tbody id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody" style="display:none">
       <tr>
-        <td colspan="5" id="<%= @object.class.name.downcase %>_<%= @object.id %>_comments_<%= @position %>">
-          <%= @comments = @object.comments.page(0).per(0); render partial: 'comments/index' %>
+        <td colspan="5" id="sticky_<%= @sticky.id %>_comments_<%= @position %>">
+          <%= @comments = @sticky.comments.page(0).per(0); render partial: 'comments/index' %>
         </td>
       </tr>
     </tbody>

@@ -41,16 +41,16 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   test "comment by mail email" do
-    comment = comments(:one)
-    object = comment.class_name.constantize.find_by_id(comment.class_id)
+    comment = comments(:two)
+    sticky = comment.sticky
     valid = users(:valid)
 
-    email = UserMailer.comment_by_mail(comment, object, valid).deliver
+    email = UserMailer.comment_by_mail(comment, sticky, valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "[#{DEFAULT_APP_NAME}] #{comment.user.name} Commented on #{object.class.name} #{object.name}", email.subject
-    assert_match(/#{comment.user.name} made the following comment on #{object.class.name} #{object.name} located at #{SITE_URL}\/#{object.class.name.downcase.pluralize}\/#{object.id}\./, email.encoded)
+    assert_equal "[#{DEFAULT_APP_NAME}] #{comment.user.name} Commented on Sticky #{sticky.name}", email.subject
+    assert_match(/#{comment.user.name} made the following comment on Sticky #{sticky.name} located at #{SITE_URL}\/stickies\/#{sticky.id}\./, email.encoded)
   end
 
   test "sticky by mail email" do

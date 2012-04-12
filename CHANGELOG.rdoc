@@ -5,6 +5,9 @@
     * Sticky JSON API actions for create, update, show, and index now available
   * Using Rails 3.2.3
 
+* Refactoring
+  * Comments model simplified and deprecated ability to comment on projects or other comments
+
 * Bug Fix
   * Fixed graphical bug that caused table rows borders to disappear in Google Chrome
   * Fixed bug where sticky description would shift after completing an inline sticky and moving the mouse

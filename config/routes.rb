@@ -1,13 +1,7 @@
 Notes::Application.routes.draw do
   resources :comments do
-    member do
-      get :move
-      post :move_update
-      post :object_select
-    end
     collection do
       get :search
-      post :add_comment
     end
   end
 
