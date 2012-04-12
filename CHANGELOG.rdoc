@@ -1,6 +1,7 @@
 == 0.21.0
 
 * Enhancements
+  * Stickies can now be completed with one click on the calendar
   * API expanded and now allows stickies index to be retrieved as JSON objects
     * Sticky JSON API actions for create, update, show, and index now available
   * Using Rails 3.2.3
