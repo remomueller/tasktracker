@@ -136,7 +136,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get index with all selected tags" do
-    get :index, format: 'js', tag_filter: 'all', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed']
+    get :index, format: 'js', update_filters: '1', tag_filter: 'all', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed']
 
     # Should only return stickies(:tagged)
     assert_not_nil assigns(:stickies)
@@ -148,7 +148,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get index with at least one selected tags" do
-    get :index, format: 'js', tag_filter: 'any', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed']
+    get :index, format: 'js', update_filters: '1', tag_filter: 'any', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed']
     # Should return stickies(:tagged), stickies(:only_alpha), and stickies(:only_beta)
     assert_not_nil assigns(:stickies)
     assert_equal 3, assigns(:stickies).size
