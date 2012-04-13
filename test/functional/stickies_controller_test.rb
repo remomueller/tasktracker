@@ -152,7 +152,7 @@ class StickiesControllerTest < ActionController::TestCase
     # Should return stickies(:tagged), stickies(:only_alpha), and stickies(:only_beta)
     assert_not_nil assigns(:stickies)
     assert_equal 3, assigns(:stickies).size
-    assert_equal [stickies(:only_alpha), stickies(:only_beta), stickies(:tagged)], assigns(:stickies).order('description')
+    assert_equal [stickies(:only_alpha), stickies(:only_beta), stickies(:tagged)], assigns(:stickies).order('stickies.description')
 
     assert_template 'index'
     assert_response :success

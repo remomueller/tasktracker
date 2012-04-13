@@ -2,6 +2,7 @@
 
 * Enhancements
   * Stickies can now be completed with one click on the calendar
+  * Sticky filters are now saved and navigating to and from the sticky list will retain selected filters
   * API expanded and now allows stickies index to be retrieved as JSON objects
     * Sticky JSON API actions for create, update, show, and index now available
   * Using Rails 3.2.3
@@ -13,6 +14,7 @@
   * Fixed graphical bug that caused table rows borders to disappear in Google Chrome
   * Fixed bug where sticky description would shift after completing an inline sticky and moving the mouse
   * Fixed bug in display of overall graph for users with identical names
+  * Fixed bug where selecting too many tags for sticky filters would generate a slow search
 
 == 0.20.0
 

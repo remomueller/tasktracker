@@ -52,6 +52,7 @@ class StickiesController < ApplicationController
 
   def index
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
+    current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'
 
     @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "completed, due_date, end_date DESC, start_date DESC"
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
@@ -71,11 +72,17 @@ class StickiesController < ApplicationController
 
     unless params[:tag_names].blank?
       if params[:tag_filter] == 'any'
-        sticky_scope = sticky_scope.with_tag_name(params[:tag_names])
+        sticky_scope = sticky_scope.with_tag(Tag.current.where(name: params[:tag_names]).pluck(:id))
       elsif params[:tag_filter] == 'all'
-        params[:tag_names].each do |tag_name|
-          sticky_scope = sticky_scope.with_tag_name(tag_name)
+        params[:tag_names].each_with_index do |tag_name, index|
+          sticky_scope = sticky_scope.with_tag(Tag.current.where(name: tag_name).pluck(:id))
+          # No point in adding more conditions if it's already returning nothing
+          # Also currently unstable adding this condition over 15 times
+          break if sticky_scope.count == 0 or index == 14
         end
+        # params[:tag_names].each do |tag_name|
+        #   sticky_scope = sticky_scope.with_tag_name(tag_name)
+        # end
       end
     end
 

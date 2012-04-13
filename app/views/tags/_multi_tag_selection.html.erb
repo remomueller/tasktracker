@@ -1,6 +1,8 @@
 <% projects = current_user.all_viewable_projects %>
 <% projects = projects.where(id: params[:project_id]) unless params[:project_id].blank? %>
 
+<% params[:tag_names] = current_user.sticky_filters['tag_names'] if params['controller'] == 'stickies' and params['action'] == 'index' and current_user.sticky_filters['tag_names'].kind_of?(Array) %>
+
 <% projects.collect{|p| p.tags.pluck(:name)}.flatten.uniq.sort.in_groups_of(6).each do |row_tags| %>
 <tr>
   <% row_tags.each do |tag_name| %>

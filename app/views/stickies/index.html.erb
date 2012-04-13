@@ -6,7 +6,8 @@
 <div style="clear:both"></div>
 
 <%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search", style: "margin-bottom:-5px" do %>
-  <%= hidden_field_tag :order, params[:order] %>
+  <%= hidden_field_tag :update_filters, 1 %>
+  <%= hidden_field_tag :order, params[:order] || current_user.sticky_filters['order'] %>
   <fieldset>
     <legend>
       Search Filters
@@ -21,11 +22,11 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= text_field_tag 'search', params[:search] %></td>
-          <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id]) %></td>
+          <td><%= text_field_tag 'search', params[:search] || current_user.sticky_filters['search'] %></td>
+          <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] || current_user.sticky_filters['project_id']) %></td>
           <td>
-            <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:owner_id]) %>
-            <%= check_box_tag "unnassigned", '1', true %> Include Unnassigned
+            <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:owner_id] || current_user.sticky_filters['owner_id']) %>
+            <%= check_box_tag "unnassigned", '1', params[:unnassigned] || current_user.sticky_filters['unnassigned'] %> Include Unnassigned
           </td>
         </tr>
       </tbody>
@@ -41,8 +42,8 @@
       </thead>
       <tbody>
         <tr>
-          <td><%= text_field_tag 'due_date_start_date', params[:due_after], class: 'datepicker' %></td>
-          <td><%= text_field_tag 'due_date_end_date', params[:due_before], class: 'datepicker' %></td>
+          <td><%= text_field_tag 'due_date_start_date', params[:due_after] || current_user.sticky_filters['due_date_start_date'], class: 'datepicker' %></td>
+          <td><%= text_field_tag 'due_date_end_date', params[:due_before] || current_user.sticky_filters['due_date_end_date'], class: 'datepicker' %></td>
           <td><table class="blank"><tr><%= render partial: 'stickies/check_box_status' %></tr></table></td>
         </tr>
       </tbody>
@@ -53,7 +54,7 @@
           <th colspan="6">Tags
             <%= link_to_function image_tag('gentleface/16/checkbox_checked.png', alt: 'Select All', title: 'Select All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
             <%= link_to_function image_tag('gentleface/16/checkbox_unchecked.png', alt: 'Deselect All', title: 'Deselect All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
-            contains <%= select_tag 'tag_filter', options_for_select([['at least one', 'any'],['all', 'all']]) %> selected tag(s)
+            contains <%= select_tag 'tag_filter', options_for_select([['at least one', 'any'],['all', 'all']], params[:tag_filter] || current_user.sticky_filters['tag_filter']) %> selected tag(s)
           </th>
         </tr>
       </thead>

@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   serialize :hidden_project_ids, Array
   serialize :colors, Hash
   serialize :settings, Hash
+  serialize :sticky_filters, Hash
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -53,10 +54,13 @@ class User < ActiveRecord::Base
 
   # User Methods
 
+  def update_sticky_filters!(sticky_filter_hash = {})
+    self.update_attribute :sticky_filters, sticky_filter_hash
+  end
+
   def self.find_by_api_token(api_service, api_token)
     User.send("find_by_"+api_service, api_token)
   end
-
 
   def generate_api_token!(api_token, time = Time.now)
     message = ''
