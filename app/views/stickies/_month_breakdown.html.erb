@@ -1,6 +1,6 @@
-<table style="width:100%;border-collapse:collapse;table-layout: fixed;margin-bottom:0px">
+<table style="width:100%;border-collapse:collapse;table-layout: fixed;margin-bottom:0px;border: 1px solid #ddd">
   <thead>
-    <tr>
+    <tr style="border: 1px solid #ddd">
       <% (0..6).each do |iDay| %>
         <th style="padding:0px"><%= Date::DAYNAMES[iDay] %></th>
       <% end %>
@@ -10,12 +10,12 @@
     <tr>
       <% (0..@last_saturday - @first_sunday).each do |first_day_offset| %>
         <% iDate = @first_sunday + first_day_offset.day %>
-        <td valign="top" style="padding:0px"
+        <td valign="top" style="padding:0px; border: 1px solid #ddd"
             class="<%= 'calendar-entry-body-today' if iDate == Date.today %>
                    <%= 'last-month' if iDate < @start_date %>
                    <%= 'next-month' if iDate > @end_date %> droppable"
             data-due-date="<%= iDate.strftime("%m_%d_%Y") %>"
-            ondblclick="$('#initial_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>');$('#sticky_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>'); $('#new-sticky-or-group-dialog').dialog('open');">
+            ondblclick="$('#initial_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>');$('#sticky_due_date').val('<%= iDate.strftime('%m/%d/%Y') %>'); $('#new-sticky-or-group-dialog').modal();">
           <div class="calendar-entry-heading" style="padding-right:2px;">
             <%= ([@start_date, (@end_date + 1.day)].include?(iDate) ? iDate.strftime("%b %e") : iDate.strftime("%e") ) %>
           </div>

@@ -27,7 +27,7 @@ Contour.setup do |config|
       links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true },
               { name: 'Settings', path: 'settings_path' },
               { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
-              { html: "<br />" },
+              { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
     # {
@@ -40,15 +40,16 @@ Contour.setup do |config|
     #           { name: '&raquo;Graphs', path: 'graph_user_path(current_user.id)' }]
     # },
     {
-      name: 'About', display: 'not_signed_in', path: 'about_path', position: 'left',
+      name: 'Calendar', display: 'signed_in', path: 'calendar_stickies_path', position: 'left',
       links: []
     },
     {
-      name: 'Calendar', display: 'signed_in', path: 'calendar_stickies_path', position: 'left',
-      links: [{ name: 'Stickies', path: 'stickies_path' },
-              { name: 'Groups', path: 'groups_path' },
-              { html: "<br />" },
-              { name: 'About', path: 'about_path' }]
+      name: 'Stickies', display: 'signed_in', path: 'stickies_path', position: 'left',
+      links: [{ name: 'Create', path: 'new_sticky_path' }]
+    },
+    {
+      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
+      links: [{ name: 'Create', path: 'new_project_path' }]
     },
     {
       name: '@project.name', eval: true, display: 'signed_in', path: 'project_path(@project)', position: 'left',
@@ -57,21 +58,13 @@ Contour.setup do |config|
               { name: 'Tags', path: 'tags_path(project_id: @project.id)' },
               { name: 'Templates', path: 'templates_path(project_id: @project.id)' }]
     },
-    # {
-    #   name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
-    #   links: [{ name: '&raquo;New', path: 'new_project_path' }]
-    # },
-    # {
-    #   name: 'Templates', display: 'signed_in', path: 'templates_path', position: 'left',
-    #   links: [{ name: '&raquo;New', path: 'new_template_path' }]
-    # },
-    # {
-    #   name: 'Comments', display: 'signed_in', path: 'comments_path', position: 'left',
-    #   links: [{ name: '&raquo;New', path: 'new_comment_path' }]
-    # },
     {
       name: 'Users', display: 'signed_in', name: 'Users', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
       links: [{ name: 'Overall Graph', path: 'overall_graph_users_path', condition: 'current_user.system_admin?' }]
+    },
+    {
+      name: 'About', display: 'always', path: 'about_path', position: 'left',
+      links: []
     }
   ]
 

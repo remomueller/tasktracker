@@ -6,7 +6,6 @@
 
 <fieldset>
   <%= form_tag search_comments_path(sticky_id: @sticky.id, class_name: 'Sticky'), method: :get, id: "comments_search" do %>
-  <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
   <% end %>
 
   <legend>Comments</legend>

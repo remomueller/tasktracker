@@ -23,7 +23,7 @@
 <% end %>
 
 <div class="frame">
-  <table style="width:100%">
+  <table class="table table-striped" style="width:100%">
     <thead>
       <tr>
         <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.id', 'Sticky', 'stickies_search') %></th>
@@ -79,8 +79,14 @@
         </td>
         <td style="vertical-align:middle">
           <% if current_user.all_stickies.include?(sticky) %>
-            <%= link_to image_tag('gentleface/16/doc_edit.png', alt: ''), edit_sticky_path(sticky) %>
-            <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), sticky, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", method: :delete, remote: true %>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_sticky_path(sticky), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      sticky_path(sticky),
+                      :method => :delete,
+                      remote: true,
+                      :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => "Are you sure you want to delete Sticky #{sticky.name}?")),
+                      :class => 'btn btn-mini btn-danger' %>
           <% end %>
         </td>
       </tr>

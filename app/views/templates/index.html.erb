@@ -1,12 +1,13 @@
 <% @title = 'Templates' %>
 <h1><% if @project %><%= link_to @project.name, @project %> &raquo;<% end %> <%= @title %></h1>
 
-<%= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Template", (@project ? new_template_path(template: {project_id: @project.id}) : new_template_path), class: 'button positive' %>
+<%= link_to "Create Template", (@project ? new_template_path(template: {project_id: @project.id}) : new_template_path), class: 'btn btn-primary' %>
 
 <%= form_tag templates_path, method: :get, remote: true, id: "templates_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order, params[:order] %>
   <%= hidden_field_tag :project_id, params[:project_id] %>
-  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+  Search <%= text_field_tag 'search', params[:search] %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
 <div id="templates"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

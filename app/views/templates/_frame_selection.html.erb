@@ -3,5 +3,5 @@
 <% else %>
   <% frames = Frame.current.with_project(nil, current_user.id) %>
 <% end %>
-<%= label_tag :frame_id %><br />
+<%= label_tag :frame_id %>
 <%= select_tag :frame_id, options_for_select([['Backlog', nil]] + frames.order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %>

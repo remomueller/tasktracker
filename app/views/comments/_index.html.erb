@@ -21,6 +21,6 @@
 <p>
   <%= hidden_field_tag :position, @position %>
   <%= text_area_tag "sticky[#{@sticky.id}][comment][#{@position}]", '', name: 'comment', rows: 2, style: "width:#{width};margin:5px" %>
-  <%= link_to_function image_tag('gentleface/16/doc_new.png', alt: '') + 'Add Comment', "$.post($(\"##{form_name}\").attr(\"action\"), $(\"##{form_name}\").serialize(), null, \"script\");", class: "button positive" %>
+  <%= link_to_function 'Add Comment', "$.post($(\"##{form_name}\").attr(\"action\"), $(\"##{form_name}\").serialize(), null, \"script\");", class: 'btn btn-primary' %>
 </p>
 <% end %>

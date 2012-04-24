@@ -6,12 +6,12 @@
     <legend>Email Notifications</legend>
     <div class="field">
       <label>Emails</label><br />
-      <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email), onclick: "enableAllWithSelector('.all_email')", class: "all_email_parent" %> <%= information('Receive Emails') %>
+      <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email), onclick: "enableAllWithSelector('.all_email')", class: "all_email_parent" %> <%= 'Receive Emails' %>
     </div>
     <% User::EMAILABLES.each do |notification, description| %>
       <div class="field" style="margin:0px 0px 20px 20px">
         <b><%= notification.to_s.titleize %></b><br />
-        <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= information(description) %>
+        <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= description %>
       </div>
     <% end %>
     <hr />
@@ -24,7 +24,7 @@
               <% if project %>
                 <div class="field">
                   Project: <b><%= project.name %></b><br />
-                  <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}"), onclick: "enableAllWithSelector('.project_detail_#{project.id}')", class: "project_detail_#{project.id}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= information("Receive email for Project: #{project.name} ") %>
+                  <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}"), onclick: "enableAllWithSelector('.project_detail_#{project.id}')", class: "project_detail_#{project.id}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= "Receive email for Project: #{project.name} " %>
                 </div>
                 <div class="field" style="margin:0px 0px 20px 20px">
                   <% User::EMAILABLES.each do |notification, description| %>
@@ -43,7 +43,7 @@
 
   <div class="actions">
     <% form_name = "email_settings" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + "Save Settings", "isDirty=false;$('##{form_name}').submit();", class: "button positive" %>
+    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + "Save Settings", "isDirty=false;$('##{form_name}').submit();", class: 'btn btn-primary' %>
   	<br />
   </div>
 <% end %>

@@ -1,11 +1,9 @@
 <% @title = 'Projects' %>
-<h1><%= @title %></h1>
-
-<%= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Project", new_project_path, class: 'button positive' %>
+<h1><%= @title %> <%= link_to "Create Project", new_project_path, class: 'btn btn-primary btn-mini' %></h1>
 
 <%= form_tag projects_path, method: :get, remote: true, id: 'projects_search' do %>
   <%= hidden_field_tag :order %>
-  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
+  <%= text_field_tag 'search', params[:search] %> <%= submit_tag 'Search', class: 'btn btn-primary' %>
   <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 <% end %>
 

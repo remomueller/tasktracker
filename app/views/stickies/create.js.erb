@@ -1,4 +1,4 @@
-$('#new-sticky-or-group-dialog').dialog('close');
+$('#new-sticky-or-group-dialog').modal('hide');
 $('#sticky_description').val('');
 $('.field_with_errors').each( function() { $(this).removeClass('field_with_errors');});
 <% unless @sticky.due_date.blank? %>

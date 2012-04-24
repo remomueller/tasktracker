@@ -1,5 +1,10 @@
 <% @title = 'Calendar' %>
 
+<div class="row">
+  <div class="span9">
+
+
+
 <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px' do %>
   <%= hidden_field_tag :save_settings, '1' %>
   <table class="blank" style="width:100%;table-layout: fixed;">
@@ -41,15 +46,22 @@
 
 <%= render partial: 'new_sticky_or_group_dialog' %>
 
-<h4>Projects</h4>
 
-<%= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Project", new_project_path, class: 'button positive' %>
 
-<%= form_tag projects_path, method: :get, remote: true, id: 'projects_search' do %>
-  <%= hidden_field_tag :order %>
-  Search <%= text_field_tag 'search', params[:search] %> <%= information %>
-  <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
-<% end %>
+
+  </div>
+  <div class="span3">
+    <h2>Projects <%= link_to "Create Project", new_project_path, class: 'btn btn-primary btn-mini' %></h2>
+    <p>
+      <%= form_tag projects_path, method: :get, remote: true, id: 'projects_search' do %>
+        <%= hidden_field_tag :order %>
+        <%= text_field_tag 'search', params[:search] %> <%= submit_tag 'Search', class: 'btn btn-primary btn-mini' %>
+        <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+      <% end %>
+    </p>
+  </div>
+</div>
+
 
 
 <%= javascript_tag do %>

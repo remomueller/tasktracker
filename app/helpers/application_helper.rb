@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def cancel
-    link_to image_tag('gentleface/16/cancel.png', alt: '') + 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'button negative'
+    link_to image_tag('gentleface/16/cancel.png', alt: '') + 'Cancel', URI.parse(request.referer.to_s).path.blank? ? root_path : (URI.parse(request.referer.to_s).path), class: 'btn btn-danger'
   end
 
   # Prints out '6 hours ago, Yesterday, 2 weeks ago, 5 months ago, 1 year ago'
@@ -18,10 +18,6 @@ module ApplicationHelper
     else "#AA2D2F"
     end
     "<span style='color:#{color};font-weight:bold;font-variant:small-caps;'>#{time_ago_in_words(past_time)} ago</span>".html_safe
-  end
-
-  def information(message = ' Press Enter to Search')
-    "<span class=\"quiet small\">#{image_tag('gentleface/16/info.png', alt: '', :style=>'vertical-align:text-bottom')}#{message}</span>".html_safe
   end
 
   def simple_date(past_date)

@@ -7,15 +7,14 @@
   </table>
 </h1>
 <% if current_user.all_stickies.include?(@sticky)  %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Sticky", edit_sticky_path(@sticky), class: 'button' %>
+  <%= link_to "Edit Sticky", edit_sticky_path(@sticky), class: 'btn btn-mini' %>
   <% if @sticky.group %>
-    <%= link_to_function image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'button negative' %>
+    <%= link_to_function image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
     <%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
   <% else %>
-    <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'button negative' %>
+    <%= link_to "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
   <% end %>
 <% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Stickies", stickies_path, class: 'button' %>
 
 <div style="clear:both"></div>
 
@@ -100,7 +99,6 @@
 
 <fieldset>
   <%= form_tag search_comments_path(sticky_id: @sticky.id, class_name: 'Sticky', per: 10), method: :get, id: "comments_search", style: 'display:inline' do %>
-    <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <%= information %><% end %>
   <% end %>
 
   <legend>Comments</legend>

@@ -1,7 +1,5 @@
 <% @title = 'Stickies' %>
-<h1><%= @title %></h1>
-
-<%= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create New Sticky", new_sticky_path, class: 'button positive' %>
+<h1><%= @title %> <%= link_to "Create Sticky", new_sticky_path, class: 'btn btn-primary btn-mini' %></h1>
 
 <div style="clear:both"></div>
 
@@ -59,12 +57,23 @@
         </tr>
       </thead>
       <tbody id="sticky_tag_selection_container">
-        <%= render partial: 'tags/multi_tag_selection' %>
+        <%#= render partial: 'tags/multi_tag_selection' %>
       </tbody>
     </table>
-    <%= button_tag image_tag('gentleface/16/cog.png') + 'Filter Search' %>
-    <%= link_to_function image_tag('gentleface/16/doc_lines_stright.png') + 'Export CSV', "window.location = $('#stickies_search').attr('action') + '.csv?' + $('#stickies_search').serialize();", class: 'button' %>
-    <%= link_to_function image_tag('gentleface/16/calendar_2.png') + 'Export Calendar', "window.location = $('#stickies_search').attr('action') + '.ics?' + $('#stickies_search').serialize();", class: 'button' %>
+
+    <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
+    <span class="dropdown">
+      <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', 'data-toggle' => "dropdown" %>
+      <ul id="export-submenu" class="dropdown-menu">
+        <li>
+          <%= link_to_function image_tag('gentleface/16/doc_lines_stright.png', style: 'vertical-align:text-bottom') + ' CSV', "window.location = $('#stickies_search').attr('action') + '.csv?' + $('#stickies_search').serialize();" %>
+        </li>
+        <li>
+          <%= link_to_function image_tag('gentleface/16/calendar_2.png', style: 'vertical-align:text-bottom') + ' Calendar', "window.location = $('#stickies_search').attr('action') + '.ics?' + $('#stickies_search').serialize();" %>
+        </li>
+      </ul>
+    </span>
+    <%= link_to_function 'Reset to Defaults', "#", class: 'btn' %>
   </fieldset>
 <% end %>
 

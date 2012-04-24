@@ -2,10 +2,10 @@
 <h1><% if @frame.project %><%= link_to @frame.project.name, @frame.project %> &raquo;<% end %><%= @title %></h1>
 
 <% if current_user.all_frames.include?(@frame) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Frame", edit_frame_path(@frame), class: 'button' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Frame", @frame, confirm: "Are you sure you want to delete Frame #{@frame.name}?", method: :delete, class: 'button negative' %>
+  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Frame", edit_frame_path(@frame), class: 'btn' %>
+  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Frame", @frame, confirm: "Are you sure you want to delete Frame #{@frame.name}?", method: :delete, class: 'btn btn-danger' %>
 <% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Frames", frames_path, class: 'button' %>
+<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Frames", frames_path, class: 'btn' %>
 
 <div style="clear:both"></div>
 

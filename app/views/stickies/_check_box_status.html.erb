@@ -1,4 +1,3 @@
-<% Rails.logger.debug params %>
 <% params[:status] = current_user.sticky_filters['status'] if params['controller'] == 'stickies' and params['action'] == 'index' and current_user.sticky_filters['status'].kind_of?(Array) %>
 <td><%= check_box_tag 'status[]', 'planned', params[:status] ? params[:status].include?('planned') : true %></td>
 <td class="planned" style="padding-right:10px;white-space:nowrap">Not Completed</td>

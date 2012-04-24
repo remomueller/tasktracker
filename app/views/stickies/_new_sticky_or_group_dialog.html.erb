@@ -1,67 +1,81 @@
 <% @width = '520px' %>
-<div id="new-sticky-or-group-dialog" title="Create new Sticky <%= 'or Group' if current_user.all_templates.size > 0 %>:">
+<div id="new-sticky-or-group-dialog" class="modal" style="display:none">
+  <div class="modal-header">
+    Create Sticky <%= 'or Group' if current_user.all_templates.size > 0 %>:
+    <a class="close" data-dismiss="modal">×</a>
+  </div>
+  <div class="modal-body">
 
-    <ul>
-  		<li><a href="#tabs-1">New Sticky</a></li>
-  		<% if current_user.all_templates.size > 0 %><li><a href="#tabs-2"><%= image_tag('gentleface/16/list_bullets.png', alt: '', size: '9x9') %> New Group</a></li><% end %>
-  	</ul>
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <%= link_to 'New Sticky', '#tabs-sticky', 'data-toggle' => 'tab' %>
+      </li>
+      <% if current_user.all_templates.size > 0 %><li><%= link_to 'New Group', '#tabs-group', 'data-toggle' => 'tab' %></li><% end %>
+    </ul>
 
-    <div id="tabs-1">
-      <% @sticky = current_user.stickies.new() %>
-      <% @sticky.project = current_user.all_projects.first if current_user.all_projects.size == 1 %>
-      <% @project_id = @sticky.project_id %>
-      <%= form_for(@sticky, remote: true) do |f| %>
-        <%= params[:from_calendar] = '1'; render partial: 'stickies/inner_form', locals: { f: f } %>
-        <br />
-        <div class="actions">
-          <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
-          <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", class: "button positive" %>
-          <%= link_to_function image_tag('gentleface/16/cancel.png', alt: '') + 'Cancel', "$('.field_with_errors').each( function() { $(this).removeClass('field_with_errors');});$( '#new-sticky-or-group-dialog' ).dialog('close');", class: 'button negative' %>
-        </div>
+    <div class="tab-content">
+      <div class="tab-pane active" id="tabs-sticky">
 
-      <% end %>
-    </div>
-    <% if current_user.all_templates.size > 0 %>
-      <div id="tabs-2">
-        <%= form_tag groups_path, method: :post, id: 'new_group_form' do %>
-          <div class="field">
-            <%= label_tag :template_id %><br />
-            <%= select_tag :template_id, options_for_select([['---', nil]] + current_user.all_templates.order('project_id, name').collect{|t| [[t.name, (t.project ? t.project.name : nil)].compact.join(' - '), t.id]}) %>
-          </div>
+        <% @sticky = current_user.stickies.new() %>
+        <% @sticky.project = current_user.all_projects.first if current_user.all_projects.size == 1 %>
+        <% @project_id = @sticky.project_id %>
 
-          <div class="field" id="template_frame_selection_container">
-            <%= render partial: 'templates/frame_selection' %>
-          </div>
+        <%= form_for(@sticky, remote: true) do |f| %>
 
-      	  <div class="field">
-      	    <%= label_tag :initial_due_date %><br />
-      	    <%= text_field_tag :initial_due_date, '', class: 'datepicker' %>
-      	  </div>
-      	  <div class="field">
-      	    <%= label_tag :additional_text %><br />
-      	    <%= text_area_tag :additional_text, '', rows: 7, style: "width:#{@width}" %>
-      	  </div>
-
-      	  <br />
-      	  <div class="actions">
-            <% form_name = 'new_group_form' %>
-            <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + "Create Group", "$('##{form_name}').submit();", class: "button positive" %>
-            <%= link_to_function image_tag('gentleface/16/cancel.png', alt: '') + 'Cancel', "$( '#new-sticky-or-group-dialog' ).dialog('close');", class: 'button negative' %>
+          <%= params[:from_calendar] = '1'; render partial: 'stickies/inner_form', locals: { f: f } %>
+          <br />
+          <div class="actions">
+            <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
+            <%= link_to_function (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", class: "btn btn-primary" %>
+            <%= link_to_function 'Cancel', "$('.field_with_errors').each( function() { $(this).removeClass('field_with_errors');});$( '#new-sticky-or-group-dialog' ).modal('hide');", class: 'btn' %>
           </div>
         <% end %>
-        <br /><br />
-        <div id="item_details"></div>
       </div>
-    <% end %>
+
+      <% if current_user.all_templates.size > 0 %>
+        <div class="tab-pane" id="tabs-group">
+          <%= form_tag groups_path, method: :post, id: 'new_group_form' do %>
+            <div class="field">
+              <%= label_tag :template_id %>
+              <%= select_tag :template_id, options_for_select([['---', nil]] + current_user.all_templates.order('project_id, name').collect{|t| [[t.name, (t.project ? t.project.name : nil)].compact.join(' - '), t.id]}) %>
+            </div>
+
+            <div class="field" id="template_frame_selection_container">
+              <%= render partial: 'templates/frame_selection' %>
+            </div>
+
+            <div class="field">
+              <%= label_tag :initial_due_date %>
+              <%= text_field_tag :initial_due_date, '', class: 'datepicker' %>
+            </div>
+            <div class="field">
+              <%= label_tag :additional_text %>
+              <%= text_area_tag :additional_text, '', rows: 7, style: "width:#{@width}" %>
+            </div>
+
+            <br />
+            <div class="actions">
+              <% form_name = 'new_group_form' %>
+              <%= link_to_function "Create Group", "$('##{form_name}').submit();", class: "btn btn-primary" %>
+              <%= link_to_function 'Cancel', "$( '#new-sticky-or-group-dialog' ).modal('hide');", class: 'btn' %>
+            </div>
+          <% end %>
+          <br /><br />
+          <div id="item_details"></div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+<% if false %>
+  <div class="modal-footer">
+    <%= link_to 'Close', '#', class: 'btn' %>
+    <%= link_to 'Save Changes', '#', class: 'btn btn-primary' %>
+  </div>
+<% end %>
 
 </div>
 
 <%= javascript_tag do %>
-  $( "#new-sticky-or-group-dialog" ).tabs().dialog({
-    autoOpen: false,
-    height: 560,
-    width: 580,
-    modal: true,
-    buttons:{}
-  });
+  // $('#new-sticky-or-group-dialog').modal({show: false});
 <% end %>
