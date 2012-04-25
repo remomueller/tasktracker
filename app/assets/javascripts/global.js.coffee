@@ -49,3 +49,16 @@
       $(this).removeAttr('checked')
       $(this).attr('disabled', 'disabled')
   )
+
+@resetFilters = () ->
+  $('#search').val('')
+  $('#project_id').val('')
+  $('#owner_id').val('')
+  $('#unnassigned').attr('checked','checked')
+  $('#due_date_start_date').val('')
+  $('#due_date_end_date').val('')
+  $('#status_planned').attr('checked','checked')
+  $('#status_completed').attr('checked','checked')
+  $('#tag_filter').val('any')
+  uncheckAllWithSelector('.tag-box')
+  $('#stickies_search').submit()

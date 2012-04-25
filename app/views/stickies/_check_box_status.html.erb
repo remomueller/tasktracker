@@ -1,6 +1,6 @@
 <% params[:status] = current_user.sticky_filters['status'] if params['controller'] == 'stickies' and params['action'] == 'index' and current_user.sticky_filters['status'].kind_of?(Array) %>
-<td><%= check_box_tag 'status[]', 'planned', params[:status] ? params[:status].include?('planned') : true %></td>
+<td><%= check_box_tag 'status[]', 'planned', params[:status] ? params[:status].include?('planned') : true, id: 'status_planned' %></td>
 <td class="planned" style="padding-right:10px;white-space:nowrap">Not Completed</td>
 
-<td><%= check_box_tag 'status[]', 'completed', params[:status] ? params[:status].include?('completed') : true %></td>
+<td><%= check_box_tag 'status[]', 'completed', params[:status] ? params[:status].include?('completed') : true, id: 'status_completed' %></td>
 <td class="completed" style="padding-right:10px;text-decoration:line-through">Completed</td>

@@ -4,11 +4,11 @@
     <div style="background-color: white; padding: 5px;" class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < comment.updated_at %>"
       onmouseover="$('#comment_<%= comment.id %>_delete_link').show();" onmouseout="$('#comment_<%= comment.id %>_delete_link').hide();">
       <%= link_to comment.user.name, comment.user %>
-      <span class="quiet small"><%= simple_time comment.created_at %></span>
+      <span class="quiet" style="line-height:25px"><%= simple_time comment.created_at %></span>
       <% if current_user.all_deletable_comments.include?(comment) %>
-        <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '', style: 'vertical-align:text-bottom'), comment, confirm: "Are you sure you want to delete Comment #{comment.name}?", method: :delete, id: "comment_#{comment.id}_delete_link", style: 'display:none' %>
+        <%= link_to 'Delete', comment, confirm: "Are you sure you want to delete Comment #{comment.name}?", method: :delete, id: "comment_#{comment.id}_delete_link", style: 'display:none', class: 'btn btn-mini btn-danger' %>
       <% end %>
-      <div style="margin:5px 5px -15px 5px"><%= simple_format comment.description %></div>
+      <div style="margin:5px 5px -15px 5px;"><%= simple_format comment.description %></div>
     </div>
   </div>
 <% end %>

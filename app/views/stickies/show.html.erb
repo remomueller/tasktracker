@@ -1,17 +1,19 @@
-<% @title = "Sticky: #{@sticky.name}" %>
-<h1>
-      <% if @sticky.project %><%= link_to @sticky.project.name, @sticky.project %> &raquo;<% end %><%= image_tag('gentleface/16/checkmark.png', alt: '', size: '16x16', style: 'padding-right:4px') if @sticky.completed %> <span style="<%= 'text-decoration:line-through' if @sticky.completed? %>"><%= @title %></span>
-
-<% if current_user.all_stickies.include?(@sticky)  %>
-  <%= link_to "Edit Sticky", edit_sticky_path(@sticky), class: 'btn btn-mini' %>
-  <% if @sticky.group %>
-    <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
-    <%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
-  <% else %>
-    <%= link_to "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
-  <% end %>
-<% end %>
-</h1>
+<% @title = "Sticky #{@sticky.name}" %>
+<div class="page-header">
+  <h1>
+    <%= image_tag('gentleface/16/checkmark.png', alt: '', size: '16x16', style: 'padding-right:4px') if @sticky.completed %> <span style="<%= 'text-decoration:line-through' if @sticky.completed? %>"><%= @title %></span>
+    <% if @sticky.project %><small>Project <%= link_to @sticky.project.name, @sticky.project %></small><% end %>
+    <% if current_user.all_stickies.include?(@sticky)  %>
+      <%= link_to "Edit Sticky", edit_sticky_path(@sticky), class: 'btn btn-mini' %>
+      <% if @sticky.group %>
+        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
+        <%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
+      <% else %>
+        <%= link_to "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      <% end %>
+    <% end %>
+  </h1>
+</div>
 
 <div class="row">
   <div class="span9">
