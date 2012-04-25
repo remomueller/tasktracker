@@ -3,9 +3,9 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag groups_path, method: :get, remote: true, id: "groups_search", style: "margin-bottom:-5px" do %>
+<%= form_tag groups_path, method: :get, remote: true, id: "groups_search", style: "margin-bottom:-5px", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search] %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 

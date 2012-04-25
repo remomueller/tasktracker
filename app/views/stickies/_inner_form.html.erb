@@ -8,16 +8,13 @@
 </div>
 
 <% if @sticky.group %>
-<span class="quiet">This sticky is part of Group: <%= link_to @sticky.group.name, @sticky.group %></span><br /><br />
-
-  <% unless @sticky.group.description.blank? %>
     <div class="control-group">
-      <%= label_tag 'group_description', 'Group Description' %>
-      <div class="controls">
-        <%= simple_format @sticky.group.description %>
+      <label class="control-label">Group Description</label>
+      <div class="controls" style="padding-top:5px">
+        Group <%= link_to @sticky.group.name, @sticky.group %>
+        <%= simple_format @sticky.group.description unless @sticky.group.description.blank? %>
       </div>
     </div>
-  <% end %>
 <% end %>
 
 
@@ -26,7 +23,9 @@
   <%= f.label :project_id, class: 'control-label' %>
   <div class="controls">
     <% if @sticky.group %>
-      <%= link_to @sticky.project.name, @sticky.project %>
+      <div style="padding-top:5px">
+        <%= link_to @sticky.project.name, @sticky.project %>
+      </div>
     <% else %>
       <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @sticky.project_id) %>
     <% end %>

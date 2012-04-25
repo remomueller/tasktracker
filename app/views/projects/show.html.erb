@@ -9,7 +9,10 @@
       <% end %>
       <% if current_user.all_projects.include?(@project) %>
 
-        <div class="btn-group"><%= link_to "Create Sticky", new_sticky_path(sticky: {project_id: @project.id}), class: 'btn btn-mini' %></div>
+        <div class="btn-group">
+          <%#= link_to "Create Sticky", new_sticky_path(sticky: {project_id: @project.id}), class: 'btn btn-mini' %>
+          <%= link_to_function "Create Sticky", "$('#sticky_project_id').val('#{@project.id}');$('#sticky_project_id').change();$('#new-sticky-or-group-dialog').modal();", class: 'btn btn-mini' %>
+        </div>
 
         <div class="btn-group">
           <%= link_to "Frames", frames_path(project_id: @project.id), class: 'btn btn-mini' %>
@@ -47,10 +50,13 @@
 
 <br />
 <div style="float:left">
-  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px' do %>
+  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', class: 'form-search' do %>
     <%= hidden_field_tag :order, params[:order] %>
     <%= hidden_field_tag :direction, 0 %>
-    <% if false %>  Search <%= text_field_tag 'search', params[:search] %> <% end %>
+    <% if false %>
+      <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+      <%= submit_tag 'Search', class: 'btn btn-primary' %>
+    <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
     <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", style: 'text-decoration:none' %>
     <%= select_tag 'frame_id', options_for_select(@project.frames.collect{|f| [f.name, f.id]} + [['Backlog', 0]], params[:frame_id]) %>
@@ -110,6 +116,7 @@
 
 </fieldset>
 
+<%= render partial: 'stickies/new_sticky_or_group_dialog' %>
 
 <%= javascript_tag do %>
   $(function(){

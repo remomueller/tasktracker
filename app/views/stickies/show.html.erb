@@ -6,14 +6,14 @@
     <% if current_user.all_stickies.include?(@sticky)  %>
       <%= link_to "Edit Sticky", edit_sticky_path(@sticky), class: 'btn btn-mini' %>
       <% if @sticky.group %>
-        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
-        <%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
+        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').modal(); return false;", class: 'btn btn-mini btn-danger' %>
       <% else %>
         <%= link_to "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
       <% end %>
     <% end %>
   </h1>
 </div>
+<%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
 
 <div class="row">
   <div class="span9">

@@ -1,4 +1,8 @@
-<%= form_for(@user) do |f| %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for(@user, html: { class: 'form-horizontal' }) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -11,37 +15,46 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-    <div class="field">
-      <%= f.label :first_name %><br />
+  <div class="control-group">
+    <%= f.label :first_name, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :first_name %>
     </div>
-    <div class="field">
-      <%= f.label :last_name %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :last_name, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :last_name %>
     </div>
-    <div class="field">
-      <%= f.label :status %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :status, class: 'control-label' %>
+    <div class="controls">
       <%= f.select :status, User::STATUS %>
     </div>
-    <div class="field">
-      <%= f.label :email %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :email, class: 'control-label' %>
+    <div class="controls">
       <%= f.text_field :email %>
     </div>
-    <div class="field">
-      <%= f.label :system_admin %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :system_admin, class: 'control-label' %>
+    <div class="controls">
       <%= f.check_box :system_admin %>
     </div>
-    <div class="field">
-      <%= f.label :service_account %><br />
+  </div>
+  <div class="control-group">
+    <%= f.label :service_account, class: 'control-label' %>
+    <div class="controls">
       <%= f.check_box :service_account %>
     </div>
-  </fieldset>
-  <div class="actions">
+  </div>
+
+  <div class="form-actions">
     <% form_name = @user.new_record? ? 'new_user' : "edit_user_#{@user.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@user.new_record? ? "Create User" : "Update User"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= link_to_function (@user.new_record? ? "Create User" : "Update User"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-		<br />
   </div>
 <% end %>

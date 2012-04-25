@@ -1,4 +1,9 @@
-<div id="delete-sticky-dialog_<%= sticky.id %>" title="Delete Sticky in Group:">
+<div id="delete-sticky-dialog_<%= sticky.id %>" class="modal" style="display:none">
+  <div class="modal-header">
+    Delete Sticky in Group:
+    <a class="close" data-dismiss="modal">×</a>
+  </div>
+  <div class="modal-body">
 	<%= form_tag sticky_path(sticky, from_calendar: params[:from_calendar].to_i), method: :delete, id: "sticky_delete_form_#{sticky.id}" do %>
 	  <div class="field">
 	    <%= radio_button_tag 'discard', 'single', true %> Only this sticky<br />
@@ -6,22 +11,10 @@
 	    <%= radio_button_tag 'discard', 'all' %> All stickies in group<br />
 	  </div>
   <% end %>
-</div>
+  </div>
 
-<%= javascript_tag do %>
-  $( "#delete-sticky-dialog_<%= sticky.id %>" ).dialog({
-    autoOpen: false,
-    height: 180,
-    width: 320,
-    modal: true,
-    buttons:{
-      "Delete Stickies": function(){
-        $('#sticky_delete_form_<%= sticky.id %>').submit();
-        $( this ).dialog( "close" );
-      },
-      Cancel: function(){
-        $( this ).dialog( "close" );
-      }
-    }
-  });
-<% end %>
+  <div class="modal-footer">
+    <%= link_to_function "Close", "$('#delete-sticky-dialog_#{sticky.id}').modal('hide');", class: 'btn' %>
+    <%= link_to_function 'Delete Sticky(ies)', "$('#sticky_delete_form_#{sticky.id}').submit();", class: 'btn btn-danger' %>
+  </div>
+</div>

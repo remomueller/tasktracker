@@ -3,9 +3,9 @@
   <h1><%= @title %> <%= link_to "Create Project", new_project_path, class: 'btn btn-primary btn-mini' %></h1>
 </div>
 
-<%= form_tag projects_path, method: :get, remote: true, id: 'projects_search' do %>
+<%= form_tag projects_path, method: :get, remote: true, id: 'projects_search', class: 'form-search' do %>
   <%= hidden_field_tag :order %>
-  <%= text_field_tag 'search', params[:search] %> <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <%= text_field_tag 'search', params[:search], class: 'search-query' %> <%= submit_tag 'Search', class: 'btn btn-primary' %>
   <div id="projects"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
 <% end %>
 

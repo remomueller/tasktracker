@@ -1,5 +1,9 @@
 == 0.22.0
 
+* Enhancements
+  * Using Contour 1.0.0 with Twitter-Bootstrap
+  * Sticky filters can now be reset
+
 == 0.21.0
 
 * Enhancements

@@ -54,13 +54,6 @@ Contour.setup do |config|
       links: [{ name: 'Create', path: 'new_project_path' }]
     },
     {
-      name: '@project.name', eval: true, display: 'signed_in', path: 'project_path(@project)', position: 'left',
-      condition: '@project and not @project.new_record?',
-      links: [{ name: 'Frames', path: 'frames_path(project_id: @project.id)' },
-              { name: 'Tags', path: 'tags_path(project_id: @project.id)' },
-              { name: 'Templates', path: 'templates_path(project_id: @project.id)' }]
-    },
-    {
       name: 'Users', display: 'signed_in', name: 'Users', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
       links: [{ name: 'Overall Graph', path: 'overall_graph_users_path', condition: 'current_user.system_admin?' }]
     },

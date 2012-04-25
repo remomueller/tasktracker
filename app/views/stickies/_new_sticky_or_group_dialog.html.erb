@@ -23,8 +23,7 @@
         <%= form_for(@sticky, remote: true) do |f| %>
 
           <%= params[:from_calendar] = '1'; render partial: 'stickies/inner_form', locals: { f: f } %>
-          <br />
-          <div class="actions">
+          <div class="form-actions">
             <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
             <%= link_to_function (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", class: "btn btn-primary" %>
             <%= link_to_function 'Cancel', "$('.field_with_errors').each( function() { $(this).removeClass('field_with_errors');});$( '#new-sticky-or-group-dialog' ).modal('hide');", class: 'btn' %>
@@ -35,32 +34,36 @@
       <% if current_user.all_templates.size > 0 %>
         <div class="tab-pane" id="tabs-group">
           <%= form_tag groups_path, method: :post, id: 'new_group_form' do %>
-            <div class="field">
-              <%= label_tag :template_id %>
-              <%= select_tag :template_id, options_for_select([['---', nil]] + current_user.all_templates.order('project_id, name').collect{|t| [[t.name, (t.project ? t.project.name : nil)].compact.join(' - '), t.id]}) %>
+            <div class="control-group">
+              <%= label_tag :template_id, 'Template', class: 'control-label' %>
+              <div class="controls">
+                <%= select_tag :template_id, options_for_select([['---', nil]] + current_user.all_templates.order('project_id, name').collect{|t| [[t.name, (t.project ? t.project.name : nil)].compact.join(' - '), t.id]}) %>
+              </div>
             </div>
 
             <div class="field" id="template_frame_selection_container">
               <%= render partial: 'templates/frame_selection' %>
             </div>
 
-            <div class="field">
-              <%= label_tag :initial_due_date %>
-              <%= text_field_tag :initial_due_date, '', class: 'datepicker' %>
+            <div class="control-group">
+              <%= label_tag :initial_due_date, 'Initial Due Date', class: 'control-label' %>
+              <div class="controls">
+                <%= text_field_tag :initial_due_date, '', class: 'datepicker' %>
+              </div>
             </div>
-            <div class="field">
-              <%= label_tag :additional_text %>
-              <%= text_area_tag :additional_text, '', rows: 7, style: "width:#{@width}" %>
+            <div class="control-group">
+              <%= label_tag :additional_text, 'Additional Text', class: 'control-label' %>
+              <div class="controls">
+                <%= text_area_tag :additional_text, '', rows: 7, style: "width:#{@width}" %>
+              </div>
             </div>
 
-            <br />
-            <div class="actions">
+            <div class="form-actions">
               <% form_name = 'new_group_form' %>
               <%= link_to_function "Create Group", "$('##{form_name}').submit();", class: "btn btn-primary" %>
               <%= link_to_function 'Cancel', "$( '#new-sticky-or-group-dialog' ).modal('hide');", class: 'btn' %>
             </div>
           <% end %>
-          <br /><br />
           <div id="item_details"></div>
         </div>
       <% end %>
