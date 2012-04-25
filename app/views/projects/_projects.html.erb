@@ -14,20 +14,17 @@
 <table class="table table-striped" style="width:100%">
   <thead>
     <tr>
+      <th>Color</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'projects.name', 'Name', 'projects_search') %></th>
+      <th>Creator</th>
+      <th>Actions</th>
     </tr>
   </thead>
 
   <% @projects.each do |project| %>
     <tr>
       <% @project = project %>
-      <td style="border: 1px solid #eee" id="project_<%= project.id %>_collaborators">
-
-        <% form_name = "project_#{@project.id}_visible" %>
-        <%= form_tag visible_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
-          <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(@project.id), onclick: "$('##{form_name}').submit();" %>
-        <% end %>
-        <%= link_to project.name, project, style: "color: #{@project.color(current_user)}", class: "project_#{@project.id}_color" %>
+      <td>
         <% form_name = "project_#{@project.id}_colorpicker_form" %>
         <%= form_tag colorpicker_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
           <%= hidden_field_tag :color, '', id: "project_#{@project.id}_hexcolor" %>
@@ -42,23 +39,35 @@
             .ColorPicker({
               color: '<%= @project.color(current_user) %>',
               onShow: function (colpkr) {
-              	$(colpkr).fadeIn(500);
-              	return false;
+                $(colpkr).fadeIn(500);
+                return false;
               },
-            	onHide: function (colpkr) {
-              	$(colpkr).fadeOut(500);
-              	$('#project_<%= @project.id %>_colorpicker_form').submit();
-              	return false;
+              onHide: function (colpkr) {
+                $(colpkr).fadeOut(500);
+                $('#project_<%= @project.id %>_colorpicker_form').submit();
+                return false;
               },
-            	onChange: function (hsb, hex, rgb) {
-            	  $('#project_<%= @project.id %>_hexcolor').val('#' + hex);
-            		$('#project_<%= @project.id %>_colorselector div').css('backgroundColor', '#' + hex);
-            		$('.project_<%= @project.id %>_color').css('color', '#' + hex);
-            	},
-            	onSubmit: function(hsb, hex, rgb, el) {
-              	$(el).ColorPickerHide();
+              onChange: function (hsb, hex, rgb) {
+                $('#project_<%= @project.id %>_hexcolor').val('#' + hex);
+                $('#project_<%= @project.id %>_colorselector div').css('backgroundColor', '#' + hex);
+                $('.project_<%= @project.id %>_color').css('color', '#' + hex);
+              },
+              onSubmit: function(hsb, hex, rgb, el) {
+                $(el).ColorPickerHide();
               },
             });
+        <% end %>
+      </td>
+      <td>
+        <%= link_to project.name, project, style: "color: #{@project.color(current_user)}", class: "project_#{@project.id}_color" %>
+      </td>
+      <td>
+        <%= link_to project.user.name, project.user %>
+      </td>
+      <td>
+        <% if current_user.all_projects.include?(@project) %>
+          <%= link_to "Edit", edit_project_path(@project), class: 'btn btn-mini' %>
+          <%= link_to "Delete", @project, confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!", method: :delete, class: 'btn btn-mini btn-danger' %>
         <% end %>
       </td>
     </tr>

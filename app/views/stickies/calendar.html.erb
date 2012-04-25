@@ -1,8 +1,9 @@
 <% @title = 'Calendar' %>
 
+<% if false %>
 <div class="row">
   <div class="span9">
-
+<% end %>
 
 
 <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px' do %>
@@ -46,9 +47,32 @@
 
 <%= render partial: 'new_sticky_or_group_dialog' %>
 
+<section id="projects">
+  <div class="page-header">
+    <h3>Projects</h3>
+  </div>
+
+  <p>
+    <% current_user.all_projects.by_favorite(current_user.id).in_groups_of(6).each do |row_projects| %>
+      <div class="row">
+        <% row_projects.each do |project| %>
+          <div class="span2">
+            <% if project %>
+              <% form_name = "project_#{project.id}_visible" %>
+              <%= form_tag visible_project_path(project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
+                <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(project.id), onclick: "$('##{form_name}').submit();" %>
+              <% end %>
+              <%= link_to project.name, project, style: "color: #{project.color(current_user)}", class: "project_#{project.id}_color" %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </p>
+</section>
 
 
-
+<% if false %>
   </div>
   <div class="span3">
     <h2>Projects <%= link_to "Create Project", new_project_path, class: 'btn btn-primary btn-mini' %></h2>
@@ -62,6 +86,7 @@
   </div>
 </div>
 
+<% end %>
 
 
 <%= javascript_tag do %>

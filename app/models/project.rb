@@ -32,10 +32,10 @@ class Project < ActiveRecord::Base
   end
 
   def destroy
-    self.stickies.destroy_all
-    self.frames.destroy_all
-    self.templates.destroy_all
-    self.tags.destroy_all
+    # self.stickies.destroy_all
+    # self.frames.destroy_all
+    # self.templates.destroy_all
+    # self.tags.destroy_all
     update_attribute :deleted, true
   end
 
