@@ -1,7 +1,7 @@
 <div class="calendar-entry-name">
 <% if @tags.size > 0 %>
-  <%= @tags.collect{|t| "<span style='background-color: #{t.color}' class='small_tag_bubble'>"+t.name+"</span>"}.join(' ').html_safe %>
+  <%= @tags.collect{|t| "<span style='background-color: #{t.color}' class='label'>"+t.name+"</span>"}.join(' ').html_safe %>
 <% else %>
-  <span class='small_tag_bubble quiet'>&empty;</span>
+  <span class='label'>&empty;</span>
 <% end %>
 </div>

@@ -151,6 +151,7 @@ table.status-table td {
 .calendar-entry-name{
   overflow: hidden;
   white-space: nowrap;
+  line-height: 21px;
 }
 
 table.tags {
