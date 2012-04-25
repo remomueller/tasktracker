@@ -1,28 +1,25 @@
 <% @title = "Sticky: #{@sticky.name}" %>
 <h1>
-  <table class="status-table" style="background-color:transparent">
-    <tr>
       <% if @sticky.project %><%= link_to @sticky.project.name, @sticky.project %> &raquo;<% end %><%= image_tag('gentleface/16/checkmark.png', alt: '', size: '16x16', style: 'padding-right:4px') if @sticky.completed %> <span style="<%= 'text-decoration:line-through' if @sticky.completed? %>"><%= @title %></span>
-    </tr>
-  </table>
-</h1>
+
 <% if current_user.all_stickies.include?(@sticky)  %>
   <%= link_to "Edit Sticky", edit_sticky_path(@sticky), class: 'btn btn-mini' %>
   <% if @sticky.group %>
-    <%= link_to_function image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
+    <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
     <%= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>
   <% else %>
     <%= link_to "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
   <% end %>
 <% end %>
+</h1>
 
-<div style="clear:both"></div>
-
-<div class="frame">
-  <table class="blank padded" style="width:100%"><col width="25%" />
-    <tr>
-      <td style="vertical-align:top">
-        <p>
+<div class="row">
+  <div class="span9">
+<b>Description:</b><br /><br />
+        <div style="margin:0px;padding:0px"><%= simple_format @sticky.full_description %></div><br /><br />
+  </div>
+  <div class="span3">
+    <p>
           <b>Creator:</b>
           <%= link_to @sticky.user.name, @sticky.user %>
         </p>
@@ -87,14 +84,7 @@
           </table>
         </p>
         <% end %>
-
-      </td>
-      <td style="vertical-align:top">
-        <b>Description:</b><br /><br />
-        <div style="margin:0px;padding:0px"><%= simple_format @sticky.full_description %></div><br /><br />
-      </td>
-    </tr>
-  </table>
+  </div>
 </div>
 
 <fieldset>

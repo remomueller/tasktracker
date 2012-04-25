@@ -1,7 +1,11 @@
 <% @title = 'Frames' %>
-<h1><% if @project %><%= link_to @project.name, @project %> &raquo;<% end %> <%= @title %></h1>
-
-<%= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Create Frame", (@project ? new_frame_path(frame: {project_id: @project.id}) : new_frame_path), class: 'btn btn-primary' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
+    <%= link_to "Create Frame", (@project ? new_frame_path(frame: { project_id: @project.id }) : new_frame_path), class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
 <%= form_tag frames_path, method: :get, remote: true, id: "frames_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order %>

@@ -1,9 +1,10 @@
 <% @title = 'Users' %>
-<h1><%= @title %></h1>
-
-<% if current_user.system_admin? and false %>
-  <%= link_to image_tag('gentleface/16/user.png', alt: '') + "Create User", new_user_path, class: 'btn btn-primary' %>
-<% end %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+  <% if current_user.system_admin? and false %>
+    <%= link_to "Create User", new_user_path, class: 'btn btn-mini btn-primary' %>
+  <% end %>
+</div>
 
 <%= form_tag users_path, method: :get, remote: true, id: "users_search" do %>
   <%= hidden_field_tag :order %>

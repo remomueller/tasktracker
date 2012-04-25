@@ -1,5 +1,11 @@
-<% width = '914px' %>
-<%= form_for(@group) do |f| %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <small><%= "Project #{link_to @group.project.name, @group.project} ".html_safe if @group.project %></small>
+  </h1>
+</div>
+
+<%= form_for(@group, html: { class: 'form-horizontal' }) do |f| %>
   <% if @group.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@group.errors.count, "error") %> prohibited this group from being saved:</h2>
@@ -12,22 +18,23 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-    <div class="field">
-      <%= f.label :description %><br />
-      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
+    <div class="control-group">
+      <%= f.label :description, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :description, rows: 7 %>
+      </div>
     </div>
-    <div class="field">
-      <%= f.label :project_id %><br />
-      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @group.project_id) %>
-      <span class="quiet">Changing the project will move all the stickies in this group to the backlog in the selected project</span>
+    <div class="control-group">
+      <%= f.label :project_id, class: 'control-label' %>
+      <div class="controls">
+        <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @group.project_id) %>
+        <span class="quiet">Changing the project will move all the stickies in this group to the backlog in the selected project</span>
+      </div>
     </div>
-  </fieldset>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @group.new_record? ? 'new_group' : "edit_group_#{@group.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@group.new_record? ? "Create Group" : "Update Group"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= link_to_function (@group.new_record? ? "Create Group" : "Update Group"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
 		<br />
   </div>

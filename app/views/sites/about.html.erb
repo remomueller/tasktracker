@@ -1,41 +1,72 @@
 <% @title = "About #{DEFAULT_APP_NAME}" %>
 
-<h1><%= @title %></h1>
+<div class="row">
+  <div class="span6">
+    &nbsp;
+  </div>
+  <div class="span6">
+    <div class="hero-unit">
+      <h1><%= @title %></h1>
+      <p><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use', new_user_registration_path, class: 'btn btn-mini btn-primary' %> and <%= link_to 'open source', 'https://github.com/remomueller/notes', class: 'btn btn-mini btn-primary' %> project management tool where you can create and share projects with collaborators.</p>
+    </div>
+  </div>
+</div>
 
-  <%= DEFAULT_APP_NAME %> is a project management tool where you can create and share projects with collaborators.
+<div class="row">
+  <div class="span6">
 
-  You can:
-<fieldset>
-  <h4>Create <em>Projects</em> and add other users as Editors or Viewers.</h4>
-  <ul>
-        <li><em>Editors</em> can manage the project with you.</li>
-        <li><em>Viewers</em> can see project updates and comment on its stickies.</li>
-        <li>Create project specific<span class="tag_bubble"><b>Tags</b></span> to easily identify stickies.</li>
-        <li>Create <em>Templates</em> for stickies that are always in a particular order and assigned to specific users</li>
-  </ul>
-  <h4>Create <em>Stickies</em> to provide updates to projects you own and can edit.</h4>
-  <ul>
-    <li>Stickies can provide documentation, todos, followups, and more!</li>
-    <li>Add stickies to Project Time <em>Frames</em>.</li>
-    <li>Assign a user to a Sticky to have them complete it.</li>
-    <li>Add <span class="tag_bubble"><b>Tags</b></span> to Stickies for easier reporting and searching.</li>
-  </ul>
+    <div class="hero-unit">
+      <h1>Create Projects</h1>
+      <p>Share your projects with collaborators and categorize your stickies!</p>
+      <p>
+        <ul>
+          <li><em>Editors</em> can manage the project with you.</li>
+          <li><em>Viewers</em> can see project updates and comment on its stickies.</li>
+          <li>Create project specific<span class="tag_bubble"><b>Tags</b></span> to easily identify stickies.</li>
+          <li>Create <em>Templates</em> for stickies that are always in a particular order and assigned to specific users</li>
+          <li>Subdivide your project by <em>Time Frames</em></li>
+        </ul>
+      </p>
+    </div>
+  </div>
+  <div class="span6">
+    &nbsp;
+  </div>
+</div>
 
-  <h4>Create Time <em>Frames</em></h4>
-  <ul>
-    <li>Time frames help prioritize important stickies to get completed within a specified period of time.</li>
-    <li>Stickies can be assigned to a time frame.</li>
-  </ul>
+<div class="row">
+  <div class="span6">
+    &nbsp;
+  </div>
+  <div class="span6">
+    <div class="hero-unit">
+      <h1>Create Stickies</h1>
+      <p>Incremental updates to track and achieve your project goals!</p>
+      <p>
+        <ul>
+          <li>Stickies can provide documentation, todos, followups, and more!</li>
+          <li>Add stickies to Project <em>Time Frames</em>.</li>
+          <li>Assign a user to a Sticky to have them complete it.</li>
+          <li>Add <span class="tag_bubble"><b>Tags</b></span> to Stickies for easier reporting and searching.</li>
+          <li>Post <em>Comments</em> on Stickies that get emailed to collaborators.</li>
+        </ul>
+      </p>
+    </div>
+  </div>
+</div>
 
-  <h4>Post <em>Comments</em> on Stickies</h4>
-  <ul>
-    <li>Sticky comments get emailed to everyone on the sticky.</li>
-  </ul>
+<div class="hero-unit">
 
-  <h4>Intuitive <em>Calendar</em> View</h4>
+  <h1>View your Calendar</h1>
+  <p>View of your current and upcoming stickies for multiple projects</p>
+  <p>
   <ul>
     <li>Create Stickies and Templates directly on the calendar.</li>
     <li>Filter the stickies showing on the calendar, per project, completion status, and those assigned exclusively to you.</li>
-    <li>List view of stickies also available!</li>
+    <li>Stickies are grouped by <span class="tag_bubble"><b>Tags</b></span>!</li>
   </ul>
-</fieldset>
+  </p>
+  <p>
+    <%= link_to 'Sign Me Up!', new_user_registration_path, class: "btn btn-primary btn-large" %>
+  </p>
+</div>

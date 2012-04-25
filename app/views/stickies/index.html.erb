@@ -1,66 +1,74 @@
 <% @title = 'Stickies' %>
-<h1><%= @title %> <%= link_to "Create Sticky", new_sticky_path, class: 'btn btn-primary btn-mini' %></h1>
-
-<div style="clear:both"></div>
+<div class="page-header">
+  <h1><%= @title %> <%= link_to "Create Sticky", new_sticky_path, class: 'btn btn-primary btn-mini' %></h1>
+</div>
 
 <%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :update_filters, 1 %>
   <%= hidden_field_tag :order, params[:order] || current_user.sticky_filters['order'] %>
-  <fieldset>
-    <legend>
-      Search Filters
-    </legend>
-    <table class="blank padded" style="table-layout:fixed;width:100%;text-align:left;margin:10px 0px">
-      <thead>
-        <tr>
-          <th>Search</th>
-          <th>Project</th>
-          <th>Assigned To</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= text_field_tag 'search', params[:search] || current_user.sticky_filters['search'] %></td>
-          <td><%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] || current_user.sticky_filters['project_id']) %></td>
-          <td>
-            <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:owner_id] || current_user.sticky_filters['owner_id']) %>
-            <%= check_box_tag "unnassigned", '1', params[:unnassigned] || current_user.sticky_filters['unnassigned'] %> Include Unnassigned
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :search, 'Search', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'search', params[:search] || current_user.sticky_filters['search'] %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :project_id, 'Project', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] || current_user.sticky_filters['project_id']) %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :owner_id, 'Assigned To', class: 'control-label' %>
+      <div class="controls">
+        <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:owner_id] || current_user.sticky_filters['owner_id']) %>
+        <span style="white-space:nowrap"><%= check_box_tag "unnassigned", '1', params[:unnassigned] || current_user.sticky_filters['unnassigned'] %> Include Unnassigned</span>
+      </div>
+    </div>
+  </div>
 
-    <table class="blank padded" style="table-layout:fixed;width:100%;text-align:left;margin:10px 0px">
-      <thead>
-        <tr>
-          <th>Due Date After</th>
-          <th>Due Date Before</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= text_field_tag 'due_date_start_date', params[:due_after] || current_user.sticky_filters['due_date_start_date'], class: 'datepicker' %></td>
-          <td><%= text_field_tag 'due_date_end_date', params[:due_before] || current_user.sticky_filters['due_date_end_date'], class: 'datepicker' %></td>
-          <td><table class="blank"><tr><%= render partial: 'stickies/check_box_status' %></tr></table></td>
-        </tr>
-      </tbody>
-    </table>
-    <table class="blank padded tags" style="width:100%;text-align:left;margin:10px 0px">
-      <thead>
-        <tr>
-          <th colspan="6">Tags
-            <%= link_to_function image_tag('gentleface/16/checkbox_checked.png', alt: 'Select All', title: 'Select All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
-            <%= link_to_function image_tag('gentleface/16/checkbox_unchecked.png', alt: 'Deselect All', title: 'Deselect All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
-            contains <%= select_tag 'tag_filter', options_for_select([['at least one', 'any'],['all', 'all']], params[:tag_filter] || current_user.sticky_filters['tag_filter']) %> selected tag(s)
-          </th>
-        </tr>
-      </thead>
-      <tbody id="sticky_tag_selection_container">
-        <%#= render partial: 'tags/multi_tag_selection' %>
-      </tbody>
-    </table>
+  <div class="row">
+    <div class="span4 control-group">
+      <%= label :due_date_start_date, 'Due Date After', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'due_date_start_date', params[:due_after] || current_user.sticky_filters['due_date_start_date'], class: 'datepicker' %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      <%= label :due_date_end_date, 'Due Date Before', class: 'control-label' %>
+      <div class="controls">
+        <%= text_field_tag 'due_date_end_date', params[:due_before] || current_user.sticky_filters['due_date_end_date'], class: 'datepicker' %>
+      </div>
+    </div>
+    <div class="span4 control-group">
+      Status
+      <div class="controls">
+        <table class="blank"><tr><%= render partial: 'stickies/check_box_status' %></tr></table>
+      </div>
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="span12 control-group">
+      <table class="blank padded tags" style="width:100%;text-align:left;margin:10px 0px">
+        <thead>
+          <tr>
+            <th colspan="6">Tags
+              <%= link_to_function image_tag('gentleface/16/checkbox_checked.png', alt: 'Select All', title: 'Select All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "checkAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
+              <%= link_to_function image_tag('gentleface/16/checkbox_unchecked.png', alt: 'Deselect All', title: 'Deselect All Tags', class: 'smudge', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), "uncheckAllWithSelector('.tag-box');", class: 'bubble-azure', style: 'padding-top:10px' %>
+              contains <%= select_tag 'tag_filter', options_for_select([['at least one', 'any'],['all', 'all']], params[:tag_filter] || current_user.sticky_filters['tag_filter']) %> selected tag(s)
+            </th>
+          </tr>
+        </thead>
+        <tbody id="sticky_tag_selection_container">
+          <%#= render partial: 'tags/multi_tag_selection' %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="form-actions">
     <%= submit_tag 'Filter Search', class: 'btn btn-primary' %>
     <span class="dropdown">
       <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', 'data-toggle' => "dropdown" %>
@@ -74,7 +82,7 @@
       </ul>
     </span>
     <%= link_to_function 'Reset to Defaults', "#", class: 'btn' %>
-  </fieldset>
+  </div>
 <% end %>
 
 <div id="stickies"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

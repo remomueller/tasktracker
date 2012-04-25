@@ -1,17 +1,16 @@
 <% @title = "Template: #{@template.name}" %>
-<h1><% if @template.project %><%= link_to @template.project.name, @template.project %> &raquo;<% end %><%= @title %></h1>
-
-<% if current_user.all_templates.include?(@template) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Template", edit_template_path(@template), class: 'btn' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Template", @template, confirm: "Are you sure you want to delete Template #{@template.name}?", method: :delete, class: 'btn btn-danger' %>
-
-  <%# if @template.project and @template.project.frames.size > 0 %>
-    <%= link_to_function image_tag('gentleface/16/doc_new.png', alt: '') + "Generate Stickies", 'return false;', class: 'btn btn-primary', id: 'generate-stickies' %>
-  <%# else %>
-    <%#= link_to image_tag('gentleface/16/doc_new.png', alt: '') + "Generate Stickies", generate_stickies_template_path(@template), method: :post, class: 'btn btn-primary' %>
-  <%# end %>
-<% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Templates", templates_path, class: 'btn' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if @template.project %><small>Project <%= link_to @template.project.name, @template.project %></small><% end %>
+    <% if current_user.all_templates.include?(@template) %>
+      <%= link_to "Edit Template", edit_template_path(@template), class: 'btn btn-mini' %>
+      <%= link_to "Delete Template", @template, confirm: "Are you sure you want to delete Template #{@template.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      <%= link_to_function "Generate Stickies", "$('#dialog-form').modal();", class: 'btn btn-mini btn-primary', id: 'generate-stickies' %>
+    <% end %>
+    <%= link_to "View Templates", templates_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
 <div style="clear:both"></div>
 <% if false %>
@@ -43,16 +42,27 @@
 </p>
 
 
-<div id="dialog-form" title="Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %>:">
-	<%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_frame_form' do %>
-	  <div class="field"><%= label_tag :frame_id %><br />
-	  <%= select_tag :frame_id, options_for_select([['Backlog', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %>
-	  </div>
-	  <div class="field"><%= label_tag :initial_due_date %><br />
-	    <%= text_field_tag :initial_due_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
-	  </div>
-	  <div class="field"><%= label_tag :additional_text %><br />
-	    <%= text_area_tag :additional_text, '', rows: 7, style: "width:470px" %>
-	  </div>
+<div id="dialog-form" class="modal" style="display:none">
+  <div class="modal-header">
+    Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %>
+  </div>
+  <div class="modal-body">
+  <%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_frame_form' do %>
+    <div class="field"><%= label_tag :frame_id %><br />
+    <%= select_tag :frame_id, options_for_select([['Backlog', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %>
+    </div>
+    <div class="field"><%= label_tag :initial_due_date %><br />
+      <%= text_field_tag :initial_due_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
+    </div>
+    <div class="field"><%= label_tag :additional_text %><br />
+      <%= text_area_tag :additional_text, '', rows: 7, style: "width:470px" %>
+    </div>
   <% end %>
+  </div>
+  <div class="modal-footer">
+    <%= link_to_function "Close", "$('#dialog-form').modal('hide');", class: 'btn' %>
+    <%= link_to_function 'Generate Stickies', "$('#template_frame_form').submit();", class: 'btn btn-primary' %>
+  </div>
+
+
 </div>

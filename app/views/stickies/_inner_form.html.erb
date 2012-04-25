@@ -1,49 +1,78 @@
 <%= hidden_field_tag 'from_calendar', params[:from_calendar].to_i %>
 
-<div class="field">
-  <%= f.label :description %>
-  <%= f.text_area :description, rows: 7 %>
+<div class="control-group">
+  <%= f.label :description, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_area :description, rows: 7 %>
+  </div>
 </div>
 
 <% if @sticky.group %>
 <span class="quiet">This sticky is part of Group: <%= link_to @sticky.group.name, @sticky.group %></span><br /><br />
 
   <% unless @sticky.group.description.blank? %>
-    <div class="field">
+    <div class="control-group">
       <%= label_tag 'group_description', 'Group Description' %>
-      <%= simple_format @sticky.group.description %>
+      <div class="controls">
+        <%= simple_format @sticky.group.description %>
+      </div>
     </div>
   <% end %>
 <% end %>
 
 
 
-<div class="field">
-  <%= f.label :project_id %>
-  <% if @sticky.group %>
-    <%= link_to @sticky.project.name, @sticky.project %>
-  <% else %>
-    <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @sticky.project_id) %>
-  <% end %>
+<div class="control-group">
+  <%= f.label :project_id, class: 'control-label' %>
+  <div class="controls">
+    <% if @sticky.group %>
+      <%= link_to @sticky.project.name, @sticky.project %>
+    <% else %>
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @sticky.project_id) %>
+    <% end %>
+  </div>
 </div>
 
 
 
-<div class="field" id="frame_selection_container">
+<div class="control-group" id="frame_selection_container">
   <%= render partial: 'projects/frame_selection' %>
 </div>
 
 
-<div class="field">
-  <%= f.label :completed %>
-  <%= f.check_box :completed %>
+<div class="control-group">
+  <%= f.label :completed, class: 'control-label' %>
+  <div class="controls">
+    <%= f.check_box :completed %>
+  </div>
 </div>
 
-<div class="field" id="owner_selection_container">
+<div class="control-group" id="owner_selection_container">
   <%= render partial: 'projects/user_selection' %>
 </div>
 
-<div class="field">
+<div class="control-group">
+  <%= f.label :due_date, class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :due_date, class: 'datepicker', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %>
+    <% if @sticky.group %>
+      <table class="blank padded">
+        <tr>
+          <td><%= radio_button_tag 'shift', 'single', true %> <b>Single:</b></td><td>Only change this sticky's due date</td>
+        </tr>
+        <tr>
+          <td><%= radio_button_tag 'shift', 'incomplete' %> <b>Incomplete:</b></td><td>Shift this sticky's due date and all incomplete stickies in group</td>
+        </tr>
+        <tr>
+          <td><%= radio_button_tag 'shift', 'all' %>  <b>All:</b></td><td>Shift all stickies in group</td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+<% if false %>
+<div class="control-group">
   <table class="blank padded">
     <thead>
       <tr>
@@ -58,7 +87,7 @@
         </td>
           <% if @sticky.group %>
             <td>
-              <div class="field">
+              <div class="control-group">
                 <table class="blank padded">
                   <tr>
                     <td><%= radio_button_tag 'shift', 'single', true %> <b>Single:</b></td><td>Only change this sticky's due date</td>
@@ -77,27 +106,21 @@
     </tbody>
   </table>
 </div>
+<% end %>
 
-<div class="field">
-  <table class="blank padded">
-    <thead>
-      <tr>
-        <th style="text-align:left"><%= f.label :due_at_string, 'Due at (optional)' %> </th>
-        <th style="text-align:left"><%= f.label :duration %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <%= f.text_field :due_at_string %>
-        </td>
-        <td>
-          <%= f.number_field :duration, { min: 0 } %>
-          <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units) %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="control-group">
+  <%= f.label :due_at_string, 'Due at (optional)', class: 'control-label' %>
+  <div class="controls">
+    <%= f.text_field :due_at_string %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= f.label :duration, class: 'control-label' %>
+  <div class="controls">
+    <%= f.number_field :duration, { min: 0 } %>
+    <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units) %>
+  </div>
 </div>
 
 <div id="tag_selection_container">

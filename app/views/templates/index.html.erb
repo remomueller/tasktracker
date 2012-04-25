@@ -1,7 +1,11 @@
 <% @title = 'Templates' %>
-<h1><% if @project %><%= link_to @project.name, @project %> &raquo;<% end %> <%= @title %></h1>
-
-<%= link_to "Create Template", (@project ? new_template_path(template: {project_id: @project.id}) : new_template_path), class: 'btn btn-primary' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
+    <%= link_to "Create Template", (@project ? new_template_path(template: {project_id: @project.id}) : new_template_path), class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
 <%= form_tag templates_path, method: :get, remote: true, id: "templates_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order, params[:order] %>

@@ -1,5 +1,11 @@
-<% width = '914px' %>
-<%= form_for(@tag) do |f| %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <small><%= "Project #{link_to @tag.project.name, @tag.project} ".html_safe if @tag.project %></small>
+  </h1>
+</div>
+
+<%= form_for(@tag, html: { class: 'form-horizontal' }) do |f| %>
   <% if @tag.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
@@ -12,38 +18,42 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-
-    <div class="field">
-      <%= f.label :name %><br />
-      <%= f.text_field :name %>
+    <div class="control-group">
+      <%= f.label :name, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :project_id %><br />
-      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @tag.project_id) %>
+    <div class="control-group">
+      <%= f.label :project_id, class: 'control-label' %>
+      <div class="controls">
+        <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @tag.project_id) %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :description %><br />
-      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
+    <div class="control-group">
+      <%= f.label :description, class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :description, rows: 7 %>
+      </div>
     </div>
 
-    <div class="field">
-      <%= f.label :color %><br />
-      <%= f.hidden_field :color, id: "tag_hexcolor" %>
-      <div class="custom_widget">
-        <div id="tag_colorselector" class="colorselector">
-          <div style="background-color: <%= @tag.color %>"></div>
+    <div class="control-group">
+      <%= f.label :color, class: 'control-label' %>
+      <div class="controls">
+        <%= f.hidden_field :color, id: "tag_hexcolor" %>
+        <div class="custom_widget">
+          <div id="tag_colorselector" class="colorselector">
+            <div style="background-color: <%= @tag.color %>"></div>
+          </div>
         </div>
       </div>
     </div>
-  </fieldset>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @tag.new_record? ? 'new_tag' : "edit_tag_#{@tag.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@tag.new_record? ? "Create Tag" : "Update Tag"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= link_to_function (@tag.new_record? ? "Create Tag" : "Update Tag"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

@@ -1,3 +1,5 @@
 <% frames = Frame.current.with_project(@project_id, current_user.id) %>
-<%= label :sticky, :frame_id %>
-<%= select :sticky, :frame_id, options_for_select([['Backlog', nil]] + frames.order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]}, @sticky.frame_id) %>
+<%= label :sticky, :frame_id, class: 'control-label' %>
+<div class="controls">
+  <%= select :sticky, :frame_id, options_for_select([['Backlog', nil]] + frames.order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]}, @sticky.frame_id) %>
+</div>

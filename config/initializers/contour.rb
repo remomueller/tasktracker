@@ -20,7 +20,9 @@ Contour.setup do |config|
   config.menu_items = [
     {
       name: 'Login', display: 'not_signed_in', path: 'new_user_session_path', position: 'right',
-      links: [{ name: 'Sign Up', path: 'new_user_registration_path' }]
+      links: [{ name: 'Sign Up', path: 'new_user_registration_path' },
+              { divider: true },
+              { authentications: true }]
     },
     {
       name: 'current_user.name', eval: true, display: 'signed_in', path: 'user_path(current_user)', position: 'right',

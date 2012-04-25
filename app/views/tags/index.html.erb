@@ -1,7 +1,11 @@
 <% @title = 'Tags' %>
-<h1><% if @project %><%= link_to @project.name, @project %> &raquo;<% end %> <%= @title %></h1>
-
-<%= link_to "Create Tag", (@project ? new_tag_path(tag: { project_id: @project.id }) : new_tag_path), class: 'btn btn-primary' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
+    <%= link_to "Create Tag", (@project ? new_tag_path(tag: { project_id: @project.id }) : new_tag_path), class: 'btn btn-mini btn-primary' %>
+  </h1>
+</div>
 
 <%= form_tag tags_path, method: :get, remote: true, id: "tags_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order %>

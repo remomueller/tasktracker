@@ -16,30 +16,28 @@
 
 <div style="clear:both"></div>
 
-<div class="frame">
-  <table style="width:100%">
-    <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.name', 'Name', 'tags_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.project_id', 'Project', 'tags_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.user_id', 'Creator', 'tags_search') %></th>
-      <th>Description</th>
-      <th></th>
-    </tr>
+<table class="table table-striped" style="width:100%">
+  <tr>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.name', 'Name', 'tags_search') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.project_id', 'Project', 'tags_search') %></th>
+    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.user_id', 'Creator', 'tags_search') %></th>
+    <th>Description</th>
+    <th></th>
+  </tr>
 
-  <% @tags.each do |tag| %>
-    <tr>
-      <td><%= @tag = tag; link_to render(partial: 'tags/show'), tag %></td>
-      <td><%= link_to tag.project.name, tag.project %></td>
-      <td><%= link_to tag.user.name, tag.user %></td>
-      <td><%= tag.description %></td>
-      <td style="vertical-align:middle">
-        <% if current_user.all_tags.include?(tag) %>
-          <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), tag, confirm: "Are you sure you want to delete Tag #{tag.name}?", method: :delete %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-  </table>
-</div>
+<% @tags.each do |tag| %>
+  <tr>
+    <td><%= @tag = tag; link_to render(partial: 'tags/show'), tag %></td>
+    <td><%= link_to tag.project.name, tag.project %></td>
+    <td><%= link_to tag.user.name, tag.user %></td>
+    <td><%= tag.description %></td>
+    <td style="vertical-align:middle">
+      <% if current_user.all_tags.include?(tag) %>
+        <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), tag, confirm: "Are you sure you want to delete Tag #{tag.name}?", method: :delete %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>
 
 <center><%= paginate @tags %></center>

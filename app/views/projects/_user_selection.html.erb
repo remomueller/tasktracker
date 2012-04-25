@@ -4,5 +4,8 @@
   <% owners = [@sticky.owner, User.current.with_project(@project_id, true).order('last_name, first_name')].flatten.uniq.compact %>
 <% end %>
 
-<%= label :sticky, :owner_id, 'Assigned To' %>
-<%= select :sticky, :owner_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, @sticky.owner_id) %>
+
+<%= label :sticky, :owner_id, 'Assigned To', class: 'control-label' %>
+<div class="controls">
+  <%= select :sticky, :owner_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, @sticky.owner_id) %>
+</div>

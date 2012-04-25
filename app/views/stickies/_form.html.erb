@@ -1,5 +1,9 @@
 <%# @width = '914px' %>
-<%= form_for(@sticky) do |f| %>
+<div class="page-header">
+  <h1><%= @title %> <small><%= "Project #{link_to @sticky.project.name, @sticky.project} ".html_safe if @sticky.project %></small></h1>
+</div>
+
+<%= form_for(@sticky, html: { class: 'form-horizontal' }) do |f| %>
   <% if @sticky.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@sticky.errors.count, "error") %> prohibited this sticky from being saved:</h2>
@@ -12,10 +16,7 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= "#{link_to @sticky.project.name, @sticky.project} &raquo; ".html_safe if @sticky.project %><%= @title %></legend>
-    <%= render partial: 'stickies/inner_form', locals: { f: f } %>
-  </fieldset>
+  <%= render partial: 'stickies/inner_form', locals: { f: f } %>
 
 <% if false %>
   <div class="actions">
@@ -28,9 +29,9 @@
     <% end %>
     <% if not @sticky.new_record? and current_user.all_stickies.include?(@sticky)  %>
       <% if @sticky.group %>
-        <%= link_to_function image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
+        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
       <% else %>
-        <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-danger' %>
+        <%= link_to "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-danger' %>
       <% end %>
     <% end %>
 		<br />
@@ -48,11 +49,11 @@
     <% end %>
     <% if not @sticky.new_record? and current_user.all_stickies.include?(@sticky)  %>
       <% if @sticky.group %>
-        <%= link_to_function image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
+        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').dialog('open'); return false;", class: 'btn btn-danger' %>
       <% else %>
         <%= link_to "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-danger' %>
 
-        <%#= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-danger' %>
+        <%#= link_to "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-danger' %>
       <% end %>
     <% end %>
   </div>

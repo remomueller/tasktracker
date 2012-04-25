@@ -1,14 +1,16 @@
 <% if @project_id and project = Project.find_by_id(@project_id) and project.tags.size > 0 %>
-  <div class="field">
-    <%= label :sticky, :tag_ids %><br />
-    <table class="blank tags" style="width:100%;table-layout:fixed;margin-bottom:0px;">
-    <% project.tags.in_groups_of(5).each do |row_tags| %>
-      <tr>
-        <% row_tags.each do |tag| %>
-          <td><% if tag %><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <%= @tag = tag; render partial: 'tags/show' %><% end %></td>
-        <% end %>
-      </tr>
-    <% end %>
-    </table>
+  <div class="control-group">
+    <%= label :sticky, :tag_ids %>
+    <div class="controls">
+      <table class="blank tags" style="width:100%;table-layout:fixed;margin-bottom:0px;">
+      <% project.tags.in_groups_of(5).each do |row_tags| %>
+        <tr>
+          <% row_tags.each do |tag| %>
+            <td><% if tag %><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <%= @tag = tag; render partial: 'tags/show' %><% end %></td>
+          <% end %>
+        </tr>
+      <% end %>
+      </table>
+    </div>
   </div>
 <% end %>

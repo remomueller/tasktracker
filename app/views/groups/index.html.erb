@@ -1,9 +1,12 @@
 <% @title = 'Groups' %>
-<h1><%= @title %></h1>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
 
 <%= form_tag groups_path, method: :get, remote: true, id: "groups_search", style: "margin-bottom:-5px" do %>
   <%= hidden_field_tag :order %>
-  Search <%= text_field_tag 'search', params[:search] %>
+  <%= text_field_tag 'search', params[:search] %>
+  <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
 <div id="groups"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>

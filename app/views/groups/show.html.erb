@@ -1,16 +1,17 @@
-<% @title = "Group: #{@group.name}" %>
-<h1><%= link_to @group.project.name, @group.project %> &raquo;<%= @title %></h1>
+<% @title = "Group #{@group.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <small>Project <%= link_to @group.project.name, @group.project %></small>
+    <% if current_user.all_groups.include?(@group) %>
+      <%= link_to "Edit Group", edit_group_path(@group), class: 'btn btn-mini' %>
+      <%= link_to "Delete Group", @group, confirm: "Are you sure you want to delete Group #{@group.name} and the associated #{pluralize @group.stickies.size, 'Sticky'}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <% end %>
+    <%= link_to "View Groups", groups_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<% if current_user.all_groups.include?(@group) %>
-  <%= link_to image_tag('gentleface/16/doc_edit.png', alt: '') + "Edit Group", edit_group_path(@group), class: 'btn' %>
-  <%= link_to image_tag('gentleface/16/doc_delete.png', alt: '') + "Delete Group", @group, confirm: "Are you sure you want to delete Group #{@group.name} and the associated #{pluralize @group.stickies.size, 'Sticky'}?", method: :delete, class: 'btn btn-danger' %>
-<% end %>
-<%= link_to image_tag('gentleface/16/folder_open.png', alt: '') + "View All Groups", groups_path, class: 'btn' %>
 
-<div style="clear:both"></div>
-
-<fieldset>
-  <br />
   <p>
     <b>Creator:</b>
     <%= link_to @group.user.name, @group.user %>
@@ -25,7 +26,6 @@
     <b>Description (Additional Information):</b>
     <%= simple_format @group.description %>
   </p>
-</fieldset>
 
 <div style="float:left">
   <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px' do %>

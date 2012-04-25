@@ -113,8 +113,12 @@ class Sticky < ActiveRecord::Base
   end
 
   def name
-    "ID ##{self.id}"
+    "##{self.id}"
   end
+
+  # def name
+  #   "ID ##{self.id}"
+  # end
 
   def destroy
     self.comments.destroy_all

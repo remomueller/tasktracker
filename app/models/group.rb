@@ -18,7 +18,7 @@ class Group < ActiveRecord::Base
   has_many :stickies, conditions: { deleted: false } #, order: 'stickies.due_date desc'
 
   def name
-    "ID ##{self.id}"
+    "##{self.id}"
   end
 
   def destroy
