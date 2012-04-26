@@ -1,15 +1,4 @@
-<div style="float:right;text-align:right">
-  Per Page
-  <% [6, 9, 12, 18].each do |count| %>
-    <span class="per_page">
-      <% if current_user.projects_per_page != count %>
-        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'projects', id: "count_#{count}" %>
-      <% else %>
-        <span class="selected"><%= count %></span>
-      <% end %>
-    </span>
-  <% end %>
-</div>
+<%= render partial: 'layouts/per_page', locals: { type: 'projects' } %>
 
 <table class="table table-striped" style="width:100%">
   <thead>

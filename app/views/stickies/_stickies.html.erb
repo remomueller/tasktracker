@@ -1,8 +1,4 @@
-<div style="float:right;text-align:right">
-  Per Page
-  <% [10,25,50].each do |count| %><span class="per_page"><% if current_user.stickies_per_page != count %> <%= link_to count, "#", 'data-count' => count, 'data-object' => 'stickies', id: "count_#{count}" %><% else %><span class="selected"> <%= count %></span><% end %></span><% end %><br />
-  <%= "<b>Displaying #{@stickies.count} of #{@sticky_count}</b>".html_safe if @sticky_count %>
-</div>
+<%= render partial: 'layouts/per_page', locals: { object_count: @sticky_count, type: 'stickies' } %>
 
 <% if @frame %>
   <center>
@@ -16,10 +12,6 @@
         &nbsp;
       <% end %>
   </center>
-<% else %>
-  <center>&nbsp;</center>
-  <div style="clear:both"></div>
-  <center>&nbsp;</center>
 <% end %>
 
 <table class="table table-striped" style="width:100%">
@@ -29,7 +21,7 @@
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.due_date', 'Due Date', 'stickies_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.owner_id', 'Assigned To', 'stickies_search') %></th>
       <th>Tags</th>
-      <th></th>
+      <th>Actions</th>
     </tr>
   </thead>
 
@@ -70,10 +62,9 @@
           <%= @tag = tag; render partial: 'tags/show' %>
         <% end %>
       </td>
-      <td style="vertical-align:middle">
+      <td>
         <% if current_user.all_stickies.include?(sticky) %>
-        <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                    edit_sticky_path(sticky), :class => 'btn btn-mini' %>
+        <%= link_to 'Edit', edit_sticky_path(sticky), :class => 'btn btn-mini' %>
         <%= link_to 'Delete', sticky, method: :delete, remote: true, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", class: 'btn btn-mini btn-danger' %>
         <% end %>
       </td>

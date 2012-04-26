@@ -45,7 +45,7 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    current_user.update_attribute :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 20
+    current_user.update_attribute :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 200
 
     @order = params[:order].blank? ? 'projects.name' : params[:order]
     projects_scope = current_user.all_viewable_projects

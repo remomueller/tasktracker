@@ -1,20 +1,10 @@
-<div style="float:right">
-  Per Page
-  20
-  <% if false %>
-  <% [10,25,50].each do |count| %>
-    <span class="per_page">
-      <% if current_user.tags_per_page != count %>
-        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'tags', id: "count_#{count}" %>
-      <% else %>
-        <span class="selected"><%= count %></span>
-      <% end %>
-    </span>
-  <% end %>
-  <% end %>
+<%#= render partial: 'layouts/per_page', locals: { type: 'tags' } %>
+<div class="pagination pagination-right">
+  <ul>
+    <li class="disabled"><a href="#">Per Page</a></li>
+    <li class="active per_page"><%= link_to 20, "#" %></li>
+  </ul>
 </div>
-
-<div style="clear:both"></div>
 
 <table class="table table-striped" style="width:100%">
   <tr>
@@ -22,7 +12,7 @@
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.project_id', 'Project', 'tags_search') %></th>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.user_id', 'Creator', 'tags_search') %></th>
     <th>Description</th>
-    <th></th>
+    <th>Actions</th>
   </tr>
 
 <% @tags.each do |tag| %>
@@ -31,10 +21,8 @@
     <td><%= link_to tag.project.name, tag.project %></td>
     <td><%= link_to tag.user.name, tag.user %></td>
     <td><%= tag.description %></td>
-    <td style="vertical-align:middle">
-      <% if current_user.all_tags.include?(tag) %>
-        <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), tag, confirm: "Are you sure you want to delete Tag #{tag.name}?", method: :delete %>
-      <% end %>
+    <td>
+      <%= link_to 'Delete', tag, confirm: "Are you sure you want to delete Tag #{tag.name}?", method: :delete, class: 'btn btn-mini btn-danger' if current_user.all_tags.include?(tag) %>
     </td>
   </tr>
 <% end %>

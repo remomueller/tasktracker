@@ -1,24 +1,11 @@
-<div style="float:right">
-  Per Page
-  <% [10,25,50].each do |count| %>
-    <span class="per_page">
-      <% if current_user.templates_per_page != count %>
-        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'templates', id: "count_#{count}" %>
-      <% else %>
-        <span class="selected"><%= count %></span>
-      <% end %>
-    </span>
-  <% end %>
-</div>
-
-<div style="clear:both"></div>
+<%= render partial: 'layouts/per_page', locals: { type: 'templates' } %>
 
 <table class="table table-striped" style="width:100%"><col width="10%"/><col width="10%"/><col width="80%"/><col width="1%"/>
   <tr>
     <th><%== sort_field_helper(@order, 'templates.name', 'Name', 'templates_search') %></th>
     <th>Project</th>
     <th>Items</th>
-    <th></th>
+    <th>Actions</th>
   </tr>
 
 <% @templates.each do |template| %>
@@ -28,11 +15,8 @@
     <td>
       <%= @template = template; render partial: 'compact_items' %>
     </td>
-    <td style="vertical-align:middle;white-space:nowrap">
-      <% if current_user.all_templates.include?(template) %>
-        <%#= link_to image_tag('gentleface/16/doc_new.png', alt: ''), generate_stickies_template_path(template), confirm: "Are you sure you want to generate #{pluralize(template.items.size, 'Sticky')} from Template #{template.name}?", method: :post %>
-        <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete %>
-      <% end %>
+    <td>
+      <%= link_to 'Delete', template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete, class: 'btn btn-mini btn-danger' if current_user.all_templates.include?(template) %>
     </td>
   </tr>
 <% end %>

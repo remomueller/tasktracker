@@ -1,17 +1,4 @@
-<div style="float:right">
-  Per Page
-  <% [10,25,50].each do |count| %>
-    <span class="per_page">
-      <% if current_user.groups_per_page != count %>
-        <%= link_to count, "#", 'data-count' => count, 'data-object' => 'groups', id: "count_#{count}" %>
-      <% else %>
-        <span class="selected"><%= count %></span>
-      <% end %>
-    </span>
-  <% end %>
-</div>
-
-<div style="clear:both"></div>
+<%= render partial: 'layouts/per_page', locals: { type: 'groups' } %>
 
 <table class="table table-striped" style="width:100%">
   <tr>
