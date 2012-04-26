@@ -39,7 +39,7 @@
   </div>
 
   <p>
-    <% current_user.all_projects.by_favorite(current_user.id).in_groups_of(6).each do |row_projects| %>
+    <% current_user.all_viewable_projects.by_favorite(current_user.id).in_groups_of(6).each do |row_projects| %>
       <div class="row">
         <% row_projects.each do |project| %>
           <div class="span2">

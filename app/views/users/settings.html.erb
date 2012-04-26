@@ -16,29 +16,33 @@
     <% end %>
     <hr />
     <br />
-    <table class="blank padded" style="table-layout:fixed; width:100%">
-      <% current_user.all_viewable_projects.order('name').in_groups_of(3).each do |row_projects| %>
-        <tr>
-          <% row_projects.each do |project| %>
-            <td>
-              <% if project %>
-                <div class="field">
-                  Project: <b><%= project.name %></b><br />
+
+    <% current_user.all_viewable_projects.order('name').in_groups_of(3).each do |row_projects| %>
+      <div class="row">
+        <% row_projects.each do |project| %>
+          <div class="span4">
+            <% if project %>
+              <div class="control-group">
+                <label class="control-label">Project: <b><%= project.name %></b></label>
+                <div class="controls">
                   <%= check_box_tag "email[project_#{project.id}]", '1', current_user.email_on?("project_#{project.id}"), onclick: "enableAllWithSelector('.project_detail_#{project.id}')", class: "project_detail_#{project.id}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= "Receive email for Project: #{project.name} " %>
                 </div>
-                <div class="field" style="margin:0px 0px 20px 20px">
-                  <% User::EMAILABLES.each do |notification, description| %>
-                    <div class="field">
-                      <%= check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}"), class: "project_detail_#{project.id} notification_#{notification.to_s} all_email", disabled: (current_user.email_on?(:send_email) and current_user.email_on?("project_#{project.id}") and current_user.email_on?(notification) ? nil : 'disabled') %> <%= notification.to_s.titleize %>
+              </div>
+              <div style="margin:0px 0px 20px 20px">
+                <% User::EMAILABLES.each do |notification, description| %>
+                  <div class="control-group">
+                    <label class="control-label"><%= notification.to_s.titleize %></label>
+                    <div class="controls">
+                      <%= check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}"), class: "project_detail_#{project.id} notification_#{notification.to_s} all_email", disabled: (current_user.email_on?(:send_email) and current_user.email_on?("project_#{project.id}") and current_user.email_on?(notification) ? nil : 'disabled') %>
                     </div>
-                  <% end %>
-                </div>
-              <% end %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-    </table>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
   </fieldset>
 
   <div class="actions">

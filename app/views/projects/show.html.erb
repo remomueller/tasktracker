@@ -1,51 +1,52 @@
 <% @title = "Project: #{@project.name}" %>
 <div class="page-header">
   <h1>
-    <%= @project.name %> <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
-    <div class="btn-toolbar">
-      <% if current_user.all_projects.include?(@project) %>
-        <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
-        <div class="btn-group"><%= link_to "Delete Project", @project, confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!", method: :delete, class: 'btn btn-mini btn-danger' %></div>
-      <% end %>
-      <% if current_user.all_projects.include?(@project) %>
-
-        <div class="btn-group">
-          <%#= link_to "Create Sticky", new_sticky_path(sticky: {project_id: @project.id}), class: 'btn btn-mini' %>
-          <%= link_to_function "Create Sticky", "$('#sticky_project_id').val('#{@project.id}');$('#sticky_project_id').change();$('#new-sticky-or-group-dialog').modal();", class: 'btn btn-mini' %>
-        </div>
-
-        <div class="btn-group">
-          <%= link_to "Tags", tags_path(project_id: @project.id), class: 'btn btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Create', new_tag_path(tag: {project_id: @project.id}) %></li>
-          </ul>
-        </div>
-
-        <div class="btn-group">
-          <%= link_to "Templates", templates_path(project_id: @project.id), class: 'btn btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Create', new_template_path(template: {project_id: @project.id}) %></li>
-          </ul>
-        </div>
-
-        <div class="btn-group">
-          <%= link_to "Frames", frames_path(project_id: @project.id), class: 'btn btn-mini' %>
-          <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Create', new_frame_path(frame: {project_id: @project.id}) %></li>
-          </ul>
-        </div>
-      <% end %>
-      </div>
+    <%= @project.name %>
+    <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
   </h1>
+  <div class="btn-toolbar">
+    <% if current_user.all_projects.include?(@project) %>
+      <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
+      <div class="btn-group"><%= link_to "Delete Project", @project, confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!", method: :delete, class: 'btn btn-mini btn-danger' %></div>
+    <% end %>
+    <% if current_user.all_projects.include?(@project) %>
+
+    <div class="btn-group">
+      <%#= link_to "Create Sticky", new_sticky_path(sticky: {project_id: @project.id}), class: 'btn btn-mini' %>
+      <%= link_to_function "Create Sticky", "$('#sticky_project_id').val('#{@project.id}');$('#sticky_project_id').change();$('#new-sticky-or-group-dialog').modal();", class: 'btn btn-mini' %>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "Tags", tags_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Create', new_tag_path(tag: {project_id: @project.id}) %></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "Templates", templates_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Create', new_template_path(template: {project_id: @project.id}) %></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "Frames", frames_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Create', new_frame_path(frame: { project_id: @project.id }) %></li>
+      </ul>
+    </div>
+  <% end %>
+  </div>
 </div>
 
 <br />
@@ -71,50 +72,58 @@
   <br /><br />
 </div>
 
-<fieldset>
+<div class="row">
+  <div class="span6">
+    <div class="page-header">
+      <h2>Project Details</h2>
+    </div>
 
-  <legend>Project Details</legend>
+    <p>
+      <b>Owner:</b>
+      <%= link_to @project.user.name, @project.user %>
+    </p>
 
-  <p>
-    <b>Description:</b>
-    <%= simple_format @project.description %>
-  </p>
+    <p>
+      <b>Description:</b>
+      <%= simple_format @project.description %>
+    </p>
 
-  <p>
-    <b>Owner:</b>
-    <%= link_to @project.user.name, @project.user %>
-  </p>
+    <p>
+      <b>Time Period:</b>
+      <%= @project.start_date %> to <%= @project.end_date %>
+    </p>
 
-  <p>
-    <b>Time Period:</b>
-    <%= @project.start_date %> to <%= @project.end_date %>
-  </p>
+    <p>
+      <b>Status:</b>
+      <%= @project.status %>
+    </p>
+  </div>
+  <div class="span6">
+    <div class="page-header">
+      <h2>Project Sticky <%= link_to 'Tags', tags_path(project_id: @project.id) %></h2>
+    </div>
 
-  <p>
-    <b>Status:</b>
-    <%= @project.status %>
-  </p>
+    <p>
+      <%= @project.tags.collect{|t| @tag = t; render partial: 'tags/show'}.join('').html_safe %>
+    </p>
+  </div>
+</div>
 
-  <table class="blank padded" style="width:100%;table-layout:fixed">
-    <tr>
-      <% ['editors', 'viewers'].each do |relation, allow_editing| %>
-        <td style="vertical-align:top">
-          <% @relation = relation; @allow_editing = allow_editing %>
-          <% @users = User.current.order('last_name, first_name') %>
-          <p>
-            <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
-          </p>
-        </td>
-      <% end %>
-    </tr>
-  </table>
+<div class="page-header">
+  <h2>Sharing</h2>
+</div>
 
-  <p>
-    <b>Sticky <%= link_to 'Tags', tags_path(project_id: @project.id) %>:</b>
-    <%= @project.tags.collect{|t| @tag = t; render partial: 'tags/show'}.join('').html_safe %><br />
-  </p>
-
-</fieldset>
+<div class="row">
+  <% ['editors', 'viewers'].each do |relation, allow_editing| %>
+    <div class="span6">
+      <% @relation = relation; @allow_editing = allow_editing %>
+      <% @users = User.current.order('last_name, first_name') %>
+      <p>
+        <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
+      </p>
+    </div>
+  <% end %>
+</div>
 
 <%= render partial: 'stickies/new_sticky_or_group_dialog' %>
 
