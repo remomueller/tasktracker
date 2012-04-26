@@ -154,35 +154,6 @@ table.status-table td {
   line-height: 21px;
 }
 
-table.tags {
-  table-layout:fixed;
-  margin-bottom:0px;
-  padding: 0px;
-  border-collapse: separate;
-}
-
-table.tags td div, .tag_bubble {
-  background-color: #ddd;
-  padding: 1px 2px;
-  margin: 0px 2px;
-  border: 1px solid #bbb;
-
-  -moz-border-radius: 5px; /* Mozilla */
-  -webkit-border-radius: 5px; /* Webkit */
-  border-radius: 5px;
-}
-
-table.tags td {
-  padding: 0px;
-}
-
-.small_tag_bubble {
-  border: 1px solid #bbb;
-  -moz-border-radius: 3px; /* Mozilla */
-  -webkit-border-radius: 3px; /* Webkit */
-  border-radius: 3px;
-}
-
 span.selected {
   background-color: #404040;
   color: white;
@@ -194,11 +165,6 @@ span.selected {
   border-radius: 3px;
 }
 
-/* TODO: To be fixed in Contour */
-table {
-  margin-bottom: 0;
-}
-
 .qtip{
   max-width: 280px; /* Change this? */
   min-width: 280px; /* ...and this! */
@@ -206,4 +172,14 @@ table {
 
 .field_with_errors {
   display: block;
+}
+
+/* TODO: Move to Contour, not in 1.0.0.beta */
+dt, dd { display: block; float: left; margin-top: 20px; }
+dt { clear: both; }
+dl { overflow: hidden; }
+
+/* TODO: Move to Contour, not in 1.0.0.beta */
+.dl-horizontal dd {
+  margin-left: 30px;
 }
