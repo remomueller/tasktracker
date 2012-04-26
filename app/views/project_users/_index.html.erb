@@ -1,13 +1,13 @@
 <span>
   <% if current_user.all_projects.include?(@project) %>
     <%= form_tag project_users_path(project_user: { project_id: @project.id, allow_editing: @relation == 'editors' }), method: :post, remote: true, style: 'display:inline', class: 'form-search' do %>
-      <b><%= @relation.humanize %>:<br /></b>
+      <b><%= @relation.humanize %><br /></b>
       <%= text_field_tag "#{@relation}_text", '', style: "width:300px;" %>
       <%= submit_tag 'Add', class: 'btn btn-primary' %>
     <% end %>
     <%= javascript_tag "$(function(){$(\"##{@relation}_text\").autocomplete({source:[#{User.current.human.collect{|user| "'#{user.name} <#{user.email}>'"}.join(', ')}]});});" %>
   <% else %>
-      <b><%= @relation.humanize %>:</b>
+      <b><%= @relation.humanize %></b>
   <% end %>
 </span>
 <ul>

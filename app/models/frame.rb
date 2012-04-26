@@ -37,15 +37,28 @@ class Frame < ActiveRecord::Base
 
   def long_time
     result = ''
+    result << self.start_long_time
+    result << " to "
+    result << self.end_long_time
+    result
+  end
+
+  def start_long_time
+    result = ''
     if self.start_date and self.start_date.year == Date.today.year
       result << self.start_date.strftime('%b %d (%a)')
     elsif self.start_date
       result << self.start_date.strftime('%b %d, %Y (%a)')
     end
+    result
+  end
+
+  def end_long_time
+    result = ''
     if self.end_date and self.end_date.year == Date.today.year
-      result << " to #{self.end_date.strftime('%b %d (%a)')}"
+      result << self.end_date.strftime('%b %d (%a)')
     elsif self.end_date
-      result << " to #{self.end_date.strftime('%b %d, %Y (%a)')}"
+      result << self.end_date.strftime('%b %d, %Y (%a)')
     end
     result
   end

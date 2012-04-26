@@ -1,28 +1,13 @@
 <%= render partial: 'layouts/per_page', locals: { object_count: @sticky_count, type: 'stickies' } %>
 
 <% if @frame %>
-  <div class="pagination">
+  <div class="pagination pagination-centered">
     <ul>
-      <li class="disabled"><a href="#">Per Page</a></li>
-      <% [10,25,50].each do |count| %>
-        <li class="active"><%= link_to count, "#", 'data-count' => count, 'data-object' => count, id: "count_#{count}" %></li>
-      <% end %>
-      <li class="disabled"><a href="#">out of <%#= object_count %></a></li>
+      <li class="disabled"><%= link_to @frame.start_long_time, "#" %></li>
+      <% if @frame.end_date > Date.today %><li class="active"><b><%= link_to "#{pluralize((@frame.end_date - Date.today).to_i, 'Day')} Left", "#" %></b></li><% end %>
+      <li class="disabled"><%= link_to @frame.end_long_time, "#" %></li>
     </ul>
   </div>
-
-
-  <center>
-    <%= @frame.long_time %>
-  </center>
-  <div style="clear:both"></div>
-  <center>
-      <% if @frame.end_date > Date.today %>
-        <b><%= pluralize((@frame.end_date - Date.today).to_i, 'Day') %> Left</b>
-      <% else %>
-        &nbsp;
-      <% end %>
-  </center>
 <% end %>
 
 <table class="table table-striped" style="width:100%">
