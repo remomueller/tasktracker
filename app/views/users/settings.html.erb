@@ -1,17 +1,20 @@
 <% @title = "My Settings" %>
-<h1><%= @title %></h1>
+<div class="page-header">
+  <h1>Email Notifications</h1>
+</div>
 
 <%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings' do %>
-  <fieldset>
-    <legend>Email Notifications</legend>
-    <div class="field">
-      <label>Emails</label><br />
-      <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email), onclick: "enableAllWithSelector('.all_email')", class: "all_email_parent" %> <%= 'Receive Emails' %>
+    <div class="control-group">
+      <div class="controls">
+        <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email), onclick: "enableAllWithSelector('.all_email')", class: "all_email_parent" %> <%= 'Receive Emails' %>
+      </div>
     </div>
     <% User::EMAILABLES.each do |notification, description| %>
-      <div class="field" style="margin:0px 0px 20px 20px">
-        <b><%= notification.to_s.titleize %></b><br />
-        <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= description %>
+      <div class="control-group" style="margin:0px 0px 20px 20px">
+        <label class="control-label"><%= notification.to_s.titleize %></label>
+        <div class="controls">
+          <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= description %>
+        </div>
       </div>
     <% end %>
     <hr />
@@ -31,9 +34,9 @@
               <div style="margin:0px 0px 20px 20px">
                 <% User::EMAILABLES.each do |notification, description| %>
                   <div class="control-group">
-                    <label class="control-label"><%= notification.to_s.titleize %></label>
                     <div class="controls">
                       <%= check_box_tag "email[project_#{project.id}_#{notification.to_s}]", '1', current_user.email_on?("project_#{project.id}_#{notification.to_s}"), class: "project_detail_#{project.id} notification_#{notification.to_s} all_email", disabled: (current_user.email_on?(:send_email) and current_user.email_on?("project_#{project.id}") and current_user.email_on?(notification) ? nil : 'disabled') %>
+                      <%= notification.to_s.titleize %>
                     </div>
                   </div>
                 <% end %>
@@ -43,33 +46,32 @@
         <% end %>
       </div>
     <% end %>
-  </fieldset>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = "email_settings" %>
     <%= link_to_function "Save Settings", "isDirty=false;$('##{form_name}').submit();", class: 'btn btn-primary' %>
-  	<br />
   </div>
 <% end %>
 
-<br />
-<fieldset>
-  <legend>Cross-Application API Tokens</legend>
-  <a name="screen_token"></a>
-  <div class="field">
-    <b>Screen Token:</b>
-    <span id="screen_token">
-      <% if current_user.screen_token.blank? %>
-        <span class="quiet">If you require a token for Screen, please click "Generate New Screen Token" below.</span>
-      <% else %>
-        <%= current_user.screen_token %>
-      <% end %>
-    </span><br />
-    <span id="screen_token_message"></span><br />
-    <div style="clear:both"></div>
-    <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
-  </div>
-</fieldset>
+<div class="page-header">
+  <h2>Cross-Application API Tokens</h2>
+</div>
+
+<a name="screen_token"></a>
+<dl class="dl-horizontal">
+  <dt>Screen Token</dt>
+  <dd id="screen_token">
+    <% if current_user.screen_token.blank? %>
+      <span class="quiet">If you require a token for Screen, please click "Generate New Screen Token" below.</span>
+    <% else %>
+      <%= current_user.screen_token %>
+    <% end %>
+    <span id="screen_token_message"></span>
+  </dd>
+</dl>
+<div class="form-actions">
+  <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
+</div>
 
 <%= javascript_tag do %>
   var isDirty = false;

@@ -8,7 +8,7 @@
       <% if current_user.all_deletable_comments.include?(comment) %>
         <%= link_to 'Delete', comment, confirm: "Are you sure you want to delete Comment #{comment.name}?", method: :delete, id: "comment_#{comment.id}_delete_link", style: 'display:none', class: 'btn btn-mini btn-danger' %>
       <% end %>
-      <div style="margin:5px 5px -15px 5px;"><%= simple_format comment.description %></div>
+      <div style="margin:5px"><%= simple_format comment.description %></div>
     </div>
   </div>
 <% end %>

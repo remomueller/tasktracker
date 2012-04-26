@@ -11,20 +11,13 @@
   </h1>
 </div>
 
-<div style="clear:both"></div>
+<dl class="dl-horizontal">
+  <dt>Description</dt>
+  <dd><%= simple_format @tag.description %></dd>
 
-<pre><%= @tag.description %></pre>
+  <dt>Creator</dt>
+  <dd><%= link_to @tag.user.name, @tag.user if @tag.user %></dd>
 
-<fieldset>
-  <br />
-
-  <p>
-    <b>Creator:</b>
-    <%= link_to @tag.user.name, @tag.user if @tag.user %>
-  </p>
-
-  <p>
-    <b>Color:</b>
-    <span class="label" style="background-color: <%= @tag.color %>"><%= @tag.color %></span>
-  </p>
-</fieldset>
+  <dt>Color</dt>
+  <dd><span class="label" style="background-color: <%= @tag.color %>"><%= @tag.color %></span></dd>
+</dl>

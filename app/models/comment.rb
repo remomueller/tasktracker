@@ -17,7 +17,7 @@ class Comment < ActiveRecord::Base
   belongs_to :sticky, touch: true
 
   def name
-    "ID ##{self.id}"
+    "##{self.id}"
   end
 
   def destroy

@@ -11,33 +11,26 @@
   </h1>
 </div>
 
+<dl class="dl-horizontal">
+  <dt>Creator</dt>
+  <dd><%= link_to @group.user.name, @group.user %></dd>
 
-  <p>
-    <b>Creator:</b>
-    <%= link_to @group.user.name, @group.user %>
-  </p>
+  <dt>Generated From Template</dt>
+  <dd><%= link_to @group.template.name, @group.template if @group.template %></dd>
 
-  <p>
-    <b>Generated From Template:</b>
-    <%= link_to @group.template.name, @group.template if @group.template %>
-  </p>
+  <dt>Additional Information</dt>
+  <dd><%= simple_format @group.description %></dd>
+</dl>
 
-  <p>
-    <b>Description (Additional Information):</b>
-    <%= simple_format @group.description %>
-  </p>
-
-<div style="float:left">
-  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', class: 'form-search' do %>
-    <%= hidden_field_tag :order, params[:order] %>
-    <%= hidden_field_tag :direction, 0 %>
-    <% if false %>
-      <%= text_field_tag 'search', params[:search], class: 'search-query' %>
-      <%= submit_tag 'Search', class: 'btn btn-primary' %>
-    <% end %>
-    <%= hidden_field_tag 'group_id', @group.id %>
+<%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', class: 'form-search' do %>
+  <%= hidden_field_tag :order, params[:order] %>
+  <%= hidden_field_tag :direction, 0 %>
+  <% if false %>
+    <%= text_field_tag 'search', params[:search], class: 'search-query' %>
+    <%= submit_tag 'Search', class: 'btn btn-primary' %>
   <% end %>
-</div>
+  <%= hidden_field_tag 'group_id', @group.id %>
+<% end %>
 
 <div id="stickies">
   <%= @order = 'stickies.due_date'; @stickies = @group.stickies.page(1).per(-1); render partial: 'stickies/stickies' %>

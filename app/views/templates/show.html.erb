@@ -12,35 +12,15 @@
   </h1>
 </div>
 
-<div style="clear:both"></div>
-<% if false %>
-<pre><%= @template.description %></pre>
-<% end %>
+<dl class="dl-horizontal">
+  <dt>User</dt>
+  <dd><%= link_to @template.user.name, @template.user if @template.user %></dd>
 
-<fieldset><br />
-  <p>
-    <b>User:</b>
-    <%= link_to @template.user.name, @template.user if @template.user %>
-  </p>
+  <dt>Avoid Weekends</dt>
+  <dd><%= check_box_tag 'template', 'avoid_weekends', @template.avoid_weekends?, disabled: true %></dd>
+</dl>
 
-  <p>
-    <b>Avoid Weekends:</b>
-    <%= check_box_tag 'template', 'avoid_weekends', @template.avoid_weekends?, disabled: true %>
-  </p>
-
-
-</fieldset>
-
-<p>
-  <b>Items:</b>
-  <div class="frame">
-  <%= render partial: 'compact_items' %>
-  </div>
-  <%# @template.items.each do |item| %>
-    <%#= @item = item; render partial: 'show_item' %>
-  <%# end %>
-</p>
-
+<%= render partial: 'compact_items' %>
 
 <div id="dialog-form" class="modal" style="display:none">
   <div class="modal-header">
@@ -63,6 +43,4 @@
     <%= link_to_function "Close", "$('#dialog-form').modal('hide');", class: 'btn' %>
     <%= link_to_function 'Generate Stickies', "$('#template_frame_form').submit();", class: 'btn btn-primary' %>
   </div>
-
-
 </div>

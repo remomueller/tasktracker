@@ -1,28 +1,22 @@
-<% @title = "Comment: #{@comment.name}" %>
-<h1><%= @title %></h1>
+<% @title = "Comment #{@comment.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <% if current_user.all_comments.include?(@comment) %>
+      <%= link_to "Edit Comment", edit_comment_path(@comment), class: 'btn btn-mini' %>
+      <%= link_to "Delete Comment", @comment, confirm: "Are you sure you want to delete Comment #{@comment.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+    <% end %>
+    <%= link_to "View Comments", comments_path, class: 'btn btn-mini' %>
+  </h1>
+</div>
 
-<% if current_user.all_comments.include?(@comment) %>
-  <%= link_to "Edit Comment", edit_comment_path(@comment), class: 'btn' %>
-  <%= link_to "Delete Comment", @comment, confirm: "Are you sure you want to delete Comment #{@comment.name}?", method: :delete, class: 'btn btn-danger' %>
-<% end %>
-<%= link_to "View Comments", comments_path, class: 'btn' %>
+<dl class="dl-horizontal">
+  <dt>User</dt>
+  <dd><%= link_to @comment.user.name, @comment.user %></dd>
 
-<div style="clear:both"></div>
+  <dt>Sticky</dt>
+  <dd><%= link_to @comment.sticky.name, @comment.sticky if @comment.sticky %></dd>
 
-<fieldset>
-  <legend><%= @title %></legend>
-  <p>
-    <b>User:</b>
-    <%= link_to @comment.user.name, @comment.user %>
-  </p>
-
-  <p>
-    <b>Sticky:</b>
-    <%= link_to @comment.sticky.name, @comment.sticky if @comment.sticky %>
-  </p>
-
-  <p>
-    <b>Description:</b>
-    <%= @comment.description %>
-  </p>
-</fieldset>
+  <dt>Description</dt>
+  <dd><%= @comment.description %></dd>
+</dl>
