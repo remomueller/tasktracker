@@ -1,19 +1,21 @@
 # Global functions referenced from HTML
-@increaseSelectedIndex = (element) ->
+@increaseSelectedIndex = (element, el_out) ->
   element = $(element)
   num_options = element.find('option').size()
   if element.prop('selectedIndex') <= 0
     return false
   else
     element.prop('selectedIndex', element.prop('selectedIndex') - 1)
+    $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
     $('#direction').val(1)
     element.change()
 
-@decreaseSelectedIndex = (element) ->
+@decreaseSelectedIndex = (element, el_out) ->
   element = $(element)
   num_options = element.find('option').size()
   if element.prop('selectedIndex') < num_options - 1
     element.prop('selectedIndex', element.prop('selectedIndex') + 1)
+    $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
     $('#direction').val(-1)
     element.change()
   else

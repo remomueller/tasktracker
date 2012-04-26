@@ -183,3 +183,10 @@ dl { overflow: hidden; }
 .dl-horizontal dd {
   margin-left: 30px;
 }
+
+/* Specific change for one element, dropdown box with flat right border */
+#frame_name {
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}

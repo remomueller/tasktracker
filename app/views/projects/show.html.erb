@@ -49,7 +49,6 @@
   </div>
 </div>
 
-<br />
 <div style="float:left">
   <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', class: 'form-search' do %>
     <%= hidden_field_tag :order, params[:order] %>
@@ -59,9 +58,18 @@
       <%= submit_tag 'Search', class: 'btn btn-primary' %>
     <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
-    <%= link_to_function "&laquo;".html_safe, "decreaseSelectedIndex('#frame_id');", style: 'text-decoration:none' %>
-    <%= select_tag 'frame_id', options_for_select(@project.frames.collect{|f| [f.name, f.id]} + [['Backlog', 0]], params[:frame_id]) %>
-    <%= link_to_function "&raquo;".html_safe, "increaseSelectedIndex('#frame_id');", style: 'text-decoration:none' %>
+    <div class="btn-group">
+      <%= link_to_function '&larr;'.html_safe, "decreaseSelectedIndex('#frame_id', '#frame_name');", title: 'Previous Frame', class: 'btn' %>
+      <div style="display:none"><%= select_tag 'frame_id', options_for_select([['Backlog', 0]] + @project.frames.collect{|f| [f.name, f.id]}, params[:frame_id]), class: 'btn' %></div>
+      <%= link_to "#{@frame ? @frame.name : 'Backlog'} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'frame_name' %>
+      <ul class="dropdown-menu">
+        <li><%= link_to_function 'Backlog', "$('#frame_name').html('Backlog <span class=\"caret\"></span>');$('#frame_id').val('0');$('#stickies_search').submit();" %></li>
+        <% @project.frames.each do |frame| %>
+          <li><%= link_to_function frame.name, "$('#frame_name').html('#{escape_javascript(frame.name)} <span class=\"caret\"></span>');$('#frame_id').val('#{frame.id}');$('#stickies_search').submit();" %></li>
+        <% end %>
+      </ul>
+      <%= link_to_function '&rarr;'.html_safe, "increaseSelectedIndex('#frame_id', '#frame_name');", title: 'Next Frame', class: 'btn' %>
+    </div>
   <% end %>
 </div>
 
@@ -75,7 +83,7 @@
 <div class="row">
   <div class="span6">
     <div class="page-header">
-      <h2>Project Details</h2>
+      <h2>Details</h2>
     </div>
 
     <dl class="dl-horizontal">
@@ -96,7 +104,11 @@
   </div>
   <div class="span6">
     <div class="page-header">
-      <h2>Project Sticky <%= link_to 'Tags', tags_path(project_id: @project.id) %></h2>
+      <h2>
+        Sticky Tags
+        <%= link_to 'View Tags', tags_path(project_id: @project.id), class: 'btn btn-mini' %>
+      </h2>
+
     </div>
 
     <p>

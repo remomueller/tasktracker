@@ -2,19 +2,4 @@
 
 <%= render 'form' %>
 
-<br />
-
-<fieldset>
-  <%= form_tag search_comments_path(sticky_id: @sticky.id, class_name: 'Sticky'), method: :get, id: "comments_search" do %>
-  <% end %>
-
-  <legend>Comments</legend>
-
-  <div id="comments"></div>
-</fieldset>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
-  });
-<% end %>
+<%= render partial: 'comments_for_sticky' %>
