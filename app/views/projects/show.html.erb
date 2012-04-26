@@ -86,14 +86,11 @@
       <h2>Details</h2>
     </div>
 
+    <%= simple_format @project.description unless @project.description.blank? %>
+
     <dl class="dl-horizontal">
       <dt>Owner</dt>
       <dd><%= link_to @project.user.name, @project.user %></dd>
-
-      <% unless @project.description.blank? %>
-        <dt>Description</dt>
-        <dd><%= simple_format @project.description %></dd>
-      <% end %>
 
       <dt>Time Period</dt>
       <dd><%= @project.start_date %> to <%= @project.end_date %></dd>

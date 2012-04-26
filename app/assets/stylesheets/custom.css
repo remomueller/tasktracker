@@ -175,7 +175,12 @@ span.selected {
 }
 
 /* TODO: Move to Contour, not in 1.0.0.beta */
-dt, dd { display: block; float: left; margin-top: 20px; }
+dt, dd {
+  display: block;
+  float: left;
+  margin-top: 20px;
+}
+
 dt { clear: both; }
 dl { overflow: hidden; }
 
