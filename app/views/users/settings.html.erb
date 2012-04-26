@@ -43,7 +43,7 @@
 
   <div class="actions">
     <% form_name = "email_settings" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + "Save Settings", "isDirty=false;$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= link_to_function "Save Settings", "isDirty=false;$('##{form_name}').submit();", class: 'btn btn-primary' %>
   	<br />
   </div>
 <% end %>
@@ -63,7 +63,7 @@
     </span><br />
     <span id="screen_token_message"></span><br />
     <div style="clear:both"></div>
-    <%= link_to image_tag('gentleface/16/key.png', alt: '') + 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: "button" %>
+    <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
   </div>
 </fieldset>
 
