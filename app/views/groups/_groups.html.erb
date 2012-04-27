@@ -8,7 +8,7 @@
     <th>Stickies</th>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.project_id', 'Project', 'groups_search') %></th>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.user_id', 'Creator', 'groups_search') %></th>
-    <th></th>
+    <th>Actions</th>
   </tr>
 
   <% @groups.each do |group| %>
@@ -21,7 +21,7 @@
       <td><%= link_to group.user.name, group.user %></td>
       <td style="vertical-align:middle">
         <% if current_user.all_groups.include?(group) %>
-          <%= link_to image_tag('gentleface/16/doc_delete.png', alt: ''), group, confirm: "Are you sure you want to delete Group #{group.name} and the associated #{pluralize group.stickies.size, 'Sticky'}?", method: :delete %>
+          <%= link_to 'Delete', group, confirm: "Are you sure you want to delete Group #{group.name} and the associated #{pluralize group.stickies.size, 'Sticky'}?", method: :delete, class: 'btn btn-mini btn-danger' %>
         <% end %>
       </td>
     </tr>

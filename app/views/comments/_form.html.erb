@@ -1,5 +1,8 @@
-<% width = '914px' %>
-<%= form_for(@comment) do |f| %>
+<div class="page-header">
+  <h1><%= @title %></h1>
+</div>
+
+<%= form_for(@comment, html: { class: 'form-horizontal' }) do |f| %>
   <% if @comment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
@@ -12,28 +15,16 @@
     </div>
   <% end %>
 
-  <fieldset>
-    <legend><%= @title %></legend>
-    <% if false %>
-    <div class="field">
-      <%= f.label :class_name %><br />
-      <%= f.text_field :class_name %>
+  <div class="control-group">
+    <%= f.label :description, 'Comment', class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, rows: 7 %>
     </div>
-    <div class="field">
-      <%= f.label :class_id %><br />
-      <%= f.text_field :class_id %>
-    </div>
-    <% end %>
-    <div class="field">
-      <%= f.label :description, 'Comment' %><br />
-      <%= f.text_area :description, rows: 7, style: "width:#{width}" %>
-    </div>
-  </fieldset>
+  </div>
 
-  <div class="actions">
+  <div class="form-actions">
     <% form_name = @comment.new_record? ? 'new_comment' : "edit_comment_#{@comment.id}" %>
-    <%= link_to_function image_tag('gentleface/16/checkmark.png', alt: '') + (@comment.new_record? ? "Create Comment" : "Update Comment"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= link_to_function (@comment.new_record? ? "Create Comment" : "Update Comment"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
     <%= cancel %>
-		<br />
   </div>
 <% end %>

@@ -64,8 +64,6 @@ class StickiesController < ApplicationController
     sticky_scope = sticky_scope.due_date_before(@end_date) unless @end_date.blank?
     sticky_scope = sticky_scope.due_date_after(@start_date) unless @start_date.blank?
 
-    # sticky_scope = sticky_scope.due_date_within(@start_date, @end_date)
-
     sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
     sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
     sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unnassigned].to_s != '1'
@@ -77,7 +75,7 @@ class StickiesController < ApplicationController
         params[:tag_names].each_with_index do |tag_name, index|
           sticky_scope = sticky_scope.with_tag(Tag.current.where(name: tag_name).pluck(:id))
           # No point in adding more conditions if it's already returning nothing
-          # Also currently unstable adding this condition over 15 times
+          # TODO: Also currently unstable adding this condition over 15 times
           break if sticky_scope.count == 0 or index == 14
         end
         # params[:tag_names].each do |tag_name|

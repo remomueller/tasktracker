@@ -39,10 +39,10 @@
   </div>
 
   <p>
-    <% current_user.all_viewable_projects.by_favorite(current_user.id).in_groups_of(6).each do |row_projects| %>
+    <% current_user.all_viewable_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").in_groups_of(6).each do |row_projects| %>
       <div class="row">
         <% row_projects.each do |project| %>
-          <div class="span2">
+          <div class="span2" style="padding:20px 0px">
             <% if project %>
               <% form_name = "project_#{project.id}_visible" %>
               <%= form_tag visible_project_path(project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
