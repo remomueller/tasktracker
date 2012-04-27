@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
 
+  before_create :set_default_calendar_options
   after_create :notify_system_admins
   before_update :status_activated
 
@@ -235,6 +236,10 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def set_default_calendar_options
+    self.settings = { calendar_status: ['planned'] }
+  end
 
   def notify_system_admins
     User.current.system_admins.each do |system_admin|
