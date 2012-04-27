@@ -7,7 +7,7 @@
   <div class="span6">
     <div class="hero-unit">
       <h1><%= @title %></h1>
-      <p><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use', new_user_registration_path, class: 'btn btn-mini btn-primary' %> and <%= link_to 'open source', 'https://github.com/remomueller/notes', class: 'btn btn-mini btn-primary' %> project management tool where you can create and share projects with collaborators.</p>
+      <p><%= DEFAULT_APP_NAME %> is a <%= link_to 'free to use', new_user_registration_path, class: 'btn btn-mini btn-primary' %> and <%= link_to 'open source', 'https://github.com/remomueller/notes', class: 'btn btn-mini btn-primary' %> project management tool that minimizes overhead and maximizes productivity and accountability.</p>
     </div>
   </div>
 </div>
@@ -20,11 +20,11 @@
       <p>Share your projects with collaborators and categorize your stickies!</p>
       <p>
         <ul>
-          <li><em>Editors</em> can manage the project with you.</li>
-          <li><em>Viewers</em> can see project updates and comment on its stickies.</li>
-          <li>Create project specific <span class="label label-info">Tags</span> to easily identify stickies.</li>
-          <li>Create <em>Templates</em> for stickies that are always in a particular order and assigned to specific users</li>
-          <li>Subdivide your project by <em>Time Frames</em></li>
+          <li>Invite <b>Editors</b> that can participate on your projects.</li>
+          <li>Invite <b>Viewers</b> that can see project updates and comment on stickies.</li>
+          <li>Create project specific <span class="label label-info">Tags</span> to easily find and get statistics on stickies.</li>
+          <li>Create <b>Sticky Templates</b> for common series of stickies and assign stickies to collaborators.</li>
+          <li>Divide your project by <b>Time Frames</b> to group stickies by milestones or release dates.</li>
         </ul>
       </p>
     </div>
@@ -44,11 +44,10 @@
       <p>Incremental updates to track and achieve your project goals!</p>
       <p>
         <ul>
-          <li>Stickies can provide documentation, todos, followups, and more!</li>
-          <li>Add stickies to Project <em>Time Frames</em>.</li>
-          <li>Assign a user to a Sticky to have them complete it.</li>
+          <li>Provide documentation, todos, followups, and more!</li>
+          <li>Assign collaborators to a sticky for them to complete.</li>
           <li>Add <span class="label label-info">Tags</span> to Stickies for easier reporting and searching.</li>
-          <li>Post <em>Comments</em> on Stickies that get emailed to collaborators.</li>
+          <li>Post <b>Comments</b> on stickies that get emailed to collaborators.</li>
         </ul>
       </p>
     </div>
@@ -57,16 +56,17 @@
 
 <div class="hero-unit">
 
-  <h1>View your Calendar</h1>
-  <p>View of your current and upcoming stickies for multiple projects</p>
+  <h1>View Calendar</h1>
+  <p>View of your current and upcoming stickies for multiple projects!</p>
   <p>
   <ul>
-    <li>Create Stickies and Templates directly on the calendar.</li>
-    <li>Filter the stickies showing on the calendar, per project, completion status, and those assigned exclusively to you.</li>
-    <li>Stickies are grouped by <span class="label label-info">Tags</span>!</li>
+    <li>Create Stickies and Templates directly from the calendar.</li>
+    <li>View only the stickies you need on the calendar by filtering on projects, completion status, and those assigned exclusively to you.</li>
+    <li>Stickies are grouped together by <span class="label label-info">Tags</span>!</li>
   </ul>
   </p>
-  <p>
-    <%= link_to 'Sign Me Up!', new_user_registration_path, class: "btn btn-primary btn-large" %>
-  </p>
+
+  <div class="row">
+    <div class="span4 offset4"><%= link_to 'Sign Me Up!', new_user_registration_path, class: "btn btn-primary btn-large" %></div>
+  </div>
 </div>
