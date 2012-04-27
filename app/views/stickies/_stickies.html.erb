@@ -67,7 +67,7 @@
       <td>
         <% if current_user.all_stickies.include?(sticky) %>
         <%= link_to 'Edit', edit_sticky_path(sticky), :class => 'btn btn-mini' %>
-        <%= link_to 'Delete', sticky, method: :delete, remote: true, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", class: 'btn btn-mini btn-danger' %>
+        <%= link_to 'Delete', sticky_path(sticky, position: @position), method: :delete, remote: true, confirm: "Are you sure you want to delete Sticky #{sticky.name}?", class: 'btn btn-mini btn-danger' %>
         <% end %>
       </td>
     </tr>
