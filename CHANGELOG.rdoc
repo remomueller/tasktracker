@@ -1,7 +1,7 @@
 == 0.22.0
 
 * Enhancements
-  * Using Contour 1.0.0 with Twitter-Bootstrap
+  * Using Contour 1.0.0.beta with Twitter-Bootstrap CSS and JS
   * Sticky filters can now be reset
   * Groups can now be created from the project page
   * Default calendar options added when user registers
