@@ -1,6 +1,6 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'frames' } %>
 
-<table class="table table-striped" style="width:100%">
+<table class="table table-striped table-bordered" style="width:100%">
   <tr>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.name', 'Name', 'frames_search') %></th>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.project_id', 'Project', 'frames_search') %></th>

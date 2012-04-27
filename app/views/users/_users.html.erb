@@ -1,6 +1,6 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'users' } %>
 
-<table class="table table-striped" style="width:100%">
+<table class="table table-striped table-bordered" style="width:100%">
   <tr>
     <th style="white-space:nowrap"><%== sort_field_helper(@order, 'users.last_name', 'Name', 'users_search') %></th>
     <th><%== sort_field_helper(@order, 'users.email', 'Email', 'users_search') %></th>

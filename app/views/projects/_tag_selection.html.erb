@@ -1,8 +1,9 @@
 <% if @project_id and project = Project.find_by_id(@project_id) and project.tags.size > 0 %>
   <div class="control-group">
-    <%= label :sticky, :tag_ids %>
+    <%= label :sticky, :tag_ids, class: 'control-label' %>
     <div class="controls">
-      <table class="blank tags" style="width:100%;table-layout:fixed;margin-bottom:0px;">
+
+      <table style="width:100%;table-layout:fixed;">
       <% project.tags.in_groups_of(5).each do |row_tags| %>
         <tr>
           <% row_tags.each do |tag| %>
