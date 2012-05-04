@@ -1,5 +1,8 @@
 == 0.22.1
 
+* Bug Fix
+  * Fix Registration page to use new Contour login attributes
+
 == 0.22.0
 
 * Enhancements
