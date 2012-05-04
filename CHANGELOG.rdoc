@@ -1,5 +1,8 @@
 == 0.22.2
 
+* Enhancements
+  * Use Contour for User account Confirmations and Unlocks
+
 == 0.22.1
 
 * Enhancements
