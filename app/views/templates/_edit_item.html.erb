@@ -1,58 +1,62 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
-<section id="item_<%= position %>" class="<%= 'fieldset_with_errors' if @template.errors.keys.include?(:items) %>">
-  <h3>Sticky Template <%= link_to_function 'Remove Item', "$('#item_#{position}').remove()", class: 'btn btn-mini btn-danger' %></h3>
+<div id="item_<%= position %>" class="<%= 'fieldset_with_errors' if @template.errors.keys.include?(:items) %> well">
+  <div class="page-header" style="margin-top:0px"><h3>Sticky <%= link_to_function 'Remove', "$('#item_#{position}').remove()", class: 'btn btn-mini btn-danger' %></h3></div>
 
   <div class="control-group">
-    <%= label "template_item_tokens_#{position}_description", 'Description', class: 'control-label' %>
+    <%= label_tag "template_item_tokens_#{position}_description", 'Description', class: 'control-label' %>
     <div class="controls">
-      <%= text_field_tag "template[item_tokens][#{position}][description]", @item[:description] %>
+      <%= text_field_tag "template[item_tokens][#{position}][description]", @item[:description], style: 'width:99%' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag "template_item_tokens_#{position}_owner_id", 'Assigned To', class: 'control-label' %>
+    <div class="controls">
+      <% owners = User.current.with_project(current_user.all_projects.where(id: @template.project_id), true).order('last_name, first_name') %>
+      <%= select_tag "template[item_tokens][#{position}][owner_id]", options_for_select([['---', nil]] + owners.collect{|u| [u.reverse_name,u.id]}, @item[:owner_id]) %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag "template_item_tokens_#{position}_interval", 'Due Date Offset', class: 'control-label' %>
+    <div class="controls">
+      <%= number_field_tag "template[item_tokens][#{position}][interval]", @item[:interval] %>
+      <%= select_tag "template[item_tokens][#{position}][units]", options_for_select(['days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:units]) %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag "template_item_tokens_#{position}_due_at_string", 'Due At', class: 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag "template[item_tokens][#{position}][due_at_string]", (Time.parse(@item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue '') %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag "template_item_tokens_#{position}_duration", 'Duration', class: 'control-label' %>
+    <div class="controls">
+      <%= number_field_tag "template[item_tokens][#{position}][duration]", @item[:duration] || 0, { min: 0 } %>
+      <%= select_tag "template[item_tokens][#{position}][duration_units]", options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:duration_units] || 'hours') %>
     </div>
   </div>
 
 
-  <table class="blank">
-    <tr>
-      <td style="padding-right:20px"><b>Assigned To:</b></td>
-      <td style="padding-right:20px"><b>Offset from Initial Due Date:</b></td>
-      <td><b>Tags:</b></td>
-    </tr>
-    <tr>
-      <td style="padding-right:20px">
-        <% owners = User.current.with_project(current_user.all_projects.where(id: @template.project_id), true).order('last_name, first_name') %>
-        <%= select_tag "template[item_tokens][#{position}][owner_id]", options_for_select([['---', nil]] + owners.collect{|u| [u.reverse_name,u.id]}, @item[:owner_id]) %>
-      </td>
-      <td style="padding-right:20px">
-        <%= number_field_tag "template[item_tokens][#{position}][interval]", @item[:interval] %>
-        <%= select_tag "template[item_tokens][#{position}][units]", options_for_select(['days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:units]) %>
-      </td>
-      <td>
-        <% if @template.project and @template.project.tags.size > 0 %>
-          <table class="blank padded">
-            <% @template.project.tags.in_groups_of(5).each do |row_tags| %>
-              <tr>
-                <% row_tags.each do |tag| %>
-                  <td><% if tag %><%= check_box_tag "template[item_tokens][#{position}][tag_ids][]", tag.id, (@item[:tag_ids] || []).collect{|tag_id| tag_id.to_i}.include?(tag.id) %> <%= @tag = tag; render partial: 'tags/show' %><% end %></td>
-                <% end %>
-              </tr>
-            <% end %>
-          </table>
-        <% else %>
-          <span class="quiet">Edit project to add sticky tags.</span>
-        <% end %>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding-right:20px"><b>Due At:</b></td>
-      <td style="padding-right:20px"><b>Duration:</b></td>
-    </tr>
-    <tr>
-      <td style="padding-right:20px">
-        <%= text_field_tag "template[item_tokens][#{position}][due_at_string]", (Time.parse(@item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue '') %>
-      </td>
-      <td style="padding-right:20px">
-        <%= number_field_tag "template[item_tokens][#{position}][duration]", @item[:duration] || 0, { min: 0 } %>
-        <%= select_tag "template[item_tokens][#{position}][duration_units]", options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @item[:duration_units] || 'hours') %>
-      </td>
-    </tr>
-  </table>
-</section>
+  <div class="control-group">
+    <%= label_tag "template_item_tokens_#{position}_tags", 'Tags', class: 'control-label' %>
+    <div class="controls">
+      <% if @template.project and @template.project.tags.size > 0 %>
+        <table style="width:100%;table-layout:fixed;">
+          <% @template.project.tags.in_groups_of(5).each do |row_tags| %>
+            <tr>
+              <% row_tags.each do |tag| %>
+                <td><% if tag %><%= check_box_tag "template[item_tokens][#{position}][tag_ids][]", tag.id, (@item[:tag_ids] || []).collect{|tag_id| tag_id.to_i}.include?(tag.id) %> <%= @tag = tag; render partial: 'tags/show' %><% end %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </table>
+      <% else %>
+        <span class="quiet">Edit project to add sticky tags.</span>
+      <% end %>
+    </div>
+  </div>
+</div>

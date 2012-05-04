@@ -170,25 +170,6 @@ span.selected {
   min-width: 280px; /* ...and this! */
 }
 
-.field_with_errors {
-  display: block;
-}
-
-/* TODO: Move to Contour, not in 1.0.0.beta */
-dt, dd {
-  display: block;
-  float: left;
-  margin-top: 20px;
-}
-
-dt { clear: both; }
-dl { overflow: hidden; }
-
-/* TODO: Move to Contour, not in 1.0.0.beta */
-.dl-horizontal dd {
-  margin-left: 30px;
-}
-
 /* Specific change for one element, dropdown box with flat right border */
 #frame_name {
   -webkit-border-radius: 0px;

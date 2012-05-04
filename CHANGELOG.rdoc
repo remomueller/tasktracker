@@ -1,5 +1,8 @@
 == 0.22.1
 
+* Enhancements
+  * Template creation page cleaned up
+
 * Bug Fix
   * Fix Registration page to use new Contour login attributes
 
