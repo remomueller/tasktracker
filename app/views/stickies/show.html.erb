@@ -49,9 +49,9 @@
     <dt>Tags</dt>
     <dd>
       <% @sticky.tags.in_groups_of(4).each do |row_tags| %>
-        <div class="row" style="margin-left:0px">
-          <% row_tags.each do |tag| %>
-            <div class="span2"><% if tag %><%= @tag = tag; render partial: 'tags/show' %><% end %></div>
+        <div class="row" style="margin-left:0px;line-height:20px">
+          <% row_tags.each_with_index do |tag, index| %>
+            <div class="span2" style="<%= 'margin-left:0px' if index == 0 %>"><% if tag %><%= @tag = tag; render partial: 'tags/show' %><% end %></div>
           <% end %>
         </div>
       <% end %>
