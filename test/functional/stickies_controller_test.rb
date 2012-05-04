@@ -423,6 +423,18 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
+  test "should update sticky and redirect to project page and frame" do
+    put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "08/15/2011" }, from: 'project'
+    assert_not_nil assigns(:sticky)
+    assert_redirected_to project_path(assigns(:sticky).project, frame_id: assigns(:sticky).frame_id)
+  end
+
+  test "should update sticky and redirect to index" do
+    put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, completed: '1', due_date: "08/15/2011" }, from: 'index'
+    assert_not_nil assigns(:sticky)
+    assert_redirected_to stickies_path
+  end
+
   test "should update sticky with due time and duration" do
     put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, frame_id: frames(:one).to_param, due_date: "08/15/2011", due_at_string: '10am', duration: '1', duration_units: 'hours' }
     assert_not_nil assigns(:sticky)

@@ -257,6 +257,10 @@ class StickiesController < ApplicationController
 
           if params[:from_calendar] == '1'
             format.html { redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')) }
+          elsif params[:from] == 'index'
+            format.html { redirect_to stickies_path }
+          elsif params[:from] == 'project'
+            format.html { redirect_to project_path(@sticky.project, frame_id: @sticky.frame_id) }
           else
             format.html { redirect_to @sticky }
           end

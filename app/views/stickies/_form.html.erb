@@ -1,6 +1,14 @@
-<%# @width = '914px' %>
 <div class="page-header">
-  <h1><%= @title %> <small><%= "Project #{link_to @sticky.project.name, @sticky.project} ".html_safe if @sticky.project %></small></h1>
+  <h1>
+    <%= @title %> <small><%= "Project #{link_to @sticky.project.name, @sticky.project} ".html_safe if @sticky.project %></small>
+    <% if not @sticky.new_record? and current_user.all_stickies.include?(@sticky)  %>
+      <% if @sticky.group %>
+        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').modal(); return false;", class: 'btn btn-mini btn-danger' %>
+      <% else %>
+        <%= link_to "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
+      <% end %>
+    <% end %>
+  </h1>
 </div>
 
 <%= form_for(@sticky, html: { class: 'form-horizontal' }) do |f| %>
@@ -16,6 +24,8 @@
     </div>
   <% end %>
 
+  <%= hidden_field_tag :from, params[:from] %>
+
   <%= render partial: 'stickies/inner_form', locals: { f: f } %>
 
   <div class="form-actions">
@@ -24,16 +34,7 @@
     <% if params[:from_calendar] == '1' %>
       <%= link_to 'Cancel', calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')), class: 'btn' %>
     <% else %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), stickies_path, :class => 'btn' %>
-    <% end %>
-    <% if not @sticky.new_record? and current_user.all_stickies.include?(@sticky)  %>
-      <% if @sticky.group %>
-        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').modal(); return false;", class: 'btn btn-danger' %>
-      <% else %>
-        <%= link_to "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-danger' %>
-
-        <%#= link_to "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-danger' %>
-      <% end %>
+      <%= cancel %>
     <% end %>
   </div>
 

@@ -1,6 +1,7 @@
 == 0.22.1
 
 * Enhancements
+  * Editing stickies from the sticky list or project page now redirects back to the sticky list or project page, respectively, after the sticky is updated
   * Template creation page cleaned up
   * Table Headers now use the same styling
   * Tags updated so the bottom is not cut off

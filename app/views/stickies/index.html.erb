@@ -4,6 +4,7 @@
 </div>
 
 <%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search" do %>
+  <%= hidden_field_tag :from, 'index' %>
   <%= hidden_field_tag :update_filters, 1 %>
   <%= hidden_field_tag :order, params[:order] || current_user.sticky_filters['order'] %>
   <div class="row">
