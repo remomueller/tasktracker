@@ -1,25 +1,27 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'templates' } %>
 
 <table class="table table-striped table-bordered" style="width:100%"><col width="10%"/><col width="10%"/><col width="80%"/><col width="1%"/>
-  <tr>
-    <th><%== sort_field_helper(@order, 'templates.name', 'Name', 'templates_search') %></th>
-    <th>Project</th>
-    <th>Items</th>
-    <th>Actions</th>
-  </tr>
+  <thead>
+    <tr>
+      <th><%== sort_field_helper(@order, 'templates.name', 'Name', 'templates_search') %></th>
+      <th>Project</th>
+      <th>Items</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
-<% @templates.each do |template| %>
-  <tr>
-    <td><%= link_to template.name, template %></td>
-    <td><%= link_to template.project.name, template.project %></td>
-    <td>
-      <%= @template = template; render partial: 'compact_items' %>
-    </td>
-    <td>
-      <%= link_to 'Delete', template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete, class: 'btn btn-mini btn-danger' if current_user.all_templates.include?(template) %>
-    </td>
-  </tr>
-<% end %>
+  <% @templates.each do |template| %>
+    <tr>
+      <td><%= link_to template.name, template %></td>
+      <td><%= link_to template.project.name, template.project %></td>
+      <td>
+        <%= @template = template; render partial: 'compact_items' %>
+      </td>
+      <td>
+        <%= link_to 'Delete', template, confirm: "Are you sure you want to delete Template #{template.name}?", method: :delete, class: 'btn btn-mini btn-danger' if current_user.all_templates.include?(template) %>
+      </td>
+    </tr>
+  <% end %>
 </table>
 
 <center><%= paginate @templates %></center>

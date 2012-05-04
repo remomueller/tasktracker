@@ -3,7 +3,7 @@
   <h1><%= @title %> <%= link_to "Create Sticky", new_sticky_path, class: 'btn btn-primary btn-mini' %></h1>
 </div>
 
-<%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search", style: "margin-bottom:-5px" do %>
+<%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search" do %>
   <%= hidden_field_tag :update_filters, 1 %>
   <%= hidden_field_tag :order, params[:order] || current_user.sticky_filters['order'] %>
   <div class="row">
@@ -85,7 +85,7 @@
   </div>
 <% end %>
 
-<div id="stickies"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+<div id="stickies"><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <%= javascript_tag do %>
   $(function(){

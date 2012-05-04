@@ -7,14 +7,14 @@
   </h1>
 </div>
 
-<%= form_tag frames_path, method: :get, remote: true, id: "frames_search", style: "margin-bottom:-5px", class: 'form-search' do %>
+<%= form_tag frames_path, method: :get, remote: true, id: "frames_search", class: 'form-search' do %>
   <%= hidden_field_tag :order %>
   <%= hidden_field_tag :project_id, params[:project_id] %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
-<div id="frames"><div style="clear:both"></div><br /><center><%= image_tag "ajax-loader.gif" %></center></div>
+<div id="frames"><center><%= image_tag "ajax-loader.gif" %></center></div>
 
 <%= javascript_tag do %>
   $(function(){

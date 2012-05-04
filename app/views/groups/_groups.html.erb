@@ -1,15 +1,17 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'groups' } %>
 
 <table class="table table-striped table-bordered" style="width:100%">
-  <tr>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.id', 'Name', 'groups_search') %></th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.template_id', 'Template', 'groups_search') %></th>
-    <th>Description</th>
-    <th>Stickies</th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.project_id', 'Project', 'groups_search') %></th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.user_id', 'Creator', 'groups_search') %></th>
-    <th>Actions</th>
-  </tr>
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.id', 'Name', 'groups_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.template_id', 'Template', 'groups_search') %></th>
+      <th>Description</th>
+      <th>Stickies</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.project_id', 'Project', 'groups_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'groups.user_id', 'Creator', 'groups_search') %></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
   <% @groups.each do |group| %>
     <tr>

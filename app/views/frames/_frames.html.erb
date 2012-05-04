@@ -1,27 +1,29 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'frames' } %>
 
 <table class="table table-striped table-bordered" style="width:100%">
-  <tr>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.name', 'Name', 'frames_search') %></th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.project_id', 'Project', 'frames_search') %></th>
-    <th>Time Period</th>
-    <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.user_id', 'Creator', 'frames_search') %></th>
-    <th>Description</th>
-    <th>Actions</th>
-  </tr>
+  <thead>
+    <tr>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.name', 'Name', 'frames_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.project_id', 'Project', 'frames_search') %></th>
+      <th>Time Period</th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.user_id', 'Creator', 'frames_search') %></th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
-<% @frames.each do |frame| %>
-  <tr>
-    <td><%= link_to frame.name, frame %></td>
-    <td><%= link_to frame.project.name, frame.project %></td>
-    <td><%= frame.long_time %></td>
-    <td><%= link_to frame.user.name, frame.user %></td>
-    <td><%= frame.description %></td>
-    <td>
-        <%= link_to 'Delete', frame, confirm: "Are you sure you want to delete Frame #{frame.name}?", method: :delete, class: 'btn btn-mini btn-danger' if current_user.all_frames.include?(frame) %>
-    </td>
-  </tr>
-<% end %>
+  <% @frames.each do |frame| %>
+    <tr>
+      <td><%= link_to frame.name, frame %></td>
+      <td><%= link_to frame.project.name, frame.project %></td>
+      <td><%= frame.long_time %></td>
+      <td><%= link_to frame.user.name, frame.user %></td>
+      <td><%= frame.description %></td>
+      <td>
+          <%= link_to 'Delete', frame, confirm: "Are you sure you want to delete Frame #{frame.name}?", method: :delete, class: 'btn btn-mini btn-danger' if current_user.all_frames.include?(frame) %>
+      </td>
+    </tr>
+  <% end %>
 </table>
 
 <center><%= paginate @frames %></center>

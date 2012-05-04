@@ -2,6 +2,7 @@
 
 * Enhancements
   * Template creation page cleaned up
+  * Table Headers now use the same styling
 
 * Bug Fix
   * Fix Registration page to use new Contour login attributes
