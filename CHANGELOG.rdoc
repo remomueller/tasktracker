@@ -5,6 +5,7 @@
   * Template creation page cleaned up
   * Table Headers now use the same styling
   * Tags updated so the bottom is not cut off
+  * Tags in emails now have the text displayed in white to match the way they are displayed in the web application
 
 * Bug Fix
   * Fix Registration page to use new Contour login attributes
