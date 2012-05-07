@@ -9,7 +9,7 @@ gem 'thin',                 '~> 1.3.1',           :platforms => [ :mswin, :mingw
 gem 'eventmachine',         '~> 1.0.0.beta.4.1',  :platforms => [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              '~> 1.0.0.beta6'
+gem 'contour',              '~> 1.0.0.beta9'
 gem 'kaminari'
 gem 'ri_cal',               '~> 0.8.8'
 
@@ -19,8 +19,6 @@ group :assets do
   gem 'sass-rails',         '~> 3.2.5'
   gem 'coffee-rails',       '~> 3.2.2'
   gem 'uglifier',           '>= 1.0.3'
-  gem 'therubyracer'
-  gem 'twitter-bootstrap-rails'
 end
 
 gem 'jquery-rails'

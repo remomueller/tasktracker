@@ -176,3 +176,8 @@ span.selected {
   -moz-border-radius: 0px;
   border-radius: 0px;
 }
+
+
+.tab-pane {
+  max-height: none ! important;
+}
