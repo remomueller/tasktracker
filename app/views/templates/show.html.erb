@@ -6,7 +6,7 @@
     <% if current_user.all_templates.include?(@template) %>
       <%= link_to "Edit Template", edit_template_path(@template), class: 'btn btn-mini' %>
       <%= link_to "Delete Template", @template, confirm: "Are you sure you want to delete Template #{@template.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
-      <%= link_to_function "Generate Stickies", "$('#dialog-form').modal();", class: 'btn btn-mini btn-primary', id: 'generate-stickies' %>
+      <%= link_to_function "Generate Stickies", "$('#dialog-form').modal({ dynamic: true });", class: 'btn btn-mini btn-primary', id: 'generate-stickies' %>
     <% end %>
     <%= link_to "View Templates", templates_path, class: 'btn btn-mini' %>
   </h1>

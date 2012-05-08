@@ -3,7 +3,7 @@
     <%= @title %> <small><%= "Project #{link_to @sticky.project.name, @sticky.project} ".html_safe if @sticky.project %></small>
     <% if not @sticky.new_record? and current_user.all_stickies.include?(@sticky)  %>
       <% if @sticky.group %>
-        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').modal(); return false;", class: 'btn btn-mini btn-danger' %>
+        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').modal({ dynamic: true }); return false;", class: 'btn btn-mini btn-danger' %>
       <% else %>
         <%= link_to "Delete Sticky", sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
       <% end %>
