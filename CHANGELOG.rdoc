@@ -6,6 +6,7 @@
 
 * Bug Fix
   * Timeouts no longer cause an error when trying to login again
+  * Creating a group without specifying a template now correctly highlights an error on the required template name field
 
 == 0.22.3
 

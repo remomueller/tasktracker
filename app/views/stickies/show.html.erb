@@ -6,7 +6,7 @@
     <% if current_user.all_stickies.include?(@sticky)  %>
       <%= link_to "Edit Sticky", edit_sticky_path(@sticky), class: 'btn btn-mini' %>
       <% if @sticky.group %>
-        <%= link_to_function "Delete Sticky", "$('#delete-sticky-dialog_#{@sticky.id}').modal({ dynamic: true }); return false;", class: 'btn btn-mini btn-danger' %>
+        <%= link_to 'Delete Sticky', '#', class: 'btn btn-mini btn-danger', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
       <% else %>
         <%= link_to "Delete Sticky", @sticky, confirm: "Are you sure you want to delete Sticky #{@sticky.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
       <% end %>

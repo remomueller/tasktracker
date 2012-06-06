@@ -63,9 +63,13 @@
       <div style="display:none"><%= select_tag 'frame_id', options_for_select([['Backlog', 0]] + @project.frames.collect{|f| [f.name, f.id]}, params[:frame_id]), class: 'btn' %></div>
       <%= link_to "#{@frame ? @frame.name : 'Backlog'} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'frame_name' %>
       <ul class="dropdown-menu">
-        <li><%= link_to_function 'Backlog', "$('#frame_name').html('Backlog <span class=\"caret\"></span>');$('#frame_id').val('0');$('#stickies_search').submit();" %></li>
+        <li>
+          <%= link_to 'Backlog', '#', data: { object: 'frames-select', target: '#stickies_search', frame_name: 'Backlog <span class="caret"></span>', frame_id: 0 } %>
+        </li>
         <% @project.frames.each do |frame| %>
-          <li><%= link_to_function frame.name, "$('#frame_name').html('#{escape_javascript(frame.name)} <span class=\"caret\"></span>');$('#frame_id').val('#{frame.id}');$('#stickies_search').submit();" %></li>
+          <li>
+            <%= link_to frame.name, '#', data: { object: 'frames-select', target: '#stickies_search', frame_name: escape_javascript(frame.name), frame_id: frame.id } %>
+          </li>
         <% end %>
       </ul>
       <%= link_to '&rarr;'.html_safe, '#', title: 'Next Frame', class: 'btn', data: { object: 'frames-next' } %>

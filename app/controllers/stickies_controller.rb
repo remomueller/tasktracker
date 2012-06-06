@@ -195,6 +195,7 @@ class StickiesController < ApplicationController
       else
         @project_id = @sticky.project_id
         format.html { render "new" }
+        format.js { render "new" }
         format.json { render json: @sticky.errors, status: :unprocessable_entity }
       end
     end

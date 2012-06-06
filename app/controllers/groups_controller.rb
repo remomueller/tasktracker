@@ -50,11 +50,13 @@ class GroupsController < ApplicationController
       @group = @template.generate_stickies!(current_user, @frame_id, params[:initial_due_date], params[:additional_text])
       respond_to do |format|
         format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}." }
+        format.js { render "create" }
         format.json { render json: @group }
       end
     else
       respond_to do |format|
         format.html { redirect_to root_path }
+        format.js { render "new" }
         format.json { render json: { error: 'Missing Template ID' }, status: :unprocessable_entity }
       end
     end

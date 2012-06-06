@@ -18,3 +18,9 @@ jQuery ->
       increaseSelectedIndex('#frame_id', '#frame_name')
       false
     )
+    .on('click', '[data-object~="frames-select"]', () ->
+      $('#frame_name').html($(this).data('frame-name'))
+      $('#frame_id').val($(this).data('frame-id'))
+      $($(this).data('target')).submit()
+      false
+    )

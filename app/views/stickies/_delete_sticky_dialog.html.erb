@@ -16,7 +16,7 @@
   </div>
 
   <div class="modal-footer">
-    <%= link_to_function "Close", "$('#delete-sticky-dialog_#{sticky.id}').modal('hide');", class: 'btn' %>
-    <%= link_to_function 'Delete Sticky(ies)', "$('#sticky_delete_form_#{sticky.id}').submit();", class: 'btn btn-danger' %>
+    <%= link_to 'Close', '#', class: 'btn', data: { target: "#delete-sticky-dialog_#{sticky.id}", object: 'modal-hide' } %>
+    <%= link_to 'Delete Sticky(ies)', '#', class: 'btn btn-danger', data: { target: "#sticky_delete_form_#{sticky.id}", object: 'submit' } %>
   </div>
 </div>

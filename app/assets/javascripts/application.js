@@ -11,5 +11,4 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require contour
-//= require site
 //= require_tree .

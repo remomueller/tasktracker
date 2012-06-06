@@ -17,15 +17,14 @@
       <%= form_for(@sticky, remote: true, html: { class: 'form-horizontal' }) do |f| %>
         <%= params[:from_calendar] = '1'; render partial: 'stickies/inner_form', locals: { f: f } %>
         <div class="form-actions modal-footer">
-          <% form_name = @sticky.new_record? ? 'new_sticky' : "edit_sticky_#{@sticky.id}" %>
-          <%= link_to_function (@sticky.new_record? ? "Create Sticky" : "Update Sticky"), "$('##{form_name}').submit();", class: "btn btn-primary" %>
-          <%= link_to_function 'Cancel', "$('.field_with_errors').each( function() { $(this).removeClass('field_with_errors');});$( '#new-sticky-or-group-dialog' ).modal('hide');", class: 'btn' %>
+          <%= f.submit nil, class: 'btn btn-primary' %>
+          <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#new-sticky-or-group-dialog', object: 'modal-hide', remove_class: 'error' } %>
         </div>
       <% end %>
     </div>
     <% if current_user.all_templates.size > 0 %>
       <div class="tab-pane" id="tabs-group">
-        <%= form_tag groups_path, method: :post, id: 'new_group_form', class: 'form-horizontal' do %>
+        <%= form_tag groups_path, remote: true, method: :post, class: 'form-horizontal' do %>
           <div class="control-group">
             <%= label_tag :template_id, 'Template', class: 'control-label' %>
             <div class="controls">
@@ -54,9 +53,10 @@
           <div id="item_details"></div>
 
           <div class="form-actions modal-footer">
-            <% form_name = 'new_group_form' %>
-            <%= link_to_function "Create Group", "$('##{form_name}').submit();", class: "btn btn-primary" %>
-            <%= link_to_function 'Cancel', "$( '#new-sticky-or-group-dialog' ).modal('hide');", class: 'btn' %>
+            <%= submit_tag 'Create Group', class: 'btn btn-primary' %>
+            <%# form_name = 'new_group_form' %>
+            <%#= link_to_function "Create Group", "$('##{form_name}').submit();", class: "btn btn-primary" %>
+            <%= link_to 'Cancel', '#', class: 'btn', data: { target: '#new-sticky-or-group-dialog', object: 'modal-hide', remove_class: 'error' } %>
           </div>
         <% end %>
       </div>
