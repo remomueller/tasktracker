@@ -53,8 +53,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @user.new_record? ? 'new_user' : "edit_user_#{@user.id}" %>
-    <%= link_to_function (@user.new_record? ? "Create User" : "Update User"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

@@ -49,7 +49,7 @@
 
   <div class="form-actions">
     <% form_name = "email_settings" %>
-    <%= link_to_function "Save Settings", "isDirty=false;$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "##{form_name}" } %>
   </div>
 <% end %>
 
@@ -74,18 +74,18 @@
 </div>
 
 <%= javascript_tag do %>
-  var isDirty = false;
+  window.$isDirty = false;
   var msg = 'You haven\'t saved your changes.';
 
   $(document).ready(function(){
     $(':input').change(function(){
-        if(!isDirty){
-            isDirty = true;
+        if(!window.$isDirty){
+            window.$isDirty = true;
         }
     });
 
     window.onbeforeunload = function(el){
-        if(isDirty){
+        if(window.$isDirty){
             return msg;
         }
     };

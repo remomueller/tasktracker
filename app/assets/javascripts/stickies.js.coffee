@@ -1,19 +1,7 @@
-jQuery ->
-  $(document)
-    # .on('click', '.last-month', () -> goBackOneMonth())
-    # .on('click', '.next-month', () -> goForwardOneMonth())
-    .keydown( (e) ->
-      if $("input, textarea").is(":focus") then return
-      if e.which == 37
-        goBackOneMonth()
-      if e.which == 39
-        goForwardOneMonth()
-    )
-
-  $("#sticky_calendar_form")
-    .on("change", (event) ->
-      $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script")
-    )
+@toggleSticky = (element) ->
+  $(element).toggle()
+  $(element+'_short_description').toggle()
+  $(element+'_description').toggle('slide', { direction: 'up' })
 
 @goBackOneMonth = () ->
   now = new Date $('#selected_date').val()
@@ -76,3 +64,54 @@ jQuery ->
       $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date="+date, null, "script");
       false
   )
+
+@resetFilters = () ->
+  $('#search').val('')
+  $('#project_id').val('')
+  $('#owner_id').val('')
+  $('#unnassigned').attr('checked','checked')
+  $('#due_date_start_date').val('')
+  $('#due_date_end_date').val('')
+  $('#status_planned').attr('checked','checked')
+  $('#status_completed').attr('checked','checked')
+  $('#tag_filter').val('any')
+  uncheckAllWithSelector('.tag-box')
+  $('#stickies_search').submit()
+
+jQuery ->
+  $("#sticky_calendar_form")
+    .on("change", (event) ->
+      $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script")
+    )
+
+  $(document)
+    .keydown( (e) ->
+      if $("input, textarea").is(":focus") then return
+      if e.which == 37
+        goBackOneMonth()
+      if e.which == 39
+        goForwardOneMonth()
+    )
+    .on('click', '[data-object~="sticky-toggle"]', () ->
+      toggleSticky($(this).data('target'))
+      false
+    )
+    .on('click', '[data-object~="calendar-next-month"]', () ->
+      goForwardOneMonth()
+      false
+    )
+    .on('click', '[data-object~="calendar-previous-month"]', () ->
+      goBackOneMonth()
+      false
+    )
+    .on('click', '[data-object~="calendar-today"]', () ->
+      getToday()
+      false
+    )
+    .on('click', '[data-object~="export"]', () ->
+      window.location = $('#stickies_search').attr('action') + '.' + $(this).data('format') + '?' + $('#stickies_search').serialize()
+    )
+    .on('click', '[data-object~="stickies-reset-to-default"]', () ->
+      resetFilters()
+      false
+    )

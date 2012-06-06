@@ -21,11 +21,6 @@
   else
     return false
 
-@toggleSticky = (element) ->
-  $(element).toggle()
-  $(element+'_short_description').toggle()
-  $(element+'_description').toggle('slide', { direction: 'up' })
-
 @checkAllWithSelector = (selector) ->
   elements = $(selector).each( () ->
     $(this).attr('checked','checked')
@@ -52,25 +47,12 @@
       $(this).attr('disabled', 'disabled')
   )
 
-@resetFilters = () ->
-  $('#search').val('')
-  $('#project_id').val('')
-  $('#owner_id').val('')
-  $('#unnassigned').attr('checked','checked')
-  $('#due_date_start_date').val('')
-  $('#due_date_end_date').val('')
-  $('#status_planned').attr('checked','checked')
-  $('#status_completed').attr('checked','checked')
-  $('#tag_filter').val('any')
-  uncheckAllWithSelector('.tag-box')
-  $('#stickies_search').submit()
-
 jQuery ->
   # <a href='#' data-object="remove" data-target="abc"></a>
   # <div id="abc">
   # Removes a data-target id when a node with data-object="remove" is clicked
   $(document).on('click', '[data-object~="remove"]', () ->
-    $('#' + $(this).data('target')).remove()
+    $($(this).data('target')).remove()
     false
   )
 
@@ -90,7 +72,19 @@ jQuery ->
     $($(this).data('target')).submit()
     false
   )
-
+  .on('click', '[data-object~="check"]', () ->
+    checkAllWithSelector($(this).data('target'))
+    false
+  )
+  .on('click', '[data-object~="uncheck"]', () ->
+    uncheckAllWithSelector($(this).data('target'))
+    false
+  )
+  .on('click', '[data-object~="settings-save"]', () ->
+    window.$isDirty = false
+    $($(this).data('target')).submit()
+    false
+  )
 
   # TODO: Put these in correct coffee files
   $("#comments_search input").change( () ->

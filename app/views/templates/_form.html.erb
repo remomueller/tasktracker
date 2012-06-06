@@ -53,8 +53,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @template.new_record? ? 'new_template' : "edit_template_#{@template.id}" %>
-    <%= link_to_function (@template.new_record? ? "Create Template" : "Update Template"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>

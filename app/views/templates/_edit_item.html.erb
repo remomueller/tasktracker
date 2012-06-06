@@ -1,6 +1,6 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 <div id="item_<%= position %>" class="<%= 'fieldset_with_errors' if @template.errors.keys.include?(:items) %> well">
-  <div class="page-header" style="margin-top:0px"><h3>Sticky <%= link_to_function 'Remove', "$('#item_#{position}').remove()", class: 'btn btn-mini btn-danger' %></h3></div>
+  <div class="page-header" style="margin-top:0px"><h3>Sticky <%= link_to 'Remove', "#", 'data-object' => 'remove', 'data-target' => "#item_#{position}", class: 'btn btn-mini btn-danger' %></h3></div>
 
   <div class="control-group">
     <%= label_tag "template_item_tokens_#{position}_description", 'Description', class: 'control-label' %>

@@ -6,7 +6,7 @@
     <% if current_user.all_templates.include?(@template) %>
       <%= link_to "Edit Template", edit_template_path(@template), class: 'btn btn-mini' %>
       <%= link_to "Delete Template", @template, confirm: "Are you sure you want to delete Template #{@template.name}?", method: :delete, class: 'btn btn-mini btn-danger' %>
-      <%= link_to_function "Generate Stickies", "$('#dialog-form').modal({ dynamic: true });", class: 'btn btn-mini btn-primary', id: 'generate-stickies' %>
+      <%= link_to 'Generate Stickies', '#', class: 'btn btn-mini btn-primary', data: { object: 'modal-show', target: '#dialog-form' } %>
     <% end %>
     <%= link_to "View Templates", templates_path, class: 'btn btn-mini' %>
   </h1>
@@ -40,7 +40,7 @@
   <% end %>
   </div>
   <div class="modal-footer">
-    <%= link_to_function "Close", "$('#dialog-form').modal('hide');", class: 'btn' %>
-    <%= link_to_function 'Generate Stickies', "$('#template_frame_form').submit();", class: 'btn btn-primary' %>
+    <%= link_to 'Close', '#', class: 'btn', data: { target: '#dialog-form', object: 'modal-hide' } %>
+    <%= link_to 'Generate Stickies', '#', class: 'btn btn-primary', data: { target: '#template_frame_form', object: 'submit' } %>
   </div>
 </div>
