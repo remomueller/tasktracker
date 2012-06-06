@@ -50,9 +50,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @frame.new_record? ? 'new_frame' : "edit_frame_#{@frame.id}" %>
-    <%= link_to_function (@frame.new_record? ? "Create Frame" : "Update Frame"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
-		<br />
   </div>
 <% end %>

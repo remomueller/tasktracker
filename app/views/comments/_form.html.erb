@@ -23,8 +23,7 @@
   </div>
 
   <div class="form-actions">
-    <% form_name = @comment.new_record? ? 'new_comment' : "edit_comment_#{@comment.id}" %>
-    <%= link_to_function (@comment.new_record? ? "Create Comment" : "Update Comment"), "$('##{form_name}').submit();", class: 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
 <% end %>
