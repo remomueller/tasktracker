@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'erb'
 require 'digest/sha1'
+require 'securerandom'
 
 root_folder = FileUtils.pwd
 FileUtils.cd('lib/templates')

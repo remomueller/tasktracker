@@ -1,5 +1,12 @@
 == 0.22.4
 
+* Enhancements
+  * Update to Rails 3.2.5 and Contour 1.0.1
+  * Updated Devise configuration files for devise 2.1.0
+
+* Bug Fix
+  * Timeouts no longer cause an error when trying to login again
+
 == 0.22.3
 
 * Enhancements
