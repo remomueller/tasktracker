@@ -59,7 +59,7 @@
     <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
     <div class="btn-group">
-      <%= link_to_function '&larr;'.html_safe, "decreaseSelectedIndex('#frame_id', '#frame_name');", title: 'Previous Frame', class: 'btn' %>
+      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Frame', class: 'btn', data: { object: 'frames-previous' } %>
       <div style="display:none"><%= select_tag 'frame_id', options_for_select([['Backlog', 0]] + @project.frames.collect{|f| [f.name, f.id]}, params[:frame_id]), class: 'btn' %></div>
       <%= link_to "#{@frame ? @frame.name : 'Backlog'} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'frame_name' %>
       <ul class="dropdown-menu">
@@ -68,7 +68,7 @@
           <li><%= link_to_function frame.name, "$('#frame_name').html('#{escape_javascript(frame.name)} <span class=\"caret\"></span>');$('#frame_id').val('#{frame.id}');$('#stickies_search').submit();" %></li>
         <% end %>
       </ul>
-      <%= link_to_function '&rarr;'.html_safe, "increaseSelectedIndex('#frame_id', '#frame_name');", title: 'Next Frame', class: 'btn' %>
+      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Frame', class: 'btn', data: { object: 'frames-next' } %>
     </div>
   <% end %>
 </div>
