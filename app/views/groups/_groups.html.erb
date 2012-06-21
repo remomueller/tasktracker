@@ -23,6 +23,7 @@
       <td><%= link_to group.user.name, group.user %></td>
       <td style="vertical-align:middle">
         <% if current_user.all_groups.include?(group) %>
+          <%= link_to "Edit", edit_group_path(group), class: 'btn btn-mini' %>
           <%= link_to 'Delete', group, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Group #{group.name} and the associated #{pluralize group.stickies.size, 'Sticky'}?" } %>
         <% end %>
       </td>

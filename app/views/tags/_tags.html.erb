@@ -24,7 +24,10 @@
       <td><%= link_to tag.user.name, tag.user %></td>
       <td><%= tag.description %></td>
       <td>
-        <%= link_to 'Delete', tag, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Tag #{tag.name}?" } if current_user.all_tags.include?(tag) %>
+        <% if current_user.all_tags.include?(tag) %>
+          <%= link_to "Edit", edit_tag_path(tag), class: 'btn btn-mini' %>
+          <%= link_to 'Delete', tag, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Tag #{tag.name}?" } %>
+        <% end %>
       </td>
     </tr>
   <% end %>
