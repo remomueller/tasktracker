@@ -5,7 +5,7 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.name', 'Name', 'frames_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.project_id', 'Project', 'frames_search') %></th>
-      <th>Time Period</th>
+      <th><%== sort_field_helper(@order, 'frames.end_date', 'Time Period', 'frames_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.user_id', 'Creator', 'frames_search') %></th>
       <th>Description</th>
       <th>Actions</th>

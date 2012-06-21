@@ -7,6 +7,7 @@
   * Switching frames in the sticky popup will now reflect on the underlying project page
   * Update to Rails 3.2.6 and Contour 1.0.2
   * Links with confirm: now use data: { confirm: } to account for deprecations in Rails 4.0
+  * Frames are now ordered by end date descending by default on frames index
 
 * Bug Fix
   * Links from email to stickies past due, due today, or upcoming now properly other filters
