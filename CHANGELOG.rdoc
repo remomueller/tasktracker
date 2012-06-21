@@ -2,6 +2,7 @@
 
 * Enhancements
   * Update to Rails 3.2.6 and Contour 1.0.2
+  * links with confirm: now use data: { confirm: } to account for deprecations in Rails 4.0
 
 == 0.22.4
 
