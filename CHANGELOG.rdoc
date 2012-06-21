@@ -10,7 +10,7 @@
   * Frames are now ordered by end date descending by default on frames index
 
 * Bug Fix
-  * Links from email to stickies past due, due today, or upcoming now properly other filters
+  * Links from email to stickies past due, due today, or upcoming now properly reset other filters
 
 == 0.22.4
 
