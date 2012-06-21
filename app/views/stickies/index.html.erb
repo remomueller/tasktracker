@@ -24,7 +24,7 @@
       <%= label :owner_id, 'Assigned To', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:owner_id] || current_user.sticky_filters['owner_id']) %>
-        <span style="white-space:nowrap"><%= check_box_tag "unnassigned", '1', params[:unnassigned] || current_user.sticky_filters['unnassigned'] %> Include Unnassigned</span>
+        <span style="white-space:nowrap"><%= check_box_tag "unnassigned", '1', (params[:unnassigned] || current_user.sticky_filters['unnassigned']) == '1' %> Include Unnassigned</span>
       </div>
     </div>
   </div>
