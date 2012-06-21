@@ -17,7 +17,7 @@
     <td><%= project_user.allow_editing %></td>
     <td><%= link_to 'Show', project_user %></td>
     <td><%= link_to 'Edit', edit_project_user_path(project_user) %></td>
-    <td><%= link_to 'Destroy', project_user, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to 'Destroy', project_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>

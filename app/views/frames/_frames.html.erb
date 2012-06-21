@@ -20,7 +20,7 @@
       <td><%= link_to frame.user.name, frame.user %></td>
       <td><%= frame.description %></td>
       <td>
-          <%= link_to 'Delete', frame, confirm: "Are you sure you want to delete Frame #{frame.name}?", method: :delete, class: 'btn btn-mini btn-danger' if current_user.all_frames.include?(frame) %>
+          <%= link_to 'Delete', frame, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Frame #{frame.name}?" } if current_user.all_frames.include?(frame) %>
       </td>
     </tr>
   <% end %>

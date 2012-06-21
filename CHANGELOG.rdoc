@@ -1,5 +1,8 @@
 == 0.22.5
 
+* Enhancements
+  * Update to Rails 3.2.6 and Contour 1.0.2
+
 == 0.22.4
 
 * Enhancements
