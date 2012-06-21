@@ -39,7 +39,7 @@ class ProjectsController < ApplicationController
   end
 
   def selection
-    @sticky = Sticky.new
+    @sticky = Sticky.new(params[:sticky])
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
     @project_id = @project.id if @project
   end

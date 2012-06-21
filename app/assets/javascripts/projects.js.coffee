@@ -6,6 +6,8 @@ jQuery ->
   $(document)
     .on('click', '[data-object~="modal-show"]', () ->
       $('#sticky_project_id').val($(this).data('project-id'))
+      $('#sticky_frame_id').val($("#frame_id").val())
+      $('#group_frame_id').val($("#frame_id").val())
       $('#sticky_project_id').change()
       $($(this).data('target')).modal({ dynamic: true })
       false
@@ -24,3 +26,8 @@ jQuery ->
       $($(this).data('target')).submit()
       false
     )
+
+  $(document).on('change', '#sticky_frame_id, #group_frame_id', () ->
+    $('[data-frame-id~="' + ($(this).val() || '0') + '"]').click()
+    false
+  )

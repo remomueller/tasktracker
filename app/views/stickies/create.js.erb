@@ -19,3 +19,6 @@ $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.
 
 
 activateCalendarStickyPopups();
+
+<%# Launch a refresh of the sticky search %>
+$("#stickies_search").submit();
