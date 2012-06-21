@@ -9,14 +9,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should set api token" do
-    post :api_token, api_token: 'screen_token', format: 'js'
+    post :api_token, id: @user, api_token: 'screen_token', format: 'js'
     assert_not_nil assigns(:message)
     assert_template 'api_token'
     assert_response :success
   end
 
   test "should not set invalid api token" do
-    post :api_token, api_token: 'authentication_token', format: 'js'
+    post :api_token, id: @user, api_token: 'authentication_token', format: 'js'
     assert_nil assigns(:message)
     assert_response :success
   end
@@ -56,7 +56,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get graph" do
-    get :graph, id: users(:valid).to_param
+    get :graph, id: users(:valid)
 
     assert_not_nil assigns(:user)
     assert_not_nil assigns(:stickies)
@@ -76,7 +76,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get graph with javascript" do
-    get :graph, id: users(:valid).to_param, year: '2011', format: 'js'
+    get :graph, id: users(:valid), year: '2011', format: 'js'
 
     assert_not_nil assigns(:user)
     assert_not_nil assigns(:stickies)
@@ -103,7 +103,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update settings and enable email" do
-    post :update_settings, id: users(:admin).to_param, email: {send_email: '1'}
+    post :update_settings, id: users(:admin), email: {send_email: '1'}
     users(:admin).reload # Needs reload to avoid stale object
     assert_equal true, users(:admin).email_on?(:send_email)
     assert_equal 'Email settings saved.', flash[:notice]
@@ -111,7 +111,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update settings and disable email" do
-    post :update_settings, id: users(:admin).to_param, email: {send_email: '0'}
+    post :update_settings, id: users(:admin), email: {send_email: '0'}
     users(:admin).reload # Needs reload to avoid stale object
     assert_equal false, users(:admin).email_on?(:send_email)
     assert_equal 'Email settings saved.', flash[:notice]
@@ -168,22 +168,22 @@ class UsersControllerTest < ActionController::TestCase
   # end
 
   test "should show user" do
-    get :show, id: @user.to_param
+    get :show, id: @user
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @user.to_param
+    get :edit, id: @user
     assert_response :success
   end
 
   test "should update user" do
-    put :update, id: @user.to_param, user: @user.attributes
+    put :update, id: @user, user: @user.attributes
     assert_redirected_to user_path(assigns(:user))
   end
 
   test "should not update user with blank name" do
-    put :update, id: @user.to_param, user: {first_name: '', last_name: ''}
+    put :update, id: @user, user: {first_name: '', last_name: ''}
     assert_not_nil assigns(:user)
     assert_template 'edit'
   end
@@ -196,7 +196,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should destroy user" do
     assert_difference('User.current.count', -1) do
-      delete :destroy, id: @user.to_param
+      delete :destroy, id: @user
     end
 
     assert_redirected_to users_path
