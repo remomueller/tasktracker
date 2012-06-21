@@ -26,7 +26,7 @@ Install default configuration files for database connection, email server connec
 
   bundle exec rake db:migrate RAILS_ENV=production
 
-  bundle exec rake assets:precompile RAILS_ENV=production
+  bundle exec rake assets:precompile
 
 Run Rails Server (or use Apache or nginx)
 
