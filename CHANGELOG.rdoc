@@ -4,7 +4,8 @@
   * Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
 
 * Refactoring
-  * Comments now longer use class_name or class_id and now require to be part of a sticky_id
+  * Comments no longer use class_name or class_id and now require to be part of a sticky_id
+  * Removed unused project position
 
 == 0.22.5
 
