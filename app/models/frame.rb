@@ -1,4 +1,5 @@
 class Frame < ActiveRecord::Base
+  attr_accessible :name, :description, :start_date, :end_date, :project_id
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
