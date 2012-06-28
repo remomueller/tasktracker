@@ -38,10 +38,10 @@ class CommentsController < ApplicationController
 
   def create
     @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
+    @position = params[:position]
+    @comment = @sticky ? @sticky.comments.new(post_params) : Comment.new(post_params)
 
-    if @sticky and not params[:comment].blank?
-      @sticky.comments.create(class_name: 'Sticky', class_id: @sticky.id, user_id: current_user.id, description: params[:comment])
-      @position = params[:position]
+    if @comment.save
       @comments = @sticky.comments.page(params[:page]).per(params[:per])
       params[:action] = 'search' # Trick for pagination
     else
@@ -49,19 +49,10 @@ class CommentsController < ApplicationController
     end
   end
 
-  # def create
-  #   @comment = current_user.comments.new(params[:comment])
-  #   if @comment.save
-  #     redirect_to(@comment, notice: 'Comment was successfully created.')
-  #   else
-  #     render action: "new"
-  #   end
-  # end
-
   def update
     @comment = current_user.all_comments.find_by_id(params[:id])
     if @comment
-      if @comment.update_attributes(params[:comment])
+      if @comment.update_attributes(post_params)
         redirect_to(@comment, notice: 'Comment was successfully updated.')
       else
         render action: "edit"
@@ -79,5 +70,17 @@ class CommentsController < ApplicationController
     else
       redirect_to root_path
     end
+  end
+
+  private
+
+  def post_params
+    params[:comment] ||= {}
+
+    params[:comment][:user_id] = current_user.id
+
+    params[:comment].slice(
+      :description, :user_id
+    )
   end
 end

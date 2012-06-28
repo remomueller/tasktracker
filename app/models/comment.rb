@@ -1,8 +1,8 @@
 class Comment < ActiveRecord::Base
+  attr_accessible :description, :user_id
+
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_class_name, lambda { |*args|  { conditions: ["comments.class_name IN (?)", args.first] } }
-  scope :with_class_id, lambda { |*args|  { conditions: ["comments.class_id IN (?)", args.first] } }
   scope :search, lambda { |*args| {conditions: [ 'LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :with_creator, lambda { |*args|  { conditions: ["comments.user_id IN (?)", args.first] } }
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(comments.created_at) >= ? and DATE(comments.created_at) <= ?", args.first, args[1]]}}
@@ -10,7 +10,7 @@ class Comment < ActiveRecord::Base
   after_create :send_email
 
   # Model Validation
-  validates_presence_of :description
+  validates_presence_of :description, :sticky_id, :user_id
 
   # Model Relationships
   belongs_to :user
@@ -33,7 +33,7 @@ class Comment < ActiveRecord::Base
 
   def send_email
     all_users = []
-    all_users = users_to_email(:sticky_comments, self.sticky.project_id, self.sticky) if self.class_name == 'Sticky' and self.sticky
+    all_users = users_to_email(:sticky_comments, self.sticky.project_id, self.sticky) if self.sticky
 
     all_users = all_users - [self.user]
 

@@ -2,8 +2,6 @@
 
 two:
   user: valid
-  class_name: Sticky
-  class_id: <%= ActiveRecord::Fixtures.identify(:one) %>
   description: MyText
-  deleted: false
   sticky: one
+  deleted: false

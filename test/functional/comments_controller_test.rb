@@ -19,7 +19,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should create comment for a sticky" do
     assert_difference('Comment.count') do
-      post :create, class_name: @comment.class_name, sticky_id: @comment.sticky_id, comment: "This is a comment.", position: "1", format: 'js'
+      post :create, sticky_id: @comment.sticky_id, comment: { description: "This is a comment." }, position: "1", format: 'js'
     end
 
     assert_not_nil assigns(:sticky)
@@ -29,7 +29,7 @@ class CommentsControllerTest < ActionController::TestCase
   test "should create comment for a sticky and send email to the sticky owner" do
     login(users(:admin))
     assert_difference('Comment.count') do
-      post :create, class_name: @comment.class_name, sticky_id: @comment.sticky_id, comment: "This is a comment.", position: "1", format: 'js'
+      post :create, sticky_id: @comment.sticky_id, comment: { description: "This is a comment." }, position: "1", format: 'js'
     end
 
     assert_not_nil assigns(:sticky)
@@ -38,7 +38,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should not create comment without valid id" do
     assert_difference('Comment.count', 0) do
-      post :create, class_name: @comment.class_name, sticky_id: -1, comment: "This is a comment.", position: "1", format: 'js'
+      post :create, sticky_id: -1, comment: { description: "This is a comment." }, position: "1", format: 'js'
     end
 
     assert_nil assigns(:sticky)
@@ -46,7 +46,7 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test "should search comments" do
-    get :search, class_name: @comment.class_name, sticky_id: @comment.sticky_id, format: 'js'
+    get :search, sticky_id: @comment.sticky_id, format: 'js'
 
     assert_not_nil assigns(:sticky)
     assert_not_nil assigns(:comments)
@@ -54,7 +54,7 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test "should not search comments without valid id" do
-    get :search, class_name: @comment.class_name, sticky_id: -1, format: 'js'
+    get :search, sticky_id: -1, format: 'js'
 
     assert_nil assigns(:sticky)
     assert_nil assigns(:comments)
@@ -77,7 +77,7 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test "should not update comment with blank description" do
-    put :update, id: @comment, comment: { class_name: @comment.class_name, sticky_id: @comment.sticky_id, description: '' }
+    put :update, id: @comment, comment: { sticky_id: @comment.sticky_id, description: '' }
     assert_not_nil assigns(:comment)
     assert_template 'edit'
   end

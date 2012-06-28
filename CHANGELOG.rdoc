@@ -1,5 +1,11 @@
 == 0.22.6
 
+* Enhancements
+  * Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
+
+* Refactoring
+  * Comments now longer use class_name or class_id and now require to be part of a sticky_id
+
 == 0.22.5
 
 * Enhancements
