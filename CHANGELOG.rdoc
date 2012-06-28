@@ -9,6 +9,9 @@
   * Stickies no longer have a status, or due_at columns
     * Note: due_date includes the due_at time along with timezone information
 
+* Bug Fix
+  * Creating a tag with the same name as a deleted tag no longer throws the error 'tag name has already been taken' (by LisaM)
+
 == 0.22.5
 
 * Enhancements

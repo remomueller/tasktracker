@@ -39,3 +39,11 @@ gamma:
   project: one
   user: valid
   deleted: false
+
+deleted:
+  name: Deleted Tag
+  description: This tag was deleted
+  color: '#dddddd'
+  project: one
+  user: valid
+  deleted: true

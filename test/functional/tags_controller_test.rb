@@ -28,6 +28,18 @@ class TagsControllerTest < ActionController::TestCase
     assert_redirected_to tag_path(assigns(:tag))
   end
 
+  test "should create tag with a name identical to a deleted tag" do
+    assert_difference('Tag.count') do
+      post :create, tag: { name: "Deleted Tag", project_id: projects(:one).to_param, description: "" }
+    end
+
+    assert_not_nil assigns(:tag)
+    assert_equal "Deleted Tag", assigns(:tag).name
+    assert_equal users(:valid).to_param, assigns(:tag).user_id.to_s
+
+    assert_redirected_to tag_path(assigns(:tag))
+  end
+
   test "should not create tag with blank name" do
     assert_difference('Tag.count', 0) do
       post :create, tag: { name: "", project_id: projects(:one).to_param, description: "" }
