@@ -144,7 +144,7 @@ class StickiesController < ApplicationController
   end
 
   def new
-    @sticky = current_user.stickies.new(params[:sticky])
+    @sticky = current_user.stickies.new(post_params)
     @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1
     @project_id = @sticky.project_id
   end
@@ -293,10 +293,13 @@ class StickiesController < ApplicationController
       true
     end
 
-    # Update to slice only correct sticky options
-    # params[:sticky].slice(
-    #   :name, :description, :project_id
-    # )
-    params[:sticky]
+    unless params[:sticky][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
+      params[:sticky][:project_id] = project ? project.id : nil
+    end
+
+    params[:sticky].slice(
+      :description, :project_id, :owner_id, :frame_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids
+    )
   end
 end
