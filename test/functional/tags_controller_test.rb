@@ -91,6 +91,6 @@ class TagsControllerTest < ActionController::TestCase
     end
 
     assert_nil assigns(:tag)
-    assert_redirected_to root_path
+    assert_redirected_to tags_path
   end
 end

@@ -21,7 +21,7 @@ class TagsController < ApplicationController
   end
 
   def new
-    @tag = current_user.tags.new(params[:tag])
+    @tag = current_user.tags.new(post_params)
   end
 
   def edit
@@ -30,7 +30,8 @@ class TagsController < ApplicationController
   end
 
   def create
-    @tag = current_user.tags.new(params[:tag])
+    @tag = current_user.tags.new(post_params)
+
     if @tag.save
       redirect_to(@tag, notice: 'Tag was successfully created.')
     else
@@ -40,8 +41,9 @@ class TagsController < ApplicationController
 
   def update
     @tag = current_user.all_tags.find_by_id(params[:id])
+
     if @tag
-      if @tag.update_attributes(params[:tag])
+      if @tag.update_attributes(post_params)
         redirect_to(@tag, notice: 'Tag was successfully updated.')
       else
         render action: "edit"
@@ -53,11 +55,24 @@ class TagsController < ApplicationController
 
   def destroy
     @tag = current_user.all_tags.find_by_id(params[:id])
-    if @tag
-      @tag.destroy
-      redirect_to tags_path
-    else
-      redirect_to root_path
+    @tag.destroy if @tag
+
+    respond_to do |format|
+      format.html { redirect_to tags_path }
+      format.json { head :no_content }
     end
+  end
+
+  def post_params
+    params[:tag] ||= {}
+
+    unless params[:tag][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:tag][:project_id])
+      params[:tag][:project_id] = project ? project.id : nil
+    end
+
+    params[:tag].slice(
+      :name, :description, :color, :project_id
+    )
   end
 end
