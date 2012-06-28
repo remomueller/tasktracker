@@ -7,7 +7,7 @@ class TemplatesController < ApplicationController
   end
 
   def add_item
-    @template = current_user.templates.new(params[:template])
+    @template = current_user.templates.new(post_params)
     @item = { description: '', interval: 0, units: 'days' }
   end
 
@@ -39,7 +39,7 @@ class TemplatesController < ApplicationController
   end
 
   def new
-    @template = current_user.templates.new(params[:template])
+    @template = current_user.templates.new(post_params)
   end
 
   def edit
@@ -48,11 +48,11 @@ class TemplatesController < ApplicationController
   end
 
   def items
-    @template = current_user.templates.new(params[:template])
+    @template = current_user.templates.new(post_params)
   end
 
   def create
-    @template = current_user.templates.new(params[:template])
+    @template = current_user.templates.new(post_params)
 
     if @template.save
       redirect_to @template, notice: 'Template was successfully created.'
@@ -64,7 +64,7 @@ class TemplatesController < ApplicationController
   def update
     @template = current_user.all_templates.find_by_id(params[:id])
     if @template
-      if @template.update_attributes(params[:template])
+      if @template.update_attributes(post_params)
         redirect_to @template, notice: 'Template was successfully updated.'
       else
         render action: "edit"
@@ -76,11 +76,24 @@ class TemplatesController < ApplicationController
 
   def destroy
     @template = current_user.all_templates.find_by_id(params[:id])
-    if @template
-      @template.destroy
-      redirect_to templates_path
-    else
-      redirect_to root_path
+    @template.destroy if @template
+
+    respond_to do |format|
+      format.html { redirect_to templates_path }
+      format.json { head :no_content }
     end
+  end
+
+  def post_params
+    params[:template] ||= {}
+
+    unless params[:template][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:template][:project_id])
+      params[:template][:project_id] = project ? project.id : nil
+    end
+
+    params[:template].slice(
+      :name, :project_id, :item_tokens, :avoid_weekends
+    )
   end
 end

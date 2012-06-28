@@ -51,7 +51,7 @@ class TemplatesControllerTest < ActionController::TestCase
 
   test "should create template" do
     assert_difference('Template.count') do
-      post :create, template: @template.attributes
+      post :create, template: { name: 'Template Name', project_id: projects(:one).to_param, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
     end
 
     assert_redirected_to template_path(assigns(:template))
@@ -129,6 +129,6 @@ class TemplatesControllerTest < ActionController::TestCase
       delete :destroy, id: -1
     end
     assert_nil assigns(:template)
-    assert_redirected_to root_path
+    assert_redirected_to templates_path
   end
 end
