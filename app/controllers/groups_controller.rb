@@ -41,7 +41,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    params[:initial_due_date] = begin Date.strptime(params[:initial_due_date], "%m/%d/%Y") rescue Date.today end
+    params[:initial_due_date] = parse_date(params[:initial_due_date], Date.today)
     @template = current_user.all_templates.find_by_id(params[:template_id])
     @frame = (@template ? @template.project.frames.find_by_id(params[:frame_id]) : nil)
     @frame_id = @frame.id if @frame
@@ -63,7 +63,7 @@ class GroupsController < ApplicationController
   end
 
   # def create
-  #   @group = current_user.groups.new(params[:group])
+  #   @group = current_user.groups.new(post_params)
   #   if @group.save
   #     redirect_to(@group, notice: 'Group was successfully created.')
   #   else
@@ -74,7 +74,7 @@ class GroupsController < ApplicationController
   def update
     @group = current_user.all_groups.find_by_id(params[:id])
     if @group
-      if @group.update_attributes(params[:group])
+      if @group.update_attributes(post_params)
         redirect_to(@group, notice: 'Group was successfully updated.')
       else
         render action: "edit"
@@ -86,11 +86,24 @@ class GroupsController < ApplicationController
 
   def destroy
     @group = current_user.all_groups.find_by_id(params[:id])
-    if @group
-      @group.destroy
-      redirect_to groups_path
-    else
-      redirect_to root_path
+    @group.destroy if @group
+
+    respond_to do |format|
+      format.html { redirect_to groups_path }
+      format.json { head :no_content }
     end
+  end
+
+  def post_params
+    params[:group] ||= {}
+
+    unless params[:group][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:group][:project_id])
+      params[:group][:project_id] = project ? project.id : nil
+    end
+
+    params[:group].slice(
+      :description, :project_id
+    )
   end
 end

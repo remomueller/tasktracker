@@ -202,6 +202,6 @@ class GroupsControllerTest < ActionController::TestCase
     end
 
     assert_nil assigns(:group)
-    assert_redirected_to root_path
+    assert_redirected_to groups_path
   end
 end
