@@ -6,7 +6,8 @@
 * Refactoring
   * Comments no longer use class_name or class_id and now require to be part of a sticky_id
   * Removed unused project position
-  * Stickies no longer have a status
+  * Stickies no longer have a status, or due_at columns
+    * Note: due_date includes the due_at time along with timezone information
 
 == 0.22.5
 
