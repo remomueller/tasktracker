@@ -1,4 +1,5 @@
 class Project < ActiveRecord::Base
+  attr_accessible :name, :description, :status, :start_date, :end_date
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
@@ -12,8 +13,7 @@ class Project < ActiveRecord::Base
   scope :by_favorite, lambda { |*args| { joins: "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first}" } } #, order: "(project_favorites.favorite = 1) DESC"
 
   # Model Validation
-  validates_presence_of :name
-
+  validates_presence_of :name, :user_id
 
   # Model Relationships
   belongs_to :user

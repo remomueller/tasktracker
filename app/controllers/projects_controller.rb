@@ -38,7 +38,7 @@ class ProjectsController < ApplicationController
   end
 
   def selection
-    @sticky = Sticky.new(params[:sticky])
+    @sticky = Sticky.new(params[:sticky].slice(:frame_id, :owner_id, :tag_ids))
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
     @project_id = @project.id if @project
   end
@@ -82,10 +82,8 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    params[:project][:start_date] = Date.strptime(params[:project][:start_date], "%m/%d/%Y") if params[:project] and not params[:project][:start_date].blank?
-    params[:project][:end_date] = Date.strptime(params[:project][:end_date], "%m/%d/%Y") if params[:project] and not params[:project][:end_date].blank?
+    @project = current_user.projects.new(post_params)
 
-    @project = current_user.projects.new(params[:project])
     if @project.save
       redirect_to(@project, notice: 'Project was successfully created.')
     else
@@ -94,12 +92,10 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    params[:project][:start_date] = Date.strptime(params[:project][:start_date], "%m/%d/%Y") if params[:project] and not params[:project][:start_date].blank?
-    params[:project][:end_date] = Date.strptime(params[:project][:end_date], "%m/%d/%Y") if params[:project] and not params[:project][:end_date].blank?
-
     @project = current_user.all_projects.find_by_id(params[:id])
+
     if @project
-      if @project.update_attributes(params[:project])
+      if @project.update_attributes(post_params)
         redirect_to(@project, notice: 'Project was successfully updated.')
       else
         render action: "edit"
@@ -111,11 +107,23 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project = current_user.all_projects.find_by_id(params[:id])
-    if @project
-      @project.destroy
-      redirect_to projects_path
-    else
-      redirect_to root_path
+    @project.destroy if @project
+
+    respond_to do |format|
+      format.html { redirect_to projects_path }
+      format.json { head :no_content }
     end
+  end
+
+  def post_params
+    params[:project] ||= {}
+
+    [:start_date, :end_date].each do |date|
+      params[:project][date] = parse_date(params[:project][date])
+    end
+
+    params[:project].slice(
+      :name, :description, :status, :start_date, :end_date
+    )
   end
 end

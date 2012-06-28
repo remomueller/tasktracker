@@ -146,7 +146,7 @@ class ProjectsControllerTest < ActionController::TestCase
       delete :destroy, id: -1
     end
     assert_nil assigns(:project)
-    assert_redirected_to root_path
+    assert_redirected_to projects_path
   end
 
   test "should create project favorite" do
