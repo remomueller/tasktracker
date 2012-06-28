@@ -6,9 +6,9 @@ class ProjectFavoritesControllerTest < ActionController::TestCase
     @project_favorite = project_favorites(:one)
   end
 
-  test "the truth" do
-    assert true
-  end
+  # test "the truth" do
+  #   assert true
+  # end
 
   # test "should get index" do
   #   get :index
