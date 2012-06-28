@@ -120,7 +120,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.current.find_by_id(params[:id])
-    if @user and @user.update_attributes(params[:user])
+    if @user and @user.update_attributes(post_params)
       @user.update_attribute :system_admin, params[:user][:system_admin]
       @user.update_attribute :service_account, params[:user][:service_account]
       @user.update_attribute :status, params[:user][:status]
@@ -136,5 +136,15 @@ class UsersController < ApplicationController
     @user = User.find_by_id(params[:id])
     @user.destroy if @user
     redirect_to users_path
+  end
+
+  private
+
+  def post_params
+    params[:user] ||= {}
+
+    params[:user].slice(
+      :first_name, :last_name, :email
+    )
   end
 end
