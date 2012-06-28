@@ -6,6 +6,7 @@
 * Refactoring
   * Comments no longer use class_name or class_id and now require to be part of a sticky_id
   * Removed unused project position
+  * Stickies no longer have a status
 
 == 0.22.5
 
