@@ -32,7 +32,6 @@ class ProjectsController < ApplicationController
     if @project
       project_favorite = @project.project_favorites.find_or_create_by_user_id(current_user.id)
       project_favorite.update_attribute :favorite, (params[:favorite] == '1')
-      # render nothing: true
     else
       render nothing: true
     end
