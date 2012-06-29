@@ -115,3 +115,10 @@ jQuery ->
       resetFilters()
       false
     )
+    .on('click', '[data-object~="expand-details"]', () ->
+      $('[data-object~="expand-details"]').show()
+      $(this).hide()
+      $('[data-object~="' + $(this).data('selector') + '"]').hide()
+      $($(this).data('target')).show()
+      false
+    )

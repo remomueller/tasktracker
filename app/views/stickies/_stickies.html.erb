@@ -47,14 +47,17 @@
           <% end %>
         </span>
         <%= link_to sticky.name, sticky, style: sticky.completed? ? "text-decoration:line-through" : "", id: "sticky_#{sticky.id}_name" %> <%= link_to image_tag('gentleface/16/list_bullets.png', alt: '', title: "Group #{sticky.group.name}", size: '10x10'), sticky.group if sticky.group %>
-        <span id="sticky_<%= sticky.id %>_description" style="<%= "color:#999" if sticky.completed? %>">
+        <span id="sticky_<%= sticky.id %>_description" style="cursor:pointer;<%= "color:#999" if sticky.completed? %>" data-object="expand-details" data-target=".sticky_<%= @sticky.id %>_hidden" data-selector="stickydetails">
           <span id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_short_description">
             <%= sticky.full_description.truncate(100, omission: '') %>
-            <% more_link = (sticky.comments.size > 0 ? "<span class='badge badge-info'>#{pluralize(sticky.comments.size, "comment")}</span>".html_safe : "<span class='btn btn-mini'>more...</span>".html_safe) %>
-            <%= link_to more_link, '#', id: "sticky_#{@sticky.id}_comments_#{@position}_link", data: { object: 'sticky-toggle', target: "#sticky_#{@sticky.id}_comments_#{@position}_tbody" } %>
+            <% if sticky.comments.size > 0 %>
+              <span class='badge badge-info'><%= pluralize(sticky.comments.size, "comment") %></span>
+            <% end %>
+            <%# more_link = (sticky.comments.size > 0 ? "<span class='badge badge-info'>#{pluralize(sticky.comments.size, "comment")}</span>".html_safe : "<span class='btn btn-mini'>more...</span>".html_safe) %>
+            <%#= link_to more_link, '#', id: "sticky_#{@sticky.id}_comments_#{@position}_link", data: { object: 'sticky-toggle', target: "#sticky_#{@sticky.id}_comments_#{@position}_tbody" } %>
           </span>
         </span>
-        <div style="max-width:600px;display:none" id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_description">
+        <div style="max-width:600px;display:none" id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_description" class="sticky_<%= @sticky.id %>_hidden" data-object="stickydetails">
           <%= simple_format sticky.full_description %>
           <%= link_to 'less', '#', data: { object: 'sticky-toggle', target: "#sticky_#{@sticky.id}_comments_#{@position}_tbody" }, class: 'btn btn-mini' %>
          </div>
@@ -74,7 +77,7 @@
       </td>
     </tr>
   </tbody>
-  <tbody id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody" style="display:none">
+  <tbody id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody" style="display:none" class="sticky_<%= @sticky.id %>_hidden" data-object="stickydetails">
     <tr>
       <td colspan="5" id="sticky_<%= @sticky.id %>_comments_<%= @position %>">
         <%= @comments = @sticky.comments.page(0).per(0); render partial: 'comments/index' %>

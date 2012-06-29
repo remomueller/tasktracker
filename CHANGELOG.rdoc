@@ -7,6 +7,7 @@
   * Templates can now be copied
     * Note: Tags and owners aren't copied to new templates
   * Generating a new group from a template now requires the project to be specified to limit the number of templates that are displayed
+  * Cleaned up lists of stickies by changing how they expand when clicking on them
 
 * Refactoring
   * Comments no longer use class_name or class_id and now require to be part of a sticky_id
