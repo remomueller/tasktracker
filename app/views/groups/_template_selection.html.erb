@@ -1,0 +1,13 @@
+<% if @group %>
+  <% templates = ::Template.current.with_project(@group.project_id, current_user.id) %>
+<% else %>
+  <% templates = ::Template.current.with_project(nil, current_user.id) %>
+<% end %>
+<%= label_tag :group_template_id, 'Template', class: 'control-label' %>
+<div class="controls">
+  <% if @project_id %>
+    <%= select_tag :group_template_id, options_for_select([['---', nil]] + templates.order('name').collect{|t| [t.name, t.id]}, params[:template_id] ), name: 'template_id' %>
+  <% else %>
+    <%= hidden_field_tag :group_template_id %>
+  <% end %>
+</div>

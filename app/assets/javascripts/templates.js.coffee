@@ -28,7 +28,7 @@ jQuery ->
     false
   )
 
-  $("#template_id").change( () ->
-    $.post(root_url + 'templates/selection', $("#template_id").serialize(), null, "script")
+  $(document).on('change', '#group_template_id', () ->
+    $.post(root_url + 'templates/selection', $("#group_template_id").serialize(), null, "script")
     false
   )

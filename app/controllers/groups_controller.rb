@@ -2,6 +2,11 @@ class GroupsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :api_authentication!, only: [:create, :show]
 
+  def project_selection
+    @group = Group.new(post_params)
+    @project_id = @group.project_id
+  end
+
   def index
     current_user.update_attribute :groups_per_page, params[:groups_per_page].to_i if params[:groups_per_page].to_i >= 10 and params[:groups_per_page].to_i <= 200
     group_scope = current_user.all_viewable_groups

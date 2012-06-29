@@ -6,6 +6,7 @@
   * Frames and Templates now require unique names per project
   * Templates can now be copied
     * Note: Tags and owners aren't copied to new templates
+  * Generating a new group from a template now requires the project to be specified to limit the number of templates that are displayed
 
 * Refactoring
   * Comments no longer use class_name or class_id and now require to be part of a sticky_id

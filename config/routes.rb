@@ -7,7 +7,11 @@ Notes::Application.routes.draw do
 
   resources :frames
 
-  resources :groups
+  resources :groups do
+    collection do
+      post :project_selection
+    end
+  end
 
   resources :project_users
 

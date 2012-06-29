@@ -6,6 +6,14 @@ class GroupsControllerTest < ActionController::TestCase
     @group = groups(:one)
   end
 
+  test "should get project selection" do
+    post :project_selection, group: { project_id: projects(:one).to_param }, format: 'js'
+    assert_not_nil assigns(:group)
+    assert_not_nil assigns(:project_id)
+    assert_template 'project_selection'
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

@@ -24,16 +24,21 @@
     </div>
     <% if current_user.all_templates.size > 0 %>
       <div class="tab-pane" id="tabs-group">
-        <%= form_tag groups_path, remote: true, method: :post, class: 'form-horizontal' do %>
+        <% @group = current_user.groups.new() %>
+        <%= form_for(@group, remote: true, html: { class: 'form-horizontal' }) do |f| %>
           <div class="control-group">
-            <%= label_tag :template_id, 'Template', class: 'control-label' %>
+            <%= f.label :project_id, nil, class: 'control-label' %>
             <div class="controls">
-              <%= select_tag :template_id, options_for_select([['---', nil]] + current_user.all_templates.order('project_id, name').collect{|t| [[t.name, (t.project ? t.project.name : nil)].compact.join(' - '), t.id]}) %>
+              <%= f.select :project_id, [['---', nil]] + current_user.all_projects.has_template.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]} %>
             </div>
           </div>
 
-          <div class="control-group" id="template_frame_selection_container">
-            <%= render partial: 'templates/frame_selection' %>
+          <div class="control-group" id="group_template_selection_container">
+            <%= render partial: 'groups/template_selection' %>
+          </div>
+
+          <div class="control-group" id="group_frame_selection_container">
+            <%= render partial: 'groups/frame_selection' %>
           </div>
 
           <div class="control-group">
