@@ -9,10 +9,17 @@ class FramesController < ApplicationController
 
     frame_scope = frame_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
-    @order = Frame.column_names.collect{|column_name| "frames.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "frames.end_date DESC"
+    @order = scrub_order(Frame, params[:order], 'frames.end_date DESC')
     frame_scope = frame_scope.order(@order)
 
+    @count = frame_scope.count
     @frames = frame_scope.page(params[:page]).per(current_user.frames_per_page)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
+      format.json { render json: @frames }
+    end
   end
 
   def show

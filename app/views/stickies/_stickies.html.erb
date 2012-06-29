@@ -1,4 +1,4 @@
-<%= render partial: 'layouts/per_page', locals: { object_count: @sticky_count, type: 'stickies' } %>
+<%= render partial: 'layouts/per_page', locals: { type: 'stickies', object_count: @count } %>
 
 <% if @frame %>
   <div class="pagination pagination-centered" style="margin-top:-54px">

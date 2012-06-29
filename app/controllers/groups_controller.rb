@@ -10,10 +10,18 @@ class GroupsController < ApplicationController
 
     group_scope = group_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
-    @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : 'groups.id DESC'
+    @order = scrub_order(Group, params[:order], 'groups.id DESC')
+    # @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : 'groups.id DESC'
     group_scope = group_scope.order(@order)
 
+    @count = group_scope.count
     @groups = group_scope.page(params[:page]).per(current_user.groups_per_page)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
+      format.json { render json: @groups }
+    end
   end
 
   def show

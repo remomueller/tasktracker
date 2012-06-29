@@ -15,14 +15,14 @@ class StickiesControllerTest < ActionController::TestCase
   test "should get csv" do
     get :index, format: 'csv', status: ['completed', 'not completed']
     assert_not_nil assigns(:csv_string)
-    assert_not_nil assigns(:sticky_count)
+    assert_not_nil assigns(:count)
     assert_response :success
   end
 
   test "should get ics" do
     get :index, format: 'ics', status: ['completed', 'not completed']
     assert_not_nil assigns(:ics_string)
-    assert_not_nil assigns(:sticky_count)
+    assert_not_nil assigns(:count)
     assert_response :success
   end
 

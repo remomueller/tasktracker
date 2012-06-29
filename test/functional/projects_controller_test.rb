@@ -70,6 +70,13 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'index'
   end
 
+  test "should get index for api user using service account" do
+    login(users(:service_account))
+    get :index, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
+    assert_not_nil assigns(:projects)
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success

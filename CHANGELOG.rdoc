@@ -8,6 +8,7 @@
   * Removed unused project position
   * Stickies no longer have a status, or due_at columns
     * Note: due_date includes the due_at time along with timezone information
+  * Consistent sorting and display of model counts used across all objects, (projects, stickies, tags, templates, users, etc)
 
 * Bug Fix
   * Creating a tag with the same name as a deleted tag no longer throws the error 'tag name has already been taken' (by LisaM)

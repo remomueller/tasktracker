@@ -40,6 +40,15 @@ class Project < ActiveRecord::Base
     result = result.select{|u| u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{self.id}") and u.email_on?("project_#{self.id}_#{action}") }
   end
 
+  def as_json(options={})
+    super(only: [:id, :user_id, :name, :description, :start_date, :end_date, :created_at, :updated_at], methods: [:project_link])
+  end
+
+  def project_link
+    SITE_URL + "/projects/#{self.id}"
+  end
+
+
   private
 
   def colors(index)

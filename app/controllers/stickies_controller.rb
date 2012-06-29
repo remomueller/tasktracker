@@ -35,13 +35,13 @@ class StickiesController < ApplicationController
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
       @frame = Frame.find_by_id(params[:frame_id])
-      @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "completed, due_date, end_date DESC, start_date DESC"
+      @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
       sticky_scope = @project.stickies.with_frame(params[:frame_id])
       sticky_scope = sticky_scope.order(@order)
       @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
       render "projects/show"
     elsif @group = current_user.all_viewable_groups.find_by_id(params[:group_id])
-      @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "stickies.due_date"
+      @order = scrub_order(Sticky, params[:order], 'stickies.due_date')
       sticky_scope = @group.stickies
       sticky_scope = sticky_scope.order(@order)
       @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
@@ -54,7 +54,6 @@ class StickiesController < ApplicationController
     current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'
 
-    @order = Sticky.column_names.collect{|column_name| "stickies.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "completed, due_date, end_date DESC, start_date DESC"
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
     sticky_scope = sticky_scope.with_owner(params[:owner_id]) unless params[:owner_id].blank?
 
@@ -86,8 +85,11 @@ class StickiesController < ApplicationController
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
+
+    @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
     sticky_scope = sticky_scope.order(@order)
-    @sticky_count = sticky_scope.count
+
+    @count = sticky_scope.count
 
     if params[:format] == 'csv'
       @csv_string = CSV.generate do |csv|

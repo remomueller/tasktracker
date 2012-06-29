@@ -21,9 +21,10 @@ class TemplatesController < ApplicationController
 
     template_scope = template_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
-    @order = Template.column_names.collect{|column_name| "templates.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : "templates.name"
+    @order = scrub_order(Template, params[:order], 'templates.name')
     template_scope = template_scope.order(@order)
 
+    @count = template_scope.count
     @templates = template_scope.page(params[:page]).per(current_user.templates_per_page)
 
     respond_to do |format|

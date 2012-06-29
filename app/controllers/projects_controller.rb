@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :api_authentication!, only: [:index, :show, :create, :update]
 
   def colorpicker
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
@@ -45,30 +46,42 @@ class ProjectsController < ApplicationController
 
   def index
     current_user.update_attribute :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 200
-
-    @order = params[:order].blank? ? 'projects.name' : params[:order]
-    projects_scope = current_user.all_viewable_projects
+    project_scope = current_user.all_viewable_projects
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| projects_scope = projects_scope.search(search_term) }
+    @search_terms.each{|search_term| project_scope = project_scope.search(search_term) }
 
-    projects_scope = projects_scope.by_favorite(current_user.id)
-    projects_scope = projects_scope.order("(favorite IS NULL or favorite = '0') ASC, " + @order)
-    @projects = projects_scope.page(params[:page]).per(current_user.projects_per_page)
+    project_scope = project_scope.by_favorite(current_user.id)
+    @order = scrub_order(Project, params[:order], 'projects.name')
+    project_scope = project_scope.order("(favorite IS NULL or favorite = '0') ASC, " + @order)
+
+    @count = project_scope.count
+    @projects = project_scope.page(params[:page]).per(current_user.projects_per_page)
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
+      format.json { render json: project_scope.page(params[:page]).limit(50) }
+    end
   end
 
   def show
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
-    if @project
-      @frame = @project.frames.find_by_id(params[:frame_id] || 0)
-      unless @frame
-        @frame = @project.frames.active_today.first
-        params[:frame_id] = @frame.id if @frame
+    respond_to do |format|
+      if @project
+        @frame = @project.frames.find_by_id(params[:frame_id] || 0)
+        unless @frame
+          @frame = @project.frames.active_today.first
+          params[:frame_id] = @frame.id if @frame
+        end
+        stickies_scope = @project.stickies
+        @stickies = stickies_scope.with_frame(params[:frame_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
+        format.html # show.html.erb
+        format.json { render json: @project }
+      else
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
       end
-      stickies_scope = @project.stickies
-      @stickies = stickies_scope.with_frame(params[:frame_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
-    else
-      redirect_to root_path
     end
   end
 
@@ -115,6 +128,8 @@ class ProjectsController < ApplicationController
     end
   end
 
+  private
+
   def post_params
     params[:project] ||= {}
 
@@ -126,4 +141,5 @@ class ProjectsController < ApplicationController
       :name, :description, :status, :start_date, :end_date
     )
   end
+
 end
