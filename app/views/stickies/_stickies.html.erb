@@ -4,7 +4,7 @@
   <div class="pagination pagination-centered" style="margin-top:-54px">
     <ul>
       <li class="disabled"><%= link_to @frame.start_long_time, "#" %></li>
-      <% if @frame.end_date > Date.today %><li class="active"><b><%= link_to "#{pluralize((@frame.end_date - Date.today).to_i, 'Day')} Left", "#" %></b></li><% end %>
+      <% if @frame.end_date > Date.today %><li class="active" style="font-weight:bold"><%= link_to "#{pluralize((@frame.end_date - Date.today).to_i, 'Day')} Left", "#" %></li><% end %>
       <li class="disabled"><%= link_to @frame.end_long_time, "#" %></li>
     </ul>
   </div>

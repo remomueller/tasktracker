@@ -18,6 +18,7 @@
 
 * Bug Fix
   * Creating a tag with the same name as a deleted tag no longer throws the error 'tag name has already been taken' (by LisaM)
+  * Clicking on 'Days Left' no longer triggers an AJAX pagination request
 
 == 0.22.5
 
