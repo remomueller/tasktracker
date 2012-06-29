@@ -43,9 +43,9 @@ Notes::Application.routes.draw do
       post :items
       post :selection
     end
-    # member do
-    #   post :generate_stickies
-    # end
+    member do
+      get :copy
+    end
   end
 
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }

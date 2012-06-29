@@ -6,6 +6,19 @@ class TemplatesControllerTest < ActionController::TestCase
     @template = templates(:one)
   end
 
+  test "should get copy" do
+    get :copy, id: @template
+    assert_not_nil assigns(:template)
+    assert_template 'new'
+    assert_response :success
+  end
+
+  test "should not get copy for invalid template" do
+    get :copy, id: -1
+    assert_nil assigns(:template)
+    assert_redirected_to templates_path
+  end
+
   test "should get selection" do
     post :selection, template_id: templates(:one).to_param, format: 'js'
     assert_not_nil assigns(:template)
@@ -80,12 +93,19 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should show template" do
-    get :show, id: @template.to_param
+    get :show, id: @template
+    assert_not_nil assigns(:template)
     assert_response :success
   end
 
+  test "should not show template with invalid id" do
+    get :show, id: -1
+    assert_nil assigns(:template)
+    assert_redirected_to templates_path
+  end
+
   test "should get edit" do
-    get :edit, id: @template.to_param
+    get :edit, id: @template
     assert_response :success
   end
 
@@ -95,7 +115,7 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not update template with blank name" do
-    put :update, id: @template.to_param, template: { name: '', project_id: projects(:one).to_param, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+    put :update, id: @template, template: { name: '', project_id: projects(:one).to_param, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
     assert_not_nil assigns(:template)
     assert assigns(:template).errors.size > 0
     assert_equal ["can't be blank"], assigns(:template).errors[:name]
@@ -103,7 +123,7 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not update template with blank project" do
-    put :update, id: @template.to_param, template: { name: 'Updated Name', project_id: nil, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+    put :update, id: @template, template: { name: 'Updated Name', project_id: nil, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
     assert_not_nil assigns(:template)
     assert assigns(:template).errors.size > 0
     assert_equal ["can't be blank"], assigns(:template).errors[:project_id]
@@ -118,7 +138,7 @@ class TemplatesControllerTest < ActionController::TestCase
 
   test "should destroy template" do
     assert_difference('Template.current.count', -1) do
-      delete :destroy, id: @template.to_param
+      delete :destroy, id: @template
     end
     assert_not_nil assigns(:template)
     assert_redirected_to templates_path

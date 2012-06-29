@@ -2,6 +2,19 @@ class TemplatesController < ApplicationController
   before_filter :authenticate_user!
   before_filter :api_authentication!, only: [:index]
 
+  def copy
+    template = current_user.all_viewable_templates.find_by_id(params[:id])
+    respond_to do |format|
+      if template and @template = current_user.templates.new(template.copyable_attributes)
+        format.html { render 'new' }
+        format.json { render json: @template }
+      else
+        format.html { redirect_to templates_path }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def selection
     @template = current_user.all_templates.find_by_id(params[:template_id])
   end
@@ -36,7 +49,16 @@ class TemplatesController < ApplicationController
 
   def show
     @template = current_user.all_viewable_templates.find_by_id(params[:id])
-    redirect_to root_path unless @template
+
+    respond_to do |format|
+      if @template
+        format.html # show.html.erb
+        format.json { render json: @template }
+      else
+        format.html { redirect_to templates_path }
+        format.json { head :no_content }
+      end
+    end
   end
 
   def new

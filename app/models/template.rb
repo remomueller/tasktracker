@@ -1,5 +1,5 @@
 class Template < ActiveRecord::Base
-  attr_accessible :name, :project_id, :item_tokens, :avoid_weekends
+  attr_accessible :name, :project_id, :item_tokens, :avoid_weekends, :items
 
   serialize :items, Array
   attr_reader :item_tokens
@@ -12,11 +12,16 @@ class Template < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :name, :project_id, :items
+  validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships
   belongs_to :project
   belongs_to :user
   has_many :stickies, conditions: { deleted: false }
+
+  def copyable_attributes
+    self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+  end
 
   def full_name
     [self.name, (self.project ? self.project.name : nil)].compact.join(' - ')

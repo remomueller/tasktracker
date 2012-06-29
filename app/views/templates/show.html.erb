@@ -9,6 +9,7 @@
       <%= link_to 'Generate Stickies', '#', class: 'btn btn-mini btn-primary', data: { object: 'modal-show', target: '#dialog-form' } %>
     <% end %>
     <%= link_to "View Templates", templates_path, class: 'btn btn-mini' %>
+    <%= link_to "Copy Template", copy_template_path(@template), class: 'btn btn-mini' %>
   </h1>
 </div>
 

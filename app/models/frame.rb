@@ -10,6 +10,7 @@ class Frame < ActiveRecord::Base
 
   # Model Validation
   validates_presence_of :name, :project_id, :start_date, :end_date
+  validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships
   belongs_to :project

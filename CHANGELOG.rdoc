@@ -3,6 +3,9 @@
 * Enhancements
   * Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
   * Creating a group of stickies from the project page now refreshes and shows the newly created stickies
+  * Frames and Templates now require unique names per project
+  * Templates can now be copied
+    * Note: Tags and owners aren't copied to new templates
 
 * Refactoring
   * Comments no longer use class_name or class_id and now require to be part of a sticky_id
