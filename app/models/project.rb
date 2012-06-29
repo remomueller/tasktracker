@@ -10,7 +10,7 @@ class Project < ActiveRecord::Base
   scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # scope :by_favorite, lambda { |*args| {include: :project_favorites, conditions: ["project_favorites.user_id = ? or project_favorites.user_id IS NULL", args.first], order: "(project_favorites.favorite = 0) ASC" } }
-  scope :by_favorite, lambda { |*args| { joins: "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first}" } } #, order: "(project_favorites.favorite = 1) DESC"
+  scope :by_favorite, lambda { |*args| { joins: "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first.to_i}" } } #, order: "(project_favorites.favorite = 1) DESC"
 
   # Model Validation
   validates_presence_of :name, :user_id
