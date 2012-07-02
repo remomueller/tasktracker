@@ -238,7 +238,7 @@ class User < ActiveRecord::Base
   private
 
   def set_default_calendar_options
-    self.settings = { calendar_status: ['planned'] }
+    self.settings = { calendar_status: ['planned', 'completed'] }
   end
 
   def notify_system_admins
