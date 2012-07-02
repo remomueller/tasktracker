@@ -2,19 +2,23 @@
 
 * Enhancements
   * Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
-  * Creating a group of stickies from the project page now refreshes and shows the newly created stickies
-  * Frames and Templates now require unique names per project
-  * Templates can now be copied
-    * Note: Tags and owners aren't copied to new templates
-  * Generating a new group from a template now requires the project to be specified to limit the number of templates that are displayed
-  * Cleaned up lists of stickies by changing how they expand when clicking on them
-  * Default application name is now added to the from: field for emails
-  * Email subjects no longer include the application name
-  * Users without projects will now be prompted when they view the calendar to create a project
-  * Default new user settings updated to also show completed stickies
   * The About page now references the Task Tracker forum and contact information
-  * Compact editing of templates added
-    * Template items can be reordered by dragging stickies
+  * Sticky Changes:
+    * Creating a group of stickies from the project page now refreshes and shows the newly created stickies
+    * Cleaned up lists of stickies by changing how they expand when clicking on them
+  * Template Changes:
+    * Frames and Templates now require unique names per project
+    * Templates can now be copied
+      * Note: Tags and owners aren't copied to new templates
+    * Compact editing of templates added
+      * Template items can be reordered by dragging stickies
+    * Generating a new group from a template now requires the project to be specified to limit the number of templates that are displayed
+  * Email Changes:
+    * Default application name is now added to the from: field for emails
+    * Email subjects no longer include the application name
+  * New Registration Changes:
+    * Users without projects will now be prompted when they view the calendar to create a project
+    * Default new user settings updated to also show completed stickies
 
 * Refactoring
   * Comments no longer use class_name or class_id and now require to be part of a sticky_id
