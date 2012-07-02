@@ -1,23 +1,4 @@
 jQuery ->
-#  $( "#dialog-form" ).dialog(
-#    autoOpen: false
-#    height: 310
-#    width: 520
-#    modal: true
-#    buttons:
-#      "Create Stickies": () ->
-#        $('#template_frame_form').submit()
-#        $( this ).dialog( "close" )
-#      Cancel: () ->
-#        $( this ).dialog( "close" )
-#  )
-
-#  $( "#generate-stickies" )
-#    # .button()
-#    .click( () ->
-#      $( "#dialog-form" ).dialog( "open" )
-#  )
-
   $('#template_project_id').change( () ->
     $.post(root_url + 'templates/items', $("form").serialize() + "&_method=post", null, "script")
     false
@@ -32,3 +13,11 @@ jQuery ->
     $.post(root_url + 'templates/selection', $("#group_template_id").serialize(), null, "script")
     false
   )
+
+  $('#items_container[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
+
+  $(document)
+    .on('click', '[data-object~="expand-item-details"]', () ->
+      $('[data-object~="' + $(this).data('selector') + '"]').hide()
+      $($(this).data('target')).show()
+    )

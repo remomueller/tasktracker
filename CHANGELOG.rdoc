@@ -13,6 +13,8 @@
   * Users without projects will now be prompted when they view the calendar to create a project
   * Default new user settings updated to also show completed stickies
   * The About page now references the Task Tracker forum and contact information
+  * Compact editing of templates added
+    * Template items can be reordered by dragging stickies
 
 * Refactoring
   * Comments no longer use class_name or class_id and now require to be part of a sticky_id
