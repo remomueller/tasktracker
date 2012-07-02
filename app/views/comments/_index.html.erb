@@ -17,6 +17,6 @@
 
 <%= form_tag comments_path(sticky_id: @sticky.id, position: @position, per: params[:per].to_i), method: :post, remote: true do %>
   <%= hidden_field_tag :position, @position %>
-  <%= text_area_tag "sticky[#{@sticky.id}][comment][#{@position}]", '', name: 'comment[description]', rows: 2, style: "width:98%;margin:5px" %>
-  <%= submit_tag 'Add Comment', class: 'btn btn-primary' %>
+  <%= text_area_tag "sticky[#{@sticky.id}][comment][#{@position}]", '', name: 'comment[description]', rows: 2, style: "width:95%;margin:5px" %>
+  <%= submit_tag 'Add Comment', class: 'btn btn-primary', style: 'margin:5px 0 0 5px' %>
 <% end %>
