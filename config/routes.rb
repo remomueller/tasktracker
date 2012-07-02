@@ -66,7 +66,7 @@ Notes::Application.routes.draw do
     end
   end
 
-  match "/about" => "sites#about", as: :about
+  match "/about" => "application#about", as: :about
   match "/settings" => "users#settings", as: :settings
 
   root to: "stickies#calendar"

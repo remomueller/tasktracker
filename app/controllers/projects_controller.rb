@@ -97,10 +97,16 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.new(post_params)
 
-    if @project.save
-      redirect_to(@project, notice: 'Project was successfully created.')
-    else
-      render action: "new"
+    respond_to do |format|
+      if @project.save
+        format.html { redirect_to(@project, notice: 'Project was successfully created.') }
+        format.js { render 'create' }
+        format.json { render json: @project, status: :created, location: @project }
+      else
+        format.html { render "new" }
+        format.js { render "new" }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
     end
   end
 

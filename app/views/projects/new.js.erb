@@ -1,0 +1,3 @@
+<% @project.errors.each do |key, value| %>
+  $('#project_<%= key %>').parent().parent().addClass('error');
+<% end %>

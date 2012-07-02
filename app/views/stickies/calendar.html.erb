@@ -28,32 +28,15 @@
   <br /><br /><center style="background-color:transparent"><%= image_tag "contour/ajax-loader.gif" %></center>
 </div>
 
-<%= render partial: 'new_sticky_or_group_dialog' %>
+<div id="sticky_group_dialog_container">
+  <%= render partial: 'new_sticky_or_group_dialog' %>
+</div>
 
 <section id="projects">
-  <div class="page-header">
-    <h3>Projects</h3>
-  </div>
-
-  <p>
-    <% current_user.all_viewable_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").in_groups_of(6).each do |row_projects| %>
-      <div class="row">
-        <% row_projects.each do |project| %>
-          <div class="span2" style="padding:20px 0px">
-            <% if project %>
-              <% form_name = "project_#{project.id}_visible" %>
-              <%= form_tag visible_project_path(project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
-                <%= check_box_tag :visible, '1', !current_user.hidden_project_ids.include?(project.id), onclick: "$('##{form_name}').submit();" %>
-              <% end %>
-              <%= link_to project.name, project, style: "color: #{project.color(current_user)}", class: "project_#{project.id}_color" %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
-  </p>
+  <%= render partial: 'projects/calendar' %>
 </section>
 
+<%= render partial: 'layouts/welcome_dialog' if current_user.all_projects.size == 0 %>
 
 <%= javascript_tag do %>
   $(function(){
