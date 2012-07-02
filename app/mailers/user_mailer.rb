@@ -7,7 +7,7 @@ class UserMailer < ActionMailer::Base
     @system_admin = system_admin
     @user = user
     mail(to: system_admin.email,
-         subject: @subject + "#{user.name} Signed Up",
+         subject: "#{user.name} Signed Up",
          reply_to: user.email)
   end
 
@@ -15,7 +15,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @user = user
     mail(to: user.email,
-         subject: @subject + "#{user.name}'s Account Activated") #,
+         subject: "#{user.name}'s Account Activated") #,
 #         reply_to: user.email)
   end
 
@@ -23,7 +23,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @project_user = project_user
     mail(to: project_user.user.email,
-         subject: @subject + "#{project_user.project.user.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}",
+         subject: "#{project_user.project.user.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}",
          reply_to: project_user.project.user.email)
   end
 
@@ -33,7 +33,7 @@ class UserMailer < ActionMailer::Base
     @sticky = sticky
     @recipient = recipient
     mail(to: recipient.email,
-         subject: @subject + "#{comment.user.name} Commented on Sticky #{sticky.name}",
+         subject: "#{comment.user.name} Commented on Sticky #{sticky.name}",
          reply_to: comment.user.email)
   end
 
@@ -43,7 +43,7 @@ class UserMailer < ActionMailer::Base
     @recipient = recipient
     attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
-         subject: @subject + "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
+         subject: "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
          reply_to: sticky.user.email)
   end
 
@@ -53,7 +53,7 @@ class UserMailer < ActionMailer::Base
     @recipient = recipient
     attachments['event.ics'] = { mime_type: 'text/calendar', content: @group.export_ics }
     mail(to: recipient.email,
-         subject: @subject + "#{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}",
+         subject: "#{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}",
          reply_to: group.user.email)
   end
 
@@ -63,7 +63,7 @@ class UserMailer < ActionMailer::Base
     @recipient = recipient
     attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
-         subject: @subject + "#{sticky.owner.name} Completed a Sticky on Project #{sticky.project.name}",
+         subject: "#{sticky.owner.name} Completed a Sticky on Project #{sticky.project.name}",
          reply_to: sticky.owner.email)
   end
 
@@ -73,7 +73,7 @@ class UserMailer < ActionMailer::Base
     @recipient = recipient
     attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } # Always include
     mail(to: recipient.email,
-         subject: @subject + "Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}")
+         subject: "Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}")
   end
 
   def daily_stickies_due(recipient)
@@ -95,13 +95,13 @@ class UserMailer < ActionMailer::Base
     attachments['event.ics'] = { mime_type: 'text/calendar', content: @ics_string }
 
     mail(to: recipient.email,
-         subject: @subject + [due_today, past_due, due_upcoming].compact.join(' and '))
+         subject: [due_today, past_due, due_upcoming].compact.join(' and '))
   end
 
   protected
 
   def setup_email
-    @subject = "[#{DEFAULT_APP_NAME}#{' - development' if Rails.env == 'development'}] "
+    # @subject = "[#{DEFAULT_APP_NAME}#{' - development' if Rails.env == 'development'}] "
     @footer_html = "Change email settings here: <a href=\"#{SITE_URL}/settings\">#{SITE_URL}/settings</a>.<br /><br />".html_safe
     @footer_txt = "Change email settings here: #{SITE_URL}/settings."
   end
