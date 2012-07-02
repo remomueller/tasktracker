@@ -25,18 +25,22 @@
 
 <div id="dialog-form" class="modal" style="display:none">
   <div class="modal-header">
-    Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %>
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %></h3>
   </div>
   <div class="modal-body">
-  <%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_frame_form' do %>
-    <div class="field"><%= label_tag :frame_id %><br />
-    <%= select_tag :frame_id, options_for_select([['Backlog', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %>
+  <%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_frame_form', class: 'form-horizontal' do %>
+    <div class="control-group">
+      <%= label_tag :frame_id, 'Frame', class: 'control-label' %>
+      <div class="controls"><%= select_tag :frame_id, options_for_select([['Backlog', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %></div>
     </div>
-    <div class="field"><%= label_tag :initial_due_date %><br />
-      <%= text_field_tag :initial_due_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %>
+    <div class="control-group">
+      <%= label_tag :initial_due_date, 'Initial Due Date', class: 'control-label' %>
+      <div class="controls"><%= text_field_tag :initial_due_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %></div>
     </div>
-    <div class="field"><%= label_tag :additional_text %><br />
-      <%= text_area_tag :additional_text, '', rows: 7, style: "width:470px" %>
+    <div class="control-group">
+      <%= label_tag :additional_text, 'Additional Text', class: 'control-label' %>
+      <div class="controls"><%= text_area_tag :additional_text, '', rows: 7, style: "width:95%" %></div>
     </div>
   <% end %>
   </div>
