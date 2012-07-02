@@ -1,4 +1,4 @@
-<div id="welcome-dialog" class="modal fade" style="display:none">
+<div id="welcome-dialog" class="modal" style="display:none">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
     <h3>Welcome To <%= DEFAULT_APP_NAME %>!</h3>
@@ -23,7 +23,6 @@
   </div>
 
   <div class="modal-footer">
-    <%#= link_to 'Close', '#', class: 'btn', data: { target: "#delete-sticky-dialog_#{sticky.id}", object: 'modal-hide' } %>
     <%= link_to 'Create Project', '#', class: 'btn btn-primary', data: { target: "#new_project", object: 'submit' } %>
   </div>
 </div>

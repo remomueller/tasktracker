@@ -36,7 +36,7 @@
   <%= render partial: 'projects/calendar' %>
 </section>
 
-<%= render partial: 'layouts/welcome_dialog' if current_user.all_projects.size == 0 %>
+<%= render partial: 'layouts/welcome_dialog' if current_user.all_viewable_projects.size == 0 %>
 
 <%= javascript_tag do %>
   $(function(){

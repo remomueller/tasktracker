@@ -78,6 +78,14 @@
   uncheckAllWithSelector('.tag-box')
   $('#stickies_search').submit()
 
+@openCalendarPopup = (selected_date) ->
+  if $('#welcome-dialog').length > 0
+    $('#welcome-dialog').modal('toggle');
+  else
+    $('#initial_due_date').val(selected_date)
+    $('#sticky_due_date').val(selected_date)
+    $('#new-sticky-or-group-dialog').modal( dynamic: true )
+
 jQuery ->
   $("#sticky_calendar_form")
     .on("change", (event) ->
