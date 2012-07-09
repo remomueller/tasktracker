@@ -1,4 +1,4 @@
-= Task Tracker {<img src="https://secure.travis-ci.org/remomueller/notes.png"/>}[http://travis-ci.org/remomueller/notes] {<img src="https://gemnasium.com/remomueller/notes.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/notes]
+= Task Tracker {<img src="https://secure.travis-ci.org/remomueller/tasktracker.png"/>}[http://travis-ci.org/remomueller/tasktracker] {<img src="https://gemnasium.com/remomueller/tasktracker.png" alt="Dependency Status" />}[https://gemnasium.com/remomueller/tasktracker]
 
 Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 3.2+ and Ruby 1.9.3+.
 
@@ -10,11 +10,11 @@ Once you have the prerequisites in place, you can proceed to install bundler whi
 
   gem install bundler
 
-This readme assumes the following installation directory: /var/www/notes
+This readme assumes the following installation directory: /var/www/tasktracker
 
   cd /var/www
 
-  git clone git://github.com/remomueller/notes.git
+  git clone git://github.com/remomueller/tasktracker.git
 
   cd notes
 
@@ -40,13 +40,13 @@ All done!
 
 Edit Cron Jobs <tt>sudo crontab -e</tt> to run the task lib/tasks/reminder_email.rake
 
-  0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/notes && /usr/local/rvm/gems/ruby-1.9.3-p194/bin/bundle exec rake reminder_email RAILS_ENV=production
+  0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-1.9.3-p194/bin/bundle exec rake reminder_email RAILS_ENV=production
 
 == Exporting the Task Tracker Data Dictionary for use by {Hybrid}[https://github.com/remomueller/hybrid] for dynamic reporting and searches
 
 Edit Cron Jobs <tt>sudo crontab -e</tt> to export the data dictionary
 
-  30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/notes && /usr/local/rvm/gems/ruby-1.9.3-p194/bin/bundle exec rake export_dictionary RAILS_ENV=production
+  30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-1.9.3-p194/bin/bundle exec rake export_dictionary RAILS_ENV=production
 
 == Contributing to Task Tracker
 
@@ -60,5 +60,5 @@ Edit Cron Jobs <tt>sudo crontab -e</tt> to export the data dictionary
 
 == Copyright {<img style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png"/>}[http://creativecommons.org/licenses/by-nc-sa/3.0/]
 
-Copyright (c) 2012 Remo Mueller. See {LICENSE}[https://github.com/remomueller/notes/blob/master/LICENSE] for further details.
+Copyright (c) 2012 Remo Mueller. See {LICENSE}[https://github.com/remomueller/tasktracker/blob/master/LICENSE] for further details.
 
