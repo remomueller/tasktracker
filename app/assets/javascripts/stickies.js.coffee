@@ -130,3 +130,18 @@ jQuery ->
       $('[data-object~="' + $(this).data('selector') + '"]').hide()
       $($(this).data('target')).show()
     )
+    .on('click', '#assigned-to-me-btn', () ->
+      $(this).button('toggle')
+      if $(this).hasClass('active')
+        $('#assigned_to_me').val('1')
+      else
+        $('#assigned_to_me').val('0')
+    )
+    .on('click', '#all-stickies', () ->
+      $('#status_planned').val('planned')
+      $('#status_completed').val('completed')
+    )
+    .on('click', '#not-completed-stickies', () ->
+      $('#status_planned').val('planned')
+      $('#status_completed').val('')
+    )

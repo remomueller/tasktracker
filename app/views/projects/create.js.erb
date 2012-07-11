@@ -2,4 +2,5 @@ $('#welcome-dialog').modal('hide');
 $('#welcome-dialog').remove();
 $('#projects').html("<%= escape_javascript(render("projects/calendar")) %>");
 $('#sticky_group_dialog_container').html("<%= escape_javascript(render("stickies/new_sticky_or_group_dialog")) %>");
-$('.container:eq(1)').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>Project Created!</strong> Double-click on the calendar to create a task.</div>')
+
+flashMessage("<strong>Project Created!</strong> Double-click on the calendar to create a task.");
