@@ -4,10 +4,10 @@ class CommentsController < ApplicationController
   def search
     @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
     if @sticky
-      comments_scope = @sticky.comments
+      comment_scope = @sticky.comments
       @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-      @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
-      @comments = comments_scope.page(params[:page]).per(params[:per])
+      @search_terms.each{|search_term| comment_scope = comment_scope.search(search_term) }
+      @comments = comment_scope.page(params[:page]).per(params[:per])
     else
       render nothing: true
     end
@@ -15,10 +15,14 @@ class CommentsController < ApplicationController
 
   def index
     current_user.update_attribute :comments_per_page, params[:comments_per_page].to_i if params[:comments_per_page].to_i >= 10 and params[:comments_per_page].to_i <= 200
-    comments_scope = current_user.all_viewable_comments
+    comment_scope = current_user.all_viewable_comments
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| comments_scope = comments_scope.search(search_term) }
-    @comments = comments_scope.page(params[:page]).per(current_user.comments_per_page)
+    @search_terms.each{|search_term| comment_scope = comment_scope.search(search_term) }
+
+    @order = scrub_order(Comment, params[:order], 'created_at DESC')
+    comment_scope = comment_scope.order(@order)
+
+    @comments = comment_scope.page(params[:page]).per(current_user.comments_per_page)
   end
 
   def show

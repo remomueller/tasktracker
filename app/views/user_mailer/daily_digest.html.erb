@@ -1,0 +1,62 @@
+Hello <%= @recipient.first_name %>,<br />
+
+<% if @recipient.digest_stickies_created.size > 0 %>
+  <br />
+  <br />
+
+  <span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> Recently<br />
+  <br />
+  <% @recipient.digest_stickies_created.group_by{|s| s.project_id}.each do |project_id, stickies| %>
+    <%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %><br />
+    <table>
+    <% stickies.each do |sticky| %>
+      <tr><%= @sticky = sticky; render partial: 'digest_sticky' %></tr>
+    <% end %>
+    </table>
+    <br />
+  <% end %>
+<% end %>
+
+<% if @recipient.digest_stickies_completed.size > 0 %>
+  <br />
+  <br />
+
+  <span style="border:1px solid #366DC2;background-color:#c2daff">COMPLETED</span> Recently<br />
+  <br />
+  <% @recipient.digest_stickies_completed.group_by{|s| s.project_id}.each do |project_id, stickies| %>
+    <%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %><br />
+    <table>
+    <% stickies.each do |sticky| %>
+      <tr><%= @sticky = sticky; render partial: 'digest_sticky' %></tr>
+    <% end %>
+    </table>
+    <br />
+  <% end %>
+<% end %>
+
+<% if @recipient.digest_comments.size > 0 %>
+  <br />
+  <br />
+  <span style="border:1px solid #ff9900;background-color:#ffe0b2">COMMENTS</span><br />
+  <br />
+  <% @recipient.digest_comments.group_by{|s| s.project_id}.each do |project_id, comments| %>
+    <%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %><br />
+    <p style="margin-top:8px">
+    <% comments.group_by{|s| s.sticky_id}.each do |sticky_id, comments| %>
+      <%= ((sticky = Sticky.find_by_id(sticky_id)) ? link_to(sticky.name, "#{SITE_URL}/stickies/#{sticky.id}") : 'No Sticky') %> <%= sticky.full_description[0..50].to_s + (sticky.full_description.size > 51 ? "..." : '') %>
+      <p style="margin-top:8px">
+      <% comments.each do |comment| %>
+        <%= @comment = comment; render partial: 'digest_comment' %>
+      <% end %>
+      </p>
+    <% end %>
+    </p>
+    <br />
+  <% end %>
+<% end %>
+
+
+<br />
+<%= DEFAULT_APP_NAME %> Mailer<br />
+<br />
+<%= @footer_html %>

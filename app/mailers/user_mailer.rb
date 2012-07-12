@@ -98,6 +98,15 @@ class UserMailer < ActionMailer::Base
          subject: [due_today, past_due, due_upcoming].compact.join(' and '))
   end
 
+  def daily_digest(recipient)
+    setup_email
+    @recipient = recipient
+
+    # if @recipient.digest_stickies_created.size + @recipient.digest_stickies_completed.size + @recipient.digest_comments.size > 0
+      mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
+    # end
+  end
+
   protected
 
   def setup_email

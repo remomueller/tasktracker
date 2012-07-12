@@ -5,6 +5,7 @@
   * Sticky popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
   * Stickies can now be reassigned to another user in bulk from the project page
   * Dragging grouped stickies on the calendar now prompts whether to move the invidual sticky, all incomplete stickies in the group, or all the stickies in the group
+  * Daily digest emails are now available for users who prefer a digest of the previous day included stickies added, completed, and comments made
 
 == 0.22.6
 

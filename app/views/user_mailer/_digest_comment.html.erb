@@ -1,0 +1,1 @@
+<span style="margin-left:20px"><i><%= @comment.created_at.strftime('%r') %></i></span><span style="margin-left:20px"><%= @comment.description[0..100].to_s + (@comment.description.size > 101 ? "..." : '') %> - <b><%= @comment.user.name %></b></span><br />

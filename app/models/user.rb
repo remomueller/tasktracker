@@ -19,7 +19,8 @@ class User < ActiveRecord::Base
                  [:sticky_completion, 'Receive email when a sticky is marked as completed'],
                  # [:sticky_due_time_changed, 'Receive email when a sticky\'s due date time is changed'],
                  [:sticky_comments, 'Receive email when a comment is added to a sticky'],
-                 [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'] ]
+                 [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'],
+                 [:daily_digest, 'Receive daily digest emails of stickies that have been created and completed the previous day'] ]
 
   serialize :email_notifications, Hash
   serialize :hidden_project_ids, Array
@@ -138,6 +139,31 @@ class User < ActiveRecord::Base
     self.all_stickies_due_upcoming.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
   end
 
+  def all_digest_projects
+    @all_digest_projects ||= begin
+      self.all_projects.select{|p| self.email_on?(:send_email) and self.email_on?(:daily_digest) and self.email_on?("project_#{p.id}") and self.email_on?("project_#{p.id}_daily_digest") }
+    end
+  end
+
+  # All stickies created today
+  def digest_stickies_created
+    @digest_stickies_created ||= begin
+      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("created_at > ?", Time.now - 1.day)
+    end
+  end
+
+  def digest_stickies_completed
+    @digest_stickies_completed ||= begin
+      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("end_date = ?", Date.yesterday)
+    end
+  end
+
+  def digest_comments
+    @digest_comments ||= begin
+      self.all_viewable_comments.with_project(self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", Time.now - 1.day).order('created_at ASC')
+    end
+  end
+
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
       Sticky.current.with_project(self.all_viewable_projects.pluck(:id), self.id) # .order('created_at DESC')
@@ -200,7 +226,7 @@ class User < ActiveRecord::Base
 
   def all_viewable_comments
     @all_viewable_comments ||= begin
-      Comment.current.where(sticky_id: self.all_viewable_stickies.pluck(:id)).order('created_at DESC')
+      Comment.current.where(sticky_id: self.all_viewable_stickies.pluck(:id)) #.order('created_at DESC')
     end
   end
 

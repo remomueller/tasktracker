@@ -1,0 +1,11 @@
+
+<td>
+  <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %>
+</td>
+<td>
+  <% if @recipient == @sticky.owner %><b><% end %><%= @sticky.full_description[0..100].to_s + (@sticky.full_description.size > 101 ? "..." : '') %><% if @recipient == @sticky.owner %></b><% end %>
+</td>
+
+<td>
+  <%= @tags = @sticky.tags; render partial: 'sticky_tags' %>
+</td>

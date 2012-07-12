@@ -6,6 +6,7 @@ class Comment < ActiveRecord::Base
   scope :search, lambda { |*args| {conditions: [ 'LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :with_creator, lambda { |*args|  { conditions: ["comments.user_id IN (?)", args.first] } }
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(comments.created_at) >= ? and DATE(comments.created_at) <= ?", args.first, args[1]]}}
+  scope :with_project, lambda { |*args| { conditions: ['comments.sticky_id in (select stickies.id from stickies where stickies.deleted = ? and stickies.project_id IN (?))', false, args.first] } }
 
   after_create :send_email
 
@@ -27,6 +28,10 @@ class Comment < ActiveRecord::Base
   def users_to_email(action, project_id, sticky)
     result = (sticky.comments.collect{|c| c.user} + [sticky.user, sticky.owner]).compact.uniq
     result = result.select{|u| u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{project_id}") and u.email_on?("project_#{project_id}_#{action}") }
+  end
+
+  def project_id
+    self.sticky.project_id if self.sticky
   end
 
   private
