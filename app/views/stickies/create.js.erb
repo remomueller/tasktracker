@@ -4,6 +4,14 @@ $('.error').removeClass('error');
 
 <%# TODO Refactor: Following copied to groups/create.js.erb %>
 <% unless @sticky.due_date.blank? %>
+
+  old_element = $("#sticky_<%= @sticky.id %>_popup")
+  if(old_element.parent().children(".sticky_popup").size() == 1){
+    old_element.parent().remove();
+  }else{
+    old_element.remove();
+  }
+
   var tag_container = $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>");
 
   if(tag_container.length > 0){

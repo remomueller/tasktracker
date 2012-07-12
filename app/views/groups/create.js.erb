@@ -5,7 +5,15 @@ $('.error').removeClass('error');
 
 <% @group.stickies.each do |sticky| %>
   <% @sticky = sticky %>
+
   <%# TODO Refactor: Copied from stickies/create.js.erb %>
+  old_element = $("#sticky_<%= @sticky.id %>_popup")
+  if(old_element.parent().children(".sticky_popup").size() == 1){
+    old_element.parent().remove();
+  }else{
+    old_element.remove();
+  }
+
   <% unless @sticky.due_date.blank? %>
     var tag_container = $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>");
 

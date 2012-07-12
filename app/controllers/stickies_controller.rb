@@ -194,12 +194,20 @@ class StickiesController < ApplicationController
     params[:due_date] = Time.parse(params[:due_date].strftime("%Y-%m-%d ") + @sticky.due_at_string) rescue ''
 
     if @sticky and not params[:due_date].blank?
+      original_due_date = @sticky.due_date
       @sticky.update_attribute :due_date, params[:due_date]
+
+      @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
     else
       @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
     end
+
     if @sticky
-      render 'create'
+      if @group = @sticky.group
+        render 'groups/create'
+      else
+        render 'create'
+      end
     else
       render nothing: true
     end

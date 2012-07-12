@@ -372,6 +372,16 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should move grouped sticky and shift grouped incomplete stickies by original sticky shift" do
+    put :move, id: stickies(:grouped_one), due_date: "12/06/2011", shift: 'incomplete', format: 'js'
+    assert_not_nil assigns(:sticky)
+    assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal ['2011-12-02'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: true).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
+    assert_equal ['', '2011-12-08', '2011-12-09', '2011-12-10'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
+    assert_template 'groups/create'
+    assert_response :success
+  end
+
   test "should move sticky on calendar and keep due_at time" do
     post :move, id: stickies(:due_at_ics), due_date: "03/07/2012", format: 'js'
 

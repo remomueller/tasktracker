@@ -40,8 +40,8 @@
   </div>
 <% end %>
 
-<div id="month-breakdown" class="frame" style="min-height:350px;">
-  <br /><br /><center style="background-color:transparent"><%= image_tag "contour/ajax-loader.gif" %></center>
+<div id="month-breakdown" class="frame" style="min-height:565px;">
+  <center><%= image_tag "contour/ajax-loader.gif" %></center>
 </div>
 
 <div id="sticky_group_dialog_container">
@@ -53,6 +53,8 @@
 </section>
 
 <%= render partial: 'layouts/welcome_dialog' if current_user.all_viewable_projects.size == 0 %>
+
+<%= render partial: 'stickies/move_group_dialog' %>
 
 <%= javascript_tag do %>
   $(function(){

@@ -1,0 +1,21 @@
+<div id="move-group-dialog" class="modal" style="display:none">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Move Sticky in Group</h3>
+  </div>
+  <div class="modal-body">
+    <p>
+    This sticky is in a group, choose whether you would like to shift just this sticky, this sticky and any not completed stickies, or all the stickies in the group.
+    <%= hidden_field_tag 'move_sticky_date' %>
+    <%= hidden_field_tag 'move_sticky_element_id' %>
+    <%= hidden_field_tag 'move_sticky_id' %>
+    </p>
+  </div>
+
+  <div class="modal-footer">
+    <%= link_to 'Only This Sticky', '#', class: 'btn btn-primary', data: { object: 'shift-sticky', shift: 'single' } %>
+    <%= link_to 'Shift Not Completed', '#', class: 'btn', data: { object: 'shift-sticky', shift: 'incomplete' } %>
+    <%= link_to 'Shift All Stickies', '#', class: 'btn', data: { object: 'shift-sticky', shift: 'all' } %>
+    <%= link_to 'Cancel', '#', class: 'btn', data: { target: "#move-group-dialog", object: 'modal-hide' } %>
+  </div>
+</div>

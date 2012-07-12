@@ -54,16 +54,38 @@
   $(".droppable").droppable(
     hoverClass: "hover",
     drop: ( event, ui ) ->
+
       date = $(this).attr('data-due-date').replace(/day_/, '').replace(/_/g, '/')
       element_id = ui.draggable.attr('id')
       sticky_id = element_id.replace(/sticky_/, '').replace(/_popup/,'')
-      if $(ui.draggable).parent().children(".sticky_popup").size() == 2
-        $(ui.draggable).parent().remove()
+
+      $('#move_sticky_date').val(date)
+      $('#move_sticky_element_id').val('#' + element_id)
+      $('#move_sticky_id').val(sticky_id)
+
+      if $(ui.draggable).data('grouped') == 'grouped'
+        $('#move-group-dialog').modal('show')
+        return false
+
+      if $(element_id).parent().children(".sticky_popup").size() == 2
+        $(element_id).parent().remove()
       else
-        $(ui.draggable).remove()
+        $(element_id).remove()
       $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date="+date, null, "script");
       false
   )
+
+@completeStickyGroupMove = (shift) ->
+  $('#move-group-dialog').modal('hide')
+  date = $('#move_sticky_date').val()
+  element_id = $('#move_sticky_element_id').val()
+  sticky_id = $('#move_sticky_id').val()
+  if $(element_id).parent().children(".sticky_popup").size() == 1
+    $(element_id).parent().remove()
+  else
+    $(element_id).remove()
+  $.post(root_url + "stickies/#{sticky_id}/move", "due_date=#{date}&shift=#{shift}", null, "script");
+
 
 @resetFilters = () ->
   $('#search').val('')
@@ -144,4 +166,7 @@ jQuery ->
     .on('click', '#not-completed-stickies', () ->
       $('#status_planned').val('planned')
       $('#status_completed').val('')
+    )
+    .on('click', '[data-object~="shift-sticky"]', () ->
+      completeStickyGroupMove($(this).data('shift'))
     )
