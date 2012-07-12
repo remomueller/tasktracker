@@ -1,0 +1,38 @@
+<% @title = 'Reassign Stickies' %>
+<div class="page-header">
+  <h1>
+    <%= @title %>
+    <small><%= "Project #{link_to @project.name, @project} ".html_safe %></small>
+  </h1>
+</div>
+
+<%= form_tag reassign_project_path(@project), method: :post, class: 'form-horizontal' do %>
+  <% owners = User.current.with_project(@project.id, true).order('last_name, first_name') %>
+
+  <div class="control-group">
+    <%= label_tag :from_user_id, 'Currently Assigned To', class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag :from_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]) %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag :to_user_id, 'Reassign To', class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag :to_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]) %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= label_tag :sticky_status, nil, class: 'control-label' %>
+    <div class="controls">
+      <%= select_tag :sticky_status, options_for_select([['Only Not Completed', 'not_completed'], ['Only Completed', 'completed'], ['All', 'all']], params[:sticky_status]) %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= submit_tag 'Reassign Stickies', class: 'btn btn-primary btn-danger', data: { confirm: 'Are you sure you would like to reassign these stickies? This action CANNOT be reversed.' } %>
+    <%= link_to 'Cancel', @project, class: 'btn' %>
+  </div>
+
+<% end %>

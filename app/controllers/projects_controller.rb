@@ -2,6 +2,36 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :api_authentication!, only: [:index, :show, :create, :update]
 
+  def bulk
+    @project = current_user.all_projects.find_by_id(params[:id])
+    redirect_to projects_path unless @project
+  end
+
+  def reassign
+    @project = current_user.all_projects.find_by_id(params[:id])
+    if @project
+      original_user = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id])       # Editors only
+      reassign_to_user = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id])      # Editors only
+      params[:sticky_status] = 'not_completed' unless ['not_completed', 'completed', 'all'].include?(params[:sticky_status])
+      if original_user and reassign_to_user
+        sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user.id)
+        if params[:sticky_status] == 'completed'
+          sticky_scope = sticky_scope.where(completed: true)
+        elsif params[:sticky_status] == 'not_completed'
+          sticky_scope = sticky_scope.where(completed: false)
+        end
+        @sticky_count = sticky_scope.count
+        sticky_scope.update_all(owner_id: reassign_to_user.id)
+        redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Sticky' : 'Stickies'} successfully reassigned."
+      else
+        flash[:error] = 'Please select the original owner and new owner of the stickies.'
+        render 'bulk'
+      end
+    else
+      redirect_to projects_path
+    end
+  end
+
   def colorpicker
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project

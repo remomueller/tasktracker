@@ -20,6 +20,8 @@ Notes::Application.routes.draw do
       post :selection
     end
     member do
+      get :bulk
+      post :reassign
       post :favorite
       post :visible
       post :colorpicker

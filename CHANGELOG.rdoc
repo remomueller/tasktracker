@@ -3,6 +3,7 @@
 * Enhancements
   * Calendar header has been simplified
   * Sticky popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
+  * Stickies can now be reassigned to another user in bulk from the project page
 
 == 0.22.6
 

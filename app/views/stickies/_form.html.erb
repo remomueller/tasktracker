@@ -29,7 +29,7 @@
   <%= render partial: 'stickies/inner_form', locals: { f: f } %>
 
   <div class="form-actions">
-    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
 
     <% if params[:from_calendar] == '1' %>
       <%= link_to 'Cancel', calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')), class: 'btn' %>
