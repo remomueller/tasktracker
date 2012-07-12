@@ -2,6 +2,7 @@
 
 * Enhancements
   * Calendar header has been simplified
+  * Sticky popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
 
 == 0.22.6
 
