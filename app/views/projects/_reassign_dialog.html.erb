@@ -1,0 +1,37 @@
+<div id="reassign-dialog" class="modal" style="display:none">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Reassign Stickies</h3>
+  </div>
+  <div class="modal-body">
+    <%= form_tag reassign_project_path(@project), method: :post, remote: true, class: 'form-horizontal', id: 'reassign_form' do %>
+      <% owners = User.current.with_project(@project.id, true).order('last_name, first_name') %>
+
+      <div class="control-group">
+        <%= label_tag :from_user_id, 'Currently Assigned To', class: 'control-label' %>
+        <div class="controls">
+          <%= select_tag :from_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]) %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= label_tag :to_user_id, 'Reassign To', class: 'control-label' %>
+        <div class="controls">
+          <%= select_tag :to_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]) %>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <%= label_tag :sticky_status, nil, class: 'control-label' %>
+        <div class="controls">
+          <%= select_tag :sticky_status, options_for_select([['Only Not Completed', 'not_completed'], ['Only Completed', 'completed'], ['All', 'all']], params[:sticky_status]) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="modal-footer">
+    <%= link_to 'Reassign Stickies', '#', class: 'btn btn-danger', data: { target: "#reassign_form", object: 'submit', confirm: 'Are you sure you would like to reassign these stickies? This action CANNOT be reversed.' } %>
+    <%= link_to 'Cancel', '#', class: 'btn', data: { target: "#reassign-dialog", object: 'modal-hide' } %>
+  </div>
+</div>

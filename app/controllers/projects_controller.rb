@@ -9,26 +9,33 @@ class ProjectsController < ApplicationController
 
   def reassign
     @project = current_user.all_projects.find_by_id(params[:id])
-    if @project
-      original_user = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id])       # Editors only
-      reassign_to_user = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id])      # Editors only
-      params[:sticky_status] = 'not_completed' unless ['not_completed', 'completed', 'all'].include?(params[:sticky_status])
-      if original_user and reassign_to_user
-        sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user.id)
-        if params[:sticky_status] == 'completed'
-          sticky_scope = sticky_scope.where(completed: true)
-        elsif params[:sticky_status] == 'not_completed'
-          sticky_scope = sticky_scope.where(completed: false)
+    respond_to do |format|
+      if @project
+        original_user = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id])       # Editors only
+        reassign_to_user = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id])      # Editors only
+        params[:sticky_status] = 'not_completed' unless ['not_completed', 'completed', 'all'].include?(params[:sticky_status])
+        if original_user and reassign_to_user
+          sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user.id)
+          if params[:sticky_status] == 'completed'
+            sticky_scope = sticky_scope.where(completed: true)
+          elsif params[:sticky_status] == 'not_completed'
+            sticky_scope = sticky_scope.where(completed: false)
+          end
+          @sticky_count = sticky_scope.count
+          sticky_scope.update_all(owner_id: reassign_to_user.id)
+          format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Sticky' : 'Stickies'} successfully reassigned." }
+          format.js # reassign.js.erb
+        else
+          format.html do
+            flash[:error] = 'Please select the original owner and new owner of the stickies.'
+            render 'bulk'
+          end
+          format. js # reassign.js.erb
         end
-        @sticky_count = sticky_scope.count
-        sticky_scope.update_all(owner_id: reassign_to_user.id)
-        redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Sticky' : 'Stickies'} successfully reassigned."
       else
-        flash[:error] = 'Please select the original owner and new owner of the stickies.'
-        render 'bulk'
+        format.html { redirect_to projects_path }
+        format.js { render nothing: true }
       end
-    else
-      redirect_to projects_path
     end
   end
 

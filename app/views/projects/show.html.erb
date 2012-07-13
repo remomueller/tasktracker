@@ -16,7 +16,8 @@
     </div>
 
     <div class="btn-group">
-      <%= link_to 'Reassign Stickies', bulk_project_path(@project), class: 'btn btn-mini' %>
+      <%#= link_to 'Reassign Stickies', bulk_project_path(@project), class: 'btn btn-mini' %>
+      <%= link_to 'Reassign Stickies', '#', class: 'btn btn-mini', data: { object: 'modal-show', target: '#reassign-dialog' } %>
     </div>
 
     <div class="btn-group">
@@ -139,6 +140,7 @@
 </div>
 
 <%= render partial: 'stickies/new_sticky_or_group_dialog' %>
+<%= render partial: 'projects/reassign_dialog' %>
 
 <%= javascript_tag do %>
   $(function(){
