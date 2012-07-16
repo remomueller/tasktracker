@@ -4,63 +4,84 @@ one:
   project: one
   user: valid
   allow_editing: false
+  creator: valid
 
 two:
   project: two
   user: valid
   allow_editing: false
+  creator: valid
+  invite_token: validintwo
 
 three:
   project: one
   user: pending
   allow_editing: false
+  creator: valid
 
 four:
   project: one
   user: admin
   allow_editing: true
+  creator: valid
 
 five:
   project: three
   user: valid
   allow_editing: false
+  creator: admin
 
 six:
   project: one
   user: send_no_email
   allow_editing: true
+  creator: valid
 
 seven:
   project: one
   user: send_no_email_for_project_one
   allow_editing: true
+  creator: valid
 
 eight:
   project: one
   user: send_no_email_for_sticky_creation
   allow_editing: true
+  creator: valid
 
 nine:
   project: one
   user: send_no_email_for_project_one_sticky_creation
   allow_editing: true
+  creator: valid
 
 ten:
   project: one
   user: send_no_email_for_sticky_completion
   allow_editing: true
+  creator: valid
 
 eleven:
   project: one
   user: send_no_email_for_project_one_sticky_completion
   allow_editing: true
+  creator: valid
 
 fourteen:
   project: one
   user: send_no_email_for_sticky_comments
   allow_editing: true
+  creator: valid
 
 fifteen:
   project: one
   user: send_no_email_for_project_one_sticky_comments
   allow_editing: true
+  creator: valid
+
+invited:
+  project: one
+  creator: valid
+  allow_editing: true
+  invite_token: abc123
+  invite_email: invited_user@example.com

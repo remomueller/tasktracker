@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
 
   # User Methods
 
+  def associated_users
+    User.current.human.with_project(self.all_projects.pluck(:id), [true, false])
+  end
+
   def update_sticky_filters!(sticky_filter_hash = {})
     self.update_attribute :sticky_filters, sticky_filter_hash
   end

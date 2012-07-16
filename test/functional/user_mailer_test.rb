@@ -36,8 +36,19 @@ class UserMailerTest < ActionMailer::TestCase
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [project_user.user.email], email.to
-    assert_equal "#{project_user.project.user.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}", email.subject
-    assert_match(/#{project_user.project.user.name} has added you to Project #{project_user.project.name}/, email.encoded)
+    assert_equal "#{project_user.creator.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}", email.subject
+    assert_match(/#{project_user.creator.name} has added you to Project #{project_user.project.name}/, email.encoded)
+  end
+
+  test "user invited to project email" do
+    project_user = project_users(:invited)
+
+    email = UserMailer.invite_user_to_project(project_user).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [project_user.invite_email], email.to
+    assert_equal "#{project_user.creator.name} Invites You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}", email.subject
+    assert_match(/#{project_user.creator.name} has invited you to Project #{project_user.project.name}/, email.encoded)
   end
 
   test "comment by mail email" do

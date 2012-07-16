@@ -13,7 +13,11 @@ Notes::Application.routes.draw do
     end
   end
 
-  resources :project_users
+  resources :project_users do
+    collection do
+      get :accept
+    end
+  end
 
   resources :projects do
     collection do
