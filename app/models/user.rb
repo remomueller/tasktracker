@@ -150,22 +150,24 @@ class User < ActiveRecord::Base
     end
   end
 
-  # All stickies created today
+  # All stickies created in the last day, or over the weekend if it's Monday
+  # Ex: On Monday, returns stickies created since Friday morning (Time.now - 3.day)
+  # Ex: On Tuesday, returns stickies created since Monday morning (Time.now - 1.day)
   def digest_stickies_created
     @digest_stickies_created ||= begin
-      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("created_at > ?", Time.now - 1.day)
+      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
     end
   end
 
   def digest_stickies_completed
     @digest_stickies_completed ||= begin
-      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("end_date = ?", Date.yesterday)
+      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("end_date >= ?", (Date.today.monday? ? Date.today - 3.day : Date.today - 1.day))
     end
   end
 
   def digest_comments
     @digest_comments ||= begin
-      self.all_viewable_comments.with_project(self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", Time.now - 1.day).order('created_at ASC')
+      self.all_viewable_comments.with_project(self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day)).order('created_at ASC')
     end
   end
 

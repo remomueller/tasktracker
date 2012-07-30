@@ -8,6 +8,7 @@
   * Sticky JSON API returns group_description
   * Updated to Rails 3.2.7
     * Removed deprecated use of update_attribute for Rails 4.0 compatibility
+  * Daily Digest emails now include stickies created/completed, and comments created over the weekend in the monday digest
 
 * Bug Fix
   * Height of the drop down menu for sticky exports is now consistent with other drop down menus
