@@ -14,11 +14,13 @@
 
 
 <% @project.project_users.where(allow_editing: @relation == 'editors').each do |project_user| %>
-  <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();" style="line-height:25px">
+  <li onmouseover="$('#project_user_<%= project_user.id %>_delete').show();" onmouseout="$('#project_user_<%= project_user.id %>_delete').hide();" style="line-height:25px" title="<%= "Invited by #{project_user.creator.name}" if project_user.creator %>">
     <% if project_user.user %>
       <%= link_to project_user.user.name, project_user.user %>
     <% else %>
-      <span class='muted'><%= project_user.invite_email %></span>
+      <span class='muted'>
+        <%= project_user.invite_email %> <%= text_field_tag "project_user_#{project_user.id}_invite", "#{SITE_URL}/project_users/accept?invite_token=#{project_user.invite_token}" if current_user == project_user.creator %>
+      </span>
     <% end %>
     <span id="project_user_<%= project_user.id %>_delete" style="display:none">
       <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove #{project_user.user ? project_user.user.name : project_user.invite_email} from the list of #{@relation}?" } if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
