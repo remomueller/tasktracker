@@ -44,7 +44,7 @@ class Sticky < ActiveRecord::Base
   has_many :comments, order: 'created_at desc', conditions: { deleted: false }
 
   def as_json(options={})
-    super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :frame_id, :due_date, :group_id, :duration, :duration_units, :all_day, :created_at, :updated_at], methods: [:sticky_link, :tags])
+    super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :frame_id, :due_date, :duration, :duration_units, :all_day, :created_at, :updated_at, :group_id], methods: [:group_description, :sticky_link, :tags])
   end
 
   def sticky_link
@@ -134,6 +134,12 @@ class Sticky < ActiveRecord::Base
       else
         self.description
       end
+    end
+  end
+
+  def group_description
+    @group_description ||= begin
+      (self.group ? self.group.description : nil)
     end
   end
 
