@@ -10,6 +10,7 @@
 
 * Bug Fix
   * Height of the drop down menu for sticky exports is now consistent with other drop down menus
+  * Tags filters on stickies page no longer use colors for deleted tags
 
 * Testing
   * Use ActionDispatch for Integration tests instead of ActionController

@@ -21,7 +21,7 @@
           </div>
           <div style="min-height:90px;padding-left:2px;padding-right:2px" id="day_<%= iDate.strftime("%m_%d_%Y") %>">
             <% @stickies.with_due_date_for_calendar(iDate, iDate).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies| %>
-              <% @tags = Tag.find_all_by_id(tag_ids) %>
+              <% @tags = Tag.current.find_all_by_id(tag_ids) %>
               <div style="padding-bottom:5px" id="day_<%= iDate.strftime("%m_%d_%Y") %>_tag_container_<%= tag_ids.sort.join('_') %>">
                 <%= render partial: 'tags/small_tags' %>
                 <% stickies.sort{|a,b| a.due_date <=> b.due_date}.each do |sticky| %>

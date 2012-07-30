@@ -6,7 +6,7 @@
 <% projects.collect{|p| p.tags.pluck(:name)}.flatten.uniq.sort.in_groups_of(6).each do |row_tags| %>
 <tr>
   <% row_tags.each do |tag_name| %>
-    <% if tag_name %><td style="padding-top:5px"><%= check_box_tag "tag_names[]", tag_name, (params[:tag_names] || []).include?(tag_name), class: 'tag-box' %> <%= @tag = Tag.find_by_name(tag_name); render partial: 'tags/show' %></td><% end %>
+    <% if tag_name %><td style="padding-top:5px"><%= check_box_tag "tag_names[]", tag_name, (params[:tag_names] || []).include?(tag_name), class: 'tag-box' %> <%= @tag = current_user.all_viewable_tags.find_by_name(tag_name); render partial: 'tags/show' %></td><% end %>
   <% end %>
 </tr>
 <% end %>
