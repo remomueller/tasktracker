@@ -91,7 +91,7 @@
   $('#search').val('')
   $('#project_id').val('')
   $('#owner_id').val('')
-  $('#unnassigned').attr('checked','checked')
+  $('#unassigned').attr('checked','checked')
   $('#due_date_start_date').val('')
   $('#due_date_end_date').val('')
   $('#status_planned').attr('checked','checked')

@@ -1,7 +1,10 @@
 == 0.23.1
 
 * Enhancements
-  * Sticky JSON API now includes group_description
+  * Sticky JSON API filters
+    * owner_id: me, returns stickies assigned to the current user
+    * unassigned: 1, returns stickies that are not assigned to a specific user
+  * Sticky JSON API returns group_description
   * Updated to Rails 3.2.7
     * Removed deprecated use of update_attribute for Rails 4.0 compatibility
 
@@ -208,7 +211,7 @@
     * Displays stickies in the following or preceding month
     * Can filter stickies assigned to the user
   * Project selection dropdowns are now sorted by favorites first
-  * Stickies search now allows users to filter unnassigned stickies
+  * Stickies search now allows users to filter unassigned stickies
   * Email settings page now prompts user if the user navigates away without saving updated settings
   * Tagging improvements:
     * Sticky list page can now filter stickies which contain at least one, or all selected tags

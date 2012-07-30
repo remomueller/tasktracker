@@ -55,7 +55,7 @@ class StickiesController < ApplicationController
     current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'
 
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
-    sticky_scope = sticky_scope.with_owner(params[:owner_id]) unless params[:owner_id].blank?
+    sticky_scope = sticky_scope.with_owner(params[:owner_id] == 'me' ? current_user.id : params[:owner_id]) unless params[:owner_id].blank?
 
     @start_date = begin Date.strptime(params[:due_date_start_date], "%m/%d/%Y") rescue nil end
     @end_date = begin Date.strptime(params[:due_date_end_date], "%m/%d/%Y") rescue nil end
@@ -65,7 +65,7 @@ class StickiesController < ApplicationController
 
     sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
     sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
-    sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unnassigned].to_s != '1'
+    sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unassigned].to_s != '1'
 
     unless params[:tag_names].blank?
       if params[:tag_filter] == 'any'
