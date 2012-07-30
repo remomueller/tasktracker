@@ -8,6 +8,9 @@
   * Updated to Rails 3.2.7
     * Removed deprecated use of update_attribute for Rails 4.0 compatibility
 
+* Bug Fix
+  * Height of the drop down menu for sticky exports is now consistent with other drop down menus
+
 * Testing
   * Use ActionDispatch for Integration tests instead of ActionController
 
