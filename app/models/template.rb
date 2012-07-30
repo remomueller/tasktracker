@@ -28,8 +28,7 @@ class Template < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
-    # self.stickies.update_all(frame_id: nil)
+    update_column :deleted, true
   end
 
   def item_tokens=(tokens)

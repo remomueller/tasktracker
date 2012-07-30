@@ -8,7 +8,7 @@ class GroupsController < ApplicationController
   end
 
   def index
-    current_user.update_attribute :groups_per_page, params[:groups_per_page].to_i if params[:groups_per_page].to_i >= 10 and params[:groups_per_page].to_i <= 200
+    current_user.update_column :groups_per_page, params[:groups_per_page].to_i if params[:groups_per_page].to_i >= 10 and params[:groups_per_page].to_i <= 200
     group_scope = current_user.all_viewable_groups
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| group_scope = group_scope.search(search_term) }

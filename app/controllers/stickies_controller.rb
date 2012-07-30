@@ -7,7 +7,7 @@ class StickiesController < ApplicationController
       user_settings = current_user.settings
       user_settings[:calendar_status] = params[:status] || []
       user_settings[:assigned_to_me] = (params[:assigned_to_me] == '1') ? '1' : '0'
-      current_user.update_attribute :settings, user_settings
+      current_user.update_attributes settings: user_settings
     else
       params[:status] = current_user.settings[:calendar_status] || []
       params[:assigned_to_me] = (current_user.settings[:assigned_to_me] == '1') ? '1' : '0'
@@ -32,7 +32,7 @@ class StickiesController < ApplicationController
   end
 
   def search
-    current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
+    current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
       @frame = Frame.find_by_id(params[:frame_id])
       @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
@@ -51,7 +51,7 @@ class StickiesController < ApplicationController
   end
 
   def index
-    current_user.update_attribute :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
+    current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'
 
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
@@ -195,7 +195,7 @@ class StickiesController < ApplicationController
 
     if @sticky and not params[:due_date].blank?
       original_due_date = @sticky.due_date
-      @sticky.update_attribute :due_date, params[:due_date]
+      @sticky.update_attributes due_date: params[:due_date]
 
       @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
     else
@@ -216,7 +216,7 @@ class StickiesController < ApplicationController
   def complete
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky
-      @sticky.update_attribute :completed, true
+      @sticky.update_attributes completed: true
     else
       render nothing: true
     end

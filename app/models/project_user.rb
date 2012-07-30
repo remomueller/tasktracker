@@ -1,5 +1,5 @@
 class ProjectUser < ActiveRecord::Base
-  attr_accessible :user_id, :invite_email, :creator_id, :allow_editing
+  attr_accessible :user_id, :invite_email, :creator_id, :allow_editing, :invite_token
 
   # Model Validation
   validates_presence_of :project_id, :creator_id #, :user_id
@@ -13,7 +13,7 @@ class ProjectUser < ActiveRecord::Base
   after_update :notify_user
 
   def generate_invite_token!(invite_token = SecureRandom.hex(64))
-    self.update_attribute :invite_token, invite_token if self.respond_to?('invite_token') and self.invite_token.blank? and ProjectUser.where(invite_token: invite_token).count == 0
+    self.update_attributes invite_token: invite_token if self.respond_to?('invite_token') and self.invite_token.blank? and ProjectUser.where(invite_token: invite_token).count == 0
     UserMailer.invite_user_to_project(self).deliver if Rails.env.production? and not self.invite_token.blank?
   end
 

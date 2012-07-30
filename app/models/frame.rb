@@ -18,7 +18,7 @@ class Frame < ActiveRecord::Base
   has_many :stickies, conditions: { deleted: false }
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
     self.stickies.update_all(frame_id: nil)
   end
 

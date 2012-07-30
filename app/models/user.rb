@@ -5,11 +5,11 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name,
+                  :colors, :email_notifications, :hidden_project_ids, :settings, :sticky_filters
 
   before_create :set_default_calendar_options
   after_create :notify_system_admins
-  before_update :status_activated
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
@@ -22,9 +22,9 @@ class User < ActiveRecord::Base
                  [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'],
                  [:daily_digest, 'Receive daily digest emails of stickies that have been created and completed the previous day'] ]
 
+  serialize :colors, Hash
   serialize :email_notifications, Hash
   serialize :hidden_project_ids, Array
-  serialize :colors, Hash
   serialize :settings, Hash
   serialize :sticky_filters, Hash
 
@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   end
 
   def update_sticky_filters!(sticky_filter_hash = {})
-    self.update_attribute :sticky_filters, sticky_filter_hash
+    self.update_attributes sticky_filters: sticky_filter_hash
   end
 
   def self.find_by_api_token(api_service, api_token)
@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
     message = ''
     if User::VALID_API_TOKENS.include?(api_token)
       begin
-        self.update_attribute api_token.to_sym, (Digest::SHA1.hexdigest(time.usec.to_s) + Digest::SHA1.hexdigest((time + 0.3.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.7.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.11.seconds).usec.to_s))[0..127]
+        self.update_column api_token.to_sym, (Digest::SHA1.hexdigest(time.usec.to_s) + Digest::SHA1.hexdigest((time + 0.3.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.7.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.11.seconds).usec.to_s))[0..127]
       rescue ActiveRecord::RecordNotUnique
         message = 'Error - Please try regenerating'
       end
@@ -87,8 +87,9 @@ class User < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
-    update_attribute :status, 'inactive'
+    update_column :deleted, true
+    update_column :status, 'inactive'
+    update_column :updated_at, Time.now
   end
 
   def email_on?(value)
@@ -274,14 +275,6 @@ class User < ActiveRecord::Base
   def notify_system_admins
     User.current.system_admins.each do |system_admin|
       UserMailer.notify_system_admin(system_admin, self).deliver if Rails.env.production?
-    end
-  end
-
-  def status_activated
-    unless self.new_record? or self.changes.blank?
-      if self.changes['status'] and self.changes['status'][1] == 'active'
-        UserMailer.status_activated(self).deliver if Rails.env.production?
-      end
     end
   end
 end

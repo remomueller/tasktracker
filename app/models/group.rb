@@ -23,7 +23,7 @@ class Group < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
     self.stickies.destroy_all
   end
 

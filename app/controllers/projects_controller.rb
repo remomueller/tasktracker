@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project
       current_user.colors["project_#{@project.id}"] = params[:color]
-      current_user.update_attribute :colors, current_user.colors
+      current_user.update_attributes colors: current_user.colors
       render nothing: true
     else
       render nothing: true
@@ -59,7 +59,7 @@ class ProjectsController < ApplicationController
       else
         hidden_project_ids << @project.id
       end
-      current_user.update_attribute :hidden_project_ids, hidden_project_ids
+      current_user.update_attributes hidden_project_ids: hidden_project_ids
     else
       render nothing: true
     end
@@ -69,7 +69,7 @@ class ProjectsController < ApplicationController
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     if @project
       project_favorite = @project.project_favorites.find_or_create_by_user_id(current_user.id)
-      project_favorite.update_attribute :favorite, (params[:favorite] == '1')
+      project_favorite.update_attributes favorite: (params[:favorite] == '1')
     else
       render nothing: true
     end
@@ -82,7 +82,7 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    current_user.update_attribute :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 200
+    current_user.update_column :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 200
     project_scope = current_user.all_viewable_projects
 
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')

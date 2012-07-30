@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   end
 
   def index
-    current_user.update_attribute :comments_per_page, params[:comments_per_page].to_i if params[:comments_per_page].to_i >= 10 and params[:comments_per_page].to_i <= 200
+    current_user.update_column :comments_per_page, params[:comments_per_page].to_i if params[:comments_per_page].to_i >= 10 and params[:comments_per_page].to_i <= 200
     comment_scope = current_user.all_viewable_comments
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| comment_scope = comment_scope.search(search_term) }

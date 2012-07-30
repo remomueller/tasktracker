@@ -27,7 +27,7 @@ class ProjectUsersController < ApplicationController
     elsif @project_user and @project_user.user
       redirect_to root_path, alert: "This invite has already been claimed."
     elsif @project_user
-      @project_user.update_attribute :user_id, current_user.id
+      @project_user.update_attributes user_id: current_user.id
       redirect_to @project_user.project, notice: "You have been successfully been added to the project."
     else
       redirect_to root_path, alert: 'Invalid invitation token.'

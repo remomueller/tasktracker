@@ -77,7 +77,7 @@ class UsersController < ApplicationController
     email_settings.each do |email_setting|
       notifications[email_setting] = (not params[:email].blank? and params[:email][email_setting] == '1')
     end
-    current_user.update_attribute :email_notifications, notifications
+    current_user.update_attributes email_notifications: notifications
     redirect_to settings_path, notice: 'Email settings saved.'
   end
 
@@ -86,7 +86,7 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
       return
     end
-    current_user.update_attribute :users_per_page, params[:users_per_page].to_i if params[:users_per_page].to_i >= 10 and params[:users_per_page].to_i <= 200
+    current_user.update_column :users_per_page, params[:users_per_page].to_i if params[:users_per_page].to_i >= 10 and params[:users_per_page].to_i <= 200
 
     user_scope = User.current
     @search_terms = (params[:search] || params[:q]).to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
@@ -126,9 +126,11 @@ class UsersController < ApplicationController
   def update
     @user = User.current.find_by_id(params[:id])
     if @user and @user.update_attributes(post_params)
-      @user.update_attribute :system_admin, params[:user][:system_admin]
-      @user.update_attribute :service_account, params[:user][:service_account]
-      @user.update_attribute :status, params[:user][:status]
+      original_status = @user.status
+      @user.update_column :system_admin, params[:user][:system_admin]
+      @user.update_column :service_account, params[:user][:service_account]
+      @user.update_column :status, params[:user][:status]
+      UserMailer.status_activated(@user).deliver if Rails.env.production? and original_status != @user.status and @user.status = 'active'
       redirect_to(@user, notice: 'User was successfully updated.')
     elsif @user
       render action: "edit"

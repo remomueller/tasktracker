@@ -33,7 +33,7 @@ class Project < ActiveRecord::Base
   end
 
   def destroy
-    update_attribute :deleted, true
+    update_column :deleted, true
   end
 
   def users_to_email(action)

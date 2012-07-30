@@ -124,7 +124,7 @@ class Sticky < ActiveRecord::Base
 
   def destroy
     self.comments.destroy_all
-    update_attribute :deleted, true
+    update_column :deleted, true
   end
 
   def full_description
@@ -152,7 +152,7 @@ class Sticky < ActiveRecord::Base
     if days_to_shift != 0 and self.group and ['incomplete', 'all'].include?(shift)
       sticky_scope = self.group.stickies.where("stickies.id != ?", self.id)
       sticky_scope = sticky_scope.where(completed: false) if shift == 'incomplete'
-      sticky_scope.select{ |s| not s.due_date.blank? }.each{ |s| s.update_attribute :due_date, s.due_date + days_to_shift.days }
+      sticky_scope.select{ |s| not s.due_date.blank? }.each{ |s| s.update_attributes due_date: s.due_date + days_to_shift.days }
     end
   end
 
