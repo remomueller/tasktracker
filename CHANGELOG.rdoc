@@ -4,6 +4,7 @@
   * Sticky JSON API filters
     * owner_id: me, returns stickies assigned to the current user
     * unassigned: 1, returns stickies that are not assigned to a specific user
+    * due_date_start_date and due_date_end_date can be specified as mm/dd/yy or mm/dd/yyyy
   * Sticky JSON API returns group_description
   * Updated to Rails 3.2.7
     * Removed deprecated use of update_attribute for Rails 4.0 compatibility

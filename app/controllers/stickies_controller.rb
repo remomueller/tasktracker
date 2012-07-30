@@ -13,7 +13,7 @@ class StickiesController < ApplicationController
       params[:assigned_to_me] = (current_user.settings[:assigned_to_me] == '1') ? '1' : '0'
     end
 
-    @selected_date = begin Date.strptime(params[:selected_date], "%m/%d/%Y") rescue Date.today end
+    @selected_date = parse_date(params[:selected_date], Date.today)
     @start_date = @selected_date.beginning_of_month
     @end_date = @selected_date.end_of_month
 
@@ -57,8 +57,8 @@ class StickiesController < ApplicationController
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
     sticky_scope = sticky_scope.with_owner(params[:owner_id] == 'me' ? current_user.id : params[:owner_id]) unless params[:owner_id].blank?
 
-    @start_date = begin Date.strptime(params[:due_date_start_date], "%m/%d/%Y") rescue nil end
-    @end_date = begin Date.strptime(params[:due_date_end_date], "%m/%d/%Y") rescue nil end
+    @start_date = parse_date(params[:due_date_start_date])
+    @end_date = parse_date(params[:due_date_end_date])
 
     sticky_scope = sticky_scope.due_date_before(@end_date) unless @end_date.blank?
     sticky_scope = sticky_scope.due_date_after(@start_date) unless @start_date.blank?
@@ -187,7 +187,7 @@ class StickiesController < ApplicationController
   end
 
   def move
-    params[:due_date] = Date.strptime(params[:due_date], "%m/%d/%Y") unless params[:due_date].blank?
+    params[:due_date] = parse_date(params[:due_date])
 
     @sticky = current_user.all_stickies.find_by_id(params[:id])
 
