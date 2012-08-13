@@ -1,5 +1,8 @@
 == 0.23.2
 
+* Enhancements
+  * Updated to Rails 3.2.8
+
 == 0.23.1
 
 * Enhancements
