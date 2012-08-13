@@ -1,5 +1,9 @@
 == 0.23.3
 
+* Bug Fix
+  * Dragging groups now correctly prompts user to select all, completed, or single sticky
+    * Due to a change in Rails 3.2.7 to Rails 3.2.8 how data attributes are specified in divs
+
 == 0.23.2
 
 * Enhancements
