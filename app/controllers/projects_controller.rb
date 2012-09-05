@@ -98,7 +98,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.js
-      format.json { render json: project_scope.page(params[:page]).limit(50) }
+      format.json { render json: project_scope.page(params[:page]).limit(50).as_json(current_user: current_user) }
     end
   end
 
