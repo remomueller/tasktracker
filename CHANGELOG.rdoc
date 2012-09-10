@@ -2,6 +2,7 @@
 
 * Enhancements
   * Project JSON API returns color
+  * User JSON API returns user authentication_token, first_name, last_name, email, and id on successful login
 
 == 0.23.3
 

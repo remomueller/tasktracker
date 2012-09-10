@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
   before_create :set_default_calendar_options
   after_create :notify_system_admins
 
+  before_save :ensure_authentication_token
+
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
   VALID_API_TOKENS = ['screen_token']
