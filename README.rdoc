@@ -48,6 +48,10 @@ Edit Cron Jobs <tt>sudo crontab -e</tt> to export the data dictionary
 
   30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-1.9.3-p194/bin/bundle exec rake export_dictionary RAILS_ENV=production
 
+== Task Tracker API (RESTFUL JSON)
+
+If you need to communicate with an instance of Task Tracker programmatically, take a look at the {API Documentation}[https://github.com/remomueller/tasktracker/blob/master/doc/API.rdoc] for examples.
+
 == Contributing to Task Tracker
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
