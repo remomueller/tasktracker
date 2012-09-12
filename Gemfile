@@ -10,7 +10,7 @@ gem 'eventmachine',         '~> 1.0.0.rc.4',      :platforms => [ :mswin, :mingw
 
 # Gems used by project
 gem 'contour',              '~> 1.0.6'
-gem 'kaminari',             '~> 0.14.0'
+gem 'kaminari',             '~> 0.14.1'
 gem 'ri_cal',               '~> 0.8.8'
 
 # Gems used only for assets and not required
