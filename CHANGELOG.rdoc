@@ -1,5 +1,8 @@
 == 0.23.5
 
+* Enhancements
+  * Project JSON API returns whether or not the project has been favorited
+
 == 0.23.4
 
 * Enhancements
