@@ -8,6 +8,7 @@
   * Sticky links no longer overlap the complete sticky checkmark box on the calendar view
   * When deleting frames, tags, and templates, the user is now redirected to the project specific frames, tags, or templates index
   * Frames now correctly retain the dropdown arrow when switching by selecting a new frame from the dropdown
+  * Editing template input fields and dropdowns no longer causes the input field to become unselected in IE
 
 == 0.23.4
 

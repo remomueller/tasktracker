@@ -21,3 +21,8 @@ jQuery ->
       $('[data-object~="' + $(this).data('selector') + '"]').hide()
       $($(this).data('target')).show()
     )
+    .on('click', '[data-object~="noclickbubble"]', (event) ->
+      event.cancelBubble = true
+      event.stopPropagation() if event.stopPropagation
+      false
+    )
