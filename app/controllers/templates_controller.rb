@@ -102,7 +102,7 @@ class TemplatesController < ApplicationController
     @template.destroy if @template
 
     respond_to do |format|
-      format.html { redirect_to templates_path }
+      format.html { redirect_to templates_path(project_id: @template ? @template.project_id : nil) }
       format.json { head :no_content }
     end
   end

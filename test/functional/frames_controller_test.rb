@@ -38,22 +38,22 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should show frame" do
-    get :show, id: @frame.to_param
+    get :show, id: @frame
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @frame.to_param
+    get :edit, id: @frame
     assert_response :success
   end
 
   test "should update frame" do
-    put :update, id: @frame.to_param, frame: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    put :update, id: @frame, frame: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
     assert_redirected_to frame_path(assigns(:frame))
   end
 
   test "should not update frame with blank name" do
-    put :update, id: @frame.to_param, frame: { name: "", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    put :update, id: @frame, frame: { name: "", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
     assert_not_nil assigns(:frame)
     assert_template 'edit'
   end
@@ -68,13 +68,13 @@ class FramesControllerTest < ActionController::TestCase
     assert_difference('Sticky.with_frame(0).count', @frame.stickies.size) do
       assert_difference('Sticky.current.count', 0) do
         assert_difference('Frame.current.count', -1) do
-          delete :destroy, id: @frame.to_param
+          delete :destroy, id: @frame
         end
       end
     end
 
     assert_equal 0, @frame.stickies.size
-    assert_redirected_to frames_path
+    assert_redirected_to frames_path(project_id: @frame ? @frame.project_id : nil)
   end
 
   test "should not destroy with invalid id" do

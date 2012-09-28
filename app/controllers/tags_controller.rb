@@ -65,7 +65,7 @@ class TagsController < ApplicationController
     @tag.destroy if @tag
 
     respond_to do |format|
-      format.html { redirect_to tags_path }
+      format.html { redirect_to tags_path(project_id: @tag ? @tag.project_id : nil) }
       format.json { head :no_content }
     end
   end

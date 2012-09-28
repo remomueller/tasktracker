@@ -141,7 +141,7 @@ class TemplatesControllerTest < ActionController::TestCase
       delete :destroy, id: @template
     end
     assert_not_nil assigns(:template)
-    assert_redirected_to templates_path
+    assert_redirected_to templates_path(project_id: @template.project_id)
   end
 
   test "should not destroy template with invalid id" do

@@ -65,7 +65,7 @@ class FramesController < ApplicationController
     @frame.destroy if @frame
 
     respond_to do |format|
-      format.html { redirect_to frames_path }
+      format.html { redirect_to frames_path(project_id: @frame ? @frame.project_id : nil) }
       format.json { head :no_content }
     end
   end

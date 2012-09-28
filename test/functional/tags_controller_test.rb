@@ -50,17 +50,17 @@ class TagsControllerTest < ActionController::TestCase
   end
 
   test "should show tag" do
-    get :show, id: @tag.to_param
+    get :show, id: @tag
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @tag.to_param
+    get :edit, id: @tag
     assert_response :success
   end
 
   test "should update tag" do
-    put :update, id: @tag.to_param, tag: { name: "Tag Name Update", project_id: projects(:one).to_param, description: "Updated Description", color: '#aaaaaa' }
+    put :update, id: @tag, tag: { name: "Tag Name Update", project_id: projects(:one).to_param, description: "Updated Description", color: '#aaaaaa' }
     assert_not_nil assigns(:tag)
     assert_equal 'Tag Name Update', assigns(:tag).name
     assert_equal 'Updated Description', assigns(:tag).description
@@ -70,13 +70,13 @@ class TagsControllerTest < ActionController::TestCase
   end
 
   test "should not update tag with blank name" do
-    put :update, id: @tag.to_param, tag: { name: "", project_id: projects(:one).to_param, description: "Updated Description" }
+    put :update, id: @tag, tag: { name: "", project_id: projects(:one).to_param, description: "Updated Description" }
     assert_not_nil assigns(:tag)
     assert_template 'edit'
   end
 
   test "should not update tag with non-unique name" do
-    put :update, id: @tag.to_param, tag: { name: "MyStringTwo", project_id: projects(:one).to_param, description: "Updated Description" }
+    put :update, id: @tag, tag: { name: "MyStringTwo", project_id: projects(:one).to_param, description: "Updated Description" }
     assert_not_nil assigns(:tag)
     assert assigns(:tag).errors.size > 0
     assert_equal ["has already been taken"], assigns(:tag).errors[:name]
@@ -91,10 +91,10 @@ class TagsControllerTest < ActionController::TestCase
 
   test "should destroy tag" do
     assert_difference('Tag.current.count', -1) do
-      delete :destroy, id: @tag.to_param
+      delete :destroy, id: @tag
     end
 
-    assert_redirected_to tags_path
+    assert_redirected_to tags_path(project_id: @tag.project_id)
   end
 
   test "should not destroy with invalid id" do
