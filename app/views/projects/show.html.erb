@@ -73,7 +73,7 @@
         </li>
         <% @project.frames.each do |frame| %>
           <li>
-            <%= link_to frame.name, '#', data: { object: 'frames-select', target: '#stickies_search', frame_name: escape_javascript(frame.name), frame_id: frame.id } %>
+            <%= link_to frame.name, '#', data: { object: 'frames-select', target: '#stickies_search', frame_name: escape_javascript(frame.name) +  ' <span class="caret"></span>', frame_id: frame.id } %>
           </li>
         <% end %>
       </ul>
@@ -84,7 +84,7 @@
 
 <div id="stickies">
   <%#= render partial: 'stickies/stickies' %>
-  <div style="clear:both"></div><br /><br />
+  <br /><br />
   <center><%= image_tag "contour/ajax-loader.gif" %></center>
   <br /><br />
 </div>
