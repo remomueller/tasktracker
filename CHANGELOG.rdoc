@@ -4,6 +4,9 @@
   * Project JSON API returns whether or not the project has been favorited
   * Project JSON API returns project specific tags
 
+* Bug Fix
+  * Sticky links no longer overlap the complete sticky checkmark box on the calendar view
+
 == 0.23.4
 
 * Enhancements
