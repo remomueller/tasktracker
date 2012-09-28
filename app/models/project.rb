@@ -42,7 +42,7 @@ class Project < ActiveRecord::Base
   end
 
   def as_json(options={})
-    json = super(only: [:id, :user_id, :name, :description, :start_date, :end_date, :created_at, :updated_at], methods: [:project_link])
+    json = super(only: [:id, :user_id, :name, :description, :start_date, :end_date, :created_at, :updated_at], methods: [:project_link, :tags])
     json[:color] = options[:current_user].blank? ? '#777777' : self.color(options[:current_user])
     project_favorite = (options[:current_user].blank? ? nil : self.project_favorites.find_by_user_id(options[:current_user].id))
     json[:favorited] = (not project_favorite.blank? and project_favorite.favorite?)

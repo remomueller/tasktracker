@@ -2,6 +2,7 @@
 
 * Enhancements
   * Project JSON API returns whether or not the project has been favorited
+  * Project JSON API returns project specific tags
 
 == 0.23.4
 
