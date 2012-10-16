@@ -5,7 +5,7 @@ layout: default
 
 ## #101 - I don't remember my login or password, what now?
 
-If you forgot which email you tried to sign up with, you can send an email to Remo Mueller (<rmueller@rics.bwh.harvard.edu>) or Susan Surovec (<ssurovec@partners.org>).
+If you forgot which email you tried to sign up with, you can send an email to Remo Mueller (<rmueller@rics.bwh.harvard.edu>) or Michael Rueschman (<mrueschman@rics.bwh.harvard.edu>).
 
 <hr class="soften">
 
