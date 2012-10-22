@@ -34,4 +34,4 @@ Task Tracker aims to keep project management simple by only allowing two roles, 
 
 Task Tracker only allows one user assigned to task to reduce project complexity, and to promote assignee accountability. Any unnassigned task on your project will be implicitely assigned to everyone (and everyone will receive a notification to complete it on its due date).
 
-**Task Tracker will never provide the ability to assign more than one user to a task.** If you wish to fork Task Tracker to add the functionality yourself, Task Tracker is open-source and you are free to do so.
+**Task Tracker will never provide the ability to assign more than one user to a task.** If you wish to <a href="https://help.github.com/articles/fork-a-repo" target="_blank">fork Task Tracker</a> to add the functionality yourself, Task Tracker is open-source and you are free to do so.
