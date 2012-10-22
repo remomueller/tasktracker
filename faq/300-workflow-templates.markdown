@@ -14,6 +14,8 @@ layout: default
 7. You can also assign stickies to collaborators who are [editors on your project](200-project-setup).
 8. You may also wish to tag the sticky with project tags.
 
+<hr class="soften">
+
 ## #302 - How do I create a tags for my project?
 
 1. Click the Projects link in the menu bar.
