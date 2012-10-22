@@ -27,10 +27,10 @@ Project Viewers
 
 ## #203 - Can I assign specific permissions for collaborators on my project?
 
-Task Tracker aims to keep project management simple by only allowing two roles, one for complete editing, and one for viewing.  *Remember to only add collaborators as editors that you trust to your project.*
+Task Tracker aims to keep project management simple by only allowing two roles, one for complete editing, and one for viewing.  **Remember to only add collaborators as editors that you trust to your project.**
 
 ## #204 - I have a task that I need to assign to two people, however, Task Tracker only allows me to assign one person to the task. How do I assign two (or more) people to a task?
 
 Task Tracker only allows one user assigned to task to reduce project complexity, and to promote assignee accountability. Any unnassigned task on your project will be implicitely assigned to everyone (and everyone will receive a notification to complete it on its due date).
 
-*Task Tracker will never provide the ability to assign more than one user to a task*. If you wish to fork Task Tracker to add the functionality yourself, Task Tracker is open-source and you are free to do so.
+**Task Tracker will never provide the ability to assign more than one user to a task.** If you wish to fork Task Tracker to add the functionality yourself, Task Tracker is open-source and you are free to do so.
