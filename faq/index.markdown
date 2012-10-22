@@ -19,17 +19,17 @@ layout: default
       </td>
       <td>Signing In</td>
     </tr>
-    <tr>
+    <tr data-link="200-project-setup" style="cursor:pointer">
       <td>
-        <!-- <a href="200-creating-a-paper-proposal">200 - Creating a Paper Proposal</a> -->
+        200 - How do I add a collaborator to my project?
       </td>
-      <td><!-- How do I submit a proposal for a paper? --></td>
+      <td>Project Setup</td>
     </tr>
-    <tr>
+    <tr data-link="300-workflow-templates" style="cursor:pointer">
       <td>
-        <!-- <a href="300-reviewing-a-paper-proposal">300 - Reviewing a Paper Proposal</a> -->
+        300 - How do I create a common workflow or template?
       </td>
-      <td><!-- How do I comment on and review a paper proposal? --></td>
+      <td>Workflow Templates</td>
     </tr>
   </tbody>
 </table>
