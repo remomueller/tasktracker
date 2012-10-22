@@ -7,7 +7,7 @@ layout: default
 
 1. Click the Projects link in the menu bar.
 2. Click on the project you would like to add a collaborator.
-3. Scroll down on the project page to the *Sharing* section and enter your collaborators email under Editors or Viewers.
+3. Scroll down on the project page to the **Sharing** section and enter your collaborators email under Editors or Viewers.
 4. Your collaborator will receive an email with a link that will add the collaborator to the project. The collaborator will need to sign up first in order to be successfully added to the project.
 
 ## #202 - What is the difference between a project editor and a project viewer?
