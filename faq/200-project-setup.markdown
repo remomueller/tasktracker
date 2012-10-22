@@ -14,16 +14,17 @@ layout: default
 
 Project Editors can do everything on a project that the project owner can including:
 
-  * Adding and removing collaborators from the project
-  * Creating stickies, templates, tags, and frames
-  * Add comments to existing stickies
-  * Be assigned to stickies
-  * View everything on the project
+* Adding and removing collaborators from the project
+* Creating stickies, templates, tags, and frames
+* Add comments to existing stickies
+* Be assigned to stickies
+* View everything on the project
 
 Project Viewers
-  * Add comments to stickies
-  * CANNOT be assigned to stickies
-  * View everything on the project
+
+* Add comments to stickies
+* CANNOT be assigned to stickies
+* View everything on the project
 
 ## #203 - Can I assign specific permissions for collaborators on my project?
 
