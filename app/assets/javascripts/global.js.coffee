@@ -47,7 +47,42 @@
       $(this).attr('disabled', 'disabled')
   )
 
+@loadColorSelectors = () ->
+  $('[data-object~="color-selector"]').each( () ->
+    $this = $(this)
+    $this.ColorPicker(
+      color: $this.data('color')
+      onShow: (colpkr) ->
+        $(colpkr).fadeIn(500)
+        return false
+      onHide: (colpkr) ->
+        $(colpkr).fadeOut(500)
+        $($this.data('form')).submit()
+        return false
+      onChange: (hsb, hex, rgb) ->
+        $($this.data('target')).val('#' + hex)
+        $($this.data('target')+"_display").css('backgroundColor', '#' + hex)
+      onSubmit: (hsb, hex, rgb, el) ->
+        $(el).ColorPickerHide();
+    )
+  )
+
 jQuery ->
+
+  window.$isDirty = false
+  msg = 'You haven\'t saved your changes.'
+
+  $(document).on('change', ':input', () ->
+    if $("#isdirty").val() == '1'
+      window.$isDirty = true
+  )
+
+  $(document).ready( () ->
+    window.onbeforeunload = (el) ->
+      if window.$isDirty
+        return msg
+  )
+
   # <a href='#' data-object="remove" data-target="abc"></a>
   # <div id="abc">
   # Removes a data-target id when a node with data-object="remove" is clicked
@@ -107,3 +142,7 @@ jQuery ->
     if e.which == 39
       increaseSelectedIndex('#frame_id', '#frame_name');
   )
+
+  loadColorSelectors()
+
+  $('#welcome-dialog').modal()

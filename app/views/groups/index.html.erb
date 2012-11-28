@@ -3,16 +3,10 @@
   <h1><%= @title %></h1>
 </div>
 
-<%= form_tag groups_path, method: :get, remote: true, id: "groups_search", class: 'form-search' do %>
+<%= form_tag groups_path, method: :get, remote: true, id: "groups_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
 <div id="groups"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#groups_search").attr("action"), $("#groups_search").serialize(), null, "script");
-  });
-<% end %>

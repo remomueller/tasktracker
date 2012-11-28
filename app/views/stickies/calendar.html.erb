@@ -1,10 +1,10 @@
 <% @title = 'Calendar' %>
 
-<%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px' do %>
+<%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :save_settings, '1' %>
   <div class="row" style="margin-top:-10px">
     <div class="span4 btn-toolbar">
-      <h3 id="calendar-title" style="font-size:27px;font-weight:300"><%= render partial: 'calendar_title' %></h3>
+      <h3 id="calendar-title" style="font-size:27px;font-weight:300; line-height:0px"><%= render partial: 'calendar_title' %></h3>
     </div>
     <div class="span4" style="text-align:center">
       <div class="btn-toolbar">
@@ -12,10 +12,10 @@
           <%= link_to 'Today', '#', class: 'btn', data: { object: 'calendar-today' } %>
         </div>
         <div class="btn-group" style="height:37px">
-          <%= link_to '&larr;'.html_safe, '#', title: 'Previous Month', class: 'btn', data: { object: 'calendar-previous-month' } %>
+          <%= link_to '&larr;'.html_safe, '#', title: 'Previous Month', class: 'btn', data: { object: 'calendar-previous-month' }, style: 'margin-bottom:9px;margin-right:-1px' %>
           <%= hidden_field_tag :direction, 0 %>
-          <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker btn', style: 'width:68px' %>
-          <%= link_to '&rarr;'.html_safe, '#', title: 'Next Month', class: 'btn', data: { object: 'calendar-next-month' } %>
+          <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker btn', style: 'width:85px' %>
+          <%= link_to '&rarr;'.html_safe, '#', title: 'Next Month', class: 'btn', data: { object: 'calendar-next-month' }, style: 'margin-bottom:9px' %>
         </div>
       </div>
     </div>
@@ -55,9 +55,3 @@
 <%= render partial: 'layouts/welcome_dialog' if current_user.all_viewable_projects.size == 0 %>
 
 <%= render partial: 'stickies/move_group_dialog' %>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script");
-  });
-<% end %>

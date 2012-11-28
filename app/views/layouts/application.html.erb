@@ -1,66 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= [DEFAULT_APP_NAME, @title].compact.join(' - ').html_safe %></title>
-  <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
-  <![endif]-->
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <title>Task Tracker</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <%= javascript_tag "var root_url='#{SITE_URL + '/'}';var auth_token='#{form_authenticity_token}';" %>
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </a>
-        <%= link_to DEFAULT_APP_NAME, root_path, class: 'brand' %>
-        <div class="nav-collapse">
-          <ul class="nav">
-            <li class="dropdown" id="menu1">
-              <%= link_to "Calendar".html_safe, calendar_stickies_path, 'data-target2' => "#menu1", class: 'dropdown-toggle' %>
-              <ul class="dropdown-menu">
-                <li><%= link_to 'Calendar', calendar_stickies_path %></li>
-                <li><%= link_to 'Sub Item', '#' %></li>
-              </ul>
-            </li>
-            <li><%= link_to "Stickies", stickies_path %></li>
-            <li><%= link_to "Projects", projects_path %></li>
-            <li><%= link_to "About", about_path %></li>
-          </ul>
-          <% if signed_in? %>
-            <ul class="nav pull-right">
-              <li class="dropdown" id="menu2">
-                <%= link_to "#{current_user.name} <b class='caret'></b>".html_safe, calendar_stickies_path, 'data-target' => "#menu2", class: 'dropdown-toggle' %>
-                <ul class="dropdown-menu">
-                  <li><%= link_to 'Settings', settings_path %></li>
-                  <li><%= link_to 'Authentications', authentications_path %></li>
-                  <li class="divider"></li>
-                  <li><%= link_to 'Logout', destroy_user_session_path %></li>
-                </ul>
-              </li>
-            </ul>
-          <% else %>
-            <ul class="nav pull-right">
-              <li class="dropdown" id="menu2">
-                <%= link_to 'Login', new_user_session_path %>
-              </li>
-            </ul>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="container">
-    <%= yield %>
-  </div>
+<%= yield %>
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-<% @defaults = {chart_type: @chart_type, width: 320, height: 240, units: '', title: '', min: @values.values.flatten.min.to_i, max: @values.values.flatten.max.to_i, legend: 'right'} %>
+<% @defaults = { chart_type: @chart_type, width: 320, height: 240, units: '', title: '', min: @values.values.flatten.min.to_i, max: @values.values.flatten.max.to_i, legend: 'right' } %>
 <% @defaults.merge!(@chart_params) %>
 <% @defaults.each do |k, v| %>
   <% @defaults[k] = array_or_string_for_javascript(v) if v.kind_of?(String) %>
@@ -17,8 +17,12 @@
 
 <div><div id="<%= @chart_element_id %>" style="width: <%= @defaults[:width] %>px;height: <%= @defaults[:height] %>px"></div></div>
 
-<% if @chart_type == 'pie' %>
-  <%= javascript_tag "drawHighChartPieChart('#{@chart_element_id}', #{options_for_javascript(@values)}, #{options_for_javascript(@defaults)});" %>
-<% else %>
-  <%= javascript_tag "drawHighChartHistogramChart('#{@chart_element_id}', #{options_for_javascript(@values)}, #{options_for_javascript(@defaults)}, #{array_or_string_for_javascript(@categories)});" %>
+<%= javascript_tag do %>
+addLoadEvent(function() {
+  <% if @chart_type == 'pie' %>
+    <%= "drawHighChartPieChart('#{@chart_element_id}', #{options_for_javascript(@values)}, #{options_for_javascript(@defaults)});".html_safe %>
+  <% else %>
+    <%= "drawHighChartHistogramChart('#{@chart_element_id}', #{options_for_javascript(@values)}, #{options_for_javascript(@defaults)}, #{array_or_string_for_javascript(@categories)});".html_safe %>
+  <% end %>
+});
 <% end %>

@@ -18,33 +18,10 @@
         <%= form_tag colorpicker_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
           <%= hidden_field_tag :color, '', id: "project_#{@project.id}_hexcolor" %>
           <div class="custom_widget">
-            <div id="project_<%= @project.id %>_colorselector" class="colorselector">
-              <div style="background-color: <%= @project.color(current_user) %>"></div>
+            <div class="colorselector" data-object="color-selector" data-target="#project_<%= @project.id %>_hexcolor" data-color="<%= @project.color(current_user) %>" data-form="#project_<%= @project.id %>_colorpicker_form" style="background-image: none">
+              <div id="project_<%= @project.id %>_hexcolor_display" style="background-color: <%= @project.color(current_user) %>;top:0px;left:0px"></div>
             </div>
           </div>
-        <% end %>
-        <%= javascript_tag do %>
-          $('#project_<%= @project.id %>_colorselector')
-            .ColorPicker({
-              color: '<%= @project.color(current_user) %>',
-              onShow: function (colpkr) {
-                $(colpkr).fadeIn(500);
-                return false;
-              },
-              onHide: function (colpkr) {
-                $(colpkr).fadeOut(500);
-                $('#project_<%= @project.id %>_colorpicker_form').submit();
-                return false;
-              },
-              onChange: function (hsb, hex, rgb) {
-                $('#project_<%= @project.id %>_hexcolor').val('#' + hex);
-                $('#project_<%= @project.id %>_colorselector div').css('backgroundColor', '#' + hex);
-                $('.project_<%= @project.id %>_color').css('color', '#' + hex);
-              },
-              onSubmit: function(hsb, hex, rgb, el) {
-                $(el).ColorPickerHide();
-              },
-            });
         <% end %>
       </td>
       <td>

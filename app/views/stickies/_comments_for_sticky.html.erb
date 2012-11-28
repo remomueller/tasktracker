@@ -2,13 +2,7 @@
   <h2>Comments</h2>
 </div>
 
-<%= form_tag search_comments_path(sticky_id: @sticky.id, class_name: 'Sticky', per: 10), method: :get, id: "comments_search", style: 'display:inline' do %>
+<%= form_tag search_comments_path(sticky_id: @sticky.id, class_name: 'Sticky', per: 10), method: :get, remote: true, id: "comments_search", style: 'display:inline', data: { object: 'form-load' } do %>
 <% end %>
 
 <div id="comments"></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script");
-  });
-<% end %>

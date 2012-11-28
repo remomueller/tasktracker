@@ -54,7 +54,7 @@
 </div>
 
 <div style="float:left">
-  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', class: 'form-search' do %>
+  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', class: 'form-search', data: { object: 'form-load' } do %>
     <%= hidden_field_tag :from, 'project' %>
     <%= hidden_field_tag :order, params[:order] %>
     <%= hidden_field_tag :direction, 0 %>
@@ -141,9 +141,3 @@
 
 <%= render partial: 'stickies/new_sticky_or_group_dialog' %>
 <%= render partial: 'projects/reassign_dialog' %>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script");
-  });
-<% end %>

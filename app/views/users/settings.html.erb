@@ -3,6 +3,8 @@
   <h1>Email Notifications</h1>
 </div>
 
+<%= hidden_field_tag 'isdirty', '1' %>
+
 <%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings' do %>
     <div class="control-group">
       <div class="controls">
@@ -72,22 +74,3 @@
 <div class="form-actions">
   <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
 </div>
-
-<%= javascript_tag do %>
-  window.$isDirty = false;
-  var msg = 'You haven\'t saved your changes.';
-
-  $(document).ready(function(){
-    $(':input').change(function(){
-        if(!window.$isDirty){
-            window.$isDirty = true;
-        }
-    });
-
-    window.onbeforeunload = function(el){
-        if(window.$isDirty){
-            return msg;
-        }
-    };
-  });
-<% end %>

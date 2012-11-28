@@ -7,7 +7,7 @@
   </h1>
 </div>
 
-<%= form_tag frames_path, method: :get, remote: true, id: "frames_search", class: 'form-search' do %>
+<%= form_tag frames_path, method: :get, remote: true, id: "frames_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <%= hidden_field_tag :project_id, params[:project_id] %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
@@ -15,9 +15,3 @@
 <% end %>
 
 <div id="frames"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
-
-<%= javascript_tag do %>
-  $(function(){
-    $.get($("#frames_search").attr("action"), $("#frames_search").serialize(), null, "script");
-  });
-<% end %>

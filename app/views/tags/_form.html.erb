@@ -44,8 +44,8 @@
       <div class="controls">
         <%= f.hidden_field :color, id: "tag_hexcolor" %>
         <div class="custom_widget">
-          <div id="tag_colorselector" class="colorselector">
-            <div style="background-color: <%= @tag.color %>"></div>
+          <div class="colorselector" data-object="color-selector" data-target="#tag_hexcolor" data-color="<%= @tag.color.blank? ? '#ffffff' : @tag.color %>" style="background-image: none">
+            <div id="tag_hexcolor_display" style="background-color: <%= @tag.color.blank? ? '#ffffff' : @tag.color %>;top:0px;left:0px"></div>
           </div>
         </div>
       </div>
@@ -55,27 +55,4 @@
     <%= f.submit nil, class: 'btn btn-primary' %>
     <%= cancel %>
   </div>
-<% end %>
-
-<%= javascript_tag do %>
-  $('#tag_colorselector')
-    .ColorPicker({
-//      flat: true,
-      color: '<%= @tag.color %>',
-      onShow: function (colpkr) {
-        $(colpkr).fadeIn(500);
-        return false;
-      },
-//      onHide: function (colpkr) {
-//        $(colpkr).fadeOut(500);
-//        return false;
-//      },
-      onChange: function (hsb, hex, rgb) {
-        $('#tag_hexcolor').val('#' + hex);
-        $('#tag_colorselector div').css('backgroundColor', '#' + hex);
-      }//,
-//      onSubmit: function(hsb, hex, rgb, el) {
-//        $(el).ColorPickerHide();
-//      },
-    });
 <% end %>

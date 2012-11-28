@@ -1,5 +1,9 @@
 == 0.23.6
 
+* Enhancements
+  * Gem updates including Rails 3.2.9 and Ruby 1.9.3-p327
+  * Updated to Contour 1.1.1 and replaced inline JavaScript with Unobtrusive JavaScript
+
 == 0.23.5
 
 * Enhancements
