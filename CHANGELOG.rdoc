@@ -1,5 +1,8 @@
 == 0.23.8
 
+* Bug Fix
+  * Users with now projects favorited should still be able to create stickies
+
 == 0.23.7
 
 * Enhancements

@@ -118,7 +118,11 @@ class User < ActiveRecord::Base
 
   def all_other_projects
     @all_other_projects ||= begin
-      self.all_projects.where("projects.id NOT IN (?)", self.all_favorite_projects.pluck("projects.id")).order('name')
+      if self.all_favorite_projects.size == 0
+        self.all_projects.order('name')
+      else
+        self.all_projects.where("projects.id NOT IN (?)", self.all_favorite_projects.pluck("projects.id")).order('name')
+      end
     end
   end
 
