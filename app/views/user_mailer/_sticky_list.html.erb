@@ -18,7 +18,7 @@
       <td colspan="6"></td>
     </tr>
     <% stickies.each do |sticky| %>
-      <tr><%= render partial: 'sticky_line_item', locals: { sticky: sticky } %></tr>
+      <tr style="<%= 'background-color:#c2daff' if @sticky and @sticky.id == sticky.id %>"><%= render partial: 'sticky_line_item', locals: { sticky: sticky } %></tr>
     <% end %>
     <tr><td colspan="7" style="padding-bottom:10px"></td></tr>
   <% end %>

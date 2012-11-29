@@ -5,6 +5,7 @@
     * Boards no longer include start and end dates
     * Boards can be archived
     * Project pages now only show stickies of active boards
+  * Sticky completion emails on groups now highlight the sticky that was completed on the group
 
 == 0.23.6
 
