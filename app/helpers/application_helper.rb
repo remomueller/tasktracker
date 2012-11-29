@@ -70,6 +70,10 @@ module ApplicationHelper
     end
   end
 
+  def simple_check(checked)
+    image_tag("gentleface/16/#{checked ? 'checkbox_checked' : 'checkbox_unchecked'}.png", alt: '', style: 'vertical-align:text-bottom')
+  end
+
   def highcharts_chart(chart_type, values, chart_element_id, chart_params, categories)
     @values = values
     @chart_element_id = chart_element_id

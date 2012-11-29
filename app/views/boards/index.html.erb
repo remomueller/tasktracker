@@ -8,7 +8,7 @@
 </div>
 
 <%= form_tag boards_path, method: :get, remote: true, id: "boards_search", class: 'form-search', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+  <%= hidden_field_tag :order, params[:order] %>
   <%= hidden_field_tag :project_id, params[:project_id] %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>

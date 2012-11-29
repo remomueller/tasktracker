@@ -7,7 +7,14 @@
   new_index = num_options - 1 if new_index < 0
 
   element.prop('selectedIndex', new_index)
-  $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
+
+  mute_front = ""
+  mute_back = ""
+  if new_index == 0
+    mute_front = "<span class='muted'>"
+    mute_back = "</span>"
+
+  $(el_out).html(mute_front + $(element).find('option:selected').text() + mute_back + " <span class='caret'></span>")
   $('#direction').val(-1)
   element.change()
 
@@ -19,7 +26,14 @@
   new_index = 0 if new_index >= num_options
 
   element.prop('selectedIndex', new_index)
-  $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
+
+  mute_front = ""
+  mute_back = ""
+  if new_index == 0
+    mute_front = "<span class='muted'>"
+    mute_back = "</span>"
+
+  $(el_out).html(mute_front + $(element).find('option:selected').text() + mute_back + " <span class='caret'></span>")
   $('#direction').val(1)
   element.change()
 

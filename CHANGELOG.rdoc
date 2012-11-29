@@ -1,5 +1,11 @@
 == 0.23.7
 
+* Enhancements
+  * Frames have been renamed to Boards
+    * Boards no longer include start and end dates
+    * Boards can be archived
+    * Project pages now only show stickies of active boards
+
 == 0.23.6
 
 * Enhancements

@@ -26,7 +26,10 @@
         <%= link_to @sticky.project.name, @sticky.project %>
       </div>
     <% else %>
-      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @sticky.project_id) %>
+      <% project_groups = [] %>
+      <% project_groups << ["Favorited", current_user.all_favorite_projects.collect{|p| [p.name, p.id]}] if current_user.all_favorite_projects.size > 0 %>
+      <% project_groups << ["Other", current_user.all_other_projects.collect{|p| [p.name, p.id]}] if current_user.all_other_projects.size > 0 %>
+      <%= f.select :project_id, options_for_select([['---', nil]]) + grouped_options_for_select(project_groups, @sticky.project_id) %>
     <% end %>
   </div>
 </div>

@@ -29,7 +29,11 @@
           <div class="control-group">
             <%= f.label :project_id, nil, class: 'control-label' %>
             <div class="controls">
-              <%= f.select :project_id, [['---', nil]] + current_user.all_projects.has_template.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]} %>
+              <% project_groups = [] %>
+              <% project_groups << ["Favorited", current_user.all_favorite_projects.has_template.collect{|p| [p.name, p.id]}] if current_user.all_favorite_projects.has_template.size > 0 %>
+              <% project_groups << ["Other", current_user.all_other_projects.has_template.collect{|p| [p.name, p.id]}] if current_user.all_other_projects.has_template.size > 0 %>
+
+              <%= f.select :project_id, options_for_select([['---', nil]]) + grouped_options_for_select(project_groups, @sticky.project_id) %>
             </div>
           </div>
 

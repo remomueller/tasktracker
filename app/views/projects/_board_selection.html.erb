@@ -2,7 +2,10 @@
 <%= label :sticky, :board_id, class: 'control-label' %>
 <div class="controls">
   <% if @project_id %>
-    <%= select :sticky, :board_id, options_for_select([['Holding Pen', nil]] + boards.order('boards.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]}, @sticky.board_id) %>
+    <% board_groups = [] %>
+    <% board_groups << ["Current", boards.where(archived: false).natural_sort] if boards.where(archived: false).size > 0 %>
+    <% board_groups << ["Archived", boards.where(archived: true).natural_sort] if boards.where(archived: true).size > 0 %>
+    <%= select :sticky, :board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, @sticky.board_id) %>
   <% else %>
     <%= hidden_field :sticky, :board_id %>
   <% end %>

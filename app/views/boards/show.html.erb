@@ -15,12 +15,17 @@
   <dt>Creator</dt>
   <dd><%= link_to @board.user.name, @board.user if @board.user %></dd>
 
+<% if false %>
   <dt>Start Date</dt>
   <dd><%= simple_date @board.start_date %></dd>
 
   <dt>End Date</dt>
   <dd><%= simple_date @board.end_date %></dd>
+<% end %>
 
   <dt>Description</dt>
   <dd><%= simple_format @board.description %></dd>
+
+  <dt>Archived</dt>
+  <dd><%= simple_check @board.archived %></dd>
 </dl>

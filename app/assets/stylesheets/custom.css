@@ -180,3 +180,12 @@ span.selected {
 .tab-pane {
   max-height: none ! important;
 }
+
+a.archived-boards-link {
+  color: #08C;
+}
+
+
+a.archived-boards-link:hover {
+  color: white;
+}

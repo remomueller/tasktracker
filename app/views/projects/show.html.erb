@@ -26,7 +26,7 @@
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><%= link_to 'Create', new_tag_path(tag: {project_id: @project.id}) %></li>
+        <li><%= link_to 'Create', new_tag_path(tag: { project_id: @project.id }) %></li>
       </ul>
     </div>
 
@@ -36,7 +36,7 @@
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><%= link_to 'Create', new_template_path(template: {project_id: @project.id}) %></li>
+        <li><%= link_to 'Create', new_template_path(template: { project_id: @project.id }) %></li>
       </ul>
     </div>
 
@@ -64,20 +64,23 @@
     <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
     <div class="btn-group">
-      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Board', class: 'btn', data: { object: 'boards-previous' } %>
-      <div style="display:none"><%= select_tag 'board_id', options_for_select([['Holding Pen', 0]] + @project.boards.natural_sort, params[:board_id]), class: 'btn' %></div>
-      <%= link_to "#{@board ? @board.name : 'Holding Pen'} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'board_name' %>
+      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Board', class: 'btn', data: { object: 'boards-previous' }, style: 'margin-right:-1px' %>
+      <div style="display:none"><%= select_tag 'board_id', options_for_select([['Holding Pen', 0]] + @project.boards.where(archived: false).natural_sort, params[:board_id]), class: 'btn' %></div>
+      <%= link_to "#{@board ? @board.name : '<span class="muted">Holding Pen</span>'.html_safe} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'board_name' %>
       <ul class="dropdown-menu">
         <li>
-          <%= link_to 'Holding Pen', '#', data: { object: 'boards-select', target: '#stickies_search', board_name: 'Holding Pen <span class="caret"></span>', board_id: 0 } %>
+          <%= link_to '<span class="muted">Holding Pen</span>'.html_safe, '#', data: { object: 'boards-select', target: '#stickies_search', board_name: '<span class="muted">Holding Pen</span> <span class="caret"></span>', board_id: 0 } %>
         </li>
-        <% @project.boards.natural_sort.each do |board_name, board_id| %>
+        <% @project.boards.where(archived: false).natural_sort.each do |board_name, board_id| %>
           <li>
             <%= link_to board_name, '#', data: { object: 'boards-select', target: '#stickies_search', board_name: escape_javascript(board_name) +  ' <span class="caret"></span>', board_id: board_id } %>
           </li>
         <% end %>
+        <% if @project.boards.where(archived: true).size > 0 %>
+          <li><%= link_to pluralize(@project.boards.where(archived: true).size, 'Archived Board'), boards_path(project_id: @project.id, order: 'boards.archived DESC'), class: 'archived-boards-link' %></li>
+        <% end %>
       </ul>
-      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Board', class: 'btn', data: { object: 'boards-next' } %>
+      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Board', class: 'btn', data: { object: 'boards-next' }, style: 'margin-left:-1px' %>
     </div>
   <% end %>
 </div>

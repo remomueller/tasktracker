@@ -19,7 +19,7 @@ class BoardsControllerTest < ActionController::TestCase
 
   test "should create board" do
     assert_difference('Board.count') do
-      post :create, board: { name: "Board Name", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
+      post :create, board: { name: "Board Name", project_id: projects(:one).to_param, description: "", archived: @board.archived }
     end
 
     assert_not_nil assigns(:board)
@@ -30,7 +30,7 @@ class BoardsControllerTest < ActionController::TestCase
 
   test "should not create board with blank name" do
     assert_difference('Board.count', 0) do
-      post :create, board: { name: "", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
+      post :create, board: { name: "", project_id: projects(:one).to_param, description: "", archived: @board.archived }
     end
 
     assert_not_nil assigns(:board)
@@ -48,18 +48,18 @@ class BoardsControllerTest < ActionController::TestCase
   end
 
   test "should update board" do
-    put :update, id: @board, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    put :update, id: @board, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", archived: false }
     assert_redirected_to board_path(assigns(:board))
   end
 
   test "should not update board with blank name" do
-    put :update, id: @board, board: { name: "", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    put :update, id: @board, board: { name: "", project_id: projects(:one).to_param, description: "Updated Description", archived: false }
     assert_not_nil assigns(:board)
     assert_template 'edit'
   end
 
   test "should not update board with invalid id" do
-    put :update, id: -1, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    put :update, id: -1, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", archived: false }
     assert_nil assigns(:board)
     assert_redirected_to root_path
   end

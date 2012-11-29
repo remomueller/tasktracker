@@ -110,6 +110,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def all_favorite_projects
+    @all_favorite_projects ||= begin
+      self.all_projects.by_favorite(self.id).where("project_favorites.favorite = ?", true).order('name')
+    end
+  end
+
+  def all_other_projects
+    @all_other_projects ||= begin
+      self.all_projects.where("projects.id NOT IN (?)", self.all_favorite_projects.pluck("projects.id")).order('name')
+    end
+  end
+
   def all_stickies
     @all_stickies ||= begin
       Sticky.current.with_project(self.all_projects.pluck(:id), self.id).order('created_at DESC')

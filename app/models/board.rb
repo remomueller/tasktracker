@@ -1,5 +1,5 @@
 class Board < ActiveRecord::Base
-  attr_accessible :name, :description, :start_date, :end_date, :project_id
+  attr_accessible :name, :description, :start_date, :end_date, :archived, :project_id
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -33,26 +33,6 @@ class Board < ActiveRecord::Base
       result << " to #{self.end_date.strftime('%m/%d')}"
     elsif self.end_date
       result << " to #{self.end_date.strftime('%m/%d/%Y')}"
-    end
-    result
-  end
-
-  def start_long_time
-    result = ''
-    if self.start_date and self.start_date.year == Date.today.year
-      result << self.start_date.strftime('%b %d (%a)')
-    elsif self.start_date
-      result << self.start_date.strftime('%b %d, %Y (%a)')
-    end
-    result
-  end
-
-  def end_long_time
-    result = ''
-    if self.end_date and self.end_date.year == Date.today.year
-      result << self.end_date.strftime('%b %d (%a)')
-    elsif self.end_date
-      result << self.end_date.strftime('%b %d, %Y (%a)')
     end
     result
   end

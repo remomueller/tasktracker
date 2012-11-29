@@ -83,7 +83,7 @@ class BoardsController < ApplicationController
     end
 
     params[:board].slice(
-      :name, :description, :start_date, :end_date, :project_id
+      :name, :description, :start_date, :end_date, :project_id, :archived
     )
   end
 end
