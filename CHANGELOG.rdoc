@@ -7,6 +7,9 @@
     * Project pages now only show stickies of active boards
   * Sticky completion emails on groups now highlight the sticky that was completed on the group
 
+* Bug Fix
+  * Pagination now works correctly on group pages where groups have more than 50 stickies
+
 == 0.23.6
 
 * Enhancements
