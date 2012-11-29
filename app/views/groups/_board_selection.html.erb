@@ -1,9 +1,9 @@
 <% if @group %>
-  <% boards = Frame.current.with_project(@group.project_id, current_user.id) %>
+  <% boards = Board.current.with_project(@group.project_id, current_user.id) %>
 <% else %>
-  <% boards = Frame.current.with_project(nil, current_user.id) %>
+  <% boards = Board.current.with_project(nil, current_user.id) %>
 <% end %>
-<%= label_tag :group_board_id, 'Frame', class: 'control-label' %>
+<%= label_tag :group_board_id, 'Board', class: 'control-label' %>
 <div class="controls">
   <% if @project_id %>
     <%= select_tag :group_board_id, options_for_select([['Holding Pen', nil]] + boards.order('boards.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]}, params[:board_id] ), name: 'board_id' %>

@@ -193,13 +193,13 @@ class User < ActiveRecord::Base
 
   def all_boards
     @all_boards ||= begin
-      Frame.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Board.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
   def all_viewable_boards
     @all_viewable_boards ||= begin
-      Frame.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Board.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 

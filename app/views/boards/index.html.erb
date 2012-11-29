@@ -1,9 +1,9 @@
-<% @title = 'Frames' %>
+<% @title = 'Boards' %>
 <div class="page-header">
   <h1>
     <%= @title %>
     <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
-    <%= link_to "Create Frame", (@project ? new_board_path(board: { project_id: @project.id }) : new_board_path), class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Board", (@project ? new_board_path(board: { project_id: @project.id }) : new_board_path), class: 'btn btn-mini btn-primary' %>
   </h1>
 </div>
 

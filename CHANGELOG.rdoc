@@ -15,7 +15,7 @@
 * Bug Fix
   * Sticky links no longer overlap the complete sticky checkmark box on the calendar view
   * When deleting boards, tags, and templates, the user is now redirected to the project specific boards, tags, or templates index
-  * Frames now correctly retain the dropdown arrow when switching by selecting a new board from the dropdown
+  * Boards now correctly retain the dropdown arrow when switching by selecting a new board from the dropdown
   * Editing template input fields and dropdowns no longer causes the input field to become unselected in IE
 
 == 0.23.4
@@ -76,7 +76,7 @@
     * Creating a group of stickies from the project page now refreshes and shows the newly created stickies
     * Cleaned up lists of stickies by changing how they expand when clicking on them
   * Template Changes:
-    * Frames and Templates now require unique names per project
+    * Boards and Templates now require unique names per project
     * Templates can now be copied
       * Note: Tags and owners aren't copied to new templates
     * Compact editing of templates added
@@ -109,7 +109,7 @@
   * Switching boards in the sticky popup will now reflect on the underlying project page
   * Update to Rails 3.2.6 and Contour 1.0.2
   * Links with confirm: now use data: { confirm: } to account for deprecations in Rails 4.0
-  * Frames are now ordered by end date descending by default on boards index
+  * Boards are now ordered by end date descending by default on boards index
 
 * Bug Fix
   * Links from email to stickies past due, due today, or upcoming now properly reset other filters

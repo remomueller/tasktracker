@@ -1,4 +1,4 @@
-class FramesController < ApplicationController
+class BoardsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
@@ -9,7 +9,7 @@ class FramesController < ApplicationController
 
     board_scope = board_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
-    @order = scrub_order(Frame, params[:order], 'boards.name')
+    @order = scrub_order(Board, params[:order], 'boards.name')
     board_scope = board_scope.order(@order)
 
     @count = board_scope.count
@@ -40,7 +40,7 @@ class FramesController < ApplicationController
     @board = current_user.boards.new(post_params)
 
     if @board.save
-      redirect_to(@board, notice: 'Frame was successfully created.')
+      redirect_to(@board, notice: 'Board was successfully created.')
     else
       render action: "new"
     end
@@ -51,7 +51,7 @@ class FramesController < ApplicationController
 
     if @board
       if @board.update_attributes(post_params)
-        redirect_to(@board, notice: 'Frame was successfully updated.')
+        redirect_to(@board, notice: 'Board was successfully updated.')
       else
         render action: "edit"
       end

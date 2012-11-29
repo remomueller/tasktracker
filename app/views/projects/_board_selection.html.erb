@@ -1,4 +1,4 @@
-<% boards = Frame.current.with_project(@project_id, current_user.id) %>
+<% boards = Board.current.with_project(@project_id, current_user.id) %>
 <%= label :sticky, :board_id, class: 'control-label' %>
 <div class="controls">
   <% if @project_id %>

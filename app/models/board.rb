@@ -1,4 +1,4 @@
-class Frame < ActiveRecord::Base
+class Board < ActiveRecord::Base
   attr_accessible :name, :description, :start_date, :end_date, :project_id
 
   # Named Scopes

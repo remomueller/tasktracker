@@ -34,7 +34,7 @@ class StickiesController < ApplicationController
   def search
     current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-      @board = Frame.find_by_id(params[:board_id])
+      @board = Board.find_by_id(params[:board_id])
       @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
       sticky_scope = @project.stickies.with_board(params[:board_id])
       sticky_scope = sticky_scope.order(@order)
@@ -93,7 +93,7 @@ class StickiesController < ApplicationController
 
     if params[:format] == 'csv'
       @csv_string = CSV.generate do |csv|
-        csv << ["Name", "Due Date", "Description", "Status", "Assigned To", "Tags", "Project", "Creator", "Frame"]
+        csv << ["Name", "Due Date", "Description", "Status", "Assigned To", "Tags", "Project", "Creator", "Board"]
         sticky_scope.each do |sticky|
           csv << [sticky.name,
                   sticky.due_date.blank? ? '' : sticky.due_date.strftime("%m-%d-%Y"),

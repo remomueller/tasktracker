@@ -41,7 +41,7 @@
     </div>
 
     <div class="btn-group">
-      <%= link_to "Frames", boards_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <%= link_to "Boards", boards_path(project_id: @project.id), class: 'btn btn-mini' %>
       <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
         <span class="caret"></span>
       </button>
@@ -64,7 +64,7 @@
     <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
     <div class="btn-group">
-      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Frame', class: 'btn', data: { object: 'boards-previous' } %>
+      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Board', class: 'btn', data: { object: 'boards-previous' } %>
       <div style="display:none"><%= select_tag 'board_id', options_for_select([['Holding Pen', 0]] + @project.boards.natural_sort, params[:board_id]), class: 'btn' %></div>
       <%= link_to "#{@board ? @board.name : 'Holding Pen'} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'board_name' %>
       <ul class="dropdown-menu">
@@ -77,7 +77,7 @@
           </li>
         <% end %>
       </ul>
-      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Frame', class: 'btn', data: { object: 'boards-next' } %>
+      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Board', class: 'btn', data: { object: 'boards-next' } %>
     </div>
   <% end %>
 </div>

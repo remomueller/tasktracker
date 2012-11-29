@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FramesControllerTest < ActionController::TestCase
+class BoardsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
     @board = boards(:one)
@@ -18,8 +18,8 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should create board" do
-    assert_difference('Frame.count') do
-      post :create, board: { name: "Frame Name", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
+    assert_difference('Board.count') do
+      post :create, board: { name: "Board Name", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
     end
 
     assert_not_nil assigns(:board)
@@ -29,7 +29,7 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should not create board with blank name" do
-    assert_difference('Frame.count', 0) do
+    assert_difference('Board.count', 0) do
       post :create, board: { name: "", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
     end
 
@@ -48,7 +48,7 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should update board" do
-    put :update, id: @board, board: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    put :update, id: @board, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
     assert_redirected_to board_path(assigns(:board))
   end
 
@@ -59,7 +59,7 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should not update board with invalid id" do
-    put :update, id: -1, board: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    put :update, id: -1, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
     assert_nil assigns(:board)
     assert_redirected_to root_path
   end
@@ -67,7 +67,7 @@ class FramesControllerTest < ActionController::TestCase
   test "should destroy board and move attached stickies to project holding pen" do
     assert_difference('Sticky.with_board(0).count', @board.stickies.size) do
       assert_difference('Sticky.current.count', 0) do
-        assert_difference('Frame.current.count', -1) do
+        assert_difference('Board.current.count', -1) do
           delete :destroy, id: @board
         end
       end
@@ -78,7 +78,7 @@ class FramesControllerTest < ActionController::TestCase
   end
 
   test "should not destroy with invalid id" do
-    assert_difference('Frame.current.count', 0) do
+    assert_difference('Board.current.count', 0) do
       delete :destroy, id: -1
     end
 
