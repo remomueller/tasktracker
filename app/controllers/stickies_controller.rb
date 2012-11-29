@@ -34,9 +34,9 @@ class StickiesController < ApplicationController
   def search
     current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-      @frame = Frame.find_by_id(params[:frame_id])
+      @board = Frame.find_by_id(params[:board_id])
       @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
-      sticky_scope = @project.stickies.with_frame(params[:frame_id])
+      sticky_scope = @project.stickies.with_board(params[:board_id])
       sticky_scope = sticky_scope.order(@order)
       @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
       render "projects/show"
@@ -103,7 +103,7 @@ class StickiesController < ApplicationController
                   sticky.tags.collect{|t| t.name}.join('; '),
                   sticky.project.name,
                   sticky.user.name,
-                  sticky.frame ? sticky.frame.name : '']
+                  sticky.board ? sticky.board.name : '']
         end
       end
       send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
@@ -238,7 +238,7 @@ class StickiesController < ApplicationController
           elsif params[:from] == 'index'
             format.html { redirect_to stickies_path }
           elsif params[:from] == 'project'
-            format.html { redirect_to project_path(@sticky.project, frame_id: @sticky.frame_id) }
+            format.html { redirect_to project_path(@sticky.project, board_id: @sticky.board_id) }
           else
             format.html { redirect_to @sticky }
           end
@@ -309,7 +309,7 @@ class StickiesController < ApplicationController
     end
 
     params[:sticky].slice(
-      :description, :project_id, :owner_id, :frame_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids
+      :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids
     )
   end
 end

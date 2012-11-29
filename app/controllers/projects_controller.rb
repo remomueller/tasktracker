@@ -76,7 +76,7 @@ class ProjectsController < ApplicationController
   end
 
   def selection
-    @sticky = Sticky.new(params[:sticky].slice(:frame_id, :owner_id, :tag_ids))
+    @sticky = Sticky.new(params[:sticky].slice(:board_id, :owner_id, :tag_ids))
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
     @project_id = @project.id if @project
   end
@@ -106,13 +106,13 @@ class ProjectsController < ApplicationController
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     respond_to do |format|
       if @project
-        @frame = @project.frames.find_by_id(params[:frame_id] || 0)
-        unless @frame
-          @frame = @project.frames.active_today.first
-          params[:frame_id] = @frame.id if @frame
+        @board = @project.boards.find_by_id(params[:board_id] || 0)
+        unless @board
+          @board = @project.boards.active_today.first
+          params[:board_id] = @board.id if @board
         end
         stickies_scope = @project.stickies
-        @stickies = stickies_scope.with_frame(params[:frame_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
+        @stickies = stickies_scope.with_board(params[:board_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
         format.html # show.html.erb
         format.json { render json: @project }
       else

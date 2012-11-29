@@ -41,7 +41,7 @@ Success will return you the stickies JSON object
       "due_date": "2012-06-29T00:00:00-04:00",
       "duration": 0,
       "duration_units": "hours",
-      "frame_id": null,
+      "board_id": null,
       "group_id": 683,
       "id": 6352,
       "owner_id": 2,

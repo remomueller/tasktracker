@@ -1,9 +1,9 @@
-<% frames = Frame.current.with_project(@project_id, current_user.id) %>
-<%= label :sticky, :frame_id, class: 'control-label' %>
+<% boards = Frame.current.with_project(@project_id, current_user.id) %>
+<%= label :sticky, :board_id, class: 'control-label' %>
 <div class="controls">
   <% if @project_id %>
-    <%= select :sticky, :frame_id, options_for_select([['Backlog', nil]] + frames.order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]}, @sticky.frame_id) %>
+    <%= select :sticky, :board_id, options_for_select([['Holding Pen', nil]] + boards.order('boards.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]}, @sticky.board_id) %>
   <% else %>
-    <%= hidden_field :sticky, :frame_id %>
+    <%= hidden_field :sticky, :board_id %>
   <% end %>
 </div>

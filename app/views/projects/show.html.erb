@@ -7,7 +7,7 @@
   <div class="btn-toolbar">
     <% if current_user.all_projects.include?(@project) %>
       <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
-      <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, frames, and comments!" } %></div>
+      <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, boards, and comments!" } %></div>
     <% end %>
     <% if current_user.all_projects.include?(@project) %>
 
@@ -41,12 +41,12 @@
     </div>
 
     <div class="btn-group">
-      <%= link_to "Frames", frames_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <%= link_to "Frames", boards_path(project_id: @project.id), class: 'btn btn-mini' %>
       <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
         <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
-        <li><%= link_to 'Create', new_frame_path(frame: { project_id: @project.id }) %></li>
+        <li><%= link_to 'Create', new_board_path(board: { project_id: @project.id }) %></li>
       </ul>
     </div>
   <% end %>
@@ -64,20 +64,20 @@
     <% end %>
     <%= hidden_field_tag 'project_id', @project.id %>
     <div class="btn-group">
-      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Frame', class: 'btn', data: { object: 'frames-previous' } %>
-      <div style="display:none"><%= select_tag 'frame_id', options_for_select([['Backlog', 0]] + @project.frames.collect{|f| [f.name, f.id]}, params[:frame_id]), class: 'btn' %></div>
-      <%= link_to "#{@frame ? @frame.name : 'Backlog'} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'frame_name' %>
+      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Frame', class: 'btn', data: { object: 'boards-previous' } %>
+      <div style="display:none"><%= select_tag 'board_id', options_for_select([['Holding Pen', 0]] + @project.boards.natural_sort, params[:board_id]), class: 'btn' %></div>
+      <%= link_to "#{@board ? @board.name : 'Holding Pen'} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'board_name' %>
       <ul class="dropdown-menu">
         <li>
-          <%= link_to 'Backlog', '#', data: { object: 'frames-select', target: '#stickies_search', frame_name: 'Backlog <span class="caret"></span>', frame_id: 0 } %>
+          <%= link_to 'Holding Pen', '#', data: { object: 'boards-select', target: '#stickies_search', board_name: 'Holding Pen <span class="caret"></span>', board_id: 0 } %>
         </li>
-        <% @project.frames.each do |frame| %>
+        <% @project.boards.natural_sort.each do |board_name, board_id| %>
           <li>
-            <%= link_to frame.name, '#', data: { object: 'frames-select', target: '#stickies_search', frame_name: escape_javascript(frame.name) +  ' <span class="caret"></span>', frame_id: frame.id } %>
+            <%= link_to board_name, '#', data: { object: 'boards-select', target: '#stickies_search', board_name: escape_javascript(board_name) +  ' <span class="caret"></span>', board_id: board_id } %>
           </li>
         <% end %>
       </ul>
-      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Frame', class: 'btn', data: { object: 'frames-next' } %>
+      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Frame', class: 'btn', data: { object: 'boards-next' } %>
     </div>
   <% end %>
 </div>

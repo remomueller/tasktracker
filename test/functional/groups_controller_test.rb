@@ -28,14 +28,14 @@ class GroupsControllerTest < ActionController::TestCase
   test "should create group and generate stickies" do
     assert_difference('Sticky.count', templates(:one).items.size) do
       assert_difference('Group.count') do
-        post :create, template_id: templates(:one).to_param, frame_id: frames(:one).to_param
+        post :create, template_id: templates(:one).to_param, board_id: boards(:one).to_param
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
     assert_equal templates(:one).items.size, assigns(:group).stickies.size
-    assert_equal assigns(:frame), frames(:one)
-    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:board), boards(:one)
+    assert_equal assigns(:board_id).to_s, boards(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
     assert_redirected_to group_path(assigns(:group))
   end
@@ -44,14 +44,14 @@ class GroupsControllerTest < ActionController::TestCase
     login(users(:service_account))
     assert_difference('Sticky.count', templates(:one).items.size) do
       assert_difference('Group.count') do
-        post :create, template_id: templates(:one).to_param, frame_id: frames(:one).to_param, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
+        post :create, template_id: templates(:one).to_param, board_id: boards(:one).to_param, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
     assert_equal templates(:one).items.size, assigns(:group).stickies.size
-    assert_equal assigns(:frame), frames(:one)
-    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:board), boards(:one)
+    assert_equal assigns(:board_id).to_s, boards(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
     assert_equal response.body, assigns(:group).to_json
     assert_response :success
@@ -60,14 +60,14 @@ class GroupsControllerTest < ActionController::TestCase
   test "should create group and generate stickies with default tags" do
     assert_difference('Sticky.count', templates(:with_tag).items.size) do
       assert_difference('Group.count') do
-        post :create, template_id: templates(:with_tag).to_param, frame_id: frames(:one).to_param
+        post :create, template_id: templates(:with_tag).to_param, board_id: boards(:one).to_param
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
     assert_equal templates(:with_tag).items.size, assigns(:group).stickies.size
-    assert_equal assigns(:frame), frames(:one)
-    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:board), boards(:one)
+    assert_equal assigns(:board_id).to_s, boards(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
     assert_equal ['alpha'], assigns(:group).stickies.first.tags.collect{|t| t.name}
     assert_redirected_to group_path(assigns(:group))
@@ -76,14 +76,14 @@ class GroupsControllerTest < ActionController::TestCase
   test "should create group of stickies with due_at time and duration" do
     assert_difference('Sticky.count', templates(:with_due_at).items.size) do
       assert_difference('Group.count') do
-        post :create, template_id: templates(:with_due_at).to_param, frame_id: frames(:one).to_param
+        post :create, template_id: templates(:with_due_at).to_param, board_id: boards(:one).to_param
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
     assert_equal templates(:with_due_at).items.size, assigns(:group).stickies.size
-    assert_equal assigns(:frame), frames(:one)
-    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:board), boards(:one)
+    assert_equal assigns(:board_id).to_s, boards(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
     assert_equal '9:00 PM', assigns(:group).stickies.first.due_at_string
     assert_equal 45, assigns(:group).stickies.first.duration
@@ -94,14 +94,14 @@ class GroupsControllerTest < ActionController::TestCase
   test "should create group of stickies avoid weekends" do
     assert_difference('Sticky.count', templates(:avoid_weekends).items.size) do
       assert_difference('Group.count') do
-        post :create, template_id: templates(:avoid_weekends).to_param, frame_id: frames(:one).to_param, initial_due_date: "3/10/2012"
+        post :create, template_id: templates(:avoid_weekends).to_param, board_id: boards(:one).to_param, initial_due_date: "3/10/2012"
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
     assert_equal templates(:avoid_weekends).items.size, assigns(:group).stickies.size
-    assert_equal assigns(:frame), frames(:one)
-    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:board), boards(:one)
+    assert_equal assigns(:board_id).to_s, boards(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
     assert_equal Time.local(2012, 3, 9, 0, 0, 0), assigns(:group).stickies.first.due_date
     assert_equal Time.local(2012, 3, 12, 0, 0, 0), assigns(:group).stickies.last.due_date
@@ -111,14 +111,14 @@ class GroupsControllerTest < ActionController::TestCase
   test "should create group of stickies and set invalid due_at time and duration to default" do
     assert_difference('Sticky.count', templates(:with_due_at_invalid).items.size) do
       assert_difference('Group.count') do
-        post :create, template_id: templates(:with_due_at_invalid).to_param, frame_id: frames(:one).to_param
+        post :create, template_id: templates(:with_due_at_invalid).to_param, board_id: boards(:one).to_param
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
     assert_equal templates(:with_due_at_invalid).items.size, assigns(:group).stickies.size
-    assert_equal assigns(:frame), frames(:one)
-    assert_equal assigns(:frame_id).to_s, frames(:one).to_param
+    assert_equal assigns(:board), boards(:one)
+    assert_equal assigns(:board_id).to_s, boards(:one).to_param
     assert_equal assigns(:group).user_id.to_s, users(:valid).to_param
     assert_equal '', assigns(:group).stickies.first.due_at_string
     assert_equal 0, assigns(:group).stickies.first.duration
@@ -129,12 +129,12 @@ class GroupsControllerTest < ActionController::TestCase
   test "should not create group and generate stickies for invalid template id" do
     assert_difference('Sticky.count', 0) do
       assert_difference('Group.count', 0) do
-        post :create, template_id: -1, frame_id: frames(:one).to_param
+        post :create, template_id: -1, board_id: boards(:one).to_param
       end
     end
     assert_nil assigns(:template)
-    assert_nil assigns(:frame)
-    assert_nil assigns(:frame_id)
+    assert_nil assigns(:board)
+    assert_nil assigns(:board_id)
     assert_redirected_to root_path
   end
 
@@ -165,7 +165,7 @@ class GroupsControllerTest < ActionController::TestCase
     put :update, id: @group.to_param, group: { description: "Group Description Update" }
     assert_not_nil assigns(:group)
     assert_equal [@group.project_id], assigns(:group).stickies.collect{|s| s.project_id}.uniq
-    assert_equal [frames(:one).to_param], assigns(:group).stickies.collect{|s| s.frame_id.to_s}.uniq
+    assert_equal [boards(:one).to_param], assigns(:group).stickies.collect{|s| s.board_id.to_s}.uniq
     assert_redirected_to group_path(assigns(:group))
   end
 
@@ -173,7 +173,7 @@ class GroupsControllerTest < ActionController::TestCase
     put :update, id: @group.to_param, group: { description: "Group Description Update", project_id: projects(:two).to_param }
     assert_not_nil assigns(:group)
     assert_equal [projects(:two).to_param], assigns(:group).stickies.collect{|s| s.project_id.to_s}.uniq
-    assert_equal [nil], assigns(:group).stickies.collect{|s| s.frame_id}.uniq
+    assert_equal [nil], assigns(:group).stickies.collect{|s| s.board_id}.uniq
     assert_redirected_to group_path(assigns(:group))
   end
 

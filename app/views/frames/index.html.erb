@@ -3,15 +3,15 @@
   <h1>
     <%= @title %>
     <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
-    <%= link_to "Create Frame", (@project ? new_frame_path(frame: { project_id: @project.id }) : new_frame_path), class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Frame", (@project ? new_board_path(board: { project_id: @project.id }) : new_board_path), class: 'btn btn-mini btn-primary' %>
   </h1>
 </div>
 
-<%= form_tag frames_path, method: :get, remote: true, id: "frames_search", class: 'form-search', data: { object: 'form-load' } do %>
+<%= form_tag boards_path, method: :get, remote: true, id: "boards_search", class: 'form-search', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :order %>
   <%= hidden_field_tag :project_id, params[:project_id] %>
   <%= text_field_tag 'search', params[:search], class: 'search-query' %>
   <%= submit_tag 'Search', class: 'btn btn-primary' %>
 <% end %>
 
-<div id="frames"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>
+<div id="boards"><center><%= image_tag "contour/ajax-loader.gif" %></center></div>

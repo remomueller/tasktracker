@@ -1,11 +1,11 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'stickies', object_count: @count } %>
 
-<% if @frame %>
+<% if @board %>
   <div class="pagination pagination-centered" style="margin-top:-54px">
     <ul>
-      <li class="disabled"><%= link_to @frame.start_long_time, "#" %></li>
-      <% if @frame.end_date > Date.today %><li class="active" style="font-weight:bold"><%= link_to "#{pluralize((@frame.end_date - Date.today).to_i, 'Day')} Left", "#" %></li><% end %>
-      <li class="disabled"><%= link_to @frame.end_long_time, "#" %></li>
+      <% if @board.start_date %><li class="disabled"><%= link_to @board.start_long_time, "#" %></li><% end %>
+      <% if @board.end_date and @board.end_date > Date.today %><li class="active" style="font-weight:bold"><%= link_to "#{pluralize((@board.end_date - Date.today).to_i, 'Day')} Left", "#" %></li><% end %>
+      <% if @board.end_date %><li class="disabled"><%= link_to @board.end_long_time, "#" %></li><% end %>
     </ul>
   </div>
 <% end %>

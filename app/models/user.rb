@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   has_many :authentications
   has_many :projects, conditions: { deleted: false }, order: 'name'
   has_many :project_favorites
-  has_many :frames, conditions: { deleted: false }
+  has_many :boards, conditions: { deleted: false }
   has_many :groups, conditions: { deleted: false }
   has_many :tags, conditions: { deleted: false }
   has_many :templates, conditions: { deleted: false }, order: 'created_at'
@@ -191,14 +191,14 @@ class User < ActiveRecord::Base
     end
   end
 
-  def all_frames
-    @all_frames ||= begin
+  def all_boards
+    @all_boards ||= begin
       Frame.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end
 
-  def all_viewable_frames
-    @all_viewable_frames ||= begin
+  def all_viewable_boards
+    @all_viewable_boards ||= begin
       Frame.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
     end
   end

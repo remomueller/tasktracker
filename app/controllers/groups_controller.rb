@@ -56,13 +56,13 @@ class GroupsController < ApplicationController
   def create
     params[:initial_due_date] = parse_date(params[:initial_due_date], Date.today)
     @template = current_user.all_templates.find_by_id(params[:template_id])
-    @frame = (@template ? @template.project.frames.find_by_id(params[:frame_id]) : nil)
-    @frame_id = @frame.id if @frame
-    frame_name = (@frame ? @frame.name + ' - ' + @frame.short_time : 'Backlog')
+    @board = (@template ? @template.project.boards.find_by_id(params[:board_id]) : nil)
+    @board_id = @board.id if @board
+    board_name = (@board ? @board.name + ' - ' + @board.short_time : 'Holding Pen')
     if @template
-      @group = @template.generate_stickies!(current_user, @frame_id, params[:initial_due_date], params[:additional_text])
+      @group = @template.generate_stickies!(current_user, @board_id, params[:initial_due_date], params[:additional_text])
       respond_to do |format|
-        format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{frame_name}." }
+        format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{board_name}." }
         format.js { render "create" }
         format.json { render json: @group }
       end

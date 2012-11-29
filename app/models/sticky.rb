@@ -1,5 +1,5 @@
 class Sticky < ActiveRecord::Base
-  attr_accessible :description, :project_id, :owner_id, :frame_id, :due_date, :group_id, :completed, :duration, :duration_units, :all_day, :tag_ids
+  attr_accessible :description, :project_id, :owner_id, :board_id, :due_date, :group_id, :completed, :duration, :duration_units, :all_day, :tag_ids
 
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
 
@@ -8,7 +8,7 @@ class Sticky < ActiveRecord::Base
   scope :with_project, lambda { |*args| { conditions: ["stickies.project_id IN (?) or (stickies.project_id IS NULL and stickies.user_id = ?)", args.first, args[1]] } }
   scope :with_creator, lambda { |*args|  { conditions: ["stickies.user_id IN (?)", args.first] } }
   scope :with_owner, lambda { |*args|  { conditions: ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
-  scope :with_frame, lambda { |*args| { conditions: ["stickies.frame_id IN (?) or (stickies.frame_id IS NULL and 0 IN (?))", args.first, args.first] } }
+  scope :with_board, lambda { |*args| { conditions: ["stickies.board_id IN (?) or (stickies.board_id IS NULL and 0 IN (?))", args.first, args.first] } }
   scope :search, lambda { |*args| { conditions: [ 'LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :updated_since, lambda { |*args| { conditions: ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
@@ -28,7 +28,7 @@ class Sticky < ActiveRecord::Base
   before_create :set_start_date
   after_create :send_email
 
-  before_save :set_end_date, :set_project_and_frame
+  before_save :set_end_date, :set_project_and_board
   after_save :send_completion_email, :send_due_at_updated
 
   # Model Validation
@@ -38,13 +38,13 @@ class Sticky < ActiveRecord::Base
   belongs_to :user
   belongs_to :project, touch: true
   belongs_to :group
-  belongs_to :frame
+  belongs_to :board
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   has_and_belongs_to_many :tags
   has_many :comments, order: 'created_at desc', conditions: { deleted: false }
 
   def as_json(options={})
-    super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :frame_id, :due_date, :duration, :duration_units, :all_day, :created_at, :updated_at, :group_id], methods: [:group_description, :sticky_link, :tags])
+    super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :board_id, :due_date, :duration, :duration_units, :all_day, :created_at, :updated_at, :group_id], methods: [:group_description, :sticky_link, :tags])
   end
 
   def sticky_link
@@ -207,11 +207,11 @@ class Sticky < ActiveRecord::Base
     self.end_date = ((self.changes[:completed] and self.changes[:completed][1] == true) ? Date.today : nil) unless self.completed? and self.changes[:completed] == nil
   end
 
-  def set_project_and_frame
+  def set_project_and_board
     if self.group
       self.project_id = self.group.project_id
-      if not self.group.project.frames.pluck(:id).include?(self.frame_id) and self.changes[:frame_id]
-        self.frame_id = self.changes[:frame_id][0]
+      if not self.group.project.boards.pluck(:id).include?(self.board_id) and self.changes[:board_id]
+        self.board_id = self.changes[:board_id][0]
       end
     end
   end

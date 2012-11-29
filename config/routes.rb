@@ -5,7 +5,7 @@ Notes::Application.routes.draw do
     end
   end
 
-  resources :frames
+  resources :boards
 
   resources :groups do
     collection do

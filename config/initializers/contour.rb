@@ -32,15 +32,6 @@ Contour.setup do |config|
               { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
-    # {
-    #   name: 'Frames', display: 'signed_in', path: 'frames_path', position: 'left',
-    #   links: [{ name: '&raquo;New', path: 'new_frame_path' }]
-    # },
-    # {
-    #   name: 'Stickies', display: 'signed_in', path: 'stickies_path', position: 'left',
-    #   links: [{ name: '&raquo;New', path: 'new_sticky_path' },
-    #           { name: '&raquo;Graphs', path: 'graph_user_path(current_user.id)' }]
-    # },
     {
       name: 'Calendar', display: 'signed_in', path: 'calendar_stickies_path', position: 'left',
       links: []

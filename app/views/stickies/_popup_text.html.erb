@@ -9,4 +9,4 @@
 
 <strong>Created By:</strong> <%= @sticky.user.name %><br /><br />
 
-<% if @sticky.project.frames.size > 0 %><strong>Frame:</strong> <%= @sticky.frame ? @sticky.frame.name : 'Backlog' %><% end %>
+<% if @sticky.project.boards.size > 0 %><strong>Frame:</strong> <%= @sticky.board ? @sticky.board.name : 'Holding Pen' %><% end %>

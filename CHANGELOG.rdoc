@@ -14,8 +14,8 @@
 
 * Bug Fix
   * Sticky links no longer overlap the complete sticky checkmark box on the calendar view
-  * When deleting frames, tags, and templates, the user is now redirected to the project specific frames, tags, or templates index
-  * Frames now correctly retain the dropdown arrow when switching by selecting a new frame from the dropdown
+  * When deleting boards, tags, and templates, the user is now redirected to the project specific boards, tags, or templates index
+  * Frames now correctly retain the dropdown arrow when switching by selecting a new board from the dropdown
   * Editing template input fields and dropdowns no longer causes the input field to become unselected in IE
 
 == 0.23.4
@@ -104,12 +104,12 @@
 
 * Enhancements
   * Creating a sticky from the project page will
-    * default the new sticky to the currently selected frame
+    * default the new sticky to the currently selected board
     * refresh the list of stickies when the sticky is created
-  * Switching frames in the sticky popup will now reflect on the underlying project page
+  * Switching boards in the sticky popup will now reflect on the underlying project page
   * Update to Rails 3.2.6 and Contour 1.0.2
   * Links with confirm: now use data: { confirm: } to account for deprecations in Rails 4.0
-  * Frames are now ordered by end date descending by default on frames index
+  * Frames are now ordered by end date descending by default on boards index
 
 * Bug Fix
   * Links from email to stickies past due, due today, or upcoming now properly reset other filters
@@ -264,7 +264,7 @@
     * Sticky list page tag filters now only shows tags for the selected project
 
 * Bug Fix
-  * Generating a template from the calendar view now correctly updates the selected templates available project frames
+  * Generating a template from the calendar view now correctly updates the selected templates available project boards
   * Daily Stickies Due email no longer includes stickies from projects that have email delivery off
 
 * Refactoring
@@ -366,7 +366,7 @@
     * Grouped stickies can now be moved to a different project by editing the group
   * Navigation
     * Creating, Updating, and Deleting stickies from the calendar has been improved
-    * Viewing a project now adds a menu item to that project's templates and frames
+    * Viewing a project now adds a menu item to that project's templates and boards
   * Sticky Tags:
     * Project specific tags can be assigned to stickies
   * Email layout has improved:
@@ -378,7 +378,7 @@
 * Bug Fix
   * Daily stickies due email fixed to include weekday for items past due
   * Creating a sticky that's already marked as completed now only sends out a "sticky completion" email
-  * Validation errors when creating or updating stickies now correctly remember the project, frame, and tag selections
+  * Validation errors when creating or updating stickies now correctly remember the project, board, and tag selections
 
 == 0.12.1
 
@@ -443,10 +443,10 @@
   * Emails sent by notes now:
     * Have consistent subjects lines
     * Sticky Added email now displays who is assigned to the sticky
-  * Right and Left Keyboard clicks now navigate between frames on the project show page
+  * Right and Left Keyboard clicks now navigate between boards on the project show page
 
 * Bug Fix
-  * Deleting a frame now moves the associated stickies to the project backlog
+  * Deleting a board now moves the associated stickies to the project holding pen
 
 * Testing
   * Analyzing test coverage using SimpleCov gem, test coverage now at 92%
@@ -478,7 +478,7 @@
 
 * Enhancements
   * Overall Graph is now available for system administrators
-  * The currently active frame is now set initially on the project page
+  * The currently active board is now set initially on the project page
   * Notes now uses Contour for application layout, registration, and authentication
 
 * Refactoring
@@ -487,7 +487,7 @@
 
 * Bug Fixes
   * Graphs now properly render when displaying project names that contain apostrophes
-  * JavaScript for the arrows next to the frame selection fixed, frames now change correctly
+  * JavaScript for the arrows next to the board selection fixed, boards now change correctly
 
 == 0.6.1
 

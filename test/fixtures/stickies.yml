@@ -8,7 +8,7 @@ one:
   start_date: 2011-02-24
   end_date: 2011-02-24
   deleted: false
-  frame: one
+  board: one
 
 grouped:
   user: valid
@@ -19,7 +19,7 @@ grouped:
   end_date: 2011-02-24
   due_date: 2011-12-13 05:00:00
   deleted: false
-  frame: one
+  board: one
   group: one
 
 assigned_to_user:
@@ -30,13 +30,13 @@ assigned_to_user:
   start_date: 2011-02-24
   end_date: 2011-02-24
   deleted: false
-  frame: one
+  board: one
   owner: valid
 
 planned:
   user: valid
   project: one
-  # frame:
+  # board:
   completed: false
   description: This is a planned sticky
   due_date: 2011-12-10 05:00:00
@@ -48,7 +48,7 @@ planned:
 ongoing:
   user: valid
   project: one
-  # frame:
+  # board:
   completed: false
   description: This is an ongoing sticky
   due_date: 2011-12-10 05:00:00
@@ -59,7 +59,7 @@ ongoing:
 completed:
   user: valid
   project: one
-  # frame:
+  # board:
   completed: true
   description: This is a completed sticky
   due_date: 2011-12-10 05:00:00
@@ -70,7 +70,7 @@ completed:
 viewable_by_valid:
   user: admin
   project: three
-  # frame:
+  # board:
   completed: false
   description: This is a pending viewable sticky but valid may not edit this
   due_date: 2011-12-31 05:00:00
@@ -87,7 +87,7 @@ grouped_one:
   end_date: 2011-02-24
   due_date: 2011-12-01 05:00:00
   deleted: false
-  # frame: one
+  # board: one
   group: three
 
 grouped_two:
@@ -99,7 +99,7 @@ grouped_two:
   end_date: 2011-02-24
   due_date: 2011-12-02 05:00:00
   deleted: false
-  # frame: one
+  # board: one
   group: three
 
 grouped_three:
@@ -111,7 +111,7 @@ grouped_three:
   end_date: 2011-02-24
   due_date: 2011-12-03 05:00:00
   deleted: false
-  # frame: one
+  # board: one
   group: three
 
 grouped_four:
@@ -123,7 +123,7 @@ grouped_four:
   end_date: 2011-02-24
   due_date: 2011-12-04 05:00:00
   deleted: false
-  # frame: one
+  # board: one
   group: three
 
 grouped_five:
@@ -135,7 +135,7 @@ grouped_five:
   end_date: 2011-02-24
   due_date: 2011-12-05 05:00:00
   deleted: false
-  # frame: one
+  # board: one
   group: three
 
 grouped_six:
@@ -147,13 +147,13 @@ grouped_six:
   # end_date:
   # due_date:
   deleted: false
-  # frame: one
+  # board: one
   group: three
 
 tagged:
   user: valid
   project: one
-  # frame:
+  # board:
   completed: false
   description: This is a sticky with tags
   due_date: 2011-12-10 05:00:00
@@ -166,7 +166,7 @@ tagged:
 only_alpha:
   user: valid
   project: one
-  # frame:
+  # board:
   completed: false
   description: Only Tag Alpha
   due_date: 2011-12-10 05:00:00
@@ -179,7 +179,7 @@ only_alpha:
 only_beta:
   user: valid
   project: one
-  # frame:
+  # board:
   completed: false
   description: Only Tag Beta
   due_date: 2011-12-10 05:00:00
@@ -192,7 +192,7 @@ only_beta:
 due_at_ics:
   user: valid
   project: one
-  # frame:
+  # board:
   completed: false
   description: With Due Date and ICS attachment
   # Due Date is 9am EST with no DST in effect

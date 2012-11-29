@@ -47,7 +47,7 @@ class Template < ActiveRecord::Base
     self.items.sort!{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]) <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units])}
   end
 
-  def generate_stickies!(current_user, frame_id, initial_date = Date.today, additional_text = nil)
+  def generate_stickies!(current_user, board_id, initial_date = Date.today, additional_text = nil)
     group = current_user.groups.create({ project_id: self.project_id, description: additional_text, template_id: self.id })
     self.sorted_items.each_with_index do |item|
       item = item.symbolize_keys
@@ -71,7 +71,7 @@ class Template < ActiveRecord::Base
 
       current_user.stickies.create({  group_id:       group.id,
                                       project_id:     self.project_id,
-                                      frame_id:       frame_id,
+                                      board_id:       board_id,
                                       owner_id:       item[:owner_id],
                                       description:    item[:description].to_s,
                                       tag_ids:        (item[:tag_ids] || []),

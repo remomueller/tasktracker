@@ -1,17 +1,17 @@
 <div class="page-header">
   <h1>
     <%= @title %>
-    <small><%= "Project #{link_to @frame.project.name, @frame.project} ".html_safe if @frame.project %></small>
+    <small><%= "Project #{link_to @board.project.name, @board.project} ".html_safe if @board.project %></small>
   </h1>
 </div>
 
-<%= form_for(@frame, html: { class: 'form-horizontal' }) do |f| %>
-  <% if @frame.errors.any? %>
+<%= form_for(@board, html: { class: 'form-horizontal' }) do |f| %>
+  <% if @board.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@frame.errors.count, "error") %> prohibited this frame from being saved:</h2>
+      <h2><%= pluralize(@board.errors.count, "error") %> prohibited this board from being saved:</h2>
 
       <ul>
-      <% @frame.errors.full_messages.each do |msg| %>
+      <% @board.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -27,7 +27,7 @@
   <div class="control-group">
     <%= f.label :project_id, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @frame.project_id) %>
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @board.project_id) %>
     </div>
   </div>
   <div class="control-group">
@@ -39,13 +39,13 @@
   <div class="control-group">
     <%= f.label :start_date, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :start_date, class: 'datepicker', value: @frame.start_date ? @frame.start_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :start_date, class: 'datepicker', value: @board.start_date ? @board.start_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :end_date, class: 'control-label' %>
     <div class="controls">
-      <%= f.text_field :end_date, class: 'datepicker', value: @frame.end_date ? @frame.end_date.strftime('%m/%d/%Y') : '' %>
+      <%= f.text_field :end_date, class: 'datepicker', value: @board.end_date ? @board.end_date.strftime('%m/%d/%Y') : '' %>
     </div>
   </div>
 

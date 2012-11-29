@@ -29,10 +29,10 @@
     <h3>Select the Frame in which to Create <%= pluralize @template.items.size, 'Sticky' %></h3>
   </div>
   <div class="modal-body">
-  <%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_frame_form', class: 'form-horizontal' do %>
+  <%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_board_form', class: 'form-horizontal' do %>
     <div class="control-group">
-      <%= label_tag :frame_id, 'Frame', class: 'control-label' %>
-      <div class="controls"><%= select_tag :frame_id, options_for_select([['Backlog', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('frames.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %></div>
+      <%= label_tag :board_id, 'Frame', class: 'control-label' %>
+      <div class="controls"><%= select_tag :board_id, options_for_select([['Holding Pen', nil]] + Frame.current.with_project(@template.project.id, current_user.id).order('boards.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %></div>
     </div>
     <div class="control-group">
       <%= label_tag :initial_due_date, 'Initial Due Date', class: 'control-label' %>
@@ -46,6 +46,6 @@
   </div>
   <div class="modal-footer">
     <%= link_to 'Close', '#', class: 'btn', data: { target: '#dialog-form', object: 'modal-hide' } %>
-    <%= link_to 'Generate Stickies', '#', class: 'btn btn-primary', data: { target: '#template_frame_form', object: 'submit' } %>
+    <%= link_to 'Generate Stickies', '#', class: 'btn btn-primary', data: { target: '#template_board_form', object: 'submit' } %>
   </div>
 </div>

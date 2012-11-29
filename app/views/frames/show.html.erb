@@ -1,23 +1,26 @@
-<% @title = "Frame: #{@frame.name}" %>
+<% @title = "Frame: #{@board.name}" %>
 <div class="page-header">
   <h1>
     <%= @title %>
-    <% if @frame.project %><small>Project <%= link_to @frame.project.name, @frame.project %></small><% end %>
-    <% if current_user.all_frames.include?(@frame) %>
-      <%= link_to "Edit Frame", edit_frame_path(@frame), class: 'btn btn-mini' %>
-      <%= link_to "Delete Frame", @frame, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Frame #{@frame.name}?" } %>
+    <% if @board.project %><small>Project <%= link_to @board.project.name, @board.project %></small><% end %>
+    <% if current_user.all_boards.include?(@board) %>
+      <%= link_to "Edit Frame", edit_board_path(@board), class: 'btn btn-mini' %>
+      <%= link_to "Delete Frame", @board, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Frame #{@board.name}?" } %>
     <% end %>
-    <%= link_to "View Frames", frames_path, class: 'btn btn-mini' %>
+    <%= link_to "View Frames", boards_path(project_id: @board.project_id), class: 'btn btn-mini' %>
   </h1>
 </div>
 
 <dl class="dl-horizontal">
   <dt>Creator</dt>
-  <dd><%= link_to @frame.user.name, @frame.user if @frame.user %></dd>
+  <dd><%= link_to @board.user.name, @board.user if @board.user %></dd>
 
-  <dt>Time Period</dt>
-  <dd><%= @frame.long_time %></dd>
+  <dt>Start Date</dt>
+  <dd><%= simple_date @board.start_date %></dd>
+
+  <dt>End Date</dt>
+  <dd><%= simple_date @board.end_date %></dd>
 
   <dt>Description</dt>
-  <dd><%= simple_format @frame.description %></dd>
+  <dd><%= simple_format @board.description %></dd>
 </dl>

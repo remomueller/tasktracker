@@ -3,13 +3,13 @@ require 'test_helper'
 class FramesControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
-    @frame = frames(:one)
+    @board = boards(:one)
   end
 
   test "should get index" do
     get :index
     assert_response :success
-    assert_not_nil assigns(:frames)
+    assert_not_nil assigns(:boards)
   end
 
   test "should get new" do
@@ -17,64 +17,64 @@ class FramesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create frame" do
+  test "should create board" do
     assert_difference('Frame.count') do
-      post :create, frame: { name: "Frame Name", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
+      post :create, board: { name: "Frame Name", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
     end
 
-    assert_not_nil assigns(:frame)
-    assert_equal assigns(:frame).user_id.to_s, users(:valid).to_param
+    assert_not_nil assigns(:board)
+    assert_equal assigns(:board).user_id.to_s, users(:valid).to_param
 
-    assert_redirected_to frame_path(assigns(:frame))
+    assert_redirected_to board_path(assigns(:board))
   end
 
-  test "should not create frame with blank name" do
+  test "should not create board with blank name" do
     assert_difference('Frame.count', 0) do
-      post :create, frame: { name: "", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
+      post :create, board: { name: "", project_id: projects(:one).to_param, description: "", start_date: "08/15/2011", end_date: "12/31/2011" }
     end
 
-    assert_not_nil assigns(:frame)
+    assert_not_nil assigns(:board)
     assert_template 'new'
   end
 
-  test "should show frame" do
-    get :show, id: @frame
+  test "should show board" do
+    get :show, id: @board
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @frame
+    get :edit, id: @board
     assert_response :success
   end
 
-  test "should update frame" do
-    put :update, id: @frame, frame: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
-    assert_redirected_to frame_path(assigns(:frame))
+  test "should update board" do
+    put :update, id: @board, board: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    assert_redirected_to board_path(assigns(:board))
   end
 
-  test "should not update frame with blank name" do
-    put :update, id: @frame, frame: { name: "", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
-    assert_not_nil assigns(:frame)
+  test "should not update board with blank name" do
+    put :update, id: @board, board: { name: "", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    assert_not_nil assigns(:board)
     assert_template 'edit'
   end
 
-  test "should not update frame with invalid id" do
-    put :update, id: -1, frame: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
-    assert_nil assigns(:frame)
+  test "should not update board with invalid id" do
+    put :update, id: -1, board: { name: "Frame Name Update", project_id: projects(:one).to_param, description: "Updated Description", start_date: "08/15/2011", end_date: "01/31/2012" }
+    assert_nil assigns(:board)
     assert_redirected_to root_path
   end
 
-  test "should destroy frame and move attached stickies to project backlog" do
-    assert_difference('Sticky.with_frame(0).count', @frame.stickies.size) do
+  test "should destroy board and move attached stickies to project holding pen" do
+    assert_difference('Sticky.with_board(0).count', @board.stickies.size) do
       assert_difference('Sticky.current.count', 0) do
         assert_difference('Frame.current.count', -1) do
-          delete :destroy, id: @frame
+          delete :destroy, id: @board
         end
       end
     end
 
-    assert_equal 0, @frame.stickies.size
-    assert_redirected_to frames_path(project_id: @frame ? @frame.project_id : nil)
+    assert_equal 0, @board.stickies.size
+    assert_redirected_to boards_path(project_id: @board ? @board.project_id : nil)
   end
 
   test "should not destroy with invalid id" do
@@ -82,7 +82,7 @@ class FramesControllerTest < ActionController::TestCase
       delete :destroy, id: -1
     end
 
-    assert_nil assigns(:frame)
-    assert_redirected_to frames_path
+    assert_nil assigns(:board)
+    assert_redirected_to boards_path
   end
 end

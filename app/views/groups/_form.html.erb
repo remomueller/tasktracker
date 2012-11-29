@@ -28,7 +28,7 @@
       <%= f.label :project_id, class: 'control-label' %>
       <div class="controls">
         <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.order('name').collect{|p| [p.name, p.id]}, @group.project_id) %>
-        <span class="quiet">Changing the project will move all the stickies in this group to the backlog in the selected project</span>
+        <span class="quiet">Changing the project will move all the stickies in this group to the holding pen in the selected project</span>
       </div>
     </div>
 

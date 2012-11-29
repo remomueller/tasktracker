@@ -1,32 +1,34 @@
-<%= render partial: 'layouts/per_page', locals: { type: 'frames', object_count: @count } %>
+<%= render partial: 'layouts/per_page', locals: { type: 'boards', object_count: @count } %>
 
 <table class="table table-striped table-bordered" style="width:100%">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.name', 'Name', 'frames_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.project_id', 'Project', 'frames_search') %></th>
-      <th><%== sort_field_helper(@order, 'frames.end_date', 'Time Period', 'frames_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'frames.user_id', 'Creator', 'frames_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.name', 'Name', 'boards_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.project_id', 'Project', 'boards_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.start_date', 'Start Date', 'boards_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.end_date', 'End Date', 'boards_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.user_id', 'Creator', 'boards_search') %></th>
       <th>Description</th>
       <th>Actions</th>
     </tr>
   </thead>
 
-  <% @frames.each do |frame| %>
+  <% @boards.each do |board| %>
     <tr>
-      <td><%= link_to frame.name, frame %></td>
-      <td><%= link_to frame.project.name, frame.project %></td>
-      <td><%= frame.long_time %></td>
-      <td><%= link_to frame.user.name, frame.user %></td>
-      <td><%= frame.description %></td>
+      <td><%= link_to board.name, board %></td>
+      <td><%= link_to board.project.name, board.project %></td>
+      <td><%= simple_date board.start_date %></td>
+      <td><%= simple_date board.end_date %></td>
+      <td><%= link_to board.user.name, board.user %></td>
+      <td><%= board.description %></td>
       <td>
-        <% if current_user.all_frames.include?(frame) %>
-          <%= link_to "Edit", edit_frame_path(frame), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', frame, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Frame #{frame.name}?" } %>
+        <% if current_user.all_boards.include?(board) %>
+          <%= link_to "Edit", edit_board_path(board), class: 'btn btn-mini' %>
+          <%= link_to 'Delete', board, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Frame #{board.name}?" } %>
         <% end %>
       </td>
     </tr>
   <% end %>
 </table>
 
-<center><%= paginate @frames %></center>
+<center><%= paginate @boards %></center>

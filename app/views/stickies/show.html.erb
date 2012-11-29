@@ -28,7 +28,7 @@
   <% end %>
 
   <dt>Frame</dt>
-  <dd><%= @sticky.frame ? @sticky.frame.name : 'Backlog' %></dd>
+  <dd><%= @sticky.board ? @sticky.board.name : 'Holding Pen' %></dd>
 
   <% if @sticky.owner %>
     <dt>Assigned To</dt>

@@ -3,6 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 jQuery ->
   $("#group_project_id").change( () ->
-    $.post(root_url + 'groups/project_selection', $("#group_project_id").serialize() + "&" + $("#group_frame_id").serialize() + "&" + $("#group_template_id").serialize(), null, "script")
+    $.post(root_url + 'groups/project_selection', $("#group_project_id").serialize() + "&" + $("#group_board_id").serialize() + "&" + $("#group_template_id").serialize(), null, "script")
     false
   )

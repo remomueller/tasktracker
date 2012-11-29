@@ -2,24 +2,26 @@
 @increaseSelectedIndex = (element, el_out) ->
   element = $(element)
   num_options = element.find('option').size()
-  if element.prop('selectedIndex') <= 0
-    return false
-  else
-    element.prop('selectedIndex', element.prop('selectedIndex') - 1)
-    $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
-    $('#direction').val(1)
-    element.change()
+
+  new_index = element.prop('selectedIndex') - 1
+  new_index = num_options - 1 if new_index < 0
+
+  element.prop('selectedIndex', new_index)
+  $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
+  $('#direction').val(-1)
+  element.change()
 
 @decreaseSelectedIndex = (element, el_out) ->
   element = $(element)
   num_options = element.find('option').size()
-  if element.prop('selectedIndex') < num_options - 1
-    element.prop('selectedIndex', element.prop('selectedIndex') + 1)
-    $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
-    $('#direction').val(-1)
-    element.change()
-  else
-    return false
+
+  new_index = element.prop('selectedIndex') + 1
+  new_index = 0 if new_index >= num_options
+
+  element.prop('selectedIndex', new_index)
+  $(el_out).html($(element).find('option:selected').text() + " <span class='caret'></span>")
+  $('#direction').val(1)
+  element.change()
 
 @checkAllWithSelector = (selector) ->
   elements = $(selector).each( () ->
@@ -131,16 +133,16 @@ jQuery ->
   )
 
   $("#sticky_project_id").change( () ->
-    $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_frame_id").serialize(), null, "script")
+    $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_board_id").serialize(), null, "script")
     false
   )
 
   $(document).keydown( (e) ->
     if $("input, textarea").is(":focus") then return
     if e.which == 37
-      decreaseSelectedIndex('#frame_id', '#frame_name');
+      increaseSelectedIndex('#board_id', '#board_name');
     if e.which == 39
-      increaseSelectedIndex('#frame_id', '#frame_name');
+      decreaseSelectedIndex('#board_id', '#board_name');
   )
 
   loadColorSelectors()

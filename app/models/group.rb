@@ -47,7 +47,7 @@ class Group < ActiveRecord::Base
 
   def update_stickies_project
     if self.changes[:project_id]
-      self.stickies.update_all project_id: self.project_id, frame_id: nil
+      self.stickies.update_all project_id: self.project_id, board_id: nil
     end
   end
 
