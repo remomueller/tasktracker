@@ -6,6 +6,7 @@
 
 * Bug Fix
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive
+  * Sticky tooltips no longer show up over a new sticky popup
 
 == 0.23.8
 
