@@ -182,8 +182,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to user_path(assigns(:user))
   end
 
+  test "should update user and set user active" do
+    put :update, id: users(:pending), user: { status: 'active', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false, service_account: false }
+    assert_equal 'active', assigns(:user).status
+    assert_redirected_to user_path(assigns(:user))
+  end
+
+  test "should update user and set user inactive" do
+    put :update, id: users(:pending), user: { status: 'inactive', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false, service_account: false }
+    assert_equal 'inactive', assigns(:user).status
+    assert_redirected_to user_path(assigns(:user))
+  end
+
   test "should not update user with blank name" do
-    put :update, id: @user, user: {first_name: '', last_name: ''}
+    put :update, id: @user, user: { first_name: '', last_name: '' }
     assert_not_nil assigns(:user)
     assert_template 'edit'
   end
