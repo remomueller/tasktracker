@@ -308,6 +308,15 @@ class StickiesController < ApplicationController
       params[:sticky][:project_id] = project ? project.id : nil
     end
 
+    if project and params[:create_new_board] == '1'
+      if params[:sticky_board_name].to_s.strip.blank?
+        params[:sticky][:board_id] = nil
+      else
+        @board = project.boards.find_or_create_by_name(params[:sticky_board_name].to_s.strip, { user_id: current_user.id })
+        params[:sticky][:board_id] = @board.id
+      end
+    end
+
     params[:sticky].slice(
       :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids
     )

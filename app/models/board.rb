@@ -1,5 +1,5 @@
 class Board < ActiveRecord::Base
-  attr_accessible :name, :description, :start_date, :end_date, :archived, :project_id
+  attr_accessible :name, :description, :start_date, :end_date, :archived, :project_id, :user_id
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

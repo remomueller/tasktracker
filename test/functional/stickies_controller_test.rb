@@ -185,6 +185,79 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
+  test "should create sticky and create a new board for the sticky" do
+    assert_difference('Sticky.count') do
+      assert_difference('Board.count') do
+        post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011" }, create_new_board: '1', sticky_board_name: 'New Board'
+      end
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_not_nil assigns(:board)
+    assert_equal "Sticky Description", assigns(:sticky).description
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_equal assigns(:board).name, assigns(:sticky).board.name
+    assert_equal false, assigns(:sticky).completed
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should create sticky and assign to existing board" do
+    assert_difference('Sticky.count') do
+      assert_difference('Board.count', 0) do
+        post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011" }, create_new_board: '0', sticky_board_name: 'New Board'
+      end
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_nil assigns(:board)
+    assert_equal "Sticky Description", assigns(:sticky).description
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_equal boards(:one), assigns(:sticky).board
+    assert_equal false, assigns(:sticky).completed
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should create sticky and set without a board" do
+    assert_difference('Sticky.count') do
+      assert_difference('Board.count', 0) do
+        post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011" }, create_new_board: '1', sticky_board_name: ''
+      end
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_nil assigns(:board)
+    assert_equal "Sticky Description", assigns(:sticky).description
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_nil assigns(:sticky).board
+    assert_equal false, assigns(:sticky).completed
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should create sticky and assign to existing board found by board name" do
+    assert_difference('Sticky.count') do
+      assert_difference('Board.count', 0) do
+        post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011" }, create_new_board: '1', sticky_board_name: 'Board One'
+      end
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_not_nil boards(:one)
+    assert_equal boards(:one), assigns(:board)
+    assert_equal "Sticky Description", assigns(:sticky).description
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_equal boards(:one), assigns(:sticky).board
+    assert_equal false, assigns(:sticky).completed
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
   test "should create sticky with all day due date" do
     assert_difference('Sticky.count') do
       post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011", due_at_string: '' }
@@ -424,6 +497,71 @@ class StickiesControllerTest < ActionController::TestCase
   test "should update sticky" do
     put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '1', due_date: "08/15/2011" }
     assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal true, assigns(:sticky).completed
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal boards(:one), assigns(:sticky).board
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should update sticky and create a new board for the sticky" do
+    assert_difference('Board.count') do
+      put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '1', due_date: "08/15/2011" }, create_new_board: '1', sticky_board_name: 'New Board'
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_not_nil assigns(:board)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal true, assigns(:sticky).completed
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal assigns(:board).name, assigns(:sticky).board.name
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should update sticky and assign to existing board" do
+    assert_difference('Board.count', 0) do
+      put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '1', due_date: "08/15/2011" }, create_new_board: '0', sticky_board_name: 'New Board'
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_nil assigns(:board)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal true, assigns(:sticky).completed
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal boards(:one), assigns(:sticky).board
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should update sticky and set without a board" do
+    assert_difference('Board.count', 0) do
+      put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '1', due_date: "08/15/2011" }, create_new_board: '1', sticky_board_name: ''
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_nil assigns(:board)
+    assert_equal "Sticky Description Update", assigns(:sticky).description
+    assert_equal true, assigns(:sticky).completed
+    assert_equal Date.today, assigns(:sticky).end_date
+    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_nil assigns(:sticky).board
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should update sticky and assign to existing board found by board name" do
+    assert_difference('Board.count', 0) do
+      put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '1', due_date: "08/15/2011" }, create_new_board: '1', sticky_board_name: 'Board One'
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_not_nil boards(:one)
+    assert_equal boards(:one), assigns(:board)
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
