@@ -3,3 +3,6 @@
 <%= render 'form' %>
 
 <%= render partial: 'comments_for_sticky' %>
+
+<%# Used to keep the title clean of HTML Markup %>
+<% @title = "Edit Sticky #{@sticky.name}" %>

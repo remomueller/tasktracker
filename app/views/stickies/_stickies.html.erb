@@ -41,7 +41,7 @@
         <%= link_to sticky.name, sticky, style: sticky.completed? ? "text-decoration:line-through" : "", id: "sticky_#{sticky.id}_name" %> <%= link_to image_tag('gentleface/16/list_bullets.png', alt: '', title: "Group #{sticky.group.name}", size: '10x10'), sticky.group if sticky.group %>
         <span id="sticky_<%= sticky.id %>_description" style="<%= "color:#999" if sticky.completed? %>" data-object="stickyshortdetails">
           <span id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_short_description">
-            <%= sticky.full_description.truncate(100, omission: '') %>
+            <%= strip_tags(sticky.full_description).truncate(100, omission: '') %>
             <% if sticky.comments.size > 0 %>
               <span class='badge badge-info'><%= pluralize(sticky.comments.size, "comment") %></span>
             <% end %>
