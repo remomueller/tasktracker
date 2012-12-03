@@ -82,4 +82,8 @@ module ApplicationHelper
     @categories = categories
     render partial: 'charts/highcharts_chart'
   end
+
+  def simple_format_links_target_blank(text)
+    simple_format(text).gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  end
 end

@@ -4,6 +4,7 @@
   * Project show page will now default to displaying the first alphabetically unarchived board by default
   * New boards can now be created when stickies are created
   * HTML Markup no longer shows up in a stickies short description
+  * HTML Links in sticky descriptions now automatically have target="_blank" added as an attribute
 
 * Bug Fix
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive

@@ -48,7 +48,7 @@
           </span>
         </span>
         <div style="max-width:600px;display:none;margin-top:10px;margin-left:17px" id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_description" class="sticky_<%= @sticky.id %>_hidden" data-object="stickydetails">
-          <%= simple_format sticky.full_description %>
+          <%= simple_format_links_target_blank sticky.full_description %>
          </div>
       </td>
       <td style="white-space:nowrap;text-align:center"><%= simple_date(sticky.due_date) %><%= " at #{sticky.due_at_string_short}" unless sticky.all_day? %></td>
