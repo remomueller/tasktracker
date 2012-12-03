@@ -193,3 +193,7 @@ a.archived-boards-link:hover {
 .typeahead {
   z-index: 10000;
 }
+
+.ui-tooltip {
+  z-index: 1000 !important;
+}
