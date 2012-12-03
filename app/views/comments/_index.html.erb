@@ -9,12 +9,21 @@
 
     <div style="background-color: white; padding: 5px;" class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < comment.updated_at %>"
       onmouseover="$('#comment_<%= comment.id %>_delete_link').show();" onmouseout="$('#comment_<%= comment.id %>_delete_link').hide();">
-      <%= link_to comment.user.name, comment.user %>
-      <span class="quiet" style="line-height:25px"><%= simple_time comment.created_at %></span>
-      <% if current_user.all_deletable_comments.include?(comment) %>
-        <%= link_to 'Delete', comment, method: :delete, id: "comment_#{comment.id}_delete_link", style: 'display:none', class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" } %>
-      <% end %>
-      <div style="margin:5px"><%= simple_format comment.description %></div>
+      <table style="background-color: white;border: 0px"><col width="80px"/>
+        <tr style="background-color: white;border: 0px">
+          <td style="background-color: white;border: 0px">
+            <%= image_tag comment.user.avatar_url, class: 'img-rounded' %>
+          </td>
+          <td style="background-color: white;border: 0px">
+            <%= link_to comment.user.name, comment.user %>
+            <span class="quiet" style="line-height:25px"><%= simple_time comment.created_at %></span>
+            <% if current_user.all_deletable_comments.include?(comment) %>
+              <%= link_to 'Delete', comment, method: :delete, id: "comment_#{comment.id}_delete_link", style: 'display:none', class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" } %>
+            <% end %>
+            <div style="margin:5px"><%= simple_format comment.description %></div>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 <% end %>

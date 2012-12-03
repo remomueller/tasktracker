@@ -5,6 +5,7 @@
   * New boards can now be created when stickies are created
   * HTML Markup no longer shows up in a stickies short description
   * HTML Links in sticky descriptions now automatically have target="_blank" added as an attribute
+  * Gravatar image's are now used for sticky comments
 
 * Bug Fix
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive
