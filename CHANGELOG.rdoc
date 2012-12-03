@@ -1,5 +1,8 @@
 == 0.23.9
 
+* Enhancements
+  * Project show page will now default to displaying the first alphabetically unarchived board by default
+
 * Bug Fix
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive
 

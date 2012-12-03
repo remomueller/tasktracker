@@ -16,7 +16,6 @@
     </div>
 
     <div class="btn-group">
-      <%#= link_to 'Reassign Stickies', bulk_project_path(@project), class: 'btn btn-mini' %>
       <%= link_to 'Reassign Stickies', '#', class: 'btn btn-mini', data: { object: 'modal-show', target: '#reassign-dialog' } %>
     </div>
 
@@ -86,7 +85,6 @@
 </div>
 
 <div id="stickies">
-  <%#= render partial: 'stickies/stickies' %>
   <br /><br />
   <center><%= image_tag "contour/ajax-loader.gif" %></center>
   <br /><br />
