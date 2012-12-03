@@ -11,7 +11,7 @@
     </div>
     <div id="sticky_board_name_container" style="display:none">
       <%= hidden_field_tag "create_new_board", 0 %>
-      <%= text_field_tag "sticky_board_name", '', placeholder: 'Enter new board name' %>
+      <%= text_field_tag "sticky_board_name", '', placeholder: 'Enter new board name', autocomplete: "off", data: { provide: 'typeahead', source: boards.collect{|b| b.name}.to_json } %>
       <%= link_to 'cancel', '#', data: { object: 'show-existing-boards' }, class: 'btn btn-mini' %>
     </div>
   <% else %>

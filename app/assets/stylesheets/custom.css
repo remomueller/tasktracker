@@ -189,3 +189,7 @@ a.archived-boards-link {
 a.archived-boards-link:hover {
   color: white;
 }
+
+.typeahead {
+  z-index: 10000;
+}
