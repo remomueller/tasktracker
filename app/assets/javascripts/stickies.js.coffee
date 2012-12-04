@@ -158,14 +158,17 @@ jQuery ->
         $('#assigned_to_me').val('1')
       else
         $('#assigned_to_me').val('0')
+      $('#stickies_search').submit()
     )
     .on('click', '#all-stickies', () ->
       $('#status_planned').val('planned')
       $('#status_completed').val('completed')
+      $('#stickies_search').submit()
     )
     .on('click', '#not-completed-stickies', () ->
       $('#status_planned').val('planned')
       $('#status_completed').val('')
+      $('#stickies_search').submit()
     )
     .on('click', '[data-object~="shift-sticky"]', () ->
       completeStickyGroupMove($(this).data('shift'))

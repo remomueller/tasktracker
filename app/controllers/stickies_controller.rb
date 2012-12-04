@@ -57,6 +57,8 @@ class StickiesController < ApplicationController
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
     sticky_scope = sticky_scope.with_owner(params[:owner_id] == 'me' ? current_user.id : params[:owner_id]) unless params[:owner_id].blank?
 
+    sticky_scope = sticky_scope.with_owner(current_user.id) if params[:assigned_to_me] == '1'
+
     @start_date = parse_date(params[:due_date_start_date])
     @end_date = parse_date(params[:due_date_end_date])
 
