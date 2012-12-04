@@ -158,6 +158,7 @@ jQuery ->
         $('#assigned_to_me').val('1')
       else
         $('#assigned_to_me').val('0')
+      setBoardNames()
       $('#stickies_search').submit()
     )
     .on('click', '#all-stickies', () ->

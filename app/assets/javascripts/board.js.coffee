@@ -2,6 +2,16 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@setBoardNames = () ->
+  $('[data-object~="board-select"]').each( () ->
+    board_label = $(this).data('board-name')
+    if parseInt($("#assigned_to_me").val()) == 1
+      board_label += " (" + $(this).data('my-incomplete-count') + ")" if parseInt($(this).data('my-incomplete-count')) > 0
+    else
+      board_label += " (" + $(this).data('incomplete-count') + ")" if parseInt($(this).data('incomplete-count')) > 0
+    $(this).html(board_label)
+  )
+
 jQuery ->
   $(document)
     .on('click', '[data-object~="create-new-board"]', () ->
@@ -55,3 +65,5 @@ jQuery ->
       $("#stickies_search").submit()
       false
     )
+
+    setBoardNames()

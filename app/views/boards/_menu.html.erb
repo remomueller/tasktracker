@@ -1,0 +1,5 @@
+<% if board %>
+  <li class="<%= 'active' if params[:board_id].to_i == board.id %>">
+    <%= link_to board.name, '#', data: { object: 'board-select', board_id: board.id, board_name: board.name, incomplete_count: board.incomplete_count, my_incomplete_count: board.incomplete_count(current_user) } %>
+  </li>
+<% end %>

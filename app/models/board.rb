@@ -41,4 +41,15 @@ class Board < ActiveRecord::Base
     NaturalSort::naturalsort self.where('').collect{|f| [f.name, f.id]}
   end
 
+  def name_with_incomplete_count
+    self.name + (self.stickies.where(completed: false).size > 0 ? " (#{self.stickies.where(completed: false).size})" : "")
+  end
+
+  def incomplete_count(user = nil)
+    if user
+      self.stickies.where(completed: false).where(owner_id: user.id).size
+    else
+      self.stickies.where(completed: false).size
+    end
+  end
 end

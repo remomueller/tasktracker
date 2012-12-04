@@ -222,3 +222,13 @@ a.archived-boards-link:hover {
 
 .boards-link {
 }
+
+.sticky-not-completed {
+  /*font-weight: bold;*/
+}
+
+.sticky-completed {
+  background-color: #f3f3f3;
+  color: #777;
+  /*text-decoration: line-through;*/
+}

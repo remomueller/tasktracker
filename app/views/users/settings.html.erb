@@ -4,7 +4,7 @@
   <h2>Gravatar Icon</h2>
 </div>
 
-<%= image_tag current_user.avatar_url, class: 'img-rounded' %>
+<%= image_tag current_user.avatar_url(80, 'identicon'), class: 'img-rounded' %>
 
 You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com', target: '_blank' %>
 

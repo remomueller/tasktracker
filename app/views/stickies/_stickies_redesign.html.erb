@@ -10,7 +10,7 @@
 </div>
 <div class="btn-toolbar pull-right">
   <div class="btn-group">
-    <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %> btn-mini">Assigned To Me</button>
+    <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %> btn-mini" data-object="update-board-count">Assigned To Me</button>
   </div>
 
   <div class="btn-group" data-toggle="buttons-radio">
@@ -28,15 +28,17 @@
 
 <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="80px"/><col width="170px"/>
   <% @stickies.each do |sticky| %>
-    <tr>
+    <tr class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %>">
       <td><%= check_box_tag 'sticky_ids[]', sticky.id, false, style: 'margin:0px' %></td>
       <td data-link="<%= sticky_path(sticky) %>" style="cursor:pointer;white-space:nowrap;overflow-x:hidden;">
         <% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %> <%= strip_tags(sticky.full_description) %>
       </td>
-      <td style="white-space:nowrap;overflow-x:hidden;">
+      <td style="white-space:nowrap;overflow-x:hidden;" rel="tooltip" title="<%= sticky.owner ? sticky.owner.name : 'Unassigned'  %>" data-placement="left">
         <% if sticky.owner %>
-          <%= image_tag sticky.owner.avatar_url(18, "blank") %>
+          <%= image_tag sticky.owner.avatar_url(18, "identicon") %>
           <%= sticky.owner.nickname %>
+        <% else %>
+          <%= image_tag User.new.avatar_url(18, "mm") %>
         <% end %>
       </td>
       <td style="text-align:right;white-space:nowrap"><%= simple_date(sticky.due_date) %><%= " at #{sticky.due_at_string_short}" unless sticky.all_day? %></td>

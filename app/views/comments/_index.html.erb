@@ -11,7 +11,7 @@
     <table style="background-color: white;border: 0px"><col width="50px"/>
       <tr style="background-color: white;border: 0px">
         <td style="background-color: white;border: 0px;vertical-align:top">
-          <%= image_tag comment.user.avatar_url(50), class: 'img-rounded' %>
+          <%= image_tag comment.user.avatar_url(50, "identicon"), class: 'img-rounded' %>
         </td>
         <td style="background-color: white;border: 0px;vertical-align:top;padding-left:10px">
           <%= link_to comment.user.name, comment.user %>
