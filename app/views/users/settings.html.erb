@@ -1,6 +1,17 @@
 <% @title = "My Settings" %>
+
 <div class="page-header">
-  <h1>Email Notifications</h1>
+  <h2>Gravatar Icon</h2>
+</div>
+
+<%= image_tag current_user.avatar_url, class: 'img-rounded' %>
+
+You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com', target: '_blank' %>
+
+
+
+<div class="page-header">
+  <h2>Email Notifications</h2>
 </div>
 
 <%= hidden_field_tag 'isdirty', '1' %>
@@ -54,14 +65,6 @@
     <%= link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "##{form_name}" } %>
   </div>
 <% end %>
-
-<div class="page-header">
-  <h2>Gravatar Icon</h2>
-</div>
-
-<%= image_tag current_user.avatar_url, class: 'img-rounded' %>
-
-You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com', target: '_blank' %>
 
 <div class="page-header">
   <h2>Cross-Application API Tokens</h2>
