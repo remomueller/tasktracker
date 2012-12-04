@@ -32,7 +32,7 @@
 
     <%= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
     <% if @project.boards.where(archived: true).size > 0 %>
-      <%= link_to ((not @board or (@board and not @board.archived?)) ? 'Show' : 'Hide') + ' ' + pluralize(@project.boards.where(archived: true).size, 'Archived Board'), '', class: 'btn btn-mini boards-link btn-block', data: { object: 'toggle-archived-boards', message: pluralize(@project.boards.where(archived: true).size, 'Archived Board'), board_id: @project.boards.where(archived: true).first.id } %>
+      <%= link_to ((not @board or (@board and not @board.archived?)) ? 'Show' : 'Hide') + ' ' + pluralize(@project.boards.where(archived: true).size, 'Archived Board'), '', class: 'btn btn-mini boards-link btn-block', data: { object: 'toggle-archived-boards', message: pluralize(@project.boards.where(archived: true).size, 'Archived Board'), board_id: @project.boards.where(archived: true).natural_sort.first[1] } %>
     <% end %>
 
     <ul class="nav nav-list" id="archived_boards_container" style="<%= "display:none" if not @board or (@board and not @board.archived?) %>">
