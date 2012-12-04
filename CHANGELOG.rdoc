@@ -1,5 +1,10 @@
 == 0.24.0
 
+* Enhancements
+  * Project changes
+    * Major rework of the project show page to better reflect boards and tags
+      * This rework is aimed at improving the flexibility of the project page in order to discourage users from using stickies index
+
 == 0.23.9
 
 * Enhancements

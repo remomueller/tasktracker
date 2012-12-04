@@ -170,3 +170,6 @@ jQuery ->
     .on('click', '[data-object~="shift-sticky"]', () ->
       completeStickyGroupMove($(this).data('shift'))
     )
+    .on('click', '[data-link]', () ->
+      window.location = $(this).data("link")
+    )

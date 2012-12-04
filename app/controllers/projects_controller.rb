@@ -123,6 +123,24 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def show_redesign
+    params[:status] ||= ['planned','completed']
+    @project = current_user.all_viewable_projects.find_by_id(params[:id])
+    respond_to do |format|
+      if @project
+        params[:board_id] = @project.boards.where(archived: false).natural_sort.first ? @project.boards.where(archived: false).natural_sort.first[1] : 0 if params[:board_id].blank?
+        @board = @project.boards.find_by_id(params[:board_id] || 0)
+        stickies_scope = @project.stickies
+        @stickies = stickies_scope.with_board(params[:board_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
+        format.html # show.html.erb
+        format.json { render json: @project }
+      else
+        format.html { redirect_to root_path }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   def new
     @project = current_user.projects.new
   end

@@ -83,6 +83,9 @@ class StickiesController < ApplicationController
       end
     end
 
+    sticky_scope = sticky_scope.with_tag(params[:tag_ids].split(',')) unless params[:tag_ids].blank?
+    sticky_scope = sticky_scope.with_board(params[:board_id]) unless params[:board_id].blank?
+
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
 
@@ -122,7 +125,11 @@ class StickiesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js
+      if params[:use_template] == 'redesign'
+        format.js { render 'stickies/stickies_redesign' }
+      else
+        format.js
+      end
       format.json { render json: sticky_scope.page(params[:page]).limit(50) }
     end
   end

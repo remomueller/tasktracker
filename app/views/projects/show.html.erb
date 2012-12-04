@@ -48,6 +48,10 @@
         <li><%= link_to 'Create', new_board_path(board: { project_id: @project.id }) %></li>
       </ul>
     </div>
+
+    <div class="btn-group">
+      <%= link_to 'Redesign', show_redesign_project_path(@project), class: 'btn btn-mini btn-info' %>
+    </div>
   <% end %>
   </div>
 </div>

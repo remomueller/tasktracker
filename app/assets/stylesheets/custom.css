@@ -197,3 +197,28 @@ a.archived-boards-link:hover {
 .ui-tooltip {
   z-index: 1000 !important;
 }
+
+.board-menu {
+  line-height: 30px;
+  font-size: 24px;
+  font-weight: 200;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.board-menu span {
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.board-menu span.board-selected {
+  background-color: #eee;
+
+  border: 0px solid #bbb;
+  -moz-border-radius: 3px; /* Mozilla */
+  -webkit-border-radius: 3px; /* Webkit */
+  border-radius: 3px;
+}
+
+.boards-link {
+}

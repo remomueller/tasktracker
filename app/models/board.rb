@@ -38,7 +38,7 @@ class Board < ActiveRecord::Base
   end
 
   def self.natural_sort
-    NaturalSort::naturalsort where('').collect{|f| [f.name, f.id]}
+    NaturalSort::naturalsort self.where('').collect{|f| [f.name, f.id]}
   end
 
 end

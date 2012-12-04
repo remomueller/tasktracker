@@ -28,7 +28,7 @@
   <% end %>
 
   <dt>Board</dt>
-  <dd><%= link_to_if (@sticky.board == nil or (@sticky.board and not @sticky.board.archived?)), @sticky.board ? @sticky.board.name : 'Holding Pen', project_path(@sticky.project, board_id: @sticky.board_id || 0) %></dd>
+  <dd><%= link_to @sticky.board ? @sticky.board.name : 'Holding Pen', project_path(@sticky.project, board_id: @sticky.board_id || 0) %></dd>
 
   <% if @sticky.owner %>
     <dt>Assigned To</dt>

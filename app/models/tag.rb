@@ -20,4 +20,7 @@ class Tag < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def self.natural_sort
+    NaturalSort::naturalsort self.where('').collect{|t| [t.name, t.id]}
+  end
 end
