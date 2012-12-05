@@ -4,6 +4,11 @@
   * Project changes
     * Major rework of the project show page to better reflect boards and tags
       * This rework is aimed at improving the flexibility of the project page in order to discourage users from using stickies index
+      * Contains three views
+        * Completed: Completed sorted by due date due date descending, (today into the past)
+        * Past due: Not completed sorted by due date due date descending, (today into the past)
+        * Upcoming: Not completed sorted by due date ascending, (today into the future)
+        * Direction of these views can be reversed, useful to see stickies with no due date assigned
   * Updated to Contour 1.1.2.pre
 
 == 0.23.9
