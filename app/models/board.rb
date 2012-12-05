@@ -46,7 +46,7 @@ class Board < ActiveRecord::Base
   end
 
   def incomplete_count(user = nil)
-    incomplete_stickies = self.stickies.where(completed: false)
+    incomplete_stickies = self.stickies.where(completed: false).due_date_before(Date.today)
     incomplete_stickies = incomplete_stickies.with_owner(user.id) if user
     incomplete_stickies.count
   end

@@ -1,2 +1,8 @@
 $("#stickies").html("<%= escape_javascript(render("stickies_redesign")) %>");
 $('[rel~="tooltip"]').tooltip({ trigger: 'hover' })
+
+$('[data-spy="affix"]').each(function () {
+  $(this).affix('refresh')
+});
+
+// $('[data-spy="affix"]').affix();

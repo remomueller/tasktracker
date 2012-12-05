@@ -65,7 +65,6 @@ class StickiesController < ApplicationController
     sticky_scope = sticky_scope.due_date_before(@end_date) unless @end_date.blank?
     sticky_scope = sticky_scope.due_date_after(@start_date) unless @start_date.blank?
 
-    sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
     sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
     sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unassigned].to_s != '1'
 
@@ -85,13 +84,31 @@ class StickiesController < ApplicationController
       end
     end
 
-    sticky_scope = sticky_scope.with_tag(params[:tag_ids].split(',')) unless params[:tag_ids].blank?
-    sticky_scope = sticky_scope.with_board(params[:board_id]) unless params[:board_id].blank?
-
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
 
-    @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
+    sticky_scope = sticky_scope.with_tag(params[:tag_ids].split(',')) unless params[:tag_ids].blank?
+    sticky_scope = sticky_scope.with_board(params[:board_id]) unless params[:board_id].blank?
+
+    @order = ''
+
+    if params[:scope].blank?
+      sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
+      @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
+    else
+      params[:scope] = (['completed', 'past_due', 'upcoming'].include?(params[:scope]) ? params[:scope] : 'past_due')
+      case params[:scope] when 'completed'
+        sticky_scope = sticky_scope.where(completed: true)
+        @order = "stickies.due_date DESC"
+      when 'past_due'
+        sticky_scope = sticky_scope.where(completed: false).due_date_before(Date.today)
+        @order = "stickies.due_date DESC"
+      when 'upcoming'
+        sticky_scope = sticky_scope.where(completed: false).due_date_after(Date.today)
+        @order = "(stickies.due_date IS NULL) ASC, stickies.due_date ASC"
+      end
+    end
+
     sticky_scope = sticky_scope.order(@order)
 
     @count = sticky_scope.count

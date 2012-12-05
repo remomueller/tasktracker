@@ -4,6 +4,7 @@
   * Project changes
     * Major rework of the project show page to better reflect boards and tags
       * This rework is aimed at improving the flexibility of the project page in order to discourage users from using stickies index
+  * Updated to Contour 1.1.2.pre
 
 == 0.23.9
 
