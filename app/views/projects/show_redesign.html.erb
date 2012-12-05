@@ -28,12 +28,12 @@
     <div style="font-size: 20px;font-weight:200;"><%= link_to @project.name, @project %></div>
     <ul class="nav nav-list">
       <li class="nav-header">Boards</li>
-      <li class="<%= 'active' if params[:board_id] == '0' %>"><%= link_to 'Holding Pen', '#', data: { object: 'board-select', board_id: 0, board_name: 'Holding Pen', incomplete_count: @project.incomplete_count(nil, 'past_due'), my_incomplete_count: @project.incomplete_count(nil, 'past_due', current_user) } %></li>
+      <li class="<%= 'active' if params[:board_id] == '0' %>"><%= link_to 'Holding Pen', '#', data: { object: 'board-select', board_id: 0, board_name: 'Holding Pen', past_incomplete: @project.incomplete_count(nil, 'past_due'), my_past_incomplete: @project.incomplete_count(nil, 'past_due', current_user), future_incomplete: @project.incomplete_count(nil, 'upcoming'), my_future_incomplete: @project.incomplete_count(nil, 'upcoming', current_user) } %></li>
       <% @project.boards.where(archived: false).natural_sort.each do |board_name, board_id| %>
         <% board = @project.boards.find_by_id(board_id) %>
         <%= render partial: 'boards/menu', locals: { board: board } %>
       <% end %>
-      <li class="<%= 'active' if params[:board_id].blank? %>"><%= link_to 'All Stickies', '#', data: { object: 'board-select', board_id: '', board_name: 'All Stickies', incomplete_count: @project.incomplete_count('all', 'past_due'), my_incomplete_count: @project.incomplete_count('all', 'past_due', current_user) } %></li>
+      <li class="<%= 'active' if params[:board_id].blank? %>"><%= link_to 'All Stickies', '#', data: { object: 'board-select', board_id: '', board_name: 'All Stickies', past_incomplete: @project.incomplete_count('all', 'past_due'), my_past_incomplete: @project.incomplete_count('all', 'past_due', current_user), future_incomplete: @project.incomplete_count('all', 'upcoming'), my_future_incomplete: @project.incomplete_count('all', 'upcoming', current_user) } %></li>
     </ul>
 
     <%= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>

@@ -5,10 +5,16 @@
 @setBoardNames = () ->
   $('[data-object~="board-select"]').each( () ->
     board_label = $(this).data('board-name')
-    if parseInt($("#assigned_to_me").val()) == 1
-      board_label += " (" + $(this).data('my-incomplete-count') + ")" if parseInt($(this).data('my-incomplete-count')) > 0
-    else
-      board_label += " (" + $(this).data('incomplete-count') + ")" if parseInt($(this).data('incomplete-count')) > 0
+    scope = ""
+    if $("#scope").val() == 'past_due'
+      scope = 'past'
+    else if $("#scope").val() == 'upcoming'
+      scope = 'future'
+    if scope != ""
+      if parseInt($("#assigned_to_me").val()) == 1
+        board_label += " (" + $(this).data('my-'+scope+'-incomplete') + ")" if parseInt($(this).data('my-'+scope+'-incomplete')) > 0
+      else
+        board_label += " (" + $(this).data(scope+'-incomplete') + ")" if parseInt($(this).data(scope+'-incomplete')) > 0
     $(this).html(board_label)
   )
 

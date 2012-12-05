@@ -35,5 +35,6 @@ jQuery ->
     .on('click', '[data-object~="set-scope"]', () ->
       $("#scope").val($(this).data('value'))
       $("#stickies_search").submit()
+      setBoardNames()
       false
     )

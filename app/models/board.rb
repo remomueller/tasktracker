@@ -45,9 +45,10 @@ class Board < ActiveRecord::Base
     self.name + (self.stickies.where(completed: false).size > 0 ? " (#{self.stickies.where(completed: false).size})" : "")
   end
 
-  def incomplete_count(user = nil)
-    incomplete_stickies = self.stickies.where(completed: false).due_date_before(Date.today)
-    incomplete_stickies = incomplete_stickies.with_owner(user.id) if user
-    incomplete_stickies.count
+  def incomplete_count(filter = 'past_due', user = nil)
+    scope = stickies.where(completed: false)
+    scope = (filter == 'past_due' ? scope.due_date_before(Date.today) : scope.due_date_after(Date.today))
+    scope = scope.with_owner(user.id) if user
+    scope.count
   end
 end
