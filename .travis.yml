@@ -2,6 +2,7 @@ language: ruby
 rvm:
   - 1.9.3
 before_script:
+  - "gem install contour --pre --no-ri --no-rdoc" # For some reason Bundler is not picking up contour 1.1.2.pre
   - "ruby lib/initial_setup.rb ../.travis_setup"
   - "mysql -e 'create database notes_test;'"
   - "bundle exec rake db:migrate"
