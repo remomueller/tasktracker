@@ -1,6 +1,16 @@
 class BoardsController < ApplicationController
   before_filter :authenticate_user!
 
+  def archive
+    @board = current_user.all_boards.find_by_id(params[:id])
+
+    if @board
+      @board.update_attributes(archived: params[:archived])
+    else
+      render nothing: true
+    end
+  end
+
   def index
     current_user.update_column :boards_per_page, params[:boards_per_page].to_i if params[:boards_per_page].to_i >= 10 and params[:boards_per_page].to_i <= 200
     board_scope = current_user.all_viewable_boards

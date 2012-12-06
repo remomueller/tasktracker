@@ -1,0 +1,4 @@
+<%# @board.id %>
+
+
+$("#<%= 'un' unless @board.archived %>archived_boards").after($("#board_<%= @board.id %>_menu"))

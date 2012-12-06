@@ -15,6 +15,7 @@ two:
   description: MyText
   start_date: 2011-03-29
   end_date: 2011-04-07
+  archived: true
 
 three:
   project: two
@@ -23,3 +24,10 @@ three:
   description: MyText
   start_date: 2011-12-18
   end_date: 2011-12-31
+
+four:
+  project: three
+  user: admin
+  name: Admin Board
+  description: The Admin's Board
+  archived: false

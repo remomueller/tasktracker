@@ -6,6 +6,32 @@ class BoardsControllerTest < ActionController::TestCase
     @board = boards(:one)
   end
 
+  test "should archive board" do
+    post :archive, id: @board, archived: true, format: 'js'
+
+    assert_not_nil assigns(:board)
+    assert_equal true, assigns(:board).archived
+    assert_template 'archive'
+    assert_response :success
+  end
+
+  test "should unarchive board" do
+    post :archive, id: @board, archived: false, format: 'js'
+
+    assert_not_nil assigns(:board)
+    assert_equal false, assigns(:board).archived
+    assert_template 'archive'
+    assert_response :success
+  end
+
+  test "should not archive board for project viewers" do
+    post :archive, id: boards(:four), archived: true, format: 'js'
+
+    assert_nil assigns(:board)
+    assert_equal false, boards(:four).archived
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

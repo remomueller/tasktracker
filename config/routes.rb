@@ -5,7 +5,11 @@ Notes::Application.routes.draw do
     end
   end
 
-  resources :boards
+  resources :boards do
+    member do
+      post :archive
+    end
+  end
 
   resources :groups do
     collection do

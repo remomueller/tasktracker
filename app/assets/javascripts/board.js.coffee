@@ -2,6 +2,27 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@activateBoardDraggables = () ->
+  $('[data-object~="board-draggable"]').draggable(
+    revert: 'invalid'
+    helper: () ->
+      "<div class='sticky-box'>"+$('[data-object~="board-helper"][data-board-id="'+$(this).data('board-id')+'"]').first().html()+"</div>"
+    cursorAt: { left: 10 }
+  )
+
+@activateBoardArchiveDroppable = () ->
+  $('[data-object~="board-archive-droppable"]').droppable(
+    # hoverClass: "board-droppable-hover"
+    activeClass: "btn-warning"
+    tolerance: "pointer"
+    drop: ( event, ui ) ->
+      board_id = ui.draggable.data('board-id')
+      archived = $(this).data('archived')
+      $.post(root_url + 'boards/' + board_id + '/archive', "archived="+archived, null, "script")
+    accept: ( draggable ) ->
+      $.inArray('board-draggable', $(this).data('object').split(" "))
+  )
+
 @setBoardNames = () ->
   $('[data-object~="board-select"]').each( () ->
     board_label = $(this).data('board-name')
@@ -123,3 +144,5 @@ jQuery ->
     )
 
     setBoardNames()
+    activateBoardDraggables()
+    activateBoardArchiveDroppable()
