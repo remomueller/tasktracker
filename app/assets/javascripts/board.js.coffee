@@ -20,7 +20,7 @@
       archived = $(this).data('archived')
       $.post(root_url + 'boards/' + board_id + '/archive', "archived="+archived, null, "script")
     accept: ( draggable ) ->
-      $.inArray('board-draggable', $(this).data('object').split(" "))
+      $.inArray('board-draggable', $(this).data('object').split(" "))  and $(this).data('archived') != draggable.data('archived')
   )
 
 @setBoardNames = () ->
