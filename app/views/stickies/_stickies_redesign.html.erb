@@ -30,7 +30,7 @@
 <div style="clear:both"></div>
 
 <% if @stickies.count > 0 %>
-  <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="80px"/><col width="0px"/>
+  <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="80px"/><col width="170px"/>
     <% @stickies.each do |sticky| %>
       <tr class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %>" id="sticky_<%= sticky.id %>_row">
         <td><%= check_box_tag 'sticky_ids[]', sticky.id, false, style: 'margin:0px' %></td>
