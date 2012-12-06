@@ -239,6 +239,20 @@ class StickiesController < ApplicationController
     end
   end
 
+  def move_to_board
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
+    @board = current_user.all_boards.find_by_id(params[:board_id])
+    @original_board = @sticky.board if @sticky
+
+    if @sticky and @board and @sticky.board != @board
+      @sticky.update_attributes(board_id: @board.id)
+    elsif @sticky and params[:board_id].to_s == '0' and @sticky.board != nil
+      @sticky.update_attributes(board_id: nil)
+    else
+      render nothing: true
+    end
+  end
+
   def complete
     @sticky = current_user.all_stickies.find_by_id(params[:id])
     if @sticky

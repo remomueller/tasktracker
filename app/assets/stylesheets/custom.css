@@ -239,3 +239,24 @@ a.archived-boards-link:hover {
      -moz-box-shadow: 0px 5px 3px -3px rgba(0, 0, 0, 0.075);
           box-shadow: 0px 5px 3px -3px rgba(0, 0, 0, 0.075);
 }
+
+.sticky-box {
+  background-color: white;
+
+  padding: 3px 5px;
+
+  border: 1px solid #bbb;
+  -moz-border-radius: 3px; /* Mozilla */
+  -webkit-border-radius: 3px; /* Webkit */
+  border-radius: 3px;
+
+  -webkit-box-shadow: 5px 5px 3px -3px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: 5px 5px 3px -3px rgba(0, 0, 0, 0.075);
+          box-shadow: 5px 5px 3px -3px rgba(0, 0, 0, 0.075);
+}
+
+.board-droppable-hover {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+  background-color: #51A351;
+}

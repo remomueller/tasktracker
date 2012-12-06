@@ -436,6 +436,32 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to root_path
   end
 
+  test "should move sticky to new board" do
+    post :move_to_board, id: @sticky, board_id: boards(:two), format: 'js'
+
+    assert_not_nil assigns(:sticky)
+    assert_equal boards(:two), assigns(:sticky).board
+    assert_template 'move_to_board'
+    assert_response :success
+  end
+
+  test "should move sticky to holding pen" do
+    post :move_to_board, id: @sticky, board_id: 0, format: 'js'
+
+    assert_not_nil assigns(:sticky)
+    assert_nil assigns(:sticky).board
+    assert_template 'move_to_board'
+    assert_response :success
+  end
+
+  test "should not move sticky to new board for project viewers" do
+    post :move_to_board, id: stickies(:viewable_by_valid), board_id: boards(:two), format: 'js'
+
+    assert_nil assigns(:sticky)
+    assert_nil stickies(:viewable_by_valid).board
+    assert_response :success
+  end
+
   test "should move sticky on calendar" do
     post :move, id: @sticky, due_date: "03/07/2012", format: 'js'
 

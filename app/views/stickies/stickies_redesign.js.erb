@@ -1,8 +1,12 @@
 $("#stickies").html("<%= escape_javascript(render("stickies_redesign")) %>");
 $('[rel~="tooltip"]').tooltip({ trigger: 'hover' })
 
-$('[data-spy="affix"]').each(function () {
-  $(this).affix('refresh')
-});
+activateStickyDraggables();
 
-// $('[data-spy="affix"]').affix();
+$("#stickies-affix").affix();
+
+// $('[data-spy="affix"]').each(function () {
+//   $(this).affix('refresh')
+// });
+
+

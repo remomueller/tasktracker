@@ -9,6 +9,7 @@
         * Past due: Not completed sorted by due date due date descending, (today into the past)
         * Upcoming: Not completed sorted by due date ascending, (today into the future)
         * Direction of these views can be reversed, useful to see stickies with no due date assigned
+      * Stickies can be dragged onto different boards
   * Updated to Contour 1.1.2.pre
 
 == 0.23.9

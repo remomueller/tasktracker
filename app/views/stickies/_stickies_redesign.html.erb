@@ -49,10 +49,13 @@
 <% if @stickies.count > 0 %>
   <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="80px"/><col width="170px"/>
     <% @stickies.each do |sticky| %>
-      <tr class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %>">
+      <tr class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %>" id="sticky_<%= sticky.id %>_row">
         <td><%= check_box_tag 'sticky_ids[]', sticky.id, false, style: 'margin:0px' %></td>
         <td data-link="<%= sticky_path(sticky) %>" style="cursor:pointer;white-space:nowrap;overflow-x:hidden;">
-          <% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %> <%= strip_tags(sticky.full_description) %>
+          <div id="sticky_<%= sticky.id %>" data-object="sticky-draggable" data-sticky-id="<%= sticky.id %>" data-board-id="<%= sticky.board ? sticky.board.id : 0 %>">
+            <span><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span> <%= strip_tags(sticky.full_description) %>
+            <div data-object="sticky-helper" style="display:none"><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %> <%= strip_tags(sticky.full_description).truncate(30) %></div>
+          </div>
         </td>
         <td style="white-space:nowrap;overflow-x:hidden;">
           <span rel="tooltip" title="<%= sticky.owner ? sticky.owner.name : 'Unassigned'  %>" data-placement="left">

@@ -1,5 +1,5 @@
 <% if board %>
   <li class="<%= 'active' if params[:board_id].to_i == board.id %>">
-    <%= link_to board.name, '#', data: { object: 'board-select', board_id: board.id, board_name: board.name, past_incomplete: board.incomplete_count('past_due'), my_past_incomplete: board.incomplete_count('past_due', current_user), future_incomplete: board.incomplete_count('upcoming'), my_future_incomplete: board.incomplete_count('upcoming', current_user) } %>
+    <%= link_to board.name, '#', data: { object: 'board-select board-droppable', board_id: board.id, board_name: board.name, past_incomplete: board.incomplete_count('past_due'), my_past_incomplete: board.incomplete_count('past_due', current_user), future_incomplete: board.incomplete_count('upcoming'), my_future_incomplete: board.incomplete_count('upcoming', current_user) } %>
   </li>
 <% end %>
