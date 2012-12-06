@@ -1,3 +1,4 @@
+
 # Global functions referenced from HTML
 @increaseSelectedIndex = (element, el_out) ->
   element = $(element)
@@ -82,6 +83,9 @@
         $(el).ColorPickerHide();
     )
   )
+
+@nonStandardClick = (event) ->
+  event.which > 1 or event.metaKey or event.ctrlKey or event.shiftKey or event.altKey
 
 jQuery ->
 

@@ -68,6 +68,10 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="board-select"]', () ->
+
+      return true if nonStandardClick(event)
+
+
       url = $(this).attr("href")
 
       return false if $('#board_id').val().toString() == $(this).data('board-id').toString()
