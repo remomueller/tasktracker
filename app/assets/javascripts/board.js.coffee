@@ -18,6 +18,15 @@
     $(this).html(board_label)
   )
 
+@selectBoard = (board_id) ->
+  board = $('[data-object~="board-select"][data-board-id='+board_id+']')
+
+  $('[data-object~="board-select"]').parent().removeClass('active')
+  $(board).parent().addClass('active')
+  $('#board_id').val(board_id)
+  true
+
+
 @browserSupportsPushState =
   window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
 
@@ -25,7 +34,24 @@
 #   window.addEventListener 'popstate', (event) ->
 #     # state = event.originalEvent.state;
 #     # window.history.back() if event.state
-#     # window.replaceState(event.state.position, ) if event.state and event.state.position #?.tasktracker
+#     # window.replaceState(event.state.position, ) if event.state?.tasktracker
+
+@updateSite = (currentPage, data) ->
+  # load your pages using the currentPage variable. To test it first, add an alert function like:
+  # alert(currentPage + data.page)
+  # $('[data-object~="board-select"][data-board-id="'+data.board_id+'"]').click()
+  selectBoard(data.board_id)
+  $("#stickies_search").submit()
+  false
+
+if browserSupportsPushState
+  $(window).bind("popstate", (e) ->
+    state = event.state
+    if state and state?.tasktracker
+      updateSite(state.page, state)
+    # else
+      # updateSite("home", { page: 'home', tasktracker: false })
+  )
 
 jQuery ->
   $(document)
@@ -43,18 +69,14 @@ jQuery ->
     )
     .on('click', '[data-object~="board-select"]', () ->
       url = $(this).attr("href")
-      if parseInt($('#board_id').val()) == parseInt($(this).data('board-id'))
-        $(this).parent().removeClass('active')
-        $('#board_id').val('0')
-        $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
-      else
-        $('[data-object~="board-select"]').parent().removeClass('active')
-        $(this).parent().addClass('active')
-        $('#board_id').val($(this).data('board-id'))
+
+      return false if $('#board_id').val().toString() == $(this).data('board-id').toString()
+
+      selectBoard($(this).data('board-id'))
 
       $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), ((data) ->
         if browserSupportsPushState #history.pushState
-          window.history.pushState({ state: 'tasktracker' }, null, url)
+          history.pushState({ page:url, tasktracker: true, board_id: $('#board_id').val() }, null, url)
         # if history.replaceState
         #   history.replaceState(null, null, url)
       ), "script")
