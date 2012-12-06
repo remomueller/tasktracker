@@ -26,3 +26,15 @@ jQuery ->
       event.stopPropagation() if event.stopPropagation
       false
     )
+    .on('click', '[data-object~="template-select"]', () ->
+      if parseInt($('#template_id').val()) == parseInt($(this).data('template-id'))
+        $(this).parent().removeClass('active')
+        $('#template_id').val('0')
+        $('[data-object~="template-select"][data-template-id="0"]').parent().addClass('active')
+      else
+        $('[data-object~="template-select"]').parent().removeClass('active')
+        $(this).parent().addClass('active')
+        $('#template_id').val($(this).data('template-id'))
+      $("#stickies_search").submit()
+      false
+    )

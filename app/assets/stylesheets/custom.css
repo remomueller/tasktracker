@@ -260,3 +260,11 @@ a.archived-boards-link:hover {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
   background-color: #51A351;
 }
+
+.nav-rounded > li > a {
+  -moz-border-radius: 3px; /* Mozilla */
+  -webkit-border-radius: 3px; /* Webkit */
+  border-radius: 3px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}

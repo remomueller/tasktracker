@@ -6,6 +6,7 @@
   <%= hidden_field_tag :search, params[:search] %>
   <%= hidden_field_tag :project_id, @project.id %>
   <%= hidden_field_tag :board_id, params[:board_id] %>
+  <%= hidden_field_tag :template_id, params[:template_id] %>
   <%= hidden_field_tag :tag_ids, params[:tag_ids] %>
   <%= hidden_field_tag :order, 'stickies.created_at DESC' %>
 
@@ -14,10 +15,6 @@
 
   <%= hidden_field_tag :use_template, 'redesign' %>
 
-<% if false %>
-  <%= hidden_field_tag 'status[]', 'planned', id: 'status_planned' %>
-  <%= hidden_field_tag 'status[]', (status_all ?  'completed' : ''), id: 'status_completed' %>
-<% end %>
 
   <%= hidden_field_tag :assigned_to_me, params[:assigned_to_me] %>
 
@@ -25,41 +22,54 @@
 <% end %>
 
 <div class="row">
-  <div class="span2" style="margin-bottom:20px">
-    <div style="font-size: 20px;font-weight:200;"><%= link_to @project.name, @project %></div>
-    <ul class="nav nav-list">
-      <li class="nav-header">Boards</li>
-      <li class="<%= 'active' if params[:board_id] == '0' %>"><%= link_to 'Holding Pen', '#', data: { object: 'board-select board-droppable', board_id: 0, board_name: 'Holding Pen', past_incomplete: @project.incomplete_count(nil, 'past_due'), my_past_incomplete: @project.incomplete_count(nil, 'past_due', current_user), future_incomplete: @project.incomplete_count(nil, 'upcoming'), my_future_incomplete: @project.incomplete_count(nil, 'upcoming', current_user) } %></li>
-      <% @project.boards.where(archived: false).natural_sort.each do |board_name, board_id| %>
-        <% board = @project.boards.find_by_id(board_id) %>
-        <%= render partial: 'boards/menu', locals: { board: board } %>
+  <div class="span2" style="margin-bottom:20px;">
+    <div> <%# style="position: absolute;top:60px;bottom:0;overflow:scroll;width:inherit" %>
+      <div style="font-size: 20px;font-weight:200;"><%= link_to @project.name, @project %></div>
+      <ul class="nav nav-list nav-rounded">
+        <li class="nav-header">Boards</li>
+        <li class="<%= 'active' if params[:board_id] == '0' %>"><%= link_to 'Holding Pen', show_redesign_project_path(@project, board_id: 0), data: { object: 'board-select board-droppable', board_id: 0, board_name: 'Holding Pen', past_incomplete: @project.incomplete_count(nil, 'past_due'), my_past_incomplete: @project.incomplete_count(nil, 'past_due', current_user), future_incomplete: @project.incomplete_count(nil, 'upcoming'), my_future_incomplete: @project.incomplete_count(nil, 'upcoming', current_user) } %></li>
+        <% @project.boards.where(archived: false).natural_sort.each do |board_name, board_id| %>
+          <% board = @project.boards.find_by_id(board_id) %>
+          <%= render partial: 'boards/menu', locals: { board: board } %>
+        <% end %>
+        <li class="<%= 'active' if params[:board_id] == 'all' %>"><%= link_to 'All Stickies', show_redesign_project_path(@project, board_id: 'all'), data: { object: 'board-select', board_id: '', board_name: 'All Stickies', past_incomplete: @project.incomplete_count('all', 'past_due'), my_past_incomplete: @project.incomplete_count('all', 'past_due', current_user), future_incomplete: @project.incomplete_count('all', 'upcoming'), my_future_incomplete: @project.incomplete_count('all', 'upcoming', current_user) } %></li>
+      </ul>
+
+      <%= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
+      <% if @project.boards.where(archived: true).size > 0 %>
+        <%= link_to ((not @board or (@board and not @board.archived?)) ? 'Show' : 'Hide') + ' ' + pluralize(@project.boards.where(archived: true).size, 'Archived Board'), '', class: 'btn btn-mini boards-link btn-block', data: { object: 'toggle-archived-boards', message: pluralize(@project.boards.where(archived: true).size, 'Archived Board'), board_id: @project.boards.where(archived: true).natural_sort.first[1] } %>
       <% end %>
-      <li class="<%= 'active' if params[:board_id].blank? %>"><%= link_to 'All Stickies', '#', data: { object: 'board-select', board_id: '', board_name: 'All Stickies', past_incomplete: @project.incomplete_count('all', 'past_due'), my_past_incomplete: @project.incomplete_count('all', 'past_due', current_user), future_incomplete: @project.incomplete_count('all', 'upcoming'), my_future_incomplete: @project.incomplete_count('all', 'upcoming', current_user) } %></li>
-    </ul>
 
-    <%= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
-    <% if @project.boards.where(archived: true).size > 0 %>
-      <%= link_to ((not @board or (@board and not @board.archived?)) ? 'Show' : 'Hide') + ' ' + pluralize(@project.boards.where(archived: true).size, 'Archived Board'), '', class: 'btn btn-mini boards-link btn-block', data: { object: 'toggle-archived-boards', message: pluralize(@project.boards.where(archived: true).size, 'Archived Board'), board_id: @project.boards.where(archived: true).natural_sort.first[1] } %>
-    <% end %>
+      <ul class="nav nav-list nav-rounded" id="archived_boards_container" style="<%= "display:none" if not @board or (@board and not @board.archived?) %>">
+        <li class="nav-header">Archived</li>
+        <% @project.boards.where(archived: true).natural_sort.each do |board_name, board_id| %>
+          <% board = @project.boards.find_by_id(board_id) %>
+          <%= render partial: 'boards/menu', locals: { board: board } %>
+        <% end %>
+      </ul>
 
-    <ul class="nav nav-list" id="archived_boards_container" style="<%= "display:none" if not @board or (@board and not @board.archived?) %>">
-      <li class="nav-header">Archived</li>
-      <% @project.boards.where(archived: true).natural_sort.each do |board_name, board_id| %>
-        <% board = @project.boards.find_by_id(board_id) %>
-        <%= render partial: 'boards/menu', locals: { board: board } %>
-      <% end %>
-    </ul>
+      <ul class="nav nav-list nav-rounded">
+        <li class="nav-header">Templates</li>
+        <% @project.templates.natural_sort.each do |template_name, template_id| %>
+          <li class="<%= 'active' if params[:template_id].to_i == template_id %>">
+            <%= link_to template_name, '#', data: { object: 'template-select', template_id: template_id } %>
+          </li>
+        <% end %>
+      </ul>
 
-    <ul class="nav nav-list">
-      <li class="nav-header">Tags</li>
-      <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
-        <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
-          <%= link_to tag_name, '#', data: { object: 'tag-select', tag_id: tag_id } %>
-        </li>
-      <% end %>
-    </ul>
+      <%= link_to 'Create Template', new_template_path(template: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
 
-    <%= link_to 'Create Tag', new_tag_path(tag: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
+      <ul class="nav nav-list nav-rounded">
+        <li class="nav-header">Tags</li>
+        <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
+          <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
+            <%= link_to tag_name, '#', data: { object: 'tag-select', tag_id: tag_id } %>
+          </li>
+        <% end %>
+      </ul>
+
+      <%= link_to 'Create Tag', new_tag_path(tag: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
+    </div>
   </div>
 
   <div class="span10" style="margin-bottom:20px">

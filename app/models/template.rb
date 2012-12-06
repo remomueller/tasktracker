@@ -31,6 +31,10 @@ class Template < ActiveRecord::Base
     update_column :deleted, true
   end
 
+  def self.natural_sort
+    NaturalSort::naturalsort self.where('').collect{|t| [t.name, t.id]}
+  end
+
   def item_tokens=(tokens)
     self.items = []
     tokens.each_pair do |key, item_hash|

@@ -18,6 +18,9 @@ class Sticky < ActiveRecord::Base
   scope :due_date_before, lambda { |*args| { conditions: ["stickies.due_date < ?", (args.first+1.day).at_midnight]} }
   scope :due_date_after, lambda { |*args| { conditions: ["stickies.due_date >= ?", args.first.at_midnight]} }
 
+  scope :due_date_before_or_blank, lambda { |*args| { conditions: ["stickies.due_date < ? or stickies.due_date IS NULL", (args.first+1.day).at_midnight]} }
+  scope :due_date_after_or_blank, lambda { |*args| { conditions: ["stickies.due_date >= ? or stickies.due_date IS NULL", args.first.at_midnight]} }
+
   scope :due_today,     lambda { |*args| { conditions: { completed: false, due_date: Date.today.at_midnight..Date.today.end_of_day } } }
   scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date < ?", false, Date.today.at_midnight] } }
   scope :due_upcoming,  lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date >= ? and stickies.due_date < ?", false, Date.tomorrow.at_midnight, (Date.today.friday? ? Date.tomorrow + 3.days : Date.tomorrow + 1.day).at_midnight]}}

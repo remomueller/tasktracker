@@ -101,10 +101,10 @@ class StickiesController < ApplicationController
         sticky_scope = sticky_scope.where(completed: true)
         @order = (params[:scope_direction] == 'reverse' ? "stickies.due_date" : "stickies.due_date DESC")
       when 'past_due'
-        sticky_scope = sticky_scope.where(completed: false).due_date_before(Date.today)
+        sticky_scope = sticky_scope.where(completed: false).due_date_before_or_blank(Date.today)
         @order = (params[:scope_direction] == 'reverse' ? "stickies.due_date" : "stickies.due_date DESC")
       when 'upcoming'
-        sticky_scope = sticky_scope.where(completed: false).due_date_after(Date.today)
+        sticky_scope = sticky_scope.where(completed: false).due_date_after_or_blank(Date.today)
         @order = (params[:scope_direction] == 'reverse' ? "(stickies.due_date IS NULL) DESC, stickies.due_date DESC" : "(stickies.due_date IS NULL) ASC, stickies.due_date ASC")
       end
     end

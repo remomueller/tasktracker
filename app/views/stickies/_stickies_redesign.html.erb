@@ -1,53 +1,36 @@
-<% if false %>
-  <% status_all = (params[:status].include?('planned') and params[:status].include?('completed')) %>
-<% end %>
-
 <% @project = current_user.all_viewable_projects.find_by_id(params[:project_id]) %>
 <% @board = @project.boards.find_by_id(params[:board_id]) if @project %>
 <% @tags = @project.tags.where(id: params[:tag_ids]) if @project %>
 
 <div style="clear:both"></div>
 
-<div style="height:45px;">
-  <% [false, true].each do |phone| %>
-    <div id="<%= 'stickies-affix' unless phone %>" class="span10 <%= phone ? 'visible' : 'hidden' %>-phone" data-spy="<%= phone ? '' : 'affix' %>" data-offset="20" style="background-color:white;margin:0px;<%= 'margin-top:-27px;padding-top:27px' unless phone %>" >
 
-    <div class="pull-left" style="margin-top: 10px; margin-bottom: 10px; margin-left: 20px; padding: 2px 5px;">
-      <div style="font-weight:200;font-size:20px;float:left;margin-right:5px"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></div> <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
-    </div>
-    <div class="btn-toolbar pull-right">
-      <div class="btn-group">
-        <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %> btn-mini" data-object="update-board-count">Assigned To Me</button>
-      </div>
+<div class="pull-left" style="margin-top: 10px; margin-bottom: 10px; margin-left: 20px; padding: 2px 5px;">
+  <div style="font-weight:200;font-size:20px;float:left;margin-right:5px"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></div> <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
+</div>
+<div class="btn-toolbar pull-right">
+  <div class="btn-group">
+    <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %> btn-mini" data-object="update-board-count">Assigned To Me</button>
+  </div>
 
-<% if false %>
-      <div class="btn-group" data-toggle="buttons-radio">
-        <button id="all-stickies" class="btn <%= 'active' if status_all %> btn-mini">All</button>
-        <button id="not-completed-stickies" class="btn <%= 'active' unless status_all %> btn-mini">Not Completed</button>
-      </div>
+  <div class="btn-group" data-toggle="buttons-radio">
+    <% ['completed', 'past_due', 'upcoming'].each do |scope| %>
+      <button data-object="set-scope" data-value="<%= scope %>" class="btn <%= 'active' if params[:scope] == scope %> btn-mini"><%= scope.humanize %></button>
+    <% end %>
+  </div>
+</div>
+
+<% if @stickies.count > 0 %>
+  <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px; margin-left:20px; font-size:11px; padding: 2px 6px">
+    <span id="scope-direction-icon"><%= '&larr;'.html_safe if params[:scope_direction] == 'reverse' %></span> <span data-object="toggle-scope-direction" style="cursor:pointer" rel="tooltip" title="Toggle Direction"><%= @stickies.count %> of <%= @count %></span>
+  </div>
 <% end %>
 
-      <div class="btn-group" data-toggle="buttons-radio">
-        <% ['completed', 'past_due', 'upcoming'].each do |scope| %>
-          <button data-object="set-scope" data-value="<%= scope %>" class="btn <%= 'active' if params[:scope] == scope %> btn-mini"><%= scope.humanize %></button>
-        <% end %>
-      </div>
-    </div>
-
-    <% if @stickies.count > 0 %>
-      <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px; margin-left:20px; font-size:11px; padding: 2px 6px">
-        <span id="scope-direction-icon"><%= '&larr;'.html_safe if params[:scope_direction] == 'reverse' %></span> <span data-object="toggle-scope-direction" style="cursor:pointer" rel="tooltip" title="Toggle Direction"><%= @stickies.count %> of <%= @count %></span>
-      </div>
-    <% end %>
-
-    </div><!-- data-spy="affix" -->
-  <% end %>
-</div>
 
 <div style="clear:both"></div>
 
 <% if @stickies.count > 0 %>
-  <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="80px"/><col width="170px"/>
+  <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="80px"/><col width="0px"/>
     <% @stickies.each do |sticky| %>
       <tr class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %>" id="sticky_<%= sticky.id %>_row">
         <td><%= check_box_tag 'sticky_ids[]', sticky.id, false, style: 'margin:0px' %></td>
@@ -76,5 +59,8 @@
     <center class="<%= phone ? 'visible' : 'hidden' %>-phone"><%= paginate @stickies, theme: phone ? "contour-mini" : "contour" %></center>
   <% end %>
 <% else %>
-  <center><span class="muted">No stickies found</span></center>
+  <center>
+    <span class="muted">No stickies found</span>
+    <% unless params[:tag_ids].blank? %><div>Filters: <% current_user.all_viewable_tags.where(id: params[:tag_ids].to_s.split(',')).each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %> <%= link_to 'Clear', '#', data: { object: 'clear-tags' }, class: 'btn btn-mini' %></span><% end %>
+  </center>
 <% end %>

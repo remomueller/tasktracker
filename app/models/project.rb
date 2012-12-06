@@ -55,7 +55,7 @@ class Project < ActiveRecord::Base
 
   def incomplete_count(board = "all", filter = 'past_due', user = nil)
     scope = stickies.where(completed: false)
-    scope = (filter == 'past_due' ? scope.due_date_before(Date.today) : scope.due_date_after(Date.today))
+    scope = (filter == 'past_due' ? scope.due_date_before_or_blank(Date.today) : scope.due_date_after_or_blank(Date.today))
     scope = scope.where(board_id: board) if board != 'all' # Holding Pen
     scope = scope.with_owner(user.id) if user
     scope.count

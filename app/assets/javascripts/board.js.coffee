@@ -18,6 +18,15 @@
     $(this).html(board_label)
   )
 
+@browserSupportsPushState =
+  window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
+
+# if browserSupportsPushState
+#   window.addEventListener 'popstate', (event) ->
+#     # state = event.originalEvent.state;
+#     # window.history.back() if event.state
+#     # window.replaceState(event.state.position, ) if event.state and event.state.position #?.tasktracker
+
 jQuery ->
   $(document)
     .on('click', '[data-object~="create-new-board"]', () ->
@@ -33,6 +42,7 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="board-select"]', () ->
+      url = $(this).attr("href")
       if parseInt($('#board_id').val()) == parseInt($(this).data('board-id'))
         $(this).parent().removeClass('active')
         $('#board_id').val('0')
@@ -41,7 +51,15 @@ jQuery ->
         $('[data-object~="board-select"]').parent().removeClass('active')
         $(this).parent().addClass('active')
         $('#board_id').val($(this).data('board-id'))
-      $("#stickies_search").submit()
+
+      $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), ((data) ->
+        if browserSupportsPushState #history.pushState
+          window.history.pushState({ state: 'tasktracker' }, null, url)
+        # if history.replaceState
+        #   history.replaceState(null, null, url)
+      ), "script")
+
+      # $("#stickies_search").submit()
       false
     )
     .on('click', '[data-object~="tag-select"]', () ->
@@ -52,6 +70,12 @@ jQuery ->
         $('[data-object~="tag-select"]').parent().removeClass('active')
         $(this).parent().addClass('active')
         $('#tag_ids').val($(this).data('tag-id'))
+      $("#stickies_search").submit()
+      false
+    )
+    .on('click', '[data-object~="clear-tags"]', () ->
+      $('[data-object~="tag-select"]').parent().removeClass('active')
+      $('#tag_ids').val('')
       $("#stickies_search").submit()
       false
     )

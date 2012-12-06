@@ -9,7 +9,7 @@ gem 'thin',                 '~> 1.4.1',           :platforms => [ :mswin, :mingw
 gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
 
 # Gems used by project
-gem 'contour',              "~> 1.1.2.pre"
+gem 'contour',              '~> 1.1.2.pre'
 gem 'kaminari',             '~> 0.14.1'
 gem 'ri_cal',               '~> 0.8.8'
 gem 'naturalsort',          '~> 1.1.1'
