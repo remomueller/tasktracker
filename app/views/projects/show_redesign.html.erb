@@ -29,8 +29,6 @@
         <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
       </ul>
 
-      <%= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
-
       <ul class="nav nav-list nav-rounded" id="archived_boards_container" data-object="board-archive-droppable" data-archived="true">
         <% boards_visible = (@board and @board.archived?) %>
         <%= render partial: 'boards/full_menu', locals: { archived: true, boards_visible: boards_visible } %>

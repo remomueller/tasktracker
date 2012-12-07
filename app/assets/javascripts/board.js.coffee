@@ -144,22 +144,25 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="toggle-archived-boards"]', () ->
-      if $(this).data('visible') == 'true'
+      if $(this).data('visible')
         $('[data-object~="board-select"][data-archived="true"]').hide()
         $('[data-object~="board-select"]').parent().removeClass('active')
         $('[data-object~="board-select"][data-board-id="0"]').click();
         $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
         $(this).html("Show " + $(this).data('message'))
-        $(this).data('visible', 'false')
+        $(this).data('visible', false)
       else
         $('[data-object~="board-select"][data-archived="true"]').show()
         $('[data-object~="board-select"]').parent().removeClass('active')
         $('[data-object~="board-select"][data-board-id="'+ $(this).data('board-id') + '"]').parent().addClass('active')
         $('[data-object~="board-select"][data-board-id="'+$(this).data('board-id')+'"]').click();
         $(this).html("Hide " + $(this).data('message'))
-        $(this).data('visible', 'true')
+        $(this).data('visible', true)
       $("#stickies_search").submit()
       false
+    )
+    .on('click', '[data-object~="create-board"]', () ->
+      window.location = $(this).data("url")
     )
 
     setBoardNames()
