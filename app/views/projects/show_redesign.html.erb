@@ -21,29 +21,19 @@
   <%= hidden_field_tag :unassigned, '1' %>
 <% end %>
 
-
-<%#= @board.inspect %>
-<%#= user_text = CGI.escape("Version 0.3.0+") %>
-<%#= user_text = CGI.unescape(CGI.escape("Version 0.3.0+")) %>
-
 <div class="row">
   <div class="span2" style="margin-bottom:20px;">
     <div> <%# style="position: absolute;top:60px;bottom:0;overflow:scroll;width:inherit" %>
       <div style="font-size: 20px;font-weight:200;"><%= link_to @project.name, @project %></div>
       <ul class="nav nav-list nav-rounded" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
-
-        <%= render partial: 'boards/full_menu', locals: { archived: false } %>
-
+        <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
       </ul>
 
       <%= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
 
       <ul class="nav nav-list nav-rounded" id="archived_boards_container" data-object="board-archive-droppable" data-archived="true">
-        <%= render partial: 'boards/full_menu', locals: { archived: true } %>
-        <%# @project.boards.where(archived: true).natural_sort.each do |board_name, board_id| %>
-          <%# board = @project.boards.find_by_id(board_id) %>
-          <%#= render partial: 'boards/menu', locals: { board: board } %>
-        <%# end %>
+        <% boards_visible = (@board and @board.archived?) %>
+        <%= render partial: 'boards/full_menu', locals: { archived: true, boards_visible: boards_visible } %>
       </ul>
 
       <ul class="nav nav-list nav-rounded">

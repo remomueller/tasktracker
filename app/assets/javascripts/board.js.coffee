@@ -2,6 +2,26 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+@activateStickyDraggables = () ->
+  $('[data-object~="sticky-draggable"]').draggable(
+    revert: 'invalid'
+    helper: () ->
+      "<div class='sticky-box'>"+$(this).children('[data-object~="sticky-helper"]').first().html()+"</div>"
+    cursorAt: { left: 10 }
+  )
+
+@activateBoardDroppables = () ->
+  $('[data-object~="board-droppable"]').droppable(
+    hoverClass: "board-droppable-hover"
+    tolerance: "pointer"
+    drop: ( event, ui ) ->
+      sticky_id = ui.draggable.data('sticky-id')
+      board_id = $(this).data('board-id')
+      $.post(root_url + 'stickies/' + sticky_id + '/move_to_board', "board_id="+board_id, null, "script")
+    accept: ( draggable ) ->
+      $(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', draggable.data('object').split(" ")) != -1
+  )
+
 @activateBoardDraggables = () ->
   $('[data-object~="board-draggable"]').draggable(
     revert: 'invalid'
@@ -12,8 +32,7 @@
 
 @activateBoardArchiveDroppable = () ->
   $('[data-object~="board-archive-droppable"]').droppable(
-    # hoverClass: "board-droppable-hover"
-    activeClass: "btn-warning"
+    activeClass: "archive-droppable-active"
     tolerance: "pointer"
     drop: ( event, ui ) ->
       board_id = ui.draggable.data('board-id')
@@ -128,9 +147,7 @@ jQuery ->
       if $(this).data('visible') == 'true'
         $('[data-object~="board-select"][data-archived="true"]').hide()
         $('[data-object~="board-select"]').parent().removeClass('active')
-
         $('[data-object~="board-select"][data-board-id="0"]').click();
-
         $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
         $(this).html("Show " + $(this).data('message'))
         $(this).data('visible', 'false')
@@ -138,9 +155,7 @@ jQuery ->
         $('[data-object~="board-select"][data-archived="true"]').show()
         $('[data-object~="board-select"]').parent().removeClass('active')
         $('[data-object~="board-select"][data-board-id="'+ $(this).data('board-id') + '"]').parent().addClass('active')
-
         $('[data-object~="board-select"][data-board-id="'+$(this).data('board-id')+'"]').click();
-
         $(this).html("Hide " + $(this).data('message'))
         $(this).data('visible', 'true')
       $("#stickies_search").submit()

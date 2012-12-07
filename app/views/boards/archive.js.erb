@@ -1,8 +1,5 @@
-// $("#board_<%= @board.id %>_menu").remove()
-// $("#<%= 'un' unless @board.archived %>archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: @board.archived }) %>")
-
-$("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false }) %>")
-$("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true }) %>")
+$("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
+$("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: true }) %>")
 
 setBoardNames();
 activateBoardDraggables();

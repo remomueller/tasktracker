@@ -1,17 +1,9 @@
-
 <% if archived %>
-  <%# style="<%#= "display:none" if not @board or (@board and not @board.archived?) >" %>
-
-  <%# if @project.boards.where(archived: true).size > 0 %>
-    <%#= ((not @board or (@board and not @board.archived?)) ? 'Show' : 'Hide') + ' ' + pluralize(@project.boards.where(archived: true).size, 'Archived Board') %>
-  <%# end %>
-
-
   <li class="nav-header" id="archived_boards" data-board-id="<%= @project.boards.where(archived: true).natural_sort.first[1] if @project.boards.where(archived: true).size > 0 %>"
     data-object="toggle-archived-boards"
     data-message="<%= pluralize(@project.boards.where(archived: true).size, 'Archived Board') %>"
-    data-visible="<%= (not @board or (@board and not @board.archived?)).to_s %>"
-    ><%= ((not @board or (@board and not @board.archived?)) ? 'Show' : 'Hide') + ' ' + pluralize(@project.boards.where(archived: true).size, 'Archived Board') %></li>
+    data-visible="<%= boards_visible.to_s %>"
+    ><%= (boards_visible ? 'Hide' : 'Show') + ' ' + pluralize(@project.boards.where(archived: true).size, 'Archived Board') %></li>
 <% else %>
   <li class="nav-header">Boards</li>
   <li class="<%= 'active' if params[:board_id] == '0' %>" id="unarchived_boards"><%= link_to 'Holding Pen', show_redesign_project_path(@project, board_id: 0), data: { object: 'board-select board-droppable', board_id: 0, board_name: 'Holding Pen', past_incomplete: @project.incomplete_count(nil, 'past_due'), my_past_incomplete: @project.incomplete_count(nil, 'past_due', current_user), future_incomplete: @project.incomplete_count(nil, 'upcoming'), my_future_incomplete: @project.incomplete_count(nil, 'upcoming', current_user) } %></li>
@@ -19,7 +11,7 @@
 
 <% @project.boards.where(archived: archived).natural_sort.each do |board_name, board_id| %>
   <% board = @project.boards.find_by_id(board_id) %>
-  <%= render partial: 'boards/menu', locals: { board: board } %>
+  <%= render partial: 'boards/menu', locals: { board: board, boards_visible: boards_visible } %>
 <% end %>
 
 <% unless archived %>

@@ -2,26 +2,6 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
-@activateStickyDraggables = () ->
-  $('[data-object~="sticky-draggable"]').draggable(
-    revert: 'invalid'
-    helper: () ->
-      "<div class='sticky-box'>"+$(this).children('[data-object~="sticky-helper"]').first().html()+"</div>"
-    cursorAt: { left: 10 }
-  )
-
-@activateBoardDroppables = () ->
-  $('[data-object~="board-droppable"]').droppable(
-    hoverClass: "board-droppable-hover"
-    tolerance: "pointer"
-    drop: ( event, ui ) ->
-      sticky_id = ui.draggable.data('sticky-id')
-      board_id = $(this).data('board-id')
-      $.post(root_url + 'stickies/' + sticky_id + '/move_to_board', "board_id="+board_id, null, "script")
-    accept: ( draggable ) ->
-      $(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', draggable.data('object').split(" ")) != -1
-  )
-
 jQuery ->
   $(document)
     .on('click', '[data-object~="modal-show"]', () ->
@@ -68,5 +48,3 @@ jQuery ->
       $("#stickies_search").submit()
       false
     )
-
-  activateBoardDroppables()
