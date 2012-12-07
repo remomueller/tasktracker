@@ -35,6 +35,7 @@
       </ul>
 
       <ul class="nav nav-list nav-rounded">
+        <li class="divider"></li>
         <li class="nav-header">Templates</li>
         <% @project.templates.natural_sort.each do |template_name, template_id| %>
           <li class="<%= 'active' if params[:template_id].to_i == template_id %>">
@@ -46,10 +47,12 @@
       <%= link_to 'Create Template', new_template_path(template: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
 
       <ul class="nav nav-list nav-rounded">
+        <li class="divider"></li>
         <li class="nav-header">Tags</li>
         <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
+          <% tag = @project.tags.find_by_id(tag_id) %>
           <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
-            <%= link_to tag_name, '#', data: { object: 'tag-select', tag_id: tag_id } %>
+            <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select', tag_id: tag_id } %>
           </li>
         <% end %>
       </ul>

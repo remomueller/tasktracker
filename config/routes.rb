@@ -9,6 +9,9 @@ Notes::Application.routes.draw do
     member do
       post :archive
     end
+    collection do
+      post :add_stickies
+    end
   end
 
   resources :groups do

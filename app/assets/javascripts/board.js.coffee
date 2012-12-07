@@ -6,7 +6,11 @@
   $('[data-object~="sticky-draggable"]').draggable(
     revert: 'invalid'
     helper: () ->
-      "<div class='sticky-box'>"+$(this).children('[data-object~="sticky-helper"]').first().html()+"</div>"
+      count = $('[data-object~="sticky-checkbox"]:checked').length
+      if count > 1
+        "<div class='sticky-box'>&equiv;&nbsp;&nbsp;#{count} Stickies Selected</div>"
+      else
+        "<div class='sticky-box'>"+$(this).children('[data-object~="sticky-helper"]').first().html()+"</div>"
     cursorAt: { left: 10 }
   )
 
@@ -17,9 +21,13 @@
     drop: ( event, ui ) ->
       sticky_id = ui.draggable.data('sticky-id')
       board_id = $(this).data('board-id')
-      $.post(root_url + 'stickies/' + sticky_id + '/move_to_board', "board_id="+board_id, null, "script")
+      project_id = $(this).data('project-id')
+      # $.post(root_url + 'stickies/' + sticky_id + '/move_to_board', "board_id="+board_id, null, "script")
+      sticky_ids = []
+      $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
+      $.post(root_url + 'boards/add_stickies', "project_id=#{project_id}&board_id=#{board_id}&sticky_ids=#{sticky_ids.join(',')}", null, "script")
     accept: ( draggable ) ->
-      $(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', draggable.data('object').split(" ")) != -1
+      $('[data-object~="sticky-checkbox"]:checked').length > 1 or ($(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', draggable.data('object').split(" ")) != -1)
   )
 
 @activateBoardDraggables = () ->
@@ -164,6 +172,22 @@ jQuery ->
     .on('click', '[data-object~="create-board"]', () ->
       window.location = $(this).data("url")
     )
+    .on('mousedown', '[data-object~="sticky-draggable"]', () ->
+      unless $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').is(':checked')
+        $('[data-object~="sticky-checkbox"]').removeAttr('checked')
+        $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').attr('checked','checked')
+    )
+    .on('click', '[data-object~="check-all-stickies"]', () ->
+      if $(this).is(':checked')
+        $('[data-object~="sticky-checkbox"]').attr('checked','checked')
+      else
+        $('[data-object~="sticky-checkbox"]').removeAttr('checked')
+    )
+    # .on('click', '[data-object~="count-stickies"]', () ->
+    #   alert $('[data-object~="sticky-checkbox"]:checked').length
+    #   false
+    # )
+
 
     setBoardNames()
     activateBoardDraggables()

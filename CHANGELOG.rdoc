@@ -12,6 +12,9 @@
       * Stickies can be dragged onto different boards
   * Updated to Contour 1.1.2.pre
 
+* Bug Fix
+  * Fixed a bug that prevented grouped stickies assigned to a board from being moved back to the holding pen
+
 == 0.23.9
 
 * Enhancements

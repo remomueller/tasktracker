@@ -5,7 +5,7 @@ class Sticky < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_project, lambda { |*args| { conditions: ["stickies.project_id IN (?) or (stickies.project_id IS NULL and stickies.user_id = ?)", args.first, args[1]] } }
+  scope :with_project, lambda { |*args| { conditions: ["stickies.project_id IN (?)", args.first] } }
   scope :with_creator, lambda { |*args|  { conditions: ["stickies.user_id IN (?)", args.first] } }
   scope :with_owner, lambda { |*args|  { conditions: ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
   scope :with_board, lambda { |*args| { conditions: ["stickies.board_id IN (?) or (stickies.board_id IS NULL and 0 IN (?))", args.first, args.first] } }
@@ -213,7 +213,7 @@ class Sticky < ActiveRecord::Base
   def set_project_and_board
     if self.group
       self.project_id = self.group.project_id
-      if not self.group.project.boards.pluck(:id).include?(self.board_id) and self.changes[:board_id]
+      if not (self.group.project.boards.pluck(:id) + [nil]).include?(self.board_id) and self.changes[:board_id]
         self.board_id = self.changes[:board_id][0]
       end
     end

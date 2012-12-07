@@ -1,0 +1,47 @@
+<% rows = @stickies.collect{|s| "#sticky_#{s.id}_row"} %>
+
+if ($("#board_id").val().toString() != "<%= params[:board_id] %>"){
+  $("<%= rows.join(', ') %>").fadeOut();
+  $('[data-object~="sticky-checkbox"]:checked').removeAttr('checked');
+  $('[data-object~="check-all-stickies"]').removeAttr('checked');
+}
+
+<% @board_ids.each do |board_id| %>
+  <% board = @project.boards.find_by_id(board_id) %>
+  <% board_id = 0 unless board %>
+
+  <% if board %>
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-incomplete', '<%= board.incomplete_count('past_due') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-incomplete', '<%= board.incomplete_count('past_due', current_user) %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('future-incomplete', '<%= board.incomplete_count('upcoming') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-future-incomplete', '<%= board.incomplete_count('upcoming', current_user) %>')
+  <% else %>
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-incomplete', '<%= @project.incomplete_count(nil, 'past_due') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-incomplete', '<%= @project.incomplete_count(nil, 'past_due', current_user) %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('future-incomplete', '<%= @project.incomplete_count(nil, 'upcoming') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-future-incomplete', '<%= @project.incomplete_count(nil, 'upcoming', current_user) %>')
+  <% end %>
+<% end %>
+
+setBoardNames();
+
+
+<% if false %>
+$("#sticky_<%= @sticky.id %>_row").fadeOut();
+<% [@original_board, @sticky.board].each do |board| %>
+  <% board_id = (board ? board.id : 0) %>
+
+  <% if board %>
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-incomplete', '<%= board.incomplete_count('past_due') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-incomplete', '<%= board.incomplete_count('past_due', current_user) %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('future-incomplete', '<%= board.incomplete_count('upcoming') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-future-incomplete', '<%= board.incomplete_count('upcoming', current_user) %>')
+  <% else %>
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-incomplete', '<%= @sticky.project.incomplete_count(nil, 'past_due') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-incomplete', '<%= @sticky.project.incomplete_count(nil, 'past_due', current_user) %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('future-incomplete', '<%= @sticky.project.incomplete_count(nil, 'upcoming') %>')
+    $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-future-incomplete', '<%= @sticky.project.incomplete_count(nil, 'upcoming', current_user) %>')
+  <% end %>
+<% end %>
+
+<% end %>

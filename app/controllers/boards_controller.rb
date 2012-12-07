@@ -12,6 +12,20 @@ class BoardsController < ApplicationController
     end
   end
 
+  def add_stickies
+    @board = current_user.all_boards.find_by_id(params[:board_id])
+    @project = current_user.all_projects.find_by_id(params[:project_id])
+    @stickies = @project.stickies.where(id: params[:sticky_ids].split(',')) if @project
+
+    if @project and (@board or params[:board_id].to_s == '0') and @stickies.size > 0
+      board_id = (@board ? @board.id : nil)
+      @board_ids = (@stickies.pluck(:board_id) + [board_id]).uniq
+      @stickies.each{|s| s.update_attributes(board_id: board_id)}
+    else
+      render nothing: true
+    end
+  end
+
   def index
     current_user.update_column :boards_per_page, params[:boards_per_page].to_i if params[:boards_per_page].to_i >= 10 and params[:boards_per_page].to_i <= 200
     board_scope = current_user.all_viewable_boards

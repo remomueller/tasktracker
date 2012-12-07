@@ -24,6 +24,46 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should add stickies to holding pen" do
+    post :add_stickies, project_id: projects(:one), board_id: 0, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
+
+    assert_not_nil assigns(:stickies)
+    assert_equal 4, assigns(:stickies).size
+    assert_equal [nil], assigns(:stickies).pluck(:board_id).uniq
+    assert_template 'add_stickies'
+    assert_response :success
+  end
+
+  test "should add stickies to board" do
+    post :add_stickies, project_id: projects(:one), board_id: boards(:two), sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
+
+    assert_not_nil assigns(:stickies)
+    assert_equal 4, assigns(:stickies).size
+    assert_equal [boards(:two).id], assigns(:stickies).pluck(:board_id).uniq
+    assert_template 'add_stickies'
+    assert_response :success
+  end
+
+  test "should add stickies in group to board" do
+    post :add_stickies, project_id: projects(:one), board_id: boards(:two), sticky_ids: [stickies(:grouped).id].join(','), format: 'js'
+
+    assert_not_nil assigns(:stickies)
+    assert_equal 1, assigns(:stickies).size
+    assert_equal [boards(:two).id], assigns(:stickies).pluck(:board_id).uniq
+    assert_template 'add_stickies'
+    assert_response :success
+  end
+
+  test "should add stickies in group to holding pen" do
+    post :add_stickies, project_id: projects(:one), board_id: 0, sticky_ids: [stickies(:grouped).id].join(','), format: 'js'
+
+    assert_not_nil assigns(:stickies)
+    assert_equal 1, assigns(:stickies).size
+    assert_equal [nil], assigns(:stickies).pluck(:board_id).uniq
+    assert_template 'add_stickies'
+    assert_response :success
+  end
+
   test "should not archive board for project viewers" do
     post :archive, id: boards(:four), archived: true, format: 'js'
 
