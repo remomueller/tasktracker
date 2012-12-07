@@ -1,6 +1,6 @@
 <% rows = @stickies.collect{|s| "#sticky_#{s.id}_row"} %>
 
-if ($("#board_id").val().toString() != "<%= params[:board_id] %>"){
+if ($("#board_id").val().toString() != "<%= params[:board_id] %>" && $("#board_id").val().toString() != 'all'){
   $("<%= rows.join(', ') %>").fadeOut();
   $('[data-object~="sticky-checkbox"]:checked').removeAttr('checked');
   $('[data-object~="check-all-stickies"]').removeAttr('checked');
