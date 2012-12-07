@@ -1,6 +1,6 @@
 <% if board %>
   <li class="<%= 'active' if params[:board_id].to_i == board.id %>" id="board_<%= board.id %>_menu">
-    <%= link_to board.name, show_redesign_project_path(@project, board_id: board.id), data: { object: 'board-select board-droppable board-draggable', board_id: board.id, board_name: board.name, archived: board.archived.to_s, past_incomplete: board.incomplete_count('past_due'), my_past_incomplete: board.incomplete_count('past_due', current_user), future_incomplete: board.incomplete_count('upcoming'), my_future_incomplete: board.incomplete_count('upcoming', current_user) } %>
+    <%= link_to board.name, show_redesign_project_path(@project, board: board.name), data: { object: 'board-select board-droppable board-draggable', board_id: board.id, board_name: board.name, archived: board.archived.to_s, past_incomplete: board.incomplete_count('past_due'), my_past_incomplete: board.incomplete_count('past_due', current_user), future_incomplete: board.incomplete_count('upcoming'), my_future_incomplete: board.incomplete_count('upcoming', current_user) } %>
     <div data-object="board-helper" data-board-id="<%= board.id %>" style="display:none"><%= board.name %></div>
   </li>
 <% end %>
