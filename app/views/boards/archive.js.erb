@@ -1,4 +1,9 @@
-<%# @board.id %>
+$("#board_<%= @board.id %>_menu").remove()
+$("#<%= 'un' unless @board.archived %>archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: @board.archived }) %>")
 
-
-$("#<%= 'un' unless @board.archived %>archived_boards").after($("#board_<%= @board.id %>_menu"))
+setBoardNames();
+activateBoardDraggables();
+activateBoardArchiveDroppable();
+activateBoardDroppables();
+$('[data-object~="board-select"][data-board-id="<%= @board.id %>"]').click();
+selectBoard('<%= @board.id %>');

@@ -20,7 +20,7 @@
       archived = $(this).data('archived')
       $.post(root_url + 'boards/' + board_id + '/archive', "archived="+archived, null, "script")
     accept: ( draggable ) ->
-      $.inArray('board-draggable', $(this).data('object').split(" "))  and $(this).data('archived') != draggable.data('archived')
+      $.inArray('board-draggable', draggable.data('object').split(" ")) != -1 and $(this).data('archived') != draggable.data('archived')
   )
 
 @setBoardNames = () ->
@@ -89,9 +89,7 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="board-select"]', () ->
-
       return true if nonStandardClick(event)
-
 
       url = $(this).attr("href")
 
@@ -127,22 +125,29 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="toggle-archived-boards"]', () ->
-      if $("#archived_boards_container").is(":visible")
-        $("#archived_boards_container").hide()
+      if $(this).data('visible') == 'true'
+        $('[data-object~="board-select"][data-archived="true"]').hide()
         $('[data-object~="board-select"]').parent().removeClass('active')
-        $('#board_id').val('0')
+
+        $('[data-object~="board-select"][data-board-id="0"]').click();
+
         $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
         $(this).html("Show " + $(this).data('message'))
+        $(this).data('visible', 'false')
       else
+        $('[data-object~="board-select"][data-archived="true"]').show()
         $('[data-object~="board-select"]').parent().removeClass('active')
         $('[data-object~="board-select"][data-board-id="'+ $(this).data('board-id') + '"]').parent().addClass('active')
-        $('#board_id').val($(this).data('board-id'))
+
+        $('[data-object~="board-select"][data-board-id="'+$(this).data('board-id')+'"]').click();
+
         $(this).html("Hide " + $(this).data('message'))
-        $("#archived_boards_container").show()
+        $(this).data('visible', 'true')
       $("#stickies_search").submit()
       false
     )
 
     setBoardNames()
     activateBoardDraggables()
+    activateBoardDroppables()
     activateBoardArchiveDroppable()

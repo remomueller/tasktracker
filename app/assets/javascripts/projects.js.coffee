@@ -19,7 +19,7 @@
       board_id = $(this).data('board-id')
       $.post(root_url + 'stickies/' + sticky_id + '/move_to_board', "board_id="+board_id, null, "script")
     accept: ( draggable ) ->
-      $(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', $(this).data('object').split(" "))
+      $(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', draggable.data('object').split(" ")) != -1
   )
 
 jQuery ->

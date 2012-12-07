@@ -3,8 +3,9 @@ class BoardsController < ApplicationController
 
   def archive
     @board = current_user.all_boards.find_by_id(params[:id])
+    @project = current_user.all_projects.find_by_id(@board.project_id) if @board
 
-    if @board
+    if @project and @board
       @board.update_attributes(archived: params[:archived])
     else
       render nothing: true
