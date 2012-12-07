@@ -7,7 +7,7 @@
   <%# end %>
 
 
-  <li class="nav-header" id="archived_boards" data-board-id="<%= @project.boards.where(archived: true).natural_sort.first[1] %>"
+  <li class="nav-header" id="archived_boards" data-board-id="<%= @project.boards.where(archived: true).natural_sort.first[1] if @project.boards.where(archived: true).size > 0 %>"
     data-object="toggle-archived-boards"
     data-message="<%= pluralize(@project.boards.where(archived: true).size, 'Archived Board') %>"
     data-visible="<%= (not @board or (@board and not @board.archived?)).to_s %>"
