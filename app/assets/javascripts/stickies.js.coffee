@@ -194,3 +194,9 @@ jQuery ->
       $("#sticky_modal").hide()
       false
     )
+    .on('click', '[data-object~="set-stickies-status"]', () ->
+      sticky_ids = []
+      $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
+      $.post($(this).attr("href"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
+      false
+    )

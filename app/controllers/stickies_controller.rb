@@ -257,8 +257,19 @@ class StickiesController < ApplicationController
 
   def complete
     @sticky = current_user.all_stickies.find_by_id(params[:id])
+
     if @sticky
-      @sticky.update_attributes completed: true
+      @sticky.update_attributes completed: (params[:undo] != 'true')
+    else
+      render nothing: true
+    end
+  end
+
+  def complete_multiple
+    @stickies = current_user.all_stickies.where(id: params[:sticky_ids].to_s.split(','))
+
+    if @stickies
+      @stickies.each{|s| s.update_attributes(completed: (params[:undo] != 'true'))}
     else
       render nothing: true
     end

@@ -158,6 +158,9 @@ jQuery ->
       increaseSelectedIndex('#board_id', '#board_name');
     if e.which == 39
       decreaseSelectedIndex('#board_id', '#board_name');
+    if e.which == 27 and $("#sticky_modal").is(':visible')
+      $("#sticky_modal").hide()
+
   )
 
   loadColorSelectors()

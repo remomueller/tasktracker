@@ -23,9 +23,10 @@
   <%= link_to 'Cancel', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
 
 <% if @sticky.completed? %>
-  <%= link_to 'Mark Not Completed', '#', style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+  <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, use_template: 'redesign', undo: 'true'), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
 <% else %>
-  <%= link_to 'Mark Completed', '#', style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+  <%= link_to 'Mark Completed', complete_sticky_path(@sticky, use_template: 'redesign'), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+  <%#= link_to 'Mark Completed', '#', style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
 <% end %>
 
     <%= link_to 'Delete', '#', class: 'btn btn-mini btn-danger pull-left' %>
