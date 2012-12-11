@@ -115,8 +115,8 @@ jQuery ->
       $("#sticky_board_id_container").show()
       false
     )
-    .on('click', '[data-object~="board-select"]', () ->
-      return true if nonStandardClick(event)
+    .on('click', '[data-object~="board-select"]', (e) ->
+      return true if nonStandardClick(e)
 
       url = $(this).attr("href")
 

@@ -174,6 +174,23 @@ jQuery ->
     .on('click', '[data-object~="shift-sticky"]', () ->
       completeStickyGroupMove($(this).data('shift'))
     )
-    .on('click', '[data-link]', () ->
-      window.location = $(this).data("link")
+    .on('click', "[data-link]", (e) ->
+      if nonStandardClick(e)
+        window.open($(this).data("link"))
+        return false
+      else
+        if $(this).data('remote')
+          if $(this).data('method') == 'get'
+            $.get($(this).data("link"), null, null, "script")
+          else
+            $.post($(this).data("link"), null, null, "script")
+        else
+          window.location = $(this).data("link")
+    )
+    .on('click', ".sticky-backdrop", (e) ->
+      $("#sticky_modal").hide() if e.target.id == "sticky_modal"
+    )
+    .on('click', '[data-object~="hide-sticky-modal"]', () ->
+      $("#sticky_modal").hide()
+      false
     )

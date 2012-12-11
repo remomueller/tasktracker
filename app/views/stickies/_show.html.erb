@@ -1,0 +1,40 @@
+<table style="width:100%;table-layout:fixed">
+  <tr>
+    <td style="vertical-align:top;text-align:left">
+      <span><% @sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span>
+    </td>
+    <td style="vertical-align:top;text-align:center;white-space:nowrap">
+      <% if @sticky.owner %>
+        <%= image_tag @sticky.owner.avatar_url(18, "identicon") %>
+        <%= @sticky.owner.name %>
+      <% end %>
+    </td>
+    <td style="vertical-align:top;text-align:right">
+      <%= simple_date(@sticky.due_date) %><%= " at #{@sticky.due_at_string_short}" unless @sticky.all_day? %>
+    </td>
+  </tr>
+</table>
+
+<hr class="soften" style="margin-top:5px;margin-bottom:5px"/>
+
+<%= simple_format_links_target_blank(@sticky.full_description) %>
+
+<div style="height:30px; margin-top:35px;">
+  <%= link_to 'Cancel', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
+
+<% if @sticky.completed? %>
+  <%= link_to 'Mark Not Completed', '#', style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+<% else %>
+  <%= link_to 'Mark Completed', '#', style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+<% end %>
+
+    <%= link_to 'Delete', '#', class: 'btn btn-mini btn-danger pull-left' %>
+</div>
+
+<hr class="soften" style="margin-top:5px;margin-bottom:15px"/>
+
+<% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
+
+<div id="sticky_<%= @sticky.id %>_comments_<%= @position %>">
+  <%= @comments = @sticky.comments.page(0).per(0); render partial: 'comments/index' %>
+</div>

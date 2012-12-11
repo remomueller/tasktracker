@@ -43,7 +43,7 @@
           <span id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_short_description">
             <%= strip_tags(sticky.full_description).truncate(100, omission: '') %>
             <% if sticky.comments.size > 0 %>
-              <span class='badge badge-info'><%= pluralize(sticky.comments.size, "comment") %></span>
+              <span class="badge badge-info"><%= pluralize(sticky.comments.size, "comment") %></span>
             <% end %>
           </span>
         </span>

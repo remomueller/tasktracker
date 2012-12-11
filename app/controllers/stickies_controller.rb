@@ -158,9 +158,11 @@ class StickiesController < ApplicationController
     respond_to do |format|
       if @sticky
         format.html # show.html.erb
+        format.js
         format.json { render json: @sticky }
       else
         format.html { redirect_to root_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end
