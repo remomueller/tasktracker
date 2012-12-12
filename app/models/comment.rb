@@ -34,6 +34,14 @@ class Comment < ActiveRecord::Base
     self.sticky.project_id if self.sticky
   end
 
+  def modifiable_by?(current_user)
+    current_user.all_projects.pluck(:id).include?(self.sticky.project_id)
+  end
+
+  def deletable_by?(current_user)
+    self.modifiable_by?(current_user) or self.user == current_user
+  end
+
   private
 
   def send_email

@@ -67,7 +67,6 @@ class Sticky < ActiveRecord::Base
     end
   end
 
-  # Edit, delete, etc
   def modifiable_by?(current_user)
     current_user.all_projects.pluck(:id).include?(self.project_id)
   end

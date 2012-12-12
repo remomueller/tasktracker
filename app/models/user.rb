@@ -257,8 +257,8 @@ class User < ActiveRecord::Base
   end
 
   def all_deletable_comments
-    @all_comments ||= begin
-      Comment.current.where(sticky_id: self.all_stickies.pluck(:id)).order('created_at DESC')
+    @all_deletable_comments ||= begin
+      Comment.current.where("sticky_id IN (?) or user_id = ?", self.all_stickies.pluck(:id), self.id)
     end
   end
 
