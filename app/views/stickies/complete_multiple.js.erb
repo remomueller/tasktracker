@@ -1,4 +1,4 @@
 <% @stickies.each do |sticky| %>
-  $("#sticky_<%= sticky.id %>_row").removeClass('sticky<%= "-not" if sticky.completed? %>-completed');
-  $("#sticky_<%= sticky.id %>_row").addClass('sticky<%= "-not" unless sticky.completed? %>-completed');
+  markCompletion('<%= sticky.id %>', <%= sticky.completed? ? 'true' : 'false' %>);
 <% end %>
+initializeCompletionButtons();

@@ -1,10 +1,7 @@
 <% if params[:use_template] == 'redesign' %>
   $("#sticky_modal").hide();
-  $("#sticky_<%= @sticky.id %>_row").removeClass('sticky<%= "-not" if @sticky.completed? %>-completed');
-  $("#sticky_<%= @sticky.id %>_row").addClass('sticky<%= "-not" unless @sticky.completed? %>-completed');
-  // $("#sticky_<%= @sticky.id %>_name").css('text-decoration', 'line-through');
-  // $("#sticky_<%= @sticky.id %>_icon").html("<%= escape_javascript(image_tag('gentleface/16/checkmark.png', alt: '', size: '10x10')) %>");
-  // $("#sticky_<%= @sticky.id %>_description").css('color', '#999');
+  markCompletion('<%= @sticky.id %>', <%= @sticky.completed? ? 'true' : 'false' %>);
+  initializeCompletionButtons();
 <% else %>
   $("#sticky_<%= @sticky.id %>_name").css('text-decoration', 'line-through');
   $("#sticky_<%= @sticky.id %>_icon").html("<%= escape_javascript(image_tag('gentleface/16/checkmark.png', alt: '', size: '10x10')) %>");

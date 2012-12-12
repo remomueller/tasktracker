@@ -108,6 +108,34 @@
     $('#sticky_due_date').val(selected_date)
     $('#new-sticky-or-group-dialog').modal( dynamic: true )
 
+@markCompletion = (sticky_id, completed) ->
+  if completed
+    $("#sticky_#{sticky_id}_row").removeClass('sticky-not-completed')
+    $("#sticky_#{sticky_id}_row").addClass('sticky-completed')
+  else
+    $("#sticky_#{sticky_id}_row").removeClass('sticky-completed')
+    $("#sticky_#{sticky_id}_row").addClass('sticky-not-completed')
+  $("[data-object~='sticky-checkbox'][data-sticky-id='#{sticky_id}']").data('completed', completed)
+
+@initializeCompletionButtons = () ->
+  stickies_completed = []
+  stickies_not_completed = []
+  $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) ->
+    if $(element).data('completed')
+      stickies_completed.push($(element).data('sticky-id'))
+    else
+      stickies_not_completed.push($(element).data('sticky-id'))
+  )
+  # alert "     completed: " + stickies_completed.length + " \nnot completed: " + stickies_not_completed.length
+  if stickies_completed.length > 0
+    $('[data-object~="set-stickies-status"][data-undo=true]').show()
+  else
+    $('[data-object~="set-stickies-status"][data-undo=true]').hide()
+  if stickies_not_completed.length > 0
+    $('[data-object~="set-stickies-status"][data-undo=false]').show()
+  else
+    $('[data-object~="set-stickies-status"][data-undo=false]').hide()
+
 jQuery ->
   $("#sticky_calendar_form")
     .on("change", (event) ->
@@ -199,4 +227,7 @@ jQuery ->
       $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
       $.post($(this).attr("href"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
       false
+    )
+    .on('click', '[data-object~="sticky-checkbox"]', () ->
+      initializeCompletionButtons()
     )
