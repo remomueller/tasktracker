@@ -1,6 +1,9 @@
 <% if board %>
   <li class="<%= 'active' if params[:board_id].to_i == board.id %>" id="board_<%= board.id %>_menu">
-    <%= link_to board.name, show_redesign_project_path(@project, board: board.name), data: { object: 'board-select board-droppable board-draggable', board_id: board.id, board_name: board.name, project_id: board.project_id, archived: board.archived.to_s, past_incomplete: board.incomplete_count('past_due'), my_past_incomplete: board.incomplete_count('past_due', current_user), future_incomplete: board.incomplete_count('upcoming'), my_future_incomplete: board.incomplete_count('upcoming', current_user) }, style: "#{'display:none' unless boards_visible}" %>
+    <%= link_to board.name, show_redesign_project_path(@project, board: board.name), data: { object: 'board-select board-droppable board-draggable', board_id: board.id, board_name: board.name, project_id: board.project_id, archived: board.archived.to_s,
+        past_due_count: @project.sticky_count(board.id, 'past_due'), my_past_due_count: @project.sticky_count(board.id, 'past_due', current_user),
+        upcoming_count: @project.sticky_count(board.id, 'upcoming'), my_upcoming_count: @project.sticky_count(board.id, 'upcoming', current_user),
+        completed_count: @project.sticky_count(board.id, 'completed'), my_completed_count: @project.sticky_count(board.id, 'completed', current_user) }, style: "#{'display:none' unless boards_visible}" %>
     <div data-object="board-helper" data-board-id="<%= board.id %>" style="display:none"><%= board.name %></div>
   </li>
 <% end %>

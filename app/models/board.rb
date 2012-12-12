@@ -40,14 +40,4 @@ class Board < ActiveRecord::Base
     NaturalSort::naturalsort self.where('').collect{|f| [f.name, f.id]}
   end
 
-  # def incomplete_count(filter = 'past_due', user = nil)
-  #   scope = stickies.where(completed: false)
-  #   scope = (filter == 'past_due' ? scope.due_date_before_or_blank(Date.today) : scope.due_date_after_or_blank(Date.today))
-  #   scope = scope.with_owner(user.id) if user
-  #   scope.count
-  # end
-
-  def incomplete_count(filter = 'past_due', user = nil)
-    self.project.incomplete_count(self.id, filter, user)
-  end
 end

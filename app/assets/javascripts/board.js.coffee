@@ -53,16 +53,12 @@
 @setBoardNames = () ->
   $('[data-object~="board-select"]').each( () ->
     board_label = $(this).data('board-name')
-    scope = ""
-    if $("#scope").val() == 'past_due'
-      scope = 'past'
-    else if $("#scope").val() == 'upcoming'
-      scope = 'future'
+    scope = $("#scope").val().replace(/_/, '-')
     if scope != ""
       if parseInt($("#assigned_to_me").val()) == 1
-        board_label += " (" + $(this).data('my-'+scope+'-incomplete') + ")" if parseInt($(this).data('my-'+scope+'-incomplete')) > 0
+        board_label += " (" + $(this).data('my-'+scope+'-count') + ")" if parseInt($(this).data('my-'+scope+'-count')) > 0
       else
-        board_label += " (" + $(this).data(scope+'-incomplete') + ")" if parseInt($(this).data(scope+'-incomplete')) > 0
+        board_label += " (" + $(this).data(scope+'-count') + ")" if parseInt($(this).data(scope+'-count')) > 0
     $(this).html(board_label)
   )
 
@@ -78,12 +74,6 @@
 @browserSupportsPushState =
   window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
 
-# if browserSupportsPushState
-#   window.addEventListener 'popstate', (event) ->
-#     # state = event.originalEvent.state;
-#     # window.history.back() if event.state
-#     # window.replaceState(event.state.position, ) if event.state?.tasktracker
-
 @updateSite = (currentPage, data) ->
   selectBoard(data.board_id)
   $("#stickies_search").submit()
@@ -94,8 +84,6 @@ if browserSupportsPushState
     state = event.state
     if state and state?.tasktracker
       updateSite(state.page, state)
-    # else
-      # updateSite("home", { page: 'home', tasktracker: false })
   )
 
 jQuery ->
