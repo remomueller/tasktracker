@@ -3,7 +3,7 @@
   <h1>
     <%= image_tag('gentleface/16/checkmark.png', alt: '', size: '16x16', style: 'padding-right:4px') if @sticky.completed %> <span style="<%= 'text-decoration:line-through' if @sticky.completed? %>"><%= @title %></span>
     <% if @sticky.project %><small>Project <%= link_to @sticky.project.name, @sticky.project %></small><% end %>
-    <% if current_user.all_stickies.include?(@sticky)  %>
+    <% if @sticky.modifiable_by?(current_user) %>
       <%= link_to "Edit Sticky", edit_sticky_path(@sticky), class: 'btn btn-mini' %>
       <% if @sticky.group %>
         <%= link_to 'Delete Sticky', '#', class: 'btn btn-mini btn-danger', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>

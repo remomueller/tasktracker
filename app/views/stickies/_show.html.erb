@@ -22,7 +22,7 @@
 <div style="height:30px; margin-top:35px;">
   <%= link_to 'Close', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
 
-  <% if current_user.all_stickies.include?(@sticky) %>
+  <% if @sticky.modifiable_by?(current_user) %>
     <%= link_to 'Edit', edit_sticky_path(@sticky), method: :get, remote: true, class: 'btn btn-mini pull-right', style: 'margin-right:5px' %>
 
     <% if @sticky.completed? %>

@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>
     <%= @title %> <small><%= "Project #{link_to @sticky.project.name, @sticky.project} ".html_safe if @sticky.project %></small>
-    <% if not @sticky.new_record? and current_user.all_stickies.include?(@sticky)  %>
+    <% if not @sticky.new_record? and @sticky.modifiable_by?(current_user) %>
       <% if @sticky.group %>
         <%= link_to 'Delete Sticky', '#', class: 'btn btn-mini btn-danger', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
       <% else %>
