@@ -1,0 +1,34 @@
+<div class="control-group">
+  <%= f.label :project_id, nil, class: 'control-label' %>
+  <div class="controls">
+    <% project_groups = [] %>
+    <% project_groups << ["Favorited", current_user.all_favorite_projects.has_template.collect{|p| [p.name, p.id]}] if current_user.all_favorite_projects.has_template.size > 0 %>
+    <% project_groups << ["Other", current_user.all_other_projects.has_template.collect{|p| [p.name, p.id]}] if current_user.all_other_projects.has_template.size > 0 %>
+
+    <%= f.select :project_id, options_for_select([['---', nil]]) + grouped_options_for_select(project_groups, @group.project_id) %>
+  </div>
+</div>
+
+<div class="control-group" id="group_board_selection_container">
+  <%= render partial: 'groups/board_selection' %>
+</div>
+
+<div class="control-group" id="group_template_selection_container">
+  <%= render partial: 'groups/template_selection' %>
+</div>
+
+<div class="control-group">
+  <%= label_tag :initial_due_date, 'Initial Due Date', class: 'control-label' %>
+  <div class="controls">
+    <%= text_field_tag :initial_due_date, '', class: 'datepicker' %>
+  </div>
+</div>
+
+<div class="control-group">
+  <%= label_tag :additional_text, 'Additional Text', class: 'control-label' %>
+  <div class="controls">
+    <%= text_area_tag :additional_text, '', rows: 7, style: 'width:95%' %>
+  </div>
+</div>
+
+<div id="item_details"></div>

@@ -44,6 +44,17 @@ class GroupsController < ApplicationController
     end
   end
 
+  def new
+    @group = current_user.groups.new(post_params)
+    @group.project = current_user.all_projects.first if not @group.project and current_user.all_projects.size == 1
+    @project_id = @group.project_id
+
+    respond_to do |format|
+      format.js { render 'new_redesign' }
+      format.html { redirect_to root_path }
+    end
+  end
+
   # def new
   #   @group = current_user.groups.new(params[:group])
   # end

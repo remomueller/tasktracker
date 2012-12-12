@@ -176,7 +176,10 @@ jQuery ->
     if e.which == 27 and $("#sticky_modal").is(':visible')
       $("#sticky_modal").hide()
     if e.which == 67 and not $("#sticky_modal").is(':visible')
-      $.get(root_url + 'stickies/new', "sticky[project_id]=" + $("#project_id").val() + "&sticky[board_id]=" + $("#board_id").val() + "&use_template=redesign", null, "script")
+      $('#new-sticky-button').click()
+      # $.get(root_url + 'stickies/new', "sticky[project_id]=" + $("#project_id").val() + "&sticky[board_id]=" + $("#board_id").val() + "&use_template=redesign", null, "script")
+    if e.which == 71
+      $('#new-group-button').click()
   )
 
   loadColorSelectors()
