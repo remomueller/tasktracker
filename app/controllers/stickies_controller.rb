@@ -180,13 +180,19 @@ class StickiesController < ApplicationController
   end
 
   def edit
-    if @sticky = current_user.all_stickies.find_by_id(params[:id])
-      @project_id = @sticky.project_id
-    else
-      if @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
-        redirect_to @sticky
+    respond_to do |format|
+      if @sticky = current_user.all_stickies.find_by_id(params[:id])
+        @project_id = @sticky.project_id
+        format.html
+        format.js
       else
-        redirect_to root_path
+        if @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+          format.html { redirect_to @sticky }
+          format.js { render 'show' }
+        else
+          format.html { redirect_to root_path }
+          format.js { render nothing: true }
+        end
       end
     end
   end
@@ -295,14 +301,17 @@ class StickiesController < ApplicationController
           else
             format.html { redirect_to @sticky }
           end
+          format.js
           format.json { render json: @sticky, status: :created, location: @sticky }
         else
           @project_id = @sticky.project_id
           format.html { render action: "edit" }
+          format.js { render 'edit' }
           format.json { render json: @sticky.errors, status: :unprocessable_entity }
         end
       else
         format.html { redirect_to root_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end

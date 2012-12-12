@@ -85,9 +85,6 @@
 #     # window.replaceState(event.state.position, ) if event.state?.tasktracker
 
 @updateSite = (currentPage, data) ->
-  # load your pages using the currentPage variable. To test it first, add an alert function like:
-  # alert(currentPage + data.page)
-  # $('[data-object~="board-select"][data-board-id="'+data.board_id+'"]').click()
   selectBoard(data.board_id)
   $("#stickies_search").submit()
   false
@@ -120,18 +117,18 @@ jQuery ->
 
       url = $(this).attr("href")
 
-      return false if $('#board_id').val().toString() == $(this).data('board-id').toString()
+      if $('#board_id').val().toString() == $(this).data('board-id').toString()
+        selectBoard($(this).data('board-id'))
+        $("#stickies_search").submit()
+      else
+        selectBoard($(this).data('board-id'))
 
-      selectBoard($(this).data('board-id'))
-
-      $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), ((data) ->
-        if browserSupportsPushState #history.pushState
-          history.pushState({ page:url, tasktracker: true, board_id: $('#board_id').val() }, null, url)
-        # if history.replaceState
-        #   history.replaceState(null, null, url)
-      ), "script")
-
-      # $("#stickies_search").submit()
+        $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), ((data) ->
+          if browserSupportsPushState #history.pushState
+            history.pushState({ page:url, tasktracker: true, board_id: $('#board_id').val() }, null, url)
+          # if history.replaceState
+          #   history.replaceState(null, null, url)
+        ), "script")
       false
     )
     .on('click', '[data-object~="tag-select"]', () ->

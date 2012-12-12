@@ -84,6 +84,21 @@
     )
   )
 
+@loadDatePicker = () ->
+  $(".datepicker").datepicker(
+    showOtherMonths: true
+    selectOtherMonths: true
+    changeMonth: true
+    changeYear: true
+    onClose: (text, inst) -> $(this).focus()
+  )
+  $(".datepicker").change( () ->
+    try
+      $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val())))
+    catch error
+      # Nothing
+  )
+
 jQuery ->
 
   window.$isDirty = false

@@ -54,6 +54,21 @@ class Sticky < ActiveRecord::Base
     SITE_URL + "/stickies/#{self.id}"
   end
 
+  # Panel returns 'completed', 'past_due', or 'upcoming'
+  # Since both upcoming and past_due incomplete contain stickies
+  # with "today's" due date or without a due date, these both get
+  # placed into past_due
+  def panel
+    if self.completed?
+      'completed'
+    elsif self.due_date and self.due_date.to_date > Date.today
+      'upcoming'
+    else
+      'past_due'
+    end
+  end
+
+
   def due_at_string
     (all_day? ? '' : due_date.localtime.strftime("%l:%M %p").strip) rescue ''
   end

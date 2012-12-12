@@ -1,0 +1,17 @@
+$("#scope").val('<%= @sticky.panel %>');
+
+<% params[:board_id] = @sticky.board_id || '0' %>
+<% @project = @sticky.project %>
+
+$("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
+$("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: true }) %>")
+
+setBoardNames();
+activateBoardDraggables();
+activateBoardArchiveDroppable();
+activateBoardDroppables();
+$('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
+
+
+$("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
+$("#sticky_modal").show();
