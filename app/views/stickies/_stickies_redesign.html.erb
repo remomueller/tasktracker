@@ -10,6 +10,9 @@
 
   <div style="float:left;margin-right:5px;white-space:nowrap;line-height:23px">
     <span style="font-weight:200;font-size:20px;"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></span>
+
+    <%= link_to 'New Sticky', new_sticky_path(project_id: @project.id, board_id: params[:board_id]), method: :get, remote: true, class: 'btn btn-mini' %>
+
     <%= link_to 'Mark Not Completed', complete_multiple_stickies_path(undo: 'true'), method: :post, remote: true, class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: true }, style: 'display:none' %>
     <%= link_to 'Mark Completed', complete_multiple_stickies_path, method: :post, remote: true, class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: false }, style: 'display:none' %>
     <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
