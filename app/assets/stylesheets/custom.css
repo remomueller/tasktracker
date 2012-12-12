@@ -330,3 +330,10 @@ a.archived-boards-link:hover {
     margin-top: inherit;
   }
 }
+
+span.rounded-borders {
+  padding: 1px 4px 2px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}

@@ -44,11 +44,29 @@
 <hr class="soften" style="margin-top:5px;margin-bottom:15px"/>
 Group <%= @sticky.group.name %>
 <% @stickies = @sticky.group.stickies %>
-<ul>
+<table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width=""/><col width="40px"/><col width="80px"/><col width="60px"/>
 <% @stickies.each do |sticky| %>
-  <li class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %>" style="<%= 'font-weight:bold' if @sticky.id == sticky.id %>"><%= strip_tags(sticky.description).truncate(30) %></li>
+  <tr class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %> <%= 'info' if @sticky.id == sticky.id %>" style="<%= 'font-weight:bold' if @sticky.id == sticky.id %>">
+    <td data-link="<%= sticky_path(sticky) %>" data-remote="true" data-method="get" style="cursor:pointer;white-space:nowrap;overflow-x:hidden;">
+      <div style="overflow:hidden">
+        <span><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span> <%= strip_tags(sticky.description) %>
+      </div>
+    </td>
+    <td><% if sticky.comments.size > 0 %><span class="badge badge-info"><%= sticky.comments.size %></span><% end %></td>
+    <td style="white-space:nowrap;overflow-x:hidden;">
+      <span rel="tooltip" title="<%= sticky.owner ? sticky.owner.name : 'Unassigned'  %>" data-placement="left">
+      <% if sticky.owner %>
+        <%= image_tag sticky.owner.avatar_url(18, "identicon") %>
+        <%= sticky.owner.nickname %>
+      <% else %>
+        <%= image_tag User.new.avatar_url(18, "mm") %>
+      <% end %>
+      </span>
+    </td>
+    <td style="text-align:right;white-space:nowrap"><span class="rounded-borders" style="background-color:white"><%= simple_date(sticky.due_date) %></span><%#= " at #{sticky.due_at_string_short}" unless sticky.all_day? %></td>
+  </tr>
 <% end %>
-</ul>
+</table>
 <% end %>
 
 <hr class="soften" style="margin-top:5px;margin-bottom:15px"/>
