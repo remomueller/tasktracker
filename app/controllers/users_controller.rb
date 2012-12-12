@@ -59,10 +59,10 @@ class UsersController < ApplicationController
         escaped_name = project.name.gsub("'", "\\\\'")
         if project_favorite = project.project_favorites.find_by_user_id(@user.id) and project_favorite.favorite?
           @favorite_projects_hash[escaped_name] = [] unless @favorite_projects_hash[escaped_name]
-          @favorite_projects_hash[escaped_name] << @stickies[month-1].with_project(project.id, @user.id).count
+          @favorite_projects_hash[escaped_name] << @stickies[month-1].where(project_id: project.id).count
         else
           @other_projects_hash[escaped_name] = [] unless @other_projects_hash[escaped_name]
-          @other_projects_hash[escaped_name] << @stickies[month-1].with_project(project.id, @user.id).count
+          @other_projects_hash[escaped_name] << @stickies[month-1].where(project_id: project.id).count
         end
       end
     end

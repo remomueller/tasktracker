@@ -22,7 +22,7 @@ class StickiesController < ApplicationController
 
     sticky_scope = current_user.all_viewable_stickies.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
 
-    sticky_scope = sticky_scope.with_project(current_user.all_viewable_projects.collect{|p| p.id} - current_user.hidden_project_ids, current_user.id)
+    sticky_scope = sticky_scope.where(project_id: (current_user.all_viewable_projects.collect{|p| p.id} - current_user.hidden_project_ids))
 
     sticky_scope = sticky_scope.where(owner_id: current_user.id) if params[:assigned_to_me] == '1'
 
@@ -65,7 +65,7 @@ class StickiesController < ApplicationController
     sticky_scope = sticky_scope.due_date_before(@end_date) unless @end_date.blank?
     sticky_scope = sticky_scope.due_date_after(@start_date) unless @start_date.blank?
 
-    sticky_scope = sticky_scope.with_project(params[:project_id], current_user.id) unless params[:project_id].blank?
+    sticky_scope = sticky_scope.where(project_id: params[:project_id]) unless params[:project_id].blank?
     sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unassigned].to_s != '1'
 
     unless params[:tag_names].blank?

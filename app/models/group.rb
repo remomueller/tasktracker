@@ -3,7 +3,6 @@ class Group < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_project, lambda { |*args| { conditions: ["groups.project_id IN (?) or (groups.project_id IS NULL and groups.user_id = ?)", args.first, args[1]] } }
   scope :search, lambda { |*args| {conditions: [ 'LOWER(id) LIKE ? or LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Hooks

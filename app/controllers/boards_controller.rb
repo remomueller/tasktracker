@@ -32,7 +32,7 @@ class BoardsController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| board_scope = board_scope.search(search_term) }
 
-    board_scope = board_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+    board_scope = board_scope.where(project_id: @project.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
     @order = scrub_order(Board, params[:order], 'boards.name')
     board_scope = board_scope.order(@order)

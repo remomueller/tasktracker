@@ -1,8 +1,5 @@
-<% if @group %>
-  <% boards = Board.current.with_project(@group.project_id, current_user.id) %>
-<% else %>
-  <% boards = Board.current.with_project(nil, current_user.id) %>
-<% end %>
+<% boards = Board.current.where(project_id: (@group ? @group.project_id : nil)) %>
+
 <%= label_tag :group_board_id, 'Board', class: 'control-label' %>
 <div class="controls">
   <% if @project_id %>

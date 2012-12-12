@@ -7,7 +7,7 @@ class TagsController < ApplicationController
     @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
     @search_terms.each{|search_term| tag_scope = tag_scope.search(search_term) }
 
-    tag_scope = tag_scope.with_project(@project.id, current_user.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+    tag_scope = tag_scope.where(project_id: @project.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
     @order = scrub_order(Tag, params[:order], 'tags.name')
     tag_scope = tag_scope.order(@order)

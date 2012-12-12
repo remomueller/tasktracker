@@ -5,7 +5,6 @@ class Sticky < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_project, lambda { |*args| { conditions: ["stickies.project_id IN (?)", args.first] } }
   scope :with_creator, lambda { |*args|  { conditions: ["stickies.user_id IN (?)", args.first] } }
   scope :with_owner, lambda { |*args|  { conditions: ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
   scope :with_board, lambda { |*args| { conditions: ["stickies.board_id IN (?) or (stickies.board_id IS NULL and 0 IN (?))", args.first, args.first] } }

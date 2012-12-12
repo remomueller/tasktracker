@@ -3,13 +3,12 @@ class Board < ActiveRecord::Base
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
-  scope :with_project, lambda { |*args| { conditions: ["boards.project_id IN (?) or (boards.project_id IS NULL and boards.user_id = ?)", args.first, args[1]] } }
   scope :search, lambda { |*args| {conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :active_today, lambda { |*args| { conditions: ["boards.start_date <= DATE(?) and boards.end_date >= DATE(?)", Date.today, Date.today] } }
   scope :active_date, lambda { |*args| { conditions: ["boards.start_date <= DATE(?) and boards.end_date >= DATE(?)", args.first, args.first] } }
 
   # Model Validation
-  validates_presence_of :name, :project_id #, :start_date, :end_date
+  validates_presence_of :name, :project_id
   validates_uniqueness_of :name, scope: [:deleted, :project_id]
 
   # Model Relationships

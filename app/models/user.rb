@@ -129,7 +129,7 @@ class User < ActiveRecord::Base
 
   def all_stickies
     @all_stickies ||= begin
-      Sticky.current.with_project(self.all_projects.pluck(:id), self.id).order('created_at DESC')
+      Sticky.current.where(project_id: self.all_projects.pluck(:id)).order('created_at DESC')
     end
   end
 
@@ -152,15 +152,15 @@ class User < ActiveRecord::Base
   end
 
   def all_deliverable_stickies_due_today
-    self.all_stickies_due_today.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
+    self.all_stickies_due_today.where(project_id: self.all_deliverable_projects.collect{|p| p.id})
   end
 
   def all_deliverable_stickies_past_due
-    self.all_stickies_past_due.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
+    self.all_stickies_past_due.where(project_id: self.all_deliverable_projects.collect{|p| p.id})
   end
 
   def all_deliverable_stickies_due_upcoming
-    self.all_stickies_due_upcoming.with_project(self.all_deliverable_projects.collect{|p| p.id}, self.id)
+    self.all_stickies_due_upcoming.where(project_id: self.all_deliverable_projects.collect{|p| p.id})
   end
 
   def all_digest_projects
@@ -174,13 +174,13 @@ class User < ActiveRecord::Base
   # Ex: On Tuesday, returns stickies created since Monday morning (Time.now - 1.day)
   def digest_stickies_created
     @digest_stickies_created ||= begin
-      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
     end
   end
 
   def digest_stickies_completed
     @digest_stickies_completed ||= begin
-      self.all_stickies.with_project(self.all_digest_projects.collect{|p| p.id}, self.id).where("end_date >= ?", (Date.today.monday? ? Date.today - 3.day : Date.today - 1.day))
+      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}).where("end_date >= ?", (Date.today.monday? ? Date.today - 3.day : Date.today - 1.day))
     end
   end
 
@@ -192,55 +192,55 @@ class User < ActiveRecord::Base
 
   def all_viewable_stickies
     @all_viewable_stickies ||= begin
-      Sticky.current.with_project(self.all_viewable_projects.pluck(:id), self.id) # .order('created_at DESC')
+      Sticky.current.where(project_id: self.all_viewable_projects.pluck(:id))
     end
   end
 
   def all_groups
     @all_groups ||= begin
-      Group.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Group.current.where(project_id: self.all_projects.pluck(:id))
     end
   end
 
   def all_viewable_groups
     @all_viewable_groups ||= begin
-      Group.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Group.current.where(project_id: self.all_viewable_projects.pluck(:id))
     end
   end
 
   def all_boards
     @all_boards ||= begin
-      Board.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Board.current.where(project_id: self.all_projects.pluck(:id))
     end
   end
 
   def all_viewable_boards
     @all_viewable_boards ||= begin
-      Board.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Board.current.where(project_id: self.all_viewable_projects.pluck(:id))
     end
   end
 
   def all_tags
     @all_tags ||= begin
-      Tag.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Tag.current.where(project_id: self.all_projects.pluck(:id))
     end
   end
 
   def all_viewable_tags
     @all_viewable_tags ||= begin
-      Tag.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Tag.current.where(project_id: self.all_viewable_projects.pluck(:id))
     end
   end
 
   def all_templates
     @all_templates ||= begin
-      Template.current.with_project(self.all_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Template.current.where(project_id: self.all_projects.pluck(:id))
     end
   end
 
   def all_viewable_templates
     @all_viewable_templates ||= begin
-      Template.current.with_project(self.all_viewable_projects.pluck(:id), self.id) #.order('created_at DESC')
+      Template.current.where(project_id: self.all_viewable_projects.pluck(:id))
     end
   end
 
@@ -252,7 +252,7 @@ class User < ActiveRecord::Base
 
   def all_viewable_comments
     @all_viewable_comments ||= begin
-      Comment.current.where(sticky_id: self.all_viewable_stickies.pluck(:id)) #.order('created_at DESC')
+      Comment.current.where(sticky_id: self.all_viewable_stickies.pluck(:id))
     end
   end
 

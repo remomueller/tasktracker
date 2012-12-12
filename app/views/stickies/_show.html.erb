@@ -20,21 +20,36 @@
 <%= simple_format_links_target_blank(@sticky.full_description) %>
 
 <div style="height:30px; margin-top:35px;">
-  <%= link_to 'Cancel', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
+  <%= link_to 'Close', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
 
-  <% if current_user.all_stickies.include?(@sticky)  %>
+  <% if current_user.all_stickies.include?(@sticky) %>
     <%= link_to 'Edit', edit_sticky_path(@sticky), method: :get, remote: true, class: 'btn btn-mini pull-right', style: 'margin-right:5px' %>
 
     <% if @sticky.completed? %>
       <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, use_template: 'redesign', undo: 'true'), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
     <% else %>
       <%= link_to 'Mark Completed', complete_sticky_path(@sticky, use_template: 'redesign'), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
-      <%#= link_to 'Mark Completed', '#', style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
     <% end %>
 
-    <%= link_to 'Delete', '#', class: 'btn btn-mini btn-danger pull-left' %>
+    <%# if @sticky.group %>
+      <%#= link_to 'Delete Sticky', '#', class: 'btn btn-mini btn-danger pull-left', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
+    <%# else %>
+      <%= link_to "Delete Sticky", @sticky, method: :delete, class: 'btn btn-mini btn-danger pull-left', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+    <%# end %>
+
   <% end %>
 </div>
+
+<% if @sticky.group %>
+<hr class="soften" style="margin-top:5px;margin-bottom:15px"/>
+Group <%= @sticky.group.name %>
+<% @stickies = @sticky.group.stickies %>
+<ul>
+<% @stickies.each do |sticky| %>
+  <li class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %>" style="<%= 'font-weight:bold' if @sticky.id == sticky.id %>"><%= strip_tags(sticky.description).truncate(30) %></li>
+<% end %>
+</ul>
+<% end %>
 
 <hr class="soften" style="margin-top:5px;margin-bottom:15px"/>
 
@@ -43,3 +58,5 @@
 <div id="sticky_<%= @sticky.id %>_comments_<%= @position %>">
   <%= @comments = @sticky.comments.page(0).per(0); render partial: 'comments/index' %>
 </div>
+
+<%#= render partial: 'delete_sticky_dialog', locals: { sticky: @sticky } %>

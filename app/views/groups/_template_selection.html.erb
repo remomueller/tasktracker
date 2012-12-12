@@ -1,8 +1,5 @@
-<% if @group %>
-  <% templates = ::Template.current.with_project(@group.project_id, current_user.id) %>
-<% else %>
-  <% templates = ::Template.current.with_project(nil, current_user.id) %>
-<% end %>
+<% templates = ::Template.current.where(project_id: (@group ? @group.project_id : nil)) %>
+
 <%= label_tag :group_template_id, 'Template', class: 'control-label' %>
 <div class="controls">
   <% if @project_id %>
