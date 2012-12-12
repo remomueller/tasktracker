@@ -177,6 +177,10 @@ class StickiesController < ApplicationController
     @sticky = current_user.stickies.new(post_params)
     @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1
     @project_id = @sticky.project_id
+    respond_to do |format|
+      format.html
+      format.js { render 'edit' }
+    end
   end
 
   def edit
@@ -208,6 +212,7 @@ class StickiesController < ApplicationController
           # Will render create.js instead
           format.js { render 'create' }
         else
+          format.js { render 'update' } # Update handles board reloading
           format.html { redirect_to @sticky }
         end
         format.json { render json: @sticky, status: :created, location: @sticky }

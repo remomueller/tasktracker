@@ -175,8 +175,8 @@ jQuery ->
       decreaseSelectedIndex('#board_id', '#board_name');
     if e.which == 27 and $("#sticky_modal").is(':visible')
       $("#sticky_modal").hide()
-    # if e.which == 67 # Then show "create sticky/group popup"
-    #   $("#sticky_modal").show()
+    if e.which == 67 and not $("#sticky_modal").is(':visible')
+      $.get(root_url + 'stickies/new', "sticky[project_id]=" + $("#project_id").val() + "&sticky[board_id]=" + $("#board_id").val() + "&use_template=redesign", null, "script")
   )
 
   loadColorSelectors()
