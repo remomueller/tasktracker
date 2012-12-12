@@ -15,6 +15,11 @@
 * Bug Fix
   * Fixed a bug that prevented grouped stickies assigned to a board from being moved back to the holding pen
 
+== 0.23.10
+
+* Bug Fix
+  * Creating a group from the calendar with a preselected project now correctly popuplates that project's boards and templates
+
 == 0.23.9
 
 * Enhancements
