@@ -1,5 +1,8 @@
 == 0.23.10
 
+* Bug Fix
+  * Creating a group from the calendar with a preselected project now correctly popuplates that project's boards and templates
+
 == 0.23.9
 
 * Enhancements
