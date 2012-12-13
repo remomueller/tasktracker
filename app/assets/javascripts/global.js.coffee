@@ -168,18 +168,14 @@ jQuery ->
   )
 
   $(document).keydown( (e) ->
-    if $("input, textarea").is(":focus") then return
-    if e.which == 37
-      increaseSelectedIndex('#board_id', '#board_name');
-    if e.which == 39
-      decreaseSelectedIndex('#board_id', '#board_name');
-    if e.which == 27 and $("#sticky_modal").is(':visible')
-      $("#sticky_modal").hide()
-    if e.which == 67 and not $("#sticky_modal").is(':visible')
-      $('#new-sticky-button').click()
-      # $.get(root_url + 'stickies/new', "sticky[project_id]=" + $("#project_id").val() + "&sticky[board_id]=" + $("#board_id").val() + "&use_template=redesign", null, "script")
-    if e.which == 71
-      $('#new-group-button').click()
+    return if $("input, textarea").is(":focus")
+    increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
+    decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
+    if $("#sticky_modal").is(':visible')
+      $("#sticky_modal").hide()       if e.which == 27
+    else
+      $('#new-sticky-button').click() if e.which == 83
+      $('#new-group-button').click()  if e.which == 71
   )
 
   loadColorSelectors()

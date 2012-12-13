@@ -1,4 +1,4 @@
-<% @title = @group.new_record? ? "New Group" : "Edit Group #{@sticky.name}" %>
+<% @title = @group.new_record? ? "New Group" : "Edit Group #{@group.name}" %>
 <table style="width:100%;table-layout:fixed">
   <tr>
     <td style="vertical-align:top;text-align:left">
@@ -8,7 +8,7 @@
 
     </td>
     <td style="vertical-align:top;text-align:right">
-
+      <%= link_to 'New Sticky', new_sticky_path(sticky: { project_id: @group.project_id, board_id: params[:group][:board_id] }), method: :get, remote: true %>
     </td>
   </tr>
 </table>
@@ -20,7 +20,11 @@
   <%= render partial: 'groups/inner_form', locals: { f: f } %>
 
   <div style="height:30px; margin-top:35px;">
-    <%= link_to 'Cancel', @group, method: :get, remote: true, class: 'btn btn-mini pull-right' %>
+    <% if @group.new_record? %>
+      <%= link_to 'Cancel', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
+    <% else %>
+      <%= link_to 'Cancel', @group, method: :get, remote: true, class: 'btn btn-mini pull-right' %>
+    <% end %>
 
     <%= f.submit nil, class: 'btn btn-primary btn-mini pull-right', style: 'margin-right:5px' %>
   </div>

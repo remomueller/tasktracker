@@ -2,12 +2,11 @@
   <div class="control-group">
     <%= label :sticky, :tag_ids, 'Tags', class: 'control-label' %>
     <div class="controls">
-
       <table style="width:100%;table-layout:fixed;">
-      <% project.tags.in_groups_of(5).each do |row_tags| %>
+      <% project.tags.in_groups_of(4).each do |row_tags| %>
         <tr>
           <% row_tags.each do |tag| %>
-            <td><% if tag %><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <%= @tag = tag; render partial: 'tags/show' %><% end %></td>
+            <td style="white-space:nowrap;overflow:hidden"><% if tag %><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <%= @tag = tag; render partial: 'tags/show' %><% end %></td>
           <% end %>
         </tr>
       <% end %>
