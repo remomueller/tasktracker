@@ -39,7 +39,7 @@ class StickiesController < ApplicationController
       sticky_scope = @project.stickies.with_board(params[:board_id])
       sticky_scope = sticky_scope.order(@order)
       @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
-      render "projects/show"
+      render "projects/show_old"
     elsif @group = current_user.all_viewable_groups.find_by_id(params[:group_id])
       @order = scrub_order(Sticky, params[:order], 'stickies.due_date')
       sticky_scope = @group.stickies

@@ -31,7 +31,7 @@ Notes::Application.routes.draw do
       post :selection
     end
     member do
-      get :show_redesign # TODO Remove
+      get :show_old # TODO Remove
       get :bulk
       post :reassign
       post :favorite

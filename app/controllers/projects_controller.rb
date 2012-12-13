@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def show
+  def show_old
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     respond_to do |format|
       if @project
@@ -123,7 +123,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def show_redesign
+  def show
     params[:status] ||= ['planned','completed']
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     respond_to do |format|

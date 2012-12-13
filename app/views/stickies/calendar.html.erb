@@ -14,7 +14,7 @@
         <div class="btn-group" style="height:37px">
           <%= link_to '&larr;'.html_safe, '#', title: 'Previous Month', class: 'btn', data: { object: 'calendar-previous-month' }, style: 'margin-bottom:9px;margin-right:-1px' %>
           <%= hidden_field_tag :direction, 0 %>
-          <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker btn', style: 'width:85px' %>
+          <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker btn', style: 'width:85px;margin-bottom: 9px;' %>
           <%= link_to '&rarr;'.html_safe, '#', title: 'Next Month', class: 'btn', data: { object: 'calendar-next-month' }, style: 'margin-bottom:9px' %>
         </div>
       </div>

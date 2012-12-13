@@ -1,148 +1,81 @@
 <% @title = "Project: #{@project.name}" %>
-<div class="page-header">
-  <h1>
-    <%= @project.name %>
-    <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
-  </h1>
-  <div class="btn-toolbar">
-    <% if current_user.all_projects.include?(@project) %>
-      <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
-      <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, boards, and comments!" } %></div>
-    <% end %>
-    <% if current_user.all_projects.include?(@project) %>
 
-    <div class="btn-group">
-      <%= link_to 'Create Sticky', '#', class: 'btn btn-mini', data: { object: 'modal-show', target: '#new-sticky-or-group-dialog', project_id: @project.id } %>
-    </div>
+<% status_all = (params[:status].include?('planned') and params[:status].include?('completed')) %>
 
-    <div class="btn-group">
-      <%= link_to 'Reassign Stickies', '#', class: 'btn btn-mini', data: { object: 'modal-show', target: '#reassign-dialog' } %>
-    </div>
+<%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search", data: { object: 'form-load' } do %>
+  <%= hidden_field_tag :search, params[:search] %>
+  <%= hidden_field_tag :project_id, @project.id %>
+  <%= hidden_field_tag :board_id, params[:board_id] %>
+  <%= hidden_field_tag :template_id, params[:template_id] %>
+  <%= hidden_field_tag :tag_ids, params[:tag_ids] %>
+  <%= hidden_field_tag :order, 'stickies.created_at DESC' %>
 
-    <div class="btn-group">
-      <%= link_to "Tags", tags_path(project_id: @project.id), class: 'btn btn-mini' %>
-      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><%= link_to 'Create', new_tag_path(tag: { project_id: @project.id }) %></li>
+  <%= hidden_field_tag :scope, params[:scope] || 'past_due' %>
+  <%= hidden_field_tag :scope_direction, params[:scope_direction] || 'forward' %> <%# 'reverse' %>
+
+  <%= hidden_field_tag :use_template, 'redesign' %>
+
+
+  <%= hidden_field_tag :assigned_to_me, params[:assigned_to_me] %>
+
+  <%= hidden_field_tag :unassigned, '1' %>
+<% end %>
+
+<div class="row">
+  <div class="span2" style="margin-bottom:20px;">
+    <div> <%# style="position: absolute;top:60px;bottom:0;overflow:scroll;width:inherit" %>
+      <div style="font-size: 20px;font-weight:200;"><%= link_to @project.name, show_old_project_path(@project) %></div>
+      <ul class="nav nav-list nav-rounded" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
+        <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
       </ul>
-    </div>
 
-    <div class="btn-group">
-      <%= link_to "Templates", templates_path(project_id: @project.id), class: 'btn btn-mini' %>
-      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><%= link_to 'Create', new_template_path(template: { project_id: @project.id }) %></li>
+      <ul class="nav nav-list nav-rounded" id="archived_boards_container" data-object="board-archive-droppable" data-archived="true">
+        <% boards_visible = (@board and @board.archived?) %>
+        <%= render partial: 'boards/full_menu', locals: { archived: true, boards_visible: boards_visible } %>
       </ul>
-    </div>
 
-    <div class="btn-group">
-      <%= link_to "Boards", boards_path(project_id: @project.id), class: 'btn btn-mini' %>
-      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li><%= link_to 'Create', new_board_path(board: { project_id: @project.id }) %></li>
-      </ul>
-    </div>
-
-    <div class="btn-group">
-      <%= link_to 'Redesign', show_redesign_project_path(@project), class: 'btn btn-mini btn-info' %>
-    </div>
-  <% end %>
-  </div>
-</div>
-
-<div style="float:left">
-  <%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', class: 'form-search', data: { object: 'form-load' } do %>
-    <%= hidden_field_tag :from, 'project' %>
-    <%= hidden_field_tag :order, params[:order] %>
-    <%= hidden_field_tag :direction, 0 %>
-    <% if false %>
-      <%= text_field_tag 'search', params[:search], class: 'search-query' %>
-      <%= submit_tag 'Search', class: 'btn btn-primary' %>
-    <% end %>
-    <%= hidden_field_tag 'project_id', @project.id %>
-    <div class="btn-group">
-      <%= link_to '&larr;'.html_safe, '#', title: 'Previous Board', class: 'btn', data: { object: 'boards-previous' }, style: 'margin-right:-1px' %>
-      <div style="display:none"><%= select_tag 'board_id', options_for_select([['Holding Pen', 0]] + @project.boards.where(archived: false).natural_sort, params[:board_id]), class: 'btn' %></div>
-      <%= link_to "#{@board ? @board.name : '<span class="muted">Holding Pen</span>'.html_safe} <span class='caret'></span>".html_safe, '#', class: 'btn dropdown-toggle', 'data-toggle' => 'dropdown', id: 'board_name' %>
-      <ul class="dropdown-menu">
-        <li>
-          <%= link_to '<span class="muted">Holding Pen</span>'.html_safe, '#', data: { object: 'boards-select', target: '#stickies_search', board_name: '<span class="muted">Holding Pen</span> <span class="caret"></span>', board_id: 0 } %>
-        </li>
-        <% @project.boards.where(archived: false).natural_sort.each do |board_name, board_id| %>
-          <li>
-            <%= link_to board_name, '#', data: { object: 'boards-select', target: '#stickies_search', board_name: escape_javascript(board_name) +  ' <span class="caret"></span>', board_id: board_id } %>
+      <ul class="nav nav-list nav-rounded">
+        <li class="divider"></li>
+        <li class="nav-header">Templates</li>
+        <% @project.templates.natural_sort.each do |template_name, template_id| %>
+          <li class="<%= 'active' if params[:template_id].to_i == template_id %>">
+            <%= link_to template_name, '#', data: { object: 'template-select', template_id: template_id } %>
           </li>
         <% end %>
-        <% if @project.boards.where(archived: true).size > 0 %>
-          <li><%= link_to pluralize(@project.boards.where(archived: true).size, 'Archived Board'), boards_path(project_id: @project.id, order: 'boards.archived DESC'), class: 'archived-boards-link' %></li>
+      </ul>
+
+      <%= link_to 'Create Template', new_template_path(template: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
+
+      <ul class="nav nav-list nav-rounded">
+        <li class="divider"></li>
+        <li class="nav-header">Tags</li>
+        <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
+          <% tag = @project.tags.find_by_id(tag_id) %>
+          <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
+            <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select', tag_id: tag_id } %>
+          </li>
         <% end %>
       </ul>
-      <%= link_to '&rarr;'.html_safe, '#', title: 'Next Board', class: 'btn', data: { object: 'boards-next' }, style: 'margin-left:-1px' %>
+
+      <%= link_to 'Create Tag', new_tag_path(tag: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
     </div>
-  <% end %>
-</div>
-
-<div id="stickies">
-  <br /><br />
-  <center><%= image_tag "contour/ajax-loader.gif" %></center>
-  <br /><br />
-</div>
-
-<div class="row">
-  <div class="span6">
-    <div class="page-header">
-      <h2>Details</h2>
-    </div>
-
-    <%= simple_format @project.description unless @project.description.blank? %>
-
-    <dl class="dl-horizontal">
-      <dt>Owner</dt>
-      <dd><%= link_to @project.user.name, @project.user %></dd>
-
-      <dt>Time Period</dt>
-      <dd><%= @project.start_date %> to <%= @project.end_date %></dd>
-
-      <dt>Status</dt>
-      <dd><%= @project.status %></dd>
-    </dl>
   </div>
-  <div class="span6">
-    <div class="page-header">
-      <h2>
-        Sticky Tags
-        <%= link_to 'View Tags', tags_path(project_id: @project.id), class: 'btn btn-mini' %>
-      </h2>
 
+  <div class="span10" style="margin-bottom:20px">
+    <div id="sticky_modal_wrapper">
+      <div id="sticky_modal_container" class="sticky-modal"></div>
     </div>
 
-    <p>
-      <%= @project.tags.collect{|t| @tag = t; link_to render(partial: 'tags/show'), @tag, style: 'text-decoration:none'}.join('').html_safe %>
-    </p>
+    <div id="stickies" style="margin-top:-12px">
+
+    </div>
   </div>
 </div>
 
-<div class="page-header">
-  <h2>Sharing</h2>
-</div>
-
-<div class="row">
-  <% ['editors', 'viewers'].each do |relation, allow_editing| %>
-    <div class="span6">
-      <% @relation = relation; @allow_editing = allow_editing %>
-      <% @users = User.current.order('last_name, first_name') %>
-      <p>
-        <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
-      </p>
-    </div>
+<div id="sticky_modal" class="sticky-backdrop" style="display:none">
+  <% if false %>
+  <div class="modal-wrapper">
+    <div id="sticky_modal_container" class="modal"></div>
+  </div>
   <% end %>
 </div>
-
-<%= render partial: 'stickies/new_sticky_or_group_dialog' %>
-<%= render partial: 'projects/reassign_dialog' %>

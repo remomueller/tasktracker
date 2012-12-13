@@ -1,0 +1,106 @@
+<% @title = "Project: #{@project.name}" %>
+<div class="page-header">
+  <h1>
+    <%= @project.name %>
+    <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
+  </h1>
+  <div class="btn-toolbar">
+    <% if current_user.all_projects.include?(@project) %>
+      <div class="btn-group"><%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-mini' %></div>
+      <div class="btn-group"><%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, boards, and comments!" } %></div>
+    <% end %>
+    <% if current_user.all_projects.include?(@project) %>
+
+    <div class="btn-group">
+      <%= link_to 'Reassign Stickies', '#', class: 'btn btn-mini', data: { object: 'modal-show', target: '#reassign-dialog' } %>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "Tags", tags_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Create', new_tag_path(tag: { project_id: @project.id }) %></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "Templates", templates_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Create', new_template_path(template: { project_id: @project.id }) %></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "Boards", boards_path(project_id: @project.id), class: 'btn btn-mini' %>
+      <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to 'Create', new_board_path(board: { project_id: @project.id }) %></li>
+      </ul>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to 'Redesign', project_path(@project), class: 'btn btn-mini btn-info' %>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span6">
+    <div class="page-header">
+      <h2>Details</h2>
+    </div>
+
+    <%= simple_format @project.description unless @project.description.blank? %>
+
+    <dl class="dl-horizontal">
+      <dt>Owner</dt>
+      <dd><%= link_to @project.user.name, @project.user %></dd>
+
+      <dt>Time Period</dt>
+      <dd><%= @project.start_date %> to <%= @project.end_date %></dd>
+
+      <dt>Status</dt>
+      <dd><%= @project.status %></dd>
+    </dl>
+  </div>
+  <div class="span6">
+    <div class="page-header">
+      <h2>
+        Sticky Tags
+        <%= link_to 'View Tags', tags_path(project_id: @project.id), class: 'btn btn-mini' %>
+      </h2>
+
+    </div>
+
+    <p>
+      <%= @project.tags.collect{|t| @tag = t; link_to render(partial: 'tags/show'), @tag, style: 'text-decoration:none'}.join('').html_safe %>
+    </p>
+  </div>
+</div>
+
+<div class="page-header">
+  <h2>Sharing</h2>
+</div>
+
+<div class="row">
+  <% ['editors', 'viewers'].each do |relation, allow_editing| %>
+    <div class="span6">
+      <% @relation = relation; @allow_editing = allow_editing %>
+      <% @users = User.current.order('last_name, first_name') %>
+      <p>
+        <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<%= render partial: 'stickies/new_sticky_or_group_dialog' %>
+<%= render partial: 'projects/reassign_dialog' %>
