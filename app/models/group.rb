@@ -1,5 +1,7 @@
 class Group < ActiveRecord::Base
-  attr_accessible :description, :project_id, :template_id
+  attr_accessible :description, :project_id, :template_id, :board_id
+
+  attr_accessor :board_id
 
   # Named Scopes
   scope :current, conditions: { deleted: false }

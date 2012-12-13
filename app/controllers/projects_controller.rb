@@ -128,10 +128,9 @@ class ProjectsController < ApplicationController
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     respond_to do |format|
       if @project
-        params[:board_id] = @project.boards.where(archived: false).natural_sort.first ? @project.boards.where(archived: false).natural_sort.first[1] : 0 if params[:board_id].blank? and params[:board].blank?
         @board = @project.boards.find_by_name(params[:board])
-        params[:board_id] = @board.id if @board
-        @board = @project.boards.find_by_id(params[:board_id] || 0) unless @board
+        params[:board_id] = @board ? @board.id : (params[:board_id] || 0)
+        @board = @project.boards.find_by_id(params[:board_id]) unless @board
         stickies_scope = @project.stickies
         @stickies = stickies_scope.with_board(params[:board_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
         format.html # show.html.erb

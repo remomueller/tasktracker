@@ -6,7 +6,7 @@
     <% board_groups = [] %>
     <% board_groups << ["Current", boards.where(archived: false).natural_sort] if boards.where(archived: false).size > 0 %>
     <% board_groups << ["Archived", boards.where(archived: true).natural_sort] if boards.where(archived: true).size > 0 %>
-    <%= select_tag :group_board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, params[:board_id]), name: 'board_id' %>
+    <%= select_tag :group_board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, @group.board_id), name: 'board_id' %>
   <% else %>
     <%= hidden_field_tag :group_board_id, nil, name: 'board_id' %>
   <% end %>

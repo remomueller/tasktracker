@@ -127,7 +127,7 @@ class GroupsController < ApplicationController
     end
 
     params[:group].slice(
-      :description, :project_id
+      :description, :project_id, :board_id
     )
   end
 end
