@@ -1,5 +1,5 @@
 <% if group %>
-  <li class="<%= 'active' if params[:group_id].to_i == group.id %>" id="group_<%= group.id %>_menu">
-    <%= link_to group.short_description, group, data: { object: 'group-select', group_id: group.id, group_name: group.name, project_id: group.project_id } %>
+  <li class="<%= 'active' if params[:group_id].to_i == group.id %>" id="group_<%= group.id %>_menu" style="white-space:nowrap;">
+    <%= link_to group.short_description, group, data: { object: 'group-select', group_id: group.id, group_name: group.name, project_id: group.project_id }, style: 'overflow:hidden' %>
   </li>
 <% end %>

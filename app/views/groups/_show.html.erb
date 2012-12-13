@@ -1,5 +1,5 @@
 <span style="font-weight:200;font-size:20px;"><%= @group.short_description %></span>
 
-<%= simple_format @group.description %>
+<%= simple_format @group.short_description_second_half %>
 
 <%= @stickies = @group.stickies; render partial: 'stickies/simple_stickies' %>

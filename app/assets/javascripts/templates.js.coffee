@@ -2,8 +2,11 @@
   template = $('[data-object~="template-select"][data-template-id='+template_id+']')
 
   $('#board_id').val('none')
-
   $('[data-object~="board-select"]').parent().removeClass('active')
+
+  $('#tag_ids').val('')
+  $('[data-object~="tag-select"]').parent().removeClass('active')
+
   $('[data-object~="template-select"]').parent().removeClass('active')
   $(template).parent().addClass('active')
   $('#template_id').val(template_id)

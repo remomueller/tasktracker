@@ -66,13 +66,23 @@
   board = $('[data-object~="board-select"][data-board-id='+board_id+']')
 
   $('#template_id').val('none')
+  $('[data-object~="template-select"]').parent().removeClass('active')
 
   $('[data-object~="board-select"]').parent().removeClass('active')
-  $('[data-object~="template-select"]').parent().removeClass('active')
   $(board).parent().addClass('active')
   $('#board_id').val(board_id)
   true
 
+@selectTag = (tag_id) ->
+  tag = $('[data-object~="tag-select"][data-tag-id='+tag_id+']')
+
+  $('#template_id').val('none')
+  $('[data-object~="template-select"]').parent().removeClass('active')
+
+  $('[data-object~="tag-select"]').parent().removeClass('active')
+  $(tag).parent().addClass('active')
+  $('#tag_ids').val(tag_id)
+  true
 
 @browserSupportsPushState =
   window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
@@ -129,9 +139,10 @@ jQuery ->
         $(this).parent().removeClass('active')
         $('#tag_ids').val('')
       else
-        $('[data-object~="tag-select"]').parent().removeClass('active')
-        $(this).parent().addClass('active')
-        $('#tag_ids').val($(this).data('tag-id'))
+        selectTag($(this).data('tag-id'))
+        if $("#board_id").val() == 'none' or $("#board_id").val() == ''
+          $('[data-object~="board-select"][data-board-id="all"]').click()
+          return false
       $("#stickies_search").submit()
       false
     )

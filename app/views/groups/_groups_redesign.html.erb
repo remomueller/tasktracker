@@ -5,7 +5,7 @@
   <span style="font-weight:200;font-size:20px;"><%= @template ? @template.name : 'No Template Selected' %></span>
 
   <ul class="nav nav-list nav-rounded">
-    <li class="nav-header">Groups</li>
+    <li class="nav-header">Groups (<%= @count %>)</li>
     <% @groups.each do |group| %>
       <%= render partial: 'groups/menu', locals: { group: group } %>
     <% end %>

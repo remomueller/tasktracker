@@ -24,9 +24,13 @@ class Group < ActiveRecord::Base
   end
 
   def short_description
-    result = self.description.to_s.split("\r\n").collect{|i| i.strip}.select{|i| not i.blank?}.first
+    result = self.description.to_s.split(/[\r\n]/).collect{|i| i.strip}.select{|i| not i.blank?}.first
     result = "Group #{self.name}" unless result
     result
+  end
+
+  def short_description_second_half
+    self.description.to_s.strip.gsub(self.short_description, "").strip
   end
 
   def destroy
