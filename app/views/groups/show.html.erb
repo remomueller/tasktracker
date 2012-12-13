@@ -22,16 +22,6 @@
   <dd><%= simple_format @group.description %></dd>
 </dl>
 
-<%= form_tag search_stickies_path, method: :get, remote: true, id: "stickies_search", style: 'margin-bottom:0px', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order, params[:order] %>
-  <%= hidden_field_tag :direction, 0 %>
-  <% if false %>
-    <%= text_field_tag 'search', params[:search], class: 'search-query' %>
-    <%= submit_tag 'Search', class: 'btn btn-primary' %>
-  <% end %>
-  <%= hidden_field_tag 'group_id', @group.id %>
-<% end %>
-
 <div id="stickies">
-  <center><%= image_tag "contour/ajax-loader.gif" %></center>
+  <%= @stickies = @group.stickies; render partial: 'stickies/simple_stickies' %>
 </div>

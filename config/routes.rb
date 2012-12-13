@@ -31,7 +31,7 @@ Notes::Application.routes.draw do
       post :selection
     end
     member do
-      get :show_old # TODO Remove
+      get :settings
       get :bulk
       post :reassign
       post :favorite
@@ -42,7 +42,6 @@ Notes::Application.routes.draw do
 
   resources :stickies do
     collection do
-      get :search
       get :template
       get :calendar
       post :complete_multiple

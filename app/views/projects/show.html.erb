@@ -23,8 +23,8 @@
 
 <div class="row">
   <div class="span2" style="margin-bottom:20px;">
-    <div> <%# style="position: absolute;top:60px;bottom:0;overflow:scroll;width:inherit" %>
-      <div style="font-size: 20px;font-weight:200;"><%= link_to @project.name, show_old_project_path(@project) %></div>
+    <div>
+      <div><span style="font-size: 20px;font-weight:200;"><%= @project.name %></span> <%= link_to 'Settings', settings_project_path(@project) %></div>
       <ul class="nav nav-list nav-rounded" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
         <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
       </ul>
@@ -72,10 +72,4 @@
   </div>
 </div>
 
-<div id="sticky_modal" class="sticky-backdrop" style="display:none">
-  <% if false %>
-  <div class="modal-wrapper">
-    <div id="sticky_modal_container" class="modal"></div>
-  </div>
-  <% end %>
-</div>
+<div id="sticky-backdrop" style="display:none"></div>

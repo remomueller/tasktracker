@@ -5,16 +5,16 @@
 jQuery ->
   $(document)
     # From old project page
-    # .on('click', '[data-object~="modal-show"]', () ->
+    .on('click', '[data-object~="modal-show"]', () ->
     #   $('#sticky_project_id').val($(this).data('project-id'))
     #   $('#group_project_id').val($(this).data('project-id'))
     #   $('#sticky_board_id').val($("#board_id").val())
     #   $('#group_board_id').val($("#board_id").val())
     #   $('#sticky_project_id').change()
     #   $('#group_project_id').change()
-    #   $($(this).data('target')).modal({ dynamic: true })
-    #   false
-    # )
+      $($(this).data('target')).modal({ dynamic: true })
+      false
+    )
     # .on('click', '[data-object~="boards-previous"]', () ->
     #   increaseSelectedIndex('#board_id', '#board_name')
     #   false

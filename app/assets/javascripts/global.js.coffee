@@ -171,7 +171,7 @@ jQuery ->
     return if $("input, textarea").is(":focus")
     increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
     decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
-    if $("#sticky_modal").is(':visible')
+    if $("#sticky-backdrop").is(':visible')
       hideStickyModal()               if e.which == 27
     else
       $('#new-sticky-button').click() if e.which == 83

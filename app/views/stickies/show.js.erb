@@ -1,2 +1,7 @@
-$("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
-showStickyModal();
+if ($("#sticky_modal_container").length == 0) {
+  window.location = "<%= sticky_path(@sticky) %>";
+} else {
+  $("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
+  showStickyModal();
+}
+

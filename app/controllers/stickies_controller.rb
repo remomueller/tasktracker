@@ -31,25 +31,6 @@ class StickiesController < ApplicationController
     @stickies = sticky_scope
   end
 
-  def search
-    current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
-    if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-      @board = Board.find_by_id(params[:board_id])
-      @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
-      sticky_scope = @project.stickies.with_board(params[:board_id])
-      sticky_scope = sticky_scope.order(@order)
-      @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
-      render "projects/show_old"
-    elsif @group = current_user.all_viewable_groups.find_by_id(params[:group_id])
-      @order = scrub_order(Sticky, params[:order], 'stickies.due_date')
-      sticky_scope = @group.stickies
-      sticky_scope = sticky_scope.order(@order)
-      @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
-    else
-      redirect_to root_path
-    end
-  end
-
   def index
     current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'

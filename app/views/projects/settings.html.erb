@@ -1,7 +1,7 @@
 <% @title = "Project: #{@project.name}" %>
 <div class="page-header">
   <h1>
-    <%= @project.name %>
+    Settings &raquo; <%= link_to @project.name, @project %>
     <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
   </h1>
   <div class="btn-toolbar">
@@ -15,6 +15,7 @@
       <%= link_to 'Reassign Stickies', '#', class: 'btn btn-mini', data: { object: 'modal-show', target: '#reassign-dialog' } %>
     </div>
 
+<% if false %>
     <div class="btn-group">
       <%= link_to "Tags", tags_path(project_id: @project.id), class: 'btn btn-mini' %>
       <button class="btn dropdown-toggle btn-mini" data-toggle="dropdown">
@@ -44,14 +45,25 @@
         <li><%= link_to 'Create', new_board_path(board: { project_id: @project.id }) %></li>
       </ul>
     </div>
+<% end %>
 
-    <div class="btn-group">
-      <%= link_to 'Redesign', project_path(@project), class: 'btn btn-mini btn-info' %>
-    </div>
   <% end %>
   </div>
 </div>
 
+<div class="row">
+  <% ['editors', 'viewers'].each do |relation, allow_editing| %>
+    <div class="span6">
+      <% @relation = relation; @allow_editing = allow_editing %>
+      <% @users = User.current.order('last_name, first_name') %>
+      <p>
+        <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<% if false %>
 <div class="row">
   <div class="span6">
     <div class="page-header">
@@ -85,22 +97,8 @@
     </p>
   </div>
 </div>
+<% end %>
 
-<div class="page-header">
-  <h2>Sharing</h2>
-</div>
-
-<div class="row">
-  <% ['editors', 'viewers'].each do |relation, allow_editing| %>
-    <div class="span6">
-      <% @relation = relation; @allow_editing = allow_editing %>
-      <% @users = User.current.order('last_name, first_name') %>
-      <p>
-        <div id="<%= @relation %>_list"><%= render partial: 'project_users/index' %></div>
-      </p>
-    </div>
-  <% end %>
-</div>
 
 <%= render partial: 'stickies/new_sticky_or_group_dialog' %>
 <%= render partial: 'projects/reassign_dialog' %>

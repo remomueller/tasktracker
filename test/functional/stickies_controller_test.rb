@@ -104,31 +104,6 @@ class StickiesControllerTest < ActionController::TestCase
     assert_template 'calendar'
   end
 
-  test "should get search" do
-    get :search, project_id: projects(:one).to_param, board_id: boards(:one).to_param
-    assert_not_nil assigns(:project)
-    assert_not_nil assigns(:board)
-    assert_not_nil assigns(:stickies)
-    assert_template 'projects/show'
-    assert_response :success
-  end
-
-  test "should get search from group" do
-    get :search, group_id: groups(:three).to_param, format: 'js'
-    assert_not_nil assigns(:group)
-    assert_not_nil assigns(:stickies)
-    assert_template 'search'
-    assert_response :success
-  end
-
-  test "should not get search without valid project id" do
-    get :search, project_id: -1, board_id: boards(:one).to_param
-    assert_nil assigns(:project)
-    assert_nil assigns(:board)
-    assert_nil assigns(:stickies)
-    assert_redirected_to root_path
-  end
-
   test "should get index" do
     get :index
     assert_response :success

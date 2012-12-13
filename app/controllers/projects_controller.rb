@@ -102,7 +102,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def show_old
+  def settings
     @project = current_user.all_viewable_projects.find_by_id(params[:id])
     respond_to do |format|
       if @project
@@ -132,7 +132,7 @@ class ProjectsController < ApplicationController
         params[:board_id] = @board ? @board.id : (params[:board_id] || 0)
         @board = @project.boards.find_by_id(params[:board_id]) unless @board
         stickies_scope = @project.stickies
-        @stickies = stickies_scope.with_board(params[:board_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
+        @stickies = stickies_scope.with_board(params[:board_id]).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
         format.html # show.html.erb
         format.json { render json: @project }
       else
