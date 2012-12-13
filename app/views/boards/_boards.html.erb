@@ -5,10 +5,6 @@
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.name', 'Name', 'boards_search') %></th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.project_id', 'Project', 'boards_search') %></th>
-<% if false %>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.start_date', 'Start Date', 'boards_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.end_date', 'End Date', 'boards_search') %></th>
-<% end %>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.user_id', 'Creator', 'boards_search') %></th>
       <th>Description</th>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'boards.archived', 'Archived', 'boards_search') %></th>
@@ -20,10 +16,6 @@
     <tr>
       <td><%= link_to board.name, board %></td>
       <td><%= link_to board.project.name, board.project %></td>
-<% if false %>
-      <td><%= simple_date board.start_date %></td>
-      <td><%= simple_date board.end_date %></td>
-<% end %>
       <td><%= link_to board.user.name, board.user %></td>
       <td><%= board.description %></td>
       <td><%= simple_check board.archived %></td>
@@ -37,4 +29,4 @@
   <% end %>
 </table>
 
-<center><%= paginate @boards %></center>
+<center><%= paginate @boards, theme: "contour" %></center>
