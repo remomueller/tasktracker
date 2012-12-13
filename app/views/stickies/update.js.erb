@@ -14,4 +14,4 @@ $('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').cli
 
 
 $("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
-$("#sticky_modal").show();
+showStickyModal();

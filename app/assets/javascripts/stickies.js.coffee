@@ -136,6 +136,14 @@
   else
     $('[data-object~="set-stickies-status"][data-undo=false]').hide()
 
+@showStickyModal = () ->
+  $("#sticky_modal").show()
+  $("#sticky_modal_wrapper").show()
+
+@hideStickyModal = () ->
+  $("#sticky_modal").hide()
+  $("#sticky_modal_wrapper").hide()
+
 jQuery ->
   $("#sticky_calendar_form")
     .on("change", (event) ->
@@ -216,10 +224,10 @@ jQuery ->
           window.location = $(this).data("link")
     )
     .on('click', ".sticky-backdrop", (e) ->
-      $("#sticky_modal").hide() if e.target.id == "sticky_modal"
+      hideStickyModal() if e.target.id == "sticky_modal"
     )
     .on('click', '[data-object~="hide-sticky-modal"]', () ->
-      $("#sticky_modal").hide()
+      hideStickyModal()
       false
     )
     .on('click', '[data-object~="set-stickies-status"]', () ->

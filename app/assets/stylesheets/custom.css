@@ -291,13 +291,19 @@ a.archived-boards-link:hover {
   z-index: 1040;
 }
 
+#sticky_modal_wrapper {
+  position:relative;
+  display:none;
+}
+
 .sticky-modal {
-  position: fixed;
-  top: 10%;
-  left: 50%;
+  position:absolute;
+  padding: 10px;
+  top: 0;
+  margin-top: 38px;
+  left: 0;
+  right: 0;
   z-index: 1050;
-  width: 560px;
-  margin-left: -280px;
   background-color: white;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -311,24 +317,6 @@ a.archived-boards-link:hover {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
-}
-
-#sticky_modal_container {
-  margin-top: 66px;
-  padding: 10px;
-  /*background-color: #FCF8E3;*/
-}
-
-@media (max-width: 480px) {
-  #sticky_modal_container {
-    margin-top: inherit;
-  }
-}
-
-@media (max-width: 767px) {
-  #sticky_modal_container {
-    margin-top: inherit;
-  }
 }
 
 span.rounded-borders {

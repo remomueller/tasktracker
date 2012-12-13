@@ -1,5 +1,5 @@
 <% if params[:use_template] == 'redesign' %>
-  $("#sticky_modal").hide();
+  hideStickyModal();
   markCompletion('<%= @sticky.id %>', <%= @sticky.completed? ? 'true' : 'false' %>);
   initializeCompletionButtons();
 <% else %>

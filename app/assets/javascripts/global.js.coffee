@@ -172,7 +172,7 @@ jQuery ->
     increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
     decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
     if $("#sticky_modal").is(':visible')
-      $("#sticky_modal").hide()       if e.which == 27
+      hideStickyModal()               if e.which == 27
     else
       $('#new-sticky-button').click() if e.which == 83
       $('#new-group-button').click()  if e.which == 71
