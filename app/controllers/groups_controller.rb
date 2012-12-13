@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
     group_scope = group_scope.order(@order)
 
     @count = group_scope.count
-    @groups = group_scope.page(params[:page]).per(current_user.groups_per_page)
+    @groups = (params[:use_template] == 'redesign' ? group_scope : group_scope.page(params[:page]).per(current_user.groups_per_page))
 
     respond_to do |format|
       format.html # index.html.erb
@@ -34,11 +34,13 @@ class GroupsController < ApplicationController
     if @group
       respond_to do |format|
         format.html # show.html.erb
+        format.js
         format.json { render json: @group, methods: [:stickies, :template, :creator_name, :group_link], location: @group }
       end
     else
       respond_to do |format|
         format.html { redirect_to root_path }
+        format.js { render nothing: true }
         format.json { head :no_content }
       end
     end
@@ -127,7 +129,7 @@ class GroupsController < ApplicationController
     end
 
     params[:group].slice(
-      :description, :project_id, :board_id
+      :description, :project_id, :board_id, :template_id
     )
   end
 end

@@ -1,1 +1,5 @@
-$("#groups").html("<%= escape_javascript(render("groups")) %>");
+<% if params[:use_template] == 'redesign' %>
+  $("#stickies-or-templates").html("<%= escape_javascript(render("groups_redesign")) %>");
+<% else %>
+  $("#groups").html("<%= escape_javascript(render("groups")) %>");
+<% end %>

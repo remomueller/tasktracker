@@ -125,11 +125,7 @@ class StickiesController < ApplicationController
 
     respond_to do |format|
       format.html
-      if params[:use_template] == 'redesign'
-        format.js { render 'stickies/stickies_redesign' }
-      else
-        format.js
-      end
+      format.js
       format.json { render json: sticky_scope.page(params[:page]).limit(50) }
     end
   end

@@ -65,7 +65,10 @@
 @selectBoard = (board_id) ->
   board = $('[data-object~="board-select"][data-board-id='+board_id+']')
 
+  $('#template_id').val('none')
+
   $('[data-object~="board-select"]').parent().removeClass('active')
+  $('[data-object~="template-select"]').parent().removeClass('active')
   $(board).parent().addClass('active')
   $('#board_id').val(board_id)
   true
@@ -75,8 +78,12 @@
   window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
 
 @updateSite = (currentPage, data) ->
-  selectBoard(data.board_id)
-  $("#stickies_search").submit()
+  if parseInt(data.template_id) > 0
+    selectTemplate(data.template_id)
+    $("#groups_search").submit()
+  else
+    selectBoard(data.board_id)
+    $("#stickies_search").submit()
   false
 
 if browserSupportsPushState
@@ -112,10 +119,8 @@ jQuery ->
         selectBoard($(this).data('board-id'))
 
         $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), ((data) ->
-          if browserSupportsPushState #history.pushState
+          if browserSupportsPushState
             history.pushState({ page:url, tasktracker: true, board_id: $('#board_id').val() }, null, url)
-          # if history.replaceState
-          #   history.replaceState(null, null, url)
         ), "script")
       false
     )
@@ -168,10 +173,6 @@ jQuery ->
       else
         $('[data-object~="sticky-checkbox"]').removeAttr('checked')
     )
-    # .on('click', '[data-object~="count-stickies"]', () ->
-    #   alert $('[data-object~="sticky-checkbox"]:checked').length
-    #   false
-    # )
 
 
     setBoardNames()

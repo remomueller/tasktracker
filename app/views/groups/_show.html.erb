@@ -1,0 +1,6 @@
+<% @title = "Group #{@group.name}" %>
+<span style="font-weight:200;font-size:20px;"><%= @title %></span>
+
+<%= simple_format @group.description %>
+
+<%= @stickies = @group.stickies; render partial: 'stickies/simple_stickies' %>

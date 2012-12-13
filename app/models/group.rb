@@ -23,6 +23,12 @@ class Group < ActiveRecord::Base
     "##{self.id}"
   end
 
+  def short_description
+    result = self.description.to_s.split("\r\n").collect{|i| i.strip}.select{|i| not i.blank?}.first
+    result = "Group #{self.name}" unless result
+    result
+  end
+
   def destroy
     update_column :deleted, true
     self.stickies.destroy_all

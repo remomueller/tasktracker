@@ -2,18 +2,16 @@
 
 <% status_all = (params[:status].include?('planned') and params[:status].include?('completed')) %>
 
-<%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search", data: { object: 'form-load' } do %>
+<%= form_tag stickies_path(use_template: 'redesign'), method: :get, remote: true, id: "stickies_search", data: { object: "form-load#{ '-no' if @template }" } do %>
   <%= hidden_field_tag :search, params[:search] %>
   <%= hidden_field_tag :project_id, @project.id %>
   <%= hidden_field_tag :board_id, params[:board_id] %>
-  <%= hidden_field_tag :template_id, params[:template_id] %>
+  <%#= hidden_field_tag :template_id, params[:template_id] %>
   <%= hidden_field_tag :tag_ids, params[:tag_ids] %>
   <%= hidden_field_tag :order, 'stickies.created_at DESC' %>
 
   <%= hidden_field_tag :scope, params[:scope] || 'past_due' %>
   <%= hidden_field_tag :scope_direction, params[:scope_direction] || 'forward' %> <%# 'reverse' %>
-
-  <%= hidden_field_tag :use_template, 'redesign' %>
 
 
   <%= hidden_field_tag :assigned_to_me, params[:assigned_to_me] %>
@@ -21,10 +19,19 @@
   <%= hidden_field_tag :unassigned, '1' %>
 <% end %>
 
+<%= form_tag groups_path(use_template: 'redesign'), method: :get, remote: true, id: "groups_search", data: { object: "form-load#{ '-no' unless @template }" } do %>
+  <%= hidden_field_tag :group_search, params[:search], name: 'search' %>
+  <%= hidden_field_tag :group_project_id, @project.id, name: 'project_id' %>
+  <%= hidden_field_tag :group_board_id, params[:board_id], name: 'board_id' %>
+  <%= hidden_field_tag :template_id, params[:template_id] %>
+  <%= hidden_field_tag :group_order, 'groups.created_at DESC', name: 'order' %>
+  <%= hidden_field_tag :group_scope_direction, params[:scope_direction] || 'forward', name: 'scope_direction' %>
+<% end %>
+
 <div class="row">
   <div class="span2" style="margin-bottom:20px;">
     <div>
-      <div><span style="font-size: 20px;font-weight:200;"><%= @project.name %></span> <%= link_to 'Settings', settings_project_path(@project) %></div>
+      <div><span style="font-size: 20px;font-weight:200;"><%= @project.name %></span> <%= link_to '<i class="icon-cog"></i>'.html_safe, settings_project_path(@project), class: 'btn btn-mini', rel: 'tooltip', title: 'Settings', data: { placement: 'right' } %></div>
       <ul class="nav nav-list nav-rounded" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
         <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
       </ul>
@@ -39,7 +46,7 @@
         <li class="nav-header">Templates</li>
         <% @project.templates.natural_sort.each do |template_name, template_id| %>
           <li class="<%= 'active' if params[:template_id].to_i == template_id %>">
-            <%= link_to template_name, '#', data: { object: 'template-select', template_id: template_id } %>
+            <%= link_to template_name, project_path(@project, template_id: template_id), data: { object: 'template-select', template_id: template_id } %>
           </li>
         <% end %>
       </ul>
@@ -61,6 +68,11 @@
     </div>
   </div>
 
+  <div id="stickies-or-templates"> <%# Right panel, load other stuff %>
+
+  </div>
+
+  <% if false %>
   <div class="span10" style="margin-bottom:20px">
     <div id="sticky_modal_wrapper">
       <div id="sticky_modal_container" class="sticky-modal"></div>
@@ -70,6 +82,7 @@
 
     </div>
   </div>
+  <% end %>
 </div>
 
 <div id="sticky-backdrop" style="display:none"></div>
