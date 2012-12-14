@@ -31,7 +31,7 @@ class Sticky < ActiveRecord::Base
   after_create :send_email
 
   before_save :set_end_date, :set_project_and_board
-  after_save :send_completion_email, :send_due_at_updated
+  # after_save :send_completion_email, :send_due_at_updated
 
   # Model Validation
   validates_presence_of :description, :project_id
@@ -138,10 +138,6 @@ class Sticky < ActiveRecord::Base
     "##{self.id}"
   end
 
-  # def name
-  #   "ID ##{self.id}"
-  # end
-
   def destroy
     self.comments.destroy_all
     update_column :deleted, true
@@ -182,6 +178,27 @@ class Sticky < ActiveRecord::Base
     end
   end
 
+  def send_email_if_recently_completed(current_user)
+    self.send_completion_email(current_user) if self.previous_changes[:completed] and self.previous_changes[:completed][1] == true
+  end
+
+  def send_completion_email(current_user)
+    all_users = self.project.users_to_email(:sticky_completion) - [current_user]
+    all_users.each do |user_to_email|
+      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver if Rails.env.production?
+    end
+  end
+
+  def self.send_stickies_completion_email(all_stickies, current_user)
+    all_stickies.group_by{|s| s.project}.each do |project, stickies|
+      all_users = project.users_to_email(:sticky_completion) - [current_user]
+      Rails.logger.debug all_users.collect{|u| u.name}.inspect
+      all_users.each do |user_to_email|
+        UserMailer.stickies_completion_by_mail(stickies, current_user, user_to_email).deliver if Rails.env.production?
+      end
+    end
+  end
+
   private
 
   def send_email
@@ -191,32 +208,6 @@ class Sticky < ActiveRecord::Base
         UserMailer.sticky_by_mail(self, user_to_email).deliver if Rails.env.production?
       end
     end
-  end
-
-  # TODO: Currently assumes that the owner marks the sticky as completed.
-  def send_completion_email
-    if self.changes[:completed] and self.changes[:completed][1] == true and self.owner
-      all_users = self.project.users_to_email(:sticky_completion) - [self.owner]
-      all_users.each do |user_to_email|
-        UserMailer.sticky_completion_by_mail(self, user_to_email).deliver if Rails.env.production?
-      end
-    end
-  end
-
-  # Only send if completion email was not sent and if the sticky is not newly created
-  def send_due_at_updated
-    # TODO: Reenable if due_date is changed...
-
-    # if self.changes[:due_at] and not self.changes[:completed] and self.created_at != self.updated_at
-    #   first_time = Time.parse(self.changes[:due_at][0].to_s).strftime("%r") rescue ""
-    #   last_time = Time.parse(self.changes[:due_at][1].to_s).strftime("%r") rescue ""
-    #   unless first_time == last_time
-    #     all_users = self.project.users_to_email(:sticky_due_time_changed) - [self.owner]
-    #     all_users.each do |user_to_email|
-    #       UserMailer.sticky_due_at_changed_by_mail(self, user_to_email).deliver if Rails.env.production?
-    #     end
-    #   end
-    # end
   end
 
   def set_start_date

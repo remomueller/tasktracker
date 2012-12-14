@@ -1,6 +1,6 @@
 Hello <%= @recipient.first_name %>,
 
-<%= @sticky.owner.name %> completed the following Sticky <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %>.
+<%= @sender.name %> completed the following Sticky <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %>.
 
 <%= render partial: 'sticky_note' %>
 

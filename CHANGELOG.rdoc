@@ -10,10 +10,13 @@
         * Upcoming: Not completed sorted by due date ascending, (today into the future)
         * Direction of these views can be reversed, useful to see stickies with no due date assigned
       * Stickies can be dragged onto different boards
+  * Sticky changes
+    * Multiple stickies completed at once will now send out a single email per user
   * Updated to Contour 1.1.2.pre
 
 * Bug Fix
   * Fixed a bug that prevented grouped stickies assigned to a board from being moved back to the holding pen
+  * Fixed a bug that sent sticky completion emails out by who it was assigned to as opposed to who marked the sticky as completed
 
 == 0.23.10
 

@@ -183,6 +183,7 @@ class StickiesController < ApplicationController
 
     respond_to do |format|
       if @sticky.save
+        @sticky.send_email_if_recently_completed(current_user)
         flash[:notice] = 'Sticky was successfully created.'
         if params[:from_calendar] == '1'
           # redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
@@ -248,6 +249,7 @@ class StickiesController < ApplicationController
 
     if @sticky
       @sticky.update_attributes completed: (params[:undo] != 'true')
+      @sticky.send_email_if_recently_completed(current_user)
     else
       render nothing: true
     end
@@ -258,6 +260,7 @@ class StickiesController < ApplicationController
 
     if @stickies
       @stickies.each{|s| s.update_attributes(completed: (params[:undo] != 'true'))}
+      Sticky.send_stickies_completion_email(@stickies, current_user) if params[:undo] != 'true'
     else
       render nothing: true
     end
@@ -270,6 +273,7 @@ class StickiesController < ApplicationController
       if @sticky
         original_due_date = @sticky.due_date
         if @sticky.update_attributes(post_params)
+          @sticky.send_email_if_recently_completed(current_user)
           flash[:notice] = 'Sticky was successfully updated.'
 
           @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?

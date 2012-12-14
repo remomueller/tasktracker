@@ -93,13 +93,27 @@ class UserMailerTest < ActionMailer::TestCase
   test "sticky completion by mail email" do
     sticky = stickies(:assigned_to_user)
     valid = users(:valid)
+    sender = users(:valid)
 
-    email = UserMailer.sticky_completion_by_mail(sticky, valid).deliver
+    email = UserMailer.sticky_completion_by_mail(sticky, sender, valid).deliver
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
-    assert_equal "#{sticky.user.name} Completed a Sticky on Project #{sticky.project.name}", email.subject
-    assert_match(/#{sticky.user.name} completed the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
+    assert_equal "#{sender.name} Completed a Sticky on Project #{sticky.project.name}", email.subject
+    assert_match(/#{sender.name} completed the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
+  end
+
+  test "stickies completion by mail email" do
+    stickies = Sticky.where(id: stickies(:assigned_to_user).id)
+    valid = users(:valid)
+    sender = users(:valid)
+
+    email = UserMailer.stickies_completion_by_mail(stickies, sender, valid).deliver
+    assert !ActionMailer::Base.deliveries.empty?
+
+    assert_equal [valid.email], email.to
+    assert_equal "#{sender.name} Completed 1 Sticky", email.subject
+    assert_match(/#{sender.name} completed the following 1 Sticky\./, email.encoded)
   end
 
   test "sticky due at changed by mail email" do

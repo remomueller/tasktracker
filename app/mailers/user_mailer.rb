@@ -65,14 +65,26 @@ class UserMailer < ActionMailer::Base
          reply_to: group.user.email)
   end
 
-  def sticky_completion_by_mail(sticky, recipient)
+  def sticky_completion_by_mail(sticky, sender, recipient)
     setup_email
     @sticky = sticky
+    @sender = sender
     @recipient = recipient
     attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
-         subject: "#{sticky.owner.name} Completed a Sticky on Project #{sticky.project.name}",
-         reply_to: sticky.owner.email)
+         subject: "#{sender.name} Completed a Sticky on Project #{sticky.project.name}",
+         reply_to: sender.email)
+  end
+
+  def stickies_completion_by_mail(stickies, sender, recipient)
+    setup_email
+    @stickies = stickies
+    @sender = sender
+    @recipient = recipient
+    # attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
+    mail(to: recipient.email,
+         subject: "#{sender.name} Completed #{@stickies.count} #{@stickies.count == 1 ? 'Sticky' : 'Stickies'}",
+         reply_to: sender.email)
   end
 
   def sticky_due_at_changed_by_mail(sticky, recipient)
