@@ -235,10 +235,10 @@ jQuery ->
       hideStickyModal()
       false
     )
-    .on('click', '[data-object~="set-stickies-status"]', () ->
+    .on('click', '[data-object~="set-stickies-status"]', (e) ->
       sticky_ids = []
       $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
-      $.post($(this).attr("href"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
+      $.post($(this).data("url"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
       false
     )
     .on('click', '[data-object~="sticky-checkbox"]', (e) ->

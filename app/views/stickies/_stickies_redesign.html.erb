@@ -18,8 +18,8 @@
         <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' %>
         <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' %>
 
-        <%= link_to 'Mark Not Completed', complete_multiple_stickies_path(undo: 'true'), method: :post, remote: true, class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: true }, style: 'display:none' %>
-        <%= link_to 'Mark Completed', complete_multiple_stickies_path, method: :post, remote: true, class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: false }, style: 'display:none' %>
+        <%= link_to 'Mark Not Completed', '#', class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none' %>
+        <%= link_to 'Mark Completed', '#', class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' %>
         <%= link_to '<i class="icon-trash icon-white"></i>'.html_safe, '#', data: { object: 'delete-stickies', url: destroy_multiple_stickies_path }, class: 'btn btn-mini btn-danger' %>
         <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
         <span class="label label-highlight"><%= params[:search] %></span>
