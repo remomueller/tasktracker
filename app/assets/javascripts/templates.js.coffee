@@ -1,3 +1,10 @@
+@templateSelected = () ->
+  parseInt($('#template_id').val()) > 0
+
+@deselectTemplate = () ->
+  $('#template_id').val('none')
+  $('[data-object~="template-select"]').parent().removeClass('active')
+
 @selectTemplate = (template_id) ->
   template = $('[data-object~="template-select"][data-template-id='+template_id+']')
 

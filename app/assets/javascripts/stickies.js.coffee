@@ -135,6 +135,11 @@
     $('[data-object~="set-stickies-status"][data-undo=false]').show()
   else
     $('[data-object~="set-stickies-status"][data-undo=false]').hide()
+  if stickies_completed.length + stickies_not_completed.length > 0
+    $('[data-object~="delete-stickies"]').show()
+  else
+    $('[data-object~="delete-stickies"]').hide()
+
 
 @showStickyModal = () ->
   $("#sticky-backdrop").show()

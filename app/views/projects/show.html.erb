@@ -31,7 +31,16 @@
 <div class="row">
   <div class="span2" style="margin-bottom:20px;">
     <div>
-      <div><span style="font-size: 20px;font-weight:200;"><%= @project.name %></span> <%= link_to '<i class="icon-cog"></i>'.html_safe, settings_project_path(@project), class: 'btn btn-mini', rel: 'tooltip', title: 'Settings', data: { placement: 'right' } %></div>
+      <div>
+        <span style="font-size: 20px;font-weight:200;"><%= @project.name %></span>
+        <%= link_to '<i class="icon-cog"></i>'.html_safe, settings_project_path(@project), class: 'btn btn-mini', rel: 'tooltip', title: 'Settings', data: { placement: 'right' } %>
+      </div>
+
+      <div class="input-append" style="margin-top:5px">
+        <%= text_field_tag :project_search, params[:search], name: :search, class: 'span2 search-query' %>
+      </div>
+
+
       <ul class="nav nav-list nav-rounded" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
         <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
       </ul>

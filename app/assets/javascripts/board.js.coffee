@@ -65,8 +65,7 @@
 @selectBoard = (board_id) ->
   board = $('[data-object~="board-select"][data-board-id='+board_id+']')
 
-  $('#template_id').val('none')
-  $('[data-object~="template-select"]').parent().removeClass('active')
+  deselectTemplate()
 
   $('[data-object~="board-select"]').parent().removeClass('active')
   $(board).parent().addClass('active')
@@ -76,8 +75,7 @@
 @selectTag = (tag_id) ->
   tag = $('[data-object~="tag-select"][data-tag-id='+tag_id+']')
 
-  $('#template_id').val('none')
-  $('[data-object~="template-select"]').parent().removeClass('active')
+  deselectTemplate()
 
   $('[data-object~="tag-select"]').parent().removeClass('active')
   $(tag).parent().addClass('active')
@@ -147,6 +145,8 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="clear-tags"]', () ->
+      $('#project_search').val('')
+      $('#search').val('')
       $('[data-object~="tag-select"]').parent().removeClass('active')
       $('#tag_ids').val('')
       $("#stickies_search").submit()

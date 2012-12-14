@@ -168,6 +168,10 @@ jQuery ->
   )
 
   $(document).keydown( (e) ->
+    if e.target.id == "project_search" and e.which == 13
+      selectBoard('all') if templateSelected()
+      $("#search").val($("#project_search").val())
+      $('#stickies_search').submit()
     return if $("input, textarea").is(":focus")
     increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
     decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
