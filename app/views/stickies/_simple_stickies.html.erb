@@ -1,6 +1,6 @@
 <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width=""/><col width="40px"/><col width="80px"/><col width="100px"/>
 <% @stickies.each do |sticky| %>
-  <tr class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %> <%= 'info' if @sticky and @sticky.id == sticky.id %>" style="<%= 'font-weight:bold' if @sticky and @sticky.id == sticky.id %>">
+  <tr data-object="sticky-container" data-sticky-id="<%= sticky.id %>" class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %> <%= 'info' if @sticky and @sticky.id == sticky.id %>" style="<%= 'font-weight:bold' if @sticky and @sticky.id == sticky.id %>">
     <td data-link="<%= sticky_path(sticky) %>" data-remote="true" data-method="get" style="cursor:pointer;white-space:nowrap;overflow-x:hidden;">
       <div style="overflow:hidden">
         <span><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span> <%= strip_tags(sticky.description) %>

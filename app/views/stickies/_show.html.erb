@@ -34,7 +34,7 @@
     <%# if @sticky.group %>
       <%#= link_to 'Delete Sticky', '#', class: 'btn btn-mini btn-danger pull-left', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
     <%# else %>
-      <%= link_to "Delete Sticky", @sticky, method: :delete, class: 'btn btn-mini btn-danger pull-left', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+      <%= link_to "Delete Sticky", destroy_multiple_stickies_path(sticky_ids: @sticky.id), method: :post, remote: true, class: 'btn btn-mini btn-danger pull-left', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
     <%# end %>
 
   <% end %>

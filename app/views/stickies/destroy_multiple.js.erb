@@ -1,6 +1,8 @@
 <% @stickies.each do |sticky| %>
   $("#sticky_<%= sticky.id %>_row").fadeOut();
   $("#sticky_<%= sticky.id %>_row").remove();
+  $('[data-object~="sticky-container"][data-sticky-id=<%= sticky.id %>]').fadeOut();
+  $('[data-object~="sticky-container"][data-sticky-id=<%= sticky.id %>]').remove();
 <% end %>
 
 <% boards_projects = (@stickies.collect{|s| [s.board_id, s.project]} + @stickies.collect{|s| ['all', s.project]}).uniq %>
@@ -16,3 +18,4 @@
 
 setBoardNames();
 initializeCompletionButtons();
+hideStickyModal();
