@@ -1,6 +1,7 @@
 // $("#stickies_search").submit()
 // alert('different board')
 $("#sticky_<%= @sticky.id %>_row").fadeOut();
+$("#sticky_<%= @sticky.id %>_row").remove();
 
 <% @project = @sticky.project %>
 <% [@original_board, @sticky.board].each do |board| %>

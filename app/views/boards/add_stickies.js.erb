@@ -2,17 +2,22 @@
 
 if ($("#board_id").val().toString() != "<%= params[:board_id] %>" && $("#board_id").val().toString() != 'all'){
   $("<%= rows.join(', ') %>").fadeOut();
+  $("<%= rows.join(', ') %>").remove();
   $('[data-object~="sticky-checkbox"]:checked').removeAttr('checked');
   $('[data-object~="check-all-stickies"]').removeAttr('checked');
+} else {
+  <% @stickies.collect{|s| "#sticky_#{s.id}"}.each do |draggable| %>
+    $("<%= draggable %>").data('board-id', <%= params[:board_id] %>);
+  <% end %>
 }
 
 <% @board_ids.each do |board_id| %>
-  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-due-count',     '<%= @project.sticky_count(board_id, 'past_due') %>')
-  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-due-count',  '<%= @project.sticky_count(board_id, 'past_due', current_user) %>')
-  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('upcoming-count',     '<%= @project.sticky_count(board_id, 'upcoming') %>')
-  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-upcoming-count',  '<%= @project.sticky_count(board_id, 'upcoming', current_user) %>')
-  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('completed-count',    '<%= @project.sticky_count(board_id, 'completed') %>')
-  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-completed-count', '<%= @project.sticky_count(board_id, 'completed', current_user) %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id || '0' %>"]').data('past-due-count',     '<%= @project.sticky_count(board_id, 'past_due') %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id || '0' %>"]').data('my-past-due-count',  '<%= @project.sticky_count(board_id, 'past_due', current_user) %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id || '0' %>"]').data('upcoming-count',     '<%= @project.sticky_count(board_id, 'upcoming') %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id || '0' %>"]').data('my-upcoming-count',  '<%= @project.sticky_count(board_id, 'upcoming', current_user) %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id || '0' %>"]').data('completed-count',    '<%= @project.sticky_count(board_id, 'completed') %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id || '0' %>"]').data('my-completed-count', '<%= @project.sticky_count(board_id, 'completed', current_user) %>')
 <% end %>
 
 setBoardNames();

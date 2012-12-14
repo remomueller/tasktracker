@@ -45,6 +45,7 @@ Notes::Application.routes.draw do
       get :template
       get :calendar
       post :complete_multiple
+      post :destroy_multiple
     end
     member do
       post :popup

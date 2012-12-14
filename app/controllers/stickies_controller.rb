@@ -327,6 +327,19 @@ class StickiesController < ApplicationController
     end
   end
 
+  def destroy_multiple
+    @stickies = current_user.all_stickies.where(id: params[:sticky_ids].to_s.split(','))
+
+    respond_to do |format|
+      if @stickies.size > 0
+        @stickies.each{ |s| s.destroy }
+        format.js
+      else
+        format.js { render nothing: true }
+      end
+    end
+  end
+
   private
 
   def post_params

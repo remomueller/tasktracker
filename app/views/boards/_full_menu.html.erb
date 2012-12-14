@@ -9,7 +9,7 @@
   <li class="nav-header" style="cursor:pointer" data-object="create-board" data-url="<%= new_board_path(board: { project_id: @project.id }) %>">Boards</li>
   <%#= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
   <li class="<%= 'active' if params[:board_id].to_s == '0' %>" id="unarchived_boards">
-    <%= link_to 'Holding Pen', project_path(@project, board_id: 0), data: { object: 'board-select board-droppable', board_id: 0, board_name: 'Holding Pen', project_id: @project.id,
+    <%= link_to 'Holding Pen', project_path(@project, board_id: 0), data: { object: 'board-select board-droppable', board_id: 0, board_name: 'Holding Pen', project_id: @project.id, archived: false,
         past_due_count: @project.sticky_count(nil, 'past_due'), my_past_due_count: @project.sticky_count(nil, 'past_due', current_user),
         upcoming_count: @project.sticky_count(nil, 'upcoming'), my_upcoming_count: @project.sticky_count(nil, 'upcoming', current_user),
         completed_count: @project.sticky_count(nil, 'completed'), my_completed_count: @project.sticky_count(nil, 'completed', current_user) } %>
@@ -23,7 +23,7 @@
 
 <% unless archived %>
   <li class="<%= 'active' if params[:board_id] == 'all' %>">
-    <%= link_to 'All Stickies', project_path(@project, board_id: 'all'), data: { object: 'board-select', board_id: 'all', board_name: 'All Stickies',
+    <%= link_to 'All Stickies', project_path(@project, board_id: 'all'), data: { object: 'board-select', board_id: 'all', board_name: 'All Stickies', archived: false,
         past_due_count: @project.sticky_count('all', 'past_due'), my_past_due_count: @project.sticky_count('all', 'past_due', current_user),
         upcoming_count: @project.sticky_count('all', 'upcoming'), my_upcoming_count: @project.sticky_count('all', 'upcoming', current_user),
         completed_count: @project.sticky_count('all', 'completed'), my_completed_count: @project.sticky_count('all', 'completed', current_user) } %>

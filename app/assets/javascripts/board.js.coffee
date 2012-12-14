@@ -19,10 +19,8 @@
     hoverClass: "board-droppable-hover"
     tolerance: "pointer"
     drop: ( event, ui ) ->
-      sticky_id = ui.draggable.data('sticky-id')
       board_id = $(this).data('board-id')
       project_id = $(this).data('project-id')
-      # $.post(root_url + 'stickies/' + sticky_id + '/move_to_board', "board_id="+board_id, null, "script")
       sticky_ids = []
       $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
       $.post(root_url + 'boards/add_stickies', "project_id=#{project_id}&board_id=#{board_id}&sticky_ids=#{sticky_ids.join(',')}", null, "script")
@@ -104,7 +102,7 @@
   # Select the Holding Pen if an archived board was selected
   if $("[data-object~='board-select'][data-board-id='#{$("#board_id").val()}']").data('archived').toString() == 'true'
     $('[data-object~="board-select"]').parent().removeClass('active')
-    $('[data-object~="board-select"][data-board-id="0"]').click();
+    $('[data-object~="board-select"][data-board-id="0"]').click()
     $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
     $("#stickies_search").submit()
 

@@ -1,8 +1,10 @@
 <% if params[:use_template] == 'redesign' %>
+
   $("#stickies-or-templates").html("<%= escape_javascript(render("stickies_redesign")) %>");
   $('[rel~="tooltip"]').tooltip({ trigger: 'hover' });
   activateStickyDraggables();
   initializeCompletionButtons();
+
 <% else %>
   $("#stickies").html("<%= escape_javascript(render("stickies")) %>");
   $("#sticky_tag_selection_container").html("<%= escape_javascript(render("tags/multi_tag_selection")) %>");

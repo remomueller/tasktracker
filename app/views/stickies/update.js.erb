@@ -10,8 +10,9 @@ setBoardNames();
 activateBoardDraggables();
 activateBoardArchiveDroppable();
 activateBoardDroppables();
-$('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
 
+
+// $('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
 
 $("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
 showStickyModal();
