@@ -190,6 +190,7 @@ jQuery ->
       unless $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').is(':checked')
         $('[data-object~="sticky-checkbox"]').removeAttr('checked')
         $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').attr('checked','checked')
+        window.$lastStickyChecked = $(this).data('sticky-id')
         initializeCompletionButtons()
     )
     .on('click', '[data-object~="check-all-stickies"]', () ->
