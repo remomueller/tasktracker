@@ -121,7 +121,7 @@ class StickiesController < ApplicationController
       send_data @ics_string, type: 'text/calendar', disposition: "attachment; filename=\"stickies.ics\""
       return
     end
-    @stickies = sticky_scope.page(params[:page]).per(current_user.stickies_per_page)
+    @stickies = sticky_scope.page(params[:page]).per(params[:use_template] == 'redesign' ? 50 : current_user.stickies_per_page)
 
     respond_to do |format|
       format.html
