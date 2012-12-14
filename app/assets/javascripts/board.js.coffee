@@ -197,6 +197,7 @@ jQuery ->
         $('[data-object~="sticky-checkbox"]').attr('checked','checked')
       else
         $('[data-object~="sticky-checkbox"]').removeAttr('checked')
+      window.$lastStickyChecked = null
       initializeCompletionButtons()
     )
 

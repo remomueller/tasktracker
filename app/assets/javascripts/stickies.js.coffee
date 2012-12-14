@@ -241,7 +241,29 @@ jQuery ->
       $.post($(this).attr("href"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
       false
     )
-    .on('click', '[data-object~="sticky-checkbox"]', () ->
+    .on('click', '[data-object~="sticky-checkbox"]', (e) ->
+      last_checked = "#sticky_#{window.$lastStickyChecked}_row"
+      current_checked = "#sticky_#{$(this).data('sticky-id')}_row"
+
+      add_checks = $(this).is(':checked')
+
+      if e.shiftKey and $(last_checked).length > 0 and last_checked != current_checked
+        if $(current_checked).prevAll(last_checked).length != 0
+          if add_checks
+            $(current_checked).prevUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").attr('checked','checked')
+            $(last_checked).find("[data-object~='sticky-checkbox']").attr('checked','checked')
+          else
+            $(current_checked).prevUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").removeAttr('checked')
+            $(last_checked).find("[data-object~='sticky-checkbox']").removeAttr('checked')
+        else
+          if add_checks
+            $(current_checked).nextUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").attr('checked','checked')
+            $(last_checked).find("[data-object~='sticky-checkbox']").attr('checked','checked')
+          else
+            $(current_checked).nextUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").removeAttr('checked')
+            $(last_checked).find("[data-object~='sticky-checkbox']").removeAttr('checked')
+
+      window.$lastStickyChecked = $(this).data('sticky-id')
       initializeCompletionButtons()
     )
     .on('click', '[data-object~="delete-stickies"]', () ->
