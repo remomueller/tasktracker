@@ -318,3 +318,8 @@ span.rounded-borders {
   -moz-border-radius: 3px;
   border-radius: 3px;
 }
+
+.label-highlight {
+  background-color: #ffffd4;
+  color: #333;
+}
