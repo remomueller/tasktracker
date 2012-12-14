@@ -65,6 +65,8 @@
 @selectBoard = (board_id) ->
   board = $('[data-object~="board-select"][data-board-id='+board_id+']')
 
+  showArchivedBoards() if board.data('archived').toString() == 'true'
+
   deselectTemplate()
 
   $('[data-object~="board-select"]').parent().removeClass('active')
@@ -93,6 +95,26 @@
     selectBoard(data.board_id)
     $("#stickies_search").submit()
   false
+
+@hideArchivedBoards = () ->
+  archive_button = $('[data-object~="toggle-archived-boards"]')
+  $('[data-object~="board-select"][data-archived="true"]').hide()
+  $(archive_button).html("Show " + $(archive_button).data('message'))
+  $(archive_button).data('visible', false)
+  # Select the Holding Pen if an archived board was selected
+  if $("[data-object~='board-select'][data-board-id='#{$("#board_id").val()}']").data('archived').toString() == 'true'
+    $('[data-object~="board-select"]').parent().removeClass('active')
+    $('[data-object~="board-select"][data-board-id="0"]').click();
+    $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
+    $("#stickies_search").submit()
+
+
+@showArchivedBoards = () ->
+  archive_button = $('[data-object~="toggle-archived-boards"]')
+  $('[data-object~="board-select"][data-archived="true"]').show()
+  $(archive_button).html("Hide " + $(archive_button).data('message'))
+  $(archive_button).data('visible', true)
+
 
 if browserSupportsPushState
   $(window).bind("popstate", (e) ->
@@ -158,20 +180,9 @@ jQuery ->
     )
     .on('click', '[data-object~="toggle-archived-boards"]', () ->
       if $(this).data('visible')
-        $('[data-object~="board-select"][data-archived="true"]').hide()
-        $('[data-object~="board-select"]').parent().removeClass('active')
-        $('[data-object~="board-select"][data-board-id="0"]').click();
-        $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
-        $(this).html("Show " + $(this).data('message'))
-        $(this).data('visible', false)
+        hideArchivedBoards()
       else
-        $('[data-object~="board-select"][data-archived="true"]').show()
-        $('[data-object~="board-select"]').parent().removeClass('active')
-        $('[data-object~="board-select"][data-board-id="'+ $(this).data('board-id') + '"]').parent().addClass('active')
-        $('[data-object~="board-select"][data-board-id="'+$(this).data('board-id')+'"]').click();
-        $(this).html("Hide " + $(this).data('message'))
-        $(this).data('visible', true)
-      $("#stickies_search").submit()
+        showArchivedBoards()
       false
     )
     .on('click', '[data-object~="create-board"]', () ->
