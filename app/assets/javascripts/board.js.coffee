@@ -147,9 +147,13 @@ jQuery ->
     .on('click', '[data-object~="clear-tags"]', () ->
       $('#project_search').val('')
       $('#search').val('')
+      $('#group_search').val('')
       $('[data-object~="tag-select"]').parent().removeClass('active')
       $('#tag_ids').val('')
-      $("#stickies_search").submit()
+      if templateSelected()
+        $("#groups_search").submit()
+      else
+        $("#stickies_search").submit()
       false
     )
     .on('click', '[data-object~="toggle-archived-boards"]', () ->

@@ -15,12 +15,14 @@ class GroupsController < ApplicationController
 
     group_scope = group_scope.where(project_id: @project.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
 
+    group_scope = group_scope.where(template_id: params[:template_id]) unless params[:template_id].blank?
+
     @order = scrub_order(Group, params[:order], 'groups.id DESC')
     # @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : 'groups.id DESC'
     group_scope = group_scope.order(@order)
 
     @count = group_scope.count
-    @groups = (params[:use_template] == 'redesign' ? group_scope : group_scope.page(params[:page]).per(current_user.groups_per_page))
+    @groups = (params[:use_template] == 'redesign' ? group_scope.page(params[:page]).per(50) : group_scope.page(params[:page]).per(current_user.groups_per_page))
 
     respond_to do |format|
       format.html # index.html.erb
