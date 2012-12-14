@@ -23,9 +23,9 @@ class Group < ActiveRecord::Base
     "##{self.id}"
   end
 
-  def short_description
+  def short_description(fallback = "Group #{self.name}")
     result = self.description.to_s.split(/[\r\n]/).collect{|i| i.strip}.select{|i| not i.blank?}.first
-    result = "Group #{self.name}" unless result
+    result = fallback unless result
     result
   end
 

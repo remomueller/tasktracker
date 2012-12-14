@@ -1,5 +1,6 @@
 <% if params[:use_template] == 'redesign' %>
   $("#stickies-or-templates").html("<%= escape_javascript(render("groups_redesign")) %>");
+  if($('[data-object~="group-select"]').length > 0) $('[data-object~="group-select"]').first().click();
 <% else %>
   $("#groups").html("<%= escape_javascript(render("groups")) %>");
 <% end %>

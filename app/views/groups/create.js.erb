@@ -1,35 +1,43 @@
-$('#new-sticky-or-group-dialog').modal('hide');
-$('#group_template_id').val('');
-$('#group_template_id').change();
-$('.error').removeClass('error');
+<% if params[:use_template] == 'redesign' %>
+  $("#search").val("<%= @group.short_description('') %>");
+  $("#project_search").val("<%= @group.short_description('') %>");
+  $("#group_search").val("<%= @group.short_description('') %>");
+  $('[data-object~="template-select"][data-template-id~=<%= @group.template_id %>]').click();
+  hideStickyModal();
+<% else %>
+  $('#new-sticky-or-group-dialog').modal('hide');
+  $('#group_template_id').val('');
+  $('#group_template_id').change();
+  $('.error').removeClass('error');
 
-<% @group.stickies.each do |sticky| %>
-  <% @sticky = sticky %>
+  <% @group.stickies.each do |sticky| %>
+    <% @sticky = sticky %>
 
-  <%# TODO Refactor: Copied from stickies/create.js.erb %>
-  old_element = $("#sticky_<%= @sticky.id %>_popup")
-  if(old_element.parent().children(".sticky_popup").size() == 1){
-    old_element.parent().remove();
-  }else{
-    old_element.remove();
-  }
-
-  <% unless @sticky.due_date.blank? %>
-    var tag_container = $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>");
-
-    if(tag_container.length > 0){
-      $(tag_container).append("<%= escape_javascript(render("stickies/popup")) %>")
+    <%# TODO Refactor: Copied from stickies/create.js.erb %>
+    old_element = $("#sticky_<%= @sticky.id %>_popup")
+    if(old_element.parent().children(".sticky_popup").size() == 1){
+      old_element.parent().remove();
     }else{
-      $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>").append("<div style='padding-bottom:5px' id='day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>'><%= @tags = @sticky.tags; escape_javascript(render("tags/small_tags")) %><%= escape_javascript(render("stickies/popup")) %></div>")
+      old_element.remove();
     }
 
-    $("#sticky_<%= @sticky.id %>_popup").effect("highlight", {}, 3000);
+    <% unless @sticky.due_date.blank? %>
+      var tag_container = $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>");
+
+      if(tag_container.length > 0){
+        $(tag_container).append("<%= escape_javascript(render("stickies/popup")) %>")
+      }else{
+        $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>").append("<div style='padding-bottom:5px' id='day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>'><%= @tags = @sticky.tags; escape_javascript(render("tags/small_tags")) %><%= escape_javascript(render("stickies/popup")) %></div>")
+      }
+
+      $("#sticky_<%= @sticky.id %>_popup").effect("highlight", {}, 3000);
+    <% end %>
+    $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.color(current_user) %>');
+    <%# END TODO %>
   <% end %>
-  $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.color(current_user) %>');
-  <%# END TODO %>
+
+  activateCalendarStickyPopups();
+
+  <%# Launch a refresh of the sticky search %>
+  $("#stickies_search").submit();
 <% end %>
-
-activateCalendarStickyPopups();
-
-<%# Launch a refresh of the sticky search %>
-$("#stickies_search").submit();
