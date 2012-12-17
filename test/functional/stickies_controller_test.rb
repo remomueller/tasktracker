@@ -294,7 +294,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
     assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
-    assert_template 'create'
+    assert_template 'update'
     assert_response :success
   end
 
@@ -442,7 +442,7 @@ class StickiesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sticky)
     assert_equal Time.local(2012, 3, 7, 0, 0, 0), assigns(:sticky).due_date
-    assert_template 'create'
+    assert_template 'update'
     assert_response :success
   end
 
@@ -461,7 +461,7 @@ class StickiesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sticky)
     assert_equal "03/07/2012 09:00", assigns(:sticky).due_date.strftime("%m/%d/%Y %H:%M")
-    assert_template 'create'
+    assert_template 'update'
     assert_response :success
   end
 
@@ -470,7 +470,7 @@ class StickiesControllerTest < ActionController::TestCase
 
     assert_not_nil assigns(:sticky)
     assert_equal stickies(:viewable_by_valid).due_date, assigns(:sticky).due_date
-    assert_template 'create'
+    assert_template 'update'
     assert_response :success
   end
 

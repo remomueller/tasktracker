@@ -68,7 +68,8 @@ class Sticky < ActiveRecord::Base
   end
 
   def modifiable_by?(current_user)
-    current_user.all_projects.pluck(:id).include?(self.project_id)
+    # current_user.all_projects.pluck(:id).include?(self.project_id)
+    self.project_id.blank? or self.project.modifiable_by?(current_user)
   end
 
   def due_at_string

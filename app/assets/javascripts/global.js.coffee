@@ -1,43 +1,5 @@
 
 # Global functions referenced from HTML
-@increaseSelectedIndex = (element, el_out) ->
-  element = $(element)
-  num_options = element.find('option').size()
-
-  new_index = element.prop('selectedIndex') - 1
-  new_index = num_options - 1 if new_index < 0
-
-  element.prop('selectedIndex', new_index)
-
-  mute_front = ""
-  mute_back = ""
-  if new_index == 0
-    mute_front = "<span class='muted'>"
-    mute_back = "</span>"
-
-  $(el_out).html(mute_front + $(element).find('option:selected').text() + mute_back + " <span class='caret'></span>")
-  $('#direction').val(-1)
-  element.change()
-
-@decreaseSelectedIndex = (element, el_out) ->
-  element = $(element)
-  num_options = element.find('option').size()
-
-  new_index = element.prop('selectedIndex') + 1
-  new_index = 0 if new_index >= num_options
-
-  element.prop('selectedIndex', new_index)
-
-  mute_front = ""
-  mute_back = ""
-  if new_index == 0
-    mute_front = "<span class='muted'>"
-    mute_back = "</span>"
-
-  $(el_out).html(mute_front + $(element).find('option:selected').text() + mute_back + " <span class='caret'></span>")
-  $('#direction').val(1)
-  element.change()
-
 @checkAllWithSelector = (selector) ->
   elements = $(selector).each( () ->
     $(this).attr('checked','checked')
@@ -179,6 +141,8 @@ jQuery ->
     return if $("input, textarea").is(":focus")
     increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
     decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
+    goBackOneMonth() if e.which == 37
+    goForwardOneMonth() if e.which == 39
     if $("#sticky-backdrop").is(':visible')
       hideStickyModal()               if e.which == 27
     else

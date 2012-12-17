@@ -35,11 +35,12 @@ class Comment < ActiveRecord::Base
   end
 
   def modifiable_by?(current_user)
-    current_user.all_projects.pluck(:id).include?(self.sticky.project_id)
+    # current_user.all_projects.pluck(:id).include?(self.sticky.project_id)
+    self.sticky.project.modifiable_by?(current_user)
   end
 
   def deletable_by?(current_user)
-    self.modifiable_by?(current_user) or self.user == current_user
+    self.user == current_user or self.modifiable_by?(current_user)
   end
 
   private

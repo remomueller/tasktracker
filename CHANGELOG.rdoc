@@ -10,6 +10,8 @@
         * Upcoming: Not completed sorted by due date ascending, (today into the future)
         * Direction of these views can be reversed, useful to see stickies with no due date assigned
       * Stickies can be dragged onto different boards
+  * Calendar changes
+    * Sticky editing and viewing from the calendar has changed to use an redesigned popup similar to the one used on the new project page
   * Sticky changes
     * Multiple stickies completed at once will now send out a single email per user
   * Updated to Contour 1.1.2.pre

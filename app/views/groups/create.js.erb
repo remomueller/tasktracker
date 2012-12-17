@@ -1,11 +1,4 @@
-<% if params[:use_template] == 'redesign' %>
-  $("#search").val("<%= @group.short_description('') %>");
-  $("#project_search").val("<%= @group.short_description('') %>");
-  $("#group_search").val("<%= @group.short_description('') %>");
-  $('[data-object~="template-select"][data-template-id~=<%= @group.template_id %>]').click();
-  hideStickyModal();
-<% else %>
-  $('#new-sticky-or-group-dialog').modal('hide');
+<% if params[:from_calendar] == '1' %>
   $('#group_template_id').val('');
   $('#group_template_id').change();
   $('.error').removeClass('error');
@@ -40,4 +33,11 @@
 
   <%# Launch a refresh of the sticky search %>
   $("#stickies_search").submit();
+<% else %>
+  $("#search").val("<%= @group.short_description('') %>");
+  $("#project_search").val("<%= @group.short_description('') %>");
+  $("#group_search").val("<%= @group.short_description('') %>");
+  $('[data-object~="template-select"][data-template-id~=<%= @group.template_id %>]').click();
 <% end %>
+
+hideStickyModal();

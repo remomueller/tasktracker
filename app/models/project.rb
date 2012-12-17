@@ -53,13 +53,19 @@ class Project < ActiveRecord::Base
     SITE_URL + "/projects/#{self.id}"
   end
 
-  # def incomplete_count(board = "all", filter = 'past_due', user = nil)
-  #   scope = stickies.where(completed: false)
-  #   scope = (filter == 'past_due' ? scope.due_date_before_or_blank(Date.today) : scope.due_date_after_or_blank(Date.today))
-  #   scope = scope.where(board_id: board) if board != 'all' # Holding Pen
-  #   scope = scope.with_owner(user.id) if user
-  #   scope.count
-  # end
+  def modifiable_by?(current_user)
+    # current_user.all_projects.pluck(:id).include?(self.id)
+    @modifiable_by ||= begin
+      Project.current.with_user(current_user.id, true).where(id: self.id).count == 1
+    end
+  end
+
+  def viewable_by?(current_user)
+    # current_user.all_viewable_projects.pluck(:id).include?(self.id)
+    @viewable_by ||= begin
+      Project.current.with_user(current_user.id, [true, false]).where(id: self.id).count == 1
+    end
+  end
 
   def sticky_count(board = "all", filter = 'completed', user = nil)
     scope = stickies.where(completed: (filter == 'completed'))

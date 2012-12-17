@@ -23,18 +23,18 @@
   <%= link_to 'Close', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
 
   <% if @sticky.modifiable_by?(current_user) %>
-    <%= link_to 'Edit', edit_sticky_path(@sticky), method: :get, remote: true, class: 'btn btn-mini pull-right', style: 'margin-right:5px' %>
+    <%= link_to 'Edit', edit_sticky_path(@sticky, from_calendar: params[:from_calendar]), method: :get, remote: true, class: 'btn btn-mini pull-right', style: 'margin-right:5px' %>
 
     <% if @sticky.completed? %>
-      <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, use_template: 'redesign', undo: 'true'), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+      <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, use_template: 'redesign', undo: 'true', from_calendar: params[:from_calendar]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
     <% else %>
-      <%= link_to 'Mark Completed', complete_sticky_path(@sticky, use_template: 'redesign'), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+      <%= link_to 'Mark Completed', complete_sticky_path(@sticky, use_template: 'redesign', from_calendar: params[:from_calendar]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
     <% end %>
 
     <%# if @sticky.group %>
       <%#= link_to 'Delete Sticky', '#', class: 'btn btn-mini btn-danger pull-left', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
     <%# else %>
-      <%= link_to "Delete Sticky", destroy_multiple_stickies_path(sticky_ids: @sticky.id), method: :post, remote: true, class: 'btn btn-mini btn-danger pull-left', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+      <%= link_to "Delete Sticky", destroy_multiple_stickies_path(sticky_ids: @sticky.id, from_calendar: params[:from_calendar]), method: :post, remote: true, class: 'btn btn-mini btn-danger pull-left', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
     <%# end %>
 
   <% end %>

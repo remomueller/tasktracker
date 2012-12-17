@@ -1,5 +1,10 @@
 <% @title = 'Calendar' %>
 
+<div style="display:none">
+  <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' %>
+  <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' %>
+</div>
+
 <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :save_settings, '1' %>
   <div class="row" style="margin-top:-10px">
@@ -40,8 +45,15 @@
   </div>
 <% end %>
 
-<div id="month-breakdown" class="board" style="min-height:565px;">
-  <center><%= image_tag "contour/ajax-loader.gif" %></center>
+<div class="row">
+  <div class="span12">
+    <div id="sticky_modal_wrapper">
+      <div id="sticky_modal_container" class="sticky-modal"></div>
+    </div>
+    <div id="month-breakdown" class="board" style="min-height:565px;">
+      <center><%= image_tag "contour/ajax-loader.gif" %></center>
+    </div>
+  </div>
 </div>
 
 <div id="sticky_group_dialog_container">

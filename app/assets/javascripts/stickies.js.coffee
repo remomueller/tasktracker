@@ -106,7 +106,8 @@
   else
     $('#initial_due_date').val(selected_date)
     $('#sticky_due_date').val(selected_date)
-    $('#new-sticky-or-group-dialog').modal( dynamic: true )
+    # $('#new-sticky-or-group-dialog').modal( dynamic: true )
+    $.get(root_url + "stickies/new", "sticky[due_date]=#{selected_date}&from_calendar=1", null, "script")
 
 @markCompletion = (sticky_id, completed) ->
   if completed
@@ -116,6 +117,16 @@
     $("#sticky_#{sticky_id}_row").removeClass('sticky-completed')
     $("#sticky_#{sticky_id}_row").addClass('sticky-not-completed')
   $("[data-object~='sticky-checkbox'][data-sticky-id='#{sticky_id}']").data('completed', completed)
+
+@markCalendarCompletion = (sticky_id, completed, icon_html) ->
+  if completed
+    $("#sticky_#{sticky_id}_name").css('text-decoration', 'line-through');
+    $("#sticky_#{sticky_id}_icon").html(icon_html);
+    # $("#sticky_#{sticky_id}_description").css('color', '#999');
+  else
+    $("#sticky_#{sticky_id}_name").css('text-decoration', 'none');
+    $("#sticky_#{sticky_id}_icon").html(icon_html);
+    # $("#sticky_#{sticky_id}_description").css('color', 'inherit');
 
 @initializeCompletionButtons = () ->
   stickies_completed = []
@@ -156,13 +167,6 @@ jQuery ->
     )
 
   $(document)
-    .keydown( (e) ->
-      if $("input, textarea").is(":focus") then return
-      if e.which == 37
-        goBackOneMonth()
-      if e.which == 39
-        goForwardOneMonth()
-    )
     .on('click', '[data-object~="sticky-toggle"]', () ->
       toggleSticky($(this).data('target'))
       false

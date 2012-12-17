@@ -1,18 +1,52 @@
-$("#scope").val('<%= @sticky.panel %>');
+<% if params[:from_calendar] == '1' %>
 
-<% params[:board_id] = @sticky.board_id || '0' %>
-<% @project = @sticky.project %>
+  <%# TODO Refactor: Following copied to groups/create.js.erb %>
+  <% unless @sticky.due_date.blank? %>
 
-$("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
-$("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: true }) %>")
+    old_element = $("#sticky_<%= @sticky.id %>_popup")
+    if(old_element.parent().children(".sticky_popup").size() == 1){
+      old_element.parent().remove();
+    }else{
+      old_element.remove();
+    }
 
-setBoardNames();
-activateBoardDraggables();
-activateBoardArchiveDroppable();
-activateBoardDroppables();
+    var tag_container = $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>");
+
+    if(tag_container.length > 0){
+      $(tag_container).append("<%= escape_javascript(render("stickies/popup")) %>")
+    }else{
+      $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>").append("<div style='padding-bottom:5px' id='day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>'><%= @tags = @sticky.tags; escape_javascript(render("tags/small_tags")) %><%= escape_javascript(render("stickies/popup")) %></div>")
+    }
+
+    $("#sticky_<%= @sticky.id %>_popup").effect("highlight", {}, 3000);
+  <% end %>
+  $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.color(current_user) %>');
+  <%# END TODO %>
 
 
-// $('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
+  activateCalendarStickyPopups();
 
-$("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
-showStickyModal();
+  <%# Launch a refresh of the sticky search %>
+  $("#stickies_search").submit();
+
+<% else %>
+  $("#scope").val('<%= @sticky.panel %>');
+
+  <% params[:board_id] = @sticky.board_id || '0' %>
+  <% @project = @sticky.project %>
+
+  $("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
+  $("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: true }) %>")
+
+  setBoardNames();
+  activateBoardDraggables();
+  activateBoardArchiveDroppable();
+  activateBoardDroppables();
+<% end %>
+
+<% if params[:hide_show] == '1' %>
+  hideStickyModal();
+<% else %>
+  $("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
+  showStickyModal();
+<% end %>

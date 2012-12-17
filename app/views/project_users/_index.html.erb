@@ -1,5 +1,5 @@
 <span>
-  <% if current_user.all_projects.include?(@project) %>
+  <% if @project.modifiable_by?(current_user) %>
     <%= form_tag project_users_path(project_user: { project_id: @project.id, allow_editing: @relation == 'editors' }), method: :post, remote: true, style: 'display:inline', class: 'form-search' do %>
       <b><%= @relation.humanize %><br /></b>
       <%= text_field_tag "#{@relation}_text", '', style: "width:300px;", data: { provide: "typeahead", items: 5, source: current_user.associated_users.collect{|user| "#{user.name} [#{user.email}]" }.to_json } %>
@@ -23,7 +23,7 @@
       </span>
     <% end %>
     <span id="project_user_<%= project_user.id %>_delete" style="display:none">
-      <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove #{project_user.user ? project_user.user.name : project_user.invite_email} from the list of #{@relation}?" } if current_user.all_projects.include?(@project) or (current_user.all_viewable_projects.include?(@project) and current_user == project_user.user) %>
+      <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to remove #{project_user.user ? project_user.user.name : project_user.invite_email} from the list of #{@relation}?" } if @project.modifiable_by?(current_user) or (@project.viewable_by?(current_user) and current_user == project_user.user) %>
     </span>
   </li>
 <% end %>

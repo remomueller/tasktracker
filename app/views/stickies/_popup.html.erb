@@ -25,7 +25,7 @@
         <td style="margin:0px;padding:0px">
           <b><%= @sticky.due_at_string_short %></b>
           <span id="sticky_<%= @sticky.id %>_name">
-            <%= link_to @sticky.description.truncate(27), edit_sticky_path(@sticky, from_calendar: 1), class: "project_#{@sticky.project_id}_color", style: (@sticky.completed? ? 'text-decoration:line-through' : '') %>
+            <%= link_to @sticky.description.truncate(27), sticky_path(@sticky, from_calendar: '1'), remote: true, method: :get, class: "project_#{@sticky.project_id}_color", style: (@sticky.completed? ? 'text-decoration:line-through' : '') %>
           </span>
         </td>
       </tr>

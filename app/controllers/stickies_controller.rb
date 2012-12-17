@@ -185,14 +185,8 @@ class StickiesController < ApplicationController
       if @sticky.save
         @sticky.send_email_if_recently_completed(current_user)
         flash[:notice] = 'Sticky was successfully created.'
-        if params[:from_calendar] == '1'
-          # redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
-          # Will render create.js instead
-          format.js { render 'create' }
-        else
-          format.js { render 'update' } # Update handles board reloading
-          format.html { redirect_to @sticky }
-        end
+        format.html { redirect_to @sticky }
+        format.js { render 'update' } # Update handles board/calendar reloading
         format.json { render json: @sticky, status: :created, location: @sticky }
       else
         @project_id = @sticky.project_id
@@ -204,6 +198,8 @@ class StickiesController < ApplicationController
   end
 
   def move
+    params[:from_calendar] = '1'
+    params[:hide_show] = '1'
     params[:due_date] = parse_date(params[:due_date])
 
     @sticky = current_user.all_stickies.find_by_id(params[:id])
@@ -223,7 +219,7 @@ class StickiesController < ApplicationController
       if @group = @sticky.group
         render 'groups/create'
       else
-        render 'create'
+        render 'update'
       end
     else
       render nothing: true

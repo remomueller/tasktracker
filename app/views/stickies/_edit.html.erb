@@ -8,7 +8,7 @@
 
     </td>
     <td style="vertical-align:top;text-align:right">
-      <%= link_to 'New Group'.html_safe, new_group_path(group: { project_id: @sticky.project_id, board_id: @sticky.board_id }), method: :get, remote: true if @sticky.new_record? %>
+      <%= link_to 'New Group'.html_safe, new_group_path(group: { project_id: @sticky.project_id, board_id: @sticky.board_id }, from_calendar: params[:from_calendar]), method: :get, remote: true if @sticky.new_record? %>
     </td>
   </tr>
 </table>
@@ -21,7 +21,7 @@
 
 <%= form_for(@sticky, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f| %>
   <%= hidden_field_tag :use_template, 'redesign' %>
-  <%= params[:from_calendar] = '0'; render partial: 'stickies/inner_form', locals: { f: f } %>
+  <%= render partial: 'stickies/inner_form', locals: { f: f } %>
 
   <div style="margin-top:35px;">
     <% if @sticky.new_record? %>

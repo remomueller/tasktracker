@@ -15,14 +15,6 @@ jQuery ->
       $($(this).data('target')).modal({ dynamic: true })
       false
     )
-    # .on('click', '[data-object~="boards-previous"]', () ->
-    #   increaseSelectedIndex('#board_id', '#board_name')
-    #   false
-    # )
-    # .on('click', '[data-object~="boards-next"]', () ->
-    #   decreaseSelectedIndex('#board_id', '#board_name')
-    #   false
-    # )
     # .on('click', '[data-object~="boards-select"]', () ->
     #   $('#board_name').html($(this).data('board-name'))
     #   $('#board_id').val($(this).data('board-id'))
