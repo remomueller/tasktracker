@@ -124,31 +124,32 @@ jQuery ->
     false
   )
 
-  $("#sticky_project_id").change( () ->
-    $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_board_id").serialize(), null, "script")
-    false
-  )
-
-  $(document).keydown( (e) ->
-    if e.target.id == "project_search" and e.which == 13
-      $("#search").val($("#project_search").val())
-      $("#group_search").val($("#project_search").val())
-      if templateSelected()
-        $("#groups_search").submit()
+  $(document)
+    .keydown( (e) ->
+      if e.target.id == "project_search" and e.which == 13
+        $("#search").val($("#project_search").val())
+        $("#group_search").val($("#project_search").val())
+        if templateSelected()
+          $("#groups_search").submit()
+        else
+          # selectBoard('all')
+          $('#stickies_search').submit()
+      return if $("input, textarea").is(":focus")
+      increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
+      decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
+      goBackOneMonth() if e.which == 37
+      goForwardOneMonth() if e.which == 39
+      if $("#sticky-backdrop").is(':visible')
+        hideStickyModal()               if e.which == 27
       else
-        # selectBoard('all')
-        $('#stickies_search').submit()
-    return if $("input, textarea").is(":focus")
-    increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
-    decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
-    goBackOneMonth() if e.which == 37
-    goForwardOneMonth() if e.which == 39
-    if $("#sticky-backdrop").is(':visible')
-      hideStickyModal()               if e.which == 27
-    else
-      $('#new-sticky-button').click() if e.which == 83
-      $('#new-group-button').click()  if e.which == 71
-  )
+        $('#new-sticky-button').click() if e.which == 83
+        $('#new-group-button').click()  if e.which == 71
+    )
+    .on('change', "#sticky_project_id", () ->
+      $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_board_id").serialize(), null, "script")
+      false
+    )
+
 
   loadColorSelectors()
 
