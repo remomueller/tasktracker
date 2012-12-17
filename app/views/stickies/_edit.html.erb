@@ -19,11 +19,11 @@
 <%# @sticky.project = current_user.all_projects.first if current_user.all_projects.size == 1 %>
 <%# @project_id = @sticky.project_id %>
 
-<%= form_for(@sticky, remote: true, html: { class: 'form-horizontal' }) do |f| %>
+<%= form_for(@sticky, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f| %>
   <%= hidden_field_tag :use_template, 'redesign' %>
   <%= params[:from_calendar] = '0'; render partial: 'stickies/inner_form', locals: { f: f } %>
 
-  <div style="height:30px; margin-top:35px;">
+  <div style="margin-top:35px;">
     <% if @sticky.new_record? %>
       <%= link_to 'Cancel', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
     <% else %>
