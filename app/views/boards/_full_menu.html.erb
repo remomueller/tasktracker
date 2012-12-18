@@ -6,7 +6,7 @@
     style="cursor:pointer"
     ><%= (boards_visible ? 'Hide' : 'Show') + " #{@project.boards.where(archived: true).size} Archived" %></li>
 <% else %>
-  <li class="nav-header" <%= 'style="cursor:pointer" data-object="create-board"'.html_safe if @project.modifiable_by?(current_user) %> data-url="<%= new_board_path(board: { project_id: @project.id }) %>">Boards</li>
+  <li class="nav-header" style="cursor:pointer" data-link="<%= boards_path( project_id: @project.id ) %>">Boards</li>
   <%#= link_to 'Create Board', new_board_path(board: { project_id: @project.id }), class: 'btn btn-mini btn-block' %>
   <li class="<%= 'active' if params[:board_id].to_s == '0' %>" id="unarchived_boards">
     <%= link_to 'Holding Pen', project_path(@project, board_id: 0), data: { object: 'board-select board-droppable', board_id: 0, board_name: 'Holding Pen', project_id: @project.id, archived: false,

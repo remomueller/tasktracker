@@ -225,6 +225,7 @@ jQuery ->
     )
     .on('click', '[data-object~="shift-sticky"]', () ->
       completeStickyGroupMove($(this).data('shift'))
+      false
     )
     .on('click', "[data-link]", (e) ->
       if nonStandardClick(e)

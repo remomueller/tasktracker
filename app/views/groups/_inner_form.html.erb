@@ -1,3 +1,5 @@
+<%= hidden_field_tag 'from_calendar', params[:from_calendar].to_i %>
+
 <div class="control-group">
   <%= f.label :project_id, nil, class: 'control-label' %>
   <div class="controls">
@@ -18,19 +20,15 @@
 </div>
 
 <div class="control-group">
-  <%= label_tag :initial_due_date, 'Initial Due Date', class: 'control-label' %>
+  <%= f.label :initial_due_date, 'Initial Due Date', class: 'control-label' %>
   <div class="controls">
-    <%= text_field_tag :initial_due_date, '', class: 'datepicker' %>
+    <%= f.text_field :initial_due_date, '', class: 'datepicker' %>
   </div>
 </div>
 
 <div class="control-group">
-  <%= label_tag :additional_text, 'Additional Text', class: 'control-label' %>
+  <%= f.label :description, nil, class: 'control-label' %>
   <div class="controls">
-    <%= text_area_tag :additional_text, '', rows: 7, style: 'width:95%' %>
+    <%= f.text_area :description, '', rows: 7, style: 'width:95%' %>
   </div>
 </div>
-
-<% if false %> <%# Moved to _new_redesign.html.erb %>
-<div id="item_details"></div>
-<% end %>

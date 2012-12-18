@@ -8,7 +8,7 @@
 
     </td>
     <td style="vertical-align:top;text-align:right">
-      <%= link_to 'New Group'.html_safe, new_group_path(group: { project_id: @sticky.project_id, board_id: @sticky.board_id }, from_calendar: params[:from_calendar]), method: :get, remote: true if @sticky.new_record? %>
+      <%= link_to 'New Group'.html_safe, new_group_path(group: { project_id: @sticky.project_id, board_id: @sticky.board_id }, from_calendar: params[:from_calendar]), method: :get, remote: true if @sticky.new_record? and current_user.all_templates.size > 0 %>
     </td>
   </tr>
 </table>

@@ -69,15 +69,14 @@ class GroupsController < ApplicationController
   end
 
   def create
-    params[:initial_due_date] = parse_date(params[:initial_due_date], Date.today)
-    @template = current_user.all_templates.find_by_id(params[:template_id])
-    @board = (@template ? @template.project.boards.find_by_id(params[:board_id]) : nil)
-    @board_id = @board.id if @board
-    board_name = (@board ? @board.name + ' - ' + @board.short_time : 'Holding Pen')
+    group_params = post_params
+
+    @template = current_user.all_templates.find_by_id(group_params[:template_id])
+
     if @template
-      @group = @template.generate_stickies!(current_user, @board_id, params[:initial_due_date], params[:additional_text])
+      @group = @template.generate_stickies!(current_user, group_params[:board_id], group_params[:initial_due_date], group_params[:description])
       respond_to do |format|
-        format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{board_name}." }
+        format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{(@board ? @board.name : 'Holding Pen')}." }
         format.js { render "create" }
         format.json { render json: @group }
       end
@@ -130,8 +129,29 @@ class GroupsController < ApplicationController
       params[:group][:project_id] = project ? project.id : nil
     end
 
+    if project and params[:create_new_board] == '1'
+      if params[:group_board_name].to_s.strip.blank?
+        params[:group][:board_id] = nil
+      else
+        @board = project.boards.find_or_create_by_name(params[:group_board_name].to_s.strip, { user_id: current_user.id })
+        params[:group][:board_id] = @board.id
+      end
+    elsif project
+      @board = project.boards.find_by_id(params[:group][:board_id])
+    end
+
+    params[:group][:board_id] = (@board ? @board.id : nil)
+
+    params[:group][:initial_due_date] = if params[:initial_due_date].blank?    # TODO Remove/simplify
+      parse_date(params[:group][:initial_due_date], Date.today)
+    else
+      parse_date(params[:initial_due_date], Date.today)
+    end
+    params[:group][:description] = params[:additional_text] unless params[:additional_text].blank?  # TODO Remove/simplify
+    params[:group][:template_id] = params[:template_id] unless params[:template_id].blank?             # TODO Remove/simplify
+
     params[:group].slice(
-      :description, :project_id, :board_id, :template_id
+      :description, :project_id, :board_id, :template_id, :initial_due_date
     )
   end
 end

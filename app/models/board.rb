@@ -1,9 +1,10 @@
 class Board < ActiveRecord::Base
   attr_accessible :name, :description, :start_date, :end_date, :archived, :project_id, :user_id
 
+  # Concerns
+  include Searchable, Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| {conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :active_today, lambda { |*args| { conditions: ["boards.start_date <= DATE(?) and boards.end_date >= DATE(?)", Date.today, Date.today] } }
   scope :active_date, lambda { |*args| { conditions: ["boards.start_date <= DATE(?) and boards.end_date >= DATE(?)", args.first, args.first] } }
 
@@ -17,8 +18,8 @@ class Board < ActiveRecord::Base
   has_many :stickies, conditions: { deleted: false }
 
   def destroy
-    update_column :deleted, true
     self.stickies.update_all(board_id: nil)
+    super
   end
 
   def short_time

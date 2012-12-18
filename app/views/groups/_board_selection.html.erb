@@ -6,8 +6,16 @@
     <% board_groups = [] %>
     <% board_groups << ["Current", boards.where(archived: false).natural_sort] if boards.where(archived: false).size > 0 %>
     <% board_groups << ["Archived", boards.where(archived: true).natural_sort] if boards.where(archived: true).size > 0 %>
-    <%= select_tag :group_board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, @group.board_id), name: 'board_id' %>
+    <div id="board_id_container">
+      <%= select :group, :board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, @group.board_id) %>
+      <%= link_to '+', '#', data: { object: 'create-new-board' }, class: 'btn btn-mini' %>
+    </div>
+    <div id="board_name_container" style="display:none">
+      <%= hidden_field_tag "create_new_board", 0 %>
+      <%= text_field_tag "group_board_name", '', placeholder: 'Enter new board name', autocomplete: "off", data: { provide: 'typeahead', source: boards.collect{|b| b.name}.to_json } %>
+      <%= link_to 'cancel', '#', data: { object: 'show-existing-boards' }, class: 'btn btn-mini' %>
+    </div>
   <% else %>
-    <%= hidden_field_tag :group_board_id, nil, name: 'board_id' %>
+    <%= hidden_field :group, :board_id %>
   <% end %>
 </div>

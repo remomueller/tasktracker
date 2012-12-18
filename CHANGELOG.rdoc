@@ -1,7 +1,7 @@
 == 0.24.0
 
 * Enhancements
-  * Project changes
+  * Project Changes
     * Major rework of the project show page to better reflect boards and tags
       * This rework is aimed at improving the flexibility of the project page in order to discourage users from using stickies index
       * Contains three views
@@ -10,10 +10,12 @@
         * Upcoming: Not completed sorted by due date ascending, (today into the future)
         * Direction of these views can be reversed, useful to see stickies with no due date assigned
       * Stickies can be dragged onto different boards
-  * Calendar changes
+  * Calendar Changes
     * Sticky editing and viewing from the calendar has changed to use an redesigned popup similar to the one used on the new project page
-  * Sticky changes
+  * Sticky Changes
     * Multiple stickies completed at once will now send out a single email per user
+  * Group Changes
+    * New Boards can now be created when creating a group
   * Updated to Contour 1.1.2.pre
 
 * Bug Fix
@@ -117,7 +119,7 @@
   * Daily digest emails are now available for users who prefer a digest of the previous day included stickies added, completed, and comments made
   * Stickies can now be reassigned to another user in bulk from the project page
   * Users can now be added by email to projects without requiring the user to be signed up
-  * Calendar Changes:
+  * Calendar Changes
     * Calendar filters have been simplified and given a consistent look
     * Sticky popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
     * Dragging grouped stickies on the calendar now prompts whether to move the invidual sticky, all incomplete stickies in the group, or all the stickies in the group
@@ -127,20 +129,20 @@
 * Enhancements
   * Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
   * The About page now references the Task Tracker forum and contact information
-  * Sticky Changes:
+  * Sticky Changes
     * Creating a group of stickies from the project page now refreshes and shows the newly created stickies
     * Cleaned up lists of stickies by changing how they expand when clicking on them
-  * Template Changes:
+  * Template Changes
     * Boards and Templates now require unique names per project
     * Templates can now be copied
       * Note: Tags and owners aren't copied to new templates
     * Compact editing of templates added
       * Template items can be reordered by dragging stickies
     * Generating a new group from a template now requires the project to be specified to limit the number of templates that are displayed
-  * Email Changes:
+  * Email Changes
     * Default application name is now added to the from: field for emails
     * Email subjects no longer include the application name
-  * New Registration Changes:
+  * New Registration Changes
     * Users without projects will now be prompted when they view the calendar to create a project
     * Default new user settings updated to also show completed stickies
 

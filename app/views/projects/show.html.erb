@@ -52,7 +52,7 @@
 
       <ul class="nav nav-list nav-rounded">
         <li class="divider"></li>
-        <li class="nav-header">Templates</li>
+        <li class="nav-header" style="cursor:pointer" data-link="<%= templates_path( project_id: @project.id ) %>">Templates</li>
         <% @project.templates.natural_sort.each do |template_name, template_id| %>
           <li class="<%= 'active' if params[:template_id].to_i == template_id %>">
             <%= link_to template_name, project_path(@project, template_id: template_id), data: { object: 'template-select', template_id: template_id } %>
@@ -60,11 +60,9 @@
         <% end %>
       </ul>
 
-      <%= link_to 'Create Template', new_template_path(template: { project_id: @project.id }), class: 'btn btn-mini btn-block' if @project.modifiable_by?(current_user) %>
-
       <ul class="nav nav-list nav-rounded">
         <li class="divider"></li>
-        <li class="nav-header">Tags</li>
+        <li class="nav-header" style="cursor:pointer" data-link="<%= tags_path( project_id: @project.id ) %>">Tags</li>
         <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
           <% tag = @project.tags.find_by_id(tag_id) %>
           <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
@@ -72,8 +70,6 @@
           </li>
         <% end %>
       </ul>
-
-      <%= link_to 'Create Tag', new_tag_path(tag: { project_id: @project.id }), class: 'btn btn-mini btn-block' if @project.modifiable_by?(current_user) %>
     </div>
   </div>
 

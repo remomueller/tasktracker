@@ -59,5 +59,11 @@ module Notes
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Following to be removed on updating to Rails 4.0 as it is default there
+    config.autoload_paths += %W(
+      #{config.root}/app/controllers/concerns
+      #{config.root}/app/models/concerns
+    )
   end
 end
