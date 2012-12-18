@@ -77,7 +77,7 @@
 </div>
 
 <div class="control-group">
-  <%= f.label :duration, class: 'control-label' %>
+  <%= f.label :duration, nil, class: 'control-label' %>
   <div class="controls">
     <%= f.number_field :duration, { min: 0 } %>
     <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units) %>
@@ -86,4 +86,11 @@
 
 <div id="tag_selection_container">
   <%= render partial: 'projects/tag_selection' %>
+</div>
+
+<div class="control-group">
+  <%= f.label :repeat, nil, class: 'control-label' %>
+  <div class="controls">
+    <%= f.select :repeat, Sticky::REPEAT %>
+  </div>
 </div>

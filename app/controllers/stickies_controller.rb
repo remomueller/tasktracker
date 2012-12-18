@@ -380,8 +380,10 @@ class StickiesController < ApplicationController
       end
     end
 
+    params[:sticky][:repeat] = ( Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none' ) unless params[:sticky][:repeat].blank?
+
     params[:sticky].slice(
-      :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids
+      :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat
     )
   end
 end

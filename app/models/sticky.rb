@@ -1,7 +1,14 @@
 class Sticky < ActiveRecord::Base
-  attr_accessible :description, :project_id, :owner_id, :board_id, :due_date, :group_id, :completed, :duration, :duration_units, :all_day, :tag_ids
+  attr_accessible :description, :project_id, :owner_id, :board_id, :due_date, :group_id, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat
 
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
+
+  before_create :set_start_date
+  after_create :send_email
+  after_save :clone_repeat
+  before_save :set_end_date, :set_project_and_board
+
+  REPEAT = ["none", "day", "week", "month", "year"].collect{|i| [i,i]}
 
   # Named Scopes
   scope :current, conditions: { deleted: false }
@@ -27,12 +34,6 @@ class Sticky < ActiveRecord::Base
 
   scope :with_tag, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", args.first ] } }
 
-  before_create :set_start_date
-  after_create :send_email
-
-  before_save :set_end_date, :set_project_and_board
-  # after_save :send_completion_email, :send_due_at_updated
-
   # Model Validation
   validates_presence_of :description, :project_id
 
@@ -42,6 +43,7 @@ class Sticky < ActiveRecord::Base
   belongs_to :group
   belongs_to :board
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
+  belongs_to :repeated_sticky, class_name: 'Sticky', foreign_key: 'repeated_sticky_id'
   has_and_belongs_to_many :tags
   has_many :comments, order: 'created_at desc', conditions: { deleted: false }
 
@@ -200,6 +202,16 @@ class Sticky < ActiveRecord::Base
   end
 
   private
+
+  def clone_repeat
+    if self.changes[:completed] and self.changes[:completed][1] == true and self.repeat != 'none' and (self.repeated_sticky.blank? or self.repeated_sticky.deleted?) and not self.due_date.blank?
+      new_sticky = self.user.stickies.new(self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'start_date', 'end_date', 'old_tags', 'repeated_sticky_id', 'completed'].include?(key.to_s)})
+      new_sticky.due_date += 1.send(new_sticky.repeat)
+      new_sticky.tag_ids = self.tags.pluck(:id)
+      new_sticky.save
+      self.update_column :repeated_sticky_id, new_sticky.id
+    end
+  end
 
   def send_email
     if not self.group and not self.completed?
