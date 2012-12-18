@@ -485,7 +485,7 @@ class StickiesControllerTest < ActionController::TestCase
     post :complete, id: @sticky, format: 'js'
     assert_not_nil assigns(:sticky)
     assert_equal true, assigns(:sticky).completed
-    assert_template 'complete'
+    assert_template 'update'
     assert_response :success
   end
 

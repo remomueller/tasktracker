@@ -43,7 +43,7 @@ class Sticky < ActiveRecord::Base
   belongs_to :group
   belongs_to :board
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
-  belongs_to :repeated_sticky, class_name: 'Sticky', foreign_key: 'repeated_sticky_id'
+  belongs_to :repeated_sticky, class_name: 'Sticky', foreign_key: 'repeated_sticky_id', conditions: { deleted: false }
   has_and_belongs_to_many :tags
   has_many :comments, order: 'created_at desc', conditions: { deleted: false }
 
@@ -204,7 +204,7 @@ class Sticky < ActiveRecord::Base
   private
 
   def clone_repeat
-    if self.changes[:completed] and self.changes[:completed][1] == true and self.repeat != 'none' and (self.repeated_sticky.blank? or self.repeated_sticky.deleted?) and not self.due_date.blank?
+    if self.changes[:completed] and self.changes[:completed][1] == true and self.repeat != 'none' and self.repeated_sticky.blank? and not self.due_date.blank?
       new_sticky = self.user.stickies.new(self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'start_date', 'end_date', 'old_tags', 'repeated_sticky_id', 'completed'].include?(key.to_s)})
       new_sticky.due_date += 1.send(new_sticky.repeat)
       new_sticky.tag_ids = self.tags.pluck(:id)
