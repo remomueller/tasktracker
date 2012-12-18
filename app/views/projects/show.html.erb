@@ -21,8 +21,8 @@
 
 <%= form_tag groups_path(use_template: 'redesign'), method: :get, remote: true, id: "groups_search", data: { object: "form-load#{ '-no' unless @template }" } do %>
   <%= hidden_field_tag :group_search, params[:search], name: 'search' %>
-  <%= hidden_field_tag :group_project_id, @project.id, name: 'project_id' %>
-  <%= hidden_field_tag :group_board_id, params[:board_id], name: 'board_id' %>
+  <%= hidden_field_tag :groups_project_id, @project.id, name: 'project_id' %>
+  <%= hidden_field_tag :groups_board_id, params[:board_id], name: 'board_id' %>
   <%= hidden_field_tag :template_id, params[:template_id] %>
   <%= hidden_field_tag :group_order, 'groups.created_at DESC', name: 'order' %>
   <%= hidden_field_tag :group_scope_direction, params[:scope_direction] || 'forward', name: 'scope_direction' %>

@@ -8,7 +8,7 @@
 
     </td>
     <td style="vertical-align:top;text-align:right">
-      <%= link_to 'New Sticky', new_sticky_path(sticky: { project_id: @group.project_id, board_id: params[:group][:board_id] }, from_calendar: params[:from_calendar]), method: :get, remote: true %>
+      <%= link_to 'New Sticky', '#', data: { object: 'load-new-sticky' } %>
     </td>
   </tr>
 </table>

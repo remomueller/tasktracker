@@ -8,16 +8,12 @@
 
     </td>
     <td style="vertical-align:top;text-align:right">
-      <%= link_to 'New Group'.html_safe, new_group_path(group: { project_id: @sticky.project_id, board_id: @sticky.board_id }, from_calendar: params[:from_calendar]), method: :get, remote: true if @sticky.new_record? and current_user.all_templates.size > 0 %>
+      <%= link_to 'New Group', '#', data: { object: 'load-new-group' } %>
     </td>
   </tr>
 </table>
 
 <hr class="soften" style="margin-top:5px;margin-bottom:35px"/>
-
-<%# @sticky = current_user.stickies.new() %>
-<%# @sticky.project = current_user.all_projects.first if current_user.all_projects.size == 1 %>
-<%# @project_id = @sticky.project_id %>
 
 <%= form_for(@sticky, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f| %>
   <%= hidden_field_tag :use_template, 'redesign' %>

@@ -6,7 +6,6 @@
     <% if current_user.all_templates.include?(@template) %>
       <%= link_to "Edit Template", edit_template_path(@template), class: 'btn btn-mini' %>
       <%= link_to "Delete Template", @template, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Template #{@template.name}?" } %>
-      <%= link_to 'Generate Stickies', '#', class: 'btn btn-mini btn-primary', data: { object: 'modal-show', target: '#dialog-form' } %>
     <% end %>
     <%= link_to "View Templates", templates_path, class: 'btn btn-mini' %>
     <%= link_to "Copy Template", copy_template_path(@template), class: 'btn btn-mini' %>
@@ -22,30 +21,3 @@
 </dl>
 
 <%= render partial: 'compact_items' %>
-
-<div id="dialog-form" class="modal" style="display:none">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3>Select the Board in which to Create <%= pluralize @template.items.size, 'Sticky' %></h3>
-  </div>
-  <div class="modal-body">
-  <%= form_tag groups_path(template_id: @template.id), method: :post, id: 'template_board_form', class: 'form-horizontal' do %>
-    <div class="control-group">
-      <%= label_tag :board_id, 'Board', class: 'control-label' %>
-      <div class="controls"><%= select_tag :board_id, options_for_select([['Holding Pen', nil]] + Board.current.where(project_id: @template.project.id).order('boards.end_date desc').collect{|f| [f.project.name + ": " + f.name + ' - ' + f.short_time, f.id]} ) %></div>
-    </div>
-    <div class="control-group">
-      <%= label_tag :initial_due_date, 'Initial Due Date', class: 'control-label' %>
-      <div class="controls"><%= text_field_tag :initial_due_date, Date.today.strftime('%m/%d/%Y'), class: 'datepicker' %></div>
-    </div>
-    <div class="control-group">
-      <%= label_tag :additional_text, 'Additional Text', class: 'control-label' %>
-      <div class="controls"><%= text_area_tag :additional_text, '', rows: 7, style: "width:95%" %></div>
-    </div>
-  <% end %>
-  </div>
-  <div class="modal-footer">
-    <%= link_to 'Close', '#', class: 'btn', data: { target: '#dialog-form', object: 'modal-hide' } %>
-    <%= link_to 'Generate Stickies', '#', class: 'btn btn-primary', data: { target: '#template_board_form', object: 'submit' } %>
-  </div>
-</div>

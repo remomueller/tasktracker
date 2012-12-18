@@ -287,3 +287,7 @@ jQuery ->
         $.post($(this).data("url"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
       false
     )
+    .on('click', '[data-object~="load-new-sticky"]', () ->
+      $.get(root_url + 'stickies/new', "sticky[project_id]=#{$('#group_project_id').val()}&sticky[due_date]=#{$('#group_initial_due_date').val()}&sticky[board_id]=#{$('#group_board_id').val()}&"+$('#from_calendar').serialize(), null, "script")
+      false
+    )
