@@ -1,29 +1,44 @@
-<table class="table table-striped table-bordered table-condensed" style="width:100%;table-layout:fixed">
+<div class="clearfix" />
+
+<hr class="soften" style="margin-top:10px;margin-bottom:10px"/>
+
+<table class="table table-striped table-condensed" style="width:100%;table-layout:fixed;margin-bottom:0px"><col /><col width="80px"/><col width="80px"/><col width="70px"/>
   <thead>
     <tr>
       <th>Sticky</th>
       <th>Offset</th>
       <th>Assign To</th>
       <th>Due At</th>
-      <th>Tags</th>
     </tr>
   </thead>
   <% @template.sorted_items.each do |item| %>
     <% item = item.symbolize_keys %>
     <% owner = User.current.find_by_id(item[:owner_id]) %>
     <tr style="border-bottom:1px solid #eee;margin-bottom:8px">
-      <td>
-        <%= item[:description] %>
-      </td>
-      <td><% if item[:interval] != 0 %> <b><%= '+' if item[:interval] > 0 %><%= item[:interval] %> <%= item[:units] %></b><% end %></td>
-      <td style="<%= 'font-weight:bold' if current_user == owner %>"><%= link_to owner.name, owner if owner %></td>
-      <td><%= Time.parse(item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue '' %><% if item[:duration].to_i > 0 %> for <%= item[:duration] %> <%= item[:duration_units] %><% end %></td>
-      <td>
-
+      <td style="white-space:nowrap;overflow-x:hidden;">
         <% (item[:tag_ids] || []).each do |tag_id| %>
           <% if @tag = @template.project.tags.find_by_id(tag_id) %><%= render partial: 'tags/show' %><% end %>
         <% end %>
+        <%= item[:description] %>
       </td>
+      <td style="white-space:nowrap"><% if item[:interval] != 0 %> <b><%= '+' if item[:interval] > 0 %><%= item[:interval] %> <%= item[:units] %></b><% end %></td>
+
+
+
+
+      <td style="white-space:nowrap;overflow-x:hidden;<%= 'font-weight:bold' if current_user == owner %>">
+        <span rel="tooltip" title="<%= owner ? owner.name : 'Unassigned' %>" data-placement="left">
+        <% if owner %>
+          <%= image_tag owner.avatar_url(18, "identicon") %>
+          <%= owner.nickname %>
+        <% else %>
+          <%= image_tag User.new.avatar_url(18, "mm") %>
+        <% end %>
+        </span>
+      </td>
+
+
+      <td style="white-space:nowrap"><%= Time.parse(item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue '' %><% if item[:duration].to_i > 0 %> for <%= item[:duration] %> <%= item[:duration_units] %><% end %></td>
     </tr>
   <% end %>
 </table>
