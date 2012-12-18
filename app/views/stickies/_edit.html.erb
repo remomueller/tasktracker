@@ -8,7 +8,7 @@
 
     </td>
     <td style="vertical-align:top;text-align:right">
-      <%= link_to 'New Group', '#', data: { object: 'load-new-group' } %>
+      <%= link_to 'New Group', '#', data: { object: 'load-new-group' } if @sticky.new_record? %>
     </td>
   </tr>
 </table>
