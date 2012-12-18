@@ -22,13 +22,13 @@
 <div class="control-group">
   <%= f.label :initial_due_date, 'Initial Due Date', class: 'control-label' %>
   <div class="controls">
-    <%= f.text_field :initial_due_date, '', class: 'datepicker' %>
+    <%= f.text_field :initial_due_date, class: 'datepicker', value: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '' %>
   </div>
 </div>
 
 <div class="control-group">
   <%= f.label :description, nil, class: 'control-label' %>
   <div class="controls">
-    <%= f.text_area :description, '', rows: 7, style: 'width:95%' %>
+    <%= f.text_area :description, rows: 7, style: 'width:95%' %>
   </div>
 </div>

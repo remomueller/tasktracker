@@ -20,13 +20,13 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should get selection" do
-    post :selection, template_id: templates(:one).to_param, format: 'js'
+    post :selection, group: { template_id: templates(:one) }, format: 'js'
     assert_not_nil assigns(:template)
     assert_template 'selection'
   end
 
   test "should not get selection without valid project id" do
-    post :selection, template_id: -1, format: 'js'
+    post :selection, group: { template_id: -1 }, format: 'js'
     assert_nil assigns(:template)
     assert_response :success
   end

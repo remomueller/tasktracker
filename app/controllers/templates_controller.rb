@@ -16,7 +16,7 @@ class TemplatesController < ApplicationController
   end
 
   def selection
-    @template = current_user.all_templates.find_by_id(params[:template_id])
+    @template = current_user.all_templates.find_by_id(params[:group][:template_id])
   end
 
   def add_item
