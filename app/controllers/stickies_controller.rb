@@ -256,7 +256,13 @@ class StickiesController < ApplicationController
 
     if @stickies
       @stickies.each{|s| s.update_attributes(completed: (params[:undo] != 'true'))}
-      Sticky.send_stickies_completion_email(@stickies, current_user) if params[:undo] != 'true'
+      if params[:undo] != 'true'
+        if @stickies.size == 1
+          @stickies.first.send_email_if_recently_completed(current_user)
+        else
+          Sticky.send_stickies_completion_email(@stickies, current_user)
+        end
+      end
     else
       render nothing: true
     end
