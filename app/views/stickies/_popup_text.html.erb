@@ -9,4 +9,6 @@
 
 <strong>Created By:</strong> <%= @sticky.user.name %><br /><br />
 
-<% if @sticky.project.boards.size > 0 %><strong>Board:</strong> <%= @sticky.board ? @sticky.board.name : 'Holding Pen' %><% end %>
+<% if @sticky.project.boards.size > 0 %><strong>Board:</strong> <%= @sticky.board ? @sticky.board.name : 'Holding Pen' %><br /><br /><% end %>
+
+<% if @sticky.repeat != 'none' %><strong>Repeats:</strong> <%= @sticky.repeat %><% end %>
