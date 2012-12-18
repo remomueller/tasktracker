@@ -325,3 +325,7 @@ span.rounded-borders {
   background-color: #ffffd4;
   color: #333;
 }
+
+.nav-header:hover {
+  color: #333;
+}
