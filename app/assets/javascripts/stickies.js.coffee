@@ -155,6 +155,7 @@
 @showStickyModal = () ->
   $("#sticky-backdrop").show()
   $("#sticky_modal_wrapper").show()
+  $('html, body').animate({ scrollTop: $("#sticky_modal_wrapper").offset().top - 40 }, 'fast');
 
 @hideStickyModal = () ->
   $("#sticky-backdrop").hide()
