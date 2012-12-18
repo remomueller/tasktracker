@@ -281,7 +281,8 @@ a.archived-boards-link:hover {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  /*z-index: 1040;*/
+  z-index: 1020;
 }
 
 #sticky_modal_wrapper {
@@ -296,7 +297,8 @@ a.archived-boards-link:hover {
   margin-top: 38px;
   left: 0;
   right: 0;
-  z-index: 1050;
+  /*z-index: 1050;*/
+  z-index: 1025;
   background-color: white;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
