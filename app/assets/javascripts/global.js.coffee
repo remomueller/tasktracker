@@ -142,8 +142,8 @@ jQuery ->
       if $("#sticky-backdrop").is(':visible')
         hideStickyModal()               if e.which == 27
       else
-        $('#new-sticky-button').click() if e.which == 83
-        $('#new-group-button').click()  if e.which == 71
+        loadNewStickyModal() if e.which == 83
+        loadNewGroupModal()  if e.which == 71
     )
     .on('change', "#sticky_project_id", () ->
       $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_board_id").serialize(), null, "script")

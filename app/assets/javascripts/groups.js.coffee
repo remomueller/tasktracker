@@ -1,6 +1,14 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+
+@loadNewGroupModal = () ->
+  if $('#welcome-dialog').length > 0
+    $('#welcome-dialog').modal('toggle')
+  else
+    $('#new-group-button').click()
+  false
+
 jQuery ->
   $(document)
     .on('click', '[data-object~="group-select"]', (e) ->

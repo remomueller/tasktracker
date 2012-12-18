@@ -102,7 +102,7 @@
 
 @openCalendarPopup = (selected_date) ->
   if $('#welcome-dialog').length > 0
-    $('#welcome-dialog').modal('toggle');
+    $('#welcome-dialog').modal('toggle')
   else
     $('#initial_due_date').val(selected_date)
     $('#sticky_due_date').val(selected_date)
@@ -120,13 +120,13 @@
 
 @markCalendarCompletion = (sticky_id, completed, icon_html) ->
   if completed
-    $("#sticky_#{sticky_id}_name").css('text-decoration', 'line-through');
-    $("#sticky_#{sticky_id}_icon").html(icon_html);
-    # $("#sticky_#{sticky_id}_description").css('color', '#999');
+    $("#sticky_#{sticky_id}_name").css('text-decoration', 'line-through')
+    $("#sticky_#{sticky_id}_icon").html(icon_html)
+    # $("#sticky_#{sticky_id}_description").css('color', '#999')
   else
-    $("#sticky_#{sticky_id}_name").css('text-decoration', 'none');
-    $("#sticky_#{sticky_id}_icon").html(icon_html);
-    # $("#sticky_#{sticky_id}_description").css('color', 'inherit');
+    $("#sticky_#{sticky_id}_name").css('text-decoration', 'none')
+    $("#sticky_#{sticky_id}_icon").html(icon_html)
+    # $("#sticky_#{sticky_id}_description").css('color', 'inherit')
 
 @initializeCompletionButtons = () ->
   stickies_completed = []
@@ -159,6 +159,13 @@
 @hideStickyModal = () ->
   $("#sticky-backdrop").hide()
   $("#sticky_modal_wrapper").hide()
+
+@loadNewStickyModal = () ->
+  if $('#welcome-dialog').length > 0
+    $('#welcome-dialog').modal('toggle')
+  else
+    $('#new-sticky-button').click()
+  false
 
 jQuery ->
   $("#sticky_calendar_form")
