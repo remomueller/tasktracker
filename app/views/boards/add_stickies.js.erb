@@ -5,6 +5,7 @@ if ($("#board_id").val().toString() != "<%= params[:board_id] %>" && $("#board_i
   $("<%= rows.join(', ') %>").remove();
   $('[data-object~="sticky-checkbox"]:checked').removeAttr('checked');
   $('[data-object~="check-all-stickies"]').removeAttr('checked');
+  $('[data-object~="sticky-count"]').each( function(){ $(this).html( parseInt($(this).html() - <%= @stickies.size %>) ); });
 } else {
   <% @stickies.collect{|s| "#sticky_#{s.id}"}.each do |draggable| %>
     $("<%= draggable %>").data('board-id', <%= params[:board_id] %>);
