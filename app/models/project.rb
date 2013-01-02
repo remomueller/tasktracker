@@ -4,10 +4,11 @@ class Project < ActiveRecord::Base
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
 
+  # Concerns
+  include Searchable, Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
   scope :with_user, lambda { |*args| { conditions: ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :has_template, lambda { |*args| { conditions: ['projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false] } }
 
   # scope :by_favorite, lambda { |*args| {include: :project_favorites, conditions: ["project_favorites.user_id = ? or project_favorites.user_id IS NULL", args.first], order: "(project_favorites.favorite = 0) ASC" } }
@@ -30,10 +31,6 @@ class Project < ActiveRecord::Base
 
   def color(current_user)
     current_user.colors["project_#{self.id}"].blank? ? colors(Project.pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]
-  end
-
-  def destroy
-    update_column :deleted, true
   end
 
   def users_to_email(action)

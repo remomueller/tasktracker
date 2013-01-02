@@ -1,9 +1,10 @@
 class Tag < ActiveRecord::Base
   attr_accessible :name, :description, :color, :project_id
 
+  # Concerns
+  include Searchable, Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(tags.name) LIKE ? or LOWER(tags.description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
   validates_presence_of :name, :project_id
@@ -15,10 +16,6 @@ class Tag < ActiveRecord::Base
   has_and_belongs_to_many :stickies
 
   # Model Relationships
-  def destroy
-    update_column :deleted, true
-  end
-
   def self.natural_sort
     NaturalSort::naturalsort self.where('').collect{|t| [t.name, t.id]}
   end

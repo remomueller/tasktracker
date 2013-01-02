@@ -4,9 +4,11 @@ class Template < ActiveRecord::Base
   serialize :items, Array
   attr_reader :item_tokens
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
   scope :none, conditions: ["1 = 0"]
-  scope :current, conditions: { deleted: false }
   scope :search, lambda { |*args| {conditions: [ 'LOWER(name) LIKE ? or LOWER(items) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
 
   # Model Validation
@@ -24,10 +26,6 @@ class Template < ActiveRecord::Base
 
   def full_name
     [self.name, (self.project ? self.project.name : nil)].compact.join(' - ')
-  end
-
-  def destroy
-    update_column :deleted, true
   end
 
   def self.natural_sort
