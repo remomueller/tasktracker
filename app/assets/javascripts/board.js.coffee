@@ -100,7 +100,7 @@
   $(archive_button).html("Show " + $(archive_button).data('message'))
   $(archive_button).data('visible', false)
   # Select the Holding Pen if an archived board was selected
-  if $("[data-object~='board-select'][data-board-id='#{$("#board_id").val()}']").data('archived').toString() == 'true'
+  if $("[data-object~='board-select'][data-board-id='#{$("#board_id").val()}']").length > 0 and $("[data-object~='board-select'][data-board-id='#{$("#board_id").val()}']").data('archived').toString() == 'true'
     $('[data-object~="board-select"]').parent().removeClass('active')
     $('[data-object~="board-select"][data-board-id="0"]').click()
     $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
