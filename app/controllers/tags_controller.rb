@@ -7,8 +7,14 @@ class TagsController < ApplicationController
     @stickies = @project.stickies.where(id: params[:sticky_ids].split(',')) if @project
 
     if @project and @tag and @stickies.size > 0
-      @stickies.each do |s|
-        s.tags << @tag unless s.tags.include?(@tag)
+      if @stickies.collect{|s| s.tags.where(id: @tag.id)}.flatten.size == @stickies.size
+        @stickies.each do |s|
+          s.tags.delete(@tag)
+        end
+      else
+        @stickies.each do |s|
+          s.tags << @tag unless s.tags.include?(@tag)
+        end
       end
     else
       render nothing: true

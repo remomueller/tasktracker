@@ -16,6 +16,16 @@ class TagsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should remove tag from stickies if all stickies have the tag" do
+    post :add_stickies, project_id: projects(:one), tag_id: tags(:alpha), sticky_ids: [stickies(:tagged).id, stickies(:only_alpha).id].join(','), format: 'js'
+
+    assert_not_nil assigns(:stickies)
+    assert_equal 2, assigns(:stickies).size
+    assert_equal [tags(:beta).id], assigns(:stickies).collect{|s| s.tags.collect{|t| t.id}}.flatten.uniq
+    assert_template 'add_stickies'
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success
