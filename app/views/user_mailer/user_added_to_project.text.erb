@@ -4,8 +4,5 @@ Hello <%= @project_user.user.first_name %>,
 
 <% if @project_user.allow_editing? %>You may edit the project and add new stickies and comments to it!<% else %>You may view the project and add comments to it!<% end %>
 
-Thank you!
-
-<%= DEFAULT_APP_NAME %> Mailer
 
 <%= @footer_txt %>
