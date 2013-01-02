@@ -44,6 +44,13 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not add stickies to board with invalid id" do
+    post :add_stickies, project_id: projects(:one), board_id: -1, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
+
+    assert_nil assigns(:board)
+    assert_response :success
+  end
+
   test "should add stickies in group to board" do
     post :add_stickies, project_id: projects(:one), board_id: boards(:two), sticky_ids: [stickies(:grouped).id].join(','), format: 'js'
 

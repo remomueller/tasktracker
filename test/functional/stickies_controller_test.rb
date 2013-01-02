@@ -140,6 +140,39 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get index with completed scope" do
+    get :index, format: 'js', scope: 'completed', unassigned: '1'
+
+    # Should only return stickies that are completed
+    assert_not_nil assigns(:stickies)
+    assert_equal [true], assigns(:stickies).collect{|s| s.completed}.uniq
+
+    assert_template 'index'
+    assert_response :success
+  end
+
+  test "should get index with past due scope" do
+    get :index, format: 'js', scope: 'past_due', unassigned: '1'
+
+    # Should only return stickies that are not completed
+    assert_not_nil assigns(:stickies)
+    assert_equal [false], assigns(:stickies).collect{|s| s.completed}.uniq
+
+    assert_template 'index'
+    assert_response :success
+  end
+
+  test "should get index with upcoming scope" do
+    get :index, format: 'js', scope: 'upcoming', unassigned: '1'
+
+    # Should only return stickies that are not completed
+    assert_not_nil assigns(:stickies)
+    assert_equal [false], assigns(:stickies).collect{|s| s.completed}.uniq
+
+    assert_template 'index'
+    assert_response :success
+  end
+
   test "should get new" do
     get :new
     assert_response :success
@@ -489,9 +522,55 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should complete sticky and repeat on the following day" do
+    assert_difference('Sticky.count', 1) do
+      post :complete, id: stickies(:repeat_daily), format: 'js'
+    end
+    assert_not_nil assigns(:sticky)
+    assert_equal true, assigns(:sticky).completed
+    assert_not_nil assigns(:sticky).repeated_sticky
+    assert_equal false, assigns(:sticky).repeated_sticky.completed
+    assert_equal Time.local(2013, 1, 3, 0, 0, 0), assigns(:sticky).repeated_sticky.due_date
+    assert_template 'update'
+    assert_response :success
+  end
+
   test "should not complete sticky for viewer" do
     post :complete, id: stickies(:viewable_by_valid), format: 'js'
     assert_nil assigns(:sticky)
+    assert_response :success
+  end
+
+  test "should complete multiple stickies" do
+    post :complete_multiple, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
+    assert_not_nil assigns(:stickies)
+    assert_equal 4, assigns(:stickies).size
+    assert_equal [true], assigns(:stickies).collect{|s| s.completed}.uniq
+    assert_template 'complete_multiple'
+    assert_response :success
+  end
+
+  test "should complete multiple stickies for single sticky" do
+    post :complete_multiple, sticky_ids: [stickies(:one).id].join(','), format: 'js'
+    assert_not_nil assigns(:stickies)
+    assert_equal 1, assigns(:stickies).size
+    assert_equal [true], assigns(:stickies).collect{|s| s.completed}.uniq
+    assert_template 'complete_multiple'
+    assert_response :success
+  end
+
+  test "should undo completion of multiple stickies" do
+    post :complete_multiple, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), undo: 'true', format: 'js'
+    assert_not_nil assigns(:stickies)
+    assert_equal 4, assigns(:stickies).size
+    assert_equal [false], assigns(:stickies).collect{|s| s.completed}.uniq
+    assert_template 'complete_multiple'
+    assert_response :success
+  end
+
+  test "should not complete multiple stickies with invalid ids" do
+    post :complete_multiple, sticky_ids: [-1].join(','), format: 'js'
+    assert_equal [], assigns(:stickies)
     assert_response :success
   end
 
@@ -843,6 +922,25 @@ class StickiesControllerTest < ActionController::TestCase
     end
 
     assert_nil assigns(:sticky)
+    assert_response :success
+  end
+
+  test "should destroy multiple stickies" do
+    assert_difference('Sticky.current.count', -4) do
+      post :destroy_multiple, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
+    end
+
+    assert_not_nil assigns(:stickies)
+    assert_template 'destroy_multiple'
+    assert_response :success
+  end
+
+  test "should not destroy multiple stickies without valid ids" do
+    assert_difference('Sticky.current.count', 0) do
+      post :destroy_multiple, sticky_ids: [-1].join(','), format: 'js'
+    end
+
+    assert_equal [], assigns(:stickies)
     assert_response :success
   end
 end

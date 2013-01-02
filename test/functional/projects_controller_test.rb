@@ -170,13 +170,25 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should show project" do
-    get :show, id: @project.to_param
+    get :show, id: @project
     assert_not_nil assigns(:project)
     assert_response :success
   end
 
+  test "should show project settings" do
+    get :settings, id: @project
+    assert_not_nil assigns(:project)
+    assert_response :success
+  end
+
+  test "should not show project settings without valid id" do
+    get :settings, id: -1
+    assert_nil assigns(:project)
+    assert_redirected_to root_path
+  end
+
   test "should show ongoing project" do
-    get :show, id: projects(:ongoing).to_param
+    get :show, id: projects(:ongoing)
     assert_not_nil assigns(:project)
     assert_response :success
   end

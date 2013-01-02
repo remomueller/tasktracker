@@ -298,3 +298,15 @@ jQuery ->
       $.get(root_url + 'stickies/new', "sticky[project_id]=#{$('#group_project_id').val()}&sticky[due_date]=#{$('#group_initial_due_date').val()}&sticky[board_id]=#{$('#group_board_id').val()}&"+$('#from_calendar').serialize(), null, "script")
       false
     )
+    .on('change', '#sticky_repeat', () ->
+      if $(this).val() != 'none'
+        $('[data-object~="repeat-options"]').show()
+      else
+        $('[data-object~="repeat-options"]').hide()
+    )
+    .on('click', '#set_time', () ->
+      if $(this).is(':checked')
+        $('[data-object~="time-options"]').hide()
+      else
+        $('[data-object~="time-options"]').show()
+    )

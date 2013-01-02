@@ -9,6 +9,7 @@ class TagsControllerTest < ActionController::TestCase
   test "should add stickies to tag" do
     post :add_stickies, project_id: projects(:one), tag_id: tags(:one), sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
 
+    assert_not_nil assigns(:tag)
     assert_not_nil assigns(:stickies)
     assert_equal 4, assigns(:stickies).size
     assert_equal [tags(:one).id], assigns(:stickies).collect{|s| s.tags.collect{|t| t.id}}.flatten.uniq
@@ -19,10 +20,18 @@ class TagsControllerTest < ActionController::TestCase
   test "should remove tag from stickies if all stickies have the tag" do
     post :add_stickies, project_id: projects(:one), tag_id: tags(:alpha), sticky_ids: [stickies(:tagged).id, stickies(:only_alpha).id].join(','), format: 'js'
 
+    assert_not_nil assigns(:tag)
     assert_not_nil assigns(:stickies)
     assert_equal 2, assigns(:stickies).size
     assert_equal [tags(:beta).id], assigns(:stickies).collect{|s| s.tags.collect{|t| t.id}}.flatten.uniq
     assert_template 'add_stickies'
+    assert_response :success
+  end
+
+  test "should not add stickies to tag with invalid id" do
+    post :add_stickies, project_id: projects(:one), tag_id: -1, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
+
+    assert_nil assigns(:tag)
     assert_response :success
   end
 

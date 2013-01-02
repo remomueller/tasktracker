@@ -258,7 +258,7 @@ class StickiesController < ApplicationController
   def complete_multiple
     @stickies = current_user.all_stickies.where(id: params[:sticky_ids].to_s.split(','))
 
-    if @stickies
+    if @stickies and @stickies.size > 0
       @stickies.each{|s| s.update_attributes(completed: (params[:undo] != 'true'))}
       if params[:undo] != 'true'
         if @stickies.size == 1
@@ -387,7 +387,7 @@ class StickiesController < ApplicationController
     params[:sticky][:repeat] = ( Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none' ) unless params[:sticky][:repeat].blank?
 
     params[:sticky].slice(
-      :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat
+      :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat, :repeat_amount
     )
   end
 end

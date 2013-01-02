@@ -205,3 +205,15 @@ due_at_ics:
   deleted: false
   owner: valid
   tags: one
+
+repeat_daily:
+  user: valid
+  project: one
+  completed: false
+  description: Repeat Tomorrow
+  due_date: 2013-01-02 05:00:00
+  all_day: true
+  owner: valid
+  repeat: 'day'
+  repeat_amount: 1
+

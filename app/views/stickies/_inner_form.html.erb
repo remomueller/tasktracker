@@ -53,6 +53,7 @@
   <%= f.label :due_date, class: 'control-label' %>
   <div class="controls">
     <%= f.text_field :due_date, class: 'datepicker', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' %>
+    <span style="white-space:nowrap"><%= check_box_tag :set_time, '1', @sticky.all_day? %> All day</span>
     <% if @sticky.group %>
       <table class="blank padded">
         <tr>
@@ -69,14 +70,14 @@
   </div>
 </div>
 
-<div class="control-group">
+<div class="control-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :due_at_string, 'Due at', class: 'control-label' %>
   <div class="controls">
     <%= f.text_field :due_at_string %>
   </div>
 </div>
 
-<div class="control-group">
+<div class="control-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :duration, nil, class: 'control-label' %>
   <div class="controls">
     <%= f.number_field :duration, { min: 0 } %>
@@ -89,8 +90,9 @@
 </div>
 
 <div class="control-group">
-  <%= f.label :repeat, nil, class: 'control-label' %>
+  <%= f.label :repeat, "Repeat", class: 'control-label' %>
   <div class="controls">
-    <%= f.select :repeat, Sticky::REPEAT %>
+    <%= f.number_field :repeat_amount, { min: 1, data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none' }" } %>
+    <%= f.select :repeat, Sticky::REPEAT %> <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">After Completion</span>
   </div>
 </div>

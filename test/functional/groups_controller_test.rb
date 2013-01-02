@@ -20,10 +20,12 @@ class GroupsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:groups)
   end
 
-  # test "should get new" do
-  #   get :new
-  #   assert_response :success
-  # end
+  test "should get new" do
+    get :new, format: 'js'
+    assert_template 'new_redesign'
+    assert_not_nil assigns(:group)
+    assert_response :success
+  end
 
   test "should create group and generate stickies" do
     assert_difference('Sticky.count', templates(:one).items.size) do
@@ -56,12 +58,26 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
+  test "should create group and generate stickies and add stickies to holding pen" do
+    assert_difference('Sticky.count', templates(:one).items.size) do
+      assert_difference('Group.count') do
+        post :create, group: { project_id: projects(:one), template_id: templates(:one), board_id: boards(:one) }, create_new_board: '1', group_board_name: ''
+      end
+    end
+    assert_not_nil assigns(:template)
+    assert_not_nil assigns(:group)
+    assert_nil assigns(:board)
+    assert_equal [nil], assigns(:group).stickies.pluck(:board_id).uniq
+    assert_equal templates(:one).items.size, assigns(:group).stickies.size
+    assert_equal users(:valid), assigns(:group).user
+    assert_redirected_to group_path(assigns(:group))
+  end
 
   test "should create group and generate stickies for user through service account" do
     login(users(:service_account))
     assert_difference('Sticky.count', templates(:one).items.size) do
       assert_difference('Group.count') do
-        post :create, template_id: templates(:one), board_id: nil, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
+        post :create, template_id: templates(:one), board_id: nil, initial_due_date: '01/02/2013', api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
         # post :create, group: { project_id: projects(:one), template_id: templates(:one), board_id: boards(:one) }, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
       end
     end
