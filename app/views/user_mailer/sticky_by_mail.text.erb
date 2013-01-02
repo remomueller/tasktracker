@@ -1,11 +1,9 @@
 Hello <%= @recipient.first_name %>,
 
-<%= @sticky.user.name %> added the following Sticky <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> to Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %>.
+<%= @sticky.user.name %> added Sticky <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> to Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %>.
 
 <%= render partial: 'sticky_note' %>
 
-Thank you!
 
-<%= DEFAULT_APP_NAME %> Mailer
 
 <%= @footer_txt %>

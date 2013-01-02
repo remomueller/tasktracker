@@ -73,7 +73,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
-    assert_match(/#{sticky.user.name} added the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
+    assert_match(/#{sticky.user.name} added Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
   test "sticky by mail email with ics attachment" do
@@ -87,7 +87,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal 'event.ics', email.attachments.first.filename
     assert_equal [valid.email], email.to
     assert_equal "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
-    assert_match(/#{sticky.user.name} added the following Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
+    assert_match(/#{sticky.user.name} added Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
   test "sticky completion by mail email" do
