@@ -55,7 +55,11 @@ Notes::Application.routes.draw do
     end
   end
 
-  resources :tags
+  resources :tags do
+    collection do
+      post :add_stickies
+    end
+  end
 
   resources :templates do
     collection do

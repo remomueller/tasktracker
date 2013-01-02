@@ -6,6 +6,16 @@ class TagsControllerTest < ActionController::TestCase
     @tag = tags(:one)
   end
 
+  test "should add stickies to tag" do
+    post :add_stickies, project_id: projects(:one), tag_id: tags(:one), sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
+
+    assert_not_nil assigns(:stickies)
+    assert_equal 4, assigns(:stickies).size
+    assert_equal [tags(:one).id], assigns(:stickies).collect{|s| s.tags.collect{|t| t.id}}.flatten.uniq
+    assert_template 'add_stickies'
+    assert_response :success
+  end
+
   test "should get index" do
     get :index
     assert_response :success

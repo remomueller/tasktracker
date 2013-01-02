@@ -248,7 +248,7 @@ a.archived-boards-link:hover {
           box-shadow: 5px 5px 3px -3px rgba(0, 0, 0, 0.075);
 }
 
-.board-droppable-hover {
+.board-droppable-hover, .tag-droppable-hover {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
   background-color: #51A351;

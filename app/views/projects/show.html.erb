@@ -68,7 +68,7 @@
         <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
           <% tag = @project.tags.find_by_id(tag_id) %>
           <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
-            <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select', tag_id: tag_id } %>
+            <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select tag-droppable', tag_id: tag_id, project_id: @project.id } %>
           </li>
         <% end %>
       </ul>

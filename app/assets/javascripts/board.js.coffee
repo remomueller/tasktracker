@@ -63,7 +63,7 @@
 @selectBoard = (board_id) ->
   board = $('[data-object~="board-select"][data-board-id='+board_id+']')
 
-  showArchivedBoards() if board.data('archived').toString() == 'true'
+  showArchivedBoards() if board.length > 0 and board.data('archived').toString() == 'true'
 
   deselectTemplate()
 
@@ -198,8 +198,7 @@ jQuery ->
       initializeCompletionButtons()
     )
 
-
-    setBoardNames()
-    activateBoardDraggables()
-    activateBoardDroppables()
-    activateBoardArchiveDroppable()
+  setBoardNames()
+  activateBoardDraggables()
+  activateBoardDroppables()
+  activateBoardArchiveDroppable()

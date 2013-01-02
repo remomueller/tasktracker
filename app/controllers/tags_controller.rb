@@ -1,6 +1,21 @@
 class TagsController < ApplicationController
   before_filter :authenticate_user!
 
+  def add_stickies
+    @tag = current_user.all_tags.find_by_id(params[:tag_id])
+    @project = current_user.all_projects.find_by_id(params[:project_id])
+    @stickies = @project.stickies.where(id: params[:sticky_ids].split(',')) if @project
+
+    if @project and @tag and @stickies.size > 0
+      @stickies.each do |s|
+        s.tags << @tag unless s.tags.include?(@tag)
+      end
+    else
+      render nothing: true
+    end
+  end
+
+
   def index
     # current_user.update_column :tags_per_page, params[:tags_per_page].to_i if params[:tags_per_page].to_i >= 10 and params[:tags_per_page].to_i <= 200
     tag_scope = current_user.all_viewable_tags

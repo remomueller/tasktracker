@@ -10,6 +10,7 @@
         * Upcoming: Not completed sorted by due date ascending, (today into the future)
         * Direction of these views can be reversed, useful to see stickies with no due date assigned
       * Stickies can be dragged onto different boards
+      * Stickies can be tagged by dragging stickies onto tags
   * Calendar Changes
     * Sticky editing and viewing from the calendar has changed to use an redesigned popup similar to the one used on the new project page
   * Sticky Changes
