@@ -17,6 +17,7 @@
     * Multiple stickies completed at once will now send out a single email per user
     * Stickies can now be repeated daily, weekly, monthly, or yearly
       * Upon completing a sticky that has either day, week, month, or year set, a new copy of that sticky is created 1 [day, week, month, year] later
+      * The number can also be set, so a sticky could be done every 2 days
   * Group Changes
     * New Boards can now be created when creating a group
   * Updated to Contour 1.1.2.pre
