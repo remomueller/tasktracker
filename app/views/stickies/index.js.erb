@@ -1,6 +1,12 @@
 <% if params[:use_template] == 'redesign' %>
 
-  $("#stickies-or-templates").html("<%= escape_javascript(render("stickies_redesign")) %>");
+  <% if params[:replace] == 'rows' %>
+    $("#stickies_table_container").html("<%= escape_javascript(render("stickies_redesign_table")) %>");
+  <% else %>
+    $("#stickies-or-templates").html("<%= escape_javascript(render("stickies_redesign")) %>");
+  <% end %>
+
+
   $('[rel~="tooltip"]').tooltip({ trigger: 'hover' });
   activateStickyDraggables();
   initializeCompletionButtons();

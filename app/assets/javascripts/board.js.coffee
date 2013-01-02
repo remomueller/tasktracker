@@ -165,11 +165,7 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="clear-tags"]', () ->
-      $('#project_search').val('')
-      $('#search').val('')
-      $('#group_search').val('')
-      $('[data-object~="tag-select"]').parent().removeClass('active')
-      $('#tag_ids').val('')
+      clearSearchValues()
       if templateSelected()
         $("#groups_search").submit()
       else

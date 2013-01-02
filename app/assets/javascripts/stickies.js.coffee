@@ -168,6 +168,13 @@
     $('#new-sticky-button').click()
   false
 
+@clearSearchValues = () ->
+  $('#project_search').val('')
+  $('#search').val('')
+  $('#group_search').val('')
+  $('[data-object~="tag-select"]').parent().removeClass('active')
+  $('#tag_ids').val('')
+
 jQuery ->
   $("#sticky_calendar_form")
     .on("change", (event) ->

@@ -34,6 +34,18 @@
   <%# Launch a refresh of the sticky search %>
   $("#stickies_search").submit();
 <% else %>
+
+  <% params[:board_id] = @group.board_id || '0' %>
+  <% @project = @group.project %>
+
+  $("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
+  $("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: false }) %>")
+
+  setBoardNames();
+  activateBoardDraggables();
+  activateBoardArchiveDroppable();
+  activateBoardDroppables();
+
   $("#search").val("<%= @group.short_description('') %>");
   $("#project_search").val("<%= @group.short_description('') %>");
   $("#group_search").val("<%= @group.short_description('') %>");

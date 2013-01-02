@@ -17,6 +17,8 @@
   <%= hidden_field_tag :assigned_to_me, params[:assigned_to_me] %>
 
   <%= hidden_field_tag :unassigned, '1' %>
+
+  <%= hidden_field_tag :replace, '' %>
 <% end %>
 
 <%= form_tag groups_path(use_template: 'redesign'), method: :get, remote: true, id: "groups_search", data: { object: "form-load#{ '-no' unless @template }" } do %>
