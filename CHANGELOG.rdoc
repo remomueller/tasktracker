@@ -1,3 +1,5 @@
+== 0.24.2
+
 == 0.24.1 (January 3, 2013)
 
 * Security Fix
