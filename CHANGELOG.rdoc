@@ -1,5 +1,8 @@
 == 0.24.2
 
+* Enhancements
+  * Updated to Contour 1.1.2
+
 == 0.24.1 (January 3, 2013)
 
 * Security Fix
