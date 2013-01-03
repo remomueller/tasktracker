@@ -9,6 +9,9 @@
     * group[description] (optional)
     * group[board_id] (optional)
 
+* Bug Fix
+  * Sticky popups now display the repeat_amount (1,2,3) along with the repeat_unit (day,week,month,year) for repeating stickies
+
 == 0.24.1 (January 3, 2013)
 
 * Security Fix
