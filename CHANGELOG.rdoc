@@ -2,6 +2,12 @@
 
 * Enhancements
   * Updated to Contour 1.1.2
+  * Removed deprecated Group Creation JSON API, Groups can now be created by specifying:
+    * group[project_id]
+    * group[template_id]
+    * group[initial_due_date] (optional, defaults to today)
+    * group[description] (optional)
+    * group[board_id] (optional)
 
 == 0.24.1 (January 3, 2013)
 

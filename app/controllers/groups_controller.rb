@@ -142,13 +142,9 @@ class GroupsController < ApplicationController
 
     params[:group][:board_id] = (@board ? @board.id : nil)
 
-    params[:group][:initial_due_date] = if params[:initial_due_date].blank?    # TODO Remove/simplify
-      parse_date(params[:group][:initial_due_date], Date.today)
-    else
-      parse_date(params[:initial_due_date], Date.today)
+    [:initial_due_date].each do |date|
+      params[:group][date] = parse_date(params[:group][date], Date.today)
     end
-    params[:group][:description] = params[:additional_text] unless params[:additional_text].blank?  # TODO Remove/simplify
-    params[:group][:template_id] = params[:template_id] unless params[:template_id].blank?             # TODO Remove/simplify
 
     params[:group].slice(
       :description, :project_id, :board_id, :template_id, :initial_due_date
