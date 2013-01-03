@@ -31,12 +31,12 @@
   * Fixed a bug that prevented grouped stickies assigned to a board from being moved back to the holding pen
   * Fixed a bug that sent sticky completion emails out by who it was assigned to as opposed to who marked the sticky as completed
 
-== 0.23.10
+== 0.23.10 (December 12, 2012)
 
 * Bug Fix
   * Creating a group from the calendar with a preselected project now correctly popuplates that project's boards and templates
 
-== 0.23.9
+== 0.23.9 (December 4, 2012)
 
 * Enhancements
   * Project show page will now default to displaying the first alphabetically unarchived board by default
@@ -49,12 +49,12 @@
   * User activation emails are no longer sent out when a user's status is changed from pending to inactive
   * Sticky tooltips no longer show up over a new sticky popup
 
-== 0.23.8
+== 0.23.8 (November 29, 2012)
 
 * Bug Fix
-  * Users with now projects favorited should still be able to create stickies
+  * Users with no projects favorited should still be able to create stickies
 
-== 0.23.7
+== 0.23.7 (November 29, 2012)
 
 * Enhancements
   * Frames have been renamed to Boards
@@ -66,13 +66,13 @@
 * Bug Fix
   * Pagination now works correctly on group pages where groups have more than 50 stickies
 
-== 0.23.6
+== 0.23.6 (November 28, 2012)
 
 * Enhancements
   * Gem updates including Rails 3.2.9 and Ruby 1.9.3-p327
   * Updated to Contour 1.1.1 and replaced inline JavaScript with Unobtrusive JavaScript
 
-== 0.23.5
+== 0.23.5 (October 1, 2012)
 
 * Enhancements
   * Project JSON API returns whether or not the project has been favorited
@@ -84,25 +84,25 @@
   * Boards now correctly retain the dropdown arrow when switching by selecting a new board from the dropdown
   * Editing template input fields and dropdowns no longer causes the input field to become unselected in IE
 
-== 0.23.4
+== 0.23.4 (September 12, 2012)
 
 * Enhancements
   * Project JSON API returns color
   * User JSON API returns user authentication_token, first_name, last_name, email, and id on successful login
   * Increased width of description text areas to be consistent with other text areas
 
-== 0.23.3
+== 0.23.3 (August 13, 2012)
 
 * Bug Fix
   * Dragging groups now correctly prompts user to select all, completed, or single sticky
     * Due to a change in Rails 3.2.7 to Rails 3.2.8 how data attributes are specified in divs
 
-== 0.23.2
+== 0.23.2 (August 13, 2012)
 
 * Enhancements
   * Updated to Rails 3.2.8
 
-== 0.23.1
+== 0.23.1 (July 31, 2012)
 
 * Enhancements
   * Sticky JSON API filters
@@ -122,7 +122,7 @@
 * Testing
   * Use ActionDispatch for Integration tests instead of ActionController
 
-== 0.23.0
+== 0.23.0 (July 16, 2012)
 
 * Enhancements
   * Daily digest emails are now available for users who prefer a digest of the previous day included stickies added, completed, and comments made
@@ -133,7 +133,7 @@
     * Sticky popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
     * Dragging grouped stickies on the calendar now prompts whether to move the invidual sticky, all incomplete stickies in the group, or all the stickies in the group
 
-== 0.22.6
+== 0.22.6 (July 2, 2012)
 
 * Enhancements
   * Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
@@ -166,7 +166,7 @@
   * Creating a tag with the same name as a deleted tag no longer throws the error 'tag name has already been taken' (by LisaM)
   * Clicking on 'Days Left' no longer triggers an AJAX pagination request
 
-== 0.22.5
+== 0.22.5 (June 21, 2012)
 
 * Enhancements
   * Creating a sticky from the project page will
@@ -180,7 +180,7 @@
 * Bug Fix
   * Links from email to stickies past due, due today, or upcoming now properly reset other filters
 
-== 0.22.4
+== 0.22.4 (June 6, 2012)
 
 * Enhancements
   * Update to Rails 3.2.5 and Contour 1.0.1
@@ -190,17 +190,17 @@
   * Timeouts no longer cause an error when trying to login again
   * Creating a group without specifying a template now correctly highlights an error on the required template name field
 
-== 0.22.3
+== 0.22.3 (May 8, 2012)
 
 * Enhancements
   * Fixed the way popups appear on smaller devices
 
-== 0.22.2
+== 0.22.2 (May 4, 2012)
 
 * Enhancements
   * Use Contour for User account Confirmations and Unlocks
 
-== 0.22.1
+== 0.22.1 (May 4, 2012)
 
 * Enhancements
   * Editing stickies from the sticky list or project page now redirects back to the sticky list or project page, respectively, after the sticky is updated
@@ -212,7 +212,7 @@
 * Bug Fix
   * Fix Registration page to use new Contour login attributes
 
-== 0.22.0
+== 0.22.0 (April 27, 2012)
 
 * Enhancements
   * Using Contour 1.0.0.beta with Twitter-Bootstrap CSS and JS
@@ -220,7 +220,7 @@
   * Groups can now be created from the project page
   * Default calendar options added when user registers
 
-== 0.21.0
+== 0.21.0 (April 13, 2012)
 
 * Enhancements
   * Stickies can now be completed with one click on the calendar
@@ -238,7 +238,7 @@
   * Fixed bug in display of overall graph for users with identical names
   * Fixed bug where selecting too many tags for sticky filters would generate a slow search
 
-== 0.20.0
+== 0.20.0 (March 30, 2012)
 
 * Enhancements
   * Stickies can now be marked as complete directly in the list view
@@ -246,7 +246,7 @@
     * Allows authenticated applications to view templates and create new groups
   * Using Rails 3.2.3.rc2
 
-== 0.19.0
+== 0.19.0 (March 19, 2012)
 
 * Enhancements
   * Service Accounts added to provide interface for other web applications
@@ -255,7 +255,7 @@
 * Bug Fix
   * Due Times corrected to account for Daylight Savings Time
 
-== 0.18.0
+== 0.18.0 (March 7, 2012)
 
 * Enhancements
   * Templates can now specify that generated stickies avoid weekends
@@ -276,12 +276,12 @@
   * Users assigned to stickies that have been removed from a project are no longer removed as sticky owner if the sticky is updated
     * NOTE: Unless of course, the sticky is assigned to someone else
 
-== 0.17.2
+== 0.17.2 (February 13, 2012)
 
 * Enhancements
   * Using Contour-Minimalist for styling
 
-== 0.17.1
+== 0.17.1 (February 10, 2012)
 
 * Enhancements
   * ICS files are also included in emails for stickies with a due date but no due time
@@ -289,7 +289,7 @@
 * Bug Fix
   * Due Date Changed email no longer triggers when a sticky with a due time is created
 
-== 0.17.0
+== 0.17.0 (February 10, 2012)
 
 * Enhancements
   * Sticky filters now combine duplicate tags
@@ -303,18 +303,18 @@
 * Bug Fix
   * Email setting checkboxes for project notifications are no longer incorrectly disabled
 
-== 0.16.2
+== 0.16.2 (February 2, 2012)
 
 * Bug Fix
   * Removed "assigned to me" option for sticky list page as it was redundant
   * "Assigned to Me" now correctly saves user settings on calendar
 
-== 0.16.1
+== 0.16.1 (February 1, 2012)
 
 * Bug Fix
   * Stickies on calendar view are now correctly grouped by tags
 
-== 0.16.0
+== 0.16.0 (February 1, 2012)
 
 * Enhancements
   * Calendar improvements:
@@ -336,12 +336,12 @@
 * Refactoring
   * Updated to Rails 3.2.1 and fixed Devise 2.0.0 locales file
 
-== 0.15.3
+== 0.15.3 (January 23, 2012)
 
 * Refactoring
   * Removed initializer fix for Rack that is now handled by Contour
 
-== 0.15.2
+== 0.15.2 (January 23, 2012)
 
 * Refactoring
   * Gem dependencies updated:
@@ -351,12 +351,12 @@
   * Notes RSS feed has moved to Task Tracker
   * Environment files updated to be in sync with Rails 3.2.0
 
-== 0.15.1
+== 0.15.1 (January 12, 2012)
 
 * Bug Fix
   * Fixed default colors specified in RGB format from loading properly in the color picker
 
-== 0.15.0
+== 0.15.0 (January 11, 2012)
 
 * Enhancements
   * Groups of stickies can now have their due dates shifted by editing a single sticky in the group and selecting either 'incomplete' to shift all other not completed stickies, or 'all' to shift all the stickies in the group
@@ -386,12 +386,12 @@
   * Added tests for sending email for sticky_creation and sticky_completion
   * Added tests for sending email for project_comments and sticky_comments
 
-== 0.14.1
+== 0.14.1 (January 6, 2012)
 
 * Bug Fix
   * Use update_column instead of update_attribute to avoid emails being sent out during a migration
 
-== 0.14.0
+== 0.14.0 (January 6, 2012)
 
 * Enhancements
   * Stickies no longer have status of 'planned', 'ongoing', 'completed', and now are either completed or not completed
@@ -418,7 +418,7 @@
 * Refactoring
   * qTip2 is now provided by Contour 0.8.1
 
-== 0.13.0
+== 0.13.0 (December 20, 2011)
 
 * Enhancements
   * Calendar Improvements
@@ -446,12 +446,12 @@
   * Creating a sticky that's already marked as completed now only sends out a "sticky completion" email
   * Validation errors when creating or updating stickies now correctly remember the project, board, and tag selections
 
-== 0.12.1
+== 0.12.1 (December 19, 2011)
 
 * Bug Fix
   * Project Viewers are now correctly redirected to the sticky show page from the calendar view
 
-== 0.12.0
+== 0.12.0 (December 13, 2011)
 
 * Enhancements
   * Emails for Stickies generated by Templates are now sent out in a single email as opposed to an email per sticky
@@ -463,12 +463,12 @@
 * Bug Fix
   * New stickies that are created and already marked as completed now correctly set a Sticky ID in the email
 
-== 0.11.1
+== 0.11.1 (December 9, 2011)
 
 * Bug Fix
   * Rake task now correctly sends out reminder emails (except weekend)
 
-== 0.11.0
+== 0.11.0 (December 9, 2011)
 
 * Enhancements
   * Adding support for templates
@@ -488,7 +488,7 @@
 * Testing
   * Test Coverage at 100%
 
-== 0.10.0
+== 0.10.0 (December 2, 2011)
 
 * Enhancements
   * Stickies can now have Due Dates
@@ -502,7 +502,7 @@
     * Owner, editors, and viewers on project
   * Using Rails 3.1.3 and Contour ~> 0.6.0
 
-== 0.9.0
+== 0.9.0 (November 8, 2011)
 
 * Enhancements
   * Using Rails 3.1.1, Ruby 1.9.3.p0, and Contour 0.5.6
@@ -517,7 +517,7 @@
 * Testing
   * Analyzing test coverage using SimpleCov gem, test coverage now at 92%
 
-== 0.8.0
+== 0.8.0 (September 21, 2011)
 
 * Enhancements
   * Emails are now sent for stickies when they are completed, can be disabled in user settings
@@ -525,22 +525,22 @@
     * delete comments attached to the project or sticky
     * move comments to another between project or sticky
 
-== 0.7.3
+== 0.7.3 (September 9, 2011)
 
 * Refactoring
   * Updating to Contour version 0.5.0
 
-== 0.7.2
+== 0.7.2 (September 7, 2011)
 
 * Refactoring
   * Updating to Contour version 0.4.0
 
-== 0.7.1
+== 0.7.1 (September 6, 2011)
 
 * Refactoring
   * Updating static image links for Contour version 0.3.2
 
-== 0.7.0
+== 0.7.0 (September 5, 2011)
 
 * Enhancements
   * Overall Graph is now available for system administrators
@@ -555,12 +555,12 @@
   * Graphs now properly render when displaying project names that contain apostrophes
   * JavaScript for the arrows next to the board selection fixed, boards now change correctly
 
-== 0.6.1
+== 0.6.1 (August 18, 2011)
 
 * Enhancements
   * Menu bar now sticks to the top of the window when the user scrolls down the page
 
-== 0.6.0
+== 0.6.0 (August 15, 2011)
 
 * Enhancements
   * Update Rails to 3.1
@@ -571,6 +571,13 @@
 * Testing
   * Updated base test coverage for all unit and functional tests
 
-== 0.5.0
+== 0.5.0 (May 2, 2011)
 
-* Fill In
+== 0.4.0 (April 22, 2011)
+
+== 0.3.0 (April 8, 2011)
+
+== 0.2.0 (March 25, 2011)
+
+== 0.1.0 (March 16, 2011)
+
