@@ -1,5 +1,8 @@
 == 0.24.3
 
+* Security Fix
+  * Updated Rails to 3.2.11
+
 == 0.24.2 (January 3, 2013)
 
 * Enhancements
