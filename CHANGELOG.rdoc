@@ -3,6 +3,9 @@
 * Enhancements
   * Gravatars are now displayed on the user index
 
+* Testing
+  * Added mail_view gem for easier email templating
+
 == 0.24.3 (January 8, 2013)
 
 * Security Fix
