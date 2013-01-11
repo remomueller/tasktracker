@@ -1,9 +1,11 @@
 class Comment < ActiveRecord::Base
   attr_accessible :description, :user_id
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| {conditions: [ 'LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(description) LIKE ?', arg.downcase.gsub(/^| |$/, '%') ] } }
   scope :with_creator, lambda { |*args|  { conditions: ["comments.user_id IN (?)", args.first] } }
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(comments.created_at) >= ? and DATE(comments.created_at) <= ?", args.first, args[1]]}}
   scope :with_project, lambda { |*args| { conditions: ['comments.sticky_id in (select stickies.id from stickies where stickies.deleted = ? and stickies.project_id IN (?))', false, args.first] } }
@@ -19,10 +21,6 @@ class Comment < ActiveRecord::Base
 
   def name
     "##{self.id}"
-  end
-
-  def destroy
-    update_column :deleted, true
   end
 
   def users_to_email(action, project_id, sticky)

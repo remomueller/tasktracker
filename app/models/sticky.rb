@@ -10,12 +10,14 @@ class Sticky < ActiveRecord::Base
 
   REPEAT = ["none", "day", "week", "month", "year"].collect{|i| [i,i]}
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%') ] } }
   scope :with_creator, lambda { |*args|  { conditions: ["stickies.user_id IN (?)", args.first] } }
   scope :with_owner, lambda { |*args|  { conditions: ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
   scope :with_board, lambda { |*args| { conditions: ["stickies.board_id IN (?) or (stickies.board_id IS NULL and 0 IN (?))", args.first, args.first] } }
-  scope :search, lambda { |*args| { conditions: [ 'LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :updated_since, lambda { |*args| { conditions: ["stickies.updated_at > ?", args.first] }}
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
 
@@ -144,7 +146,7 @@ class Sticky < ActiveRecord::Base
 
   def destroy
     self.comments.destroy_all
-    update_column :deleted, true
+    super
   end
 
   def full_description

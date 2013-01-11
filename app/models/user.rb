@@ -30,12 +30,14 @@ class User < ActiveRecord::Base
   serialize :settings, Hash
   serialize :sticky_filters, Hash
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%') ] } }
   scope :human, conditions: { service_account: false }
   scope :service_account, conditions: { service_account: true }
   scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :search, lambda { |*args| {conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
   scope :system_admins, conditions: { system_admin: true }
   scope :with_project, lambda { |*args| { conditions: ["users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1]] } }
 
@@ -94,7 +96,7 @@ class User < ActiveRecord::Base
   end
 
   def destroy
-    update_column :deleted, true
+    super
     update_column :status, 'inactive'
     update_column :updated_at, Time.now
   end

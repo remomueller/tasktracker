@@ -3,9 +3,11 @@ class Group < ActiveRecord::Base
 
   attr_accessor :board_id, :initial_due_date
 
+  # Concerns
+  include Deletable
+
   # Named Scopes
-  scope :current, conditions: { deleted: false }
-  scope :search, lambda { |*args| {conditions: [ 'LOWER(id) LIKE ? or LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(id) LIKE ? or LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%') ] } }
 
   # Hooks
   after_save :update_stickies_project
@@ -15,9 +17,9 @@ class Group < ActiveRecord::Base
 
   # Model Relationships
   belongs_to :user
-  belongs_to :template #, conditions: { deleted: false }
-  belongs_to :project #, conditions: { deleted: false }
-  has_many :stickies, conditions: { deleted: false } #, order: 'stickies.due_date desc'
+  belongs_to :template
+  belongs_to :project
+  has_many :stickies, conditions: { deleted: false }
 
   def name
     "##{self.id}"
@@ -34,8 +36,8 @@ class Group < ActiveRecord::Base
   end
 
   def destroy
-    update_column :deleted, true
     self.stickies.destroy_all
+    super
   end
 
   def export_ics

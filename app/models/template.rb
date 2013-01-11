@@ -9,7 +9,7 @@ class Template < ActiveRecord::Base
 
   # Named Scopes
   scope :none, conditions: ["1 = 0"]
-  scope :search, lambda { |*args| {conditions: [ 'LOWER(name) LIKE ? or LOWER(items) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(items) LIKE ?', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%') ] } }
 
   # Model Validation
   validates_presence_of :name, :project_id, :items

@@ -3,6 +3,9 @@
 * Enhancements
   * Gravatars are now displayed on the user index
 
+* Refactoring
+  * Added Searchable and Deletable ActiveSupport::Concerns to appropriate models
+
 * Testing
   * Added mail_view gem for easier email templating
 
