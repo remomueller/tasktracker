@@ -530,7 +530,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal true, assigns(:sticky).completed
     assert_not_nil assigns(:sticky).repeated_sticky
     assert_equal false, assigns(:sticky).repeated_sticky.completed
-    assert_equal Time.local(2013, 1, 3, 0, 0, 0), assigns(:sticky).repeated_sticky.due_date
+    assert_equal "01/03/2013 00:00", assigns(:sticky).repeated_sticky.due_date.strftime("%m/%d/%Y %H:%M")
     assert_template 'update'
     assert_response :success
   end
