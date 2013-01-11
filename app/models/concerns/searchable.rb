@@ -2,7 +2,7 @@ module Searchable
   extend ActiveSupport::Concern
 
   included do
-    scope :search, lambda { |*args| { conditions: [ 'LOWER(name) LIKE ? or LOWER(description) LIKE ?', '%' + args.first.downcase.split(' ').join('%') + '%', '%' + args.first.downcase.split(' ').join('%') + '%' ] } }
+    scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(description) LIKE ?', arg.downcase.gsub(/^| |$/, '%'), arg.downcase.gsub(/^| |$/, '%')) }
   end
 
 end
