@@ -1,5 +1,8 @@
 == 0.24.4
 
+* Enhancements
+  * Gravatars are now displayed on the user index
+
 == 0.24.3 (January 8, 2013)
 
 * Security Fix
