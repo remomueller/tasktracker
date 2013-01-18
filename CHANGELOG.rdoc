@@ -1,5 +1,9 @@
 == 0.25.0
 
+* Breaking Change
+  * Database default updated to use PostgreSQL
+    * Instructions {MIGRATING_TO_POSTGRESQL}[https://github.com/remomueller/documentation/blob/master/MIGRATING_TO_POSTGRESQL.md]
+
 == 0.24.4 (January 11, 2013)
 
 * Enhancements
