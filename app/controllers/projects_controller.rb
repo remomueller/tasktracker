@@ -90,7 +90,7 @@ class ProjectsController < ApplicationController
 
     project_scope = project_scope.by_favorite(current_user.id)
     @order = scrub_order(Project, params[:order], 'projects.name')
-    project_scope = project_scope.order("(favorite IS NULL or favorite = '0') ASC, " + @order)
+    project_scope = project_scope.order("(favorite IS NULL or favorite = 'f') ASC, " + @order)
 
     @count = project_scope.count
     @projects = project_scope.page(params[:page]).per(current_user.projects_per_page)

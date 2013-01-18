@@ -11,8 +11,7 @@ class Project < ActiveRecord::Base
   scope :with_user, lambda { |*args| { conditions: ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
   scope :has_template, lambda { |*args| { conditions: ['projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false] } }
 
-  # scope :by_favorite, lambda { |*args| {include: :project_favorites, conditions: ["project_favorites.user_id = ? or project_favorites.user_id IS NULL", args.first], order: "(project_favorites.favorite = 0) ASC" } }
-  scope :by_favorite, lambda { |*args| { joins: "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first.to_i}" } } #, order: "(project_favorites.favorite = 1) DESC"
+  scope :by_favorite, lambda { |*args| { joins: "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first.to_i}" } } #, order: "(project_favorites.favorite = 't') DESC"
 
   # Model Validation
   validates_presence_of :name, :user_id

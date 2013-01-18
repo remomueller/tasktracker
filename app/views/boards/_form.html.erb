@@ -28,7 +28,7 @@
   <div class="control-group">
     <%= f.label :project_id, class: 'control-label' %>
     <div class="controls">
-      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = '0') ASC, name").collect{|p| [p.name, p.id]}, @board.project_id) %>
+      <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").collect{|p| [p.name, p.id]}, @board.project_id) %>
     </div>
   </div>
 

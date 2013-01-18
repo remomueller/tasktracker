@@ -55,7 +55,7 @@ class UsersController < ApplicationController
     @favorite_projects_hash = {}
 
     (1..12).each do |month|
-      @user.all_projects.by_favorite(@user.id).order('(favorite IS NULL or favorite = 0) DESC, name DESC').each do |project|
+      @user.all_projects.by_favorite(@user.id).order("(favorite IS NULL or favorite = 'f') DESC, name DESC").each do |project|
         escaped_name = project.name.gsub("'", "\\\\'")
         if project_favorite = project.project_favorites.find_by_user_id(@user.id) and project_favorite.favorite?
           @favorite_projects_hash[escaped_name] = [] unless @favorite_projects_hash[escaped_name]
