@@ -484,7 +484,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sticky)
     assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
     assert_equal ['2011-12-02'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: true).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
-    assert_equal ['', '2011-12-08', '2011-12-09', '2011-12-10'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
+    assert_equal ['2011-12-08', '2011-12-09', '2011-12-10', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_template 'groups/create'
     assert_response :success
   end
@@ -744,7 +744,7 @@ class StickiesControllerTest < ActionController::TestCase
     put :update, id: stickies(:grouped_one), from_calendar: '1', sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, board_id: stickies(:grouped_one).board_id, completed: '0', due_date: "12/06/2011" }, shift: 'single'
     assert_not_nil assigns(:sticky)
     assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
-    assert_equal ['', '2011-12-02', '2011-12-03', '2011-12-04', '2011-12-05'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
+    assert_equal ['2011-12-02', '2011-12-03', '2011-12-04', '2011-12-05', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
@@ -753,7 +753,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sticky)
     assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
     assert_equal ['2011-12-02'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: true).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
-    assert_equal ['', '2011-12-08', '2011-12-09', '2011-12-10'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
+    assert_equal ['2011-12-08', '2011-12-09', '2011-12-10', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
@@ -761,7 +761,7 @@ class StickiesControllerTest < ActionController::TestCase
     put :update, id: stickies(:grouped_one), from_calendar: '1', sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, board_id: stickies(:grouped_one).board_id, completed: '0', due_date: "12/06/2011" }, shift: 'all'
     assert_not_nil assigns(:sticky)
     assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
-    assert_equal ['', '2011-12-07', '2011-12-08', '2011-12-09', '2011-12-10'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
+    assert_equal ['2011-12-07', '2011-12-08', '2011-12-09', '2011-12-10', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
 
