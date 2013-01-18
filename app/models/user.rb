@@ -86,7 +86,6 @@ class User < ActiveRecord::Base
         message = 'Error - Please try regenerating'
       end
     end
-    self.reload
     message
   end
 
