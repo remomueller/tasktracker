@@ -16,7 +16,7 @@ This readme assumes the following installation directory: /var/www/tasktracker
 
   git clone git://github.com/remomueller/tasktracker.git
 
-  cd notes
+  cd tasktracker
 
   bundle install
 

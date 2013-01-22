@@ -1,4 +1,4 @@
-module Notes
+module TaskTracker
   module VERSION #:nodoc:
     MAJOR = 0
     MINOR = 25

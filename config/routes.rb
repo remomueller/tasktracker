@@ -1,4 +1,4 @@
-Notes::Application.routes.draw do
+TaskTracker::Application.routes.draw do
 
   mount MailPreview => 'mail_view' if Rails.env.development?
 

@@ -393,7 +393,7 @@
     * Rails 3.2.0
     * Contour ~> 0.9.3
   * Devise migration and configuration file updated
-  * Notes RSS feed has moved to Task Tracker
+  * RSS feed has moved to Task Tracker
   * Environment files updated to be in sync with Rails 3.2.0
 
 == 0.15.1 (January 12, 2012)
@@ -551,8 +551,8 @@
 
 * Enhancements
   * Using Rails 3.1.1, Ruby 1.9.3.p0, and Contour 0.5.6
-  * Emails sent by notes now:
-    * Have consistent subjects lines
+  * Email Updates:
+    * Consistent subjects lines
     * Sticky Added email now displays who is assigned to the sticky
   * Right and Left Keyboard clicks now navigate between boards on the project show page
 
@@ -590,7 +590,7 @@
 * Enhancements
   * Overall Graph is now available for system administrators
   * The currently active board is now set initially on the project page
-  * Notes now uses Contour for application layout, registration, and authentication
+  * Application layout, registration, and authentication now provided by Contour gem
 
 * Refactoring
   * Changed object_id to class_id and object_model to class_name to avoid conflicts with Rails
