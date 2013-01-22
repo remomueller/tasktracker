@@ -3,6 +3,9 @@
 * Enhancements
   * Sticky duration and duration_units are now included in the CSV export
 
+* Bug Fix
+  * Setting an invalid repeat_amount and then changing the sticky to repeat "none" no longer causes a validation error on the repeat_amount
+
 == 0.24.4 (January 11, 2013)
 
 * Enhancements
