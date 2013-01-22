@@ -331,6 +331,20 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should create sticky and ignore invalid repeat amount when repeat is none" do
+    assert_difference('Sticky.count') do
+      post :create, from_calendar: '1', sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', repeat: 'none', repeat_amount: '0' }, format: 'js'
+    end
+
+    assert_not_nil assigns(:sticky)
+    assert_equal "Sticky Description", assigns(:sticky).description
+    assert_equal projects(:one), assigns(:sticky).project
+    assert_equal "none", assigns(:sticky).repeat
+    assert_equal 1, assigns(:sticky).repeat_amount
+    assert_template 'update'
+    assert_response :success
+  end
+
   test "should create a planned sticky" do
     assert_difference('Sticky.count') do
       post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "12/10/2011" }
