@@ -1,5 +1,8 @@
 == 0.24.5
 
+* Enhancements
+  * Sticky duration and duration_units are now included in the CSV export
+
 == 0.24.4 (January 11, 2013)
 
 * Enhancements

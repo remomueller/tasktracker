@@ -96,7 +96,7 @@ class StickiesController < ApplicationController
 
     if params[:format] == 'csv'
       @csv_string = CSV.generate do |csv|
-        csv << ["Name", "Due Date", "Description", "Status", "Assigned To", "Tags", "Project", "Creator", "Board"]
+        csv << ["Name", "Due Date", "Description", "Status", "Assigned To", "Tags", "Project", "Creator", "Board", "Duration", "Duration Units"]
         sticky_scope.each do |sticky|
           csv << [sticky.name,
                   sticky.due_date.blank? ? '' : sticky.due_date.strftime("%m-%d-%Y"),
@@ -106,7 +106,9 @@ class StickiesController < ApplicationController
                   sticky.tags.collect{|t| t.name}.join('; '),
                   sticky.project.name,
                   sticky.user.name,
-                  sticky.board ? sticky.board.name : '']
+                  sticky.board ? sticky.board.name : '',
+                  sticky.duration,
+                  sticky.duration_units]
         end
       end
       send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
