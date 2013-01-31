@@ -1,10 +1,26 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :authenticate_user!, only: [:search]
+
 
   layout "contour/layouts/application"
 
   def about
 
+  end
+
+  def search
+    @projects = current_user.all_viewable_projects.search_name(params[:q]).order('name').limit(10)
+
+    @objects = @projects
+
+    respond_to do |format|
+      format.json { render json: ([params[:q]] + @objects.collect(&:name)).uniq }
+      format.html do
+        # redirect_to [@objects.first.project, @objects.first] if @objects.size == 1 and @objects.first.respond_to?('project')
+        redirect_to @objects.first if @objects.size == 1 and not @objects.first.respond_to?('project')
+      end
+    end
   end
 
   protected

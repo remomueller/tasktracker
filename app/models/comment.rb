@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(description) LIKE ?', arg.downcase.gsub(/^| |$/, '%') ] } }
+  scope :search, lambda { |arg| { conditions: [ 'LOWER(description) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
   scope :with_creator, lambda { |*args|  { conditions: ["comments.user_id IN (?)", args.first] } }
   scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(comments.created_at) >= ? and DATE(comments.created_at) <= ?", args.first, args[1]]}}
   scope :with_project, lambda { |*args| { conditions: ['comments.sticky_id in (select stickies.id from stickies where stickies.deleted = ? and stickies.project_id IN (?))', false, args.first] } }

@@ -329,3 +329,8 @@ span.rounded-borders {
 .nav-header:hover {
   color: #333;
 }
+
+.highlight {
+  background-color: #ffffd4;
+  font-weight: bold;
+}

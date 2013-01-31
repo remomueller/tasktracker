@@ -134,6 +134,9 @@ jQuery ->
         else
           # selectBoard('all')
           $('#stickies_search').submit()
+      if $("#global-search").is(':focus') and e.which == 27
+        $("#global-search").blur()
+        return
       return if $("input, textarea").is(":focus")
       increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
       decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
@@ -144,12 +147,29 @@ jQuery ->
       else
         loadNewStickyModal() if e.which == 83
         loadNewGroupModal()  if e.which == 71
+      # [Alt|Command] + Shift + P will enter the search box
+      # $("#global-search").focus() if (e.altKey or e.metaKey) and e.shiftKey and e.which == 80 and not $("input, textarea").is(":focus")
+      if (e.altKey or e.metaKey) and e.shiftKey and e.which == 80 and not $("input, textarea").is(":focus")
+        $("#global-search").focus()
+        e.preventDefault()
+    )
+    .on('click', '#global-search', (e) ->
+      e.stopPropagation()
+      false
     )
     .on('change', "#sticky_project_id", () ->
       $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_board_id").serialize(), null, "script")
       false
     )
 
+  $("#global-search").typeahead(
+    source: (query, process) ->
+      return $.get(root_url + 'search', { q: query }, (data) -> return process(data))
+    updater: (item) ->
+      $("#global-search").val(item)
+      $("#global-search-form").submit()
+      return item
+  )
 
   loadColorSelectors()
 

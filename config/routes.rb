@@ -91,6 +91,7 @@ TaskTracker::Application.routes.draw do
 
   match "/about" => "application#about", as: :about
   match "/settings" => "users#settings", as: :settings
+  match "/search" => "application#search", as: :search
 
   root to: "stickies#calendar"
 
