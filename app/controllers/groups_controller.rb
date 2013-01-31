@@ -18,7 +18,6 @@ class GroupsController < ApplicationController
     group_scope = group_scope.where(template_id: params[:template_id]) unless params[:template_id].blank?
 
     @order = scrub_order(Group, params[:order], 'groups.id DESC')
-    # @order = Group.column_names.collect{|column_name| "groups.#{column_name}"}.include?(params[:order].to_s.split(' ').first) ? params[:order] : 'groups.id DESC'
     group_scope = group_scope.order(@order)
 
     @count = group_scope.count

@@ -5,7 +5,7 @@
   <span style="font-weight:200;font-size:20px;"><%= @template ? @template.name : 'No Template Selected' %></span>
 
   <span class="label label-highlight"><%= params[:search] %></span>
-  <%= link_to '-'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-mini' unless params[:tag_ids].blank? and params[:search].blank? %>
+  <%= link_to 'clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-mini' unless params[:tag_ids].blank? and params[:search].blank? %>
 
   <ul class="nav nav-list nav-rounded">
     <li class="nav-header">Groups (<%= @count %>)</li>
