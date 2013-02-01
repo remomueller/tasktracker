@@ -92,4 +92,10 @@
   <% end %>
 </div>
 
+<% unless @project.description.blank? %>
+  <div class="hero-unit">
+    <%= simple_format_links_target_blank @project.description %>
+  </div>
+<% end %>
+
 <div id="sticky-backdrop" style="display:none"></div>
