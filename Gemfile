@@ -38,5 +38,5 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'meta_request'
+  gem 'meta_request',                             github: 'olore/rails_panel'
 end
