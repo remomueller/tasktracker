@@ -10,6 +10,7 @@
     * Entering a Project name will jump to that project
     * With multiple results, the user will be directed to a search results page
   * Clarified template clear filter button to say 'clear' instead of '-'
+  * HTML sticky description markup no longer shows up on the calendar
 
 == 0.24.5 (January 22, 2013)
 
