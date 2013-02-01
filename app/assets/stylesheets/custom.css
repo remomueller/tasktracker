@@ -335,7 +335,7 @@ span.rounded-borders {
   font-weight: bold;
 }
 
-.tag-checkbox {
+.checkbox {
   padding: 6px 10px 6px 25px;
   font-size: 13px;
   line-height: 18px;
@@ -345,6 +345,9 @@ span.rounded-borders {
   border-radius: 3px;
   cursor: pointer;
   white-space: nowrap;
+}
+
+.tag-checkbox {
   font-weight: 200;
 }
 
