@@ -334,3 +334,38 @@ span.rounded-borders {
   background-color: #ffffd4;
   font-weight: bold;
 }
+
+.tag-checkbox {
+  padding: 6px 10px 6px 25px;
+  font-size: 13px;
+  line-height: 18px;
+  background-color: #f9f9f9;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-weight: 200;
+}
+
+.tag-checkbox {
+  opacity:0.4;
+  filter:alpha(opacity=40);
+  color:#000000;
+}
+
+.tag-checkbox.tag-selected:hover {
+  opacity:0.9;
+  filter:alpha(opacity=90);
+}
+
+.tag-checkbox:hover, .tag-checkbox.tag-selected {
+  opacity:1.0;
+  filter:alpha(opacity=100);
+  color: #ffffff;
+}
+
+.tag-checkbox.tag-selected .tag-name {
+  color: white;
+}
+
