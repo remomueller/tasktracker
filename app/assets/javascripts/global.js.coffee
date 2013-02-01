@@ -147,9 +147,8 @@ jQuery ->
       else
         loadNewStickyModal() if e.which == 83
         loadNewGroupModal()  if e.which == 71
-      # [Alt|Command] + Shift + P will enter the search box
-      # $("#global-search").focus() if (e.altKey or e.metaKey) and e.shiftKey and e.which == 80 and not $("input, textarea").is(":focus")
-      if (e.altKey or e.metaKey) and e.shiftKey and e.which == 80 and not $("input, textarea").is(":focus")
+      # P will enter the search box
+      if e.which == 80 and not $("input, textarea").is(":focus")
         $("#global-search").focus()
         e.preventDefault()
     )
