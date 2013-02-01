@@ -1,4 +1,4 @@
-<span style="font-weight:200;font-size:20px;"><%= @group.short_description %></span>
+<span style="font-weight:200;font-size:20px;"><%= @group.short_description %> <%= link_to 'show', @group, class: 'btn btn-mini', target: '_blank' %> <%= link_to 'edit', edit_group_path(@group), class: 'btn btn-mini' %></span>
 
 <%= simple_format @group.short_description_second_half %>
 

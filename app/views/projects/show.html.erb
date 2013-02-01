@@ -54,7 +54,7 @@
 
       <ul class="nav nav-list nav-rounded">
         <li class="divider"></li>
-        <li class="nav-header" style="cursor:pointer" data-link="<%= templates_path( project_id: @project.id ) %>">Templates</li>
+        <li class="nav-header" style="cursor:pointer" data-link="<%= templates_path( project_id: @project.id ) %>" rel="tooltip" title="Click to Edit Templates">Templates</li>
         <% @project.templates.natural_sort.each do |template_name, template_id| %>
           <li class="<%= 'active' if params[:template_id].to_i == template_id %>">
             <%= link_to template_name, project_path(@project, template_id: template_id), data: { object: 'template-select', template_id: template_id } %>
@@ -64,7 +64,7 @@
 
       <ul class="nav nav-list nav-rounded">
         <li class="divider"></li>
-        <li class="nav-header" style="cursor:pointer" data-link="<%= tags_path( project_id: @project.id ) %>">Tags</li>
+        <li class="nav-header" style="cursor:pointer" data-link="<%= tags_path( project_id: @project.id ) %>" rel="tooltip" title="Click to Edit Tags">Tags</li>
         <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
           <% tag = @project.tags.find_by_id(tag_id) %>
           <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
