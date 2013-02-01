@@ -33,3 +33,10 @@ group :test do
   gem 'turn',               '~> 0.9.6'
   gem 'simplecov',          '~> 0.7.1',           :require => false
 end
+
+# Development
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+end
