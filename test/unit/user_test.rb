@@ -24,4 +24,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal '', users(:valid).generate_api_token!('screen_token', t)
     assert_equal 'Error - Please try regenerating', users(:two).generate_api_token!('screen_token', t)
   end
+
+  test "should create an omniauth user without a password" do
+    u = User.new
+    omniauth = { 'info' => { 'first_name' => 'First Name', 'last_name' => 'Last Name', 'email' => 'omniauth@example.com' }, 'provider' => 'google_apps', 'uid' => 'omniauth@example.com' }
+    u.apply_omniauth(omniauth)
+    assert_difference('User.current.count') do
+      assert_difference('Authentication.count') do
+        u.save
+      end
+    end
+    assert u.errors.blank?
+    assert_equal "First Name", u.first_name
+    assert_equal "Last Name", u.last_name
+    assert_equal "omniauth@example.com", u.email
+  end
 end
