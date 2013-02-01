@@ -188,7 +188,10 @@ class StickiesController < ApplicationController
         @sticky.send_email_if_recently_completed(current_user)
         flash[:notice] = 'Sticky was successfully created.'
         format.html { redirect_to @sticky }
-        format.js { render 'update' } # Update handles board/calendar reloading
+        format.js do
+          params[:hide_show] = '1' if params[:from_calendar] == '1'
+          render 'update' # Update handles board/calendar reloading
+        end
         format.json { render json: @sticky, status: :created, location: @sticky }
       else
         @project_id = @sticky.project_id
