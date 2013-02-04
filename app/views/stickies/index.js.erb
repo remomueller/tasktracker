@@ -16,6 +16,7 @@
   <% if @project %>
     <% @boards = (@stickies.pluck(:board_id) + ['all', nil, ([0, nil, '0'].include?(params[:board_id]) ? nil : params[:board_id])]).uniq %>
     <% @boards.each do |board| %>
+      <% board_id = board %>
       <% board_id = 0 if board == nil %>
       $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-due-count',     '<%= @project.sticky_count(board, 'past_due') %>')
       $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-due-count',  '<%= @project.sticky_count(board, 'past_due', current_user) %>')
