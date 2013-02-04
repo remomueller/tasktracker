@@ -6,6 +6,7 @@ initializeCompletionButtons();
 <% @project = @stickies.first.project %>
 <% @boards = (@stickies.pluck(:board_id) + ['all', nil]).uniq %>
 <% @boards.each do |board| %>
+  <% board_id = board %>
   <% board_id = 0 if board == nil %>
   $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-due-count',     '<%= @project.sticky_count(board, 'past_due') %>')
   $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-due-count',  '<%= @project.sticky_count(board, 'past_due', current_user) %>')
