@@ -20,6 +20,7 @@
   * Sticky comment emails are now sent to everyone on the project unless they have selected not to receive sticky comment emails for that project
   * HTML markup in sticky descriptions and comments no longer shows up in the Daily Digest
   * Daily Digests no longer repeat Recently Completed stickies in the Recently Added stickies section
+  * Users are now more consistently notified when they are added to a project
 
 == 0.24.5 (January 22, 2013)
 
