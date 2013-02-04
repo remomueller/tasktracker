@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     @objects = @projects + @groups
 
     respond_to do |format|
-      format.json { render json: ([params[:q]] + @objects.collect(&:name)).uniq }
+      format.json { render json: ([params[:q]] + @projects.collect(&:name)).uniq }
       format.html do
         # redirect_to [@objects.first.project, @objects.first] if @objects.size == 1 and @objects.first.respond_to?('project')
         redirect_to @objects.first if @objects.size == 1 # and not @objects.first.respond_to?('project')
