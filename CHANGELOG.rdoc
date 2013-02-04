@@ -5,7 +5,7 @@
     * Instructions {MIGRATING_TO_POSTGRESQL}[https://github.com/remomueller/documentation/blob/master/MIGRATING_TO_POSTGRESQL.md]
 
 * Enhancements
-  * Quick project search added in the top navigation bar
+  * Quick project and group search added in the top navigation bar
     * Shortcut key 'p' will set focus on the search box
     * Entering a Project name will jump to that project
     * With multiple results, the user will be directed to a search results page
