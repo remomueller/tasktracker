@@ -1,7 +1,15 @@
-<%= @comment.user.name %> made the following comment on Sticky <%= @sticky.name %> located at <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>.
+<%= @comment.user.name %> COMMENTED on Sticky <%= @sticky.name %> located at <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>.
 
 
-<%= @comment.description %>
+<% @sticky.comments.limit(5).each do |comment| %>
+<%= comment.user.name %> (<%= simple_time comment.created_at %>):
 
+      <%= comment.description %>
+
+
+<% end %>
+
+
+<%= render partial: 'sticky_note' %>
 
 <%= @footer_txt %>

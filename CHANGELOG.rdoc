@@ -16,6 +16,7 @@
   * Creating stickies from the calendar no longer displays the sticky show popup
   * Styling updated for selecting tags when creating/updating stickies
   * Project description added to the bottom of the redesigned project page
+  * Comment emails now contain previous comments and the description of the sticky
 
 == 0.24.5 (January 22, 2013)
 

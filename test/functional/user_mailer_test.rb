@@ -61,7 +61,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{comment.user.name} Commented on Sticky #{sticky.name}", email.subject
-    assert_match(/#{comment.user.name} made the following comment on Sticky #{sticky.name} located at #{SITE_URL}\/stickies\/#{sticky.id}\./, email.encoded)
+    assert_match(/#{comment.user.name} COMMENTED on Sticky #{sticky.name} located at #{SITE_URL}\/stickies\/#{sticky.id}\./, email.encoded)
   end
 
   test "sticky by mail email" do
