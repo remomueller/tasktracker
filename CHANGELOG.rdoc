@@ -17,6 +17,7 @@
   * Styling updated for selecting tags when creating/updating stickies
   * Project description added to the bottom of the redesigned project page
   * Comment emails now contain previous comments and the description of the sticky
+  * Sticky comment emails are now sent to everyone on the project unless they have selected not to receive sticky comment emails for that project
 
 == 0.24.5 (January 22, 2013)
 

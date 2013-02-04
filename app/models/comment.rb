@@ -45,9 +45,7 @@ class Comment < ActiveRecord::Base
 
   def send_email
     all_users = []
-    all_users = users_to_email(:sticky_comments, self.sticky.project_id, self.sticky) if self.sticky
-
-    all_users = all_users - [self.user]
+    all_users = self.sticky.project.users_to_email(:sticky_comments) - [self.user] if self.sticky
 
     all_users.each do |user_to_email|
       UserMailer.comment_by_mail(self, self.sticky, user_to_email).deliver if Rails.env.production?
