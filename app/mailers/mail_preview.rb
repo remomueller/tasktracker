@@ -23,7 +23,7 @@ class MailPreview < MailView
 
   def comment_by_mail
     comment = Comment.current.first
-    sticky = Sticky.current.first
+    sticky = comment.sticky
     recipient = User.current.first
     UserMailer.comment_by_mail(comment, sticky, recipient)
   end
