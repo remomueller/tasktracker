@@ -7,7 +7,7 @@
         <tr>
           <% row_tags.each do |tag| %>
             <td style="white-space:nowrap;overflow:hidden;">
-              <% if tag %><label class="checkbox tag-checkbox <%= 'tag-selected' if @sticky.tags.include?(tag) %>" style="background-color: <%= tag.color %>"><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <span class="tag-name"><%= tag.name %></span></label><% end %>
+              <% if tag %><label class="checkbox tag-checkbox <%= 'tag-selected' if @sticky.tags.include?(tag) %>" style="margin-bottom: 0px;background-color: <%= tag.color %>"><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <span class="tag-name"><%= tag.name %></span></label><% end %>
             </td>
           <% end %>
         </tr>
