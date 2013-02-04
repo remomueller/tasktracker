@@ -21,7 +21,7 @@ COMMENTS
 <% comments.group_by{|s| s.sticky_id}.each do |sticky_id, comments| %>
 
   <%= ((sticky = Sticky.find_by_id(sticky_id)) ? "#{sticky.name} #{SITE_URL}/stickies/#{sticky.id}" : 'No Sticky') %>
-  <%= sticky.full_description[0..50].to_s + (sticky.full_description.size > 51 ? "..." : '') %>
+  <%= strip_tags(sticky.full_description).truncate(50) %>
 
   <% comments.each do |comment| %>
      <%= @comment = comment; render partial: 'digest_comment' %>

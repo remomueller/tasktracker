@@ -18,6 +18,7 @@
   * Project description added to the bottom of the redesigned project page
   * Comment emails now contain previous comments and the description of the sticky
   * Sticky comment emails are now sent to everyone on the project unless they have selected not to receive sticky comment emails for that project
+  * HTML markup in sticky descriptions and comments no longer shows up in the Daily Digest
 
 == 0.24.5 (January 22, 2013)
 

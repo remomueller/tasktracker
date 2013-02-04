@@ -1,1 +1,2 @@
-<%= @sticky.name %> <%= @sticky.full_description[0..100].to_s + (@sticky.full_description.size > 101 ? "..." : '') %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>
+<%= @sticky.name %> <%= strip_tags(@sticky.full_description).truncate(100) %>
+     <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>
