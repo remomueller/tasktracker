@@ -10,6 +10,7 @@ class ProjectUsersController < ApplicationController
     if @project and (not @user.blank? or not invite_email.blank?)
       if @user
         @project_user = @project.project_users.find_or_create_by_user_id(@user.id, { creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true') })
+        @project_user.notify_user_added_to_project
       elsif not invite_email.blank?
         @project_user = @project.project_users.find_or_create_by_invite_email(invite_email, { creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true') })
         @project_user.generate_invite_token!
