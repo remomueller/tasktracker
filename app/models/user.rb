@@ -175,7 +175,7 @@ class User < ActiveRecord::Base
   # Ex: On Tuesday, returns stickies created since Monday morning (Time.now - 1.day)
   def digest_stickies_created
     @digest_stickies_created ||= begin
-      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}, completed: false).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
     end
   end
 
