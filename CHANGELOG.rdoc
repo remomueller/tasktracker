@@ -22,6 +22,9 @@
   * Daily Digests no longer repeat Recently Completed stickies in the Recently Added stickies section
   * Users are now more consistently notified when they are added to a project
 
+* Bug Fix
+  * Board counts are now updated when marking/unmarking stickies as completed
+
 == 0.24.5 (January 22, 2013)
 
 * Enhancements

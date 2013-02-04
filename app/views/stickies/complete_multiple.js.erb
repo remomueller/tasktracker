@@ -2,3 +2,18 @@
   markCompletion('<%= sticky.id %>', <%= sticky.completed? ? 'true' : 'false' %>);
 <% end %>
 initializeCompletionButtons();
+
+<% @project = @stickies.first.project %>
+<% @boards = (@stickies.pluck(:board_id) + ['all', nil]).uniq %>
+<% @boards.each do |board| %>
+  <% board_id = 0 if board == nil %>
+  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-due-count',     '<%= @project.sticky_count(board, 'past_due') %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-due-count',  '<%= @project.sticky_count(board, 'past_due', current_user) %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('upcoming-count',     '<%= @project.sticky_count(board, 'upcoming') %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-upcoming-count',  '<%= @project.sticky_count(board, 'upcoming', current_user) %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('completed-count',    '<%= @project.sticky_count(board, 'completed') %>')
+  $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-completed-count', '<%= @project.sticky_count(board, 'completed', current_user) %>')
+
+<% end %>
+
+setBoardNames();

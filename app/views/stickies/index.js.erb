@@ -11,6 +11,26 @@
   activateStickyDraggables();
   initializeCompletionButtons();
 
+
+  <% @project = current_user.all_viewable_projects.find_by_id(params[:project_id]) %>
+  <% if @project %>
+    <% @boards = (@stickies.pluck(:board_id) + ['all', nil, ([0, nil, '0'].include?(params[:board_id]) ? nil : params[:board_id])]).uniq %>
+    <% @boards.each do |board| %>
+      <% board_id = 0 if board == nil %>
+      $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('past-due-count',     '<%= @project.sticky_count(board, 'past_due') %>')
+      $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-past-due-count',  '<%= @project.sticky_count(board, 'past_due', current_user) %>')
+      $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('upcoming-count',     '<%= @project.sticky_count(board, 'upcoming') %>')
+      $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-upcoming-count',  '<%= @project.sticky_count(board, 'upcoming', current_user) %>')
+      $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('completed-count',    '<%= @project.sticky_count(board, 'completed') %>')
+      $('[data-object~="board-select"][data-board-id="<%= board_id %>"]').data('my-completed-count', '<%= @project.sticky_count(board, 'completed', current_user) %>')
+
+    <% end %>
+
+    setBoardNames();
+  <% end %>
+
+
+
 <% else %>
   $("#stickies").html("<%= escape_javascript(render("stickies")) %>");
   $("#sticky_tag_selection_container").html("<%= escape_javascript(render("tags/multi_tag_selection")) %>");
