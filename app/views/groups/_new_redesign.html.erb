@@ -26,7 +26,7 @@
       <%= link_to 'Cancel', @group, method: :get, remote: true, class: 'btn btn-mini pull-right' %>
     <% end %>
 
-    <%= f.submit nil, class: 'btn btn-primary btn-mini pull-right', style: 'margin-right:5px' %>
+    <%= f.submit nil, class: 'btn btn-primary btn-mini pull-right', style: 'margin-right:5px', data: { object: 'sticky-submit', target: @group.new_record? ? "#new_group" : "#edit_group_#{@group.id}" } %>
   </div>
 
   <div id="item_details"></div>

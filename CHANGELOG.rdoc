@@ -21,6 +21,7 @@
   * HTML markup in sticky descriptions and comments no longer shows up in the Daily Digest
   * Daily Digests no longer repeat Recently Completed stickies in the Recently Added stickies section
   * Users are now more consistently notified when they are added to a project
+  * Sticky and group creation buttons are now disabled after they are clicked to prevent two identical stickies from being created
 
 * Bug Fix
   * Board counts are now updated when marking/unmarking stickies as completed

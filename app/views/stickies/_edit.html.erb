@@ -26,6 +26,6 @@
       <%= link_to 'Cancel', @sticky, method: :get, remote: true, class: 'btn btn-mini pull-right' %>
     <% end %>
 
-    <%= f.submit nil, class: 'btn btn-primary btn-mini pull-right', style: 'margin-right:5px' %>
+    <%= f.submit nil, class: 'btn btn-primary btn-mini pull-right', style: 'margin-right:5px', data: { object: 'sticky-submit', target: @sticky.new_record? ? "#new_sticky" : "#edit_sticky_#{@sticky.id}" } %>
   </div>
 <% end %>

@@ -1,3 +1,5 @@
 <% @sticky.errors.each do |key, value| %>
   $('#sticky_<%= key %>').parent().parent().addClass('error');
 <% end %>
+
+resetSubmitButtons();

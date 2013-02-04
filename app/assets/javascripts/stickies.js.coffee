@@ -175,6 +175,9 @@
   $('[data-object~="tag-select"]').parent().removeClass('active')
   $('#tag_ids').val('')
 
+@resetSubmitButtons = () ->
+  $('[data-object~="sticky-submit"]').removeAttr('disabled')
+
 jQuery ->
   $("#sticky_calendar_form")
     .on("change", (event) ->
@@ -309,4 +312,9 @@ jQuery ->
         $('[data-object~="time-options"]').hide()
       else
         $('[data-object~="time-options"]').show()
+    )
+    .on('click', '[data-object~="sticky-submit"]', () ->
+      $('[data-object~="sticky-submit"]').attr('disabled', 'disabled')
+      $($(this).data('target')).submit()
+      false
     )
