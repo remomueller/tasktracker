@@ -93,6 +93,6 @@
   <%= f.label :repeat, "Repeat", class: 'control-label' %>
   <div class="controls">
     <%= f.number_field :repeat_amount, { data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none' }" } %>
-    <%= f.select :repeat, Sticky::REPEAT %> <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">After Completion</span>
+    <%= f.select :repeat, Sticky::REPEAT %> <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">after due date</span>
   </div>
 </div>
