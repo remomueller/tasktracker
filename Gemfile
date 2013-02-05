@@ -34,9 +34,9 @@ group :test do
   gem 'simplecov',          '~> 0.7.1',           :require => false
 end
 
-# Development
-group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller'
-  gem 'meta_request',                             github: 'olore/rails_panel'
-end
+# # Development
+# group :development do
+#   gem 'better_errors'
+#   gem 'binding_of_caller'
+#   gem 'meta_request',                             github: 'olore/rails_panel'
+# end
