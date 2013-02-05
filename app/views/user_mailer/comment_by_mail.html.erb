@@ -5,7 +5,7 @@
 <table style="background-color: white;border: 0px;"><col width="50px"/>
   <tr style="background-color: white;border: 0px;">
     <td style="background-color: white;border: 0px;vertical-align:top;">
-      <%= image_tag comment.user.avatar_url(50, "identicon") %>
+      <%= image_tag('http:'+comment.user.avatar_url(50, "identicon"), size: '50x50', alt: '', style: 'vertical-align: middle') %>
     </td>
     <td style="border: 0px;vertical-align:top;padding-left:10px;">
       <div style="border-left: 2px solid <%= (@comment and @comment.id == comment.id) ? '#c2daff' : 'white' %>;padding-left:10px">
