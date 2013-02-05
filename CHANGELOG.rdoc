@@ -5,23 +5,27 @@
     * Instructions {MIGRATING_TO_POSTGRESQL}[https://github.com/remomueller/documentation/blob/master/MIGRATING_TO_POSTGRESQL.md]
 
 * Enhancements
-  * Quick project and group search added in the top navigation bar
+  * Project Changes
+    * Project description added to the bottom of the redesigned project page
+    * Clarified template clear filter button to say 'clear' instead of '-'
+    * Links added to project page to edit existing templates and groups
+  * Sticky Changes
+    * Styling updated for selecting tags when creating/updating stickies
+    * Creating stickies from the calendar no longer displays the sticky show popup
+    * HTML sticky description markup no longer shows up on the calendar
+    * Clicking on links in comments now opens up a new window or tab
+    * Sticky and group creation buttons are now disabled after they are clicked to prevent two identical stickies from being created
+  * Email Changes
+    * Sticky comment emails are now sent to everyone on the project unless they have selected not to receive sticky comment emails for that project
+    * Comment emails now contain previous comments and the description of the sticky
+    * HTML markup in sticky descriptions and comments no longer shows up in the Daily Digest
+    * Daily Digests no longer repeat Recently Completed stickies in the Recently Added stickies section
+    * Users are now more consistently notified when they are added to a project
+  * New Search Feature
+    * Quick project and group search added in the top navigation bar
     * Shortcut key 'p' will set focus on the search box
-    * Entering a Project name will jump to that project
+    * Entering a project name will jump to that project
     * With multiple results, the user will be directed to a search results page
-  * Clarified template clear filter button to say 'clear' instead of '-'
-  * HTML sticky description markup no longer shows up on the calendar
-  * Clicking on links in comments now opens up a new window or tab
-  * Provided links on the show page to edit and show existing templates and groups
-  * Creating stickies from the calendar no longer displays the sticky show popup
-  * Styling updated for selecting tags when creating/updating stickies
-  * Project description added to the bottom of the redesigned project page
-  * Comment emails now contain previous comments and the description of the sticky
-  * Sticky comment emails are now sent to everyone on the project unless they have selected not to receive sticky comment emails for that project
-  * HTML markup in sticky descriptions and comments no longer shows up in the Daily Digest
-  * Daily Digests no longer repeat Recently Completed stickies in the Recently Added stickies section
-  * Users are now more consistently notified when they are added to a project
-  * Sticky and group creation buttons are now disabled after they are clicked to prevent two identical stickies from being created
 
 * Bug Fix
   * Board counts are now updated when marking/unmarking stickies as completed
