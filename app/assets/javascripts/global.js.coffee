@@ -137,9 +137,7 @@ jQuery ->
       if $("#global-search").is(':focus') and e.which == 27
         $("#global-search").blur()
         return
-      return if $("input, textarea").is(":focus")
-      increaseSelectedIndex('#board_id', '#board_name') if e.which == 37
-      decreaseSelectedIndex('#board_id', '#board_name') if e.which == 39
+      return if $("input, textarea, select, a").is(":focus")
       goBackOneMonth() if e.which == 37
       goForwardOneMonth() if e.which == 39
       if $("#sticky-backdrop").is(':visible')
@@ -148,7 +146,7 @@ jQuery ->
         loadNewStickyModal() if e.which == 83
         loadNewGroupModal()  if e.which == 71
       # P will enter the search box
-      if e.which == 80 and not $("input, textarea").is(":focus")
+      if e.which == 80
         $("#global-search").focus()
         e.preventDefault()
     )
