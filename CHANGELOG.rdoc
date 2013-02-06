@@ -1,4 +1,4 @@
-== 0.25.1
+== 0.25.1 (February 6, 2013)
 
 * Enhancements
   * Comment Emails now include the full time the comment was made to provide better information when looking at older comment emails
