@@ -2,7 +2,7 @@
 
 
 <% @sticky.comments.limit(5).each do |comment| %>
-<%= comment.user.name %> (<%= simple_time comment.created_at %>):
+<%= comment.user.name %> (<%= comment.created_at.strftime("on %b %d, %Y at %I:%M %p") %>):
 
       <%= comment.description %>
 

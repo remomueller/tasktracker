@@ -1,5 +1,8 @@
 == 0.25.1
 
+* Enhancements
+  * Comment Emails now include the full time the comment was made to provide better information when looking at older comment emails
+
 * Bug Fix
   * Default colors for project are now correctly based on the order in which the project was created
 
