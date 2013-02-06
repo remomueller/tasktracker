@@ -90,6 +90,7 @@ TaskTracker::Application.routes.draw do
   end
 
   match "/about" => "application#about", as: :about
+  match "/about/use" => "application#use", as: :about_use
   match "/settings" => "users#settings", as: :settings
   match "/search" => "application#search", as: :search
 

@@ -10,6 +10,11 @@ class ApplicationControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should get acceptable use policy" do
+    get :use
+    assert_response :success
+  end
+
   test "should get search" do
     login(users(:valid))
     get :search, q: ''
