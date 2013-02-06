@@ -1,5 +1,8 @@
 == 0.25.1
 
+* Bug Fix
+  * Default colors for project are now correctly based on the order in which the project was created
+
 == 0.25.0 (February 5, 2013)
 
 * Breaking Change
