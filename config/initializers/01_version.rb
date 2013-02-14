@@ -3,7 +3,7 @@ module TaskTracker
     MAJOR = 0
     MINOR = 25
     TINY = 2
-    BUILD = "pre" # nil, "pre", "beta1", "beta2", "rc", "rc2"
+    BUILD = nil # nil, "pre", "beta1", "beta2", "rc", "rc2"
 
     STRING = [MAJOR, MINOR, TINY, BUILD].compact.join('.')
   end
