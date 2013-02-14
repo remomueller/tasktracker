@@ -56,7 +56,7 @@ Edit Cron Jobs `sudo crontab -e` to run the task lib/tasks/reminder_email.rake
 0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-1.9.3-p327/bin/bundle exec rake reminder_email RAILS_ENV=production
 ```
 
-## Exporting the Task Tracker Data Dictionary for use by {Hybrid}[https://github.com/remomueller/hybrid] for dynamic reporting and searches
+## Exporting the Task Tracker Data Dictionary for use by [Hybrid](https://github.com/sleepepi/hybrid) for dynamic reporting and searches
 
 Edit Cron Jobs `sudo crontab -e` to export the data dictionary
 
