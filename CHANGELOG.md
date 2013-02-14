@@ -1,5 +1,8 @@
 ## 0.25.2
 
+### Security Fix
+- Updated Rails to 3.2.12
+
 ## 0.25.1 (February 6, 2013)
 
 ### Enhancements
