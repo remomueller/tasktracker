@@ -16,23 +16,23 @@
   - Instructions [MIGRATING_TO_POSTGRESQL](https://github.com/remomueller/documentation/blob/master/MIGRATING_TO_POSTGRESQL.md)
 
 ### Enhancements
-- Project Changes
+- **Project Changes**
   - Project description added to the bottom of the redesigned project page
   - Clarified template clear filter button to say 'clear' instead of '-'
   - Links added to project page to edit existing templates and groups
-- Sticky Changes
+- **Sticky Changes**
   - Styling updated for selecting tags when creating/updating stickies
   - Creating stickies from the calendar no longer displays the sticky show popup
   - HTML sticky description markup no longer shows up on the calendar
   - Clicking on links in comments now opens up a new window or tab
   - Sticky and group creation buttons are now disabled after they are clicked to prevent two identical stickies from being created
-- Email Changes
+- **Email Changes**
   - Sticky comment emails are now sent to everyone on the project unless they have selected not to receive sticky comment emails for that project
   - Comment emails now contain previous comments and the description of the sticky
   - HTML markup in sticky descriptions and comments no longer shows up in the Daily Digest
   - Daily Digests no longer repeat Recently Completed stickies in the Recently Added stickies section
   - Users are now more consistently notified when they are added to a project
-- New Search Feature
+- **New Search Feature**
   - Quick project and group search added in the top navigation bar
   - Shortcut key 'p' will set focus on the search box
   - Entering a project name will jump to that project
@@ -70,15 +70,15 @@
 ### Enhancements
 - Updated to Contour 1.1.2
 - Removed deprecated Group Creation JSON API, Groups can now be created by specifying:
-  - group[project_id]
-  - group[template_id]
-  - group[initial_due_date] (optional, defaults to today)
-  - group[description] (optional)
-  - group[board_id] (optional)
+  - `group[project_id]`
+  - `group[template_id]`
+  - `group[initial_due_date] (optional, defaults to today)`
+  - `group[description] (optional)`
+  - `group[board_id] (optional)`
 - Sticky addition/completion emails simplified
 
 ### Bug Fix
-- Sticky popups now display the repeat_amount (1,2,3) along with the repeat_unit (day,week,month,year) for repeating stickies
+- Sticky popups now display the `repeat_amount` (1,2,3) along with the `repeat_unit` (day,week,month,year) for repeating stickies
 
 ## 0.24.1 (January 3, 2013)
 
@@ -88,7 +88,7 @@
 ## 0.24.0 (January 2, 2013)
 
 ### Enhancements
-- Project Changes
+- **Project Changes**
   - Major rework of the project show page to better reflect boards and tags
     - This rework is aimed at improving the flexibility of the project page in order to discourage users from using stickies index
     - Contains three views
@@ -98,14 +98,14 @@
       - Direction of these views can be reversed, useful to see stickies with no due date assigned
     - Stickies can be dragged onto different boards
     - Stickies can be tagged by dragging stickies onto tags
-- Calendar Changes
+- **Calendar Changes**
   - Sticky editing and viewing from the calendar has changed to use an redesigned popup similar to the one used on the new project page
-- Sticky Changes
+- **Sticky Changes**
   - Multiple stickies completed at once will now send out a single email per user
   - Stickies can now be repeated daily, weekly, monthly, or yearly
     - Upon completing a sticky that has either day, week, month, or year set, a new copy of that sticky is created 1 [day, week, month, year] later
     - The number can also be set, so a sticky could be done every 2 days
-- Group Changes
+- **Group Changes**
   - New Boards can now be created when creating a group
 - Updated to Contour 1.1.2.pre
 
@@ -210,7 +210,7 @@
 - Daily digest emails are now available for users who prefer a digest of the previous day included stickies added, completed, and comments made
 - Stickies can now be reassigned to another user in bulk from the project page
 - Users can now be added by email to projects without requiring the user to be signed up
-- Calendar Changes
+- **Calendar Changes**
   - Calendar filters have been simplified and given a consistent look
   - Sticky popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
   - Dragging grouped stickies on the calendar now prompts whether to move the invidual sticky, all incomplete stickies in the group, or all the stickies in the group
@@ -220,17 +220,17 @@
 ### Enhancements
 - Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
 - The About page now references the Task Tracker forum and contact information
-- Sticky Changes
+- **Sticky Changes**
   - Creating a group of stickies from the project page now refreshes and shows the newly created stickies
   - Cleaned up lists of stickies by changing how they expand when clicking on them
-- Template Changes
+- **Template Changes**
   - Boards and Templates now require unique names per project
   - Templates can now be copied
     - Note: Tags and owners aren't copied to new templates
   - Compact editing of templates added
     - Template items can be reordered by dragging stickies
   - Generating a new group from a template now requires the project to be specified to limit the number of templates that are displayed
-- Email Changes
+- **Email Changes**
   - Default application name is now added to the from: field for emails
   - Email subjects no longer include the application name
 - New Registration Changes
@@ -341,13 +341,13 @@
 
 ### Enhancements
 - Templates can now specify that generated stickies avoid weekends
-- Calendar Updates
+- **Calendar Changes**
   - Stickies can now be dragged to a new date
   - Improved performance using a combination of caching and AJAX
-- Email Updates
+- **Email Changes**
   - Daily Stickies Due now also includes stickies due the following day (or the following Monday)
   - Daily Stickies Due now includes an ICS file to allow syncing with an external calendar
-- Sticky Updates
+- **Sticky Changes**
   - Stickies can be exported to an ICS calendar format from the stickies list
   - Updated GUI for sticky show page and comments
   - Stickies in lists can now be deleted inline
@@ -399,14 +399,14 @@
 ## 0.16.0 (February 1, 2012)
 
 ### Enhancements
-- Calendar improvements:
+- **Calendar Changes**
   - Saves checked 'completed' or 'not completed' filters on calendar
   - Displays stickies in the following or preceding month
   - Can filter stickies assigned to the user
 - Project selection dropdowns are now sorted by favorites first
 - Stickies search now allows users to filter unassigned stickies
 - Email settings page now prompts user if the user navigates away without saving updated settings
-- Tagging improvements:
+- **Tagging Changes**
   - Sticky list page can now filter stickies which contain at least one, or all selected tags
   - Tags can now be given an additional color and description
   - Sticky list page tag filters now only shows tags for the selected project
@@ -442,7 +442,7 @@
 
 ### Enhancements
 - Groups of stickies can now have their due dates shifted by editing a single sticky in the group and selecting either 'incomplete' to shift all other not completed stickies, or 'all' to shift all the stickies in the group
-- Calendar improvements
+- **Calendar Changes**
   - Stickies are now displayed under their tags
   - Stickies can now be displayed or hidden per project
   - Project colors can now be personalized
@@ -503,10 +503,10 @@
 ## 0.13.0 (December 20, 2011)
 
 ### Enhancements
-- Calendar Improvements
+- **Calendar Changes**
   - Double clicking on calendar allows creation of a sticky or a sticky group
   - Today's Date and Mouse Hover colors have been lightened
-- Sticky Groups
+- **Sticky Groups**
   - Deleting a grouped sticky now prompts the user to delete:
     - a single sticky
     - all following
@@ -515,9 +515,9 @@
 - Navigation
   - Creating, Updating, and Deleting stickies from the calendar has been improved
   - Viewing a project now adds a menu item to that project's templates and boards
-- Sticky Tags:
+- **Sticky Tags**
   - Project specific tags can be assigned to stickies
-- Email layout has improved:
+- Email layout has improved
   - Daily Stickies Due are now grouped by project
   - Sticky Completion emails now list additional stickies in the group
   - Due Date, Tags, and Group information added across sticky emails
