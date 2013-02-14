@@ -16,7 +16,7 @@ Once you have the prerequisites in place, you can proceed to install bundler whi
 gem install bundler
 ```
 
-This readme assumes the following installation directory: /var/www/tasktracker
+This readme assumes the following installation directory: `/var/www/tasktracker`
 
 ```console
 cd /var/www
@@ -50,7 +50,7 @@ All done!
 
 ## Setting up Daily Stickies Due Emails
 
-Edit Cron Jobs `sudo crontab -e` to run the task lib/tasks/reminder_email.rake
+Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 
 ```console
 0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-1.9.3-p327/bin/bundle exec rake reminder_email RAILS_ENV=production
