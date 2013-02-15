@@ -1,3 +1,5 @@
+## 0.25.3
+
 ## 0.25.2 (February 14, 2013)
 
 ### Security Fix
