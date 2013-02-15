@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
   def api_authentication!
-    if current_user.service_account? and User::VALID_API_TOKENS.include?(params[:api_token]) and user = User.find_by_api_token(params[:api_token], params[params[:api_token]])
+    if current_user.service_account? and User::VALID_API_TOKENS.include?(params[:api_token]) and user = User.find_by_api_token(params[:api_token], params[params[:api_token]].to_s)
       sign_in(:user, user)
       @current_user = nil
     end

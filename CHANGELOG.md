@@ -1,5 +1,8 @@
 ## 0.25.3
 
+### Security Fix
+- Fixed a bug that could cause a service account user to log in an incorrect user when passing the user's token as `nil` via the JSON message
+
 ## 0.25.2 (February 14, 2013)
 
 ### Security Fix
