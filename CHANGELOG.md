@@ -1,6 +1,7 @@
 ## 0.25.4
 
 ### Enhancements
+- The `Add Comment` button is now disabled while a comment is being submitted
 - **Gem Changes**
   - Updated to Contour 1.2.0
 

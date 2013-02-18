@@ -48,8 +48,6 @@ class CommentsController < ApplicationController
     if @comment.save
       @comments = @sticky.comments.page(params[:page]).per(params[:per])
       params[:action] = 'search' # Trick for pagination
-    else
-      render nothing: true
     end
   end
 

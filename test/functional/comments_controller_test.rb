@@ -42,7 +42,7 @@ class CommentsControllerTest < ActionController::TestCase
     end
 
     assert_nil assigns(:sticky)
-    assert_response :success
+    assert_template 'create'
   end
 
   test "should search comments" do
