@@ -1,13 +1,1 @@
-<% if params[:direction].to_i > 0 %>
-  $("#stickies").hide( 'slide', { direction: "left" }, 500 );
-  $("#stickies").html("<%= escape_javascript(render("stickies/stickies")) %>");
-  $("#stickies").show( 'slide', { direction: "right" }, 500 );
-<% elsif params[:direction].to_i < 0 %>
-  $("#stickies").hide( 'slide', { direction: "right" }, 500 );
-  $("#stickies").html("<%= escape_javascript(render("stickies/stickies")) %>");
-  $("#stickies").show( 'slide', { direction: "left" }, 500 );  
-<% else %>
-  $("#stickies").html("<%= escape_javascript(render("stickies/stickies")) %>");
-<% end %>
-
-$("#direction").val(0);
+$("#stickies").html("<%= escape_javascript(render("stickies/stickies")) %>");

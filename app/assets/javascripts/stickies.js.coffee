@@ -1,14 +1,8 @@
-@toggleSticky = (element) ->
-  $(element).toggle()
-  $(element+'_short_description').toggle()
-  $(element+'_description').toggle('slide', { direction: 'up' })
-
 @goBackOneMonth = () ->
   now = new Date $('#selected_date').val()
   now = new Date() if isNaN(now.getFullYear())
   new_month = new Date now.getFullYear(), now.getMonth()-1, 1
   $('#selected_date').val((new_month.getMonth() + 1) + "/" + new_month.getDate() + "/" + new_month.getFullYear())
-  $('#direction').val(-1)
   $('#selected_date').change()
 
 @goForwardOneMonth = () ->
@@ -16,13 +10,11 @@
   now = new Date() if isNaN(now.getFullYear())
   new_month = new Date now.getFullYear(), now.getMonth()+1, 1
   $('#selected_date').val((new_month.getMonth() + 1) + "/" + new_month.getDate() + "/" + new_month.getFullYear())
-  $('#direction').val(1)
   $('#selected_date').change()
 
 @getToday = () ->
   now = new Date()
   $('#selected_date').val((now.getMonth() + 1) + "/" + now.getDate() + "/" + now.getFullYear())
-  $('#direction').val(0)
   $('#selected_date').change()
 
 @activateCalendarStickyPopups = () ->
@@ -185,10 +177,6 @@ jQuery ->
     )
 
   $(document)
-    .on('click', '[data-object~="sticky-toggle"]', () ->
-      toggleSticky($(this).data('target'))
-      false
-    )
     .on('click', '[data-object~="calendar-next-month"]', () ->
       goForwardOneMonth()
       false
