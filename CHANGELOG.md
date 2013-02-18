@@ -1,5 +1,9 @@
 ## 0.25.4
 
+### Enhancements
+- **Gem Changes**
+  - Updated to Contour 1.2.0
+
 ## 0.25.3 (February 15, 2013)
 
 ### Security Fix
