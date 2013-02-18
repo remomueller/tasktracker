@@ -60,6 +60,11 @@ module TaskTracker
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    # Required to allow registration from Task Tracker Android
+    config.to_prepare do
+      DeviseController.respond_to :html, :json
+    end
+
     # Following to be removed on updating to Rails 4.0 as it is default there
     config.autoload_paths += %W(
       #{config.root}/app/controllers/concerns
