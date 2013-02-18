@@ -6,8 +6,8 @@ gem 'rails',                '3.2.12'
 # Install instructions for Windows: http://blog.mmediasys.com/2011/07/07/installing-mysql-on-windows-7-x64-and-using-ruby-with-it/
 # gem 'mysql2',               '0.3.11'
 gem 'pg',                   '0.14.1'
-gem 'thin',                 '~> 1.5.0',           :platforms => [ :mswin, :mingw ]
-gem 'eventmachine',         '~> 1.0.0',           :platforms => [ :mswin, :mingw ]
+gem 'thin',                 '~> 1.5.0',           platforms: [ :mswin, :mingw ]
+gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
 # Gems used by project
 gem 'contour',              '~> 1.2.0'
@@ -30,7 +30,7 @@ gem 'jquery-rails'
 # Testing
 group :test do
   # Pretty printed test output
-  gem 'win32console',                             :platforms => [ :mswin, :mingw ]
+  gem 'win32console',                             platforms: [ :mswin, :mingw ]
   gem 'turn',               '~> 0.9.6'
-  gem 'simplecov',          '~> 0.7.1',           :require => false
+  gem 'simplecov',          '~> 0.7.1',           require: false
 end
