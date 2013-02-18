@@ -73,7 +73,7 @@
 <div class="control-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :due_at_string, 'Due at', class: 'control-label' %>
   <div class="controls">
-    <%= f.text_field :due_at_string %>
+    <%= f.text_field :due_at_string, class: 'timepicker' %>
   </div>
 </div>
 

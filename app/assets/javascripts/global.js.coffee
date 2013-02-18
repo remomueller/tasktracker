@@ -46,14 +46,17 @@
     )
   )
 
-@loadDatePicker = () ->
-  $(".datepicker").datepicker(
-    showOtherMonths: true
-    selectOtherMonths: true
-    changeMonth: true
-    changeYear: true
-    onClose: (text, inst) -> $(this).focus()
+@loadTimePicker = () ->
+  $(".timepicker").timepicker(
+    showMeridian: true
+    showSeconds: false
+    defaultTime: false
   )
+
+@loadDatePicker = () ->
+  $(".datepicker").datepicker('remove')
+  $(".datepicker").datepicker( autoclose: true )
+
   $(".datepicker").change( () ->
     try
       $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val())))

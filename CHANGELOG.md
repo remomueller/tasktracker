@@ -2,6 +2,7 @@
 
 ### Enhancements
 - The `Add Comment` button is now disabled while a comment is being submitted
+- Added timepicker when selecting time for sticky
 - **Gem Changes**
   - Updated to Contour 1.2.0
 
