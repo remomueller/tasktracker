@@ -3,7 +3,7 @@
   <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %>
 </td>
 <td>
-  <% if @recipient == @sticky.owner %><b><% end %><%= strip_tags(@sticky.full_description).truncate(100) %><% if @recipient == @sticky.owner %></b><% end %>
+  <% if @recipient == @sticky.owner %><b><% end %><%= strip_tags(simple_markdown @sticky.full_description).truncate(100) %><% if @recipient == @sticky.owner %></b><% end %>
 </td>
 
 <td>

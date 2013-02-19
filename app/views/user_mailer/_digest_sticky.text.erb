@@ -1,2 +1,2 @@
-<%= @sticky.name %> <%= strip_tags(@sticky.full_description).truncate(100) %>
+<%= @sticky.name %> <%= strip_tags(simple_markdown @sticky.full_description).truncate(100) %>
      <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>

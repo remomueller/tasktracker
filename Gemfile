@@ -16,6 +16,7 @@ gem 'ri_cal',               '~> 0.8.8'
 gem 'naturalsort',          '~> 1.1.1'
 gem 'mail_view',            '~> 1.0.3'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
+gem 'redcarpet',            '~> 2.2.2'
 
 # Gems used only for assets and not required
 # in production environments by default.

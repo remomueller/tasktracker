@@ -3,7 +3,7 @@
   <tr data-object="sticky-container" data-sticky-id="<%= sticky.id %>" class="<%= sticky.completed? ? 'sticky-completed' : 'sticky-not-completed' %> <%= 'info' if @sticky and @sticky.id == sticky.id %>" style="<%= 'font-weight:bold' if @sticky and @sticky.id == sticky.id %>">
     <td data-link="<%= sticky_path(sticky) %>" data-remote="true" data-method="get" style="cursor:pointer;white-space:nowrap;overflow-x:hidden;">
       <div style="overflow:hidden">
-        <span><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span> <%= strip_tags(sticky.description) %>
+        <span><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span> <%= strip_tags(simple_markdown sticky.description) %>
       </div>
     </td>
     <td><% if sticky.comments.size > 0 %><span class="badge badge-info"><%= sticky.comments.size %></span><% end %></td>

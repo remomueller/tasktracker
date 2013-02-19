@@ -83,7 +83,16 @@ module ApplicationHelper
     render partial: 'charts/highcharts_chart'
   end
 
-  def simple_format_links_target_blank(text)
-    simple_format(text).gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  def target_link_as_blank(text)
+    text.gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  end
+
+  # def simple_format_links_target_blank(text)
+  #   target_link_as_blank(simple_format(text))
+  # end
+
+  def simple_markdown(text)
+    markdown = Redcarpet::Markdown.new( Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true )
+    target_link_as_blank(markdown.render(text))
   end
 end

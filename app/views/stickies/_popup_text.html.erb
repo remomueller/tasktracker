@@ -1,5 +1,5 @@
 <% unless @sticky.all_day? %><strong>Due At:</strong> <%= @sticky.due_at_range_short %><br /><br /><% end %>
-<%= simple_format_links_target_blank @sticky.full_description %>
+<%= simple_markdown @sticky.full_description %>
 
 <span style='color:<%= @sticky.project.color(current_user) %>' class='project_<%= @sticky.project.id %>_color'><%= @sticky.project.name %></span><br /><br />
 

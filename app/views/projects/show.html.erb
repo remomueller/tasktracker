@@ -94,7 +94,7 @@
 
 <% unless @project.description.blank? %>
   <div class="hero-unit">
-    <%= simple_format_links_target_blank @project.description %>
+    <%= simple_markdown @project.description %>
   </div>
 <% end %>
 

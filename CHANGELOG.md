@@ -3,6 +3,7 @@
 ### Enhancements
 - The `Add Comment` button is now disabled while a comment is being submitted
 - Added timepicker when selecting time for sticky
+- Markdown format can now be used in project and sticky descriptions along with comments
 - **Gem Changes**
   - Updated to Contour 1.2.0
 
