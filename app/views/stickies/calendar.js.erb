@@ -2,8 +2,6 @@ $("#month-breakdown").html("<%= escape_javascript(render("stickies/month_breakdo
 
 $("#calendar-title").html("<%= escape_javascript(render("calendar_title")) %>");
 
-$('#month-breakdown').qtip('destroy');
-
 <% if projects = Project.where(id: @stickies.uniq.pluck(:project_id)).order(:name) and projects.size > 0 %>
 
   <% projects.each do |project| %>
