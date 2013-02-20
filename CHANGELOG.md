@@ -5,6 +5,7 @@
 - Added timepicker when selecting time for sticky
 - Removed calendar popups to reduce dependency on external JavaScripts
 - Markdown format can now be used in project and sticky descriptions along with comments
+- Dragging stickies on the calendar to their current due date no longer triggers an AJAX request in the background
 - **Gem Changes**
   - Updated to Contour 1.2.1
 
