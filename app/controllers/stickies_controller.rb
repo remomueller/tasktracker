@@ -1,6 +1,8 @@
 class StickiesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :api_authentication!, only: [:index, :show, :create, :update]
+  before_filter :api_authentication!, only: [ :index, :show, :create, :update ]
+  before_filter :set_viewable_sticky, only: [ :show ]
+  before_filter :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
 
   def calendar
     if params[:save_settings] == '1'
@@ -65,9 +67,6 @@ class StickiesController < ApplicationController
       end
     end
 
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| sticky_scope = sticky_scope.search(search_term) }
-
     sticky_scope = sticky_scope.with_tag(params[:tag_ids].split(',')) unless params[:tag_ids].blank?
     sticky_scope = sticky_scope.with_board(params[:board_id]) unless params[:board_id].blank? or params[:board_id] == 'all'
 
@@ -90,7 +89,7 @@ class StickiesController < ApplicationController
       end
     end
 
-    sticky_scope = sticky_scope.order(@order)
+    sticky_scope = sticky_scope.search(params[:search]).order(@order)
 
     @count = sticky_scope.count
 
@@ -133,7 +132,6 @@ class StickiesController < ApplicationController
   end
 
   def show
-    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
     respond_to do |format|
       if @sticky
         format.html # show.html.erb
@@ -159,7 +157,7 @@ class StickiesController < ApplicationController
 
   def edit
     respond_to do |format|
-      if @sticky = current_user.all_stickies.find_by_id(params[:id])
+      if @sticky
         @project_id = @sticky.project_id
         format.html
         format.js
@@ -202,8 +200,6 @@ class StickiesController < ApplicationController
     params[:hide_show] = '1'
     params[:due_date] = parse_date(params[:due_date])
 
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
-
     params[:due_date] = Time.parse(params[:due_date].strftime("%Y-%m-%d ") + @sticky.due_at_string) rescue ''
 
     if @sticky and not params[:due_date].blank?
@@ -227,7 +223,6 @@ class StickiesController < ApplicationController
   end
 
   def move_to_board
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
     @board = current_user.all_boards.find_by_id(params[:board_id])
     @original_board = @sticky.board if @sticky
 
@@ -244,7 +239,6 @@ class StickiesController < ApplicationController
   def complete
     params[:from_calendar] = '1'
     params[:hide_show] = '1'
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
 
     if @sticky
       @sticky.update_attributes completed: (params[:undo] != 'true')
@@ -273,8 +267,6 @@ class StickiesController < ApplicationController
   end
 
   def update
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
-
     respond_to do |format|
       if @sticky
         original_due_date = @sticky.due_date
@@ -310,8 +302,6 @@ class StickiesController < ApplicationController
   end
 
   def destroy
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
-
     respond_to do |format|
       if @sticky
         if @sticky.group and params[:discard] == 'following'
@@ -390,5 +380,13 @@ class StickiesController < ApplicationController
     params[:sticky].slice(
       :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat, :repeat_amount
     )
+  end
+
+  def set_viewable_sticky
+    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+  end
+
+  def set_editable_sticky
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
   end
 end
