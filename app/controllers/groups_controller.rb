@@ -1,6 +1,8 @@
 class GroupsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :api_authentication!, only: [:create, :show]
+  before_filter :set_viewable_group, only: [ :show ]
+  before_filter :set_editable_group, only: [ :edit, :update, :destroy ]
 
   def project_selection
     @group = Group.new(post_params)
@@ -10,15 +12,11 @@ class GroupsController < ApplicationController
   def index
     current_user.update_column :groups_per_page, params[:groups_per_page].to_i if params[:groups_per_page].to_i >= 10 and params[:groups_per_page].to_i <= 200
     group_scope = current_user.all_viewable_groups
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| group_scope = group_scope.search(search_term) }
-
     group_scope = group_scope.where(project_id: @project.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-
     group_scope = group_scope.where(template_id: params[:template_id]) unless params[:template_id].blank?
 
     @order = scrub_order(Group, params[:order], 'groups.id DESC')
-    group_scope = group_scope.order(@order)
+    group_scope = group_scope.search(params[:search]).order(@order)
 
     @count = group_scope.count
     @groups = (params[:use_template] == 'redesign' ? group_scope.page(params[:page]).per(50) : group_scope.page(params[:page]).per(current_user.groups_per_page))
@@ -31,7 +29,6 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = current_user.all_viewable_groups.find_by_id(params[:id])
     if @group
       respond_to do |format|
         format.html # show.html.erb
@@ -58,12 +55,7 @@ class GroupsController < ApplicationController
     end
   end
 
-  # def new
-  #   @group = current_user.groups.new(params[:group])
-  # end
-
   def edit
-    @group = current_user.all_groups.find_by_id(params[:id])
     redirect_to root_path unless @group
   end
 
@@ -98,7 +90,6 @@ class GroupsController < ApplicationController
   # end
 
   def update
-    @group = current_user.all_groups.find_by_id(params[:id])
     if @group
       if @group.update_attributes(post_params)
         redirect_to(@group, notice: 'Group was successfully updated.')
@@ -111,7 +102,6 @@ class GroupsController < ApplicationController
   end
 
   def destroy
-    @group = current_user.all_groups.find_by_id(params[:id])
     @group.destroy if @group
 
     respond_to do |format|
@@ -148,5 +138,13 @@ class GroupsController < ApplicationController
     params[:group].slice(
       :description, :project_id, :board_id, :template_id, :initial_due_date
     )
+  end
+
+  def set_viewable_group
+    @group = current_user.all_viewable_groups.find_by_id(params[:id])
+  end
+
+  def set_editable_group
+    @group = current_user.all_groups.find_by_id(params[:id])
   end
 end
