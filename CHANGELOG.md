@@ -9,6 +9,9 @@
 - **Gem Changes**
   - Updated to Contour 1.2.1
 
+### Bug Fix
+- Fixed `Searchable` concern when searching through joined tables
+
 ## 0.25.3 (February 15, 2013)
 
 ### Security Fix
