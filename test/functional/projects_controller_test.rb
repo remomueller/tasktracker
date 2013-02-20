@@ -184,7 +184,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should not show project settings without valid id" do
     get :settings, id: -1
     assert_nil assigns(:project)
-    assert_redirected_to root_path
+    assert_redirected_to projects_path
   end
 
   test "should show ongoing project" do
@@ -196,7 +196,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should not show project without valid id" do
     get :show, id: -1
     assert_nil assigns(:project)
-    assert_redirected_to root_path
+    assert_redirected_to projects_path
   end
 
   test "should get edit" do
@@ -218,7 +218,7 @@ class ProjectsControllerTest < ActionController::TestCase
   test "should not update project with invalid id" do
     put :update, id: -1, project: { name: "Completed Project", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
     assert_nil assigns(:project)
-    assert_redirected_to root_path
+    assert_redirected_to projects_path
   end
 
   test "should destroy project" do

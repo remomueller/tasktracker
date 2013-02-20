@@ -1,78 +1,59 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :api_authentication!, only: [:index, :show, :create, :update]
+  before_filter :api_authentication!, only: [ :index, :show, :create, :update ]
+  before_filter :set_viewable_project, only: [ :show, :colorpicker, :visible, :favorite, :settings ]
+  before_filter :set_editable_project, only: [ :edit, :update, :destroy, :bulk, :reassign ]
 
   def bulk
-    @project = current_user.all_projects.find_by_id(params[:id])
     redirect_to projects_path unless @project
   end
 
   def reassign
-    @project = current_user.all_projects.find_by_id(params[:id])
+    original_user = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id])       # Editors only
+    reassign_to_user = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id])      # Editors only
+    params[:sticky_status] = 'not_completed' unless ['not_completed', 'completed', 'all'].include?(params[:sticky_status])
+
     respond_to do |format|
-      if @project
-        original_user = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id])       # Editors only
-        reassign_to_user = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id])      # Editors only
-        params[:sticky_status] = 'not_completed' unless ['not_completed', 'completed', 'all'].include?(params[:sticky_status])
-        if original_user and reassign_to_user
-          sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user.id)
-          if params[:sticky_status] == 'completed'
-            sticky_scope = sticky_scope.where(completed: true)
-          elsif params[:sticky_status] == 'not_completed'
-            sticky_scope = sticky_scope.where(completed: false)
-          end
-          @sticky_count = sticky_scope.count
-          sticky_scope.update_all(owner_id: reassign_to_user.id)
-          format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Sticky' : 'Stickies'} successfully reassigned." }
-          format.js # reassign.js.erb
-        else
-          format.html do
-            flash[:error] = 'Please select the original owner and new owner of the stickies.'
-            render 'bulk'
-          end
-          format. js # reassign.js.erb
+      if original_user and reassign_to_user
+        sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user.id)
+        if params[:sticky_status] == 'completed'
+          sticky_scope = sticky_scope.where(completed: true)
+        elsif params[:sticky_status] == 'not_completed'
+          sticky_scope = sticky_scope.where(completed: false)
         end
+        @sticky_count = sticky_scope.count
+        sticky_scope.update_all(owner_id: reassign_to_user.id)
+        format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Sticky' : 'Stickies'} successfully reassigned." }
+        format.js # reassign.js.erb
       else
-        format.html { redirect_to projects_path }
-        format.js { render nothing: true }
+        format.html do
+          flash[:error] = 'Please select the original owner and new owner of the stickies.'
+          render 'bulk'
+        end
+        format. js # reassign.js.erb
       end
     end
   end
 
   def colorpicker
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
-    if @project
-      current_user.colors["project_#{@project.id}"] = params[:color]
-      current_user.update_attributes colors: current_user.colors
-      render nothing: true
-    else
-      render nothing: true
-    end
+    current_user.colors["project_#{@project.id}"] = params[:color]
+    current_user.update_attributes colors: current_user.colors
+    render nothing: true
   end
 
   def visible
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
-    if @project
-      hidden_project_ids = current_user.hidden_project_ids
-      if params[:visible] == '1'
-        hidden_project_ids.delete(@project.id)
-      else
-        hidden_project_ids << @project.id
-      end
-      current_user.update_attributes hidden_project_ids: hidden_project_ids
+    hidden_project_ids = current_user.hidden_project_ids
+    if params[:visible] == '1'
+      hidden_project_ids.delete(@project.id)
     else
-      render nothing: true
+      hidden_project_ids << @project.id
     end
+    current_user.update_attributes hidden_project_ids: hidden_project_ids
   end
 
   def favorite
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
-    if @project
-      project_favorite = @project.project_favorites.find_or_create_by_user_id(current_user.id)
-      project_favorite.update_attributes favorite: (params[:favorite] == '1')
-    else
-      render nothing: true
-    end
+    project_favorite = @project.project_favorites.find_or_create_by_user_id(current_user.id)
+    project_favorite.update_attributes favorite: (params[:favorite] == '1')
   end
 
   def selection
@@ -103,41 +84,26 @@ class ProjectsController < ApplicationController
   end
 
   def settings
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
     respond_to do |format|
-      if @project
-        params[:board_id] = @project.boards.where(archived: false).natural_sort.first ? @project.boards.where(archived: false).natural_sort.first[1] : 0 if params[:board_id].blank?
-        @board = @project.boards.find_by_id(params[:board_id] || 0)
-        stickies_scope = @project.stickies
-        @stickies = stickies_scope.with_board(params[:board_id] || 0).order('end_date DESC, start_date DESC').page(params[:page]).per(10)
-        format.html # show.html.erb
-        format.json { render json: @project }
-      else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
-      end
+      format.html # show.html.erb
+      format.json { render json: @project }
     end
   end
 
   def show
     params[:status] ||= ['planned','completed']
-    @project = current_user.all_viewable_projects.find_by_id(params[:id])
+
     respond_to do |format|
-      if @project
-        @template = @project.templates.find_by_id(params[:template_id])
+      @template = @project.templates.find_by_id(params[:template_id])
 
-        unless @template
-          @board = @project.boards.find_by_name(params[:board])
-          params[:board_id] = @board ? @board.id : (params[:board_id] || 0)
-          @board = @project.boards.find_by_id(params[:board_id]) unless @board
-        end
-
-        format.html # show.html.erb
-        format.json { render json: @project }
-      else
-        format.html { redirect_to root_path }
-        format.json { head :no_content }
+      unless @template
+        @board = @project.boards.find_by_name(params[:board])
+        params[:board_id] = @board ? @board.id : (params[:board_id] || 0)
+        @board = @project.boards.find_by_id(params[:board_id]) unless @board
       end
+
+      format.html # show.html.erb
+      format.json { render json: @project }
     end
   end
 
@@ -146,8 +112,7 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    @project = current_user.all_projects.find_by_id(params[:id])
-    redirect_to root_path unless @project
+
   end
 
   def create
@@ -167,22 +132,15 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    @project = current_user.all_projects.find_by_id(params[:id])
-
-    if @project
-      if @project.update_attributes(post_params)
-        redirect_to(@project, notice: 'Project was successfully updated.')
-      else
-        render action: "edit"
-      end
+    if @project.update_attributes(post_params)
+      redirect_to(@project, notice: 'Project was successfully updated.')
     else
-      redirect_to root_path
+      render action: "edit"
     end
   end
 
   def destroy
-    @project = current_user.all_projects.find_by_id(params[:id])
-    @project.destroy if @project
+    @project.destroy
 
     respond_to do |format|
       format.html { redirect_to projects_path }
@@ -204,4 +162,19 @@ class ProjectsController < ApplicationController
     )
   end
 
+  def set_viewable_project
+    redirect_to_projects_path unless @project = current_user.all_viewable_projects.find_by_id(params[:id])
+  end
+
+  def set_editable_project
+    redirect_to_projects_path unless @project = current_user.all_projects.find_by_id(params[:id])
+  end
+
+  def redirect_to_projects_path
+    respond_to do |format|
+      format.html { redirect_to projects_path }
+      format.js { render nothing: true }
+      format.json { head :no_content }
+    end
+  end
 end
