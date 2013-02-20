@@ -24,29 +24,6 @@
       helper: 'clone'
     )
 
-  $(".sticky_popup").each( (index, element) ->
-    $(element).qtip(
-      content:
-        text: '<div data-popup-container="' + element.id + '_text"><center><img src=\"' + root_url + 'assets/contour/ajax-loader.gif\" align=\"absmiddle\" alt=\"...\" /></center></div>'
-        ajax:
-          url: $(element).attr('rel')
-          type: 'POST'
-          success: (data, status) -> eval(data)
-        title:
-          text: $(element).attr('data-title')
-      show:
-        event: 'mouseenter'
-      hide:
-        event: 'mouseleave'
-      position:
-        my: 'left top'
-        at: 'right center'
-        viewport: $(window)
-      style:
-        classes: 'ui-tooltip-shadow ui-tooltip-yellow'
-    )
-  )
-
 @activateCalendarDroppables = () ->
   $(".droppable").droppable(
     hoverClass: "hover",

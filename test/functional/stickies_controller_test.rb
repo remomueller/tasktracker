@@ -6,12 +6,6 @@ class StickiesControllerTest < ActionController::TestCase
     @sticky = stickies(:one)
   end
 
-  test "should get popup" do
-    post :popup, id: stickies(:due_at_ics), format: 'js'
-    assert_template 'popup'
-    assert_response :success
-  end
-
   test "should get csv" do
     get :index, format: 'csv', status: ['completed', 'not completed']
     assert_not_nil assigns(:csv_string)

@@ -147,11 +147,6 @@ class StickiesController < ApplicationController
     end
   end
 
-  def popup
-    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
-    render nothing: true unless @sticky
-  end
-
   def new
     @sticky = current_user.stickies.new(post_params)
     @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1

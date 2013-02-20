@@ -51,7 +51,6 @@ TaskTracker::Application.routes.draw do
       post :destroy_multiple
     end
     member do
-      post :popup
       post :move
       post :move_to_board
       post :complete

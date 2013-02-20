@@ -1,7 +1,6 @@
-<% cache [ "stickies-popup-v7", @sticky ] do %>
+<% cache [ "stickies-popup-v8", @sticky ] do %>
   <div
       class="stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %> sticky_popup calendar-entry-name"
-      rel="<%= popup_sticky_path(@sticky) %>" data-title="Sticky <%= @sticky.name %> <%= '- completed' if @sticky.completed %>"
       id="sticky_<%= @sticky.id %>_popup"
       onmouseover="if(!$('#sticky_<%= @sticky.id %>_wait').is(':visible')){$('#sticky_<%= @sticky.id %>_empty').hide();$('#sticky_<%= @sticky.id %>_checkmark').show()}"
       onmouseout="if(!$('#sticky_<%= @sticky.id %>_wait').is(':visible')){$('#sticky_<%= @sticky.id %>_checkmark').hide();$('#sticky_<%= @sticky.id %>_empty').show()}"
