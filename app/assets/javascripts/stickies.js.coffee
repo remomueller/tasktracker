@@ -18,10 +18,16 @@
   $('#selected_date').change()
 
 @activateCalendarStickyPopups = () ->
+  $(".sticky_popup")
+    .draggable(
+      revert: 'invalid'
+      helper: 'clone'
+    )
+
   $(".sticky_popup").each( (index, element) ->
     $(element).qtip(
       content:
-        text: '<div id="' + element.id + '_text"><center><img src=\"' + root_url + 'assets/contour/ajax-loader.gif\" align=\"absmiddle\" alt=\"...\" /></center></div>'
+        text: '<div data-popup-container="' + element.id + '_text"><center><img src=\"' + root_url + 'assets/contour/ajax-loader.gif\" align=\"absmiddle\" alt=\"...\" /></center></div>'
         ajax:
           url: $(element).attr('rel')
           type: 'POST'
@@ -39,7 +45,6 @@
       style:
         classes: 'ui-tooltip-shadow ui-tooltip-yellow'
     )
-    $(element).draggable({ revert: 'invalid', helper: "clone" });
   )
 
 @activateCalendarDroppables = () ->
