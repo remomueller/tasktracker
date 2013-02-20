@@ -5,7 +5,7 @@
 - Added timepicker when selecting time for sticky
 - Markdown format can now be used in project and sticky descriptions along with comments
 - **Gem Changes**
-  - Updated to Contour 1.2.0
+  - Updated to Contour 1.2.1
 
 ## 0.25.3 (February 15, 2013)
 
