@@ -1,4 +1,4 @@
-## 0.25.4
+## 0.25.4 (February 20, 2013)
 
 ### Enhancements
 - The `Add Comment` button is now disabled while a comment is being submitted
