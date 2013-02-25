@@ -23,6 +23,10 @@
       revert: 'invalid'
       helper: 'clone'
     )
+  $('[rel~="popover"]')
+    .popover(
+      trigger: 'hover'
+    )
 
 @activateCalendarDroppables = () ->
   $(".droppable").droppable(

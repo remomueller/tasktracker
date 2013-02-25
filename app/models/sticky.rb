@@ -168,6 +168,16 @@ class Sticky < ActiveRecord::Base
     result
   end
 
+  def description_html
+    result = ""
+    result << self.full_description
+    result << "<hr class='soften' style='margin-top:5px;margin-bottom:5px'/>"
+    result << "<div style='white-space:nowrap'><strong>Assigned</strong> #{self.owner.name} <img alt='' src='#{self.owner.avatar_url(18, "identicon")}' class='img-rounded'></div>" if self.owner
+    result << "<strong>Board</strong> #{self.board ? self.board.name : 'Holding Pen'}<br />" if self.project.boards.size > 0
+    result << "<strong>Repeats</strong> #{self.repeat_amount} #{self.repeat}#{'s' if self.repeat_amount != 1} after due date<br />" if self.repeat != 'none'
+    result
+  end
+
   def shift_group(days_to_shift, shift)
     if days_to_shift != 0 and self.group and ['incomplete', 'all'].include?(shift)
       sticky_scope = self.group.stickies.where("stickies.id != ?", self.id)
