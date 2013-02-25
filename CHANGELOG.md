@@ -1,5 +1,8 @@
 ## 0.25.6
 
+### Bug Fix
+- Sticky hover descriptions using Markdown no longer incorrectly render html tags
+
 ## 0.25.5 (February 25, 2013)
 
 ### Enhancements

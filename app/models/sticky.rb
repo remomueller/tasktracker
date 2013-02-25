@@ -170,7 +170,7 @@ class Sticky < ActiveRecord::Base
 
   def description_html
     result = ""
-    result << self.full_description
+    result << self.full_description + "\n\n"
     result << "<hr class='soften' style='margin-top:5px;margin-bottom:5px'/>"
     result << "<div style='white-space:nowrap'><strong>Assigned</strong> #{self.owner.name} <img alt='' src='#{self.owner.avatar_url(18, "identicon")}' class='img-rounded'></div>" if self.owner
     result << "<strong>Board</strong> #{self.board ? self.board.name : 'Holding Pen'}<br />" if self.project.boards.size > 0
