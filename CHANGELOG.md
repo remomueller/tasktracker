@@ -1,4 +1,4 @@
-## 0.25.5
+## 0.25.5 (February 25, 2013)
 
 ### Enhancements
 - Added redesigned sticky hover popups back to the calendar view
