@@ -57,7 +57,7 @@ class ProjectsController < ApplicationController
   end
 
   def selection
-    @sticky = Sticky.new(params[:sticky].slice(:board_id, :owner_id, :tag_ids))
+    @sticky = Sticky.new(params.require(:sticky).permit(:board_id, :owner_id, { :tag_ids => [] }))
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
     @project_id = @project.id if @project
   end
