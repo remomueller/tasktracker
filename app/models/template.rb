@@ -8,8 +8,7 @@ class Template < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :none, conditions: ["1 = 0"]
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(name) LIKE ? or LOWER(items) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
+  scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(items) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
 
   # Model Validation
   validates_presence_of :name, :project_id, :items
@@ -18,7 +17,7 @@ class Template < ActiveRecord::Base
   # Model Relationships
   belongs_to :project
   belongs_to :user
-  has_many :stickies, conditions: { deleted: false }
+  has_many :stickies, -> { where deleted: false }
 
   def copyable_attributes
     self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}

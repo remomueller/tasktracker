@@ -34,12 +34,11 @@ class User < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :human, conditions: { service_account: false }
-  scope :service_account, conditions: { service_account: true }
-  scope :status, lambda { |*args|  { conditions: ["users.status IN (?)", args.first] } }
-  scope :system_admins, conditions: { system_admin: true }
-  scope :with_project, lambda { |*args| { conditions: ["users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1]] } }
+  scope :human, -> { where service_account: false }
+  scope :status, lambda { |arg|  where( status: arg ) }
+  scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
+  scope :system_admins, -> { where system_admin: true }
+  scope :with_project, lambda { |*args| where( "users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1] ) }
 
   # Model Validation
   validates_presence_of     :first_name
@@ -47,16 +46,16 @@ class User < ActiveRecord::Base
 
   # Model Relationships
   has_many :authentications
-  has_many :projects, conditions: { deleted: false }, order: 'name'
+  has_many :projects, -> { where deleted: false }, order: 'name'
   has_many :project_favorites
-  has_many :boards, conditions: { deleted: false }
-  has_many :groups, conditions: { deleted: false }
-  has_many :tags, conditions: { deleted: false }
-  has_many :templates, conditions: { deleted: false }, order: 'created_at'
-  has_many :stickies, conditions: { deleted: false }, order: 'created_at'
-  has_many :comments, conditions: { deleted: false }, order: 'created_at DESC'
+  has_many :boards, -> { where deleted: false }
+  has_many :groups, -> { where deleted: false }
+  has_many :tags, -> { where deleted: false }
+  has_many :templates, -> { where deleted: false }, order: 'created_at'
+  has_many :stickies, -> { where deleted: false }, order: 'created_at'
+  has_many :comments, -> { where deleted: false }, order: 'created_at DESC'
 
-  has_many :owned_stickies, class_name: 'Sticky', foreign_key: 'owner_id', conditions: { deleted: false }, order: 'created_at'
+  has_many :owned_stickies, -> { where deleted: false }, class_name: 'Sticky', foreign_key: 'owner_id', order: 'created_at'
 
   # User Methods
 

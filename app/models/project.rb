@@ -8,10 +8,10 @@ class Project < ActiveRecord::Base
   include Searchable, Deletable
 
   # Named Scopes
-  scope :with_user, lambda { |*args| { conditions: ["projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]] } }
-  scope :has_template, lambda { |*args| { conditions: ['projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false] } }
+  scope :with_user, lambda { |*args| where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]) }
+  scope :has_template, -> { where('projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false) }
 
-  scope :by_favorite, lambda { |*args| { joins: "LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{args.first.to_i}" } } #, order: "(project_favorites.favorite = 't') DESC"
+  scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") } #, order: "(project_favorites.favorite = 't') DESC"
 
   # Model Validation
   validates_presence_of :name, :user_id
@@ -20,13 +20,13 @@ class Project < ActiveRecord::Base
   belongs_to :user
   has_many :project_favorites
   has_many :project_users
-  has_many :users, through: :project_users, conditions: { deleted: false }, order: 'last_name, first_name'
-  has_many :editors, through: :project_users, source: :user, conditions: ['project_users.allow_editing = ? and users.deleted = ?', true, false]
-  has_many :viewers, through: :project_users, source: :user, conditions: ['project_users.allow_editing = ? and users.deleted = ?', false, false]
-  has_many :stickies, conditions: { deleted: false } #, order: 'stickies.created_at desc'
-  has_many :boards, conditions: { deleted: false }, order: 'boards.end_date desc'
-  has_many :tags, conditions: { deleted: false }, order: 'tags.name'
-  has_many :templates, conditions: { deleted: false }, order: 'templates.name'
+  has_many :users, -> { where deleted: false }, through: :project_users, order: 'last_name, first_name'
+  has_many :editors, -> { where('project_users.allow_editing = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
+  has_many :viewers, -> { where('project_users.allow_editing = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
+  has_many :stickies, -> { where deleted: false }
+  has_many :boards, -> { where deleted: false }, order: 'boards.end_date desc'
+  has_many :tags, -> { where deleted: false }, order: 'tags.name'
+  has_many :templates, -> { where deleted: false }, order: 'templates.name'
 
   def color(current_user)
     current_user.colors["project_#{self.id}"].blank? ? colors(Project.order(:id).pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]

@@ -4,10 +4,6 @@ class Board < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable
 
-  # Named Scopes
-  scope :active_today, lambda { |*args| { conditions: ["boards.start_date <= DATE(?) and boards.end_date >= DATE(?)", Date.today, Date.today] } }
-  scope :active_date, lambda { |*args| { conditions: ["boards.start_date <= DATE(?) and boards.end_date >= DATE(?)", args.first, args.first] } }
-
   # Model Validation
   validates_presence_of :name, :project_id
   validates_uniqueness_of :name, scope: [:deleted, :project_id]
@@ -15,7 +11,7 @@ class Board < ActiveRecord::Base
   # Model Relationships
   belongs_to :project
   belongs_to :user
-  has_many :stickies, conditions: { deleted: false }
+  has_many :stickies, -> { where deleted: false }
 
   def destroy
     self.stickies.update_all(board_id: nil)

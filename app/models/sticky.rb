@@ -14,27 +14,27 @@ class Sticky < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| { conditions: [ 'LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ] } }
-  scope :with_creator, lambda { |*args|  { conditions: ["stickies.user_id IN (?)", args.first] } }
-  scope :with_owner, lambda { |*args|  { conditions: ["stickies.owner_id IN (?) or stickies.owner_id IS NULL", args.first] } }
-  scope :with_board, lambda { |*args| { conditions: ["stickies.board_id IN (?) or (stickies.board_id IS NULL and 0 IN (?))", args.first, args.first] } }
-  scope :updated_since, lambda { |*args| { conditions: ["stickies.updated_at > ?", args.first] }}
-  scope :with_date_for_calendar, lambda { |*args| { conditions: ["DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]]}}
+  scope :search, lambda { |arg| where('LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
+  scope :with_creator, lambda { |arg|  where( user_id: arg ) }
+  scope :with_owner, lambda { |arg|  where("stickies.owner_id IN (?) or stickies.owner_id IS NULL", arg) }
+  scope :with_board, lambda { |arg| where("stickies.board_id IN (?) or (stickies.board_id IS NULL and 0 IN (?))", args, arg) }
+  scope :updated_since, lambda { |arg| where("stickies.updated_at > ?", arg) }
+  scope :with_date_for_calendar, lambda { |*args| where("DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]) }
 
-  scope :with_due_date_for_calendar, lambda { |*args| { conditions: { due_date: args.first.at_midnight..args[1].end_of_day } } }
+  scope :with_due_date_for_calendar, lambda { |*args| where( due_date: args.first.at_midnight..args[1].end_of_day ) }
 
-  scope :due_date_before, lambda { |*args| { conditions: ["stickies.due_date < ?", (args.first+1.day).at_midnight]} }
-  scope :due_date_after, lambda { |*args| { conditions: ["stickies.due_date >= ?", args.first.at_midnight]} }
+  scope :due_date_before, lambda { |arg| where("stickies.due_date < ?", (arg+1.day).at_midnight) }
+  scope :due_date_after, lambda { |arg| where("stickies.due_date >= ?", arg.at_midnight) }
 
-  scope :due_date_before_or_blank, lambda { |*args| { conditions: ["stickies.due_date < ? or stickies.due_date IS NULL", (args.first+1.day).at_midnight]} }
-  scope :due_date_after_or_blank, lambda { |*args| { conditions: ["stickies.due_date >= ? or stickies.due_date IS NULL", args.first.at_midnight]} }
+  scope :due_date_before_or_blank, lambda { |arg| where("stickies.due_date < ? or stickies.due_date IS NULL", (arg+1.day).at_midnight) }
+  scope :due_date_after_or_blank, lambda { |arg| where("stickies.due_date >= ? or stickies.due_date IS NULL", arg.at_midnight) }
 
-  scope :due_today,     lambda { |*args| { conditions: { completed: false, due_date: Date.today.at_midnight..Date.today.end_of_day } } }
-  scope :past_due,      lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date < ?", false, Date.today.at_midnight] } }
-  scope :due_upcoming,  lambda { |*args| { conditions: ["stickies.completed = ? and stickies.due_date >= ? and stickies.due_date < ?", false, Date.tomorrow.at_midnight, (Date.today.friday? ? Date.tomorrow + 3.days : Date.tomorrow + 1.day).at_midnight]}}
-  scope :due_this_week, lambda { |*args| { conditions: { completed: false, due_date: (Date.today - Date.today.wday.days).at_midnight..(Date.today + (6-Date.today.wday).days).end_of_day} } }
+  scope :due_today,     -> { where( completed: false, due_date: Date.today.at_midnight..Date.today.end_of_day ) }
+  scope :past_due,      -> { where("stickies.completed = ? and stickies.due_date < ?", false, Date.today.at_midnight) }
+  scope :due_upcoming,  -> { where("stickies.completed = ? and stickies.due_date >= ? and stickies.due_date < ?", false, Date.tomorrow.at_midnight, (Date.today.friday? ? Date.tomorrow + 3.days : Date.tomorrow + 1.day).at_midnight) }
+  scope :due_this_week, -> { where( completed: false, due_date: (Date.today - Date.today.wday.days).at_midnight..(Date.today + (6-Date.today.wday).days).end_of_day ) }
 
-  scope :with_tag, lambda { |*args| { conditions: [ "stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", args.first ] } }
+  scope :with_tag, lambda { |arg| where("stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", arg) }
 
   # Model Validation
   validates_presence_of :description, :project_id
@@ -46,9 +46,9 @@ class Sticky < ActiveRecord::Base
   belongs_to :group
   belongs_to :board
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
-  belongs_to :repeated_sticky, class_name: 'Sticky', foreign_key: 'repeated_sticky_id', conditions: { deleted: false }
+  belongs_to :repeated_sticky, -> { where deleted: false }, class_name: 'Sticky', foreign_key: 'repeated_sticky_id'
   has_and_belongs_to_many :tags
-  has_many :comments, order: 'created_at desc', conditions: { deleted: false }
+  has_many :comments, -> { where deleted: false }, order: 'created_at desc'
 
   def as_json(options={})
     super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :board_id, :due_date, :duration, :duration_units, :all_day, :created_at, :updated_at, :group_id], methods: [:group_description, :sticky_link, :tags])
