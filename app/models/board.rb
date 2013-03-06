@@ -1,5 +1,4 @@
 class Board < ActiveRecord::Base
-  # attr_accessible :name, :description, :start_date, :end_date, :archived, :project_id, :user_id
 
   # Concerns
   include Searchable, Deletable, Filterable
