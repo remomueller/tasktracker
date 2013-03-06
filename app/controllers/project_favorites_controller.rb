@@ -1,5 +1,5 @@
 class ProjectFavoritesController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   # # GET /project_favorites
   # # GET /project_favorites.xml
