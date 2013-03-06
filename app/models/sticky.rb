@@ -1,5 +1,4 @@
 class Sticky < ActiveRecord::Base
-  # attr_accessible :description, :project_id, :owner_id, :board_id, :due_date, :group_id, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat, :repeat_amount
 
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
 
@@ -14,7 +13,7 @@ class Sticky < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| where('LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
+  scope :search, lambda { |arg| where('LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:groups) }
   scope :with_creator, lambda { |arg|  where( user_id: arg ) }
   scope :with_owner, lambda { |arg|  where("stickies.owner_id IN (?) or stickies.owner_id IS NULL", arg) }
   scope :with_board, lambda { |arg| where("stickies.board_id IN (?) or (stickies.board_id IS NULL and 0 IN (?))", arg, arg) }
@@ -34,7 +33,7 @@ class Sticky < ActiveRecord::Base
   scope :due_upcoming,  -> { where("stickies.completed = ? and stickies.due_date >= ? and stickies.due_date < ?", false, Date.tomorrow.at_midnight, (Date.today.friday? ? Date.tomorrow + 3.days : Date.tomorrow + 1.day).at_midnight) }
   scope :due_this_week, -> { where( completed: false, due_date: (Date.today - Date.today.wday.days).at_midnight..(Date.today + (6-Date.today.wday).days).end_of_day ) }
 
-  scope :with_tag, lambda { |arg| where("stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", arg) }
+  scope :with_tag, lambda { |arg| where("stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", arg).references(:tags) }
 
   # Model Validation
   validates_presence_of :description, :project_id
@@ -50,9 +49,9 @@ class Sticky < ActiveRecord::Base
   has_and_belongs_to_many :tags
   has_many :comments, -> { where deleted: false }, order: 'created_at desc'
 
-  def as_json(options={})
-    super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :board_id, :due_date, :duration, :duration_units, :all_day, :created_at, :updated_at, :group_id], methods: [:group_description, :sticky_link, :tags])
-  end
+  # def as_json(options={})
+  #   super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :board_id, :due_date, :duration, :duration_units, :all_day, :created_at, :updated_at, :group_id], methods: [:group_description, :sticky_link, :tags])
+  # end
 
   def sticky_link
     SITE_URL + "/stickies/#{self.id}"

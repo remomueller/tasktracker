@@ -1,8 +1,9 @@
 class StickiesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :api_authentication!, only: [ :index, :show, :create, :update ]
-  before_filter :set_viewable_sticky, only: [ :show ]
-  before_filter :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
+  before_action :authenticate_user!
+  before_action :api_authentication!, only: [ :index, :show, :create, :update ]
+  before_action :set_viewable_sticky, only: [ :show ]
+  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
+  before_action :redirect_without_sticky, only: [ :show, :update, :destroy ]
 
   def calendar
     if params[:save_settings] == '1'
@@ -33,6 +34,8 @@ class StickiesController < ApplicationController
     @stickies = sticky_scope
   end
 
+  # GET /stickies
+  # GET /stickies.json
   def index
     current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'
@@ -91,8 +94,6 @@ class StickiesController < ApplicationController
 
     sticky_scope = sticky_scope.search(params[:search]).order(@order)
 
-    @count = sticky_scope.count
-
     if params[:format] == 'csv'
       @csv_string = CSV.generate do |csv|
         csv << ["Name", "Due Date", "Description", "Status", "Assigned To", "Tags", "Project", "Creator", "Board", "Duration", "Duration Units"]
@@ -122,31 +123,18 @@ class StickiesController < ApplicationController
       send_data @ics_string, type: 'text/calendar', disposition: "attachment; filename=\"stickies.ics\""
       return
     end
-    @stickies = sticky_scope.page(params[:page]).per(params[:use_template] == 'redesign' ? 50 : current_user.stickies_per_page)
 
-    respond_to do |format|
-      format.html
-      format.js
-      format.json { render json: sticky_scope.page(params[:page]).limit(50) }
-    end
+    @stickies = sticky_scope.page(params[:page]).per((params[:use_template] == 'redesign' or params[:format] == 'json') ? 50 : current_user.stickies_per_page)
   end
 
+  # GET /stickies/1
+  # GET /stickies/1.json
   def show
-    respond_to do |format|
-      if @sticky
-        format.html # show.html.erb
-        format.js
-        format.json { render json: @sticky }
-      else
-        format.html { redirect_to root_path }
-        format.js { render nothing: true }
-        format.json { head :no_content }
-      end
-    end
   end
 
+  # GET /stickies/new
   def new
-    @sticky = current_user.stickies.new(post_params)
+    @sticky = current_user.stickies.new(sticky_params)
     @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1
     @project_id = @sticky.project_id
     respond_to do |format|
@@ -155,6 +143,7 @@ class StickiesController < ApplicationController
     end
   end
 
+  # GET /stickies/1/edit
   def edit
     respond_to do |format|
       if @sticky
@@ -173,23 +162,24 @@ class StickiesController < ApplicationController
     end
   end
 
+  # POST /stickies
+  # POST /stickies.json
   def create
-    @sticky = current_user.stickies.new(post_params)
+    @sticky = current_user.stickies.new(sticky_params)
 
     respond_to do |format|
       if @sticky.save
         @sticky.send_email_if_recently_completed(current_user)
-        flash[:notice] = 'Sticky was successfully created.'
-        format.html { redirect_to @sticky }
+        format.html { redirect_to @sticky, notice: 'Sticky was successfully created.' }
         format.js do
           params[:hide_show] = '1' if params[:from_calendar] == '1'
           render 'update' # Update handles board/calendar reloading
         end
-        format.json { render json: @sticky, status: :created, location: @sticky }
+        format.json { render action: 'show', status: :created, location: @sticky }
       else
         @project_id = @sticky.project_id
-        format.html { render "new" }
-        format.js { render "new" }
+        format.html { render 'new' }
+        format.js { render 'new' }
         format.json { render json: @sticky.errors, status: :unprocessable_entity }
       end
     end
@@ -266,41 +256,40 @@ class StickiesController < ApplicationController
     end
   end
 
+  # PUT /stickies/1
+  # PUT /stickies/1.json
   def update
+    original_due_date = @sticky.due_date
+
     respond_to do |format|
-      if @sticky
-        original_due_date = @sticky.due_date
-        if @sticky.update_attributes(post_params)
-          @sticky.send_email_if_recently_completed(current_user)
-          flash[:notice] = 'Sticky was successfully updated.'
+      if @sticky.update(sticky_params)
+        @sticky.send_email_if_recently_completed(current_user)
+        flash[:notice] = 'Sticky was successfully updated.'
 
-          @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+        @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
 
-          if params[:from_calendar] == '1'
-            format.html { redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')) }
-          elsif params[:from] == 'index'
-            format.html { redirect_to stickies_path }
-          elsif params[:from] == 'project'
-            format.html { redirect_to project_path(@sticky.project, board_id: @sticky.board_id) }
-          else
-            format.html { redirect_to @sticky }
-          end
-          format.js
-          format.json { render json: @sticky, status: :created, location: @sticky }
+        if params[:from_calendar] == '1'
+          format.html { redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')) }
+        elsif params[:from] == 'index'
+          format.html { redirect_to stickies_path }
+        elsif params[:from] == 'project'
+          format.html { redirect_to project_path(@sticky.project, board_id: @sticky.board_id) }
         else
-          @project_id = @sticky.project_id
-          format.html { render action: "edit" }
-          format.js { render 'edit' }
-          format.json { render json: @sticky.errors, status: :unprocessable_entity }
+          format.html { redirect_to @sticky }
         end
+        format.js
+        format.json { render action: 'show', status: :created, location: @sticky }
       else
-        format.html { redirect_to root_path }
-        format.js { render nothing: true }
-        format.json { head :no_content }
+        @project_id = @sticky.project_id
+        format.html { render action: 'edit' }
+        format.js { render 'edit' }
+        format.json { render json: @sticky.errors, status: :unprocessable_entity }
       end
     end
   end
 
+  # DELETE /stickies/1
+  # DELETE /stickies/1.json
   def destroy
     respond_to do |format|
       if @sticky
@@ -319,7 +308,7 @@ class StickiesController < ApplicationController
             redirect_to stickies_path
           end
         end
-        format.js  { render 'destroy' }
+        format.js
       else
         format.html { redirect_to root_path }
         format.js { render nothing: true }
@@ -342,51 +331,56 @@ class StickiesController < ApplicationController
 
   private
 
-  def post_params
-    params[:sticky] ||= {}
-    params[:sticky][:tag_ids] ||= []
+    def set_viewable_sticky
+      @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+    end
 
-    params[:sticky][:due_date] = parse_date(params[:sticky][:due_date])
+    def set_editable_sticky
+      @sticky = current_user.all_stickies.find_by_id(params[:id])
+    end
 
-    params[:sticky][:all_day] = begin
-      unless params[:sticky][:due_at_string].blank?
-        t = Time.parse(params[:sticky][:due_at_string])
-        params[:sticky][:due_date] = Time.parse(params[:sticky][:due_date].strftime("%Y-%m-%d ") + params[:sticky][:due_at_string])
-        false
-      else
+    def redirect_without_sticky
+      empty_response_or_root_path(stickies_path) unless @sticky
+    end
+
+    def sticky_params
+      params[:sticky] ||= {}
+      params[:sticky][:tag_ids] ||= []
+
+      params[:sticky][:due_date] = parse_date(params[:sticky][:due_date])
+
+      params[:sticky][:all_day] = begin
+        unless params[:sticky][:due_at_string].blank?
+          t = Time.parse(params[:sticky][:due_at_string])
+          params[:sticky][:due_date] = Time.parse(params[:sticky][:due_date].strftime("%Y-%m-%d ") + params[:sticky][:due_at_string])
+          false
+        else
+          true
+        end
+      rescue
         true
       end
-    rescue
-      true
-    end
 
-    unless params[:sticky][:project_id].blank?
-      project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
-      params[:sticky][:project_id] = project ? project.id : nil
-    end
-
-    if project and params[:create_new_board] == '1'
-      if params[:sticky_board_name].to_s.strip.blank?
-        params[:sticky][:board_id] = nil
-      else
-        @board = project.boards.find_or_create_by_name(params[:sticky_board_name].to_s.strip, { user_id: current_user.id })
-        params[:sticky][:board_id] = @board.id
+      unless params[:sticky][:project_id].blank?
+        project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
+        params[:sticky][:project_id] = project ? project.id : nil
       end
+
+      if project and params[:create_new_board] == '1'
+        if params[:sticky_board_name].to_s.strip.blank?
+          params[:sticky][:board_id] = nil
+        else
+          @board = project.boards.where( name: params[:sticky_board_name].to_s.strip ).first_or_create( user_id: current_user.id )
+          params[:sticky][:board_id] = @board.id
+        end
+      end
+
+      params[:sticky][:repeat] = ( Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none' ) unless params[:sticky][:repeat].blank?
+      params[:sticky][:repeat_amount] = 1 if params[:sticky][:repeat] == 'none'
+
+      params.require(:sticky).permit(
+        :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
+      )
     end
 
-    params[:sticky][:repeat] = ( Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none' ) unless params[:sticky][:repeat].blank?
-    params[:sticky][:repeat_amount] = 1 if params[:sticky][:repeat] == 'none'
-
-    params[:sticky].slice(
-      :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat, :repeat_amount
-    )
-  end
-
-  def set_viewable_sticky
-    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
-  end
-
-  def set_editable_sticky
-    @sticky = current_user.all_stickies.find_by_id(params[:id])
-  end
 end

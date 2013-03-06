@@ -9,14 +9,12 @@ class StickiesControllerTest < ActionController::TestCase
   test "should get csv" do
     get :index, format: 'csv', status: ['completed', 'not completed']
     assert_not_nil assigns(:csv_string)
-    assert_not_nil assigns(:count)
     assert_response :success
   end
 
   test "should get ics" do
     get :index, format: 'ics', status: ['completed', 'not completed']
     assert_not_nil assigns(:ics_string)
-    assert_not_nil assigns(:count)
     assert_response :success
   end
 
@@ -429,7 +427,7 @@ class StickiesControllerTest < ActionController::TestCase
     login(users(:two))
     get :show, id: stickies(:viewable_by_valid)
     assert_nil assigns(:sticky)
-    assert_redirected_to root_path
+    assert_redirected_to stickies_path
   end
 
   test "should get edit" do
@@ -792,7 +790,7 @@ class StickiesControllerTest < ActionController::TestCase
   test "should not update sticky with invalid id" do
     put :update, id: -1, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '1', due_date: "08/15/2011" }
     assert_nil assigns(:sticky)
-    assert_redirected_to root_path
+    assert_redirected_to stickies_path
   end
 
   test "should update planned sticky and not set end_date" do
@@ -921,7 +919,7 @@ class StickiesControllerTest < ActionController::TestCase
     end
 
     assert_nil assigns(:sticky)
-    assert_redirected_to root_path
+    assert_redirected_to stickies_path
   end
 
   test "should not destroy sticky using ajax without valid id" do
