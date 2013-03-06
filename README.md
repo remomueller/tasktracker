@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/tasktracker.png)](https://gemnasium.com/remomueller/tasktracker)
 [![Code Climate](https://codeclimate.com/github/remomueller/tasktracker.png)](https://codeclimate.com/github/remomueller/tasktracker)
 
-Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 3.2+ and Ruby 1.9.3+.
+Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 4.0+ and Ruby 1.9.3+.
 
 ## Installation
 
@@ -66,7 +66,7 @@ Edit Cron Jobs `sudo crontab -e` to export the data dictionary
 
 ## Task Tracker API (RESTFUL JSON)
 
-If you need to communicate with an instance of Task Tracker programmatically, take a look at the [API Documentation](https://github.com/remomueller/tasktracker/blob/master/doc/API.rdoc) for examples.
+If you need to communicate with an instance of Task Tracker programmatically, take a look at the [API Documentation](https://github.com/remomueller/tasktracker/blob/master/API.md) for examples.
 
 ## Contributing to Task Tracker
 

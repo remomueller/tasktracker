@@ -28,7 +28,7 @@ with_tag:
   user: valid
   project: one
   name: Tagged Item
-  items: [{ description: 'Tagged A', interval: 0, units: 'days', tag_ids: [<%= ActiveRecord::Fixtures.identify(:alpha) %>] }]
+  items: [{ description: 'Tagged A', interval: 0, units: 'days', tag_ids: [<%= ActiveRecord::FixtureSet.identify(:alpha) %>] }]
 
 with_due_at:
   user: valid
