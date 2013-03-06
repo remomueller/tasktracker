@@ -5,7 +5,7 @@ class Template < ActiveRecord::Base
   attr_reader :item_tokens
 
   # Concerns
-  include Deletable
+  include Deletable, Filterable
 
   # Named Scopes
   scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(items) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
@@ -33,7 +33,7 @@ class Template < ActiveRecord::Base
 
   def item_tokens=(tokens)
     self.items = []
-    tokens.each_pair do |key, item_hash|
+    tokens.each do |item_hash|
       self.items << { description: item_hash[:description],
                       interval: item_hash[:interval].to_i,
                       units: (['days','weeks','months','years'].include?(item_hash[:units]) ? item_hash[:units] : 'days'),

@@ -1,6 +1,10 @@
 class TemplatesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :api_authentication!, only: [:index]
+  before_action :authenticate_user!
+  before_action :api_authentication!, only: [:index]
+  before_action :set_viewable_project, only: [ :index ]
+  before_action :set_viewable_template, only: [ :show ]
+  before_action :set_editable_template, only: [ :edit, :update, :destroy ]
+  before_action :redirect_without_template, only: [ :show, :edit, :update, :destroy ]
 
   def copy
     template = current_user.all_viewable_templates.find_by_id(params[:id])
@@ -20,103 +24,103 @@ class TemplatesController < ApplicationController
   end
 
   def add_item
-    @template = current_user.templates.new(post_params)
+    @template = current_user.templates.new(template_params)
     @item = { description: '', interval: 0, units: 'days' }
   end
 
+  # GET /templates
+  # GET /templates.json
   def index
-    template_scope = (params[:editable_only] == '1') ? current_user.all_templates : current_user.all_viewable_templates
-
     current_user.update_column :templates_per_page, params[:templates_per_page].to_i if params[:templates_per_page].to_i >= 10 and params[:templates_per_page].to_i <= 200
-
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| template_scope = template_scope.search(search_term) }
-
-    template_scope = template_scope.where(project_id: @project.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-
     @order = scrub_order(Template, params[:order], 'templates.name')
-    template_scope = template_scope.order(@order)
-
-    @count = template_scope.count
-    @templates = template_scope.page(params[:page]).per(current_user.templates_per_page)
-
-    respond_to do |format|
-      format.html
-      format.js
-      format.json { render json: template_scope, only: [:id, :items], methods: [:full_name] }
-    end
+    template_scope = (params[:editable_only] == '1') ? current_user.all_templates : current_user.all_viewable_templates
+    @templates = template_scope.search(params[:search]).filter(params).order(@order).page(params[:page]).per(params[:format] == 'json' ? -1 : current_user.templates_per_page)
   end
 
+  # GET /templates/1
+  # GET /templates/1.json
   def show
-    @template = current_user.all_viewable_templates.find_by_id(params[:id])
-
-    respond_to do |format|
-      if @template
-        format.html # show.html.erb
-        format.json { render json: @template }
-      else
-        format.html { redirect_to templates_path }
-        format.json { head :no_content }
-      end
-    end
   end
 
+  # GET /templates/new
   def new
-    @template = current_user.templates.new(post_params)
+    @template = current_user.templates.new(template_params)
   end
 
+  # GET /templates/1/edit
   def edit
-    @template = current_user.all_templates.find_by_id(params[:id])
-    redirect_to root_path unless @template
   end
 
   def items
-    @template = current_user.templates.new(post_params)
+    @template = current_user.templates.new(template_params)
   end
 
+  # POST /templates
+  # POST /templates.json
   def create
-    @template = current_user.templates.new(post_params)
-
-    if @template.save
-      redirect_to @template, notice: 'Template was successfully created.'
-    else
-      render action: "new"
-    end
-  end
-
-  def update
-    @template = current_user.all_templates.find_by_id(params[:id])
-    if @template
-      if @template.update_attributes(post_params)
-        redirect_to @template, notice: 'Template was successfully updated.'
-      else
-        render action: "edit"
-      end
-    else
-      redirect_to root_path
-    end
-  end
-
-  def destroy
-    @template = current_user.all_templates.find_by_id(params[:id])
-    @template.destroy if @template
+    @template = current_user.templates.new(template_params)
 
     respond_to do |format|
-      format.html { redirect_to templates_path(project_id: @template ? @template.project_id : nil) }
+      if @template.save
+        format.html { redirect_to @template, notice: 'Template was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @template }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @template.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /templates/1
+  # PUT /templates/1.json
+  def update
+    respond_to do |format|
+      if @template.update(template_params)
+        format.html { redirect_to @template, notice: 'Template was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @template.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /templates/1
+  # DELETE /templates/1.json
+  def destroy
+    @template.destroy
+
+    respond_to do |format|
+      format.html { redirect_to templates_path(project_id: @template.project_id) }
       format.json { head :no_content }
     end
   end
 
-  def post_params
-    params[:template] ||= {}
+  private
 
-    unless params[:template][:project_id].blank?
-      project = current_user.all_projects.find_by_id(params[:template][:project_id])
-      params[:template][:project_id] = project ? project.id : nil
+    def set_viewable_template
+      @template = current_user.all_viewable_templates.find_by_id(params[:id])
     end
 
-    params[:template].slice(
-      :name, :project_id, :item_tokens, :avoid_weekends
-    )
-  end
+    def set_editable_template
+      @template = current_user.all_templates.find_by_id(params[:id])
+    end
+
+    def redirect_without_template
+      empty_response_or_root_path(templates_path) unless @template
+    end
+
+    def template_params
+      params[:template] ||= { blank: '1' } # {}
+
+      unless params[:template][:project_id].blank?
+        project = current_user.all_projects.find_by_id(params[:template][:project_id])
+        params[:template][:project_id] = project ? project.id : nil
+      end
+
+      params.require(:template).permit(
+        :name, :project_id, :avoid_weekends,
+        { :item_tokens => [ :description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, :tag_ids => [] ] }
+      )
+    end
 end

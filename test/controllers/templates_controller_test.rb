@@ -54,6 +54,10 @@ class TemplatesControllerTest < ActionController::TestCase
     login(users(:service_account))
     get :index, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
     assert_not_nil assigns(:templates)
+    templates = JSON.parse(@response.body)
+    assert templates.first.keys.include?('id')
+    assert templates.first.keys.include?('items')
+    assert templates.first.keys.include?('full_name')
     assert_response :success
   end
 
@@ -64,7 +68,7 @@ class TemplatesControllerTest < ActionController::TestCase
 
   test "should create template" do
     assert_difference('Template.count') do
-      post :create, template: { name: 'Template Name', project_id: projects(:one).to_param, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+      post :create, template: { name: 'Template Name', project_id: projects(:one).to_param, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }
     end
 
     assert_redirected_to template_path(assigns(:template))
@@ -72,7 +76,7 @@ class TemplatesControllerTest < ActionController::TestCase
 
   test "should not create template with blank name" do
     assert_difference('Template.count', 0) do
-      post :create, template: { name: '', project_id: projects(:one).to_param, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+      post :create, template: { name: '', project_id: projects(:one).to_param, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }
     end
 
     assert_not_nil assigns(:template)
@@ -83,7 +87,7 @@ class TemplatesControllerTest < ActionController::TestCase
 
   test "should not create template with blank project" do
     assert_difference('Template.count', 0) do
-      post :create, template: { name: 'Template Name', project_id: nil, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+      post :create, template: { name: 'Template Name', project_id: nil, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }
     end
 
     assert_not_nil assigns(:template)
@@ -115,7 +119,7 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not update template with blank name" do
-    put :update, id: @template, template: { name: '', project_id: projects(:one).to_param, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+    put :update, id: @template, template: { name: '', project_id: projects(:one).to_param, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }
     assert_not_nil assigns(:template)
     assert assigns(:template).errors.size > 0
     assert_equal ["can't be blank"], assigns(:template).errors[:name]
@@ -123,7 +127,7 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not update template with blank project" do
-    put :update, id: @template, template: { name: 'Updated Name', project_id: nil, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+    put :update, id: @template, template: { name: 'Updated Name', project_id: nil, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }
     assert_not_nil assigns(:template)
     assert assigns(:template).errors.size > 0
     assert_equal ["can't be blank"], assigns(:template).errors[:project_id]
@@ -131,9 +135,9 @@ class TemplatesControllerTest < ActionController::TestCase
   end
 
   test "should not update template with invalid id" do
-    put :update, id: -1, template: { name: 'Updated Name', project_id: nil, item_tokens: { "1" => { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } } }
+    put :update, id: -1, template: { name: 'Updated Name', project_id: nil, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }
     assert_nil assigns(:template)
-    assert_redirected_to root_path
+    assert_redirected_to templates_path
   end
 
   test "should destroy template" do
