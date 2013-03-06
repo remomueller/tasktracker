@@ -134,7 +134,7 @@ class BoardsControllerTest < ActionController::TestCase
   test "should not update board with invalid id" do
     put :update, id: -1, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", archived: false }
     assert_nil assigns(:board)
-    assert_redirected_to root_path
+    assert_redirected_to boards_path
   end
 
   test "should destroy board and move attached stickies to project holding pen" do

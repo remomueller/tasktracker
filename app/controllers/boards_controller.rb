@@ -1,11 +1,16 @@
 class BoardsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
+  before_action :set_viewable_project, only: [ :index ]
+  before_action :set_editable_project, only: [ :add_stickies ]
+  before_action :redirect_without_project, only: [ :add_stickies ]
+  before_action :set_viewable_board, only: [ :show ]
+  before_action :set_editable_board, only: [ :edit, :update, :destroy, :archive ]
+  before_action :redirect_without_board, only: [ :show, :edit, :update, :destroy, :archive ]
 
   def archive
-    @board = current_user.all_boards.find_by_id(params[:id])
-    @project = current_user.all_projects.find_by_id(@board.project_id) if @board
+    @project = current_user.all_projects.find_by_id(@board.project_id)
 
-    if @project and @board
+    if @project
       @board.update_attributes(archived: params[:archived])
     else
       render nothing: true
@@ -14,10 +19,9 @@ class BoardsController < ApplicationController
 
   def add_stickies
     @board = current_user.all_boards.find_by_id(params[:board_id])
-    @project = current_user.all_projects.find_by_id(params[:project_id])
-    @stickies = @project.stickies.where(id: params[:sticky_ids].split(',')) if @project
+    @stickies = @project.stickies.where(id: params[:sticky_ids].split(','))
 
-    if @project and (@board or params[:board_id].to_s == '0') and @stickies.size > 0
+    if (@board or params[:board_id].to_s == '0') and @stickies.size > 0
       board_id = (@board ? @board.id : nil)
       @board_ids = (@stickies.pluck(:board_id) + [board_id]).uniq
       @stickies.each{|s| s.update_attributes(board_id: board_id)}
@@ -26,89 +30,93 @@ class BoardsController < ApplicationController
     end
   end
 
+  # GET /boards
+  # GET /boards.json
   def index
     current_user.update_column :boards_per_page, params[:boards_per_page].to_i if params[:boards_per_page].to_i >= 10 and params[:boards_per_page].to_i <= 200
-    board_scope = current_user.all_viewable_boards
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| board_scope = board_scope.search(search_term) }
-
-    board_scope = board_scope.where(project_id: @project.id) if @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
-
     @order = scrub_order(Board, params[:order], 'boards.name')
-    board_scope = board_scope.order(@order)
-
-    @count = board_scope.count
-    @boards = board_scope.page(params[:page]).per(current_user.boards_per_page)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: @boards }
-    end
+    @boards = current_user.all_viewable_boards.search(params[:search]).filter(params).order(@order).page(params[:page]).per(current_user.boards_per_page)
   end
 
+  # GET /boards/1
+  # GET /boards/1.json
   def show
-    @board = current_user.all_viewable_boards.find_by_id(params[:id])
-    redirect_to root_path unless @board
   end
 
+  # GET /boards/new
   def new
-    @board = current_user.boards.new(post_params)
+    @board = current_user.boards.new(board_params)
   end
 
+  # GET /boards/1/edit
   def edit
-    @board = current_user.all_boards.find_by_id(params[:id])
-    redirect_to root_path unless @board
   end
 
+  # POST /boards
+  # POST /boards.json
   def create
-    @board = current_user.boards.new(post_params)
-
-    if @board.save
-      redirect_to(@board, notice: 'Board was successfully created.')
-    else
-      render action: "new"
-    end
-  end
-
-  def update
-    @board = current_user.all_boards.find_by_id(params[:id])
-
-    if @board
-      if @board.update_attributes(post_params)
-        redirect_to(@board, notice: 'Board was successfully updated.')
-      else
-        render action: "edit"
-      end
-    else
-      redirect_to root_path
-    end
-  end
-
-  def destroy
-    @board = current_user.all_boards.find_by_id(params[:id])
-    @board.destroy if @board
+    @board = current_user.boards.new(board_params)
 
     respond_to do |format|
-      format.html { redirect_to boards_path(project_id: @board ? @board.project_id : nil) }
+      if @board.save
+        format.html { redirect_to @board, notice: 'Board was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @board }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @board.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /boards/1
+  # PUT /boards/1.json
+  def update
+    respond_to do |format|
+      if @board.update(board_params)
+        format.html { redirect_to @board, notice: 'Board was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @board.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /boards/1
+  # DELETE /boards/1.json
+  def destroy
+    @board.destroy
+
+    respond_to do |format|
+      format.html { redirect_to boards_path( project_id: @board.project_id ) }
       format.json { head :no_content }
     end
   end
 
-  def post_params
-    params[:board] ||= {}
+  private
 
-    [:start_date, :end_date].each do |date|
-      params[:board][date] = parse_date(params[:board][date])
+    def set_viewable_board
+      @board = current_user.all_viewable_boards.find_by_id(params[:id])
     end
 
-    unless params[:board][:project_id].blank?
-      project = current_user.all_projects.find_by_id(params[:board][:project_id])
-      params[:board][:project_id] = project ? project.id : nil
+    def set_editable_board
+      @board = current_user.all_boards.find_by_id(params[:id])
     end
 
-    params[:board].slice(
-      :name, :description, :start_date, :end_date, :project_id, :archived
-    )
-  end
+    def redirect_without_board
+      empty_response_or_root_path(boards_path) unless @board
+    end
+
+    def board_params
+      params[:board] ||= { blank: '1' } # {}
+
+      unless params[:board][:project_id].blank?
+        project = current_user.all_projects.find_by_id(params[:board][:project_id])
+        params[:board][:project_id] = project ? project.id : nil
+      end
+
+      params.require(:board).permit(
+        :name, :description, :project_id, :archived
+      )
+    end
 end
