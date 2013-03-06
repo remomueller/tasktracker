@@ -11,7 +11,7 @@ class BoardsController < ApplicationController
     @project = current_user.all_projects.find_by_id(@board.project_id)
 
     if @project
-      @board.update_attributes(archived: params[:archived])
+      @board.update(archived: params[:archived])
     else
       render nothing: true
     end
@@ -24,7 +24,7 @@ class BoardsController < ApplicationController
     if (@board or params[:board_id].to_s == '0') and @stickies.size > 0
       board_id = (@board ? @board.id : nil)
       @board_ids = (@stickies.pluck(:board_id) + [board_id]).uniq
-      @stickies.each{|s| s.update_attributes(board_id: board_id)}
+      @stickies.each{|s| s.update(board_id: board_id)}
     else
       render nothing: true
     end
