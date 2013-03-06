@@ -85,7 +85,10 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal templates(:one).items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
-    assert_equal assigns(:group).to_json, response.body
+    group = JSON.parse(@response.body)
+    assert_equal assigns(:group).project_id, group['project_id']
+    assert_equal assigns(:group).template_id, group['template_id']
+    assert_equal assigns(:group).id, group['id']
     assert_response :success
   end
 
@@ -180,7 +183,7 @@ class GroupsControllerTest < ActionController::TestCase
   test "should not show group with invalid id" do
     get :show, id: -1
     assert_nil assigns(:group)
-    assert_redirected_to root_path
+    assert_redirected_to groups_path
   end
 
   test "should get edit" do
@@ -215,7 +218,7 @@ class GroupsControllerTest < ActionController::TestCase
   test "should not update group with invalid id" do
     put :update, id: -1, group: { description: "Group Description Update" }
     assert_nil assigns(:group)
-    assert_redirected_to root_path
+    assert_redirected_to groups_path
   end
 
   test "should destroy group and attached stickies" do

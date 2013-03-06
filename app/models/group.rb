@@ -1,10 +1,9 @@
 class Group < ActiveRecord::Base
-  # attr_accessible :description, :project_id, :template_id, :board_id, :initial_due_date
 
   attr_accessor :board_id, :initial_due_date
 
   # Concerns
-  include Deletable
+  include Deletable, Filterable
 
   # Named Scopes
   scope :search, lambda { |arg| where('LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
