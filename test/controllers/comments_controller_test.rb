@@ -12,11 +12,6 @@ class CommentsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:comments)
   end
 
-  test "should not get new" do
-    get :new
-    assert_redirected_to root_path
-  end
-
   test "should create comment for a sticky" do
     assert_difference('Comment.count') do
       post :create, sticky_id: @comment.sticky_id, comment: { description: "This is a comment." }, position: "1", format: 'js'
@@ -85,7 +80,7 @@ class CommentsControllerTest < ActionController::TestCase
   test "should not update comment without valid id" do
     put :update, id: -1, comment: @comment.attributes
     assert_nil assigns(:comment)
-    assert_redirected_to root_path
+    assert_redirected_to comments_path
   end
 
   test "should destroy comment" do
@@ -101,6 +96,6 @@ class CommentsControllerTest < ActionController::TestCase
       delete :destroy, id: -1
     end
 
-    assert_redirected_to root_path
+    assert_redirected_to comments_path
   end
 end
