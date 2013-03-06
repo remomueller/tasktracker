@@ -49,10 +49,6 @@ class Sticky < ActiveRecord::Base
   has_and_belongs_to_many :tags
   has_many :comments, -> { where deleted: false }, order: 'created_at desc'
 
-  # def as_json(options={})
-  #   super(only: [:id, :user_id, :project_id, :completed, :description, :owner_id, :board_id, :due_date, :duration, :duration_units, :all_day, :created_at, :updated_at, :group_id], methods: [:group_description, :sticky_link, :tags])
-  # end
-
   def sticky_link
     SITE_URL + "/stickies/#{self.id}"
   end
