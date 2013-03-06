@@ -115,7 +115,7 @@ class TagsControllerTest < ActionController::TestCase
   test "should not update tag with invalid id" do
     put :update, id: -1, tag: { name: "Tag Name Update", project_id: projects(:one).to_param, description: "Updated Description" }
     assert_nil assigns(:tag)
-    assert_redirected_to root_path
+    assert_redirected_to tags_path
   end
 
   test "should destroy tag" do

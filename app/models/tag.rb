@@ -1,8 +1,7 @@
 class Tag < ActiveRecord::Base
-  # attr_accessible :name, :description, :color, :project_id
 
   # Concerns
-  include Searchable, Deletable
+  include Searchable, Deletable, Filterable
 
   # Named Scopes
 
@@ -19,4 +18,5 @@ class Tag < ActiveRecord::Base
   def self.natural_sort
     NaturalSort::naturalsort self.where('').collect{|t| [t.name, t.id]}
   end
+
 end
