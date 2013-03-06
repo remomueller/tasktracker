@@ -1,5 +1,4 @@
 class Project < ActiveRecord::Base
-  # attr_accessible :name, :description, :status, :start_date, :end_date
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
@@ -8,7 +7,7 @@ class Project < ActiveRecord::Base
   include Searchable, Deletable
 
   # Named Scopes
-  scope :with_user, lambda { |*args| where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]) }
+  scope :with_user, lambda { |*args| where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]).references(:project_users) }
   scope :has_template, -> { where('projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false) }
 
   scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") } #, order: "(project_favorites.favorite = 't') DESC"
@@ -20,7 +19,7 @@ class Project < ActiveRecord::Base
   belongs_to :user
   has_many :project_favorites
   has_many :project_users
-  has_many :users, -> { where deleted: false }, through: :project_users, order: 'last_name, first_name'
+  has_many :users, -> { where(deleted: false) }, through: :project_users, order: 'last_name, first_name'
   has_many :editors, -> { where('project_users.allow_editing = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.allow_editing = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
   has_many :stickies, -> { where deleted: false }
@@ -35,14 +34,6 @@ class Project < ActiveRecord::Base
   def users_to_email(action)
     result = (self.users + [self.user]).uniq
     result = result.select{|u| u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{self.id}") and u.email_on?("project_#{self.id}_#{action}") }
-  end
-
-  def as_json(options={})
-    json = super(only: [:id, :user_id, :name, :description, :start_date, :end_date, :created_at, :updated_at], methods: [:project_link, :tags])
-    json[:color] = options[:current_user].blank? ? '#777777' : self.color(options[:current_user])
-    project_favorite = (options[:current_user].blank? ? nil : self.project_favorites.find_by_user_id(options[:current_user].id))
-    json[:favorited] = (not project_favorite.blank? and project_favorite.favorite?)
-    json
   end
 
   def project_link

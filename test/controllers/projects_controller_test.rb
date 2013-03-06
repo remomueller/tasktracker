@@ -143,6 +143,14 @@ class ProjectsControllerTest < ActionController::TestCase
     login(users(:service_account))
     get :index, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
     assert_not_nil assigns(:projects)
+
+    projects = JSON.parse(@response.body)
+    assert projects.first.keys.include?('id')
+    assert projects.first.keys.include?('name')
+    assert projects.first.keys.include?('color')
+    assert projects.first.keys.include?('favorited')
+    assert projects.first.keys.include?('tags')
+
     assert_response :success
   end
 

@@ -3,9 +3,9 @@ class ProjectsController < ApplicationController
   before_filter :api_authentication!, only: [ :index, :show, :create, :update ]
   before_filter :set_viewable_project, only: [ :show, :colorpicker, :visible, :favorite, :settings ]
   before_filter :set_editable_project, only: [ :edit, :update, :destroy, :bulk, :reassign ]
+  before_action :redirect_without_project, only: [ :show, :colorpicker, :visible, :favorite, :settings, :edit, :update, :destroy, :bulk, :reassign ]
 
   def bulk
-    redirect_to projects_path unless @project
   end
 
   def reassign
@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
   end
 
   def favorite
-    project_favorite = @project.project_favorites.find_or_create_by_user_id(current_user.id)
+    project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
     project_favorite.update_attributes favorite: (params[:favorite] == '1')
   end
 
@@ -62,83 +62,74 @@ class ProjectsController < ApplicationController
     @project_id = @project.id if @project
   end
 
+  # GET /projects
+  # GET /projects.json
   def index
     current_user.update_column :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 200
-    project_scope = current_user.all_viewable_projects
-
-    @search_terms = params[:search].to_s.gsub(/[^0-9a-zA-Z]/, ' ').split(' ')
-    @search_terms.each{|search_term| project_scope = project_scope.search(search_term) }
-
-    project_scope = project_scope.by_favorite(current_user.id)
     @order = scrub_order(Project, params[:order], 'projects.name')
-    project_scope = project_scope.order("(favorite IS NULL or favorite = 'f') ASC, " + @order)
-
-    @count = project_scope.count
-    @projects = project_scope.page(params[:page]).per(current_user.projects_per_page)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.js
-      format.json { render json: project_scope.page(params[:page]).limit(50).as_json(current_user: current_user) }
-    end
+    @projects = current_user.all_viewable_projects.search(params[:search]).by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, " + @order).page(params[:page]).per(params[:format] == 'json' ? 50 : current_user.projects_per_page)
   end
 
+  # GET /projects/1/settings
   def settings
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @project }
-    end
   end
 
+  # GET /projects/1
+  # GET /projects/1.json
   def show
     params[:status] ||= ['planned','completed']
+    @template = @project.templates.find_by_id(params[:template_id])
 
-    respond_to do |format|
-      @template = @project.templates.find_by_id(params[:template_id])
-
-      unless @template
-        @board = @project.boards.find_by_name(params[:board])
-        params[:board_id] = @board ? @board.id : (params[:board_id] || 0)
-        @board = @project.boards.find_by_id(params[:board_id]) unless @board
-      end
-
-      format.html # show.html.erb
-      format.json { render json: @project }
+    unless @template
+      @board = @project.boards.find_by_name(params[:board])
+      params[:board_id] = @board ? @board.id : (params[:board_id] || 0)
+      @board = @project.boards.find_by_id(params[:board_id]) unless @board
     end
   end
 
+  # GET /projects/new
   def new
     @project = current_user.projects.new
   end
 
+  # GET /projects/1/edit
   def edit
-
   end
 
+  # POST /projects
+  # POST /projects.json
   def create
-    @project = current_user.projects.new(post_params)
+    @project = current_user.projects.new(project_params)
 
     respond_to do |format|
       if @project.save
         format.html { redirect_to(@project, notice: 'Project was successfully created.') }
-        format.js { render 'create' }
-        format.json { render json: @project, status: :created, location: @project }
+        format.js
+        format.json { render action: 'show', status: :created, location: @project }
       else
-        format.html { render "new" }
-        format.js { render "new" }
+        format.html { render 'new' }
+        format.js { render 'new' }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
 
+  # PUT /projects/1
+  # PUT /projects/1.json
   def update
-    if @project.update_attributes(post_params)
-      redirect_to(@project, notice: 'Project was successfully updated.')
-    else
-      render action: "edit"
+    respond_to do |format|
+      if @project.update(project_params)
+        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @project.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  # DELETE /projects/1
+  # DELETE /projects/1.json
   def destroy
     @project.destroy
 
@@ -150,31 +141,29 @@ class ProjectsController < ApplicationController
 
   private
 
-  def post_params
-    params[:project] ||= {}
-
-    [:start_date, :end_date].each do |date|
-      params[:project][date] = parse_date(params[:project][date])
+    def set_viewable_project
+      super(:id)
     end
 
-    params[:project].slice(
-      :name, :description, :status, :start_date, :end_date
-    )
-  end
-
-  def set_viewable_project
-    redirect_to_projects_path unless @project = current_user.all_viewable_projects.find_by_id(params[:id])
-  end
-
-  def set_editable_project
-    redirect_to_projects_path unless @project = current_user.all_projects.find_by_id(params[:id])
-  end
-
-  def redirect_to_projects_path
-    respond_to do |format|
-      format.html { redirect_to projects_path }
-      format.js { render nothing: true }
-      format.json { head :no_content }
+    # Overwriting application_controller
+    def set_editable_project
+      super(:id)
     end
-  end
+
+    def redirect_without_project
+      super(projects_path)
+    end
+
+    def project_params
+      params[:project] ||= {}
+
+      [:start_date, :end_date].each do |date|
+        params[:project][date] = parse_date(params[:project][date])
+      end
+
+      params.require(:project).permit(
+        :name, :description, :status, :start_date, :end_date
+      )
+    end
+
 end
