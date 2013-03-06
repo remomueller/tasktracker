@@ -4,10 +4,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
-  # # Setup accessible (or protected) attributes for your model
-  # attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name,
-  #                 :colors, :email_notifications, :hidden_project_ids, :settings, :sticky_filters
-
   before_create :set_default_calendar_options
   after_create :notify_system_admins
 
