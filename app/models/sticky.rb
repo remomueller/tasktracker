@@ -1,5 +1,5 @@
 class Sticky < ActiveRecord::Base
-  attr_accessible :description, :project_id, :owner_id, :board_id, :due_date, :group_id, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat, :repeat_amount
+  # attr_accessible :description, :project_id, :owner_id, :board_id, :due_date, :group_id, :completed, :duration, :duration_units, :all_day, :tag_ids, :repeat, :repeat_amount
 
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
 

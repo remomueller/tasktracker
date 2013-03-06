@@ -1,5 +1,5 @@
 class Tag < ActiveRecord::Base
-  attr_accessible :name, :description, :color, :project_id
+  # attr_accessible :name, :description, :color, :project_id
 
   # Concerns
   include Searchable, Deletable

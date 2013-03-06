@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  attr_accessible :name, :description, :status, :start_date, :end_date
+  # attr_accessible :name, :description, :status, :start_date, :end_date
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
   serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework

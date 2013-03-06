@@ -1,5 +1,5 @@
 class ProjectUser < ActiveRecord::Base
-  attr_accessible :user_id, :invite_email, :creator_id, :allow_editing, :invite_token
+  # attr_accessible :user_id, :invite_email, :creator_id, :allow_editing, :invite_token
 
   # Model Validation
   validates_presence_of :project_id, :creator_id #, :user_id

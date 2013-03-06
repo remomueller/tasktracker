@@ -1,5 +1,5 @@
 class Template < ActiveRecord::Base
-  attr_accessible :name, :project_id, :item_tokens, :avoid_weekends, :items
+  # attr_accessible :name, :project_id, :item_tokens, :avoid_weekends, :items
 
   serialize :items, Array
   attr_reader :item_tokens

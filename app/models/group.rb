@@ -1,5 +1,5 @@
 class Group < ActiveRecord::Base
-  attr_accessible :description, :project_id, :template_id, :board_id, :initial_due_date
+  # attr_accessible :description, :project_id, :template_id, :board_id, :initial_due_date
 
   attr_accessor :board_id, :initial_due_date
 
