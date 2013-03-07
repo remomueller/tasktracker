@@ -352,7 +352,7 @@ class StickiesController < ApplicationController
       params[:sticky][:all_day] = begin
         unless params[:sticky][:due_at_string].blank?
           t = Time.parse(params[:sticky][:due_at_string])
-          params[:sticky][:due_date] = Time.parse(params[:sticky][:due_date].strftime("%Y-%m-%d ") + params[:sticky][:due_at_string])
+          params[:sticky][:due_date] = Time.zone.parse(params[:sticky][:due_date].strftime("%Y-%m-%d ") + params[:sticky][:due_at_string])
           false
         else
           true
