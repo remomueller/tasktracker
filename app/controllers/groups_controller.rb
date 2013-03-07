@@ -52,7 +52,7 @@ class GroupsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{(@board ? @board.name : 'Holding Pen')}." }
         format.js { render 'create' }
-        format.json { render action: 'show' }
+        format.json { render action: 'show', status: :created, location: @group }
       end
     else
       respond_to do |format|
@@ -69,7 +69,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update(group_params)
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: 'show', location: @group }
       else
         format.html { render action: 'edit' }
         format.json { render json: @group.errors, status: :unprocessable_entity }

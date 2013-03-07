@@ -41,6 +41,29 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
+  test "should create group as json" do
+    assert_difference('Sticky.count', templates(:one).items.size) do
+      assert_difference('Group.count') do
+        post :create, group: { project_id: projects(:one), template_id: templates(:one), board_id: boards(:one) }, format: 'json'
+      end
+    end
+
+    group = JSON.parse(@response.body)
+    assert_equal assigns(:group).id, group['id']
+    assert_equal Hash, group['template'].class
+    assert_equal assigns(:group).creator_name, group['creator_name']
+    assert_equal assigns(:group).group_link, group['group_link']
+    assert_equal assigns(:group).description, group['description']
+    assert_equal assigns(:group).project_id, group['project_id']
+    assert_equal assigns(:group).template_id, group['template_id']
+    assert_equal assigns(:group).board_id, group['board_id']
+    assert_equal assigns(:group).initial_due_date, group['initial_due_date']
+    assert_equal assigns(:group).user_id, group['user_id']
+    assert Array, group['stickies'].class
+
+    assert_response :success
+  end
+
   test "should create group and generate stickies and create a new board for the group" do
     assert_difference('Sticky.count', templates(:one).items.size) do
       assert_difference('Group.count') do
@@ -197,6 +220,17 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal [@group.project_id], assigns(:group).stickies.collect{|s| s.project_id}.uniq
     assert_equal [boards(:one).to_param], assigns(:group).stickies.collect{|s| s.board_id.to_s}.uniq
     assert_redirected_to group_path(assigns(:group))
+  end
+
+  test "should update group as json" do
+    put :update, id: @group, group: { description: "Group Description Update" }, format: 'json'
+
+    group = JSON.parse(@response.body)
+    assert_equal assigns(:group).id, group['id']
+    assert_equal "Group Description Update", group['description']
+    assert Array, group['stickies'].class
+
+    assert_response :success
   end
 
   test "should update group and move group and stickies to another project" do
