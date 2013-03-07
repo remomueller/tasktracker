@@ -14,6 +14,8 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  Time.zone = 'Eastern Time (US & Canada)'
 end
 
 class ActionController::TestCase
