@@ -135,8 +135,8 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal templates(:avoid_weekends).items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
-    assert_equal Time.local(2012, 3, 9, 0, 0, 0), assigns(:group).stickies.order('due_date').first.due_date
-    assert_equal Time.local(2012, 3, 12, 0, 0, 0), assigns(:group).stickies.order('due_date').last.due_date
+    assert_equal Time.local(2012, 3, 9, 0, 0, 0).utc.to_time, assigns(:group).stickies.order('due_date').first.due_date.utc.to_time
+    assert_equal Time.local(2012, 3, 12, 0, 0, 0).utc.to_time, assigns(:group).stickies.order('due_date').last.due_date.utc.to_time
     assert_redirected_to group_path(assigns(:group))
   end
 
