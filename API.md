@@ -107,3 +107,27 @@ Success will return a JSON array of projects
   }
 ]
 ```
+
+### Signing In
+
+POST with PARAM STRING
+
+```console
+curl -d 'user[email]=email@example.com&user[password]=password' http://localhost/users/login.json
+```
+
+Success will return a JSON hash with user details:
+
+```json
+{
+  "success": true,
+  "user":
+    {
+      "id": 1,
+      "email": "email@example.com",
+      "first_name": "Joe",
+      "last_name": "Schmoe",
+      "authentication_token": "abc123"
+    }
+}
+```
