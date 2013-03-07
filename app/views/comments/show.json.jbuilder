@@ -1,1 +1,1 @@
-json.extract! @comment, :description, :user_id, :sticky_id, :created_at, :updated_at
+json.partial! 'comments/comment', comment: @comment

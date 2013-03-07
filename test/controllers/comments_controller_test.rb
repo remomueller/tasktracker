@@ -61,6 +61,18 @@ class CommentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show comment as json" do
+    get :show, id: @comment, format: 'json'
+
+    comment = JSON.parse(@response.body)
+    assert_equal assigns(:comment).id, comment['id']
+    assert_equal assigns(:comment).description, comment['description']
+    assert_equal assigns(:comment).sticky_id, comment['sticky_id']
+    assert_equal assigns(:comment).user_id, comment['user_id']
+
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, id: @comment
     assert_response :success
@@ -69,6 +81,18 @@ class CommentsControllerTest < ActionController::TestCase
   test "should update comment" do
     put :update, id: @comment, comment: @comment.attributes
     assert_redirected_to comment_path(assigns(:comment))
+  end
+
+  test "should update comment as json" do
+    put :update, id: @comment, comment: { description: 'Updated description' }, format: 'json'
+
+    comment = JSON.parse(@response.body)
+    assert_equal assigns(:comment).id, comment['id']
+    assert_equal 'Updated description', comment['description']
+    assert_equal assigns(:comment).sticky_id, comment['sticky_id']
+    assert_equal assigns(:comment).user_id, comment['user_id']
+
+    assert_response :success
   end
 
   test "should not update comment with blank description" do
