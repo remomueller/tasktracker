@@ -115,6 +115,20 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show board as json" do
+    get :show, id: @board, format: 'json'
+
+    board = JSON.parse(@response.body)
+    assert_equal assigns(:board).id, board['id']
+    assert_equal assigns(:board).name, board['name']
+    assert_equal assigns(:board).description, board['description']
+    assert_equal assigns(:board).archived, board['archived']
+    assert_equal assigns(:board).project_id, board['project_id']
+    assert_equal assigns(:board).user_id, board['user_id']
+
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, id: @board
     assert_response :success
@@ -123,6 +137,20 @@ class BoardsControllerTest < ActionController::TestCase
   test "should update board" do
     put :update, id: @board, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", archived: false }
     assert_redirected_to board_path(assigns(:board))
+  end
+
+  test "should update board and return json" do
+    put :update, id: @board, board: { name: "Board Name Update", project_id: projects(:one).to_param, description: "Updated Description", archived: false }, format: 'json'
+
+    board = JSON.parse(@response.body)
+    assert_equal assigns(:board).id, board['id']
+    assert_equal 'Board Name Update', board['name']
+    assert_equal 'Updated Description', board['description']
+    assert_equal false, board['archived']
+    assert_equal assigns(:board).project_id, board['project_id']
+    assert_equal assigns(:board).user_id, board['user_id']
+
+    assert_response :success
   end
 
   test "should not update board with blank name" do
