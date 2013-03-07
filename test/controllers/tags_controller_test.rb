@@ -57,6 +57,22 @@ class TagsControllerTest < ActionController::TestCase
     assert_redirected_to tag_path(assigns(:tag))
   end
 
+  test "should create tag as json" do
+    assert_difference('Tag.count') do
+      post :create, tag: { name: "Tag Name", project_id: projects(:one).to_param, description: "" }, format: 'json'
+    end
+
+    tag = JSON.parse(@response.body)
+    assert_equal assigns(:tag).id, tag['id']
+    assert_equal assigns(:tag).name, tag['name']
+    assert_equal assigns(:tag).description, tag['description']
+    assert_equal assigns(:tag).color, tag['color']
+    assert_equal assigns(:tag).project_id, tag['project_id']
+    assert_equal assigns(:tag).user_id, tag['user_id']
+
+    assert_response :success
+  end
+
   test "should create tag with a name identical to a deleted tag" do
     assert_difference('Tag.count') do
       post :create, tag: { name: "Deleted Tag", project_id: projects(:one).to_param, description: "" }
@@ -96,6 +112,20 @@ class TagsControllerTest < ActionController::TestCase
     assert_equal projects(:one).to_param, assigns(:tag).project_id.to_s
     assert_equal '#aaaaaa', assigns(:tag).color
     assert_redirected_to tag_path(assigns(:tag))
+  end
+
+  test "should update tag as json" do
+    put :update, id: @tag, tag: { name: "Tag Name Update", project_id: projects(:one).to_param, description: "Updated Description", color: '#aaaaaa' }, format: 'json'
+
+    tag = JSON.parse(@response.body)
+    assert_equal assigns(:tag).id, tag['id']
+    assert_equal "Tag Name Update", tag['name']
+    assert_equal "Updated Description", tag['description']
+    assert_equal '#aaaaaa', tag['color']
+    assert_equal assigns(:tag).project_id, tag['project_id']
+    assert_equal assigns(:tag).user_id, tag['user_id']
+
+    assert_response :success
   end
 
   test "should not update tag with blank name" do

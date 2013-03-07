@@ -69,7 +69,7 @@ class TagsController < ApplicationController
     respond_to do |format|
       if @tag.update(tag_params)
         format.html { redirect_to @tag, notice: 'Tag was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: 'show', location: @tag }
       else
         format.html { render action: 'edit' }
         format.json { render json: @tag.errors, status: :unprocessable_entity }
