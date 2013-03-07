@@ -499,7 +499,7 @@ class StickiesControllerTest < ActionController::TestCase
     post :move, id: stickies(:due_at_ics), due_date: "03/07/2012", format: 'js'
 
     assert_not_nil assigns(:sticky)
-    assert_equal "03/07/2012 09:00", assigns(:sticky).due_date.strftime("%m/%d/%Y %H:%M")
+    assert_equal Time.utc(2012, 3, 7, 14, 0, 0), assigns(:sticky).due_date.utc
     assert_template 'update'
     assert_response :success
   end
@@ -536,7 +536,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal true, assigns(:sticky).completed
     assert_not_nil assigns(:sticky).repeated_sticky
     assert_equal false, assigns(:sticky).repeated_sticky.completed
-    assert_equal "01/03/2013 00:00", assigns(:sticky).repeated_sticky.due_date.strftime("%m/%d/%Y %H:%M")
+    assert_equal Time.utc(2013, 1, 3, 5, 0, 0), assigns(:sticky).repeated_sticky.due_date.utc
     assert_template 'update'
     assert_response :success
   end

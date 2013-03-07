@@ -190,7 +190,7 @@ class StickiesController < ApplicationController
     params[:hide_show] = '1'
     params[:due_date] = parse_date(params[:due_date])
 
-    params[:due_date] = Time.parse(params[:due_date].strftime("%Y-%m-%d ") + @sticky.due_at_string) rescue ''
+    params[:due_date] = Time.zone.parse(params[:due_date].strftime("%Y-%m-%d ") + @sticky.due_at_string) rescue ''
 
     if @sticky and not params[:due_date].blank?
       original_due_date = @sticky.due_date

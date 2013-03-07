@@ -60,7 +60,7 @@ class Template < ActiveRecord::Base
       all_day = begin
         unless item[:due_at_string].blank?
           t = Time.parse(item[:due_at_string])
-          due_date = Time.parse(due_date.strftime("%Y-%m-%d ") + item[:due_at_string])
+          due_date = Time.zone.parse(due_date.strftime("%Y-%m-%d ") + item[:due_at_string])
           false
         else
           true
