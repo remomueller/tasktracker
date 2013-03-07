@@ -1,6 +1,6 @@
 class TemplatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :api_authentication!, only: [:index]
+  before_action :api_authentication!, only: [ :index ]
   before_action :set_viewable_project, only: [ :index ]
   before_action :set_viewable_template, only: [ :show ]
   before_action :set_editable_template, only: [ :edit, :update, :destroy ]
@@ -77,7 +77,7 @@ class TemplatesController < ApplicationController
     respond_to do |format|
       if @template.update(template_params)
         format.html { redirect_to @template, notice: 'Template was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: 'show', location: @template }
       else
         format.html { render action: 'edit' }
         format.json { render json: @template.errors, status: :unprocessable_entity }

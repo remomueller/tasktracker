@@ -74,6 +74,23 @@ class TemplatesControllerTest < ActionController::TestCase
     assert_redirected_to template_path(assigns(:template))
   end
 
+  test "should create template as json" do
+    assert_difference('Template.count') do
+      post :create, template: { name: 'Template Name', project_id: projects(:one).to_param, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }, format: 'json'
+    end
+
+    template = JSON.parse(@response.body)
+    assert_equal assigns(:template).id, template['id']
+    assert_equal assigns(:template).full_name, template['full_name']
+    assert_equal assigns(:template).name, template['name']
+    assert_equal assigns(:template).project_id, template['project_id']
+    assert_equal assigns(:template).avoid_weekends, template['avoid_weekends']
+    assert_equal Array, template['items'].class
+    assert_equal assigns(:template).user_id, template['user_id']
+
+    assert_response :success
+  end
+
   test "should not create template with blank name" do
     assert_difference('Template.count', 0) do
       post :create, template: { name: '', project_id: projects(:one).to_param, item_tokens: [ { description: 'Reminder in a Week', interval: 1, units: 'weeks', owner_id: users(:valid).to_param } ] }
@@ -116,6 +133,16 @@ class TemplatesControllerTest < ActionController::TestCase
   test "should update template" do
     put :update, id: @template.to_param, template: @template.attributes
     assert_redirected_to template_path(assigns(:template))
+  end
+
+  test "should update template as json" do
+    put :update, id: @template.to_param, template: { name: 'Updated Name' }, format: 'json'
+
+    template = JSON.parse(@response.body)
+    assert_equal assigns(:template).id, template['id']
+    assert_equal 'Updated Name', template['name']
+
+    assert_response :success
   end
 
   test "should not update template with blank name" do
