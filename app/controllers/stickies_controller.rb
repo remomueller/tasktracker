@@ -278,7 +278,7 @@ class StickiesController < ApplicationController
           format.html { redirect_to @sticky }
         end
         format.js
-        format.json { render action: 'show', status: :created, location: @sticky }
+        format.json { render action: 'show', location: @sticky }
       else
         @project_id = @sticky.project_id
         format.html { render action: 'edit' }

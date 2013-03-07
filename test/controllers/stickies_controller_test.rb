@@ -185,6 +185,33 @@ class StickiesControllerTest < ActionController::TestCase
     assert_redirected_to sticky_path(assigns(:sticky))
   end
 
+  test "should create sticky as json" do
+    assert_difference('Sticky.count') do
+      post :create, sticky: { description: "Sticky Description", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011" }, format: 'json'
+    end
+
+    sticky = JSON.parse(@response.body)
+    assert_equal assigns(:sticky).id, sticky['id']
+    assert_equal assigns(:sticky).all_day, sticky['all_day']
+    assert_equal assigns(:sticky).completed, sticky['completed']
+    assert_equal assigns(:sticky).description, sticky['description']
+    assert_equal assigns(:sticky).group_description, sticky['group_description']
+    assert_not_nil sticky['due_date']
+    assert_equal assigns(:sticky).user_id, sticky['user_id']
+    assert_equal assigns(:sticky).duration, sticky['duration']
+    assert_equal assigns(:sticky).duration_units, sticky['duration_units']
+    assert_equal assigns(:sticky).board_id, sticky['board_id']
+    assert_equal assigns(:sticky).group_id, sticky['group_id']
+    assert_equal assigns(:sticky).owner_id, sticky['owner_id']
+    assert_equal assigns(:sticky).project_id, sticky['project_id']
+    assert_equal assigns(:sticky).sticky_link, sticky['sticky_link']
+    assert_equal assigns(:sticky).repeat, sticky['repeat']
+    assert_equal assigns(:sticky).repeat_amount, sticky['repeat_amount']
+    assert_equal Array, sticky['tags'].class
+
+    assert_response :success
+  end
+
   test "should create sticky and create a new board for the sticky" do
     assert_difference('Sticky.count') do
       assert_difference('Board.count') do
@@ -590,6 +617,17 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))
+  end
+
+  test "should update sticky as json" do
+    put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '1', due_date: "08/15/2011" }, format: 'json'
+
+    sticky = JSON.parse(@response.body)
+    assert_equal assigns(:sticky).id, sticky['id']
+    assert_equal true, sticky['completed']
+    assert_equal "Sticky Description Update", sticky['description']
+
+    assert_response :success
   end
 
   test "should update sticky and create a new board for the sticky" do
