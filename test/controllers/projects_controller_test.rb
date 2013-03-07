@@ -76,7 +76,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should set project color" do
-    post :colorpicker, id: @project.to_param, color: '#aabbcc', format: 'js'
+    post :colorpicker, id: @project, color: '#aabbcc', format: 'js'
     users(:valid).reload # Needs reload to avoid stale object
     assert_not_nil assigns(:project)
     assert_equal '#aabbcc', users(:valid).colors["project_#{@project.to_param}"]
@@ -90,7 +90,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should remove hidden attribute for project" do
-    post :visible, id: projects(:hidden).to_param, visible: '1', format: 'js'
+    post :visible, id: projects(:hidden), visible: '1', format: 'js'
     users(:valid).reload # Needs reload to avoid stale object
     assert_not_nil assigns(:project)
     assert_equal false, users(:valid).hidden_project_ids.include?(assigns(:project).id)
@@ -98,7 +98,7 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should set hidden attribute for project" do
-    post :visible, id: @project.to_param, visible: '0', format: 'js'
+    post :visible, id: @project, visible: '0', format: 'js'
     users(:valid).reload # Needs reload to avoid stale object
     assert_not_nil assigns(:project)
     assert_equal true, users(:valid).hidden_project_ids.include?(assigns(:project).id)
@@ -168,6 +168,27 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(assigns(:project))
   end
 
+  test "should create project as json" do
+    assert_difference('Project.count') do
+      post :create, project: { name: "New Project", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '' }, format: 'json'
+    end
+
+    project = JSON.parse(@response.body)
+    assert_equal assigns(:project).id, project['id']
+    assert_equal assigns(:project).name, project['name']
+    assert_equal assigns(:project).description, project['description']
+    assert_equal assigns(:project).status, project['status']
+    assert_equal assigns(:project).start_date, project['start_date']
+    assert_equal assigns(:project).end_date, project['end_date']
+    assert_equal assigns(:project).user_id, project['user_id']
+    assert_equal assigns(:project).project_link, project['project_link']
+    assert_equal assigns(:project).color(users(:valid)), project['color']
+    assert_equal false, project['favorited']
+    assert_equal Array, project['tags'].class
+
+    assert_response :success
+  end
+
   test "should not create project with blank name" do
     assert_difference('Project.count', 0) do
       post :create, project: { name: "", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '' }
@@ -208,17 +229,31 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, id: @project.to_param
+    get :edit, id: @project
     assert_response :success
   end
 
   test "should update project" do
-    put :update, id: @project.to_param, project: { name: "Completed Project", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
+    put :update, id: @project, project: { name: "Completed Project", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
     assert_redirected_to project_path(assigns(:project))
   end
 
+  test "should update project as json" do
+    put :update, id: @project, project: { name: "Completed Project", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }, format: 'json'
+
+    project = JSON.parse(@response.body)
+    assert_equal assigns(:project).id, project['id']
+    assert_equal 'Completed Project', project['name']
+    assert_equal 'Updated Description', project['description']
+    assert_equal 'completed', project['status']
+    assert_equal assigns(:project).start_date, project['start_date']
+    assert_equal assigns(:project).end_date, project['end_date']
+
+    assert_response :success
+  end
+
   test "should not update project with blank name" do
-    put :update, id: @project.to_param, project: { name: "", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
+    put :update, id: @project, project: { name: "", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
     assert_not_nil assigns(:project)
     assert_template 'edit'
   end
@@ -231,7 +266,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should destroy project" do
     assert_difference('Project.current.count', -1) do
-      delete :destroy, id: @project.to_param
+      delete :destroy, id: @project
     end
 
     assert_redirected_to projects_path
@@ -247,7 +282,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should create project favorite" do
     assert_difference('ProjectFavorite.where(favorite: true).count') do
-      post :favorite, id: projects(:one).to_param, favorite: '1', format: 'js'
+      post :favorite, id: projects(:one), favorite: '1', format: 'js'
     end
 
     assert_not_nil assigns(:project)
@@ -265,7 +300,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should remove project favorite" do
     assert_difference('ProjectFavorite.where(favorite: false).count') do
-      post :favorite, id: projects(:two).to_param, favorite: '0', format: 'js'
+      post :favorite, id: projects(:two), favorite: '0', format: 'js'
     end
 
     assert_not_nil assigns(:project)
