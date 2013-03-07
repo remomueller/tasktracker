@@ -30,7 +30,7 @@
     <div class="control-group">
       <%= label_tag "template_item_tokens_#{position}_due_at_string", 'Due At', class: 'control-label' %>
       <div class="controls">
-        <%= text_field_tag "template[item_tokens][][due_at_string]", (Time.parse(@item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue ''), data: { object: 'noclickbubble' } %>
+        <%= text_field_tag "template[item_tokens][][due_at_string]", (Time.parse(@item[:due_at_string]).strftime("%l:%M %p").strip rescue ''), data: { object: 'noclickbubble' } %>
       </div>
     </div>
 
