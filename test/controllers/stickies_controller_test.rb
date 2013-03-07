@@ -180,7 +180,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
     assert_redirected_to sticky_path(assigns(:sticky))
   end
@@ -198,7 +198,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal assigns(:board).name, assigns(:sticky).board.name
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
     assert_redirected_to sticky_path(assigns(:sticky))
   end
@@ -216,7 +216,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
     assert_redirected_to sticky_path(assigns(:sticky))
   end
@@ -234,7 +234,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_nil assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
     assert_redirected_to sticky_path(assigns(:sticky))
   end
@@ -253,7 +253,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
     assert_redirected_to sticky_path(assigns(:sticky))
   end
@@ -268,7 +268,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal true, assigns(:sticky).all_day?
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
     assert_redirected_to sticky_path(assigns(:sticky))
@@ -284,7 +284,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2012, 3, 12, 21, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2012, 3, 12, 21, 0, 0), assigns(:sticky).due_date
     assert_equal false, assigns(:sticky).all_day?
 
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
@@ -301,7 +301,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2012, 3, 12, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2012, 3, 12, 0, 0, 0), assigns(:sticky).due_date
     assert_equal true, assigns(:sticky).all_day?
 
     assert_equal assigns(:sticky).user_id.to_s, users(:valid).to_param
@@ -318,7 +318,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_template 'update'
     assert_response :success
   end
@@ -480,7 +480,7 @@ class StickiesControllerTest < ActionController::TestCase
     post :move, id: @sticky, due_date: "03/07/2012", format: 'js'
 
     assert_not_nil assigns(:sticky)
-    assert_equal Time.local(2012, 3, 7, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2012, 3, 7, 0, 0, 0), assigns(:sticky).due_date
     assert_template 'update'
     assert_response :success
   end
@@ -488,7 +488,7 @@ class StickiesControllerTest < ActionController::TestCase
   test "should move grouped sticky and shift grouped incomplete stickies by original sticky shift" do
     put :move, id: stickies(:grouped_one), due_date: "12/06/2011", shift: 'incomplete', format: 'js'
     assert_not_nil assigns(:sticky)
-    assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
     assert_equal ['2011-12-02'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: true).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_equal ['2011-12-08', '2011-12-09', '2011-12-10', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_template 'groups/create'
@@ -586,7 +586,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))
@@ -602,7 +602,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal assigns(:board).name, assigns(:sticky).board.name
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))
@@ -618,7 +618,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))
@@ -634,7 +634,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_nil assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))
@@ -651,7 +651,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to sticky_path(assigns(:sticky))
@@ -673,7 +673,7 @@ class StickiesControllerTest < ActionController::TestCase
     put :update, id: @sticky, sticky: { description: "Sticky Description Update", project_id: projects(:one).to_param, board_id: boards(:one).to_param, due_date: "08/15/2011", due_at_string: '10am', duration: '1', duration_units: 'hours' }
     assert_not_nil assigns(:sticky)
     assert_equal "Sticky Description Update", assigns(:sticky).description
-    assert_equal Time.local(2011, 8, 15, 10, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 10, 0, 0), assigns(:sticky).due_date
     assert_equal "10:00 AM", assigns(:sticky).due_at_string
     assert_equal "11:00 AM (1 hours)", assigns(:sticky).due_at_end_string_with_duration
     assert_equal boards(:one), assigns(:sticky).board
@@ -687,7 +687,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal "", assigns(:sticky).due_at_string
     assert_equal "", assigns(:sticky).due_at_end_string_with_duration
     assert_equal boards(:one), assigns(:sticky).board
@@ -702,7 +702,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal boards(:one), assigns(:sticky).board # Should keep original board or nil since sticky board must be in same project
     assert_equal projects(:one), assigns(:sticky).project # Should keep original project since grouped stickies can only be moved to another project from editing the group
     assert_redirected_to sticky_path(assigns(:sticky))
@@ -714,7 +714,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Description Update", assigns(:sticky).description
     assert_equal true, assigns(:sticky).completed
     assert_equal Date.today, assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
@@ -727,7 +727,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Tags Removed", assigns(:sticky).description
     assert_equal false, assigns(:sticky).completed
     assert_nil assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
@@ -740,7 +740,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal "Sticky Tags Added", assigns(:sticky).description
     assert_equal false, assigns(:sticky).completed
     assert_nil assigns(:sticky).end_date
-    assert_equal Time.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal projects(:one), assigns(:sticky).project
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
@@ -749,7 +749,7 @@ class StickiesControllerTest < ActionController::TestCase
   test "should update sticky and not shift grouped stickies" do
     put :update, id: stickies(:grouped_one), from_calendar: '1', sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, board_id: stickies(:grouped_one).board_id, completed: '0', due_date: "12/06/2011" }, shift: 'single'
     assert_not_nil assigns(:sticky)
-    assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
     assert_equal ['2011-12-02', '2011-12-03', '2011-12-04', '2011-12-05', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
@@ -757,7 +757,7 @@ class StickiesControllerTest < ActionController::TestCase
   test "should update sticky and shift grouped incomplete stickies by original sticky shift" do
     put :update, id: stickies(:grouped_one), from_calendar: '1', sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, board_id: stickies(:grouped_one).board_id, completed: '0', due_date: "12/06/2011" }, shift: 'incomplete'
     assert_not_nil assigns(:sticky)
-    assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
     assert_equal ['2011-12-02'], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: true).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_equal ['2011-12-08', '2011-12-09', '2011-12-10', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
@@ -766,7 +766,7 @@ class StickiesControllerTest < ActionController::TestCase
   test "should update sticky and shift grouped stickies by original sticky shift" do
     put :update, id: stickies(:grouped_one), from_calendar: '1', sticky: { description: "Shifting sticky forward 5 days", project_id: stickies(:grouped_one).project_id, board_id: stickies(:grouped_one).board_id, completed: '0', due_date: "12/06/2011" }, shift: 'all'
     assert_not_nil assigns(:sticky)
-    assert_equal Time.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
+    assert_equal Time.zone.local(2011, 12, 6, 0, 0, 0), assigns(:sticky).due_date
     assert_equal ['2011-12-07', '2011-12-08', '2011-12-09', '2011-12-10', ''], assigns(:sticky).group.stickies.where("stickies.id != ?", assigns(:sticky).to_param).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_redirected_to calendar_stickies_path(selected_date: assigns(:sticky).due_date.blank? ? '' : assigns(:sticky).due_date.strftime('%m/%d/%Y'))
   end
