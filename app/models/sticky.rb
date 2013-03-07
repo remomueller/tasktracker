@@ -73,7 +73,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def due_at_string
-    (all_day? ? '' : due_date.strftime("%l:%M %p").strip) rescue ''
+    (all_day? ? '' : due_date.localtime.strftime("%l:%M %p").strip) rescue ''
   end
 
   def due_at_string_short
@@ -81,7 +81,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def due_at_end_string
-    (all_day? or self.duration <= 0) ? '' : (due_date + self.duration.send(self.duration_units)).strftime("%l:%M %p").strip
+    (all_day? or self.duration <= 0) ? '' : (due_date + self.duration.send(self.duration_units)).localtime.strftime("%l:%M %p").strip
   end
 
   def due_at_end_string_with_duration
