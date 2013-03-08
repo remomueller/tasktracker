@@ -3,6 +3,8 @@
   <% if params[:from_checkbox] == '1' %>
     <% update_stickies = [@sticky.repeated_sticky] %>
     $("#sticky_<%= @sticky.id %>_popup").replaceWith("<%= escape_javascript(render("stickies/popup")) %>");
+    $("#sticky_<%= @sticky.id %>_popup").effect("highlight", {}, 3000);
+    $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.color(current_user) %>');
   <% else %>
     <% update_stickies = [@sticky, @sticky.repeated_sticky] %>
   <% end %>
