@@ -23,7 +23,7 @@
   <%= link_to 'Close', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
 
   <% if @sticky.modifiable_by?(current_user) %>
-    <%= link_to 'Edit', edit_sticky_path(@sticky, from_calendar: params[:from_calendar]), method: :get, remote: true, class: 'btn btn-mini pull-right', style: 'margin-right:5px' %>
+    <%= link_to 'Edit', edit_sticky_path(@sticky, from_calendar: params[:from_calendar], from_checkbox: params[:from_checkbox]), method: :get, remote: true, class: 'btn btn-mini pull-right', style: 'margin-right:5px' %>
 
     <% if @sticky.completed? %>
       <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, undo: 'true', from_calendar: params[:from_calendar], from_checkbox: params[:from_checkbox]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
