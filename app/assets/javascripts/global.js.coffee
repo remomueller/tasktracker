@@ -2,12 +2,12 @@
 # Global functions referenced from HTML
 @checkAllWithSelector = (selector) ->
   elements = $(selector).each( () ->
-    $(this).attr('checked','checked')
+    $(this).prop('checked', true)
   )
 
 @uncheckAllWithSelector = (selector) ->
   elements = $(selector).each( () ->
-    $(this).removeAttr('checked')
+    $(this).prop('checked', false)
   )
 
 @enableAllWithSelector = (selector) ->
@@ -19,10 +19,10 @@
         enable = false unless $('.' + c + '_parent').is(':checked')
     )
     if enable
-      $(this).attr('checked','checked')
+      $(this).prop('checked', true)
       $(this).removeAttr('disabled')
     else
-      $(this).removeAttr('checked')
+      $(this).prop('checked', false)
       $(this).attr('disabled', 'disabled')
   )
 

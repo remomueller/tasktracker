@@ -71,11 +71,11 @@
   $('#search').val('')
   $('#project_id').val('')
   $('#owner_id').val('')
-  $('#unassigned').attr('checked','checked')
+  $('#unassigned').prop('checked', true)
   $('#due_date_start_date').val('')
   $('#due_date_end_date').val('')
-  $('#status_planned').attr('checked','checked')
-  $('#status_completed').attr('checked','checked')
+  $('#status_planned').prop('checked', true)
+  $('#status_completed').prop('checked', true)
   $('#tag_filter').val('any')
   uncheckAllWithSelector('.tag-box')
   $('#stickies_search').submit()
@@ -249,18 +249,18 @@ jQuery ->
       if e.shiftKey and $(last_checked).length > 0 and last_checked != current_checked
         if $(current_checked).prevAll(last_checked).length != 0
           if add_checks
-            $(current_checked).prevUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").attr('checked','checked')
-            $(last_checked).find("[data-object~='sticky-checkbox']").attr('checked','checked')
+            $(current_checked).prevUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").prop('checked', true)
+            $(last_checked).find("[data-object~='sticky-checkbox']").prop('checked', true)
           else
-            $(current_checked).prevUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").removeAttr('checked')
-            $(last_checked).find("[data-object~='sticky-checkbox']").removeAttr('checked')
+            $(current_checked).prevUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").prop('checked', false)
+            $(last_checked).find("[data-object~='sticky-checkbox']").prop('checked', false)
         else
           if add_checks
-            $(current_checked).nextUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").attr('checked','checked')
-            $(last_checked).find("[data-object~='sticky-checkbox']").attr('checked','checked')
+            $(current_checked).nextUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").prop('checked', true)
+            $(last_checked).find("[data-object~='sticky-checkbox']").prop('checked', true)
           else
-            $(current_checked).nextUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").removeAttr('checked')
-            $(last_checked).find("[data-object~='sticky-checkbox']").removeAttr('checked')
+            $(current_checked).nextUntil(last_checked).andSelf().find("[data-object~='sticky-checkbox']").prop('checked', false)
+            $(last_checked).find("[data-object~='sticky-checkbox']").prop('checked', false)
 
       window.$lastStickyChecked = $(this).data('sticky-id')
       initializeCompletionButtons()

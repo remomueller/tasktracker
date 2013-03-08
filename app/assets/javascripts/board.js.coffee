@@ -184,16 +184,16 @@ jQuery ->
     )
     .on('mousedown', '[data-object~="sticky-draggable"]', () ->
       unless $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').is(':checked')
-        $('[data-object~="sticky-checkbox"]').removeAttr('checked')
-        $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').attr('checked','checked')
+        $('[data-object~="sticky-checkbox"]').prop('checked', false)
+        $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').prop('checked', true)
         window.$lastStickyChecked = $(this).data('sticky-id')
         initializeCompletionButtons()
     )
     .on('click', '[data-object~="check-all-stickies"]', () ->
       if $(this).is(':checked')
-        $('[data-object~="sticky-checkbox"]').attr('checked','checked')
+        $('[data-object~="sticky-checkbox"]').prop('checked', true)
       else
-        $('[data-object~="sticky-checkbox"]').removeAttr('checked')
+        $('[data-object~="sticky-checkbox"]').prop('checked', false)
       window.$lastStickyChecked = null
       initializeCompletionButtons()
     )
