@@ -1,7 +1,5 @@
 class Sticky < ActiveRecord::Base
 
-  serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
-
   before_create :set_start_date
   after_create :send_email
   after_save :clone_repeat
@@ -205,7 +203,7 @@ class Sticky < ActiveRecord::Base
 
   def clone_repeat
     if self.changes[:completed] and self.changes[:completed][1] == true and self.repeat != 'none' and self.repeated_sticky.blank? and not self.due_date.blank?
-      new_sticky = self.user.stickies.new(self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'start_date', 'end_date', 'old_tags', 'repeated_sticky_id', 'completed'].include?(key.to_s)})
+      new_sticky = self.user.stickies.new(self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'start_date', 'end_date', 'repeated_sticky_id', 'completed'].include?(key.to_s)})
       new_sticky.due_date += (self.repeat_amount).send(new_sticky.repeat)
       new_sticky.tag_ids = self.tags.pluck(:id)
       new_sticky.save

@@ -5,6 +5,9 @@
   - Updated to Rails 4.0.0.beta1
   - Updated to Contour 2.0.0.beta.2
 
+### Refactoring
+- Removed `old_tags` from schema which aided in upgrading from older versions of Task Tracker up through version 0.25.6
+
 ## 0.25.6 (February 25, 2013)
 
 ### Bug Fix

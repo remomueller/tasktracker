@@ -7,13 +7,6 @@ class CreateStickiesTags < ActiveRecord::Migration
 
     add_index :stickies_tags, :sticky_id
     add_index :stickies_tags, :tag_id
-
-    Sticky.all.each do |sticky|
-      sticky.old_tags.compact.uniq.each do |old_tag|
-        tag = Tag.find_by_project_id_and_name(sticky.project_id, old_tag)
-        sticky.tags << tag if tag
-      end
-    end
   end
 
   def down

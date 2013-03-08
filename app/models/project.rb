@@ -1,7 +1,6 @@
 class Project < ActiveRecord::Base
 
   STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
-  serialize :old_tags, Array # Deprecated however used to migrate from old schema to new tag framework
 
   # Concerns
   include Searchable, Deletable
