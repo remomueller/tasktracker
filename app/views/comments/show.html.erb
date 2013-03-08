@@ -18,5 +18,5 @@
   <dd><%= link_to @comment.sticky.name, @comment.sticky if @comment.sticky %></dd>
 
   <dt>Description</dt>
-  <dd><%= @comment.description %></dd>
+  <dd><%= simple_markdown @comment.description %></dd>
 </dl>
