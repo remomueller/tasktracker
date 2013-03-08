@@ -227,13 +227,17 @@ class StickiesController < ApplicationController
 
   # This is always from calendar, the project one always uses complete_multiple...(todo refactor)
   def complete
-    params[:from_calendar] = '1'
     params[:hide_show] = '1'
 
     if @sticky
       @sticky.update_attributes completed: (params[:undo] != 'true')
       @sticky.send_email_if_recently_completed(current_user)
-      render 'update'
+      if params[:from_calendar] == '1' or params[:from_index] == '1'
+        render 'update'
+      else
+        @stickies = Sticky.current.where(id: @sticky.id)
+        render 'complete_multiple'
+      end
     else
       render nothing: true
     end

@@ -26,9 +26,9 @@
     <%= link_to 'Edit', edit_sticky_path(@sticky, from_calendar: params[:from_calendar]), method: :get, remote: true, class: 'btn btn-mini pull-right', style: 'margin-right:5px' %>
 
     <% if @sticky.completed? %>
-      <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, use_template: 'redesign', undo: 'true', from_calendar: params[:from_calendar]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+      <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, undo: 'true', from_calendar: params[:from_calendar]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
     <% else %>
-      <%= link_to 'Mark Completed', complete_sticky_path(@sticky, use_template: 'redesign', from_calendar: params[:from_calendar]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
+      <%= link_to 'Mark Completed', complete_sticky_path(@sticky, from_calendar: params[:from_calendar]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-mini btn-primary pull-right' %>
     <% end %>
 
     <%# if @sticky.group %>
