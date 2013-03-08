@@ -35,7 +35,7 @@
 
   <% if @stickies.count > 0 %>
     <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px; margin-left:20px; font-size:11px; padding: 2px 6px">
-      <span id="scope-direction-icon"><%= '&larr;'.html_safe if params[:scope_direction] == 'reverse' %></span> <span data-object="toggle-scope-direction" style="cursor:pointer" rel="tooltip" title="Toggle Direction"><span data-object="sticky-count"><%= @stickies.count %></span> of <span data-object="sticky-count"><%= @count %></span></span>
+      <span id="scope-direction-icon"><%= '&larr;'.html_safe if params[:scope_direction] == 'reverse' %></span> <span data-object="toggle-scope-direction" style="cursor:pointer" rel="tooltip" title="Toggle Direction"><span data-object="sticky-count"><%= @stickies.count %></span> of <span data-object="sticky-count"><%= @stickies.total_count %></span></span>
     </div>
   <% end %>
 </div>

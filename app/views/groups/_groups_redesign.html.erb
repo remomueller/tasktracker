@@ -8,7 +8,7 @@
   <%= link_to 'clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-mini' unless params[:tag_ids].blank? and params[:search].blank? %>
 
   <ul class="nav nav-list nav-rounded">
-    <li class="nav-header">Groups (<%= @count %>)</li>
+    <li class="nav-header">Groups (<%= @groups.total_count %>)</li>
     <% @groups.each do |group| %>
       <%= render partial: 'groups/menu', locals: { group: group } %>
     <% end %>
