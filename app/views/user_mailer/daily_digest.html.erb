@@ -36,7 +36,7 @@ Hello <%= @recipient.first_name %>,<br />
       <tr><td colspan="3" style="border-top:1px solid #ddd;"></td></tr>
       <tr><td colspan="3" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((project = Project.find_by_id(project_id)) ? link_to(project.name, "#{SITE_URL}/projects/#{project.id}") : 'No Project') %></td></tr>
       <% comments.group_by{|s| s.sticky_id}.each do |sticky_id, comments| %>
-        <tr><td colspan="3" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((sticky = Sticky.find_by_id(sticky_id)) ? link_to(sticky.name, "#{SITE_URL}/stickies/#{sticky.id}") : 'No Sticky') %> <%= strip_tags(simple_markdown sticky.full_description).truncate(50) %></td></tr>
+        <tr><td colspan="3" style="text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold"><%= ((sticky = Sticky.find_by_id(sticky_id)) ? link_to(sticky.name, "#{SITE_URL}/stickies/#{sticky.id}") : 'No Sticky') %> <%= strip_tags(simple_markdown sticky.full_description).truncate(50, separator: ' ').html_safe %></td></tr>
         <% comments.each do |comment| %>
           <tr><%= @comment = comment; render partial: 'digest_comment' %></tr>
         <% end %>

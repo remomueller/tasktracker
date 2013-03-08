@@ -7,6 +7,7 @@
 
 ### Bug Fix
 - Editing and removing the due date of a sticky from the calendar view now correctly removes the sticky
+- Fixed display of apostrophes and other special HTML characters in shortened sticky descriptions and emails
 
 ### Refactoring
 - Removed `old_tags` from schema which aided in upgrading from older versions of Task Tracker up through version 0.25.6

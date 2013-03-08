@@ -3,7 +3,7 @@
   <td data-link="<%= sticky_path(sticky) %>" data-remote="true" data-method="get" style="cursor:pointer;white-space:nowrap;overflow-x:hidden;">
     <div id="sticky_<%= sticky.id %>" data-object="sticky-draggable" data-sticky-id="<%= sticky.id %>" data-board-id="<%= sticky.board ? sticky.board.id : 0 %>" style="overflow:hidden">
       <span><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span> <%= highlight(strip_tags(simple_markdown sticky.full_description), params[:search], highlighter: '<span class="label label-highlight">\1</span>') %>
-      <div data-object="sticky-helper" style="display:none"><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %> <%= strip_tags(simple_markdown sticky.full_description).truncate(30) %></div>
+      <div data-object="sticky-helper" style="display:none"><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %> <%= strip_tags(simple_markdown sticky.full_description).truncate(30, separator: ' ').html_safe %></div>
     </div>
   </td>
   <td><% if sticky.comments.size > 0 %><span class="badge badge-info"><%= sticky.comments.size %></span><% end %></td>
