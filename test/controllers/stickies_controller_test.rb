@@ -551,6 +551,14 @@ class StickiesControllerTest < ActionController::TestCase
     post :complete, id: @sticky, format: 'js'
     assert_not_nil assigns(:sticky)
     assert_equal true, assigns(:sticky).completed
+    assert_template 'complete_multiple'
+    assert_response :success
+  end
+
+  test "should complete sticky from calendar" do
+    post :complete, id: @sticky, from_calendar: '1', format: 'js'
+    assert_not_nil assigns(:sticky)
+    assert_equal true, assigns(:sticky).completed
     assert_template 'update'
     assert_response :success
   end
@@ -564,7 +572,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:sticky).repeated_sticky
     assert_equal false, assigns(:sticky).repeated_sticky.completed
     assert_equal Time.utc(2013, 1, 3, 5, 0, 0), assigns(:sticky).repeated_sticky.due_date.utc
-    assert_template 'update'
+    assert_template 'complete_multiple'
     assert_response :success
   end
 
