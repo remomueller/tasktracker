@@ -1,4 +1,4 @@
-<% cache [ "stickies-popup-v10", @sticky ] do %>
+<% cache @sticky do %>
   <div
       class="stickies_<%= @sticky.completed ? 'completed' : 'planned' %> project_<%= @sticky.project_id %> sticky_popup calendar-entry-name"
       id="sticky_<%= @sticky.id %>_popup"
