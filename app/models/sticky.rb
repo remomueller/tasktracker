@@ -180,7 +180,10 @@ class Sticky < ActiveRecord::Base
   end
 
   def send_email_if_recently_completed(current_user)
-    self.send_completion_email(current_user) if self.previous_changes[:completed] and self.previous_changes[:completed][1] == true
+    if self.previous_changes[:completed] and self.previous_changes[:completed][1] == true
+      self.update(due_date: Time.now) if self.due_date.blank?
+      self.send_completion_email(current_user)
+    end
   end
 
   def send_completion_email(current_user)

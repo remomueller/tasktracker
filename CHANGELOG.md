@@ -5,6 +5,7 @@
   - Updated to Rails 4.0.0.beta1
   - Updated to Contour 2.0.0.beta.2
 - Comment descriptions on the comment show page now render using Markdown to match the way they are displayed on stickies
+- Stickies without a due date are now set to the current date when they are completed
 
 ### Bug Fix
 - Editing and removing the due date of a sticky from the calendar view now correctly removes the sticky
