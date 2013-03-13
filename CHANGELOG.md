@@ -1,4 +1,4 @@
-## 0.26.1
+## 0.26.1 (March 13, 2013)
 
 ### Bug Fix
 - Stickies without a due date are now set to midnight of the current date when they are completed, as opposed to the current time
