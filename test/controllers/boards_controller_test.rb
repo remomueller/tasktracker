@@ -24,6 +24,14 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should not archive board for project viewer" do
+    post :archive, id: boards(:four), archived: true, format: 'js'
+
+    assert_nil assigns(:board)
+    assert_nil assigns(:project)
+    assert_response :success
+  end
+
   test "should add stickies to holding pen" do
     post :add_stickies, project_id: projects(:one), board_id: 0, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
 

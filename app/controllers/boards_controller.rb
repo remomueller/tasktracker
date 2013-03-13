@@ -8,13 +8,8 @@ class BoardsController < ApplicationController
   before_action :redirect_without_board, only: [ :show, :edit, :update, :destroy, :archive ]
 
   def archive
-    @project = current_user.all_projects.find_by_id(@board.project_id)
-
-    if @project
-      @board.update(archived: params[:archived])
-    else
-      render nothing: true
-    end
+    @board.update( archived: params[:archived] )
+    @project = @board.project
   end
 
   def add_stickies

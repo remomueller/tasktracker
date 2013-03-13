@@ -295,28 +295,25 @@ class StickiesController < ApplicationController
   # DELETE /stickies/1
   # DELETE /stickies/1.json
   def destroy
+    if @sticky.group and params[:discard] == 'following'
+      @sticky.group.stickies.where('due_date >= ?', @sticky.due_date).destroy_all
+    elsif @sticky.group and params[:discard] == 'all'
+      @sticky.group.destroy
+    else # 'single'
+      @sticky.destroy
+    end
+
+    flash[:notice] = 'Sticky was successfully deleted.'
+
     respond_to do |format|
-      if @sticky
-        if @sticky.group and params[:discard] == 'following'
-          @sticky.group.stickies.where('due_date >= ?', @sticky.due_date).destroy_all
-        elsif @sticky.group and params[:discard] == 'all'
-          @sticky.group.destroy
-        else # 'single'
-          @sticky.destroy
+      format.html do
+        if params[:from_calendar] == '1'
+          redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
+        else
+          redirect_to stickies_path
         end
-        format.html do
-          flash[:notice] = 'Sticky was successfully deleted.'
-          if params[:from_calendar] == '1'
-            redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
-          else
-            redirect_to stickies_path
-          end
-        end
-        format.js
-      else
-        format.html { redirect_to root_path }
-        format.js { render nothing: true }
       end
+      format.js
     end
   end
 
