@@ -24,13 +24,9 @@ class UsersControllerTest < ActionController::TestCase
   test "should get overall_graph" do
     get :overall_graph
 
-    assert_not_nil assigns(:stickies)
-    assert_not_nil assigns(:comments)
     assert_not_nil assigns(:users_hash)
     assert_not_nil assigns(:users_comment_hash)
 
-    assert assigns(:stickies).kind_of?(Array)
-    assert assigns(:comments).kind_of?(Array)
     assert assigns(:users_hash).kind_of?(Hash)
     assert assigns(:users_comment_hash).kind_of?(Hash)
 
@@ -41,13 +37,9 @@ class UsersControllerTest < ActionController::TestCase
   test "should get overall_graph with javascript" do
     get :overall_graph, year: '2011', format: 'js'
 
-    assert_not_nil assigns(:stickies)
-    assert_not_nil assigns(:comments)
     assert_not_nil assigns(:users_hash)
     assert_not_nil assigns(:users_comment_hash)
 
-    assert assigns(:stickies).kind_of?(Array)
-    assert assigns(:comments).kind_of?(Array)
     assert assigns(:users_hash).kind_of?(Hash)
     assert assigns(:users_comment_hash).kind_of?(Hash)
 

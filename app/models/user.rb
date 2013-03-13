@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
   serialize :sticky_filters, Hash
 
   # Concerns
-  include Deletable
+  include Deletable, Contourable
 
   # Named Scopes
   scope :human, -> { where service_account: false }
@@ -41,7 +41,6 @@ class User < ActiveRecord::Base
   validates_presence_of     :last_name
 
   # Model Relationships
-  has_many :authentications
   has_many :projects, -> { where deleted: false }, order: 'name'
   has_many :project_favorites
   has_many :boards, -> { where deleted: false }
@@ -270,18 +269,13 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name.first}"
   end
 
+  # Override of Contourable
   def apply_omniauth(omniauth)
     unless omniauth['info'].blank?
-      self.email = omniauth['info']['email'] if email.blank?
       self.first_name = omniauth['info']['first_name'] if first_name.blank?
       self.last_name = omniauth['info']['last_name'] if last_name.blank?
     end
-    self.password = Devise.friendly_token[0,20] if self.password.blank? # Necessary for PostgreSQL
-    authentications.build( provider: omniauth['provider'], uid: omniauth['uid'] )
-  end
-
-  def password_required?
-    (authentications.empty? || !password.blank?) && super
+    super
   end
 
   private

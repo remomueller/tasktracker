@@ -62,6 +62,11 @@ class Project < ActiveRecord::Base
     scope.count
   end
 
+  def favorited_by?(current_user)
+    project_favorite = self.project_favorites.find_by_user_id(current_user.id)
+    not project_favorite.blank? and project_favorite.favorite?
+  end
+
   private
 
   def colors(index)

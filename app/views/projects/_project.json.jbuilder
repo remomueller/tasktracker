@@ -6,5 +6,4 @@ end
 
 json.color project.color(current_user)
 
-project_favorite = project.project_favorites.find_by_user_id(current_user.id)
-json.favorited (not project_favorite.blank? and project_favorite.favorite?)
+json.favorited project.favorited_by?(current_user)

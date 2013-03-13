@@ -1,8 +1,8 @@
 <% @title = 'Sticky Graphs' %>
 
-<%= link_to '&laquo; Previous Year'.html_safe, graph_user_path(@user, year: @year.to_i - 1), class: 'btn', style: 'float:left' %>
+<%= link_to '&laquo; Previous Year'.html_safe, graph_user_path(@user, year: params[:year].to_i - 1), class: 'btn', style: 'float:left' %>
 
-<%= link_to 'Next Year &raquo;'.html_safe, graph_user_path(@user, year: @year.to_i + 1), class: 'btn', style: 'float:right' %>
+<%= link_to 'Next Year &raquo;'.html_safe, graph_user_path(@user, year: params[:year].to_i + 1), class: 'btn', style: 'float:right' %>
 
 <div style="clear:both"></div>
 
@@ -23,11 +23,11 @@ function addLoadEvent(func) {
 <% end %>
 
 <% if @user.all_stickies.size > 0 %>
-  <%= draw_chart('highcharts', 'line', { 'Not Completed' => @planned, 'Completed' => @completed }, "month_chart", { title: "#{@year} Stickies by Status", ytitle: 'Number of Stickies', width: '100%', height: 450 }, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+  <%= draw_chart('highcharts', 'line', { 'Not Completed' => @planned, 'Completed' => @completed }, "month_chart", { title: "#{params[:year]} Stickies by Status", ytitle: 'Number of Stickies', width: '100%', height: 450 }, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
 
-  <%= draw_chart('highcharts', 'line', @favorite_projects_hash, "month_per_fav_project_chart", { title: "#{@year} Stickies Per Project - Favorites", ytitle: 'Number of Stickies', width: '100%', height: 450 }, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+  <%= draw_chart('highcharts', 'line', @favorite_projects_hash, "month_per_fav_project_chart", { title: "#{params[:year]} Stickies Per Project - Favorites", ytitle: 'Number of Stickies', width: '100%', height: 450 }, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
 
-  <%= draw_chart('highcharts', 'line', @other_projects_hash, "month_per_other_project_chart", { title: "#{@year} Stickies Per Project - Other", ytitle: 'Number of Stickies', width: '100%', height: 450 }, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
+  <%= draw_chart('highcharts', 'line', @other_projects_hash, "month_per_other_project_chart", { title: "#{params[:year]} Stickies Per Project - Other", ytitle: 'Number of Stickies', width: '100%', height: 450 }, ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]) %>
 <% else %>
   No Stickies
 <% end %>
