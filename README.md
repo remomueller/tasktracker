@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/tasktracker.png)](https://gemnasium.com/remomueller/tasktracker)
 [![Code Climate](https://codeclimate.com/github/remomueller/tasktracker.png)](https://codeclimate.com/github/remomueller/tasktracker)
 
-Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 4.0+ and Ruby 1.9.3+.
+Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 4.0+ and Ruby 2.0.0+.
 
 ## Installation
 
@@ -53,7 +53,7 @@ All done!
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 
 ```console
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-1.9.3-p327/bin/bundle exec rake reminder_email RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.0.0-p0/bin/bundle exec rake reminder_email RAILS_ENV=production
 ```
 
 ## Exporting the Task Tracker Data Dictionary for use by [Hybrid](https://github.com/sleepepi/hybrid) for dynamic reporting and searches
@@ -61,7 +61,7 @@ Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 Edit Cron Jobs `sudo crontab -e` to export the data dictionary
 
 ```console
-30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-1.9.3-p327/bin/bundle exec rake export_dictionary RAILS_ENV=production
+30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.0.0-p0/bin/bundle exec rake export_dictionary RAILS_ENV=production
 ```
 
 ## Task Tracker API (RESTFUL JSON)
