@@ -1,5 +1,9 @@
 ## 0.26.3
 
+### Enhancements
+- **Gem Changes**
+  - Updated to Contour 2.0.0.beta.4
+
 ## 0.26.2 (March 19, 2013)
 
 ### Enhancements
