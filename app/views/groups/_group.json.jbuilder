@@ -2,6 +2,6 @@ json.extract! group, :id, :creator_name, :group_link, :description, :project_id,
 json.template do |json|
   json.partial! 'templates/template', template: group.template
 end
-json.stickies group.stickies do |json, sticky|
+json.stickies group.stickies do |sticky|
   json.partial! 'stickies/sticky', sticky: sticky
 end

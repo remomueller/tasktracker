@@ -1,1 +1,1 @@
-<%= link_to image_tag("gentleface/16/star_fav#{@project.favorited_by?(current_user) ? '' : '_empty'}.png", alt: '', size: '16x16'), favorite_project_path(@project, favorite: @project.favorited_by?(current_user) ? '0' : '1'), remote: true, method: :post %>
+<%= link_to (@project.favorited_by?(current_user) ? 'Unfavorite' : 'Add to Favorites'.html_safe), favorite_project_path(@project, favorite: @project.favorited_by?(current_user) ? '0' : '1'), remote: true, method: :post, class: "btn #{ 'btn-primary' unless @project.favorited_by?(current_user)}" %>

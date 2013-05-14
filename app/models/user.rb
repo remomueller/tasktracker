@@ -41,16 +41,16 @@ class User < ActiveRecord::Base
   validates_presence_of     :last_name
 
   # Model Relationships
-  has_many :projects, -> { where deleted: false }, order: 'name'
+  has_many :projects, -> { where( deleted: false ).order( 'name' ) }
   has_many :project_favorites
   has_many :boards, -> { where deleted: false }
   has_many :groups, -> { where deleted: false }
   has_many :tags, -> { where deleted: false }
-  has_many :templates, -> { where deleted: false }, order: 'created_at'
-  has_many :stickies, -> { where deleted: false }, order: 'created_at'
-  has_many :comments, -> { where deleted: false }, order: 'created_at DESC'
+  has_many :templates, -> { where( deleted: false ).order( 'created_at' ) }
+  has_many :stickies, -> { where( deleted: false ).order( 'created_at' ) }
+  has_many :comments, -> { where( deleted: false ).order( 'created_at DESC' ) }
 
-  has_many :owned_stickies, -> { where deleted: false }, class_name: 'Sticky', foreign_key: 'owner_id', order: 'created_at'
+  has_many :owned_stickies, -> { where( deleted: false ).order( 'created_at' ) }, class_name: 'Sticky', foreign_key: 'owner_id'
 
   # User Methods
 

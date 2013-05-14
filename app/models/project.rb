@@ -18,13 +18,13 @@ class Project < ActiveRecord::Base
   belongs_to :user
   has_many :project_favorites
   has_many :project_users
-  has_many :users, -> { where(deleted: false) }, through: :project_users, order: 'last_name, first_name'
+  has_many :users, -> { where( deleted: false ).order( 'last_name, first_name' ) }, through: :project_users
   has_many :editors, -> { where('project_users.allow_editing = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.allow_editing = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
   has_many :stickies, -> { where deleted: false }
-  has_many :boards, -> { where deleted: false }, order: 'boards.end_date desc'
-  has_many :tags, -> { where deleted: false }, order: 'tags.name'
-  has_many :templates, -> { where deleted: false }, order: 'templates.name'
+  has_many :boards, -> { where( deleted: false ).order( 'boards.end_date desc' ) }
+  has_many :tags, -> { where( deleted: false ).order( 'tags.name' ) }
+  has_many :templates, -> { where( deleted: false ).order( 'templates.name' ) }
 
   def color(current_user)
     current_user.colors["project_#{self.id}"].blank? ? colors(Project.order(:id).pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]

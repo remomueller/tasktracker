@@ -45,7 +45,7 @@ class Sticky < ActiveRecord::Base
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   belongs_to :repeated_sticky, -> { where deleted: false }, class_name: 'Sticky', foreign_key: 'repeated_sticky_id'
   has_and_belongs_to_many :tags
-  has_many :comments, -> { where deleted: false }, order: 'created_at desc'
+  has_many :comments, -> { where( deleted: false ).order( 'created_at desc' ) }
 
   def sticky_link
     SITE_URL + "/stickies/#{self.id}"

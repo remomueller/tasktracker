@@ -75,10 +75,10 @@
       <%= link_to 'Export <b class="caret"></b>'.html_safe, '#', class: 'dropdown-toggle btn', 'data-toggle' => "dropdown" %>
       <ul id="export-submenu" class="dropdown-menu" style="margin-top:9px">
         <li>
-          <%= link_to image_tag('gentleface/16/doc_lines_stright.png', style: 'vertical-align:text-bottom') + ' CSV', '#', data: { object: 'export', format: 'csv' } %>
+          <%= link_to '<i class="icon-list-alt"></i> CSV'.html_safe, '#', data: { object: 'export', format: 'csv' } %>
         </li>
         <li>
-          <%= link_to image_tag('gentleface/16/calendar_2.png', style: 'vertical-align:text-bottom') + ' Calendar', '#', data: { object: 'export', format: 'ics' } %>
+          <%= link_to '<i class="icon-calendar"></i>  Calendar'.html_safe, '#', data: { object: 'export', format: 'ics' } %>
         </li>
       </ul>
     </span>

@@ -38,7 +38,7 @@
             <%= image_tag 'colorpicker/blank.gif', alt: '', size: '10x10' %>
           <% end %>
         </span>
-        <%= link_to sticky.name, sticky, style: sticky.completed? ? "text-decoration:line-through" : "", id: "sticky_#{sticky.id}_name" %> <%= link_to image_tag('gentleface/16/list_bullets.png', alt: '', title: "Group #{sticky.group.name}", size: '10x10'), sticky.group if sticky.group %>
+        <%= link_to sticky.name, sticky, style: sticky.completed? ? "text-decoration:line-through" : "", id: "sticky_#{sticky.id}_name" %> <%= link_to "<i class='icon-list' title='Group #{sticky.group.name}' style='width:10px;height:10px'></i>".html_safe, sticky.group if sticky.group %>
         <span id="sticky_<%= sticky.id %>_description" style="<%= "color:#999" if sticky.completed? %>" data-object="stickyshortdetails">
           <span id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_short_description">
             <%= strip_tags(simple_markdown sticky.full_description).truncate(100, omission: '', separator: ' ').html_safe %>
