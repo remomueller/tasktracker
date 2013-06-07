@@ -1,5 +1,8 @@
 ## 0.26.5
 
+### Enhancements
+- Use of Ruby 2.0.0-p195 is now recommended
+
 ## 0.26.4 (May 14, 2013)
 
 ### Enhancements
