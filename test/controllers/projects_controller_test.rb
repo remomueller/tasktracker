@@ -178,8 +178,8 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal assigns(:project).name, project['name']
     assert_equal assigns(:project).description, project['description']
     assert_equal assigns(:project).status, project['status']
-    assert_equal assigns(:project).start_date, project['start_date']
-    assert_equal assigns(:project).end_date, project['end_date']
+    assert_equal assigns(:project).start_date.to_s, project['start_date']
+    assert_equal nil, project['end_date']
     assert_equal assigns(:project).user_id, project['user_id']
     assert_equal assigns(:project).project_link, project['project_link']
     assert_equal assigns(:project).color(users(:valid)), project['color']
@@ -246,8 +246,8 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal 'Completed Project', project['name']
     assert_equal 'Updated Description', project['description']
     assert_equal 'completed', project['status']
-    assert_equal assigns(:project).start_date, project['start_date']
-    assert_equal assigns(:project).end_date, project['end_date']
+    assert_equal assigns(:project).start_date.to_s, project['start_date']
+    assert_equal assigns(:project).end_date.to_s, project['end_date']
 
     assert_response :success
   end
