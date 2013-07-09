@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails',                '4.0.0.rc1'
+gem 'rails',                '4.0.0'
 
 # Database Adapter
 gem 'pg',                   '0.15.1'
@@ -18,10 +18,10 @@ gem 'redcarpet',            '~> 2.2.2'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.0.0'
-gem 'sass-rails',           '~> 4.0.0.rc1'
+gem 'sass-rails',           '~> 4.0.0'
 gem 'uglifier',             '>= 1.3.0'
 
-gem 'jbuilder',             '~> 1.4.1'
+gem 'jbuilder',             '~> 1.4'
 gem 'jquery-rails'
 gem 'turbolinks'
 

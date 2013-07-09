@@ -2,6 +2,8 @@
 
 ### Enhancements
 - Use of Ruby 2.0.0-p247 is now recommended
+- **Gem Changes**
+  - Updated to rails 4.0.0
 
 ## 0.26.5 (June 7, 2013)
 
