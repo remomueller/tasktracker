@@ -53,7 +53,7 @@ All done!
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 
 ```console
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.0.0-p195/bin/bundle exec rake reminder_email RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.0.0-p247/bin/bundle exec rake reminder_email RAILS_ENV=production
 ```
 
 ## Exporting the Task Tracker Data Dictionary for use by [Hybrid](https://github.com/sleepepi/hybrid) for dynamic reporting and searches
@@ -61,7 +61,7 @@ Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 Edit Cron Jobs `sudo crontab -e` to export the data dictionary
 
 ```console
-30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.0.0-p195/bin/bundle exec rake export_dictionary RAILS_ENV=production
+30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.0.0-p247/bin/bundle exec rake export_dictionary RAILS_ENV=production
 ```
 
 ## Task Tracker API (RESTFUL JSON)
