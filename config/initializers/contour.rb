@@ -30,16 +30,12 @@ Contour.setup do |config|
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
     {
-      name: 'Calendar', display: 'signed_in', path: 'calendar_stickies_path', position: 'left',
-      links: []
+      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
+      links: [{ name: 'Create', path: 'new_project_path' }]
     },
     {
       name: 'Stickies', display: 'signed_in', path: 'stickies_path', position: 'left',
       links: [{ name: 'Create', path: 'new_sticky_path' }]
-    },
-    {
-      name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
-      links: [{ name: 'Create', path: 'new_project_path' }]
     },
     {
       name: 'Users', display: 'signed_in', name: 'Users', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
