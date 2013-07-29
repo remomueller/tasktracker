@@ -3,6 +3,7 @@
 ### Enhancements
 - **Project Changes**
   - Project Editors can now add or remove a team member to multiple projects from the user's page
+- Simplified the login page
 - **Gem Changes**
   - Updated to contour 2.0.0
   - Updated to pg 0.16.0
