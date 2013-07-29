@@ -1,4 +1,4 @@
-## 0.27.0
+## 0.27.0 (July 29, 2013)
 
 ### Enhancements
 - **Project Changes**
