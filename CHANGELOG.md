@@ -2,6 +2,7 @@
 
 - **Gem Changes**
   - Updated to contour 2.0.0
+  - Updated to pg 0.16.0
 
 ## 0.26.6 (July 9, 2013)
 
