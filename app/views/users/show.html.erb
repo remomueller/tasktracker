@@ -10,18 +10,23 @@
     <% end %>
   </h1>
 </div>
+
+<dl class="dl-horizontal">
+  <dt>User Avatar</dt>
+  <dd><%= image_tag @user.avatar_url, class: 'img-rounded' %></dd>
+
 <% if current_user.system_admin? %>
-  <dl class="dl-horizontal">
-    <dt>Status</dt>
-    <dd><%= @user.status %></dd>
+  <dt>Status</dt>
+  <dd><%= @user.status %></dd>
 
-    <dt>System Admin</dt>
-    <dd><%= @user.system_admin? %></dd>
+  <dt>System Admin</dt>
+  <dd><%= @user.system_admin? %></dd>
 
-    <dt>Service Account</dt>
-    <dd><%= @user.service_account? %></dd>
-
-    <dt>User Avatar</dt>
-    <dd><%= image_tag @user.avatar_url, class: 'img-rounded' %></dd>
-  </dl>
+  <dt>Service Account</dt>
+  <dd><%= @user.service_account? %></dd>
 <% end %>
+</dl>
+
+<div id="user_projects">
+  <%= render partial: 'users/projects', locals: { user: @user } %>
+</div>

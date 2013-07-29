@@ -124,7 +124,11 @@ class UsersController < ApplicationController
   private
 
     def set_user
-      @user = User.current.find_by_id(params[:id])
+      if current_user.system_admin?
+        @user = User.current.find_by_id(params[:id])
+      else
+        @user = current_user.associated_users.find_by_id(params[:id])
+      end
     end
 
     def redirect_without_user

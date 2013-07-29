@@ -164,6 +164,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should show associated user" do
+    login(users(:valid))
+    get :show, id: users(:pending)
+
+    assert_not_nil assigns(:user)
+    assert_response :success
+  end
+
   test "should get edit" do
     get :edit, id: @user
     assert_response :success

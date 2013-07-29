@@ -3,3 +3,7 @@ $("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index')
 
 <% @relation = 'viewers' %>
 $("#<%= @relation %>_list").html("<%= escape_javascript(render partial: 'index') %>");
+
+<% if @project_user.user %>
+  $("#user_projects").html("<%= escape_javascript(render partial: 'users/projects', locals: { user: @project_user.user } ) %>")
+<% end %>
