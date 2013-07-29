@@ -5,7 +5,7 @@
     <% if @template.project %><small>Project <%= link_to @template.project.name, @template.project %></small><% end %>
     <% if current_user.all_templates.include?(@template) %>
       <%= link_to "Edit Template", edit_template_path(@template), class: 'btn btn-mini' %>
-      <%= link_to "Delete Template", @template, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Template #{@template.name}?" } %>
+      <%= link_to "Delete Template", @template, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Template #{@template.name}?" } %>
     <% end %>
     <%= link_to "View Templates", templates_path(project_id: @template.project_id), class: 'btn btn-mini' %>
     <%= link_to "Copy Template", copy_template_path(@template), class: 'btn btn-mini' %>

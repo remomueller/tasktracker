@@ -33,7 +33,7 @@
       <td>
         <% if @project.modifiable_by?(current_user) %>
           <%= link_to "Edit", edit_project_path(@project), class: 'btn btn-mini' %>
-          <%= link_to "Delete", @project, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, boards, and comments!" } %>
+          <%= link_to "Delete", @project, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, boards, and comments!" } %>
         <% end %>
       </td>
     </tr>

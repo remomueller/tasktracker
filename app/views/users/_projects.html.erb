@@ -15,7 +15,7 @@
         <% if project_user = project.project_users.find_by_user_id(user.id) %>
           <% unless project_user.allow_editing? %><td></td><% end %>
           <td>
-            <%= link_to "Remove #{ project_user.allow_editing? ? 'Editor' : 'Viewer' }", project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger' %>
+            <%= link_to "Remove #{ project_user.allow_editing? ? 'Editor' : 'Viewer' }", project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse' %>
           </td>
           <% if project_user.allow_editing? %><td></td><% end %>
         <% else %>

@@ -22,7 +22,7 @@
       <td>
         <% if current_user.all_templates.include?(template) %>
           <%= link_to "Edit", edit_template_path(template), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', template, method: :delete, class: 'btn btn-mini btn-danger', data: { confirm: "Are you sure you want to delete Template #{template.name}?" } %>
+          <%= link_to 'Delete', template, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Template #{template.name}?" } %>
         <% end %>
       </td>
     </tr>
