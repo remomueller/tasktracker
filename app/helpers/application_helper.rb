@@ -71,7 +71,7 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    checked ? '<i class="icon-ok"></i>'.html_safe : ''
+    checked ? '<span class="glyphicon glyphicon-ok"></span>'.html_safe : '<span class="glyphicon glyphicon-unchecked"></span>'.html_safe
   end
 
   def highcharts_chart(chart_type, values, chart_element_id, chart_params, categories)
