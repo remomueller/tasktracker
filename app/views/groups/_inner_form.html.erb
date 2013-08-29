@@ -1,6 +1,6 @@
 <%= hidden_field_tag 'from_calendar', params[:from_calendar].to_i %>
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :project_id, nil, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <% project_groups = [] %>
@@ -11,22 +11,22 @@
   </div>
 </div>
 
-<div class="control-group" id="group_board_selection_container">
+<div class="form-group" id="group_board_selection_container">
   <%= render partial: 'groups/board_selection' %>
 </div>
 
-<div class="control-group" id="group_template_selection_container">
+<div class="form-group" id="group_template_selection_container">
   <%= render partial: 'groups/template_selection' %>
 </div>
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :initial_due_date, 'Initial Due Date', class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.text_field :initial_due_date, class: 'datepicker', value: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
   </div>
 </div>
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :description, nil, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.text_area :description, rows: 7, style: 'width:95%' %>

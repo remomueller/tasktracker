@@ -2,7 +2,7 @@
 <%= hidden_field_tag 'from_checkbox', params[:from_checkbox].to_i %>
 
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :description, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.text_area :description, rows: 7, style: 'width:95%' %>
@@ -10,7 +10,7 @@
 </div>
 
 <% if @sticky.group %>
-    <div class="control-group">
+    <div class="form-group">
       <label class="control-label">Group Description</label>
       <div class="controls" style="padding-top:5px">
         Group <%= link_to @sticky.group.name, @sticky.group %>
@@ -19,7 +19,7 @@
     </div>
 <% end %>
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :project_id, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <% if @sticky.group %>
@@ -35,22 +35,22 @@
   </div>
 </div>
 
-<div class="control-group" id="board_selection_container">
+<div class="form-group" id="board_selection_container">
   <%= render partial: 'projects/board_selection' %>
 </div>
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :completed, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <label class="checkbox" style="width:185px"><%= f.check_box :completed %></label>
   </div>
 </div>
 
-<div class="control-group" id="owner_selection_container">
+<div class="form-group" id="owner_selection_container">
   <%= render partial: 'projects/user_selection' %>
 </div>
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :due_date, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.text_field :due_date, class: 'datepicker', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
@@ -71,14 +71,14 @@
   </div>
 </div>
 
-<div class="control-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
+<div class="form-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :due_at_string, 'Due at', class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.text_field :due_at_string, class: 'timepicker' %>
   </div>
 </div>
 
-<div class="control-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
+<div class="form-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :duration, nil, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.number_field :duration, { min: 0 } %>
@@ -90,7 +90,7 @@
   <%= render partial: 'projects/tag_selection' %>
 </div>
 
-<div class="control-group">
+<div class="form-group">
   <%= f.label :repeat, "Repeat", class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.number_field :repeat_amount, { data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none' }" } %>

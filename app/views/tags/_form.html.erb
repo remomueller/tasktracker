@@ -18,28 +18,28 @@
     </div>
   <% end %>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :name, class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <%= f.text_field :name %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :project_id, class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").collect{|p| [p.name, p.id]}, @tag.project_id) %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :description, class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <%= f.text_area :description, rows: 7, style: 'width:95%' %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= f.label :color, class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <%= f.hidden_field :color, id: "tag_hexcolor" %>

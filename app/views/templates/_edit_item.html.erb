@@ -3,7 +3,7 @@
 
   <%= link_to 'Remove', "#", 'data-object' => 'remove', 'data-target' => "#item_#{position}", class: 'btn btn-mini btn-danger-inverse', style: 'float:right' %>
 
-  <div class="control-group" style="margin-bottom:0px">
+  <div class="form-group" style="margin-bottom:0px">
     <%= label_tag "template_item_tokens_#{position}_description", 'Description', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= text_field_tag "template[item_tokens][][description]", @item[:description], style: 'width:90%' %>
@@ -11,7 +11,7 @@
   </div>
 
   <div class="item_<%= position %>_details" style="display:none" data-object="itemdetails">
-    <div class="control-group" style="margin-top:18px">
+    <div class="form-group" style="margin-top:18px">
       <%= label_tag "template_item_tokens_#{position}_owner_id", 'Assigned To', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <% owners = User.current.with_project(current_user.all_projects.where(id: @template.project_id), true).order('last_name, first_name') %>
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= label_tag "template_item_tokens_#{position}_interval", 'Due Date Offset', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <%= number_field_tag "template[item_tokens][][interval]", @item[:interval], data: { object: 'noclickbubble' } %>
@@ -27,14 +27,14 @@
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= label_tag "template_item_tokens_#{position}_due_at_string", 'Due At', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <%= text_field_tag "template[item_tokens][][due_at_string]", (Time.parse(@item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue ''), data: { object: 'noclickbubble' } %>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <%= label_tag "template_item_tokens_#{position}_duration", 'Duration', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <%= number_field_tag "template[item_tokens][][duration]", @item[:duration] || 0, { min: 0, data: { object: 'noclickbubble' } } %>
@@ -43,7 +43,7 @@
     </div>
 
 
-    <div class="control-group">
+    <div class="form-group">
       <%= label_tag "template_item_tokens_#{position}_tags", 'Tags', class: 'col-md-2 control-label' %>
       <div class="col-md-10">
         <% if @template.project and @template.project.tags.size > 0 %>

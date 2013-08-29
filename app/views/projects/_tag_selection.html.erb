@@ -1,5 +1,5 @@
 <% if @project_id and project = Project.find_by_id(@project_id) and project.tags.size > 0 %>
-  <div class="control-group">
+  <div class="form-group">
     <%= label :sticky, :tag_ids, 'Tags', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <table style="width:100%;table-layout:fixed;">
