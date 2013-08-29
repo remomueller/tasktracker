@@ -23,8 +23,13 @@ Contour.setup do |config|
     },
     {
       name: 'image_tag(current_user.avatar_url(18, "blank"))+" "+current_user.name', eval: true, display: 'signed_in', path: 'settings_path', position: 'right',
-      links: [{ html: '"<div class=\"small\" style=\"color:#bbb\">"+current_user.email+"</div>"', eval: true },
-              { name: 'Settings', path: 'settings_path' },
+      links: [{ name: "About #{DEFAULT_APP_NAME} v#{TaskTracker::VERSION::STRING}", path: 'about_path' },
+              { divider: true },
+              { header: 'Administrative', condition: 'current_user.system_admin?' },
+              { name: 'Users', path: 'users_path', condition: 'current_user.system_admin?' },
+              { divider: true, condition: 'current_user.system_admin?' },
+              { header: 'current_user.email', eval: true },
+              { html: 'Settings', path: 'settings_path' },
               { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
               { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
@@ -36,10 +41,6 @@ Contour.setup do |config|
     {
       name: 'Stickies', display: 'signed_in', path: 'stickies_path', position: 'left',
       links: [{ name: 'Create', path: 'new_sticky_path' }]
-    },
-    {
-      name: 'Users', display: 'signed_in', name: 'Users', path: 'users_path', position: 'left', condition: 'current_user.system_admin?',
-      links: [{ name: 'Overall Graph', path: 'overall_graph_users_path', condition: 'current_user.system_admin?' }]
     }
   ]
 
