@@ -1,8 +1,8 @@
 <% @title = 'Calendar' %>
 
 <div style="display:none">
-  <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' %>
-  <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' %>
+  <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-xs', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' %>
+  <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-xs', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' %>
 </div>
 
 <%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px', data: { object: 'form-load' } do %>

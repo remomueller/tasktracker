@@ -1,7 +1,7 @@
 <% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
 <div id="item_<%= position %>" class="<%= 'fieldset_with_errors' if @template.errors.keys.include?(:items) %> well" data-object="expand-item-details" data-target=".item_<%= position %>_details" data-selector="itemdetails" style="cursor:pointer">
 
-  <%= link_to 'Remove', "#", 'data-object' => 'remove', 'data-target' => "#item_#{position}", class: 'btn btn-mini btn-danger-inverse', style: 'float:right' %>
+  <%= link_to 'Remove', "#", 'data-object' => 'remove', 'data-target' => "#item_#{position}", class: 'btn btn-xs btn-danger-inverse', style: 'float:right' %>
 
   <div class="form-group" style="margin-bottom:0px">
     <%= label_tag "template_item_tokens_#{position}_description", 'Description', class: 'col-md-2 control-label' %>

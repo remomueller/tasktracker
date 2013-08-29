@@ -3,7 +3,7 @@
   <h1>
     <%= @title %>
     <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
-    <%= link_to "Create Tag", (@project ? new_tag_path(tag: { project_id: @project.id }) : new_tag_path), class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Tag", (@project ? new_tag_path(tag: { project_id: @project.id }) : new_tag_path), class: 'btn btn-xs btn-primary' %>
   </h1>
 </div>
 

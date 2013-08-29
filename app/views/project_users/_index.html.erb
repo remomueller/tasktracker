@@ -23,7 +23,7 @@
       </span>
     <% end %>
     <span id="project_user_<%= project_user.id %>_delete" style="display:none">
-      <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to remove #{project_user.user ? project_user.user.name : project_user.invite_email} from the list of #{@relation}?" } if @project.modifiable_by?(current_user) or (@project.viewable_by?(current_user) and current_user == project_user.user) %>
+      <%= link_to 'Remove', project_user, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to remove #{project_user.user ? project_user.user.name : project_user.invite_email} from the list of #{@relation}?" } if @project.modifiable_by?(current_user) or (@project.viewable_by?(current_user) and current_user == project_user.user) %>
     </span>
   </li>
 <% end %>

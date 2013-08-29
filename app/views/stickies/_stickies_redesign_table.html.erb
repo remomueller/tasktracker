@@ -9,26 +9,26 @@
     <div style="float:left;margin-right:5px;white-space:nowrap;line-height:23px">
       <span style="font-weight:200;font-size:20px;"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></span>
 
-      <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
-      <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-mini', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
+      <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
+      <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
 
-      <%= link_to 'Mark Not Completed', '#', class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none'  if @project.modifiable_by?(current_user) %>
-      <%= link_to 'Mark Completed', '#', class: 'btn btn-mini btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' if @project.modifiable_by?(current_user) %>
-      <%= link_to '<i class="icon-trash icon-white"></i>'.html_safe, '#', data: { object: 'delete-stickies', url: destroy_multiple_stickies_path }, class: 'btn btn-mini btn-danger-inverse' if @project.modifiable_by?(current_user) %>
+      <%= link_to 'Mark Not Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none'  if @project.modifiable_by?(current_user) %>
+      <%= link_to 'Mark Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' if @project.modifiable_by?(current_user) %>
+      <%= link_to '<i class="icon-trash icon-white"></i>'.html_safe, '#', data: { object: 'delete-stickies', url: destroy_multiple_stickies_path }, class: 'btn btn-xs btn-danger-inverse' if @project.modifiable_by?(current_user) %>
       <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
       <span class="label label-highlight"><%= params[:search] %></span>
-      <%= link_to 'Clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-mini' unless params[:tag_ids].blank? and params[:search].blank? %>
+      <%= link_to 'Clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs' unless params[:tag_ids].blank? and params[:search].blank? %>
     </div>
 
   </div>
   <div class="btn-toolbar pull-right">
     <div class="btn-group">
-      <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %> btn-mini" data-object="update-board-count">Assigned To Me</button>
+      <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %> btn-xs" data-object="update-board-count">Assigned To Me</button>
     </div>
 
     <div class="btn-group" data-toggle="buttons-radio">
       <% ['completed', 'past_due', 'upcoming'].each do |scope| %>
-        <button data-object="set-scope" data-value="<%= scope %>" class="btn <%= 'active' if params[:scope] == scope %> btn-mini"><%= scope.humanize %></button>
+        <button data-object="set-scope" data-value="<%= scope %>" class="btn <%= 'active' if params[:scope] == scope %> btn-xs"><%= scope.humanize %></button>
       <% end %>
     </div>
   </div>
@@ -61,7 +61,7 @@
       <div>
         Filters: <% current_user.all_viewable_tags.where(id: params[:tag_ids].to_s.split(',')).each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
         <% unless params[:search].blank? %><span class="label label-highlight"><%= params[:search] %></span><% end %>
-        <%= link_to 'Clear', '#', data: { object: 'clear-tags' }, class: 'btn btn-mini' %>
+        <%= link_to 'Clear', '#', data: { object: 'clear-tags' }, class: 'btn btn-xs' %>
       </div>
     <% end %>
   </center>

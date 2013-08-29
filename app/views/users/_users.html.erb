@@ -25,8 +25,8 @@
         <td style="text-align:center"><%= check_box_tag 'user', 'system_admin', user.system_admin?, disabled: true %></td>
         <td style="text-align:center"><%= check_box_tag 'user', 'service_account', user.service_account?, disabled: true %></td>
         <td style="vertical-align:middle">
-          <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-mini' %>
-          <%= link_to 'Delete', user, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{user.name}?" } unless current_user == user %>
+          <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-xs' %>
+          <%= link_to 'Delete', user, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{user.name}?" } unless current_user == user %>
         </td>
       <% end %>
     </tr>

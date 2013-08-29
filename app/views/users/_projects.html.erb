@@ -15,12 +15,12 @@
         <% if project_user = project.project_users.find_by_user_id(user.id) %>
           <% unless project_user.allow_editing? %><td></td><% end %>
           <td>
-            <%= link_to "Remove #{ project_user.allow_editing? ? 'Editor' : 'Viewer' }", project_user, method: :delete, remote: true, class: 'btn btn-mini btn-danger-inverse' %>
+            <%= link_to "Remove #{ project_user.allow_editing? ? 'Editor' : 'Viewer' }", project_user, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse' %>
           </td>
           <% if project_user.allow_editing? %><td></td><% end %>
         <% else %>
-          <td><%= link_to 'Add As Editor', project_users_path( project_user: { project_id: project.id, allow_editing: true }, editors_text: "[#{user.email}]" ), method: :post, remote: true, class: 'btn btn-mini btn-success' %></td>
-          <td><%= link_to 'Add As Viewer', project_users_path( project_user: { project_id: project.id, allow_editing: false }, viewers_text: "[#{user.email}]" ), method: :post, remote: true, class: 'btn btn-mini btn-success' %></td>
+          <td><%= link_to 'Add As Editor', project_users_path( project_user: { project_id: project.id, allow_editing: true }, editors_text: "[#{user.email}]" ), method: :post, remote: true, class: 'btn btn-xs btn-success' %></td>
+          <td><%= link_to 'Add As Viewer', project_users_path( project_user: { project_id: project.id, allow_editing: false }, viewers_text: "[#{user.email}]" ), method: :post, remote: true, class: 'btn btn-xs btn-success' %></td>
         <% end %>
       <% else %>
         <td colspan="2" class="muted">You are a viewer on this project</td>

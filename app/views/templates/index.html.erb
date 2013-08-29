@@ -3,7 +3,7 @@
   <h1>
     <%= @title %>
     <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
-    <%= link_to "Create Template", (@project ? new_template_path(template: {project_id: @project.id}) : new_template_path), class: 'btn btn-mini btn-primary' %>
+    <%= link_to "Create Template", (@project ? new_template_path(template: {project_id: @project.id}) : new_template_path), class: 'btn btn-xs btn-primary' %>
   </h1>
 </div>
 

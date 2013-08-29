@@ -1,6 +1,6 @@
 <% @title = 'Stickies' %>
 <div class="page-header">
-  <h1><%= @title %> <%= link_to "Create Sticky", new_sticky_path, class: 'btn btn-primary btn-mini' %></h1>
+  <h1><%= @title %> <%= link_to "Create Sticky", new_sticky_path, class: 'btn btn-primary btn-xs' %></h1>
 </div>
 
 <%= form_tag stickies_path, method: :get, remote: true, id: "stickies_search", data: { object: 'form-load' } do %>

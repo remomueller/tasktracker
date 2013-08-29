@@ -3,9 +3,9 @@
     <%= @title %> <small><%= "Project #{link_to @sticky.project.name, @sticky.project} ".html_safe if @sticky.project %></small>
     <% if not @sticky.new_record? and @sticky.modifiable_by?(current_user) %>
       <% if @sticky.group %>
-        <%= link_to 'Delete Sticky', '#', class: 'btn btn-mini btn-danger-inverse', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
+        <%= link_to 'Delete Sticky', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
       <% else %>
-        <%= link_to 'Delete Sticky', sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+        <%= link_to 'Delete Sticky', sticky_path(@sticky, from_calendar: params[:from_calendar].to_i), method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
       <% end %>
     <% end %>
   </h1>

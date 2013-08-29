@@ -21,12 +21,12 @@
 
   <div style="margin-top:35px;">
     <% if @group.new_record? %>
-      <%= link_to 'Cancel', '#', class: 'btn btn-mini pull-right', data: { object: 'hide-sticky-modal' } %>
+      <%= link_to 'Cancel', '#', class: 'btn btn-xs pull-right', data: { object: 'hide-sticky-modal' } %>
     <% else %>
-      <%= link_to 'Cancel', @group, method: :get, remote: true, class: 'btn btn-mini pull-right' %>
+      <%= link_to 'Cancel', @group, method: :get, remote: true, class: 'btn btn-xs pull-right' %>
     <% end %>
 
-    <%= f.submit nil, class: 'btn btn-primary btn-mini pull-right', style: 'margin-right:5px', data: { object: 'sticky-submit', target: @group.new_record? ? "#new_group" : "#edit_group_#{@group.id}" } %>
+    <%= f.submit nil, class: 'btn btn-primary btn-xs pull-right', style: 'margin-right:5px', data: { object: 'sticky-submit', target: @group.new_record? ? "#new_group" : "#edit_group_#{@group.id}" } %>
   </div>
 
   <div id="item_details"></div>

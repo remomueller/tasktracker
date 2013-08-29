@@ -4,10 +4,10 @@
     <%= @title %>
     <small><% if @tag.project %>Project <%= link_to @tag.project.name, @tag.project %><% end %></small>
     <% if current_user.all_tags.include?(@tag) %>
-      <%= link_to "Edit Tag", edit_tag_path(@tag), class: 'btn btn-mini' %>
-      <%= link_to "Delete Tag", @tag, method: :delete, class: 'btn btn-mini btn-danger-inverse', data: { confirm: "Are you sure you want to delete Tag #{@tag.name}?" } %>
+      <%= link_to "Edit Tag", edit_tag_path(@tag), class: 'btn btn-xs' %>
+      <%= link_to "Delete Tag", @tag, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Tag #{@tag.name}?" } %>
     <% end %>
-    <%= link_to "View Tags", tags_path, class: 'btn btn-mini' %>
+    <%= link_to "View Tags", tags_path, class: 'btn btn-xs' %>
   </h1>
 </div>
 
