@@ -7,8 +7,8 @@
 
 <%= form_for(@tag, html: { class: 'form-horizontal' }) do |f| %>
   <% if @tag.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@tag.errors.count, "error") %> prohibited this tag from being saved</h4>
 
       <ul>
       <% @tag.errors.full_messages.each do |msg| %>

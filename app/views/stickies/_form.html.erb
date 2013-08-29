@@ -13,8 +13,8 @@
 
 <%= form_for(@sticky, html: { class: 'form-horizontal' }) do |f| %>
   <% if @sticky.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@sticky.errors.count, "error") %> prohibited this sticky from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@sticky.errors.count, "error") %> prohibited this sticky from being saved</h4>
 
       <ul>
       <% @sticky.errors.full_messages.each do |msg| %>

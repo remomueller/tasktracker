@@ -7,8 +7,8 @@
 
 <%= form_for(@template, html: { class: 'form-horizontal' }) do |f| %>
   <% if @template.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved:</h2>
+    <div id="error_explanation" class="bs-callout bs-callout-danger">
+      <h4><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved</h4>
 
       <ul>
       <% @template.errors.full_messages.each do |msg| %>
