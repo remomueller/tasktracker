@@ -1,6 +1,6 @@
 <%= render partial: 'layouts/per_page', locals: { type: 'stickies', object_count: @stickies.total_count } %>
 
-<table class="table table-striped table-bordered" style="width:100%">
+<table class="table table-striped">
   <thead>
     <tr>
       <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.id', 'Sticky', 'stickies_search') %></th>
