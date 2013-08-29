@@ -22,7 +22,7 @@
 <div class="form-group">
   <%= f.label :initial_due_date, 'Initial Due Date', class: 'col-md-2 control-label' %>
   <div class="col-md-10">
-    <%= f.text_field :initial_due_date, class: 'datepicker', value: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
+    <%= f.text_field :initial_due_date, class: 'datepicker form-control', value: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
   </div>
 </div>
 
