@@ -2,7 +2,7 @@
 
 <div class="control-group">
   <%= f.label :project_id, nil, class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <% project_groups = [] %>
     <% project_groups << ["Favorited", current_user.all_favorite_projects.has_template.collect{|p| [p.name, p.id]}] if current_user.all_favorite_projects.has_template.size > 0 %>
     <% project_groups << ["Other", current_user.all_other_projects.has_template.collect{|p| [p.name, p.id]}] if current_user.all_other_projects.has_template.size > 0 %>
@@ -21,14 +21,14 @@
 
 <div class="control-group">
   <%= f.label :initial_due_date, 'Initial Due Date', class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <%= f.text_field :initial_due_date, class: 'datepicker', value: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
   </div>
 </div>
 
 <div class="control-group">
   <%= f.label :description, nil, class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <%= f.text_area :description, rows: 7, style: 'width:95%' %>
   </div>
 </div>

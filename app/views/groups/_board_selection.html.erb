@@ -1,7 +1,7 @@
 <% boards = Board.current.where(project_id: (@group ? @group.project_id : nil)) %>
 
 <%= label_tag :group_board_id, 'Board', class: 'col-md-2 control-label' %>
-<div class="controls">
+<div class="col-md-10">
   <% if @project_id %>
     <% board_groups = [] %>
     <% board_groups << ["Current", boards.where(archived: false).natural_sort] if boards.where(archived: false).size > 0 %>

@@ -11,21 +11,21 @@
 
   <div class="control-group">
     <%= label_tag :from_user_id, 'Currently Assigned To', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= select_tag :from_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]) %>
     </div>
   </div>
 
   <div class="control-group">
     <%= label_tag :to_user_id, 'Reassign To', class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= select_tag :to_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]) %>
     </div>
   </div>
 
   <div class="control-group">
     <%= label_tag :sticky_status, nil, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= select_tag :sticky_status, options_for_select([['Only Not Completed', 'not_completed'], ['Only Completed', 'completed'], ['All', 'all']], params[:sticky_status]) %>
     </div>
   </div>

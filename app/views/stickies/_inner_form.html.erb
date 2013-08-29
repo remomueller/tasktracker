@@ -4,7 +4,7 @@
 
 <div class="control-group">
   <%= f.label :description, class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <%= f.text_area :description, rows: 7, style: 'width:95%' %>
   </div>
 </div>
@@ -21,7 +21,7 @@
 
 <div class="control-group">
   <%= f.label :project_id, class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <% if @sticky.group %>
       <div style="padding-top:5px">
         <%= link_to @sticky.project.name, @sticky.project %>
@@ -41,7 +41,7 @@
 
 <div class="control-group">
   <%= f.label :completed, class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <label class="checkbox" style="width:185px"><%= f.check_box :completed %></label>
   </div>
 </div>
@@ -52,7 +52,7 @@
 
 <div class="control-group">
   <%= f.label :due_date, class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <%= f.text_field :due_date, class: 'datepicker', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
     <span style="white-space:nowrap"><%= check_box_tag :set_time, '1', @sticky.all_day? %> All day</span>
     <% if @sticky.group %>
@@ -73,14 +73,14 @@
 
 <div class="control-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :due_at_string, 'Due at', class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <%= f.text_field :due_at_string, class: 'timepicker' %>
   </div>
 </div>
 
 <div class="control-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :duration, nil, class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <%= f.number_field :duration, { min: 0 } %>
     <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units) %>
   </div>
@@ -92,7 +92,7 @@
 
 <div class="control-group">
   <%= f.label :repeat, "Repeat", class: 'col-md-2 control-label' %>
-  <div class="controls">
+  <div class="col-md-10">
     <%= f.number_field :repeat_amount, { data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none' }" } %>
     <%= f.select :repeat, Sticky::REPEAT %> <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">after due date</span>
   </div>

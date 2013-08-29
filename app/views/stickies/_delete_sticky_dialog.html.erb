@@ -6,7 +6,7 @@
   <div class="modal-body">
 	<%= form_tag sticky_path(sticky, from_calendar: params[:from_calendar].to_i), method: :delete, id: "sticky_delete_form_#{sticky.id}" do %>
 	  <div class="control-group radio">
-      <div class="controls">
+      <div class="col-md-10">
   	    <label><%= radio_button_tag 'discard', 'single', true %> Only this sticky</label>
   	    <label><%= radio_button_tag 'discard', 'following' %> This sticky and all following</label>
   	    <label><%= radio_button_tag 'discard', 'all' %> All stickies in group</label>

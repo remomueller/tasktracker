@@ -20,20 +20,20 @@
 
   <div class="control-group">
     <%= f.label :name, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.text_field :name %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :project_id, class: 'col-md-2 control-label' %>
-    <div class="controls">
+    <div class="col-md-10">
       <%= f.select :project_id, options_for_select([['---', nil]] + current_user.all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").collect{|p| [p.name, p.id]}, @template.project_id) %>
     </div>
   </div>
 
   <div class="control-group">
 
-    <div class="controls">
+    <div class="col-md-10">
       <label class="checkbox" for="template_avoid_weekends">
       <%= f.check_box :avoid_weekends %>
       Avoid Weekends
