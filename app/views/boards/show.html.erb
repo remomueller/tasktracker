@@ -4,10 +4,10 @@
     <%= @title %>
     <% if @board.project %><small>Project <%= link_to @board.project.name, @board.project %></small><% end %>
     <% if current_user.all_boards.include?(@board) %>
-      <%= link_to "Edit Board", edit_board_path(@board), class: 'btn btn-xs' %>
+      <%= link_to "Edit Board", edit_board_path(@board), class: 'btn btn-xs btn-default' %>
       <%= link_to "Delete Board", @board, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Board #{@board.name}?" } %>
     <% end %>
-    <%= link_to "View Boards", boards_path(project_id: @board.project_id), class: 'btn btn-xs' %>
+    <%= link_to "View Boards", boards_path(project_id: @board.project_id), class: 'btn btn-xs btn-default' %>
   </h1>
 </div>
 

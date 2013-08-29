@@ -21,7 +21,7 @@
       <td><%= simple_check board.archived %></td>
       <td>
         <% if current_user.all_boards.include?(board) %>
-          <%= link_to "Edit", edit_board_path(board), class: 'btn btn-xs' %>
+          <%= link_to "Edit", edit_board_path(board), class: 'btn btn-xs btn-default' %>
           <%= link_to 'Delete', board, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Board #{board.name}?" } %>
         <% end %>
       </td>

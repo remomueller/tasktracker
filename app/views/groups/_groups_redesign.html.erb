@@ -2,10 +2,10 @@
 <% @template = @project.templates.find_by_id(params[:template_id]) if @project %>
 
 <div class="col-md-2" style="margin-bottom:20px">
-  <span style="font-weight:200;font-size:20px;"><%= @template ? @template.name : 'No Template Selected' %> <%= link_to 'Edit Template', edit_template_path(@template), class: 'btn btn-xs' if @template %></span>
+  <span style="font-weight:200;font-size:20px;"><%= @template ? @template.name : 'No Template Selected' %> <%= link_to 'Edit Template', edit_template_path(@template), class: 'btn btn-xs btn-default' if @template %></span>
 
   <span class="label label-highlight"><%= params[:search] %></span>
-  <%= link_to 'clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs' unless params[:tag_ids].blank? and params[:search].blank? %>
+  <%= link_to 'clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' unless params[:tag_ids].blank? and params[:search].blank? %>
 
   <ul class="nav nav-list nav-rounded">
     <li class="nav-header">Groups (<%= @groups.total_count %>)</li>

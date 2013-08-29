@@ -4,10 +4,10 @@
     <%= @title %>
     <small>Project <%= link_to @group.project.name, @group.project %></small>
     <% if current_user.all_groups.include?(@group) %>
-      <%= link_to "Edit Group", edit_group_path(@group), class: 'btn btn-xs' %>
+      <%= link_to "Edit Group", edit_group_path(@group), class: 'btn btn-xs btn-default' %>
       <%= link_to "Delete Group", @group, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Group #{@group.name} and the associated #{pluralize @group.stickies.size, 'Sticky'}?" } %>
     <% end %>
-    <%= link_to "View Groups", groups_path, class: 'btn btn-xs' %>
+    <%= link_to "View Groups", groups_path, class: 'btn btn-xs btn-default' %>
   </h1>
 </div>
 

@@ -7,13 +7,13 @@
   <div class="btn-toolbar">
     <% if @project.modifiable_by?(current_user) %>
       <div class="btn-group">
-        <%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-xs' %>
+        <%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-xs btn-default' %>
       </div>
       <div class="btn-group">
         <%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}? Deleting this project will delete the project, along with all the associated stickies, boards, and comments!" } %>
       </div>
       <div class="btn-group">
-        <%= link_to 'Reassign Stickies', '#', class: 'btn btn-xs', data: { object: 'modal-show', target: '#reassign-dialog' } %>
+        <%= link_to 'Reassign Stickies', '#', class: 'btn btn-xs btn-default', data: { object: 'modal-show', target: '#reassign-dialog' } %>
       </div>
     <% end %>
   </div>
@@ -55,7 +55,7 @@
     <div class="page-header">
       <h2>
         Sticky Tags
-        <%= link_to 'View Tags', tags_path(project_id: @project.id), class: 'btn btn-xs' %>
+        <%= link_to 'View Tags', tags_path(project_id: @project.id), class: 'btn btn-xs btn-default' %>
       </h2>
 
     </div>

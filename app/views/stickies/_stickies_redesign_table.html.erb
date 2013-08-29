@@ -9,15 +9,15 @@
     <div style="float:left;margin-right:5px;white-space:nowrap;line-height:23px">
       <span style="font-weight:200;font-size:20px;"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></span>
 
-      <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
-      <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
+      <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
+      <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
 
       <%= link_to 'Mark Not Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none'  if @project.modifiable_by?(current_user) %>
       <%= link_to 'Mark Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' if @project.modifiable_by?(current_user) %>
       <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, '#', data: { object: 'delete-stickies', url: destroy_multiple_stickies_path }, class: 'btn btn-xs btn-danger-inverse' if @project.modifiable_by?(current_user) %>
       <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
       <span class="label label-highlight"><%= params[:search] %></span>
-      <%= link_to 'Clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs' unless params[:tag_ids].blank? and params[:search].blank? %>
+      <%= link_to 'Clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' unless params[:tag_ids].blank? and params[:search].blank? %>
     </div>
 
   </div>
@@ -61,7 +61,7 @@
       <div>
         Filters: <% current_user.all_viewable_tags.where(id: params[:tag_ids].to_s.split(',')).each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
         <% unless params[:search].blank? %><span class="label label-highlight"><%= params[:search] %></span><% end %>
-        <%= link_to 'Clear', '#', data: { object: 'clear-tags' }, class: 'btn btn-xs' %>
+        <%= link_to 'Clear', '#', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' %>
       </div>
     <% end %>
   </center>

@@ -19,7 +19,7 @@
       <td><%= tag.description %></td>
       <td>
         <% if current_user.all_tags.include?(tag) %>
-          <%= link_to "Edit", edit_tag_path(tag), class: 'btn btn-xs' %>
+          <%= link_to "Edit", edit_tag_path(tag), class: 'btn btn-xs btn-default' %>
           <%= link_to 'Delete', tag, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Tag #{tag.name}?" } %>
         <% end %>
       </td>

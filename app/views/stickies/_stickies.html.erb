@@ -60,7 +60,7 @@
       </td>
       <td>
         <% if sticky.modifiable_by?(current_user) %>
-        <%= link_to 'Edit', edit_sticky_path(sticky, from: params[:from]), class: 'btn btn-xs' %>
+        <%= link_to 'Edit', edit_sticky_path(sticky, from: params[:from]), class: 'btn btn-xs btn-default' %>
         <%= link_to 'Delete', sticky_path(sticky, position: @position), method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sticky #{sticky.name}?" } %>
         <% end %>
       </td>
