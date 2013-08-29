@@ -31,7 +31,7 @@
 <% end %>
 
 <div class="row">
-  <div class="span2" style="margin-bottom:20px;">
+  <div class="col-md-2" style="margin-bottom:20px;">
     <div>
       <div>
         <span style="font-size: 20px;font-weight:200;"><%= @project.name %></span>
@@ -39,7 +39,7 @@
       </div>
 
       <div class="input-append" style="margin-top:5px">
-        <%= text_field_tag :project_search, params[:search], name: :search, class: 'span2 search-query' %>
+        <%= text_field_tag :project_search, params[:search], name: :search, class: 'col-md-2 search-query' %>
       </div>
 
 
@@ -80,7 +80,7 @@
   </div>
 
   <% if false %>
-  <div class="span10" style="margin-bottom:20px">
+  <div class="col-md-10" style="margin-bottom:20px">
     <div id="sticky_modal_wrapper">
       <div id="sticky_modal_container" class="sticky-modal"></div>
     </div>

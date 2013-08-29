@@ -21,7 +21,7 @@
 
 <div class="row">
   <% ['editors', 'viewers'].each do |relation, allow_editing| %>
-    <div class="span6">
+    <div class="col-md-6">
       <% @relation = relation; @allow_editing = allow_editing %>
       <% @users = User.current.order('last_name, first_name') %>
       <p>
@@ -33,7 +33,7 @@
 
 <% if false %>
 <div class="row">
-  <div class="span6">
+  <div class="col-md-6">
     <div class="page-header">
       <h2>Details</h2>
     </div>
@@ -51,7 +51,7 @@
       <dd><%= @project.status %></dd>
     </dl>
   </div>
-  <div class="span6">
+  <div class="col-md-6">
     <div class="page-header">
       <h2>
         Sticky Tags

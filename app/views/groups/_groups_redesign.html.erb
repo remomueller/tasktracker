@@ -1,7 +1,7 @@
 <% @project = current_user.all_viewable_projects.find_by_id(params[:project_id]) %>
 <% @template = @project.templates.find_by_id(params[:template_id]) if @project %>
 
-<div class="span2" style="margin-bottom:20px">
+<div class="col-md-2" style="margin-bottom:20px">
   <span style="font-weight:200;font-size:20px;"><%= @template ? @template.name : 'No Template Selected' %> <%= link_to 'Edit Template', edit_template_path(@template), class: 'btn btn-mini' if @template %></span>
 
   <span class="label label-highlight"><%= params[:search] %></span>
@@ -16,7 +16,7 @@
   <center><%= paginate @groups, theme: "contour-mini" %></center>
 </div>
 
-<div class="span8" style="margin-bottom:20px">
+<div class="col-md-8" style="margin-bottom:20px">
   <div id="sticky_modal_wrapper">
     <div id="sticky_modal_container" class="sticky-modal"></div>
   </div>

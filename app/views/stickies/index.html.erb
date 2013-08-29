@@ -8,19 +8,19 @@
   <%= hidden_field_tag :update_filters, 1 %>
   <%= hidden_field_tag :order, params[:order] || current_user.sticky_filters['order'] %>
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :search, 'Search', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag 'search', params[:search] || current_user.sticky_filters['search'] %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :project_id, 'Project', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :project_id, options_for_select([['All', nil]] + current_user.all_viewable_projects.order('name').collect{|p| [p.name, p.id]}, params[:project_id] || current_user.sticky_filters['project_id']) %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :owner_id, 'Assigned To', class: 'control-label' %>
       <div class="controls">
         <%= select_tag :owner_id, options_for_select([['All', nil]] + User.current.with_project(current_user.all_viewable_projects.collect{|p| p.id}, true).order('last_name, first_name').collect{|u| [u.reverse_name, u.id]}, params[:owner_id] || current_user.sticky_filters['owner_id']) %>
@@ -30,19 +30,19 @@
   </div>
 
   <div class="row">
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :due_date_start_date, 'Due Date After', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag 'due_date_start_date', params[:due_after] || current_user.sticky_filters['due_date_start_date'], class: 'datepicker' %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       <%= label :due_date_end_date, 'Due Date Before', class: 'control-label' %>
       <div class="controls">
         <%= text_field_tag 'due_date_end_date', params[:due_before] || current_user.sticky_filters['due_date_end_date'], class: 'datepicker' %>
       </div>
     </div>
-    <div class="span4 control-group">
+    <div class="col-md-4 control-group">
       Status
       <div class="controls">
         <table class="blank"><tr><%= render partial: 'stickies/check_box_status' %></tr></table>
@@ -51,7 +51,7 @@
   </div>
 
   <div class="row">
-    <div class="span12 control-group">
+    <div class="col-md-12 control-group">
       <table class="blank padded tags" style="width:100%;text-align:left;margin:10px 0px">
         <thead>
           <tr>

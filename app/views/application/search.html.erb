@@ -6,7 +6,7 @@
   <div class="row">
     <% [['Projects', @projects, :name], ['Groups', @groups, :description]].each do |name, scope, attribute| %>
       <% if scope.size > 0 %>
-        <div class="span3">
+        <div class="col-md-3">
         <div class="download-container" style="overflow:hidden">
           <h3><%= name %></h3>
 
