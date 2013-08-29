@@ -32,7 +32,7 @@
     <%= f.submit nil, class: 'btn btn-primary', data: { object: 'sticky-submit', target: @sticky.new_record? ? "#new_sticky" : "#edit_sticky_#{@sticky.id}" } %>
 
     <% if params[:from_calendar] == '1' %>
-      <%= link_to 'Cancel', calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')), class: 'btn' %>
+      <%= link_to 'Cancel', calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')), class: 'btn btn-default' %>
     <% else %>
       <%= cancel %>
     <% end %>

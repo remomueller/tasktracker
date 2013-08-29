@@ -1,8 +1,8 @@
 <% @title = 'Sticky Graphs' %>
 
-<%= link_to '&laquo; Previous Year'.html_safe, graph_user_path(@user, year: params[:year].to_i - 1), class: 'btn', style: 'float:left' %>
+<%= link_to '&laquo; Previous Year'.html_safe, graph_user_path(@user, year: params[:year].to_i - 1), class: 'btn btn-default', style: 'float:left' %>
 
-<%= link_to 'Next Year &raquo;'.html_safe, graph_user_path(@user, year: params[:year].to_i + 1), class: 'btn', style: 'float:right' %>
+<%= link_to 'Next Year &raquo;'.html_safe, graph_user_path(@user, year: params[:year].to_i + 1), class: 'btn btn-default', style: 'float:right' %>
 
 <div style="clear:both"></div>
 
