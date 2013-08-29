@@ -60,9 +60,11 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
       </div>
     <% end %>
 
-  <div class="form-actions">
-    <% form_name = "email_settings" %>
-    <%= link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "##{form_name}" } %>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <% form_name = "email_settings" %>
+      <%= link_to "Save Settings", '#', class: 'btn btn-primary', data: { object: 'settings-save', target: "##{form_name}" } %>
+    </div>
   </div>
 <% end %>
 
@@ -82,6 +84,8 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
     <span id="screen_token_message"></span>
   </dd>
 </dl>
-<div class="form-actions">
-  <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
+<div class="form-group">
+  <div class="col-md-offset-2 col-md-10">
+    <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
+  </div>
 </div>

@@ -30,9 +30,11 @@
     </div>
   </div>
 
-  <div class="form-actions">
-    <%= submit_tag 'Reassign Stickies', class: 'btn btn-primary btn-danger-inverse', data: { confirm: 'Are you sure you would like to reassign these stickies? This action CANNOT be reversed.' } %>
-    <%= link_to 'Cancel', @project, class: 'btn btn-default' %>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= submit_tag 'Reassign Stickies', class: 'btn btn-primary btn-danger-inverse', data: { confirm: 'Are you sure you would like to reassign these stickies? This action CANNOT be reversed.' } %>
+      <%= link_to 'Cancel', @project, class: 'btn btn-default' %>
+    </div>
   </div>
 
 <% end %>
