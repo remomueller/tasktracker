@@ -5,7 +5,7 @@
 <div class="form-group">
   <%= f.label :description, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
-    <%= f.text_area :description, rows: 7, style: 'width:95%' %>
+    <%= f.text_area :description, rows: 7, class: 'form-control' %>
   </div>
 </div>
 
@@ -30,7 +30,7 @@
       <% project_groups = [] %>
       <% project_groups << ["Favorited", current_user.all_favorite_projects.collect{|p| [p.name, p.id]}] if current_user.all_favorite_projects.size > 0 %>
       <% project_groups << ["Other", current_user.all_other_projects.collect{|p| [p.name, p.id]}] if current_user.all_other_projects.size > 0 %>
-      <%= f.select :project_id, options_for_select([['---', nil]]) + grouped_options_for_select(project_groups, @sticky.project_id) %>
+      <%= f.select :project_id, options_for_select([['---', nil]]) + grouped_options_for_select(project_groups, @sticky.project_id), {}, class: 'form-control' %>
     <% end %>
   </div>
 </div>
@@ -74,7 +74,7 @@
 <div class="form-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :due_at_string, 'Due at', class: 'col-md-2 control-label' %>
   <div class="col-md-10">
-    <%= f.text_field :due_at_string, class: 'timepicker' %>
+    <%= f.text_field :due_at_string, class: 'timepicker form-control' %>
   </div>
 </div>
 
@@ -82,7 +82,7 @@
   <%= f.label :duration, nil, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
     <%= f.number_field :duration, { min: 0 } %>
-    <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units) %>
+    <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units), {}, class: 'form-control' %>
   </div>
 </div>
 
@@ -93,7 +93,16 @@
 <div class="form-group">
   <%= f.label :repeat, "Repeat", class: 'col-md-2 control-label' %>
   <div class="col-md-10">
-    <%= f.number_field :repeat_amount, { data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none' }" } %>
-    <%= f.select :repeat, Sticky::REPEAT %> <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">after due date</span>
+    <div class="row">
+      <div class="col-xs-3" data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">
+        <%= f.number_field :repeat_amount, class: 'form-control' %>
+      </div>
+      <div class="col-xs-3">
+        <%= f.select :repeat, Sticky::REPEAT, {}, class: 'form-control' %>
+      </div>
+      <div class="col-xs-3">
+        <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">after due date</span>
+      </div>
+    </div>
   </div>
 </div>
