@@ -192,11 +192,11 @@ jQuery ->
       $($(this).data('target')).show()
     )
     .on('click', '#assigned-to-me-btn', () ->
-      $(this).button('toggle')
+      # $(this).button('toggle')
       if $(this).hasClass('active')
-        $('#assigned_to_me').val('1')
+        $('#assigned_to_me').prop('checked', true)
       else
-        $('#assigned_to_me').val('0')
+        $('#assigned_to_me').prop('checked', false)
       setBoardNames()
       $('#stickies_search').submit()
     )

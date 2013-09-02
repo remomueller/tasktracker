@@ -64,6 +64,14 @@
       # Nothing
   )
 
+@initializeTypeahead = () ->
+  $('[data-object~="typeahead"]').each( () ->
+    $this = $(this)
+    $this.typeahead(
+      local: $this.data('local')
+    )
+  )
+
 jQuery ->
 
   window.$isDirty = false
@@ -163,14 +171,19 @@ jQuery ->
     )
 
   $("#global-search").typeahead(
-    source: (query, process) ->
-      return $.get(root_url + 'search', { q: query }, (data) -> return process(data))
-    updater: (item) ->
-      $("#global-search").val(item)
-      $("#global-search-form").submit()
-      return item
+    remote: root_url + 'search?q=%QUERY'
+  )
+
+  $(document).on('typeahead:selected', "#global-search", (event, datum) ->
+    $(this).val(datum['value'])
+    $("#global-search-form").submit()
+  )
+  .on('keydown', "#global-search", (e) ->
+    $("#global-search-form").submit() if e.which == 13
   )
 
   loadColorSelectors()
 
   $('#welcome-dialog').modal()
+
+  initializeTypeahead()

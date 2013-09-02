@@ -5,9 +5,9 @@
   <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' %>
 </div>
 
-<%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:0px', data: { object: 'form-load' } do %>
+<%= form_tag calendar_stickies_path, remote: true, method: :get, id: 'sticky_calendar_form', style: 'margin-bottom:10px', data: { object: 'form-load' } do %>
   <%= hidden_field_tag :save_settings, '1' %>
-  <div class="row" style="margin-top:-10px">
+  <div class="row">
     <div class="col-md-4 btn-toolbar">
       <h3 id="calendar-title" style="font-size:27px;font-weight:300; line-height:0px"><%= render partial: 'calendar_title' %></h3>
     </div>
@@ -17,8 +17,8 @@
           <%= link_to 'Today', '#', class: 'btn btn-default', data: { object: 'calendar-today' } %>
         </div>
         <div class="btn-group">
-          <%= link_to '&larr;'.html_safe, '#', title: 'Previous Month', class: 'btn btn-default', data: { object: 'calendar-previous-month' }, style: 'margin-right:-1px' %>
-          <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker btn', style: 'width:85px;margin-bottom:1px' %>
+          <%= link_to '&larr;'.html_safe, '#', title: 'Previous Month', class: 'btn btn-default', data: { object: 'calendar-previous-month' } %>
+          <%= text_field_tag :selected_date, @selected_date.strftime('%m/%d/%Y'), class: 'datepicker btn btn-default', style: 'width:100px;z-index: 10 !important;' %>
           <%= link_to '&rarr;'.html_safe, '#', title: 'Next Month', class: 'btn btn-default', data: { object: 'calendar-next-month' } %>
         </div>
       </div>
@@ -27,19 +27,22 @@
       <% status_all = (params[:status].include?('planned') and params[:status].include?('completed')) %>
 
       <div class="btn-toolbar">
-        <div class="btn-group">
-          <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %>">Assigned To Me</button>
+        <div class="btn-group" data-toggle="buttons">
+          <label id="assigned-to-me-btn" class="btn btn-default <%= 'active' if params[:assigned_to_me].to_s == '1' %>">
+            <%= hidden_field_tag 'assigned_to_me_hidden', '0', name: 'assigned_to_me' %>
+            <%= check_box_tag 'assigned_to_me', '1', params[:assigned_to_me].to_s == '1' %> Assigned To Me
+          </label>
         </div>
 
-        <div class="btn-group" data-toggle="buttons-radio">
-          <button id="all-stickies" class="btn <%= 'active' if status_all %>">All</button>
-          <button id="not-completed-stickies" class="btn <%= 'active' unless status_all %>">Not Completed</button>
+        <div class="btn-group" data-toggle="buttons">
+          <label id="all-stickies" class="btn btn-default <%= 'active' if status_all %>"><%= radio_button_tag 'stick-status-new', 'all', status_all %> All</label>
+          <label id="not-completed-stickies" class="btn btn-default <%= 'active' unless status_all %>"><%= radio_button_tag 'stick-status-new', 'not-completed', !status_all %> Not Completed</label>
         </div>
       </div>
 
       <%= hidden_field_tag 'status[]', 'planned', id: 'status_planned' %>
       <%= hidden_field_tag 'status[]', (status_all ?  'completed' : ''), id: 'status_completed' %>
-      <%= hidden_field_tag 'assigned_to_me', params[:assigned_to_me] %>
+      <%#= hidden_field_tag 'assigned_to_me', params[:assigned_to_me] %>
     </div>
   </div>
 <% end %>
