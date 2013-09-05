@@ -3,44 +3,24 @@
 one:
   user: valid
   name: ProjectOne
-  status: MyString
   description: MyText
-  start_date: 2011-02-24
-  end_date: 2011-02-24
-  deleted: false
 
 two:
   user: valid
   name: MyString
-  status: MyString
   description: MyText
-  start_date: 2011-02-24
-  end_date: 2011-02-24
-  deleted: false
 
 three:
   user: admin
   name: "Admin's Project"
-  status: MyString
   description: MyText
-  start_date: 2011-12-19
-  end_date: 2012-12-18
-  deleted: false
 
 ongoing:
   user: valid
   name: "Ongoing Valid's Project"
-  status: ongoing
   description: MyText
-  start_date: 2011-12-19
-  end_date: 2012-12-18
-  deleted: false
 
 hidden:
   user: valid
   name: HiddenProject
-  status: MyString
   description: This project is set as hidden for the valid user
-  start_date: 2011-02-24
-  end_date: 2011-02-24
-  deleted: false

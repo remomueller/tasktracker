@@ -34,7 +34,6 @@ TaskTracker::Application.routes.draw do
       post :selection
     end
     member do
-      get :settings
       get :bulk
       post :reassign
       post :favorite

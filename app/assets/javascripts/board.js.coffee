@@ -189,11 +189,13 @@ jQuery ->
         window.$lastStickyChecked = $(this).data('sticky-id')
         initializeCompletionButtons()
     )
-    .on('click', '[data-object~="check-all-stickies"]', () ->
-      if $(this).is(':checked')
-        $('[data-object~="sticky-checkbox"]').prop('checked', true)
-      else
-        $('[data-object~="sticky-checkbox"]').prop('checked', false)
+    .on('click', '[data-object~="select-all-stickies"]', () ->
+      $('[data-object~="sticky-checkbox"]').prop('checked', true)
+      window.$lastStickyChecked = null
+      initializeCompletionButtons()
+    )
+    .on('click', '[data-object~="deselect-all-stickies"]', () ->
+      $('[data-object~="sticky-checkbox"]').prop('checked', false)
       window.$lastStickyChecked = null
       initializeCompletionButtons()
     )

@@ -161,7 +161,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should create project" do
     assert_difference('Project.count') do
-      post :create, project: { name: "New Project", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '' }
+      post :create, project: { name: 'New Project', description: '' }
     end
     assert_not_nil assigns(:project)
     assert_equal assigns(:project).user_id.to_s, users(:valid).to_param
@@ -170,16 +170,13 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should create project as json" do
     assert_difference('Project.count') do
-      post :create, project: { name: "New Project", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '' }, format: 'json'
+      post :create, project: { name: "New Project", description: '' }, format: 'json'
     end
 
     project = JSON.parse(@response.body)
     assert_equal assigns(:project).id, project['id']
     assert_equal assigns(:project).name, project['name']
     assert_equal assigns(:project).description, project['description']
-    assert_equal assigns(:project).status, project['status']
-    assert_equal assigns(:project).start_date.to_s, project['start_date']
-    assert_equal nil, project['end_date']
     assert_equal assigns(:project).user_id, project['user_id']
     assert_equal assigns(:project).project_link, project['project_link']
     assert_equal assigns(:project).color(users(:valid)), project['color']
@@ -191,7 +188,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   test "should not create project with blank name" do
     assert_difference('Project.count', 0) do
-      post :create, project: { name: "", description: '', status: 'ongoing', start_date: "01/01/2011", end_date: '' }
+      post :create, project: { name: "", description: '' }
     end
 
     assert_not_nil assigns(:project)
@@ -202,18 +199,6 @@ class ProjectsControllerTest < ActionController::TestCase
     get :show, id: @project
     assert_not_nil assigns(:project)
     assert_response :success
-  end
-
-  test "should show project settings" do
-    get :settings, id: @project
-    assert_not_nil assigns(:project)
-    assert_response :success
-  end
-
-  test "should not show project settings without valid id" do
-    get :settings, id: -1
-    assert_nil assigns(:project)
-    assert_redirected_to projects_path
   end
 
   test "should show ongoing project" do
@@ -234,32 +219,29 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test "should update project" do
-    put :update, id: @project, project: { name: "Completed Project", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
+    put :update, id: @project, project: { name: "Completed Project", description: 'Updated Description' }
     assert_redirected_to project_path(assigns(:project))
   end
 
   test "should update project as json" do
-    put :update, id: @project, project: { name: "Completed Project", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }, format: 'json'
+    put :update, id: @project, project: { name: "Completed Project", description: 'Updated Description' }, format: 'json'
 
     project = JSON.parse(@response.body)
     assert_equal assigns(:project).id, project['id']
     assert_equal 'Completed Project', project['name']
     assert_equal 'Updated Description', project['description']
-    assert_equal 'completed', project['status']
-    assert_equal assigns(:project).start_date.to_s, project['start_date']
-    assert_equal assigns(:project).end_date.to_s, project['end_date']
 
     assert_response :success
   end
 
   test "should not update project with blank name" do
-    put :update, id: @project, project: { name: "", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
+    put :update, id: @project, project: { name: "", description: 'Updated Description' }
     assert_not_nil assigns(:project)
     assert_template 'edit'
   end
 
   test "should not update project with invalid id" do
-    put :update, id: -1, project: { name: "Completed Project", description: 'Updated Description', status: 'completed', start_date: "01/01/2011", end_date: '12/31/2011' }
+    put :update, id: -1, project: { name: "Completed Project", description: 'Updated Description' }
     assert_nil assigns(:project)
     assert_redirected_to projects_path
   end

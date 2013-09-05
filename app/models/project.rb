@@ -1,7 +1,5 @@
 class Project < ActiveRecord::Base
 
-  STATUS = ["planned", "ongoing", "completed"].collect{|i| [i,i]}
-
   # Concerns
   include Searchable, Deletable
 
@@ -40,14 +38,12 @@ class Project < ActiveRecord::Base
   end
 
   def modifiable_by?(current_user)
-    # current_user.all_projects.pluck(:id).include?(self.id)
     @modifiable_by ||= begin
       Project.current.with_user(current_user.id, true).where(id: self.id).count == 1
     end
   end
 
   def viewable_by?(current_user)
-    # current_user.all_viewable_projects.pluck(:id).include?(self.id)
     @viewable_by ||= begin
       Project.current.with_user(current_user.id, [true, false]).where(id: self.id).count == 1
     end

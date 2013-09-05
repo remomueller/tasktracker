@@ -1,9 +1,9 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :api_authentication!, only: [ :index, :show, :create, :update ]
-  before_filter :set_viewable_project, only: [ :show, :colorpicker, :visible, :favorite, :settings ]
+  before_filter :set_viewable_project, only: [ :show, :colorpicker, :visible, :favorite ]
   before_filter :set_editable_project, only: [ :edit, :update, :destroy, :bulk, :reassign ]
-  before_action :redirect_without_project, only: [ :show, :colorpicker, :visible, :favorite, :settings, :edit, :update, :destroy, :bulk, :reassign ]
+  before_action :redirect_without_project, only: [ :show, :colorpicker, :visible, :favorite, :edit, :update, :destroy, :bulk, :reassign ]
 
   def bulk
   end
@@ -68,10 +68,6 @@ class ProjectsController < ApplicationController
     current_user.update_column :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 200
     @order = scrub_order(Project, params[:order], 'projects.name')
     @projects = current_user.all_viewable_projects.search(params[:search]).by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, " + @order).page(params[:page]).per(params[:format] == 'json' ? 50 : current_user.projects_per_page)
-  end
-
-  # GET /projects/1/settings
-  def settings
   end
 
   # GET /projects/1
@@ -155,14 +151,8 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params[:project] ||= {}
-
-      [:start_date, :end_date].each do |date|
-        params[:project][date] = parse_date(params[:project][date])
-      end
-
       params.require(:project).permit(
-        :name, :description, :status, :start_date, :end_date
+        :name, :description
       )
     end
 

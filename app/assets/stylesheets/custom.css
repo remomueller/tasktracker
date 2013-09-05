@@ -251,17 +251,12 @@ a.archived-boards-link:hover {
 .board-droppable-hover, .tag-droppable-hover {
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
-  background-color: #51A351;
+  background-color: #DFF0D8 !important;
 }
 
-.archive-droppable-active {
-  background-color: #DFF0D8;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+.archive-droppable-active a {
+  background-color: #DFF0D8 !important;
+  color: #333333 !important;
 }
 
 #sticky-backdrop {
@@ -273,7 +268,6 @@ a.archived-boards-link:hover {
   right: 0;
   bottom: 0;
   left: 0;
-  /*z-index: 1040;*/
   z-index: 1020;
 }
 

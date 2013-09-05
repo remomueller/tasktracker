@@ -1,4 +1,4 @@
-json.extract! project, :id, :name, :description, :status, :start_date, :end_date, :user_id, :created_at, :updated_at, :project_link
+json.extract! project, :id, :name, :description, :user_id, :created_at, :updated_at, :project_link
 
 json.tags project.tags do |tag|
   json.partial! 'tags/tag', tag: tag
