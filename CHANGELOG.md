@@ -3,7 +3,7 @@
 ### Enhancements
 - Reorganized Menu
 - **Gem Changes**
-  - Updated to contour 2.1.0.beta17
+  - Updated to contour 2.1.0.rc
   - Updated mail_view to 2.0.1
 
 ## 0.27.0 (July 29, 2013)
