@@ -2,45 +2,46 @@
 <% @board = @project.boards.find_by_id(params[:board_id]) if @project %>
 <% @tags = @project.tags.where(id: params[:tag_ids]) if @project %>
 
-<div style="margin-top: -12px">
-  <div class="pull-left" style="margin-top: 10px; margin-bottom: 10px; margin-left: 20px; padding: 2px 5px;">
-    <%= check_box_tag "check-all", '1', false, data: { object: 'check-all-stickies' }, style: 'float:left;margin-left:-20px' %>
+<div class="pull-left" style="margin-top: 10px; margin-bottom: 10px; margin-left: 20px; padding: 2px 5px;">
+  <%= check_box_tag "check-all", '1', false, data: { object: 'check-all-stickies' }, style: 'float:left;margin-left:-20px' %>
 
-    <div style="float:left;margin-right:5px;white-space:nowrap;line-height:23px">
-      <span style="font-weight:200;font-size:20px;"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></span>
+  <div style="float:left;margin-right:5px;white-space:nowrap;line-height:23px">
+    <span style="font-weight:200;font-size:20px;"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></span>
 
-      <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
-      <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
+    <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
+    <%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
 
-      <%= link_to 'Mark Not Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none'  if @project.modifiable_by?(current_user) %>
-      <%= link_to 'Mark Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' if @project.modifiable_by?(current_user) %>
-      <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, '#', data: { object: 'delete-stickies', url: destroy_multiple_stickies_path }, class: 'btn btn-xs btn-danger-inverse' if @project.modifiable_by?(current_user) %>
-      <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
-      <span class="label label-highlight"><%= params[:search] %></span>
-      <%= link_to 'Clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' unless params[:tag_ids].blank? and params[:search].blank? %>
-    </div>
-
-  </div>
-  <div class="btn-toolbar pull-right">
-    <div class="btn-group">
-      <button id="assigned-to-me-btn" class="btn <%= 'active' if params[:assigned_to_me] == '1' %> btn-xs" data-object="update-board-count">Assigned To Me</button>
-    </div>
-
-    <div class="btn-group" data-toggle="buttons-radio">
-      <% ['completed', 'past_due', 'upcoming'].each do |scope| %>
-        <button data-object="set-scope" data-value="<%= scope %>" class="btn <%= 'active' if params[:scope] == scope %> btn-xs"><%= scope.humanize %></button>
-      <% end %>
-    </div>
+    <%= link_to 'Mark Not Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none'  if @project.modifiable_by?(current_user) %>
+    <%= link_to 'Mark Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' if @project.modifiable_by?(current_user) %>
+    <%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, '#', data: { object: 'delete-stickies', url: destroy_multiple_stickies_path }, class: 'btn btn-xs btn-danger-inverse' if @project.modifiable_by?(current_user) %>
+    <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
+    <span class="label label-highlight"><%= params[:search] %></span>
+    <%= link_to 'Clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' unless params[:tag_ids].blank? and params[:search].blank? %>
   </div>
 
-  <% if @stickies.count > 0 %>
-    <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px; margin-left:20px; font-size:11px; padding: 2px 6px">
-      <span id="scope-direction-icon"><%= '&larr;'.html_safe if params[:scope_direction] == 'reverse' %></span> <span data-object="toggle-scope-direction" style="cursor:pointer" rel="tooltip" title="Toggle Direction"><span data-object="sticky-count"><%= @stickies.count %></span> of <span data-object="sticky-count"><%= @stickies.total_count %></span></span>
-    </div>
-  <% end %>
 </div>
 
-<div style="clear:both"></div>
+<div class="btn-toolbar pull-right">
+  <div class="btn-group" data-toggle="buttons">
+    <label id="assigned-to-me-btn" class="btn btn-default btn-xs <%= 'active' if params[:assigned_to_me].to_s == '1' %>">
+      Assigned To Me
+    </label>
+  </div>
+
+  <div class="btn-group" data-toggle="buttons-radio">
+    <% ['completed', 'past_due', 'upcoming'].each do |scope| %>
+      <button data-object="set-scope" data-value="<%= scope %>" class="btn btn-default <%= 'active' if params[:scope] == scope %> btn-xs"><%= scope.humanize %></button>
+    <% end %>
+  </div>
+</div>
+
+<% if @stickies.count > 0 %>
+  <div class="pull-right" style="margin-left:20px; font-size:11px; padding: 5px 6px">
+    <span id="scope-direction-icon"><%= '&larr;'.html_safe if params[:scope_direction] == 'reverse' %></span> <span data-object="toggle-scope-direction" style="cursor:pointer" rel="tooltip" title="Toggle Direction"><span data-object="sticky-count"><%= @stickies.count %></span> of <span data-object="sticky-count"><%= @stickies.total_count %></span></span>
+  </div>
+<% end %>
+
+<div class="clear">&nbsp;</div>
 
 <% if @stickies.count > 0 %>
   <table class="table table-condensed" style="width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="40px"/><col width="80px"/><col width="60px"/>
@@ -52,7 +53,7 @@
   </table>
 
   <% [false, true].each do |phone| %>
-    <center class="<%= phone ? 'visible' : 'hidden' %>-phone"><%= paginate @stickies, theme: phone ? "contour-mini" : "contour" %></center>
+    <center class="<%= phone ? 'visible' : 'hidden' %>-phone"><%= paginate @stickies, theme: phone ? "contour-small" : "contour" %></center>
   <% end %>
 <% else %>
   <center>

@@ -152,7 +152,7 @@
   $('#project_search').val('')
   $('#search').val('')
   $('#group_search').val('')
-  $('[data-object~="tag-select"]').parent().removeClass('active')
+  $('[data-object~="tag-select"]').removeClass('active')
   $('#tag_ids').val('')
 
 @resetSubmitButtons = () ->
@@ -192,11 +192,10 @@ jQuery ->
       $($(this).data('target')).show()
     )
     .on('click', '#assigned-to-me-btn', () ->
-      # $(this).button('toggle')
       if $(this).hasClass('active')
-        $('#assigned_to_me').prop('checked', true)
-      else
         $('#assigned_to_me').prop('checked', false)
+      else
+        $('#assigned_to_me').prop('checked', true)
       setBoardNames()
       $('#stickies_search').submit()
     )

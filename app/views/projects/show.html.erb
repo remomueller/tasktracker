@@ -13,8 +13,8 @@
   <%= hidden_field_tag :scope, params[:scope] || 'past_due' %>
   <%= hidden_field_tag :scope_direction, params[:scope_direction] || 'forward' %> <%# 'reverse' %>
 
-
-  <%= hidden_field_tag :assigned_to_me, params[:assigned_to_me] %>
+  <%= hidden_field_tag 'assigned_to_me_hidden', '0', name: 'assigned_to_me' %>
+  <%= check_box_tag 'assigned_to_me', '1', params[:assigned_to_me].to_s == '1', style: 'display:none' %>
 
   <%= hidden_field_tag :unassigned, '1' %>
 
@@ -31,65 +31,46 @@
 <% end %>
 
 <div class="row">
-  <div class="col-md-2" style="margin-bottom:20px;">
+  <div class="col-sm-3 col-md-2" style="margin-bottom:20px;">
     <div>
       <div>
         <span style="font-size: 20px;font-weight:200;"><%= @project.name %></span>
         <%= link_to '<span class="glyphicon glyphicon-cog"></span>'.html_safe, settings_project_path(@project), class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Settings', data: { placement: 'right' } %>
       </div>
 
-      <div class="input-append" style="margin-top:5px">
-        <%= text_field_tag :project_search, params[:search], name: :search, class: 'col-md-2 form-control' %>
+      <div style="margin-top:5px;margin-bottom:5px">
+        <%= text_field_tag :project_search, params[:search], name: :search, class: 'form-control' %>
       </div>
 
-
-      <ul class="nav nav-list nav-rounded" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
+      <div class="list-group" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
         <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
-      </ul>
+      </div>
 
-      <ul class="nav nav-list nav-rounded" id="archived_boards_container" data-object="board-archive-droppable" data-archived="true">
+      <div class="list-group" id="archived_boards_container" data-object="board-archive-droppable" data-archived="true">
         <% boards_visible = (@board and @board.archived?) %>
         <%= render partial: 'boards/full_menu', locals: { archived: true, boards_visible: boards_visible } %>
-      </ul>
+      </div>
 
-      <ul class="nav nav-list nav-rounded">
-        <li class="divider"></li>
-        <li class="nav-header" style="cursor:pointer" data-link="<%= templates_path( project_id: @project.id ) %>" rel="tooltip" title="Click to Edit Templates">Templates</li>
+      <div class="list-group">
+        <%= link_to 'Templates', templates_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Templates' %>
         <% @project.templates.natural_sort.each do |template_name, template_id| %>
-          <li class="<%= 'active' if params[:template_id].to_i == template_id %>">
-            <%= link_to template_name, project_path(@project, template_id: template_id), data: { object: 'template-select', template_id: template_id } %>
-          </li>
+          <%= link_to template_name, project_path(@project, template_id: template_id), data: { object: 'template-select', template_id: template_id }, class: "list-group-item #{'active' if params[:template_id].to_i == template_id}" %>
         <% end %>
-      </ul>
+      </div>
 
-      <ul class="nav nav-list nav-rounded">
-        <li class="divider"></li>
-        <li class="nav-header" style="cursor:pointer" data-link="<%= tags_path( project_id: @project.id ) %>" rel="tooltip" title="Click to Edit Tags">Tags</li>
+      <div class="list-group">
+        <%= link_to 'Tags', tags_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Tags' %>
         <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
           <% tag = @project.tags.find_by_id(tag_id) %>
-          <li class="<%= 'active' if params[:tag_id].to_i == tag_id %>">
-            <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select tag-droppable', tag_id: tag_id, project_id: @project.id } %>
-          </li>
+          <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select tag-droppable', tag_id: tag_id, project_id: @project.id }, class: "list-group-item #{'active' if params[:tag_id].to_i == tag_id}" %>
         <% end %>
-      </ul>
+      </div>
     </div>
   </div>
 
-  <div id="stickies-or-templates"> <%# Right panel, load other stuff %>
+  <div id="stickies-or-templates" class="col-sm-9 col-md-10"> <%# Right panel, load other stuff %>
 
   </div>
-
-  <% if false %>
-  <div class="col-md-10" style="margin-bottom:20px">
-    <div id="sticky_modal_wrapper">
-      <div id="sticky_modal_container" class="sticky-modal"></div>
-    </div>
-
-    <div id="stickies" style="margin-top:-12px">
-
-    </div>
-  </div>
-  <% end %>
 </div>
 
 <% unless @project.description.blank? %>

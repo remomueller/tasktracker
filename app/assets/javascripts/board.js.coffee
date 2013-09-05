@@ -50,14 +50,14 @@
 
 @setBoardNames = () ->
   $('[data-object~="board-select"]').each( () ->
-    board_label = $(this).data('board-name')
+    board_label = ''
     scope = $("#scope").val().replace(/_/, '-')
     if scope != ""
       if parseInt($("#assigned_to_me").val()) == 1
-        board_label += " (" + $(this).data('my-'+scope+'-count') + ")" if parseInt($(this).data('my-'+scope+'-count')) > 0
+        board_label = $(this).data('my-'+scope+'-count') if parseInt($(this).data('my-'+scope+'-count')) > 0
       else
-        board_label += " (" + $(this).data(scope+'-count') + ")" if parseInt($(this).data(scope+'-count')) > 0
-    $(this).html(board_label)
+        board_label = $(this).data(scope+'-count') if parseInt($(this).data(scope+'-count')) > 0
+    $(this).find('.badge').html(board_label)
   )
 
 @selectBoard = (board_id) ->
@@ -67,8 +67,8 @@
 
   deselectTemplate()
 
-  $('[data-object~="board-select"]').parent().removeClass('active')
-  $(board).parent().addClass('active')
+  $('[data-object~="board-select"]').removeClass('active')
+  $(board).addClass('active')
   $('#board_id').val(board_id)
   true
 
@@ -77,8 +77,8 @@
 
   deselectTemplate()
 
-  $('[data-object~="tag-select"]').parent().removeClass('active')
-  $(tag).parent().addClass('active')
+  $('[data-object~="tag-select"]').removeClass('active')
+  $(tag).addClass('active')
   $('#tag_ids').val(tag_id)
   true
 
@@ -97,20 +97,20 @@
 @hideArchivedBoards = () ->
   archive_button = $('[data-object~="toggle-archived-boards"]')
   $('[data-object~="board-select"][data-archived="true"]').hide()
-  $(archive_button).html("Show " + $(archive_button).data('message'))
+  $(archive_button).html("<span class='badge'>#{$(archive_button).data('message')}</span> Show Archived")
   $(archive_button).data('visible', false)
   # Select the Holding Pen if an archived board was selected
   if $("[data-object~='board-select'][data-board-id='#{$("#board_id").val()}']").length > 0 and $("[data-object~='board-select'][data-board-id='#{$("#board_id").val()}']").data('archived').toString() == 'true'
-    $('[data-object~="board-select"]').parent().removeClass('active')
+    $('[data-object~="board-select"]').removeClass('active')
     $('[data-object~="board-select"][data-board-id="0"]').click()
-    $('[data-object~="board-select"][data-board-id="0"]').parent().addClass('active')
+    $('[data-object~="board-select"][data-board-id="0"]').addClass('active')
     $("#stickies_search").submit()
 
 
 @showArchivedBoards = () ->
   archive_button = $('[data-object~="toggle-archived-boards"]')
   $('[data-object~="board-select"][data-archived="true"]').show()
-  $(archive_button).html("Hide " + $(archive_button).data('message'))
+  $(archive_button).html("<span class='badge'>#{$(archive_button).data('message')}</span> Hide Archived")
   $(archive_button).data('visible', true)
 
 
@@ -154,7 +154,7 @@ jQuery ->
     )
     .on('click', '[data-object~="tag-select"]', () ->
       if parseInt($('#tag_ids').val()) == parseInt($(this).data('tag-id'))
-        $(this).parent().removeClass('active')
+        $(this).removeClass('active')
         $('#tag_ids').val('')
       else
         selectTag($(this).data('tag-id'))

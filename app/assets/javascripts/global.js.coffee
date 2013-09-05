@@ -123,6 +123,9 @@ jQuery ->
       $($(this).data('target')).submit()
       false
     )
+    .on('click', '[data-object~="suppress-click"]', () ->
+      false
+    )
 
   # TODO: Put these in correct coffee files
   $("#comments_search input").change( () ->

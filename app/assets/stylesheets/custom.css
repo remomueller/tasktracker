@@ -254,14 +254,6 @@ a.archived-boards-link:hover {
   background-color: #51A351;
 }
 
-.nav-rounded > li > a {
-  -moz-border-radius: 3px; /* Mozilla */
-  -webkit-border-radius: 3px; /* Webkit */
-  border-radius: 3px;
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
 .archive-droppable-active {
   background-color: #DFF0D8;
   -webkit-border-radius: 4px;
@@ -396,4 +388,11 @@ span.rounded-borders {
   height: auto;
   margin-bottom: 15px;
   padding: 7px 9px;
+}
+
+.list-group-heading {
+  color: #333333;
+  background-color: #f5f5f5;
+  border-color: #dddddd;
+  font-weight: bolder;
 }
