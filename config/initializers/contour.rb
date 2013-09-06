@@ -30,7 +30,6 @@ Contour.setup do |config|
               { divider: true, condition: 'current_user.system_admin?' },
               { header: 'current_user.email', eval: true },
               { html: 'Settings', path: 'settings_path' },
-              { name: 'Authentications', path: 'authentications_path', condition: 'not PROVIDERS.blank?' },
               { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },

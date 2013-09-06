@@ -16,17 +16,21 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
 
 <%= hidden_field_tag 'isdirty', '1' %>
 
-<%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings' do %>
+<%= form_tag update_settings_user_path(current_user), method: :post, id: 'email_settings', class: 'form-horizontal' do %>
     <div class="form-group">
-      <div class="col-md-10">
-        <%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email), onclick: "enableAllWithSelector('.all_email')", class: "all_email_parent" %> <%= 'Receive Emails' %>
+      <div class="col-md-offset-2 col-md-10">
+        <label><%= check_box_tag 'email[send_email]', '1', current_user.email_on?(:send_email), onclick: "enableAllWithSelector('.all_email')", class: "all_email_parent" %> Receive Emails</label>
       </div>
     </div>
     <% User::EMAILABLES.each do |notification, description| %>
-      <div class="form-group" style="margin:0px 0px 20px 20px">
-        <label class="control-label"><%= notification.to_s.titleize %></label>
-        <div class="col-md-10">
-          <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= description %>
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <label>
+            <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= notification.to_s.titleize %>
+          </label>
+          <div class="bs-callout bs-callout-info">
+            <%= description %>
+          </div>
         </div>
       </div>
     <% end %>
@@ -68,6 +72,8 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
   </div>
 <% end %>
 
+<div class="clear">&nbsp;</div>
+
 <div class="page-header">
   <h2>Cross-Application API Tokens</h2>
 </div>
@@ -89,3 +95,13 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
     <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
   </div>
 </div>
+
+<div class="clear">&nbsp;</div>
+
+<% unless PROVIDERS.blank? %>
+  <div class="page-header">
+    <h2>Authentications</h2>
+  </div>
+
+  <%= render partial: 'contour/authentications/authentications' %>
+<% end %>
