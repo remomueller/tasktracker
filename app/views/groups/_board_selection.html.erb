@@ -8,22 +8,22 @@
     <% board_groups << ["Archived", boards.where(archived: true).natural_sort] if boards.where(archived: true).size > 0 %>
     <div id="board_id_container">
       <div class="row">
-        <div class="col-xs-4">
-          <%= select :group, :board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, @group.board_id), class: 'form-control' %>
+        <div class="col-xs-6 col-md-4">
+          <%= select :group, :board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, @group.board_id), {}, class: 'form-control' %>
         </div>
-        <div class="col-xs-2">
-          <%= link_to '+', '#', data: { object: 'create-new-board' }, class: 'btn btn-xs btn-default' %>
+        <div class="col-xs-4 col-md-2">
+          <%= link_to '+', '#', data: { object: 'create-new-board' }, class: 'btn btn-default' %>
         </div>
       </div>
     </div>
     <div id="board_name_container" style="display:none">
       <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-6 col-md-4">
           <%= hidden_field_tag "create_new_board", 0 %>
-          <%= text_field_tag "group_board_name", '', placeholder: 'Enter new board name', autocomplete: "off", data: { object: 'typeahead', local: boards.collect{|b| b.name}.uniq.to_json } %>
+          <%= text_field_tag "group_board_name", '', placeholder: 'Enter new board name', autocomplete: "off", data: { object: 'typeahead', local: boards.collect{|b| b.name}.uniq.to_json }, class: 'form-control' %>
         </div>
-        <div class="col-xs-2">
-          <%= link_to 'cancel', '#', data: { object: 'show-existing-boards' }, class: 'btn btn-xs btn-default' %>
+        <div class="col-xs-4 col-md-2">
+          <%= link_to 'cancel', '#', data: { object: 'show-existing-boards' }, class: 'btn btn-default' %>
         </div>
       </div>
     </div>
