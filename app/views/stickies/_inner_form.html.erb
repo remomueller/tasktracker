@@ -53,8 +53,16 @@
 <div class="form-group">
   <%= f.label :due_date, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
-    <%= f.text_field :due_date, class: 'datepicker form-control', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
-    <span style="white-space:nowrap"><%= check_box_tag :set_time, '1', @sticky.all_day? %> All day</span>
+    <div class="row">
+      <div class="col-xs-6 col-sm-3">
+        <%= f.text_field :due_date, class: 'datepicker form-control', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off' %>
+      </div>
+      <div class="col-xs-6 col-sm-3">
+        <label class="checkbox" style="width:185px">
+          <span style="white-space:nowrap"><%= check_box_tag :set_time, '1', @sticky.all_day? %> All day</span>
+        </label>
+      </div>
+    </div>
     <% if @sticky.group %>
       <table class="blank padded">
         <tr>
@@ -74,15 +82,25 @@
 <div class="form-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :due_at_string, 'Due at', class: 'col-md-2 control-label' %>
   <div class="col-md-10">
-    <%= f.text_field :due_at_string, class: 'timepicker form-control' %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= f.text_field :due_at_string, class: 'timepicker form-control' %>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="form-group" data-object="time-options" style="<%= 'display:none' if @sticky.all_day? %>">
   <%= f.label :duration, nil, class: 'col-md-2 control-label' %>
   <div class="col-md-10">
-    <%= f.number_field :duration, { min: 0 } %>
-    <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units), {}, class: 'form-control' %>
+    <div class="row">
+      <div class="col-xs-6">
+        <%= f.number_field :duration, min: 0, class: 'form-control' %>
+      </div>
+      <div class="col-xs-6">
+        <%= f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units), {}, class: 'form-control' %>
+      </div>
+    </div>
   </div>
 </div>
 

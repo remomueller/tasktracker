@@ -40,13 +40,6 @@
   line-height: 21px;
 }
 
-/* Specific change for one element, dropdown box with flat right border */
-#board_name {
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-}
-
 a.archived-boards-link {
   color: #08C;
 }
