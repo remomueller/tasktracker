@@ -11,8 +11,8 @@
 
 <% if @sticky.group %>
     <div class="form-group">
-      <label class="control-label">Group Description</label>
-      <div class="controls" style="padding-top:5px">
+      <label class="col-md-2 control-label">Group Description</label>
+      <div class="col-md-10" style="padding-top:5px">
         Group <%= link_to @sticky.group.name, @sticky.group %>
         <%= simple_format @sticky.group.description unless @sticky.group.description.blank? %>
       </div>
