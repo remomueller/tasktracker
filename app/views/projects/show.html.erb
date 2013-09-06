@@ -50,32 +50,40 @@
       <%= text_field_tag :project_search, params[:search], name: :search, class: 'form-control' %>
     </div>
 
-    <div class="list-group" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
-      <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
-    </div>
+    <div class="row">
+      <div class="col-xs-4 col-sm-12">
+        <div class="list-group" id="unarchived_boards_container" data-object="board-archive-droppable" data-archived="false">
+          <%= render partial: 'boards/full_menu', locals: { archived: false, boards_visible: true } %>
+        </div>
 
-    <div class="list-group" id="archived_boards_container" data-object="board-archive-droppable" data-archived="true">
-      <% boards_visible = (@board and @board.archived?) %>
-      <%= render partial: 'boards/full_menu', locals: { archived: true, boards_visible: boards_visible } %>
-    </div>
+        <div class="list-group" id="archived_boards_container" data-object="board-archive-droppable" data-archived="true">
+          <% boards_visible = (@board and @board.archived?) %>
+          <%= render partial: 'boards/full_menu', locals: { archived: true, boards_visible: boards_visible } %>
+        </div>
+      </div>
 
-    <div class="list-group">
-      <%= link_to templates_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Templates' do %>
-        Templates <span class="glyphicon glyphicon-edit pull-right"></span>
-      <% end %>
-      <% @project.templates.natural_sort.each do |template_name, template_id| %>
-        <%= link_to template_name, project_path(@project, template_id: template_id), data: { object: 'template-select', template_id: template_id }, class: "list-group-item #{'active' if params[:template_id].to_i == template_id}" %>
-      <% end %>
-    </div>
+      <div class="col-xs-4 col-sm-12">
+        <div class="list-group">
+          <%= link_to templates_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Templates' do %>
+            Templates <span class="glyphicon glyphicon-edit pull-right"></span>
+          <% end %>
+          <% @project.templates.natural_sort.each do |template_name, template_id| %>
+            <%= link_to template_name, project_path(@project, template_id: template_id), data: { object: 'template-select', template_id: template_id }, class: "list-group-item #{'active' if params[:template_id].to_i == template_id}" %>
+          <% end %>
+        </div>
+      </div>
 
-    <div class="list-group">
-      <%= link_to tags_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Tags' do %>
-        Tags <span class="glyphicon glyphicon-edit pull-right"></span>
-      <% end %>
-      <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
-        <% tag = @project.tags.find_by_id(tag_id) %>
-        <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select tag-droppable', tag_id: tag_id, project_id: @project.id }, class: "list-group-item #{'active' if params[:tag_id].to_i == tag_id}" %>
-      <% end %>
+      <div class="col-xs-4 col-sm-12">
+        <div class="list-group">
+          <%= link_to tags_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Tags' do %>
+            Tags <span class="glyphicon glyphicon-edit pull-right"></span>
+          <% end %>
+          <% @project.tags.natural_sort.each do |tag_name, tag_id| %>
+            <% tag = @project.tags.find_by_id(tag_id) %>
+            <%= link_to "<span style='background-color:#{tag.color}'>&nbsp;</span> ".html_safe + tag_name, '#', data: { object: 'tag-select tag-droppable', tag_id: tag_id, project_id: @project.id }, class: "list-group-item #{'active' if params[:tag_id].to_i == tag_id}" %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 
