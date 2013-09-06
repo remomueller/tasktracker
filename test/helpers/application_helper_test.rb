@@ -58,11 +58,4 @@ class ApplicationHelperTest < ActionView::TestCase
     assert recent_activity(Time.now - 2.year).kind_of?(String)
   end
 
-  test "should display status" do
-    assert display_status(nil).kind_of?(String)
-    assert display_status('').kind_of?(String)
-    assert display_status('planned').kind_of?(String)
-    assert display_status('ongoing').kind_of?(String)
-    assert display_status('completed').kind_of?(String)
-  end
 end

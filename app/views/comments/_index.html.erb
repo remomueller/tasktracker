@@ -6,8 +6,7 @@
 
 <% @comments.each do |comment| %>
   <hr class="soften" style="margin-top:5px;margin-bottom:5px" data-comment-id="<%= comment.id %>"/>
-  <div style="background-color: white; padding: 5px;" class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < comment.updated_at %>"
-    onmouseover="$('#comment_<%= comment.id %>_delete_link').show();" onmouseout="$('#comment_<%= comment.id %>_delete_link').hide();" data-comment-id="<%= comment.id %>">
+  <div style="background-color: white; padding: 5px;" onmouseover="$('#comment_<%= comment.id %>_delete_link').show();" onmouseout="$('#comment_<%= comment.id %>_delete_link').hide();" data-comment-id="<%= comment.id %>">
 
     <table style="background-color: white;border: 0px"><col width="50px"/>
       <tr style="background-color: white;border: 0px">

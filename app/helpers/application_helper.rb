@@ -51,19 +51,6 @@ module ApplicationHelper
     end
   end
 
-  def display_status(status)
-    result = '<table class="status-table" style="background-color:transparent"><tr>'
-    case status when 'planned'
-      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_unmarked\" title=\"Ongoing\">O</div></td><td><div class=\"status_unmarked\" title=\"Completed\">C</div></td>"
-    when 'ongoing'
-      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_marked ongoing\" title=\"Ongoing\">O</div></td><td><div class=\"status_unmarked\" title=\"Completed\">C</div></td>"
-    when 'completed'
-      result << "<td><div class=\"status_marked planned\" title=\"Planned\">P</div></td><td><div class=\"status_marked ongoing\" title=\"Ongoing\">O</div></td><td><div class=\"status_marked completed\" title=\"Completed\">C</div></td>"
-    end
-    result << '</tr></table>'
-    result.html_safe
-  end
-
   def draw_chart(chart_api, chart_type, values, chart_element_id, chart_params, categories)
     if chart_api == 'highcharts'
       highcharts_chart(chart_type, values, chart_element_id, chart_params, categories)
