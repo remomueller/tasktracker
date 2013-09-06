@@ -80,7 +80,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   test "should update comment" do
     put :update, id: @comment, comment: @comment.attributes
-    assert_redirected_to comment_path(assigns(:comment))
+    assert_redirected_to sticky_path(assigns(:comment).sticky)
   end
 
   test "should update comment as json" do
