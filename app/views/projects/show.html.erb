@@ -6,8 +6,8 @@
   </h1>
 
   <% if @project.modifiable_by?(current_user) %>
-    <%= link_to "Edit Project", edit_project_path(@project), class: 'btn btn-default btn-xs' %>
-    <%= link_to "Delete Project", @project, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %>
+    <%= link_to 'Edit Project', edit_project_path(@project), class: 'btn btn-default btn-xs' %>
+    <%= link_to 'Delete Project', @project, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" } %>
     <%= link_to 'Reassign Stickies', '#', class: 'btn btn-xs btn-default', data: { object: 'modal-show', target: '#reassign-dialog' } %>
   <% end %>
   <span id="project_<%= @project.id %>_favorite_link"><%= render partial: 'projects/favorite' %></span>
@@ -64,7 +64,7 @@
 
       <div class="col-xs-4 col-sm-12">
         <div class="list-group">
-          <%= link_to templates_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Templates' do %>
+          <%= link_to templates_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Templates', data: { container: 'body' } do %>
             Templates <span class="glyphicon glyphicon-edit pull-right"></span>
           <% end %>
           <% @project.templates.natural_sort.each do |template_name, template_id| %>
@@ -75,7 +75,7 @@
 
       <div class="col-xs-4 col-sm-12">
         <div class="list-group">
-          <%= link_to tags_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Tags' do %>
+          <%= link_to tags_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Tags', data: { container: 'body' } do %>
             Tags <span class="glyphicon glyphicon-edit pull-right"></span>
           <% end %>
           <% @project.tags.natural_sort.each do |tag_name, tag_id| %>

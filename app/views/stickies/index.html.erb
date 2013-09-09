@@ -61,10 +61,12 @@
   </div>
 
 
+  <div class="form-inline">
   Tags
   <%= link_to image_tag('gentleface/16/checkbox_checked.png', alt: 'Select All', title: 'Select All Tags', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), '#', class: 'bubble-azure', style: 'padding-top:10px', data: { object: 'check', target: '.tag-box' } %>
   <%= link_to image_tag('gentleface/16/checkbox_unchecked.png', alt: 'Deselect All', title: 'Deselect All Tags', style: 'margin-left:4px;margin-right:4px;vertical-align:text-bottom'), '#', class: 'bubble-azure', style: 'padding-top:10px', data: { object: 'uncheck', target: '.tag-box' } %>
-  contains <%= select_tag 'tag_filter', options_for_select([['at least one', 'any'],['all', 'all']], params[:tag_filter] || current_user.sticky_filters['tag_filter']) %> selected tag(s)
+  contains <%= select_tag 'tag_filter', options_for_select([['at least one', 'any'],['all', 'all']], params[:tag_filter] || current_user.sticky_filters['tag_filter']), class: 'form-control input-sm', style: 'display:inline-block' %> selected tag(s)
+  </div>
   <div id="sticky_tag_selection_container" style="margin-bottom:10px">
     <%#= render partial: 'tags/multi_tag_selection' %>
   </div>

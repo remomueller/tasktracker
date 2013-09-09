@@ -4,7 +4,7 @@
     <%= boards_visible ? 'Hide Archived' : 'Show Archived'.html_safe %>
   <% end %>
 <% else %>
-  <%= link_to boards_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Boards' do %>
+  <%= link_to boards_path( project_id: @project.id ), class: 'list-group-item list-group-heading', rel: 'tooltip', title: 'Click to Edit Boards', data: { container: 'body' } do %>
     Boards <span class="glyphicon glyphicon-edit pull-right"></span>
   <% end %>
   <%= link_to project_path(@project, board_id: 0), data: { object: 'board-select board-droppable', board_id: 0, board_name: 'Holding Pen', project_id: @project.id, archived: false,
