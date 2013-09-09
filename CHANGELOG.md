@@ -1,7 +1,9 @@
 ## 0.27.1
 
 ### Enhancements
-- Reorganized Menu
+- **General Changes**
+  - The interface now uses [Bootstrap 3](http://getbootstrap.com/)
+  - Reorganized Menu
 - **Gem Changes**
   - Updated to contour 2.1.0.rc2
   - Updated mail_view to 2.0.1
