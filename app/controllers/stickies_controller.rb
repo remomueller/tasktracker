@@ -5,6 +5,14 @@ class StickiesController < ApplicationController
   before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
   before_action :redirect_without_sticky, only: [ :show, :update, :destroy ]
 
+  def day
+
+  end
+
+  def week
+
+  end
+
   def calendar
     if params[:save_settings] == '1'
       user_settings = current_user.settings

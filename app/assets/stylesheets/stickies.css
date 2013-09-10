@@ -1,0 +1,23 @@
+table.day-selection {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  clear: both;
+  table-layout: fixed;
+}
+
+
+table.day-selection td {
+  text-align: center;
+}
+
+div.sticky-list a {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.btn-faded {
+  border-color: #ededed;
+  color: #ededed;
+}

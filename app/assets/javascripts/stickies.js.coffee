@@ -293,3 +293,8 @@ jQuery ->
       $($(this).data('target')).submit()
       false
     )
+
+  $('#filter_selection a').click( (e) ->
+    e.preventDefault()
+    $(this).tab('show')
+  )

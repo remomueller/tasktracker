@@ -44,8 +44,10 @@ TaskTracker::Application.routes.draw do
 
   resources :stickies do
     collection do
+      get :day
+      get :week
+      get :calendar # month
       get :template
-      get :calendar
       post :complete_multiple
       post :destroy_multiple
     end
@@ -91,6 +93,8 @@ TaskTracker::Application.routes.draw do
   get "/about/use" => "application#use", as: :about_use
   get "/settings" => "users#settings", as: :settings
   get "/search" => "application#search", as: :search
+  get "/day" => "stickies#day", as: :day
+  get "/week" => "stickies#week", as: :week
 
   root to: "stickies#calendar"
 
