@@ -69,3 +69,5 @@
 <% if tag or project %>
   <%= link_to 'Clear Filters', day_path(d: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
 <% end %>
+
+<%= render partial: 'modal' %>
