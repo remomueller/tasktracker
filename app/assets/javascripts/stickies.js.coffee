@@ -1,3 +1,6 @@
+@selectTab = () ->
+  $("#filter_selection a[href='##{$('#tab').val()}']").tab('show')
+
 @goBackOneMonth = () ->
   now = new Date $('#selected_date').val()
   now = new Date() if isNaN(now.getFullYear())
@@ -298,3 +301,5 @@ jQuery ->
     e.preventDefault()
     $(this).tab('show')
   )
+
+  selectTab()

@@ -1,11 +1,11 @@
-<% anchor_date = (Date.parse(params[:d]) rescue Date.today) %>
+<% anchor_date = (Date.parse(params[:date]) rescue Date.today) %>
 <% beginning = anchor_date.wday == 0 ? anchor_date : anchor_date.beginning_of_week - 1.day %>
 
 <table class="day-selection">
   <tr>
     <td>
       <div><%= date = beginning; date.strftime("%b") %></div>
-      <%= link_to week_path(d: anchor_date.strftime("%Y%m%d")), class: 'btn btn-default' do %>
+      <%= link_to week_path(date: anchor_date.strftime("%Y%m%d")), class: 'btn btn-default' do %>
         <span class="glyphicon glyphicon-calendar"></span>
       <% end %>
     </td>
@@ -24,7 +24,7 @@
           </div>
         <% end %>
 
-        <%= link_to (anchor_date == date ? week_path(d: date.strftime("%Y%m%d")) : day_path(d: date.strftime("%Y%m%d"))), class: "btn #{date == anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do %>
+        <%= link_to (anchor_date == date ? week_path(date: date.strftime("%Y%m%d")) : day_path(date: date.strftime("%Y%m%d"))), class: "btn #{date == anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do %>
           <%= day %>
           <% if day_index > 0 and day_index < 6 %>
 
@@ -34,7 +34,7 @@
     <% end %>
     <td>
       <div>&nbsp;</div>
-      <%= link_to day_path(d: (anchor_date + 1.week).strftime("%Y%m%d")), class: 'btn btn-default' do %>
+      <%= link_to day_path(date: (anchor_date + 1.week).strftime("%Y%m%d")), class: 'btn btn-default' do %>
         <span class="glyphicon glyphicon-chevron-right"></span>
       <% end %>
     </td>
@@ -48,8 +48,8 @@
 <div class="row">
   <% if tag = current_user.all_viewable_tags.where(name: params[:tag]).first %>
     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-    <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color: <%= tag.color %>">
-      <%= check_box_tag "tag_names[]", tag.name, false %>
+    <label class="checkbox tag-checkbox tag-selected" style="margin-bottom: 0px;background-color: <%= tag.color %>">
+      <%= check_box_tag "tag_names[]", tag.name, true %>
       <span class="tag-name"><%= tag.name %></span>
     </label>
     </div>
@@ -57,7 +57,7 @@
 
   <% if project = current_user.all_viewable_projects.where(name: params[:p]).first %>
     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-    <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:<%= project.color(current_user) %>;overflow:hidden;font-weight:bold;color:#333">
+    <label class="checkbox tag-checkbox tag-selected" style="margin-bottom: 0px;background-color:<%= project.color(current_user) %>;overflow:hidden;font-weight:bold;color:#333">
       <%= project.name %>
     </label>
     </div>
@@ -67,7 +67,7 @@
 <div class="clear">&nbsp;</div>
 
 <% if tag or project %>
-  <%= link_to 'Clear Filters', day_path(d: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
+  <%= link_to 'Clear Filters', day_path(date: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
 <% end %>
 
 <%= render partial: 'modal' %>

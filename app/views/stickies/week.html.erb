@@ -1,4 +1,4 @@
-<% anchor_date = (Date.parse(params[:d]) rescue Date.today) %>
+<% anchor_date = (Date.parse(params[:date]) rescue Date.today) %>
 <% this_year = anchor_date.year %>
 
 <% week_padding = 12 %>
@@ -8,7 +8,7 @@
 
 <% sticky_scope = current_user.all_viewable_stickies %>
 <% sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tag]).pluck(:id)) unless params[:tag].blank? %>
-<% sticky_scope = sticky_scope.where(owner_id: User.where( deleted: false ).where("(users.first_name || ' ' || users.last_name) ILIKE ?", params[:owner]).pluck(:id)) unless params[:owner].blank? %>
+<% sticky_scope = sticky_scope.where(owner_id: User.where( deleted: false ).where("(users.first_name || ' ' || users.last_name) IN (?)", params[:owners].to_s.split(',')).pluck(:id)) unless params[:owners].blank? %>
 
 <% completed_dates = sticky_scope.with_due_date_for_calendar(beginning, beginning + 6.months - 1.day).where( completed: true ).pluck( :due_date ) %>
 <% incomplete_dates = sticky_scope.with_due_date_for_calendar(beginning, beginning + 6.months - 1.day).where( completed: false ).pluck( :due_date ) %>
@@ -32,7 +32,7 @@
   <thead>
     <tr>
       <th class="text-center">
-        <%= link_to week_path(tag: params[:tag], owner: params[:owner]), class: "btn btn-default btn-xs", disabled: (anchor_date == Date.today ? 'disabled' : nil) do %>
+        <%= link_to week_path(tag: params[:tag], owners: params[:owners]), class: "btn btn-default btn-xs", disabled: (anchor_date == Date.today ? 'disabled' : nil) do %>
           <span class="glyphicon glyphicon-calendar"></span>
         <% end %>
       </th>
@@ -59,7 +59,7 @@
 
 
         <td class="<%= 'current-week' if is_current_week %> <%= current_date == anchor_date ? 'info' : (incomplete != 0 && incomplete >= 0.5*max_incomplete_count ? 'danger' : (incomplete > 0 ? 'warning' : completed > 0 ? 'success' : ''))  %> text-center <%= 'text-muted' if incomplete == 0 %> <%= 'hidden-xs' if (anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (anchor_date - date).abs.days > 50.days %>">
-          <%= link_to current_date.day, (current_date == anchor_date ? day_path(d: current_date.strftime("%Y%m%d"), tag: params[:tag], owner: params[:owner]) : week_path(d: current_date.strftime("%Y%m%d"), tag: params[:tag], owner: params[:owner])), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}" %>
+          <%= link_to current_date.day, (current_date == anchor_date ? day_path(date: current_date.strftime("%Y%m%d"), tag: params[:tag], owners: params[:owners]) : week_path(date: current_date.strftime("%Y%m%d"), tag: params[:tag], owners: params[:owners])), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}" %>
         </td>
         <% date = date + 1.week %>
       <% end %>
@@ -68,6 +68,8 @@
 </table>
 
 <%= render partial: 'list', locals: { stickies: sticky_scope.with_due_date_for_calendar(beginning_of_anchor_week, beginning_of_anchor_week + 6.days), anchor_date: anchor_date } %>
+
+<%= hidden_field_tag 'tab', params[:tab] || 'tags' %>
 
 <ul class="nav nav-tabs" id="filter_selection">
   <li class="active"><a href="#tags">Tags</a></li>
@@ -82,7 +84,7 @@
         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
           <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:tag] == name %>" style="margin-bottom: 0px;background-color: <%= tags.first.color if tags.first %>">
             <%= check_box_tag "tag_names[]", name, params[:tag] == name %>
-            <div class="tag-name" style="overflow:hidden;white-space:nowrap"><%= link_to name, week_path(d: anchor_date.strftime("%Y%m%d"), tag: name, owner: params[:owner]) %></div>
+            <div class="tag-name" style="overflow:hidden;white-space:nowrap"><%= link_to name, week_path(date: anchor_date.strftime("%Y%m%d"), tag: name, owners: params[:owners]) %></div>
           </label>
         </div>
       <% end %>
@@ -92,13 +94,13 @@
     <div class="row">
       <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
         <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:#efefef;overflow:hidden;font-weight:bold;color:#333">
-          <%= link_to 'My Stickies', week_path(d: anchor_date.strftime("%Y%m%d"), tag: params[:tag], owner: current_user.name) %>
+          <%= link_to 'My Stickies', week_path(date: anchor_date.strftime("%Y%m%d"), tag: params[:tag], owners: current_user.name) %>
         </label>
       </div>
       <% current_user.associated_users.each do |user| %>
         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-          <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:owner] == user.name %>" style="margin-bottom: 0px;background-color:#efefef;font-weight:bold;color:#333">
-            <div style="overflow:hidden;white-space:nowrap"><%= link_to user.name, week_path(d: anchor_date.strftime("%Y%m%d"), tag: params[:tag], owner: user.name) %></div>
+          <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:owners].to_s.split(',').include?(user.name) %>" style="margin-bottom: 0px;background-color:#efefef;font-weight:bold;color:#333">
+            <div style="overflow:hidden;white-space:nowrap"><%= link_to user.name, week_path(date: anchor_date.strftime("%Y%m%d"), tag: params[:tag], owners: (params[:owners].to_s.split(',') + [user.name]).uniq.join(','), tab: 'users') %></div>
           </label>
         </div>
       <% end %>
@@ -119,8 +121,8 @@
 
 <div class="clear">&nbsp;</div>
 
-<% if params[:tag] or params[:owner] %>
-  <%= link_to 'Clear Filters', week_path(d: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
+<% if params[:tag] or params[:owners] %>
+  <%= link_to 'Clear Filters', week_path(date: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
 <% end %>
 
 
