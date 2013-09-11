@@ -2,17 +2,18 @@
   <div class="form-group">
     <%= label :sticky, :tag_ids, 'Tags', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <table style="width:100%;table-layout:fixed;">
-      <% project.tags.in_groups_of(4).each do |row_tags| %>
-        <tr>
-          <% row_tags.each do |tag| %>
-            <td style="white-space:nowrap;overflow:hidden;">
-              <% if tag %><label class="checkbox tag-checkbox <%= 'tag-selected' if @sticky.tags.include?(tag) %>" style="margin-bottom: 0px;background-color: <%= tag.color %>"><%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %> <span class="tag-name"><%= tag.name %></span></label><% end %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-      </table>
+      <div class="row">
+        <% project.tags.each do |tag| %>
+          <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+            <label class="checkbox tag-checkbox <%= 'tag-selected' if @sticky.tags.include?(tag) %>" style="margin-bottom: 10px;background-color: <%= tag.color %>">
+              <%= check_box_tag "sticky[tag_ids][]", tag.id, @sticky.tags.include?(tag) %>
+              <div class="tag-name" style="overflow:hidden;white-space:nowrap">
+                <%= tag.name %>
+              </div>
+            </label>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

@@ -1,27 +1,30 @@
-<% constant = 0.year %>
+<% anchor_date = (Date.parse(params[:d]) rescue Date.today) %>
+<% beginning = anchor_date.wday == 0 ? anchor_date : anchor_date.beginning_of_week - 1.day %>
+
 <table class="day-selection">
   <tr>
     <td>
-      <div><%= date = (Date.today - (Date.today.wday) ) - constant; date.strftime("%b") %></div>
-      <%= link_to week_path, class: 'btn btn-default' do %>
+      <div><%= date = beginning; date.strftime("%b") %></div>
+      <%= link_to week_path(d: anchor_date.strftime("%Y%m%d")), class: 'btn btn-default' do %>
         <span class="glyphicon glyphicon-calendar"></span>
       <% end %>
     </td>
     <% ['S','M','T','W','R','F','S'].each_with_index do |day, day_index| %>
       <td>
-        <% date = (Date.today - (Date.today.wday - day_index) ) - constant %>
+        <% date = beginning + day_index.days %>
+        <% sticky_count = current_user.all_viewable_stickies.with_due_date_for_calendar(date, date).count %>
         <% if date.day == 1 %>
           <div style="white-space:nowrap">
             <%= date.strftime("%b") %>
-            <span class="<%= 'btn-faded' if day_index == 0 or day_index == 6 %>"><%= date.strftime("%-d") %></span>
+            <span class="<%= 'btn-faded' if sticky_count == 0 %>"><%= date.strftime("%-d") %></span>
           </div>
         <% else %>
-          <div style="white-space:nowrap" class="<%= 'btn-faded' if day_index == 0 or day_index == 6 %>">
+          <div style="white-space:nowrap" class="<%= 'btn-faded' if sticky_count == 0 %>">
             <%= date.strftime("%-d") %>
           </div>
         <% end %>
 
-        <%= link_to '#', class: "btn #{day_index == Date.today.wday ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if day_index == 0 or day_index == 6}", data: { object: 'suppress-click' } do %>
+        <%= link_to (anchor_date == date ? week_path(d: date.strftime("%Y%m%d")) : day_path(d: date.strftime("%Y%m%d"))), class: "btn #{date == anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do %>
           <%= day %>
           <% if day_index > 0 and day_index < 6 %>
 
@@ -31,77 +34,38 @@
     <% end %>
     <td>
       <div>&nbsp;</div>
-      <%= link_to '#', class: 'btn btn-default', data: { object: 'suppress-click' } do %>
+      <%= link_to day_path(d: (anchor_date + 1.week).strftime("%Y%m%d")), class: 'btn btn-default' do %>
         <span class="glyphicon glyphicon-chevron-right"></span>
       <% end %>
     </td>
   </tr>
 </table>
 
-<%= link_to 'Today', '#', class: "btn btn-default btn-block", data: { object: 'suppress-click' }, style: 'margin-bottom:10px' %>
+<%#= link_to 'Today', day_path, class: 'btn btn-default btn-block', style: 'margin-bottom:10px' %>
 
-<div class="list-group sticky-list">
-  <% current_user.all_stickies.limit(20).each do |sticky| %>
-    <%= link_to '#', class: 'list-group-item', data: { object: 'suppress-click' } do %>
-      <%= image_tag sticky.owner.avatar_url(32, "identicon"), class: 'pull-right img-rounded', style: 'margin-right:-11px;margin-top: -6px;margin-bottom: -6px;' if sticky.owner %>
-      <div style="overflow:hidden;white-space:nowrap;<%= 'margin-right:37px' if sticky.owner %>">
-        <% sticky.tags.each do |tag| %>
-          <%= @tag = tag; render partial: 'tags/show' %>
-        <% end %>
-        <%= sticky.description %>
-      </div>
-    <% end %>
+<%= render partial: 'list', locals: { stickies: current_user.all_viewable_stickies.with_due_date_for_calendar(anchor_date, anchor_date), anchor_date: anchor_date } %>
 
+<div class="row">
+  <% if tag = current_user.all_viewable_tags.where(name: params[:tag]).first %>
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+    <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color: <%= tag.color %>">
+      <%= check_box_tag "tag_names[]", tag.name, false %>
+      <span class="tag-name"><%= tag.name %></span>
+    </label>
+    </div>
+  <% end %>
+
+  <% if project = current_user.all_viewable_projects.where(name: params[:p]).first %>
+    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+    <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:<%= project.color(current_user) %>;overflow:hidden;font-weight:bold;color:#333">
+      <%= project.name %>
+    </label>
+    </div>
   <% end %>
 </div>
 
+<div class="clear">&nbsp;</div>
 
-
-
-<ul class="nav nav-tabs" id="filter_selection">
-  <li class="active"><a href="#tags">Tags</a></li>
-  <li><a href="#users">Users</a></li>
-  <li><a href="#projects">Projects</a></li>
-</ul>
-
-<div class="tab-content">
-  <div class="tab-pane active" id="tags">
-    <div class="row">
-      <% current_user.all_tags.order(:project_id, :name).group_by(&:name).each do |name, tags| %>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-          <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color: <%= tags.first.color if tags.first %>">
-            <%= check_box_tag "tag_names[]", name, false %>
-            <span class="tag-name"><%= name %></span>
-          </label>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="tab-pane" id="users">
-    <div class="row">
-      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-        <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:#efefef;overflow:hidden;font-weight:bold;color:#333">
-          My Stickies
-        </label>
-      </div>
-      <% current_user.associated_users.each do |user| %>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-          <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:#efefef;overflow:hidden;font-weight:bold;color:#333">
-            <%= user.name %>
-          </label>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="tab-pane" id="projects">
-    <div class="row">
-      <% current_user.all_projects.each do |project| %>
-        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-          <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:#efefef;overflow:hidden;font-weight:bold;color:#333">
-            <%= project.name %>
-          </label>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% if tag or project %>
+  <%= link_to 'Clear Filters', day_path(d: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
+<% end %>

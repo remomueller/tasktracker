@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <span class="center">
+  <% if @sticky.owner %>
+    <%= image_tag @sticky.owner.avatar_url(32, "identicon"), class: 'img-rounded', style: 'margin-right:4px;margin-top: -6px;margin-bottom: -6px;' %>
+    <%= @sticky.owner.name %>
+  <% end %>
+  </span>
+  <% @sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>&nbsp;
+</div>
+<div class="modal-body">
+  <%= simple_markdown sticky.full_description %>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  <% if @sticky.modifiable_by?(current_user) %>
+    <%= link_to 'Edit', edit_sticky_path(@sticky, bs3: '1'), method: :get, remote: true, class: 'btn btn-default' %>
+
+    <% if @sticky.completed? %>
+      <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, undo: 'true'), method: :post, remote: true, class: 'btn btn-primary' %>
+    <% else %>
+      <%= link_to 'Mark Completed', complete_sticky_path(@sticky), method: :post, remote: true, class: 'btn btn-primary' %>
+    <% end %>
+
+    <%= link_to "Delete Sticky", destroy_multiple_stickies_path(sticky_ids: @sticky.id), method: :post, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+  <% end %>
+</div>

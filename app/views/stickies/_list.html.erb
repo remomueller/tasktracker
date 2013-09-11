@@ -1,0 +1,22 @@
+<% if stickies.count == 0 %>
+  <div class="alert alert-info">
+    <strong>Heads up!</strong> No stickies in the selected time period.
+  </div>
+<% else %>
+  <% stickies.order(:completed, :due_date).group_by{|s| s.due_date ? [s.completed, s.due_date.to_date] : [s.completed, nil]}.each do |(completed, due_date), stickies| %>
+    <div class="list-group <%= 'list-group-info' if anchor_date == due_date %> sticky-list <%= 'list-group-complete' if completed %>">
+      <%= link_to due_date.strftime("%a, %B %-d, %Y"), day_path(d: due_date.strftime("%Y%m%d")), class: 'list-group-item list-group-heading' if due_date %>
+      <% stickies.each do |sticky| %>
+        <%= link_to sticky_path(sticky, bs3: '1'), remote: true, class: "list-group-item" do %>
+          <%= image_tag sticky.owner.avatar_url(32, "identicon"), class: 'pull-right img-rounded', style: 'margin-right:-11px;margin-top: -6px;margin-bottom: -6px;' if sticky.owner %>
+          <div style="overflow:hidden;white-space:nowrap;<%= 'margin-right:37px' if sticky.owner %>">
+            <% sticky.tags.each do |tag| %>
+              <%= @tag = tag; render partial: 'tags/show' %>
+            <% end %>
+            <%= sticky.description %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

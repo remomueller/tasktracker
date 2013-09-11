@@ -12,6 +12,11 @@ table.day-selection td {
   text-align: center;
 }
 
+td.current-week, th.current-week {
+  border-left:  2px solid #dddddd !important;
+  border-right: 2px solid #dddddd !important;
+}
+
 div.sticky-list a {
   white-space: nowrap;
   overflow: hidden;
@@ -20,4 +25,33 @@ div.sticky-list a {
 .btn-faded {
   border-color: #ededed;
   color: #ededed;
+}
+
+.list-group-heading {
+  color: #333333;
+  background-color: #f5f5f5;
+  border-color: #dddddd;
+}
+
+.list-group-info > .list-group-heading {
+  color: #3a87ad;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+
+.list-group-complete {
+  zoom: 1;
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+}
+
+.list-group-complete:hover {
+  zoom: 1;
+  filter: alpha(opacity=100);
+  opacity: 1.0;
+}
+
+.table > thead > tr > td.info, .table > tbody > tr > td.info, .table > tfoot > tr > td.info, .table > thead > tr > th.info, .table > tbody > tr > th.info, .table > tfoot > tr > th.info, .table > thead > tr.info > td, .table > tbody > tr.info > td, .table > tfoot > tr.info > td, .table > thead > tr.info > th, .table > tbody > tr.info > th, .table > tfoot > tr.info > th {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
 }

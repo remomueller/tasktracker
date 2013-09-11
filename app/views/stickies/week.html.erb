@@ -1,2 +1,127 @@
-<%= link_to 'Go to Day', day_path %>
-<h1>Week</h1>
+<% anchor_date = (Date.parse(params[:d]) rescue Date.today) %>
+<% this_year = anchor_date.year %>
+
+<% week_padding = 12 %>
+<% beginning_of_anchor_week = anchor_date.wday == 0 ? anchor_date : anchor_date.beginning_of_week - 1.day %>
+<% beginning = beginning_of_anchor_week - week_padding.weeks %>
+<% ending = beginning + (2 * week_padding + 1).weeks - 1.day %>
+
+<% sticky_scope = current_user.all_viewable_stickies %>
+<% sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tag]).pluck(:id)) unless params[:tag].blank? %>
+<% sticky_scope = sticky_scope.where(owner_id: User.where( deleted: false ).where("(users.first_name || ' ' || users.last_name) ILIKE ?", params[:owner]).pluck(:id)) unless params[:owner].blank? %>
+
+<% completed_dates = sticky_scope.with_due_date_for_calendar(beginning, beginning + 6.months - 1.day).where( completed: true ).pluck( :due_date ) %>
+<% incomplete_dates = sticky_scope.with_due_date_for_calendar(beginning, beginning + 6.months - 1.day).where( completed: false ).pluck( :due_date ) %>
+
+<% date_count_hash = {} %>
+<% ['S','M','T','W','R','F','S'].each_with_index do |day, day_index| %>
+  <% date = beginning %>
+  <% while date <= ending %>
+    <% current_date = (date + day_index.days) %>
+    <% completed = completed_dates.select{|d| current_date == d.to_date }.count %>
+    <% incomplete = incomplete_dates.select{|d| current_date == d.to_date }.count %>
+    <% date_count_hash[current_date.strftime("%Y%m%d")] = { completed: completed, incomplete: incomplete } %>
+    <% date = date + 1.week %>
+  <% end %>
+<% end %>
+
+<% max_completed_count = date_count_hash.collect{|k,v| v[:completed]}.max || 0 %>
+<% max_incomplete_count = date_count_hash.collect{|k,v| v[:incomplete]}.max || 0 %>
+
+<table class="table table-condensed" style="table-layout:fixed">
+  <thead>
+    <tr>
+      <th class="text-center">
+        <%= link_to week_path(tag: params[:tag], owner: params[:owner]), class: "btn btn-default btn-xs", disabled: (anchor_date == Date.today ? 'disabled' : nil) do %>
+          <span class="glyphicon glyphicon-calendar"></span>
+        <% end %>
+      </th>
+      <% date = beginning %>
+      <% while date <= ending %>
+        <th class="text-center <%= 'hidden-xs' if (anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (anchor_date - date).abs.days > 50.days %>">
+          <%= (date + 6.days).strftime("%b") if date.day == 1 or date.month != (date + 6.days).month %>
+        </th>
+        <% date = date + 1.week %>
+      <% end %>
+    </tr>
+  </thead>
+
+  <% ['S','M','T','W','R','F','S'].each_with_index do |day, day_index| %>
+    <tr>
+      <td class="text-muted text-center"><%= day %></td>
+      <% date = beginning %>
+      <% while date <= ending %>
+        <% current_date = (date + day_index.days) %>
+        <% is_current_week = (current_date + (current_date.wday == 0 ? 1.day : 0.day)).beginning_of_week == (anchor_date + (anchor_date.wday == 0 ? 1.day : 0.day)).beginning_of_week %>
+        <% sticky_count_hash = date_count_hash[current_date.strftime("%Y%m%d")] || { completed: 0, incomplete: 0 } %>
+        <% completed = sticky_count_hash[:completed] %>
+        <% incomplete = sticky_count_hash[:incomplete] %>
+
+
+        <td class="<%= 'current-week' if is_current_week %> <%= current_date == anchor_date ? 'info' : (incomplete != 0 && incomplete >= 0.5*max_incomplete_count ? 'danger' : (incomplete > 0 ? 'warning' : completed > 0 ? 'success' : ''))  %> text-center <%= 'text-muted' if incomplete == 0 %> <%= 'hidden-xs' if (anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (anchor_date - date).abs.days > 50.days %>">
+          <%= link_to current_date.day, (current_date == anchor_date ? day_path(d: current_date.strftime("%Y%m%d"), tag: params[:tag], owner: params[:owner]) : week_path(d: current_date.strftime("%Y%m%d"), tag: params[:tag], owner: params[:owner])), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}" %>
+        </td>
+        <% date = date + 1.week %>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<%= render partial: 'list', locals: { stickies: sticky_scope.with_due_date_for_calendar(beginning_of_anchor_week, beginning_of_anchor_week + 6.days), anchor_date: anchor_date } %>
+
+<ul class="nav nav-tabs" id="filter_selection">
+  <li class="active"><a href="#tags">Tags</a></li>
+  <li><a href="#users">Users</a></li>
+  <li><a href="#projects">Projects</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="tags">
+    <div class="row">
+      <% current_user.all_tags.order(:project_id, :name).group_by(&:name).each do |name, tags| %>
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+          <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:tag] == name %>" style="margin-bottom: 0px;background-color: <%= tags.first.color if tags.first %>">
+            <%= check_box_tag "tag_names[]", name, params[:tag] == name %>
+            <div class="tag-name" style="overflow:hidden;white-space:nowrap"><%= link_to name, week_path(d: anchor_date.strftime("%Y%m%d"), tag: name, owner: params[:owner]) %></div>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="tab-pane" id="users">
+    <div class="row">
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+        <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:#efefef;overflow:hidden;font-weight:bold;color:#333">
+          <%= link_to 'My Stickies', week_path(d: anchor_date.strftime("%Y%m%d"), tag: params[:tag], owner: current_user.name) %>
+        </label>
+      </div>
+      <% current_user.associated_users.each do |user| %>
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+          <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:owner] == user.name %>" style="margin-bottom: 0px;background-color:#efefef;font-weight:bold;color:#333">
+            <div style="overflow:hidden;white-space:nowrap"><%= link_to user.name, week_path(d: anchor_date.strftime("%Y%m%d"), tag: params[:tag], owner: user.name) %></div>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="tab-pane" id="projects">
+    <div class="row">
+      <% current_user.all_projects.each do |project| %>
+        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+          <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:#efefef;font-weight:bold;color:#333">
+            <div style="overflow:hidden;white-space:nowrap"><%= project.name %></div>
+          </label>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="clear">&nbsp;</div>
+
+<% if params[:tag] or params[:owner] %>
+  <%= link_to 'Clear Filters', week_path(d: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
+<% end %>
+
+
+<%= render partial: 'modal' %>

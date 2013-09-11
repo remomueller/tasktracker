@@ -1,5 +1,7 @@
 ## 0.28.0
 
+- **Calendar Changes**
+  - Two sticky list views, year/week and week/day, have been added that will replace the current monthly calendar view, and also replace the sticky index
 - **Gem Changes**
   - Updated to contour 2.1.0
 
