@@ -58,8 +58,8 @@
         <% incomplete = sticky_count_hash[:incomplete] %>
 
 
-        <td class="<%= 'current-week' if is_current_week %> <%= current_date == anchor_date ? 'info' : (incomplete != 0 && incomplete >= 0.5*max_incomplete_count ? 'danger' : (incomplete > 0 ? 'warning' : completed > 0 ? 'success' : ''))  %> text-center <%= 'text-muted' if incomplete == 0 %> <%= 'hidden-xs' if (anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (anchor_date - date).abs.days > 50.days %>">
-          <%= link_to current_date.day, (current_date == anchor_date ? day_path(date: current_date.strftime("%Y%m%d"), tag: params[:tag], owners: params[:owners]) : week_path(date: current_date.strftime("%Y%m%d"), tag: params[:tag], owners: params[:owners])), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}" %>
+        <td class="<%= 'current-week' if is_current_week %> <%= incomplete != 0 && incomplete >= 0.5*max_incomplete_count ? 'danger' : (incomplete > 0 ? 'warning' : completed > 0 ? 'success' : '')  %> text-center <%= 'text-muted' if incomplete == 0 %> <%= 'hidden-xs' if (anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (anchor_date - date).abs.days > 50.days %>">
+          <%= link_to current_date.day, week_path( date: current_date.strftime("%Y%m%d"), tag: params[:tag], owners: params[:owners] ), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}" %>
         </td>
         <% date = date + 1.week %>
       <% end %>
@@ -67,7 +67,7 @@
   <% end %>
 </table>
 
-<%= render partial: 'list', locals: { stickies: sticky_scope.with_due_date_for_calendar(beginning_of_anchor_week, beginning_of_anchor_week + 6.days), anchor_date: anchor_date } %>
+<%= render partial: 'list', locals: { stickies: sticky_scope.with_due_date_for_calendar(beginning_of_anchor_week, beginning_of_anchor_week + 6.days) } %>
 
 <%= hidden_field_tag 'tab', params[:tab] || 'tags' %>
 

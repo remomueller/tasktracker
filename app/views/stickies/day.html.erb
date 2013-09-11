@@ -24,7 +24,7 @@
           </div>
         <% end %>
 
-        <%= link_to (anchor_date == date ? week_path(date: date.strftime("%Y%m%d")) : day_path(date: date.strftime("%Y%m%d"))), class: "btn #{date == anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do %>
+        <%= link_to day_path(date: date.strftime("%Y%m%d")), class: "btn #{date == anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do %>
           <%= day %>
           <% if day_index > 0 and day_index < 6 %>
 
@@ -43,7 +43,7 @@
 
 <%#= link_to 'Today', day_path, class: 'btn btn-default btn-block', style: 'margin-bottom:10px' %>
 
-<%= render partial: 'list', locals: { stickies: current_user.all_viewable_stickies.with_due_date_for_calendar(anchor_date, anchor_date), anchor_date: anchor_date } %>
+<%= render partial: 'list', locals: { stickies: current_user.all_viewable_stickies.with_due_date_for_calendar(anchor_date, anchor_date) } %>
 
 <div class="row">
   <% if tag = current_user.all_viewable_tags.where(name: params[:tag]).first %>
