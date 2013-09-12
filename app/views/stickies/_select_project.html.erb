@@ -1,0 +1,25 @@
+<% favorite_end = false %>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">Select Project</h4>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <% current_user.all_viewable_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").each_with_index do |project, index| %>
+      <% if favorite_end == false and not project.favorited_by?(current_user) and index != 0 %>
+        </div>
+        <h3>Other Projects</h3>
+        <div class="row">
+        <% favorite_end = true %>
+      <% end %>
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" style="margin-bottom:10px;">
+        <div style="white-space:nowrap;overflow:hidden;">
+          <%= link_to project.name, newbs3_stickies_path( bs3: '1', sticky: { project_id: project.id } ), remote: true, class: 'btn btn-default btn-sm btn-block', style: "border-color:#{project.color(current_user)}" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="modal-footer">
+  <%= link_to 'Close', '#', class: 'btn btn-default', data: { dismiss: 'modal' } %>
+</div>

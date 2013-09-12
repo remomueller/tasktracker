@@ -1,6 +1,3 @@
-loadDatePicker();
-loadTimePicker();
-
 <% if params[:bs3] == '1' %>
   $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content_edit") %>");
   $("#sticky-modal-new").modal('show');
@@ -9,3 +6,7 @@ loadTimePicker();
   showStickyModal();
   $("#sticky_description").focus();
 <% end %>
+
+initializeTypeahead();
+loadDatePicker();
+loadTimePicker();

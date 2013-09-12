@@ -1,3 +1,16 @@
+<% if params[:bs3] == '1' %>
+  <% if @sticky.project %>
+    $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content_edit", locals: { sticky: @sticky }) %>");
+    initializeTypeahead();
+    loadDatePicker();
+    loadTimePicker();
+    $("#sticky-modal-new").modal('show');
+  <% else %>
+    $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/select_project") %>");
+    $("#sticky-modal-new").modal('show');
+  <% end %>
+<% end %>
+
 <% @sticky.errors.each do |key, value| %>
   $('#sticky_<%= key %>').parent().parent().addClass('error');
 <% end %>

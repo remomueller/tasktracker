@@ -1,9 +1,9 @@
 class StickiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :api_authentication!, only: [ :index, :show, :create, :update ]
-  before_action :set_viewable_sticky, only: [ :show ]
+  before_action :api_authentication!, only: [ :index, :show, :showbs3, :create, :update ]
+  before_action :set_viewable_sticky, only: [ :show, :showbs3 ]
   before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
-  before_action :redirect_without_sticky, only: [ :show, :update, :destroy ]
+  before_action :redirect_without_sticky, only: [ :show, :showbs3, :update, :destroy ]
 
   def day
 
@@ -138,6 +138,21 @@ class StickiesController < ApplicationController
   # GET /stickies/1
   # GET /stickies/1.json
   def show
+  end
+
+  def showbs3
+    params[:bs3] = '1'
+    render 'show'
+  end
+
+  # GET /stickies/newbs3
+  def newbs3
+    @sticky = current_user.stickies.new(sticky_params)
+    @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1
+    respond_to do |format|
+      format.html { render 'new' }
+      format.js { render 'new' }
+    end
   end
 
   # GET /stickies/new

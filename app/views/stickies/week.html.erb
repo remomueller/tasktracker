@@ -69,6 +69,8 @@
 
 <%= render partial: 'list', locals: { stickies: sticky_scope.with_due_date_for_calendar(beginning_of_anchor_week, beginning_of_anchor_week + 6.days) } %>
 
+<% if false %>
+
 <%= hidden_field_tag 'tab', params[:tab] || 'tags' %>
 
 <ul class="nav nav-tabs" id="filter_selection">
@@ -125,5 +127,7 @@
   <%= link_to 'Clear Filters', week_path(date: anchor_date.strftime("%Y%m%d")), class: 'btn btn-xs btn-default' %>
 <% end %>
 
+
+<% end %>
 
 <%= render partial: 'modal' %>

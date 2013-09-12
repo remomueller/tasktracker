@@ -1,4 +1,9 @@
-<% if params[:from_calendar] == '1' %>
+<% if params[:bs3] == '1' %>
+  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
+  $("#sticky-modal-new").modal('show');
+  $("#list_sticky_<%= @sticky.id %>").replaceWith("<%= escape_javascript(render partial: "stickies/list_sticky_show", locals: { sticky: @sticky }) %>");
+
+<% elsif params[:from_calendar] == '1' %>
 
   <% if params[:from_checkbox] == '1' %>
     <% update_stickies = [@sticky.repeated_sticky] %>

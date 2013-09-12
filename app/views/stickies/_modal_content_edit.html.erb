@@ -1,11 +1,18 @@
 <% @title = @sticky.new_record? ? "New Sticky" : "Edit Sticky #{@sticky.name}" %>
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h4 class="modal-title"><%= @title %></h4>
+  <h4 class="modal-title">
+    <% if @sticky.project %>
+      <%= link_to @sticky.project.name, @sticky.project, target: '_blank' %> &middot;
+      <% @project_id = @sticky.project.id %>
+    <% end %>
+    <%= @title %>
+  </h4>
 </div>
 <div class="modal-body">
   <%= form_for(@sticky, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f| %>
     <%= hidden_field_tag :bs3, '1' %>
+    <%= f.hidden_field :project_id %>
     <%= render partial: 'stickies/inner_form', locals: { f: f } %>
   <% end %>
 

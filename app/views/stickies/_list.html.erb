@@ -1,3 +1,17 @@
+<div class="row">
+  <div class="col-xs-4">
+    <%= link_to 'Create Sticky', newbs3_stickies_path( bs3: '1' ), remote: true, class: 'btn btn-default btn-block' %>
+  </div>
+  <div class="col-xs-4">
+    <%= link_to 'Create Group', new_group_path, remote: true, class: 'btn btn-default btn-block' %>
+  </div>
+  <div class="col-xs-4">
+    <%= link_to 'Set Filters', '#', data: { object: 'suppress-click' }, class: 'btn btn-default btn-block' %>
+  </div>
+</div>
+<div class="clear">&nbsp;</div>
+
+
 <% if stickies.count == 0 %>
   <div class="alert alert-info">
     <strong>Heads up!</strong> No stickies in the selected time period.
@@ -7,15 +21,7 @@
     <div class="list-group sticky-list <%= 'list-group-complete' if completed %>">
       <%= link_to due_date.strftime("%a, %B %-d, %Y"), day_path(date: due_date.strftime("%Y%m%d")), class: 'list-group-item list-group-heading' if due_date %>
       <% stickies.each do |sticky| %>
-        <%= link_to sticky_path(sticky, bs3: '1'), remote: true, class: "list-group-item" do %>
-          <%= image_tag sticky.owner.avatar_url(32, "identicon"), class: 'pull-right img-rounded', style: 'margin-right:-11px;margin-top: -6px;margin-bottom: -6px;' if sticky.owner %>
-          <div style="overflow:hidden;white-space:nowrap;<%= 'margin-right:37px' if sticky.owner %>">
-            <% sticky.tags.each do |tag| %>
-              <%= @tag = tag; render partial: 'tags/show' %>
-            <% end %>
-            <%= sticky.description %>
-          </div>
-        <% end %>
+        <%= render partial: 'list_sticky_show', locals: { sticky: sticky } %>
       <% end %>
     </div>
   <% end %>

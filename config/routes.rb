@@ -44,6 +44,7 @@ TaskTracker::Application.routes.draw do
 
   resources :stickies do
     collection do
+      get :newbs3
       get :day
       get :week
       get :calendar # month
@@ -52,6 +53,7 @@ TaskTracker::Application.routes.draw do
       post :destroy_multiple
     end
     member do
+      get :showbs3
       post :move
       post :move_to_board
       post :complete

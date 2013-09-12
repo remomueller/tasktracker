@@ -1,0 +1,9 @@
+<%= link_to showbs3_sticky_path(sticky), remote: true, class: "list-group-item", id: "list_sticky_#{sticky.id}" do %>
+  <%= image_tag sticky.owner.avatar_url(32, "identicon"), class: 'pull-right img-rounded', style: 'margin-right:-11px;margin-top: -6px;margin-bottom: -6px;' if sticky.owner %>
+  <div style="overflow:hidden;white-space:nowrap;<%= 'margin-right:37px' if sticky.owner %>">
+    <% sticky.tags.each do |tag| %>
+      <%= @tag = tag; render partial: 'tags/show' %>
+    <% end %>
+    <%= sticky.description %>
+  </div>
+<% end %>

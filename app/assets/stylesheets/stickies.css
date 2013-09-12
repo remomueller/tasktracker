@@ -43,12 +43,14 @@ div.sticky-list a {
   zoom: 1;
   filter: alpha(opacity=50);
   opacity: 0.5;
+  text-decoration: line-through;
 }
 
 .list-group-complete:hover {
   zoom: 1;
   filter: alpha(opacity=100);
   opacity: 1.0;
+  text-decoration: none;
 }
 
 .table > thead > tr > td.info, .table > tbody > tr > td.info, .table > tfoot > tr > td.info, .table > thead > tr > th.info, .table > tbody > tr > th.info, .table > tfoot > tr > th.info, .table > thead > tr.info > td, .table > tbody > tr.info > td, .table > tfoot > tr.info > td, .table > thead > tr.info > th, .table > tbody > tr.info > th, .table > tfoot > tr.info > th {
