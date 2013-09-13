@@ -97,8 +97,9 @@ TaskTracker::Application.routes.draw do
   get "/search" => "application#search", as: :search
   get "/day" => "stickies#day", as: :day
   get "/week" => "stickies#week", as: :week
+  get "/month" => "stickies#calendar", as: :month
 
-  root to: "stickies#calendar"
+  root to: "stickies#week"
 
   # See how all your routes lay out with "rake routes"
 end

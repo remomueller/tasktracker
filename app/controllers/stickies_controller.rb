@@ -24,7 +24,11 @@ class StickiesController < ApplicationController
       params[:assigned_to_me] = (current_user.settings[:assigned_to_me] == '1') ? '1' : '0'
     end
 
-    @selected_date = parse_date(params[:selected_date], Date.today)
+    if params[:date].blank?
+      @selected_date = parse_date(params[:selected_date], Date.today)
+    else
+      @selected_date = (Date.parse(params[:date]) rescue Date.today)
+    end
     @start_date = @selected_date.beginning_of_month
     @end_date = @selected_date.end_of_month
 

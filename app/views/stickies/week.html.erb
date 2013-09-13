@@ -40,7 +40,7 @@
       <% date = beginning %>
       <% while date <= ending %>
         <th class="text-center <%= 'hidden-xs' if (anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (anchor_date - date).abs.days > 50.days %>">
-          <%= (date + 6.days).strftime("%b") if date.day == 1 or date.month != (date + 6.days).month %>
+          <%= link_to (date + 6.days).strftime("%b"), month_path( date: date.strftime("%Y%m01")), class: 'btn btn-default btn-xs' if date.day == 1 or date.month != (date + 6.days).month %>
         </th>
         <% date = date + 1.week %>
       <% end %>

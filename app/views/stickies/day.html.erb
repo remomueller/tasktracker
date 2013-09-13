@@ -43,7 +43,7 @@
 
 <%#= link_to 'Today', day_path, class: 'btn btn-default btn-block', style: 'margin-bottom:10px' %>
 
-<%= render partial: 'list', locals: { stickies: current_user.all_viewable_stickies.with_due_date_for_calendar(anchor_date, anchor_date) } %>
+<%= render partial: 'list', locals: { stickies: current_user.all_viewable_stickies.with_due_date_for_calendar(anchor_date, anchor_date), url: day_path( date: anchor_date.strftime("%Y%m%d") ) } %>
 
 <div class="row">
   <% if tag = current_user.all_viewable_tags.where(name: params[:tag]).first %>
