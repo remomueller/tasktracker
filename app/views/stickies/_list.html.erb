@@ -1,17 +1,33 @@
 <div class="row">
   <div class="col-xs-4">
-    <%= link_to 'Create Sticky', newbs3_stickies_path( bs3: '1' ), remote: true, class: 'btn btn-default btn-block' %>
+    <div data-object="visible-sticky">
+      <%= link_to 'Create Sticky', newbs3_stickies_path( bs3: '1' ), remote: true, class: 'btn btn-default btn-block' %>
+    </div>
+    <div data-object="visible-filter" style="display:none">
+      <%= link_to 'Save Filters', '#', class: 'btn btn-primary btn-block', data: { object: 'save-filters' } %>
+    </div>
   </div>
   <div class="col-xs-4">
-    <%= link_to 'Create Group', new_group_path, remote: true, class: 'btn btn-default btn-block' %>
+    <div data-object="visible-sticky">
+      <%= link_to 'Create Group', new_group_path, remote: true, class: 'btn btn-default btn-block' %>
+    </div>
+    <div data-object="visible-filter" style="display:none">
+      <%= link_to 'Reset Filters', '#', remote: true, class: 'btn btn-danger-inverse btn-block', data: { object: 'reset-filters' } %>
+    </div>
   </div>
   <div class="col-xs-4">
-    <%= link_to 'Set Filters', '#', data: { object: 'suppress-click' }, class: 'btn btn-default btn-block' %>
+    <div data-object="visible-sticky">
+      <%= link_to 'Filters', '#', data: { object: 'show-filters' }, class: 'btn btn-default btn-block' %>
+    </div>
+    <div data-object="visible-filter" style="display:none">
+      <%= link_to 'Cancel', '#', remote: true, class: 'btn btn-default btn-block', data: { object: 'cancel-filters' } %>
+    </div>
   </div>
 </div>
 <div class="clear">&nbsp;</div>
 
 
+<div data-object="visible-sticky">
 <% if stickies.count == 0 %>
   <div class="alert alert-info">
     <strong>Heads up!</strong> No stickies in the selected time period.
@@ -26,3 +42,60 @@
     </div>
   <% end %>
 <% end %>
+</div>
+
+<div data-object="visible-filter" style="display:none">
+  <%= form_tag url, id: 'filters-form' do %>
+
+    <ul class="nav nav-tabs" id="filter_selection">
+      <li class="active"><a href="#tags">Tags</a></li>
+      <li><a href="#users">Users</a></li>
+      <li><a href="#projects">Projects</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="tags">
+        <div class="row">
+          <% current_user.all_tags.order(:project_id, :name).group_by(&:name).each do |name, tags| %>
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+              <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:tags].to_s.split(',').include?(name) %>" style="margin-bottom: 0px;background-color: <%= tags.first.color if tags.first %>">
+                <%= check_box_tag "tag_names[]", name, params[:tags].to_s.split(',').include?(name) %>
+                <div class="tag-name" style="overflow:hidden;white-space:nowrap"><%= name %></div>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="tab-pane" id="users">
+        <div class="row">
+          <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+            <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:owners].to_s.split(',').include?(current_user.name) %>" style="margin-bottom: 0px;background-color:#efefef;overflow:hidden;font-weight:bold;color:#333">
+              <%= check_box_tag "user_names[]", current_user.name, params[:owners].to_s.split(',').include?(current_user.name) %>
+              My Stickies
+            </label>
+          </div>
+          <% (current_user.associated_users.order('last_name, first_name') - [current_user]).each do |user| %>
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+              <label class="checkbox tag-checkbox <%= 'tag-selected' if params[:owners].to_s.split(',').include?(user.name) %>" style="margin-bottom: 0px;background-color:#efefef;font-weight:bold;color:#333">
+                <%= check_box_tag "user_names[]", user.name, params[:owners].to_s.split(',').include?(user.name) %>
+                <div style="overflow:hidden;white-space:nowrap"><%= user.reverse_name %></div>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="tab-pane" id="projects">
+        <div class="row">
+          <% current_user.all_viewable_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").each do |project| %>
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+              <label class="checkbox tag-checkbox" style="margin-bottom: 0px;background-color:#efefef;font-weight:bold;color:#333">
+                <%= check_box_tag "project_ids[]", project.id, params[:project_ids].to_s.split(',').include?(project.id.to_s) %>
+                <div style="overflow:hidden;white-space:nowrap"><%= project.name %></div>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

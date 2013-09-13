@@ -1,3 +1,29 @@
+@showFilters = () ->
+  $('[data-object~="visible-sticky"]').hide()
+  $('[data-object~="visible-filter"]').show()
+  false
+
+@hideFilters = () ->
+  $('[data-object~="visible-filter"]').hide()
+  $('[data-object~="visible-sticky"]').show()
+  false
+
+@resetStickyFilters = () ->
+  url = $("#filters-form").attr('action')
+  window.location = url
+  false
+
+@saveFilters = () ->
+  project_ids = $("[name='project_ids[]']:checked").map( () -> $(this).val() ).get()
+  tags = $("[name='tag_names[]']:checked").map( () -> $(this).val() ).get()
+  owners = $("[name='user_names[]']:checked").map( () -> $(this).val() ).get()
+  url = $("#filters-form").attr('action')
+  url = url + "&project_ids=#{project_ids}" unless project_ids.length == 0
+  url = url + "&owners=#{owners}" unless owners.length == 0
+  url = url + "&tags=#{tags}" unless tags.length == 0
+  window.location = url
+  false
+
 @selectTab = () ->
   $("#filter_selection a[href='##{$('#tab').val()}']").tab('show')
 
@@ -294,6 +320,22 @@ jQuery ->
     .on('click', '[data-object~="sticky-submit"]', () ->
       $('[data-object~="sticky-submit"]').attr('disabled', 'disabled')
       $($(this).data('target')).submit()
+      false
+    )
+    .on('click', '[data-object~="show-filters"]', () ->
+      showFilters()
+      false
+    )
+    .on('click', '[data-object~="cancel-filters"]', () ->
+      hideFilters()
+      false
+    )
+    .on('click', '[data-object~="save-filters"]', () ->
+      saveFilters()
+      false
+    )
+    .on('click', '[data-object~="reset-filters"]', () ->
+      resetStickyFilters()
       false
     )
 
