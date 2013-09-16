@@ -1,5 +1,8 @@
 ## 0.27.2
 
+### Bug Fix
+- Fixed the welcome dialog popup to use Boostrap 3 styling
+
 ## 0.27.1 (September 9, 2013)
 
 ### Enhancements
