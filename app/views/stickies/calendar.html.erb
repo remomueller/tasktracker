@@ -1,4 +1,4 @@
-<% @title = 'Calendar' %>
+<% @title = 'Month' %>
 
 <div style="display:none">
   <%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(from_calendar: '1'), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' %>
@@ -57,10 +57,6 @@
     </div>
   </div>
 </div>
-
-<section id="projects">
-  <%= render partial: 'projects/calendar' %>
-</section>
 
 <%= render partial: 'layouts/welcome_dialog' if current_user.all_viewable_projects.size == 0 %>
 
