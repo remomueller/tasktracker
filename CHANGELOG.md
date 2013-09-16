@@ -3,6 +3,7 @@
 ### Bug Fix
 - Fixed the welcome dialog popup to use Boostrap 3 styling
 - Fixed the delete sticky in group dialog to use Bootstrap 3 styling
+- Fixed styling on user edit page
 
 ## 0.27.1 (September 9, 2013)
 
