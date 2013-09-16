@@ -1,22 +1,26 @@
-<div id="delete-sticky-dialog_<%= sticky.id %>" class="modal" style="display:none">
-  <div class="modal-header">
-    Delete Sticky in Group:
-    <a class="close" data-dismiss="modal">×</a>
-  </div>
-  <div class="modal-body">
-	<%= form_tag sticky_path(sticky, from_calendar: params[:from_calendar].to_i), method: :delete, id: "sticky_delete_form_#{sticky.id}" do %>
-	  <div class="form-group radio">
-      <div class="col-md-10">
-  	    <label><%= radio_button_tag 'discard', 'single', true %> Only this sticky</label>
-  	    <label><%= radio_button_tag 'discard', 'following' %> This sticky and all following</label>
-  	    <label><%= radio_button_tag 'discard', 'all' %> All stickies in group</label>
+<div class="modal" id="delete-sticky-dialog_<%= sticky.id %>" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Delete Sticky in Group</h4>
       </div>
-	  </div>
-  <% end %>
-  </div>
+      <div class="modal-body">
+    	<%= form_tag sticky_path(sticky, from_calendar: params[:from_calendar].to_i), method: :delete, id: "sticky_delete_form_#{sticky.id}" do %>
+    	  <div class="row">
+          <div class="col-md-offset-2 col-md-10">
+            <div class="radio"><label><%= radio_button_tag 'discard', 'single', true %> Only this sticky</label></div>
+      	    <div class="radio"><label><%= radio_button_tag 'discard', 'following' %> This sticky and all following</label></div>
+      	    <div class="radio"><label><%= radio_button_tag 'discard', 'all' %> All stickies in group</label></div>
+          </div>
+    	  </div>
+      <% end %>
+      </div>
 
-  <div class="modal-footer">
-    <%= link_to 'Close', '#', class: 'btn btn-default', data: { target: "#delete-sticky-dialog_#{sticky.id}", object: 'modal-hide' } %>
-    <%= link_to 'Delete Sticky(ies)', '#', class: 'btn btn-danger-inverse', data: { target: "#sticky_delete_form_#{sticky.id}", object: 'submit' } %>
+      <div class="modal-footer">
+        <%= link_to 'Close', '#', class: 'btn btn-default', data: { target: "#delete-sticky-dialog_#{sticky.id}", object: 'modal-hide' } %>
+        <%= link_to 'Delete Sticky(ies)', '#', class: 'btn btn-danger-inverse', data: { target: "#sticky_delete_form_#{sticky.id}", object: 'submit' } %>
+      </div>
+    </div>
   </div>
 </div>
