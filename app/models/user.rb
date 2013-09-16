@@ -35,6 +35,7 @@ class User < ActiveRecord::Base
   scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
   scope :system_admins, -> { where system_admin: true }
   scope :with_project, lambda { |*args| where( "users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1] ) }
+  scope :with_name, lambda { |arg| where("(users.first_name || ' ' || users.last_name) IN (?)", arg) }
 
   # Model Validation
   validates_presence_of     :first_name

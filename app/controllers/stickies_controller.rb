@@ -4,13 +4,33 @@ class StickiesController < ApplicationController
   before_action :set_viewable_sticky, only: [ :show, :showbs3 ]
   before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
   before_action :redirect_without_sticky, only: [ :show, :showbs3, :update, :destroy ]
+  before_action :set_filtered_sticky_scope, only: [ :day, :week ]
 
   def day
 
   end
 
   def week
-
+    week_padding = 12
+    @anchor_date = (Date.parse(params[:date]) rescue Date.today)
+    @beginning_of_anchor_week = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
+    @beginning = @beginning_of_anchor_week - week_padding.weeks
+    @ending = @beginning + (2 * week_padding + 1).weeks - 1.day
+    completed_dates = @stickies.with_due_date_for_calendar(@beginning, @beginning + 6.months - 1.day).where( completed: true ).pluck( :due_date )
+    incomplete_dates = @stickies.with_due_date_for_calendar(@beginning, @beginning + 6.months - 1.day).where( completed: false ).pluck( :due_date )
+    @date_count_hash = {}
+    ['S','M','T','W','R','F','S'].each_with_index do |day, day_index|
+      date = @beginning
+      while date <= @ending
+        current_date = (date + day_index.days)
+        completed = completed_dates.select{|d| current_date == d.to_date }.count
+        incomplete = incomplete_dates.select{|d| current_date == d.to_date }.count
+        @date_count_hash[current_date.strftime("%Y%m%d")] = { completed: completed, incomplete: incomplete }
+        date = date + 1.week
+      end
+    end
+    # @max_completed_count = @date_count_hash.collect{|k,v| v[:completed]}.max || 0
+    @max_incomplete_count = @date_count_hash.collect{|k,v| v[:incomplete]}.max || 0
   end
 
   def calendar
@@ -409,6 +429,14 @@ class StickiesController < ApplicationController
       params.require(:sticky).permit(
         :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
       )
+    end
+
+    def set_filtered_sticky_scope
+      sticky_scope = current_user.all_viewable_stickies
+      sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tags].to_s.split(',')).pluck(:id)) unless params[:tags].blank?
+      sticky_scope = sticky_scope.where(owner_id: User.where( deleted: false ).with_name(params[:owners].to_s.split(',')).pluck(:id)) unless params[:owners].blank?
+      sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).pluck(:id)) unless params[:project_ids].blank?
+      @stickies = sticky_scope
     end
 
 end

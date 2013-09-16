@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-xs-4">
+    <div data-object="visible-sticky">
+      <%= link_to 'Create Sticky', newbs3_stickies_path( bs3: '1' ), remote: true, class: 'btn btn-default btn-block' %>
+    </div>
+    <div data-object="visible-filter" style="display:none">
+      <%= link_to 'Save Filters', '#', class: 'btn btn-primary btn-block', data: { object: 'save-filters' } %>
+    </div>
+  </div>
+  <div class="col-xs-4">
+    <div data-object="visible-sticky">
+      <%= link_to 'Create Group', new_group_path, remote: true, class: 'btn btn-default btn-block' %>
+    </div>
+    <div data-object="visible-filter" style="display:none">
+      <%= link_to 'Reset Filters', '#', remote: true, class: 'btn btn-danger-inverse btn-block', data: { object: 'reset-filters' } %>
+    </div>
+  </div>
+  <div class="col-xs-4">
+    <div data-object="visible-sticky">
+      <%= link_to 'Filters', '#', data: { object: 'show-filters' }, class: 'btn btn-default btn-block' %>
+    </div>
+    <div data-object="visible-filter" style="display:none">
+      <%= link_to 'Cancel', '#', remote: true, class: 'btn btn-default btn-block', data: { object: 'cancel-filters' } %>
+    </div>
+  </div>
+</div>
