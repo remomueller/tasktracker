@@ -33,27 +33,11 @@ class StickiesController < ApplicationController
   end
 
   def month
-    # if params[:save_settings] == '1'
-    #   user_settings = current_user.settings
-    #   user_settings[:calendar_status] = params[:status] || []
-    #   user_settings[:assigned_to_me] = (params[:assigned_to_me] == '1') ? '1' : '0'
-    #   current_user.update_attributes settings: user_settings
-    # else
-    #   params[:status] = current_user.settings[:calendar_status] || []
-    #   params[:assigned_to_me] = (current_user.settings[:assigned_to_me] == '1') ? '1' : '0'
-    # end
-
     @start_date = @anchor_date.beginning_of_month
     @end_date = @anchor_date.end_of_month
 
     @first_sunday = @start_date - @start_date.wday.day
     @last_saturday = @end_date + (6 - @end_date.wday).day
-
-    # sticky_scope = current_user.all_viewable_stickies.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
-
-    # sticky_scope = sticky_scope.where(project_id: (current_user.all_viewable_projects.collect{|p| p.id} - current_user.hidden_project_ids))
-
-    # sticky_scope = sticky_scope.where(owner_id: current_user.id) if params[:assigned_to_me] == '1'
 
     @stickies = @stickies.with_due_date_for_calendar(@first_sunday, @last_saturday)
   end
@@ -323,7 +307,7 @@ class StickiesController < ApplicationController
         @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
 
         if params[:from_calendar] == '1'
-          format.html { redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y')) }
+          format.html { redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d') ) }
         elsif params[:from] == 'index'
           format.html { redirect_to stickies_path }
         elsif params[:from] == 'project'
@@ -358,7 +342,7 @@ class StickiesController < ApplicationController
     respond_to do |format|
       format.html do
         if params[:from_calendar] == '1'
-          redirect_to calendar_stickies_path(selected_date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%m/%d/%Y'))
+          redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d'))
         else
           redirect_to stickies_path
         end

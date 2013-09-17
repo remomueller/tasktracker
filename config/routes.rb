@@ -48,7 +48,6 @@ TaskTracker::Application.routes.draw do
       get :day
       get :week
       get :month
-      get :calendar # month
       get :template
       post :complete_multiple
       post :destroy_multiple
