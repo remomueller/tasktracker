@@ -1,0 +1,18 @@
+$("#sticky-modal-new").modal('hide');
+
+if ( $("#list_sticky_<%= @sticky.id %>").siblings().length == 1 )
+  $("#list_sticky_<%= @sticky.id %>").parent().remove();
+else
+  $("#list_sticky_<%= @sticky.id %>").remove();
+
+
+sticky_list = $(".sticky-list[data-due-date='<%= @sticky.due_date.strftime('%Y%m%d') if @sticky.due_date %>'][data-completed='<%= @sticky.completed %>']");
+
+
+
+if ( sticky_list.length == 1 )
+  sticky_list.append("<%= escape_javascript(render partial: "stickies/list_sticky_show", locals: { sticky: @sticky }) %>");
+else
+  $("#sticky-day-lists").append("<%= escape_javascript(render partial: "stickies/day_list", locals: { completed: @sticky.completed, due_date: @sticky.due_date, stickies: [@sticky] }) %>");
+
+sortDays();

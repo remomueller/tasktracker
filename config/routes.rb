@@ -47,6 +47,7 @@ TaskTracker::Application.routes.draw do
       get :newbs3
       get :day
       get :week
+      get :month
       get :calendar # month
       get :template
       post :complete_multiple
@@ -54,6 +55,7 @@ TaskTracker::Application.routes.draw do
     end
     member do
       get :showbs3
+      post :completebs3
       post :move
       post :move_to_board
       post :complete
@@ -97,7 +99,7 @@ TaskTracker::Application.routes.draw do
   get "/search" => "application#search", as: :search
   get "/day" => "stickies#day", as: :day
   get "/week" => "stickies#week", as: :week
-  get "/month" => "stickies#calendar", as: :month
+  get "/month" => "stickies#month", as: :month
 
   root to: "stickies#week"
 

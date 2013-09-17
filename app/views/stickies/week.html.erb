@@ -9,7 +9,7 @@
       <% date = @beginning %>
       <% while date <= @ending %>
         <th class="text-center <%= 'hidden-xs' if (@anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (@anchor_date - date).abs.days > 50.days %>">
-          <%= link_to (date + 6.days).strftime("%b"), month_path( date: date.strftime("%Y%m01")), class: 'btn btn-default btn-xs' if date.day == 1 or date.month != (date + 6.days).month %>
+          <%= link_to (date + 6.days).strftime("%b"), month_path( date: date.strftime("%Y%m01"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), class: 'btn btn-default btn-xs' if date.day == 1 or date.month != (date + 6.days).month %>
         </th>
         <% date = date + 1.week %>
       <% end %>
@@ -38,10 +38,8 @@
 </table>
 
 
-<%= render partial: 'create_and_filter_menu' %>
+<%= render partial: 'create_and_filter_menu', locals: { url: week_path( date: @anchor_date.strftime("%Y%m%d") ) } %>
 
-<div class="clear">&nbsp;</div>
-
-<%= render partial: 'list', locals: { stickies: @stickies.with_due_date_for_calendar(@beginning_of_anchor_week, @beginning_of_anchor_week + 6.days), url: week_path( date: @anchor_date.strftime("%Y%m%d") ) } %>
+<%= render partial: 'list', locals: { stickies: @stickies.with_due_date_for_calendar(@beginning_of_anchor_week, @beginning_of_anchor_week + 6.days) } %>
 
 <%= render partial: 'modal' %>

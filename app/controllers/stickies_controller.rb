@@ -2,17 +2,16 @@ class StickiesController < ApplicationController
   before_action :authenticate_user!
   before_action :api_authentication!, only: [ :index, :show, :showbs3, :create, :update ]
   before_action :set_viewable_sticky, only: [ :show, :showbs3 ]
-  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
-  before_action :redirect_without_sticky, only: [ :show, :showbs3, :update, :destroy ]
-  before_action :set_filtered_sticky_scope, only: [ :day, :week ]
+  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :update, :destroy ]
+  before_action :redirect_without_sticky, only: [ :show, :showbs3, :update, :completebs3, :destroy ]
+  before_action :set_filtered_sticky_scope, only: [ :day, :week, :month ]
 
   def day
-
+    @beginning = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
   end
 
   def week
     week_padding = 12
-    @anchor_date = (Date.parse(params[:date]) rescue Date.today)
     @beginning_of_anchor_week = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
     @beginning = @beginning_of_anchor_week - week_padding.weeks
     @ending = @beginning + (2 * week_padding + 1).weeks - 1.day
@@ -33,37 +32,30 @@ class StickiesController < ApplicationController
     @max_incomplete_count = @date_count_hash.collect{|k,v| v[:incomplete]}.max || 0
   end
 
-  def calendar
-    if params[:save_settings] == '1'
-      user_settings = current_user.settings
-      user_settings[:calendar_status] = params[:status] || []
-      user_settings[:assigned_to_me] = (params[:assigned_to_me] == '1') ? '1' : '0'
-      current_user.update_attributes settings: user_settings
-    else
-      params[:status] = current_user.settings[:calendar_status] || []
-      params[:assigned_to_me] = (current_user.settings[:assigned_to_me] == '1') ? '1' : '0'
-    end
+  def month
+    # if params[:save_settings] == '1'
+    #   user_settings = current_user.settings
+    #   user_settings[:calendar_status] = params[:status] || []
+    #   user_settings[:assigned_to_me] = (params[:assigned_to_me] == '1') ? '1' : '0'
+    #   current_user.update_attributes settings: user_settings
+    # else
+    #   params[:status] = current_user.settings[:calendar_status] || []
+    #   params[:assigned_to_me] = (current_user.settings[:assigned_to_me] == '1') ? '1' : '0'
+    # end
 
-    if params[:date].blank?
-      @selected_date = parse_date(params[:selected_date], Date.today)
-    else
-      @selected_date = (Date.parse(params[:date]) rescue Date.today)
-    end
-    @start_date = @selected_date.beginning_of_month
-    @end_date = @selected_date.end_of_month
+    @start_date = @anchor_date.beginning_of_month
+    @end_date = @anchor_date.end_of_month
 
     @first_sunday = @start_date - @start_date.wday.day
     @last_saturday = @end_date + (6 - @end_date.wday).day
 
-    sticky_scope = current_user.all_viewable_stickies.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
+    # sticky_scope = current_user.all_viewable_stickies.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
 
-    sticky_scope = sticky_scope.where(project_id: (current_user.all_viewable_projects.collect{|p| p.id} - current_user.hidden_project_ids))
+    # sticky_scope = sticky_scope.where(project_id: (current_user.all_viewable_projects.collect{|p| p.id} - current_user.hidden_project_ids))
 
-    sticky_scope = sticky_scope.where(owner_id: current_user.id) if params[:assigned_to_me] == '1'
+    # sticky_scope = sticky_scope.where(owner_id: current_user.id) if params[:assigned_to_me] == '1'
 
-    sticky_scope = sticky_scope.with_due_date_for_calendar(@first_sunday, @last_saturday)
-
-    @stickies = sticky_scope
+    @stickies = @stickies.with_due_date_for_calendar(@first_sunday, @last_saturday)
   end
 
   # GET /stickies
@@ -272,6 +264,11 @@ class StickiesController < ApplicationController
     end
   end
 
+  def completebs3
+    @sticky.update( completed: params[:completed] )
+    @sticky.send_email_if_recently_completed(current_user)
+  end
+
   # This is always from calendar, the project one always uses complete_multiple...(todo refactor)
   def complete
     params[:hide_show] = '1'
@@ -279,7 +276,7 @@ class StickiesController < ApplicationController
     if @sticky
       @sticky.update_attributes completed: (params[:undo] != 'true')
       @sticky.send_email_if_recently_completed(current_user)
-      if params[:from_calendar] == '1' or params[:from_index] == '1'
+      if params[:from_calendar] == '1' or params[:from_index] == '1' or params[:bs3] == '1'
         render 'update'
       else
         @stickies = Sticky.current.where(id: @sticky.id)
@@ -432,6 +429,8 @@ class StickiesController < ApplicationController
     end
 
     def set_filtered_sticky_scope
+      @anchor_date = (Date.parse(params[:date]) rescue Date.today)
+
       sticky_scope = current_user.all_viewable_stickies
       sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tags].to_s.split(',')).pluck(:id)) unless params[:tags].blank?
       sticky_scope = sticky_scope.where(owner_id: User.where( deleted: false ).with_name(params[:owners].to_s.split(',')).pluck(:id)) unless params[:owners].blank?

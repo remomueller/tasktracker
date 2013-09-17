@@ -14,10 +14,16 @@
       <% end %>
       <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" style="margin-bottom:10px;">
         <div style="white-space:nowrap;overflow:hidden;">
-          <%= link_to project.name, newbs3_stickies_path( bs3: '1', sticky: { project_id: project.id } ), remote: true, class: 'btn btn-default btn-sm btn-block', style: "border-color:#{project.color(current_user)}" %>
+          <%= link_to project.name, newbs3_stickies_path( bs3: '1', sticky: { project_id: project.id, due_date: params[:due_date] } ), remote: true, class: 'btn btn-default btn-block', style: "border-color:#{project.color(current_user)}" %>
         </div>
       </div>
     <% end %>
+  </div>
+  <div class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+      <%= link_to 'Create New Project', '#', class: 'btn btn-primary btn-block', data: { object: 'suppress-click' } %>
+    </div>
   </div>
 </div>
 <div class="modal-footer">

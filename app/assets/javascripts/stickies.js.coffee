@@ -1,3 +1,9 @@
+@sortDays = () ->
+  $(".sticky-list").sort( (a,b) ->
+    "#{a.data('completed')}#{a.data('due_date')}" > "#{b.data('completed')}#{b.data('due_date')}"
+  )
+  alert 'sorted!'
+
 @showFilters = () ->
   $('[data-object~="visible-sticky"]').hide()
   $('[data-object~="visible-filter"]').show()
@@ -24,45 +30,20 @@
   window.location = url
   false
 
-@selectTab = () ->
-  $("#filter_selection a[href='##{$('#tab').val()}']").tab('show')
-
-@goBackOneMonth = () ->
-  now = new Date $('#selected_date').val()
-  now = new Date() if isNaN(now.getFullYear())
-  new_month = new Date now.getFullYear(), now.getMonth()-1, 1
-  $('#selected_date').val((new_month.getMonth() + 1) + "/" + new_month.getDate() + "/" + new_month.getFullYear())
-  $('#selected_date').change()
-
-@goForwardOneMonth = () ->
-  now = new Date $('#selected_date').val()
-  now = new Date() if isNaN(now.getFullYear())
-  new_month = new Date now.getFullYear(), now.getMonth()+1, 1
-  $('#selected_date').val((new_month.getMonth() + 1) + "/" + new_month.getDate() + "/" + new_month.getFullYear())
-  $('#selected_date').change()
-
-@getToday = () ->
-  now = new Date()
-  $('#selected_date').val((now.getMonth() + 1) + "/" + now.getDate() + "/" + now.getFullYear())
-  $('#selected_date').change()
-
 @activateCalendarStickyPopups = () ->
   $(".sticky_popup")
     .draggable(
       revert: 'invalid'
       helper: 'clone'
     )
-  $('[rel~="popover"]')
-    .popover(
-      trigger: 'hover'
-    )
+  $('[rel~="popover"]').popover( trigger: 'hover' )
 
 @activateCalendarDroppables = () ->
   $(".droppable").droppable(
     hoverClass: "hover",
     drop: ( event, ui ) ->
 
-      date = $(this).attr('data-due-date').replace(/day_/, '').replace(/_/g, '/')
+      date = $(this).data('data-due-date').replace(/day_/, '') #.replace(/_/g, '/')
       element_id = ui.draggable.attr('id')
       sticky_id = element_id.replace(/sticky_/, '').replace(/_popup/,'')
 
@@ -108,15 +89,6 @@
   $('#tag_filter').val('any')
   uncheckAllWithSelector('.tag-box')
   $('#stickies_search').submit()
-
-@openCalendarPopup = (selected_date) ->
-  if $('#welcome-dialog').length > 0
-    $('#welcome-dialog').modal('toggle')
-  else
-    $('#initial_due_date').val(selected_date)
-    $('#sticky_due_date').val(selected_date)
-    # $('#new-sticky-or-group-dialog').modal( dynamic: true )
-    $.get(root_url + "stickies/new", "sticky[due_date]=#{selected_date}&from_calendar=1", null, "script")
 
 @markCompletion = (sticky_id, completed) ->
   if completed
@@ -171,10 +143,7 @@
   $("#sticky_modal_wrapper").hide()
 
 @loadNewStickyModal = () ->
-  if $('#welcome-dialog').length > 0
-    $('#welcome-dialog').modal('toggle')
-  else
-    $('#new-sticky-button').click()
+  $('#new-sticky-button').click()
   false
 
 @clearSearchValues = () ->
@@ -194,18 +163,6 @@ jQuery ->
     )
 
   $(document)
-    .on('click', '[data-object~="calendar-next-month"]', () ->
-      goForwardOneMonth()
-      false
-    )
-    .on('click', '[data-object~="calendar-previous-month"]', () ->
-      goBackOneMonth()
-      false
-    )
-    .on('click', '[data-object~="calendar-today"]', () ->
-      getToday()
-      false
-    )
     .on('click', '[data-object~="export"]', () ->
       window.location = $('#stickies_search').attr('action') + '.' + $(this).data('format') + '?' + $('#stickies_search').serialize()
     )
@@ -338,10 +295,20 @@ jQuery ->
       resetStickyFilters()
       false
     )
+    .on('dblclick', '[data-object~="create-sticky"]', () ->
+      params = {}
+      params.bs3 = 1
+      params.due_date = $(this).data('due-date')
+      $.get(root_url + 'stickies/newbs3', params, null, "script")
+      false
+    )
 
   $('#filter_selection a').click( (e) ->
     e.preventDefault()
     $(this).tab('show')
   )
 
-  selectTab()
+  if $("[data-object='load-month-popovers']").length > 0
+    activateCalendarStickyPopups()
+    activateCalendarDroppables()
+

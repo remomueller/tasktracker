@@ -152,8 +152,6 @@ jQuery ->
         $("#global-search").blur()
         return
       return if $("input, textarea, select, a").is(":focus")
-      goBackOneMonth() if e.which == 37
-      goForwardOneMonth() if e.which == 39
       if $("#sticky-backdrop").is(':visible')
         hideStickyModal()               if e.which == 27
       else
@@ -186,7 +184,5 @@ jQuery ->
   )
 
   loadColorSelectors()
-
-  $('#welcome-dialog').modal()
 
   initializeTypeahead()

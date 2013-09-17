@@ -1,5 +1,3 @@
-$('#welcome-dialog').modal('hide');
-$('#welcome-dialog').remove();
 $('#projects').html("<%= escape_javascript(render("projects/calendar")) %>");
 
 flashMessage("<strong>Project Created!</strong> Double-click on the calendar to create a task.");

@@ -3,10 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 @loadNewGroupModal = () ->
-  if $('#welcome-dialog').length > 0
-    $('#welcome-dialog').modal('toggle')
-  else
-    $('#new-group-button').click()
+  $('#new-group-button').click()
   false
 
 jQuery ->

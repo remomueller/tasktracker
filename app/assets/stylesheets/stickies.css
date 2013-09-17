@@ -7,10 +7,23 @@ table.day-selection {
   table-layout: fixed;
 }
 
-
 table.day-selection td {
   text-align: center;
 }
+
+table.month-stickies {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+  clear: both;
+  table-layout: fixed;
+}
+
+table.month-stickies th {
+  text-align: center;
+  padding: 0px;
+}
+
 
 td.current-week, th.current-week {
   border-left:  2px solid #dddddd !important;
