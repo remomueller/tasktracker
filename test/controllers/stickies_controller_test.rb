@@ -18,82 +18,15 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get calendar" do
-    get :calendar
-    assert_not_nil assigns(:selected_date)
+  test "should get calendar month" do
+    get :month
+    assert_not_nil assigns(:anchor_date)
     assert_not_nil assigns(:start_date)
     assert_not_nil assigns(:end_date)
     assert_not_nil assigns(:first_sunday)
     assert_not_nil assigns(:last_saturday)
     assert_not_nil assigns(:stickies)
-    assert_template 'calendar'
-  end
-
-  test "should get calendar and set user calendar status" do
-    get :calendar, status: ['completed'], save_settings: '1', format: 'js', selected_date: '12/01/2011'
-    users(:valid).reload # Needs reload to avoid stale object
-    assert_equal ['completed'], users(:valid).settings[:calendar_status]
-    assert_not_nil assigns(:selected_date)
-    assert_not_nil assigns(:start_date)
-    assert_not_nil assigns(:end_date)
-    assert_not_nil assigns(:first_sunday)
-    assert_not_nil assigns(:last_saturday)
-    assert_not_nil assigns(:stickies)
-    assert_template 'calendar'
-  end
-
-  test "should set assigned_to_me status" do
-    get :calendar, assigned_to_me: '1', save_settings: '1', format: 'js'
-    users(:valid).reload # Needs reload to avoid stale object
-    assert_equal '1', users(:valid).settings[:assigned_to_me]
-    assert_template 'calendar'
-  end
-
-  test "should unset assigned_to_me status" do
-    get :calendar, save_settings: '1', status: ['planned', 'completed'], selected_date: '12/01/2011', format: 'js'
-    users(:valid).reload # Needs reload to avoid stale object
-    assert_equal '0', users(:valid).settings[:assigned_to_me]
-    assert_template 'calendar'
-  end
-
-  test "should not change assigned_to_me status" do
-    get :calendar
-    users(:valid).reload # Needs reload to avoid stale object
-    assert_equal '', users(:valid).settings[:assigned_to_me].to_s
-    assert_template 'calendar'
-  end
-
-  test "should get calendar by due date" do
-    get :calendar, format: 'js'
-    assert_not_nil assigns(:selected_date)
-    assert_not_nil assigns(:start_date)
-    assert_not_nil assigns(:end_date)
-    assert_not_nil assigns(:first_sunday)
-    assert_not_nil assigns(:last_saturday)
-    assert_not_nil assigns(:stickies)
-    assert_template 'calendar'
-  end
-
-  test "should get calendar stickies by start date" do
-    get :calendar, date_type: 'start_date', format: 'js'
-    assert_not_nil assigns(:selected_date)
-    assert_not_nil assigns(:start_date)
-    assert_not_nil assigns(:end_date)
-    assert_not_nil assigns(:first_sunday)
-    assert_not_nil assigns(:last_saturday)
-    assert_not_nil assigns(:stickies)
-    assert_template 'calendar'
-  end
-
-  test "should get calendar stickies by end date" do
-    get :calendar, date_type: 'end_date', format: 'js'
-    assert_not_nil assigns(:selected_date)
-    assert_not_nil assigns(:start_date)
-    assert_not_nil assigns(:end_date)
-    assert_not_nil assigns(:first_sunday)
-    assert_not_nil assigns(:last_saturday)
-    assert_not_nil assigns(:stickies)
-    assert_template 'calendar'
+    assert_template 'month'
   end
 
   test "should get index" do
