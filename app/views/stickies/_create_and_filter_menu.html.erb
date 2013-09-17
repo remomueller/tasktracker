@@ -43,9 +43,9 @@
     <div class="tab-content">
       <div class="tab-pane active" id="tags">
         <div class="row">
-          <% current_user.all_tags.order(:project_id, :name).group_by(&:name).each do |name, tags| %>
+          <% current_user.all_tags.order(:project_id, :name).group_by(&:name).each do |name, all_tags| %>
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-              <label class="checkbox tag-checkbox <%= 'tag-selected' if tags.include?(name) %>" style="margin-bottom: 0px;background-color: <%= tags.first.color if tags.first %>">
+              <label class="checkbox tag-checkbox <%= 'tag-selected' if tags.include?(name) %>" style="margin-bottom: 0px;background-color: <%= all_tags.first.color if all_tags.first %>">
                 <%= check_box_tag "tag_names[]", name, tags.include?(name) %>
                 <div class="tag-name" style="overflow:hidden;white-space:nowrap"><%= name %></div>
               </label>
