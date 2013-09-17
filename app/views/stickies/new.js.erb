@@ -5,6 +5,7 @@
     loadDatePicker();
     loadTimePicker();
     $("#sticky-modal-new").modal('show');
+    $("#sticky_description").focus();
   <% else %>
     $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/select_project") %>");
     $("#sticky-modal-new").modal('show');

@@ -56,6 +56,7 @@ TaskTracker::Application.routes.draw do
     member do
       get :showbs3
       post :completebs3
+      post :quick_complete
       post :move
       post :move_to_board
       post :complete

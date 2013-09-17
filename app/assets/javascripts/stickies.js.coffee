@@ -1,8 +1,16 @@
+@sortdates = (a, b) ->
+  parta = "#{if $(a).data('completed') then '1' else '0'}#{$(a).data('due-date')}"
+  partb = "#{if $(b).data('completed') then '1' else '0'}#{$(b).data('due-date')}"
+  parta = parseInt(parta)
+  partb = parseInt(partb)
+  return (parta > partb ? -1 : (parta < partb ? 1 : 0))
+
 @sortDays = () ->
-  $(".sticky-list").sort( (a,b) ->
-    "#{a.data('completed')}#{a.data('due_date')}" > "#{b.data('completed')}#{b.data('due_date')}"
+  new_array = $("#sticky-day-lists .sticky-list").sort(sortdates)
+  $('#sticky-day-lists').html('')
+  new_array.each( (index, element) ->
+    $('#sticky-day-lists').append(element)
   )
-  alert 'sorted!'
 
 @showFilters = () ->
   $('[data-object~="visible-sticky"]').hide()
@@ -300,6 +308,10 @@ jQuery ->
       params.bs3 = 1
       params.due_date = $(this).data('due-date')
       $.get(root_url + 'stickies/newbs3', params, null, "script")
+      false
+    )
+    .on('click', '[data-object~="quick-complete"]', () ->
+      $.post(root_url + "stickies/#{$(this).data('sticky-id')}/quick_complete", "completed=#{$(this).data('completed')}", null, "script")
       false
     )
 

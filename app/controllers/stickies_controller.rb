@@ -2,8 +2,8 @@ class StickiesController < ApplicationController
   before_action :authenticate_user!
   before_action :api_authentication!, only: [ :index, :show, :showbs3, :create, :update ]
   before_action :set_viewable_sticky, only: [ :show, :showbs3 ]
-  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :update, :destroy ]
-  before_action :redirect_without_sticky, only: [ :show, :showbs3, :update, :completebs3, :destroy ]
+  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :quick_complete, :update, :destroy ]
+  before_action :redirect_without_sticky, only: [ :show, :showbs3, :update, :completebs3, :quick_complete, :destroy ]
   before_action :set_filtered_sticky_scope, only: [ :day, :week, :month ]
 
   def day
@@ -267,6 +267,12 @@ class StickiesController < ApplicationController
   def completebs3
     @sticky.update( completed: params[:completed] )
     @sticky.send_email_if_recently_completed(current_user)
+  end
+
+  def quick_complete
+    @sticky.update( completed: params[:completed] )
+    @sticky.send_email_if_recently_completed(current_user)
+    render 'completebs3'
   end
 
   # This is always from calendar, the project one always uses complete_multiple...(todo refactor)
