@@ -1,4 +1,4 @@
-<% @title = 'Month' %>
+<% @title = @anchor_date.strftime("%b %Y") %>
 
 <%= render partial: 'layouts/welcome_dialog' if current_user.all_viewable_projects.size == 0 %>
 
