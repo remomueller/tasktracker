@@ -279,7 +279,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal boards(:one), assigns(:sticky).board
     assert_equal false, assigns(:sticky).completed
     assert_equal Time.zone.local(2011, 8, 15, 0, 0, 0), assigns(:sticky).due_date
-    assert_template 'update'
+    assert_template 'create'
     assert_response :success
   end
 
@@ -293,7 +293,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal projects(:one), assigns(:sticky).project
     assert_equal "none", assigns(:sticky).repeat
     assert_equal 1, assigns(:sticky).repeat_amount
-    assert_template 'update'
+    assert_template 'create'
     assert_response :success
   end
 
