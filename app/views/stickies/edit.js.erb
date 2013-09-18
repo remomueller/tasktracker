@@ -1,11 +1,6 @@
-<% if params[:bs3] == '1' %>
-  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content_edit") %>");
-  $("#sticky-modal-new").modal('show');
-<% else %>
-  $("#sticky_modal_container").html("<%= escape_javascript(render("stickies/edit")) %>");
-  showStickyModal();
-  $("#sticky_description").focus();
-<% end %>
+$("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content_edit") %>");
+$("#sticky-modal-new").modal('show');
+$("#sticky_description").focus();
 
 initializeTypeahead();
 loadDatePicker();

@@ -1,4 +1,4 @@
-<% if params[:from] == 'month' %>
+<% if ['month', 'move'].include?(params[:from]) %>
   $('#group_template_id').val('');
   $('#group_template_id').change();
   $('.error').removeClass('error');

@@ -25,7 +25,7 @@
 <div class="modal-footer">
   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
   <% if @sticky.modifiable_by?(current_user) %>
-    <%= link_to 'Edit', edit_sticky_path(@sticky, bs3: '1'), method: :get, remote: true, class: 'btn btn-default' %>
+    <%= link_to 'Edit', edit_sticky_path(@sticky, from: params[:from]), method: :get, remote: true, class: 'btn btn-default' %>
 
     <% if @sticky.completed? %>
       <%= link_to 'Mark Not Completed', completebs3_sticky_path( @sticky, completed: false ), method: :post, remote: true, class: 'btn btn-primary' %>
@@ -33,6 +33,6 @@
       <%= link_to 'Mark Completed', completebs3_sticky_path( @sticky, completed: true ), method: :post, remote: true, class: 'btn btn-primary' %>
     <% end %>
 
-    <%= link_to 'Delete', destroy_multiple_stickies_path(sticky_ids: @sticky.id), method: :post, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+    <%= link_to 'Delete', @sticky, method: :delete, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
   <% end %>
 </div>

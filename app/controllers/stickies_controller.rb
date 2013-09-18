@@ -2,8 +2,8 @@ class StickiesController < ApplicationController
   before_action :authenticate_user!
   before_action :api_authentication!, only: [ :index, :show, :create, :update ]
   before_action :set_viewable_sticky, only: [ :show ]
-  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :quick_complete, :update, :destroy ]
-  before_action :redirect_without_sticky, only: [ :show, :update, :completebs3, :quick_complete, :destroy ]
+  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :update, :destroy ]
+  before_action :redirect_without_sticky, only: [ :show, :update, :completebs3, :destroy ]
   before_action :set_filtered_sticky_scope, only: [ :day, :week, :month ]
 
   def day
@@ -201,10 +201,7 @@ class StickiesController < ApplicationController
   end
 
   def move
-    params[:from] = 'move'
-    params[:hide_show] = '1'
     params[:due_date] = parse_date(params[:due_date])
-
     params[:due_date] = Time.zone.parse(params[:due_date].strftime("%Y-%m-%d ") + @sticky.due_at_string) rescue ''
 
     if @sticky and not params[:due_date].blank?
@@ -243,12 +240,6 @@ class StickiesController < ApplicationController
   def completebs3
     @sticky.update( completed: params[:completed] )
     @sticky.send_email_if_recently_completed(current_user)
-  end
-
-  def quick_complete
-    @sticky.update( completed: params[:completed] )
-    @sticky.send_email_if_recently_completed(current_user)
-    render 'completebs3'
   end
 
   # This is always from calendar, the project one always uses complete_multiple...(todo refactor)
@@ -294,19 +285,10 @@ class StickiesController < ApplicationController
     respond_to do |format|
       if @sticky.update(sticky_params)
         @sticky.send_email_if_recently_completed(current_user)
-        flash[:notice] = 'Sticky was successfully updated.'
 
         @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
 
-        if params[:from] == 'month'
-          format.html { redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d') ) }
-        elsif params[:from] == 'index'
-          format.html { redirect_to stickies_path }
-        elsif params[:from] == 'project'
-          format.html { redirect_to project_path(@sticky.project, board_id: @sticky.board_id) }
-        else
-          format.html { redirect_to @sticky }
-        end
+        format.html { redirect_to @sticky, notice: 'Sticky was successfully updated.' }
         format.js
         format.json { render action: 'show', location: @sticky }
       else
@@ -329,16 +311,8 @@ class StickiesController < ApplicationController
       @sticky.destroy
     end
 
-    flash[:notice] = 'Sticky was successfully deleted.'
-
     respond_to do |format|
-      format.html do
-        if params[:from] == 'month'
-          redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d'))
-        else
-          redirect_to stickies_path
-        end
-      end
+      format.html { redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d') ), notice: 'Sticky was successfully deleted.' }
       format.js
     end
   end
@@ -374,7 +348,7 @@ class StickiesController < ApplicationController
       params[:sticky] ||= {}
       params[:sticky][:tag_ids] ||= []
 
-      params[:sticky][:due_date] = parse_date(params[:sticky][:due_date])
+      params[:sticky][:due_date] = parse_date(params[:sticky][:due_date]) unless params[:sticky][:due_date].blank?
 
       params[:sticky][:all_day] = begin
         unless params[:sticky][:due_at_string].blank?

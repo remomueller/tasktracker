@@ -1,2 +1,2 @@
-$("#sticky_<%= @sticky.id %>").hide('fade');
-$("#sticky_<%= @sticky.id %>_comments_<%= params[:position] %>_tbody").hide('fade');
+$("#sticky-modal-new").modal('hide');
+removeSticky("<%= @sticky.id %>");

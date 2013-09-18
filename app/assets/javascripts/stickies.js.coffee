@@ -114,7 +114,7 @@
     $(element_id).parent().remove()
   else
     $(element_id).remove()
-  $.post(root_url + "stickies/#{sticky_id}/move", "due_date=#{date}&shift=#{shift}", null, "script");
+  $.post(root_url + "stickies/#{sticky_id}/move", "due_date=#{date}&shift=#{shift}&from=move", null, "script");
 
 
 @resetFilters = () ->
@@ -343,7 +343,7 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="quick-complete"]', () ->
-      $.post(root_url + "stickies/#{$(this).data('sticky-id')}/quick_complete", "completed=#{$(this).data('completed')}", null, "script")
+      $.post(root_url + "stickies/#{$(this).data('sticky-id')}", "sticky[completed]=#{$(this).data('completed')}&from=checkbox&_method=patch", null, "script")
       false
     )
 
