@@ -6,7 +6,7 @@
         <h4 class="modal-title">Delete Sticky in Group</h4>
       </div>
       <div class="modal-body">
-    	<%= form_tag sticky_path(sticky, from_calendar: params[:from_calendar].to_i), method: :delete, id: "sticky_delete_form_#{sticky.id}" do %>
+    	<%= form_tag sticky_path(sticky, from: params[:from]), method: :delete, id: "sticky_delete_form_#{sticky.id}" do %>
     	  <div class="row">
           <div class="col-md-offset-2 col-md-10">
             <div class="radio"><label><%= radio_button_tag 'discard', 'single', true %> Only this sticky</label></div>

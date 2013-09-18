@@ -1,28 +1,23 @@
-<% if ['month', 'week', 'day', 'checkbox'].include?(params[:from]) or params[:bs3] == '1' or params[:from_calendar] == '1' %>
+<% if ['month', 'week', 'day', 'checkbox', 'move'].include?(params[:from]) %>
   <%# Step 1: Display Sticky Modal (unless updated from quick checkbox complete) %>
-  <% if params[:from_checkbox] == '1' %>
+  <% if ['checkbox', 'move'].include?(params[:from]) %>
     $("#sticky-modal-new").modal('hide');
   <% else %>
     $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
     $("#sticky-modal-new").modal('show');
   <% end %>
 
-
   <% stickies = [@sticky, @sticky.repeated_sticky].compact %>
 
   <% stickies.each do |sticky| %>
     <%# Step 2: Remove existing sticky from view %>
-
     removeSticky("<%= sticky.id %>");
 
     <%# Step 3: Add Updated Sticky to View %>
-
     list_element_with_header =      "<%= escape_javascript( render partial: 'stickies/day_list',                locals: { stickies: [sticky], completed: sticky.completed, due_date: sticky.due_date } ) %>";
     list_element =                  "<%= escape_javascript( render partial: 'stickies/list_sticky_show',        locals: { sticky: sticky } ) %>";
-
     month_element_with_header =     "<%= escape_javascript( render partial: 'stickies/month_header_with_tags',  locals: { stickies: [sticky], tag_ids: sticky.tag_ids, current_date: sticky.due_date } ) %>";
     month_element =                 "<%= escape_javascript( render partial: 'stickies/popup',                   locals: { sticky: sticky } ) %>";
-
 
     addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date.strftime('%Y%m%d') if sticky.due_date %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
   <% end %>

@@ -1,4 +1,4 @@
-<% if params[:from_calendar] == '1' %>
+<% if params[:from] == 'month' %>
 
   <% @stickies.each do |sticky| %>
     old_element = $("#sticky_<%= sticky.id %>_popup");

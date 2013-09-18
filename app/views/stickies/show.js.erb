@@ -1,11 +1,6 @@
-<% if params[:bs3] == '1' %>
+if ($("#sticky-modal-new").length == 1) {
   $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
   $("#sticky-modal-new").modal('show');
-<% else %>
-if ($("#sticky_modal_container").length == 0) {
-  window.location = "<%= sticky_path(@sticky) %>";
 } else {
-  $("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
-  showStickyModal();
+  window.location = "<%= sticky_path(@sticky) %>";
 }
-<% end %>

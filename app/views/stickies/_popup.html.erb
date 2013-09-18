@@ -16,7 +16,7 @@
             <% elsif sticky.modifiable_by?(current_user) %>
               <%= image_tag 'colorpicker/blank.gif', alt: '', id: "sticky_#{sticky.id}_empty", size: '10x10' %>
               <%= image_tag 'contour/ajax-loader.gif', alt: '', id: "sticky_#{sticky.id}_wait", size: '10x10', style: 'display:none' %>
-              <%= link_to image_tag('gentleface/16/checkbox_unchecked.png', alt: '', size: '10x10'), complete_sticky_path(sticky, from_calendar: '1', from_checkbox: '1'), method: :post, remote: true, id: "sticky_#{sticky.id}_checkmark", style: 'display:none', onclick: "$('#sticky_#{sticky.id}_checkmark').hide();$('#sticky_#{sticky.id}_wait').show()" %>
+              <%= link_to image_tag('gentleface/16/checkbox_unchecked.png', alt: '', size: '10x10'), complete_sticky_path(sticky, from: 'checkbox'), method: :post, remote: true, id: "sticky_#{sticky.id}_checkmark", style: 'display:none', onclick: "$('#sticky_#{sticky.id}_checkmark').hide();$('#sticky_#{sticky.id}_wait').show()" %>
             <% else %>
               <%= image_tag 'colorpicker/blank.gif', alt: '', size: '10x10' %>
             <% end %>
@@ -25,7 +25,7 @@
         <td style="margin:0px;padding:0px">
           <b><%= sticky.due_at_string_short %></b>
           <span id="sticky_<%= sticky.id %>_name">
-            <%= link_to strip_tags(simple_markdown sticky.full_description).truncate(27, separator: ' ').html_safe, showbs3_sticky_path(sticky, from_calendar: '1', from_checkbox: '1'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through' : ''), rel: "popover", data: { title: sticky.project.name, content: simple_markdown(sticky.description_html).gsub('"', '\\"'), html: true, placement: (sticky.due_date and sticky.due_date.wday == 6 ? 'left' : 'right'), trigger: 'hover' } %>
+            <%= link_to strip_tags(simple_markdown sticky.full_description).truncate(27, separator: ' ').html_safe, sticky_path(sticky, from: 'checkbox'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through' : ''), rel: "popover", data: { title: sticky.project.name, content: simple_markdown(sticky.description_html).gsub('"', '\\"'), html: true, placement: (sticky.due_date and sticky.due_date.wday == 6 ? 'left' : 'right'), trigger: 'hover' } %>
           </span>
         </td>
       </tr>

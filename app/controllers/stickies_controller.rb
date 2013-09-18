@@ -1,9 +1,9 @@
 class StickiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :api_authentication!, only: [ :index, :show, :showbs3, :create, :update ]
-  before_action :set_viewable_sticky, only: [ :show, :showbs3 ]
+  before_action :api_authentication!, only: [ :index, :show, :create, :update ]
+  before_action :set_viewable_sticky, only: [ :show ]
   before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :quick_complete, :update, :destroy ]
-  before_action :redirect_without_sticky, only: [ :show, :showbs3, :update, :completebs3, :quick_complete, :destroy ]
+  before_action :redirect_without_sticky, only: [ :show, :update, :completebs3, :quick_complete, :destroy ]
   before_action :set_filtered_sticky_scope, only: [ :day, :week, :month ]
 
   def day
@@ -140,11 +140,6 @@ class StickiesController < ApplicationController
   def show
   end
 
-  def showbs3
-    params[:bs3] = '1'
-    render 'show'
-  end
-
   # GET /stickies/newbs3
   def newbs3
     @sticky = current_user.stickies.new(sticky_params)
@@ -206,7 +201,7 @@ class StickiesController < ApplicationController
   end
 
   def move
-    params[:from] = 'month'
+    params[:from] = 'move'
     params[:hide_show] = '1'
     params[:due_date] = parse_date(params[:due_date])
 
@@ -263,7 +258,7 @@ class StickiesController < ApplicationController
     if @sticky
       @sticky.update_attributes completed: (params[:undo] != 'true')
       @sticky.send_email_if_recently_completed(current_user)
-      if ['month', 'week', 'day', 'checkbox'].include?(params[:from]) or params[:from_calendar] == '1' or params[:from_index] == '1' or params[:bs3] == '1'
+      if ['month', 'week', 'day', 'checkbox', 'move'].include?(params[:from]) or params[:from_index] == '1'
         render 'update'
       else
         @stickies = Sticky.current.where(id: @sticky.id)
@@ -303,7 +298,7 @@ class StickiesController < ApplicationController
 
         @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
 
-        if params[:from_calendar] == '1'
+        if params[:from] == 'month'
           format.html { redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d') ) }
         elsif params[:from] == 'index'
           format.html { redirect_to stickies_path }
@@ -338,7 +333,7 @@ class StickiesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if params[:from_calendar] == '1'
+        if params[:from] == 'month'
           redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d'))
         else
           redirect_to stickies_path

@@ -24,6 +24,6 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="load-new-group"]', (e) ->
-      $.get(root_url + 'groups/new', "group[project_id]=#{$('#sticky_project_id').val()}&group[initial_due_date]=#{$('#sticky_due_date').val()}&group[board_id]=#{$('#sticky_board_id').val()}&"+$('#from_calendar').serialize(), null, "script")
+      $.get(root_url + 'groups/new', "group[project_id]=#{$('#sticky_project_id').val()}&group[initial_due_date]=#{$('#sticky_due_date').val()}&group[board_id]=#{$('#sticky_board_id').val()}&"+$('#from').serialize(), null, "script")
       false
     )

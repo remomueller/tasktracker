@@ -27,7 +27,7 @@
                    <%= 'last-month' if current_date < @start_date %>
                    <%= 'next-month' if current_date > @end_date %> droppable"
             data-due-date="<%= current_date.strftime("%m/%d/%Y") %>"
-            data-object="create-sticky">
+            data-object="create-sticky" data-from="month">
           <div class="calendar-entry-heading" style="padding-right:2px;">
             <%= link_to ([@start_date, (@end_date + 1.day)].include?(current_date) ? current_date.strftime("%b %e") : current_date.strftime("%e") ), week_path(date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), class: 'btn btn-xs' %>
           </div>

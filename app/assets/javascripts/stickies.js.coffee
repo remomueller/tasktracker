@@ -83,7 +83,7 @@
     hoverClass: "hover",
     drop: ( event, ui ) ->
 
-      date = $(this).data('data-due-date').replace(/day_/, '') #.replace(/_/g, '/')
+      date = $(this).data('due-date').replace(/day_/, '') #.replace(/_/g, '/')
       element_id = ui.draggable.attr('id')
       sticky_id = element_id.replace(/sticky_/, '').replace(/_popup/,'')
 
@@ -299,7 +299,7 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="load-new-sticky"]', () ->
-      $.get(root_url + 'stickies/new', "sticky[project_id]=#{$('#group_project_id').val()}&sticky[due_date]=#{$('#group_initial_due_date').val()}&sticky[board_id]=#{$('#group_board_id').val()}&"+$('#from_calendar').serialize(), null, "script")
+      $.get(root_url + 'stickies/new', "sticky[project_id]=#{$('#group_project_id').val()}&sticky[due_date]=#{$('#group_initial_due_date').val()}&sticky[board_id]=#{$('#group_board_id').val()}&"+$('#from').serialize(), null, "script")
       false
     )
     .on('change', '#sticky_repeat', () ->
@@ -337,7 +337,7 @@ jQuery ->
     )
     .on('dblclick', '[data-object~="create-sticky"]', () ->
       params = {}
-      params.bs3 = 1
+      params.from = $(this).data('from')
       params.due_date = $(this).data('due-date')
       $.get(root_url + 'stickies/newbs3', params, null, "script")
       false

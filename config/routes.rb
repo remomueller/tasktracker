@@ -53,7 +53,6 @@ TaskTracker::Application.routes.draw do
       post :destroy_multiple
     end
     member do
-      get :showbs3
       post :completebs3
       post :quick_complete
       post :move

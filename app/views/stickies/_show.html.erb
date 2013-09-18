@@ -23,18 +23,18 @@
   <%= link_to 'Close', '#', class: 'btn btn-xs btn-default pull-right', data: { object: 'hide-sticky-modal' } %>
 
   <% if @sticky.modifiable_by?(current_user) %>
-    <%= link_to 'Edit', edit_sticky_path(@sticky, from_calendar: params[:from_calendar], from_checkbox: params[:from_checkbox]), method: :get, remote: true, class: 'btn btn-xs btn-default pull-right', style: 'margin-right:5px' %>
+    <%= link_to 'Edit', edit_sticky_path(@sticky, from: params[:from]), method: :get, remote: true, class: 'btn btn-xs btn-default pull-right', style: 'margin-right:5px' %>
 
     <% if @sticky.completed? %>
-      <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, undo: 'true', from_calendar: params[:from_calendar], from_checkbox: params[:from_checkbox]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-xs btn-primary pull-right' %>
+      <%= link_to 'Mark Not Completed', complete_sticky_path(@sticky, undo: 'true', from: params[:from]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-xs btn-primary pull-right' %>
     <% else %>
-      <%= link_to 'Mark Completed', complete_sticky_path(@sticky, from_calendar: params[:from_calendar], from_checkbox: params[:from_checkbox]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-xs btn-primary pull-right' %>
+      <%= link_to 'Mark Completed', complete_sticky_path(@sticky, from: params[:from]), method: :post, remote: true, style: 'margin-right:5px', class: 'btn btn-xs btn-primary pull-right' %>
     <% end %>
 
     <%# if @sticky.group %>
       <%#= link_to 'Delete Sticky', '#', class: 'btn btn-xs btn-danger-inverse pull-left', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" } %>
     <%# else %>
-      <%= link_to "Delete Sticky", destroy_multiple_stickies_path(sticky_ids: @sticky.id, from_calendar: params[:from_calendar]), method: :post, remote: true, class: 'btn btn-xs btn-danger-inverse pull-left', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+      <%= link_to "Delete Sticky", destroy_multiple_stickies_path(sticky_ids: @sticky.id, from: params[:from]), method: :post, remote: true, class: 'btn btn-xs btn-danger-inverse pull-left', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
     <%# end %>
 
   <% end %>
