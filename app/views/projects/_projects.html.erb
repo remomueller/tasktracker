@@ -16,7 +16,7 @@
       <td>
         <% form_name = "project_#{@project.id}_colorpicker_form" %>
         <%= form_tag colorpicker_project_path(@project), remote: true, method: :post, style: 'display:inline', id: form_name do %>
-          <%= hidden_field_tag :color, '', id: "project_#{@project.id}_hexcolor" %>
+          <%= hidden_field_tag :color, @project.color(current_user), id: "project_#{@project.id}_hexcolor" %>
           <div class="custom_widget">
             <div class="colorselector" data-object="color-selector" data-target="#project_<%= @project.id %>_hexcolor" data-color="<%= @project.color(current_user) %>" data-form="#project_<%= @project.id %>_colorpicker_form" style="background-image: none">
               <div id="project_<%= @project.id %>_hexcolor_display" style="background-color: <%= @project.color(current_user) %>;top:0px;left:0px"></div>

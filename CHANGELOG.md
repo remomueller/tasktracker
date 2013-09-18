@@ -5,6 +5,9 @@
 - **Gem Changes**
   - Updated to contour 2.1.0
 
+### Bug Fix
+- Fixed a bug that reset a project's color if a user selected the color box and then closed it without changing the color
+
 ## 0.27.2 (September 16, 2013)
 
 ### Bug Fix
