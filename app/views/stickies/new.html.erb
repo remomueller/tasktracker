@@ -1,3 +1,12 @@
 <% @title = "New Sticky" %>
 
+<div class="page-header">
+  <h1>
+    <% if @sticky.project %>
+      <%= link_to @sticky.project.name, @sticky.project %> &middot;
+    <% end %>
+    New Sticky
+  </h1>
+</div>
+
 <%= render 'form' %>

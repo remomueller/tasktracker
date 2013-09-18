@@ -36,10 +36,6 @@ Contour.setup do |config|
     {
       name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
       links: [{ name: 'Create', path: 'new_project_path' }]
-    },
-    {
-      name: 'Stickies', display: 'signed_in', path: 'stickies_path', position: 'left',
-      links: [{ name: 'Create', path: 'new_sticky_path' }]
     }
   ]
 

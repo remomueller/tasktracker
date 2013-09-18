@@ -99,7 +99,7 @@
         $(element_id).parent().remove()
       else
         $(element_id).remove()
-      $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date="+date, null, "script");
+      $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date=#{date}&from=move", null, "script");
       false
     accept: ( draggable ) ->
       $(this).data('due-date') != draggable.data('due-date')
