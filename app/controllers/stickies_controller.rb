@@ -194,10 +194,7 @@ class StickiesController < ApplicationController
       if @sticky.save
         @sticky.send_email_if_recently_completed(current_user)
         format.html { redirect_to @sticky, notice: 'Sticky was successfully created.' }
-        format.js do
-          params[:hide_show] = '1' if params[:from_calendar] == '1'
-          render 'update' # Update handles board/calendar reloading
-        end
+        format.js
         format.json { render action: 'show', status: :created, location: @sticky }
       else
         @project_id = @sticky.project_id
@@ -209,7 +206,7 @@ class StickiesController < ApplicationController
   end
 
   def move
-    params[:from_calendar] = '1'
+    params[:from] = 'month'
     params[:hide_show] = '1'
     params[:due_date] = parse_date(params[:due_date])
 
@@ -266,7 +263,7 @@ class StickiesController < ApplicationController
     if @sticky
       @sticky.update_attributes completed: (params[:undo] != 'true')
       @sticky.send_email_if_recently_completed(current_user)
-      if params[:from_calendar] == '1' or params[:from_index] == '1' or params[:bs3] == '1'
+      if ['month', 'week', 'day', 'checkbox'].include?(params[:from]) or params[:from_calendar] == '1' or params[:from_index] == '1' or params[:bs3] == '1'
         render 'update'
       else
         @stickies = Sticky.current.where(id: @sticky.id)

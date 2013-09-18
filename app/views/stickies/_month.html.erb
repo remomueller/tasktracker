@@ -31,15 +31,9 @@
           <div class="calendar-entry-heading" style="padding-right:2px;">
             <%= link_to ([@start_date, (@end_date + 1.day)].include?(current_date) ? current_date.strftime("%b %e") : current_date.strftime("%e") ), week_path(date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), class: 'btn btn-xs' %>
           </div>
-          <div style="min-height:90px;padding-left:2px;padding-right:2px" id="day_<%= current_date.strftime("%m_%d_%Y") %>">
+          <div style="min-height:90px;padding-left:2px;padding-right:2px" id="day_<%= current_date.strftime("%Y%m%d") %>">
             <% @stickies.with_due_date_for_calendar(current_date, current_date).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies| %>
-              <% @tags = Tag.current.where(id: tag_ids) %>
-              <div style="padding-bottom:5px" id="day_<%= current_date.strftime("%m_%d_%Y") %>_tag_container_<%= tag_ids.sort.join('_') %>">
-                <%= render partial: 'tags/small_tags' %>
-                <% stickies.sort{|a,b| a.due_date <=> b.due_date}.each do |sticky| %>
-                  <%= @sticky = sticky; render partial: 'popup' %>
-                <% end %>
-              </div>
+              <%= render partial: 'month_header_with_tags', locals: { tag_ids: tag_ids, stickies: stickies, current_date: current_date } %>
             <% end %>
           </div>
         </td>

@@ -1,54 +1,36 @@
-<% if params[:bs3] == '1' %>
-  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
-  $("#sticky-modal-new").modal('show');
-  $("#list_sticky_<%= @sticky.id %>").replaceWith("<%= escape_javascript(render partial: "stickies/list_sticky_show", locals: { sticky: @sticky }) %>");
-
-<% elsif params[:from_calendar] == '1' %>
-
+<% if ['month', 'week', 'day', 'checkbox'].include?(params[:from]) or params[:bs3] == '1' or params[:from_calendar] == '1' %>
+  <%# Step 1: Display Sticky Modal (unless updated from quick checkbox complete) %>
   <% if params[:from_checkbox] == '1' %>
-    <% update_stickies = [@sticky.repeated_sticky] %>
-    $("#sticky_<%= @sticky.id %>_popup").replaceWith("<%= escape_javascript(render("stickies/popup")) %>");
-    $("#sticky_<%= @sticky.id %>_popup").effect("highlight", {}, 3000);
-    $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.color(current_user) %>');
+    $("#sticky-modal-new").modal('hide');
   <% else %>
-    <% update_stickies = [@sticky, @sticky.repeated_sticky] %>
+    $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
+    $("#sticky-modal-new").modal('show');
   <% end %>
 
 
-  <%# TODO Refactor: Following copied to groups/create.js.erb %>
-  <% update_stickies.compact.each do |sticky| %>
-    <% @sticky = sticky %>
+  <% stickies = [@sticky, @sticky.repeated_sticky].compact %>
 
-    old_element = $("#sticky_<%= @sticky.id %>_popup")
-    if (old_element.parent().children(".sticky_popup").size() == 1) {
-      old_element.parent().remove();
-    } else {
-      old_element.remove();
-    }
+  <% stickies.each do |sticky| %>
+    <%# Step 2: Remove existing sticky from view %>
 
-    <% unless @sticky.due_date.blank? %>
-      var tag_container = $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>");
+    removeSticky("<%= sticky.id %>");
 
-      if(tag_container.length > 0){
-        $(tag_container).append("<%= escape_javascript(render("stickies/popup")) %>");
-      }else{
-        $("#day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>").append("<div style='padding-bottom:5px' id='day_<%= @sticky.due_date.strftime('%m_%d_%Y') %>_tag_container_<%= @sticky.tag_ids.sort.join('_') %>'><%= @tags = @sticky.tags; escape_javascript(render("tags/small_tags")) %><%= escape_javascript(render("stickies/popup")) %></div>")
-      }
+    <%# Step 3: Add Updated Sticky to View %>
 
-      $("#sticky_<%= @sticky.id %>_popup").effect("highlight", {}, 3000);
-    <% end %>
+    list_element_with_header =      "<%= escape_javascript( render partial: 'stickies/day_list',                locals: { stickies: [sticky], completed: sticky.completed, due_date: sticky.due_date } ) %>";
+    list_element =                  "<%= escape_javascript( render partial: 'stickies/list_sticky_show',        locals: { sticky: sticky } ) %>";
 
-    $(".project_<%= @sticky.project.id %>_color").css('color', '<%= @sticky.project.color(current_user) %>');
+    month_element_with_header =     "<%= escape_javascript( render partial: 'stickies/month_header_with_tags',  locals: { stickies: [sticky], tag_ids: sticky.tag_ids, current_date: sticky.due_date } ) %>";
+    month_element =                 "<%= escape_javascript( render partial: 'stickies/popup',                   locals: { sticky: sticky } ) %>";
+
+
+    addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date.strftime('%Y%m%d') if sticky.due_date %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
   <% end %>
-  <%# END TODO %>
-
-
-  activateCalendarStickyPopups();
 
 <% elsif params[:from_index] == '1' %>
 
-<%# Launch a refresh of the sticky search %>
-$("#stickies_search").submit();
+  <%# Launch a refresh of the sticky search %>
+  $("#stickies_search").submit();
 
 <% else %>
   $("#scope").val('<%= @sticky.panel %>');
@@ -69,11 +51,4 @@ $("#stickies_search").submit();
   $('#replace').val('rows');
   $('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
   $('#replace').val('');
-<% end %>
-
-<% if params[:hide_show] == '1' %>
-  hideStickyModal();
-<% else %>
-  $("#sticky_modal_container").html("<%= escape_javascript(render("stickies/show")) %>");
-  showStickyModal();
 <% end %>
