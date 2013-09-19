@@ -1,4 +1,27 @@
-<% if ['month', 'week', 'day', 'checkbox', 'move'].include?(params[:from]) %>
+<% if params[:from_index] == '1' %>
+  <%# Launch a refresh of the sticky search %>
+  $("#stickies_search").submit();
+
+<% elsif params[:from_project] == '1' %>
+  $("#scope").val('<%= @sticky.panel %>');
+
+  <% params[:board_id] = @sticky.board_id || '0' %>
+  <% @project = @sticky.project %>
+  <% boards_visible = (@sticky.board and @sticky.board.archived?) %>
+
+  $("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
+  $("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: boards_visible }) %>")
+
+  setBoardNames();
+  activateBoardDraggables();
+  activateBoardArchiveDroppable();
+  activateBoardDroppables();
+
+  clearSearchValues();
+  $('#replace').val('rows');
+  $('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
+  $('#replace').val('');
+<% else %>
   <%# Step 1: Display Sticky Modal (unless updated from quick checkbox complete) %>
   <% if ['checkbox', 'move'].include?(params[:from]) %>
     $("#sticky-modal-new").modal('hide');
@@ -21,29 +44,4 @@
 
     addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date.strftime('%Y%m%d') if sticky.due_date %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
   <% end %>
-
-<% elsif params[:from_index] == '1' %>
-
-  <%# Launch a refresh of the sticky search %>
-  $("#stickies_search").submit();
-
-<% else %>
-  $("#scope").val('<%= @sticky.panel %>');
-
-  <% params[:board_id] = @sticky.board_id || '0' %>
-  <% @project = @sticky.project %>
-  <% boards_visible = (@sticky.board and @sticky.board.archived?) %>
-
-  $("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
-  $("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: boards_visible }) %>")
-
-  setBoardNames();
-  activateBoardDraggables();
-  activateBoardArchiveDroppable();
-  activateBoardDroppables();
-
-  clearSearchValues();
-  $('#replace').val('rows');
-  $('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
-  $('#replace').val('');
 <% end %>
