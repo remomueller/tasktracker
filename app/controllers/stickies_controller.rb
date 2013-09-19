@@ -149,16 +149,6 @@ class StickiesController < ApplicationController
   def show
   end
 
-  # GET /stickies/newbs3
-  def newbs3
-    @sticky = current_user.stickies.new(sticky_params)
-    @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1
-    respond_to do |format|
-      format.html { render 'new' }
-      format.js { render 'new' }
-    end
-  end
-
   # GET /stickies/new
   def new
     @sticky = current_user.stickies.new(sticky_params)
@@ -166,7 +156,7 @@ class StickiesController < ApplicationController
     @project_id = @sticky.project_id
     respond_to do |format|
       format.html
-      format.js { render 'edit' }
+      format.js
     end
   end
 

@@ -25,7 +25,7 @@
         <td style="margin:0px;padding:0px">
           <b><%= sticky.due_at_string_short %></b>
           <span id="sticky_<%= sticky.id %>_name">
-            <%= link_to strip_tags(simple_markdown sticky.full_description).truncate(27, separator: ' ').html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through' : ''), rel: "popover", data: { title: sticky.project.name, content: simple_markdown(sticky.description_html).gsub('"', '\\"'), html: true, placement: (sticky.due_date and sticky.due_date.wday == 6 ? 'left' : 'right'), trigger: 'hover' } %>
+            <%= link_to strip_tags(simple_markdown sticky.full_description).truncate(27, separator: ' ').html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through' : ''), rel: "popover", data: { title: sticky.project.name, content: simple_markdown(sticky.description_html).gsub('"', '\\"'), html: true, placement: (sticky.due_date and sticky.due_date.wday == 6 ? 'left' : 'right'), trigger: 'hover' }, style: 'color:white' %>
           </span>
         </td>
       </tr>

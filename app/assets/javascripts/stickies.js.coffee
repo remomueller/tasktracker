@@ -9,13 +9,14 @@
 
   if $("#sticky_#{sticky_id}_popup").length == 1
     $("#sticky_#{sticky_id}_popup").replaceWith(month_element)
-    activateCalendarStickyPopups()
   else if $("#day_#{due_date}_tag_container_#{tag_ids}").length == 1
     $("#day_#{due_date}_tag_container_#{tag_ids}").append(month_element)
-    activateCalendarStickyPopups()
   else if $("#day_#{due_date}").length == 1
     $("#day_#{due_date}").append(month_element_with_header)
+
+  if $("#sticky_#{sticky_id}_popup").length == 1 or $("#day_#{due_date}_tag_container_#{tag_ids}").length == 1 or $("#day_#{due_date}").length == 1
     activateCalendarStickyPopups()
+    setProjectColors()
 
   $("#list_sticky_#{sticky_id}, #sticky_#{sticky_id}_popup").effect("highlight", {}, 3000)
 
@@ -103,6 +104,11 @@
       false
     accept: ( draggable ) ->
       $(this).data('due-date') != draggable.data('due-date')
+  )
+
+@setProjectColors = () ->
+  $("[data-object~='project-color']").each( () ->
+    $(".project_#{$(this).data('project-id')}_color").animate( color: $(this).data('color') )
   )
 
 @completeStickyGroupMove = (shift) ->
@@ -339,7 +345,7 @@ jQuery ->
       params = {}
       params.from = $(this).data('from')
       params.due_date = $(this).data('due-date')
-      $.get(root_url + 'stickies/newbs3', params, null, "script")
+      $.get(root_url + 'stickies/new', params, null, "script")
       false
     )
     .on('click', '[data-object~="quick-complete"]', () ->
@@ -353,6 +359,7 @@ jQuery ->
   )
 
   if $("[data-object='load-month-popovers']").length > 0
+    setProjectColors()
     activateCalendarStickyPopups()
     activateCalendarDroppables()
 

@@ -2,7 +2,7 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h4 class="modal-title">
-
+    <%= link_to 'Projects', new_group_path, method: :get, remote: true %> &middot;
     <% if @group.project %>
       <%= link_to @group.project.name, @group.project, target: '_blank' %> &middot;
       <% @project_id = @group.project.id %>

@@ -11,3 +11,7 @@
 <%= render partial: 'modal' %>
 
 <%= render partial: 'stickies/move_group_dialog' %>
+
+<% current_user.all_viewable_projects.each do |project| %>
+  <div data-object="project-color" data-project-id="<%= project.id %>" data-color="<%= project.color(current_user) %>" style="display:none"></div>
+<% end %>

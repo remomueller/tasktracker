@@ -1,12 +1,12 @@
 <% if @sticky.project %>
-  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content_edit", locals: { sticky: @sticky }) %>");
+  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'stickies/edit_modal') %>");
   initializeTypeahead();
   loadDatePicker();
   loadTimePicker();
   $("#sticky-modal-new").modal('show');
   $("#sticky_description").focus();
 <% else %>
-  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/select_project") %>");
+  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'stickies/select_project') %>");
   $("#sticky-modal-new").modal('show');
 <% end %>
 

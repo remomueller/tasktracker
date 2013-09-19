@@ -40,7 +40,6 @@ TaskTracker::Application.routes.draw do
 
   resources :stickies do
     collection do
-      get :newbs3
       get :day
       get :week
       get :month

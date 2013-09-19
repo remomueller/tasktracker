@@ -19,7 +19,7 @@
           <% if @group %>
             <%= link_to project.name, new_group_path( group: { project_id: project.id, due_date: params[:due_date] } ), remote: true, class: 'btn btn-default btn-block', style: "border-color:#{project.color(current_user)}" %>
           <% else %>
-            <%= link_to project.name, newbs3_stickies_path( bs3: '1', sticky: { project_id: project.id, due_date: params[:due_date] } ), remote: true, class: 'btn btn-default btn-block', style: "border-color:#{project.color(current_user)}" %>
+            <%= link_to project.name, new_sticky_path( sticky: { project_id: project.id, due_date: params[:due_date] } ), remote: true, class: 'btn btn-default btn-block', style: "border-color:#{project.color(current_user)}" %>
           <% end %>
         </div>
       </div>

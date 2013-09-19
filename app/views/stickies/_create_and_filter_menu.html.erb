@@ -5,7 +5,7 @@
 <div class="row" style="margin-bottom:10px">
   <div class="col-xs-4">
     <div data-object="visible-sticky">
-      <%= link_to 'Create Task', newbs3_stickies_path( bs3: '1' ), remote: true, class: 'btn btn-default btn-block' %>
+      <%= link_to 'Create Task', new_sticky_path, remote: true, class: 'btn btn-default btn-block' %>
     </div>
     <div data-object="visible-filter" style="display:none">
       <%= link_to 'Save Filters', '#', class: 'btn btn-primary btn-block', data: { object: 'save-filters' } %>
