@@ -1,4 +1,9 @@
-<% if @sticky.project %>
+<% if current_user.all_projects.size == 0 %>
+  <% @project = current_user.projects.new %>
+  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'projects/new_modal') %>");
+  $("#sticky-modal-new").modal('show');
+  $("#project_name").focus();
+<% elsif @sticky.project %>
   $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'stickies/edit_modal') %>");
   initializeTypeahead();
   loadDatePicker();

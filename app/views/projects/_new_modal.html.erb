@@ -2,7 +2,7 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h4 class="modal-title">
-    <%= link_to 'Projects', (params[:object] == 'sticky' ? new_sticky_path( due_date: params[:due_date] ) : new_group_path( due_date: params[:due_date] )), method: :get, remote: true %> &middot;
+    <%= link_to 'Projects', new_sticky_path( due_date: params[:due_date] ), method: :get, remote: true %> &middot;
     <%= @title %>
   </h4>
 </div>
@@ -10,7 +10,6 @@
 
   <%= form_for(@project, remote: true, html: { class: 'form-horizontal' }) do |f| %>
 
-    <%= hidden_field_tag :object, params[:object] %>
     <%= hidden_field_tag :due_date, params[:due_date] %>
 
     <div class="form-group">
@@ -29,7 +28,7 @@
 
 </div>
 <div class="modal-footer">
-  <%= link_to 'Cancel', (params[:object] == 'sticky' ? new_sticky_path( due_date: params[:due_date] ) : new_group_path( due_date: params[:due_date] )), method: :get, remote: true, class: 'btn btn-default' %>
+  <%= link_to 'Cancel', new_sticky_path( due_date: params[:due_date] ), method: :get, remote: true, class: 'btn btn-default' %>
 
   <%= submit_tag 'Create Project', class: 'btn btn-primary', data: { object: 'sticky-submit', target: @project.new_record? ? "#new_project" : "#edit_project_#{@project.id}" } %>
 </div>

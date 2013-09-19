@@ -13,7 +13,7 @@
   </div>
   <div class="col-xs-4">
     <div data-object="visible-sticky">
-      <%= link_to 'Create Group', new_group_path, remote: true, class: 'btn btn-default btn-block' %>
+      <%= link_to 'Create Group', new_group_path, remote: true, class: 'btn btn-default btn-block' unless current_user.all_projects.has_template.size == 0 %>
     </div>
     <div data-object="visible-filter" style="display:none">
       <%= link_to 'Clear Filters', '#', remote: true, class: 'btn btn-danger-inverse btn-block', data: { object: 'reset-filters' } %>

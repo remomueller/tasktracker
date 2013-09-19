@@ -7,7 +7,8 @@
       <%= hidden_field_tag :tags, params[:tags] %>
       <%= hidden_field_tag :owners, params[:owners] %>
       <%= hidden_field_tag :project_ids, params[:project_ids] %>
-      <%= text_field_tag 'search', params[:search], class: 'form-control' %> <%= submit_tag 'Search', class: 'btn btn-primary' %>
+      <%= text_field_tag 'search', params[:search], class: 'form-control' %>
+      <%= submit_tag 'Search', class: 'btn btn-primary' %>
     <% end %>
   </h1>
 </div>

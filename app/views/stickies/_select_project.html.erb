@@ -4,8 +4,10 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h4 class="modal-title">
-    Select Project or
-    <%= link_to 'Create New Project', new_project_path( due_date: params[:due_date], object: (@group ? 'group' : 'sticky') ), method: :get, remote: true %>
+    Select Project
+    <% if @sticky %>
+      or <%= link_to 'Create New Project', new_project_path( due_date: params[:due_date], object: 'sticky' ), method: :get, remote: true %>
+    <% end %>
   </h4>
 </div>
 <div class="modal-body">
