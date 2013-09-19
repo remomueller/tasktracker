@@ -76,20 +76,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sticky.user.name} added Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
-  test "sticky by mail email with ics attachment" do
-    sticky = stickies(:due_at_ics)
-    valid = users(:valid)
-
-    email = UserMailer.sticky_by_mail(sticky, valid).deliver
-    assert !ActionMailer::Base.deliveries.empty?
-
-    assert email.has_attachments?
-    assert_equal 'event.ics', email.attachments.first.filename
-    assert_equal [valid.email], email.to
-    assert_equal "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}", email.subject
-    assert_match(/#{sticky.user.name} added Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
-  end
-
   test "sticky completion by mail email" do
     sticky = stickies(:assigned_to_user)
     valid = users(:valid)
@@ -116,20 +102,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sender.name} completed the following 1 Sticky\./, email.encoded)
   end
 
-  test "sticky due at changed by mail email" do
-    sticky = stickies(:due_at_ics)
-    valid = users(:valid)
-
-    email = UserMailer.sticky_due_at_changed_by_mail(sticky, valid).deliver
-    assert !ActionMailer::Base.deliveries.empty?
-
-    assert email.has_attachments?
-    assert_equal 'event.ics', email.attachments.first.filename
-    assert_equal [valid.email], email.to
-    assert_equal "Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}", email.subject
-    assert_match(/Sticky #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id} has an updated due time\./, email.encoded)
-  end
-
   test "daily stickies due email" do
     valid = users(:valid)
 
@@ -142,9 +114,6 @@ class UserMailerTest < ActionMailer::TestCase
     due_today = nil if valid.all_stickies_due_today.size == 0
     past_due = nil if valid.all_stickies_past_due.size == 0
     due_upcoming = nil if valid.all_stickies_due_upcoming.size == 0
-
-    assert email.has_attachments?
-    assert_equal 'event.ics', email.attachments.first.filename
 
     assert_equal [valid.email], email.to
     assert_equal "#{[due_today, past_due, due_upcoming].compact.join(' and ')}", email.subject

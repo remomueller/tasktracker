@@ -189,7 +189,7 @@ only_beta:
   owner: valid
   tags: beta
 
-due_at_ics:
+due_at:
   user: valid
   project: one
   # board:

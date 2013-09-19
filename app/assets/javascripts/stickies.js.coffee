@@ -211,6 +211,7 @@ jQuery ->
   $(document)
     .on('click', '[data-object~="export"]', () ->
       window.location = $('#stickies_search').attr('action') + '.' + $(this).data('format') + '?' + $('#stickies_search').serialize()
+      false
     )
     .on('click', '[data-object~="stickies-reset-to-default"]', () ->
       resetFilters()

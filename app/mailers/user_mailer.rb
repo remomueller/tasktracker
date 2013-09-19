@@ -49,7 +49,6 @@ class UserMailer < ActionMailer::Base
     setup_email
     @sticky = sticky
     @recipient = recipient
-    attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
          subject: "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
          reply_to: sticky.user.email)
@@ -59,7 +58,6 @@ class UserMailer < ActionMailer::Base
     setup_email
     @group = group
     @recipient = recipient
-    attachments['event.ics'] = { mime_type: 'text/calendar', content: @group.export_ics }
     mail(to: recipient.email,
          subject: "#{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}",
          reply_to: group.user.email)
@@ -70,7 +68,6 @@ class UserMailer < ActionMailer::Base
     @sticky = sticky
     @sender = sender
     @recipient = recipient
-    attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
          subject: "#{sender.name} Completed a Sticky on Project #{sticky.project.name}",
          reply_to: sender.email)
@@ -81,19 +78,9 @@ class UserMailer < ActionMailer::Base
     @stickies = stickies
     @sender = sender
     @recipient = recipient
-    # attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } if @sticky.include_ics?
     mail(to: recipient.email,
          subject: "#{sender.name} Completed #{@stickies.count} #{@stickies.count == 1 ? 'Sticky' : 'Stickies'}",
          reply_to: sender.email)
-  end
-
-  def sticky_due_at_changed_by_mail(sticky, recipient)
-    setup_email
-    @sticky = sticky
-    @recipient = recipient
-    attachments['event.ics'] = { mime_type: 'text/calendar', content: @sticky.export_ics } # Always include
-    mail(to: recipient.email,
-         subject: "Sticky #{sticky.name} Due Time Changed on Project #{sticky.project.name}")
   end
 
   def daily_stickies_due(recipient)
@@ -105,14 +92,6 @@ class UserMailer < ActionMailer::Base
     due_today = nil if recipient.all_deliverable_stickies_due_today.size == 0
     past_due = nil if recipient.all_deliverable_stickies_past_due.size == 0
     due_upcoming = nil if recipient.all_deliverable_stickies_due_upcoming.size == 0
-
-    @ics_string = RiCal.Calendar do |cal|
-      [recipient.all_deliverable_stickies_due_today, recipient.all_deliverable_stickies_past_due, recipient.all_deliverable_stickies_due_upcoming].flatten.compact.uniq.each do |sticky|
-        sticky.export_ics_block_evt(cal)
-      end
-    end.to_s
-
-    attachments['event.ics'] = { mime_type: 'text/calendar', content: @ics_string }
 
     mail(to: recipient.email,
          subject: [due_today, past_due, due_upcoming].compact.join(' and '))

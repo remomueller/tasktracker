@@ -54,12 +54,6 @@ class MailPreview < MailView
     UserMailer.stickies_completion_by_mail(stickies, sender, recipient)
   end
 
-  def sticky_due_at_changed_by_mail
-    sticky = Sticky.current.first
-    recipient = User.current.first
-    UserMailer.sticky_due_at_changed_by_mail(sticky, recipient)
-  end
-
   def daily_stickies_due
     recipient = User.current.first
     UserMailer.daily_stickies_due(recipient)

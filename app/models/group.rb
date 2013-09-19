@@ -39,14 +39,6 @@ class Group < ActiveRecord::Base
     super
   end
 
-  def export_ics
-    RiCal.Calendar do |cal|
-      self.stickies.each do |sticky|
-        sticky.export_ics_block_evt(cal)
-      end
-    end.to_s
-  end
-
   def creator_name
     self.user.name
   end
@@ -57,6 +49,7 @@ class Group < ActiveRecord::Base
 
   private
 
+  # TODO: Remove as this will no longer be allowed
   def update_stickies_project
     if self.changes[:project_id]
       self.stickies.update_all project_id: self.project_id, board_id: nil

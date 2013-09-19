@@ -12,12 +12,6 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get ics" do
-    get :index, format: 'ics', status: ['completed', 'not completed']
-    assert_not_nil assigns(:ics_string)
-    assert_response :success
-  end
-
   test "should get calendar month" do
     get :month
     assert_not_nil assigns(:anchor_date)
@@ -455,8 +449,8 @@ class StickiesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should move sticky on calendar and keep due_at time" do
-    post :move, id: stickies(:due_at_ics), due_date: "03/07/2012", format: 'js'
+  test "should move sticky on calendar and keep due at time" do
+    post :move, id: stickies(:due_at), due_date: "03/07/2012", format: 'js'
 
     assert_not_nil assigns(:sticky)
     assert_equal Time.utc(2012, 3, 7, 14, 0, 0), assigns(:sticky).due_date.utc

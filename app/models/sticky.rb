@@ -100,27 +100,6 @@ class Sticky < ActiveRecord::Base
     self.due_date + self.duration.send(self.duration_units)
   end
 
-  def export_ics
-    RiCal.Calendar do |cal|
-      self.export_ics_block_evt(cal)
-    end.to_s
-  end
-
-  def export_ics_block_evt(cal)
-    cal.event do |evt|
-      evt.summary     = self.full_description.truncate(27)
-      evt.description = self.ics_description
-      evt.dtstart     = self.due_date.to_date    if self.all_day? and not self.due_date.blank?
-      evt.dtstart     = self.due_date            if not self.all_day? and not self.due_date.blank?
-      evt.dtend       = self.due_date_time_end   if not self.all_day? and not self.due_date.blank?
-      evt.uid         = "#{SITE_URL}/stickies/#{self.id}"
-    end
-  end
-
-  def include_ics?
-    not self.due_date.blank?
-  end
-
   def tag_ids
     self.tags.order('tags.name').pluck('tags.id')
   end
@@ -148,17 +127,6 @@ class Sticky < ActiveRecord::Base
     @group_description ||= begin
       (self.group ? self.group.description : nil)
     end
-  end
-
-  def ics_description
-    result = ''
-    result << "To Update Sticky: #{SITE_URL}/stickies/#{self.id}\n\n"
-    result << "Status: #{self.completed? ? 'Completed' : 'Not Completed'}\n\n"
-    result << "Assigned To: #{self.owner.name}\n\n" if self.owner
-    result << "Project: #{self.project.name}\n\n"
-    result << self.full_description + "\n\n"
-    result << "Tags: #{self.tags.pluck(:name).join(', ')}\n\n" if self.tags.size > 0
-    result
   end
 
   def description_html
