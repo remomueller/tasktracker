@@ -1,3 +1,13 @@
 <% @title = "New Tag" %>
 
+<div class="page-header">
+  <h1>
+    <% if @tag.project %>
+      <%= link_to @tag.project.name, @tag.project %> &middot;
+    <% end %>
+    <%= link_to 'Tags', tags_path( project_id: @tag.project ? @tag.project.id : nil ) %> &middot;
+    New Tag
+  </h1>
+</div>
+
 <%= render 'form' %>

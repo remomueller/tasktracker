@@ -1,3 +1,13 @@
 <% @title = "New Template" %>
 
+<div class="page-header">
+  <h1>
+    <% if @template.project %>
+      <%= link_to @template.project.name, @template.project %> &middot;
+    <% end %>
+    <%= link_to 'Templates', templates_path( project_id: @template.project ? @template.project.id : nil ) %> &middot;
+    New Template
+  </h1>
+</div>
+
 <%= render 'form' %>

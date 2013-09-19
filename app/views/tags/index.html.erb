@@ -1,8 +1,10 @@
 <% @title = 'Tags' %>
 <div class="page-header">
   <h1>
+    <% if @project %>
+      <%= link_to @project.name, @project %> &middot;
+    <% end %>
     <%= @title %>
-    <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
     <%= link_to "Create Tag", (@project ? new_tag_path(tag: { project_id: @project.id }) : new_tag_path), class: 'btn btn-xs btn-primary' %>
   </h1>
 </div>

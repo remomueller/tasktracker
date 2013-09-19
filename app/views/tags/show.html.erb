@@ -1,14 +1,14 @@
-<% @title = "Tag: #{@tag.name}" %>
+<% @title = @tag.name %>
 <div class="page-header">
   <h1>
+    <%= link_to @tag.project.name, @tag.project %> &middot;
+    <%= link_to 'Tags', tags_path( project_id: @tag.project_id ) %> &middot;
     <%= @title %>
-    <small><% if @tag.project %>Project <%= link_to @tag.project.name, @tag.project %><% end %></small>
-    <% if current_user.all_tags.include?(@tag) %>
-      <%= link_to "Edit Tag", edit_tag_path(@tag), class: 'btn btn-xs btn-default' %>
-      <%= link_to "Delete Tag", @tag, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Tag #{@tag.name}?" } %>
-    <% end %>
-    <%= link_to "View Tags", tags_path, class: 'btn btn-xs btn-default' %>
   </h1>
+  <% if current_user.all_tags.include?(@tag) %>
+    <%= link_to "Edit Tag", edit_tag_path(@tag), class: 'btn btn-xs btn-default' %>
+    <%= link_to "Delete Tag", @tag, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Tag #{@tag.name}?" } %>
+  <% end %>
 </div>
 
 <dl class="dl-horizontal">

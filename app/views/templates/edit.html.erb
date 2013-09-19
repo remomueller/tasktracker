@@ -1,3 +1,13 @@
-<% @title = "Edit Template: #{@template.name}" %>
+<% @title = "Edit Template #{@template.name}" %>
+
+<div class="page-header">
+  <h1>
+    <% if @template.project %>
+      <%= link_to @template.project.name, @template.project %> &middot;
+    <% end %>
+    <%= link_to 'Templates', templates_path( project_id: @template.project ? @template.project.id : nil ) %> &middot;
+    <%= link_to @template.name, @template %> &middot; Edit
+  </h1>
+</div>
 
 <%= render 'form' %>
