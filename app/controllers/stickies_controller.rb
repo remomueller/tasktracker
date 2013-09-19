@@ -4,7 +4,7 @@ class StickiesController < ApplicationController
   before_action :set_viewable_sticky, only: [ :show ]
   before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :update, :destroy ]
   before_action :redirect_without_sticky, only: [ :show, :update, :completebs3, :destroy ]
-  before_action :set_filtered_sticky_scope, only: [ :day, :week, :month ]
+  before_action :set_filtered_sticky_scope, only: [ :day, :week, :month, :tasks ]
 
   def day
     @beginning = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
@@ -40,6 +40,15 @@ class StickiesController < ApplicationController
     @last_saturday = @end_date + (6 - @end_date.wday).day
 
     @stickies = @stickies.with_due_date_for_calendar(@first_sunday, @last_saturday)
+  end
+
+  # GET /tasks
+  def tasks
+    @tasks = @stickies.search(params[:search]).page(params[:page]).per(50)
+    respond_to do |format|
+      format.html { render 'tasks/index' }
+      format.js { render 'tasks/index' }
+    end
   end
 
   # GET /stickies

@@ -98,6 +98,7 @@ TaskTracker::Application.routes.draw do
   get "/day" => "stickies#day", as: :day
   get "/week" => "stickies#week", as: :week
   get "/month" => "stickies#month", as: :month
+  get "/tasks" => "stickies#tasks", as: :tasks
 
   root to: "stickies#week"
 

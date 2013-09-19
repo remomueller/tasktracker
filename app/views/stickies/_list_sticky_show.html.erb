@@ -7,6 +7,6 @@
     <% sticky.tags.each do |tag| %>
       <%= @tag = tag; render partial: 'tags/show' %>
     <% end %>
-    <%= sticky.description %>
+    <%= strip_tags(simple_markdown sticky.description).html_safe %>
   </div>
 <% end %>

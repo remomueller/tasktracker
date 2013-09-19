@@ -1,5 +1,5 @@
-<div class="list-group sticky-list <%= 'list-group-complete' if completed %>" data-due-date="<%= due_date.strftime("%Y%m%d") if due_date %>" data-completed="<%= completed %>">
-  <%= link_to (due_date ? due_date.strftime("%a, %B %-d, %Y") : 'No Due Date'), day_path(date: (due_date ? due_date.strftime("%Y%m%d") : nil), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), class: 'list-group-item list-group-heading' if due_date %>
+<div class="list-group sticky-list <%= 'list-group-complete' if completed %>" data-due-date="<%= due_date.blank? ? '0' : due_date.strftime("%Y%m%d") %>" data-completed="<%= completed %>">
+  <%= link_to ( due_date.blank? ? 'No Due Date' : due_date.strftime("%a, %B %-d, %Y") ), day_path(date: ( due_date.blank? ? 'none' : due_date.strftime("%Y%m%d") ), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), class: 'list-group-item list-group-heading' %>
   <% stickies.each do |sticky| %>
     <%= render partial: 'list_sticky_show', locals: { sticky: sticky } %>
   <% end %>
