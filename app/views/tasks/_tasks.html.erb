@@ -1,3 +1,10 @@
+<div class="pull-right" data-object="visible-sticky">
+  <% if @tasks.where( completed: false ).total_count > 0 %><span class="label label-default">Incomplete</span> <span class="label label-default"><%= @tasks.where( completed: false ).total_count %></span><% end %>
+  <% if @tasks.where( completed: true ).total_count > 0 %><span class="label label-primary">Complete</span> <span class="label label-primary"><%= @tasks.where( completed: true ).total_count %></span><% end %>
+</div>
+
+<div class="clear" data-object="visible-sticky" style="margin-bottom:10px">&nbsp;</div>
+
 
 <%= render partial: 'list', locals: { stickies: @tasks } %>
 <div class="center"><%= paginate @tasks, theme: "contour" %></div>
