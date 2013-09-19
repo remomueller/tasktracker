@@ -6,14 +6,6 @@ class GroupsControllerTest < ActionController::TestCase
     @group = groups(:one)
   end
 
-  test "should get project selection" do
-    post :project_selection, group: { project_id: projects(:one) }, format: 'js'
-    assert_not_nil assigns(:group)
-    assert_not_nil assigns(:project_id)
-    assert_template 'project_selection'
-    assert_response :success
-  end
-
   test "should get index" do
     get :index
     assert_response :success
@@ -22,8 +14,8 @@ class GroupsControllerTest < ActionController::TestCase
 
   test "should get new" do
     get :new, format: 'js'
-    assert_template 'new_redesign'
     assert_not_nil assigns(:group)
+    assert_template 'new'
     assert_response :success
   end
 

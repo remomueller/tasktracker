@@ -6,11 +6,6 @@ class GroupsController < ApplicationController
   before_action :set_editable_group, only: [ :edit, :update, :destroy ]
   before_action :redirect_without_group, only: [ :show, :edit, :update, :destroy ]
 
-  def project_selection
-    @group = Group.new(group_params)
-    @project_id = @group.project_id
-  end
-
   # GET /groups
   # GET /groups.json
   def index
@@ -28,10 +23,10 @@ class GroupsController < ApplicationController
   def new
     @group = current_user.groups.new(group_params)
     @group.project = current_user.all_projects.first if not @group.project and current_user.all_projects.size == 1
-    @project_id = @group.project_id
+    @group.template = @group.project.templates.first if @group.project and @group.project.templates.size == 1
 
     respond_to do |format|
-      format.js { render 'new_redesign' }
+      format.js
       format.html { redirect_to root_path }
     end
   end

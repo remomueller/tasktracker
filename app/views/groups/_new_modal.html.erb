@@ -1,0 +1,28 @@
+<% @title = @group.new_record? ? "New Group" : "Edit Group #{@group.name}" %>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h4 class="modal-title">
+
+    <% if @group.project %>
+      <%= link_to @group.project.name, @group.project, target: '_blank' %> &middot;
+      <% @project_id = @group.project.id %>
+    <% end %>
+    <%= @title %>
+  </h4>
+</div>
+<div class="modal-body">
+
+  <%= form_for(@group, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f| %>
+    <%= f.hidden_field :project_id %>
+    <%= render partial: 'groups/inner_form', locals: { f: f } %>
+  <% end %>
+
+  <div id="item_details">
+    <%= @template = @group.template; render partial: 'templates/compact_items' if @group.template %>
+  </div>
+</div>
+<div class="modal-footer">
+  <%= link_to 'Cancel', '#', class: 'btn btn-default', data: { dismiss: 'modal' } %>
+
+  <%= submit_tag 'Create Group', class: 'btn btn-primary', data: { object: 'sticky-submit', target: "#new_group" } %>
+</div>

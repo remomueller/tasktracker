@@ -1,0 +1,20 @@
+<%# Step 1: Hide Modal %>
+$("#sticky-modal-new").modal('hide');
+
+<% stickies = @group.stickies %>
+
+<%# Step 2: Remove existing stickies from view %>
+<% stickies.each do |sticky| %>
+  removeSticky("<%= sticky.id %>");
+<% end %>
+
+<%# Step 3: Add Updated Stickies to View %>
+<% stickies.each do |sticky| %>
+  list_element_with_header =      "<%= escape_javascript( render partial: 'stickies/day_list',                locals: { stickies: [sticky], completed: sticky.completed, due_date: sticky.due_date } ) %>";
+  list_element =                  "<%= escape_javascript( render partial: 'stickies/list_sticky_show',        locals: { sticky: sticky } ) %>";
+
+  month_element_with_header =     "<%= escape_javascript( render partial: 'stickies/month_header_with_tags',  locals: { stickies: [sticky], tag_ids: sticky.tag_ids, current_date: sticky.due_date } ) %>";
+  month_element =                 "<%= escape_javascript( render partial: 'stickies/popup',                   locals: { sticky: sticky } ) %>";
+
+  addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date.strftime('%Y%m%d') if sticky.due_date %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
+<% end %>

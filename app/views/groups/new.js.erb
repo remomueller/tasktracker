@@ -1,3 +1,17 @@
-$('#group_template_id').parent().parent().addClass('error');
+<% if @group.project %>
+  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'groups/new_modal') %>");
+  initializeTypeahead();
+  loadDatePicker();
+  loadTimePicker();
+  $("#sticky-modal-new").modal('show');
+  $("#group_description").focus();
+<% else %>
+  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'stickies/select_project') %>");
+  $("#sticky-modal-new").modal('show');
+<% end %>
+
+<% @group.errors.each do |key, value| %>
+  $('#group_<%= key %>').parent().parent().addClass('error');
+<% end %>
 
 resetSubmitButtons();

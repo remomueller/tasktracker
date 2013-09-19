@@ -1,3 +1,17 @@
+  <% if @group.project %>
+    $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "groups/new_redesign", locals: { sticky: @sticky }) %>");
+    initializeTypeahead();
+    loadDatePicker();
+    loadTimePicker();
+    $("#sticky-modal-new").modal('show');
+    $("#sticky_description").focus();
+  <% else %>
+    $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/select_project") %>");
+    $("#sticky-modal-new").modal('show');
+  <% end %>
+
+
+
 $("#sticky_modal_container").html("<%= escape_javascript(render("groups/new_redesign")) %>");
 loadDatePicker();
 showStickyModal();

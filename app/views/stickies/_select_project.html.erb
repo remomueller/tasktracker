@@ -1,11 +1,13 @@
 <% favorite_end = false %>
+<% all_projects = current_user.all_viewable_projects %>
+<% all_projects = all_projects.has_template if @group %>
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h4 class="modal-title">Select Project</h4>
 </div>
 <div class="modal-body">
   <div class="row">
-    <% current_user.all_viewable_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").each_with_index do |project, index| %>
+    <% all_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").each_with_index do |project, index| %>
       <% if favorite_end == false and not project.favorited_by?(current_user) and index != 0 %>
         </div>
         <h3>Other Projects</h3>
@@ -14,7 +16,11 @@
       <% end %>
       <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2" style="margin-bottom:10px;">
         <div style="white-space:nowrap;overflow:hidden;">
-          <%= link_to project.name, newbs3_stickies_path( bs3: '1', sticky: { project_id: project.id, due_date: params[:due_date] } ), remote: true, class: 'btn btn-default btn-block', style: "border-color:#{project.color(current_user)}" %>
+          <% if @group %>
+            <%= link_to project.name, new_group_path( group: { project_id: project.id, due_date: params[:due_date] } ), remote: true, class: 'btn btn-default btn-block', style: "border-color:#{project.color(current_user)}" %>
+          <% else %>
+            <%= link_to project.name, newbs3_stickies_path( bs3: '1', sticky: { project_id: project.id, due_date: params[:due_date] } ), remote: true, class: 'btn btn-default btn-block', style: "border-color:#{project.color(current_user)}" %>
+          <% end %>
         </div>
       </div>
     <% end %>

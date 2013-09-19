@@ -2,7 +2,7 @@
 
 <%= label_tag :group_board_id, 'Board', class: 'col-md-2 control-label' %>
 <div class="col-md-10">
-  <% if @project_id %>
+  <% if @group.project_id %>
     <% board_groups = [] %>
     <% board_groups << ["Current", boards.where(archived: false).natural_sort] if boards.where(archived: false).size > 0 %>
     <% board_groups << ["Archived", boards.where(archived: true).natural_sort] if boards.where(archived: true).size > 0 %>

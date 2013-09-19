@@ -3,7 +3,6 @@
 <%= label_tag :group_template_id, 'Template', class: 'col-md-2 control-label' %>
 <div class="col-md-10">
   <% if @project_id %>
-    <%#= select_tag :group_template_id, options_for_select([['---', nil]] + templates.order('name').collect{|t| [t.name, t.id]}, @group.template_id ), name: 'template_id' %>
     <%= select :group, :template_id, options_for_select([['---', nil]] + templates.order('name').collect{|t| [t.name, t.id]}, @group.template_id ), {}, class: 'form-control' %>
   <% else %>
     <%= hidden_field :group, :template_id %>

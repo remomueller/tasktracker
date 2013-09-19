@@ -17,11 +17,7 @@ TaskTracker::Application.routes.draw do
     end
   end
 
-  resources :groups do
-    collection do
-      post :project_selection
-    end
-  end
+  resources :groups
 
   resources :project_users do
     collection do

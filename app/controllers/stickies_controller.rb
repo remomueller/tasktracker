@@ -224,7 +224,7 @@ class StickiesController < ApplicationController
 
     if @sticky
       if @group = @sticky.group
-        render 'groups/create'
+        render 'groups/update'
       else
         render 'update'
       end
