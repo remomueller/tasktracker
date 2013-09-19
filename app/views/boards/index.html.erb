@@ -1,8 +1,10 @@
 <% @title = 'Boards' %>
 <div class="page-header">
   <h1>
+    <% if @project %>
+      <%= link_to @project.name, @project %> &middot;
+    <% end %>
     <%= @title %>
-    <% if @project %><small>Project <%= link_to @project.name, @project %></small><% end %>
     <%= link_to "Create Board", (@project ? new_board_path(board: { project_id: @project.id }) : new_board_path), class: 'btn btn-xs btn-primary' %>
   </h1>
 </div>

@@ -12,7 +12,6 @@
 </div>
 <div class="modal-body">
   <%= form_for(@sticky, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f| %>
-    <%= hidden_field_tag :bs3, '1' %>
     <%= f.hidden_field :project_id %>
     <%= render partial: 'stickies/inner_form', locals: { f: f } %>
   <% end %>
@@ -22,7 +21,7 @@
   <% if @sticky.new_record? %>
     <%= link_to 'Cancel', '#', class: 'btn btn-default', data: { dismiss: 'modal' } %>
   <% else %>
-    <%= link_to 'Cancel', sticky_path(@sticky, bs3: '1'), method: :get, remote: true, class: 'btn btn-default' %>
+    <%= link_to 'Cancel', @sticky, method: :get, remote: true, class: 'btn btn-default' %>
   <% end %>
 
   <%= submit_tag @sticky.new_record? ? 'Create Sticky' : 'Update Sticky', class: 'btn btn-primary', data: { object: 'sticky-submit', target: @sticky.new_record? ? "#new_sticky" : "#edit_sticky_#{@sticky.id}" } %>
