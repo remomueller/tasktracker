@@ -100,7 +100,15 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       if @project.save
         format.html { redirect_to(@project, notice: 'Project was successfully created.') }
-        format.js
+        format.js do
+          if params[:object] == 'sticky'
+            @sticky = current_user.stickies.new( due_date: parse_date(params[:due_date]), project_id: @project.id )
+            render 'stickies/new'
+          else
+            @group = current_user.groups.new( due_date: parse_date(params[:due_date]), project_id: @project.id )
+            render 'groups/new'
+          end
+        end
         format.json { render action: 'show', status: :created, location: @project }
       else
         format.html { render 'new' }

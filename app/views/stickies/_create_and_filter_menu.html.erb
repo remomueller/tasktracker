@@ -75,7 +75,7 @@
         <div class="row">
           <% current_user.all_viewable_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").each do |project| %>
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-              <label class="checkbox tag-checkbox <%= 'tag-selected' if project_ids.include?(project.id.to_s) %>" style="margin-bottom: 0px;background-color:#efefef;font-weight:bold;color:#333">
+              <label class="checkbox tag-checkbox <%= 'tag-selected' if project_ids.include?(project.id.to_s) %>" style="margin-bottom: 0px;background-color:<%= project.color(current_user) %>;font-weight:bold;color:#333">
                 <%= check_box_tag "project_ids[]", project.id, project_ids.include?(project.id.to_s) %>
                 <div style="overflow:hidden;white-space:nowrap"><%= project.name %></div>
               </label>
