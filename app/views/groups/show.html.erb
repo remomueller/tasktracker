@@ -23,5 +23,11 @@
 </dl>
 
 <div id="stickies">
-  <%= @stickies = @group.stickies; render partial: 'stickies/simple_stickies' %>
+  <% if true %>
+    <div class="clear">&nbsp;</div>
+    <%= render partial: 'stickies/list', locals: { stickies: @group.stickies } %>
+    <%= render partial: 'stickies/modal' %>
+  <% else %>
+    <%= @stickies = @group.stickies; render partial: 'stickies/simple_stickies' %>
+  <% end %>
 </div>
