@@ -12,7 +12,7 @@ $("#sticky-modal-new").modal('hide');
   month_element =                 "<%= escape_javascript( render partial: 'stickies/popup',                   locals: { sticky: sticky } ) %>";
 
 
-  addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date.strftime('%Y%m%d') if sticky.due_date %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
+  addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date ? sticky.due_date.strftime('%Y%m%d') : 'none' %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
 <% end %>
 
 

@@ -4,11 +4,13 @@
 
 <h4 style="margin-top:0px"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></h4>
 
-<%= link_to simple_check(true) + ' Select All', '#', data: { object: 'select-all-stickies' }, class: 'btn btn-xs btn-default' %>
-<%= link_to simple_check(false) + ' Deselect All', '#', data: { object: 'deselect-all-stickies' }, class: 'btn btn-xs btn-default' %>
+<% if false %>
+  <%= link_to simple_check(true) + ' Select All', '#', data: { object: 'select-all-stickies' }, class: 'btn btn-xs btn-default' %>
+  <%= link_to simple_check(false) + ' Deselect All', '#', data: { object: 'deselect-all-stickies' }, class: 'btn btn-xs btn-default' %>
+<% end %>
 
-<%= link_to 'New <u>S</u>ticky'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [S]', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
-<%= link_to 'New <u>G</u>roup'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', rel: 'tooltip', title: 'Shortcut [G]', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
+<%= link_to 'Create Task'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
+<%= link_to 'Create Group'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
 
 <%= link_to 'Mark Not Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none'  if @project.modifiable_by?(current_user) %>
 <%= link_to 'Mark Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' if @project.modifiable_by?(current_user) %>
@@ -42,6 +44,14 @@
   </div>
 <% end %>
 
+<% if true %>
+  <% params[:project_ids] = @project.id.to_s %>
+  <% params[:tags] = @tags.pluck(:name).uniq.join(',') %>
+  <% params[:owners] = current_user.name if params[:assigned_to_me].to_s == '1' %>
+  <div class="clear">&nbsp;</div>
+  <%= render partial: 'list', locals: { stickies: @stickies } %>
+  <%= render partial: 'modal' %>
+<% else %>
 <% if @stickies.count > 0 %>
   <table class="table table-condensed" style="margin-top:10px;width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="40px"/><col width="80px"/><col width="60px"/>
     <tbody id="row-stickies">
@@ -65,4 +75,5 @@
       </div>
     <% end %>
   </center>
+<% end %>
 <% end %>

@@ -29,7 +29,7 @@
 
 
         <td class="<%= 'current-week' if is_current_week %> <%= incomplete != 0 && incomplete >= 0.5*@max_incomplete_count ? 'danger' : (incomplete > 0 ? 'warning' : completed > 0 ? 'success' : '')  %> text-center <%= 'text-muted' if incomplete == 0 %> <%= 'hidden-xs' if (@anchor_date - date).abs.days > 1.month %> <%= 'hidden-sm' if (@anchor_date - date).abs.days > 50.days %>">
-          <%= link_to current_date.day, week_path( date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids] ), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == @anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}" %>
+          <%= link_to current_date.day, week_path( date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids] ), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == @anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}", tabindex: '-1' %>
         </td>
         <% date = date + 1.week %>
       <% end %>

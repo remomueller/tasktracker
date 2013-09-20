@@ -1,3 +1,13 @@
 <% @title = "Edit Group #{@group.name}" %>
 
+<div class="page-header">
+  <h1>
+    <% if @group.project %>
+      <%= link_to @group.project.name, @group.project %> &middot;
+    <% end %>
+    <%= link_to 'Groups', groups_path( project_id: @group.project ? @group.project.id : nil ) %> &middot;
+    <%= link_to @group.name, @group %> &middot; Edit
+  </h1>
+</div>
+
 <%= render 'form' %>

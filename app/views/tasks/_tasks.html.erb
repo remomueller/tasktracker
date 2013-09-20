@@ -7,4 +7,4 @@
 
 
 <%= render partial: 'list', locals: { stickies: @tasks } %>
-<div class="center"><%= paginate @tasks, theme: "contour" %></div>
+<div class="center" data-object="visible-sticky"><%= paginate @tasks, theme: "contour" %></div>

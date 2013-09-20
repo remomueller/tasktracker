@@ -35,13 +35,13 @@
   <%= form_tag url, id: 'filters-form' do %>
 
     <ul class="nav nav-tabs" id="filter_selection">
-      <li class="active"><a href="#tags">Tags <span class="badge" id="tags-count"><%= tags.size if tags.size > 0 %></span></a></li>
+      <li class="active"><a href="#tags-pane">Tags <span class="badge" id="tags-count"><%= tags.size if tags.size > 0 %></span></a></li>
       <li><a href="#users">Users <span class="badge" id="owners-count"><%= owners.size if owners.size > 0 %></span></a></li>
       <li><a href="#projects">Projects <span class="badge" id="project-ids-count"><%= project_ids.size if project_ids.size > 0 %></span></a></li>
     </ul>
 
     <div class="tab-content">
-      <div class="tab-pane active" id="tags">
+      <div class="tab-pane active" id="tags-pane">
         <div class="row">
           <% current_user.all_tags.order(:project_id, :name).group_by(&:name).each do |name, all_tags| %>
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">

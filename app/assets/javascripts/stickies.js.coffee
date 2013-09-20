@@ -32,11 +32,9 @@
 
 
 @sortdates = (a, b) ->
-  parta = "#{if $(a).data('completed') then '1' else '0'}#{$(a).data('due-date')}"
-  partb = "#{if $(b).data('completed') then '1' else '0'}#{$(b).data('due-date')}"
-  parta = parseInt(parta)
-  partb = parseInt(partb)
-  return (parta > partb ? -1 : (parta < partb ? 1 : 0))
+  parta = parseInt($(a).data('sort'))
+  partb = parseInt($(b).data('sort'))
+  return (parta - partb)
 
 @sortDays = () ->
   new_array = $("#sticky-day-lists .sticky-list").sort(sortdates)
