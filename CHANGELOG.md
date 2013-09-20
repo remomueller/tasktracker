@@ -11,6 +11,7 @@
 
 ### Bug Fix
 - Fixed a bug that reset a project's color if a user selected the color box and then closed it without changing the color
+- Stickies in a group are now order by due date
 
 ## 0.27.2 (September 16, 2013)
 

@@ -18,7 +18,7 @@ class Group < ActiveRecord::Base
   belongs_to :user
   belongs_to :template
   belongs_to :project
-  has_many :stickies, -> { where deleted: false }
+  has_many :stickies, -> { where(deleted: false).order(:due_date) }
 
   def name
     "##{self.id}"
