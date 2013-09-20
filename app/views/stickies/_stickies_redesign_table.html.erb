@@ -50,6 +50,7 @@
   <% params[:owners] = current_user.name if params[:assigned_to_me].to_s == '1' %>
   <div class="clear">&nbsp;</div>
   <%= render partial: 'list', locals: { stickies: @stickies } %>
+  <div class="center" data-object="visible-sticky"><%= paginate @stickies, theme: "contour" %></div>
   <%= render partial: 'modal' %>
 <% else %>
 <% if @stickies.count > 0 %>
