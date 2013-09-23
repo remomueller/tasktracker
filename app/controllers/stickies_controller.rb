@@ -336,7 +336,6 @@ class StickiesController < ApplicationController
 
     def sticky_params
       params[:sticky] ||= {}
-      params[:sticky][:tag_ids] ||= []
 
       params[:sticky][:due_date] = parse_date(params[:sticky][:due_date]) unless params[:sticky][:due_date].blank?
 

@@ -688,7 +688,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should update sticky and remove all tags" do
-    put :update, id: stickies(:tagged), from: 'month', sticky: { description: "Sticky Tags Removed", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011" }, format: 'js'
+    put :update, id: stickies(:tagged), from: 'month', sticky: { description: "Sticky Tags Removed", project_id: projects(:one).to_param, board_id: boards(:one).to_param, completed: '0', due_date: "08/15/2011", tag_ids: [""] }, format: 'js'
     assert_not_nil assigns(:sticky)
     assert_equal [], assigns(:sticky).tags
     assert_equal "Sticky Tags Removed", assigns(:sticky).description
