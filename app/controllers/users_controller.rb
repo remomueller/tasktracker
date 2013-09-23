@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_system_admin, only: [:new, :create, :edit, :update, :destroy, :overall_graph, :graph]
-  before_action :set_user, only: [ :show, :edit, :update, :destroy, :graph ]
-  before_action :redirect_without_user, only: [ :show, :edit, :update, :destroy, :graph ]
+  before_action :check_system_admin, only: [ :new, :create, :edit, :update, :destroy ]
+  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
+  before_action :redirect_without_user, only: [ :show, :edit, :update, :destroy ]
 
   def api_token
     if User::VALID_API_TOKENS.include?(params[:api_token])
@@ -10,55 +10,6 @@ class UsersController < ApplicationController
     else
       render nothing: true
     end
-  end
-
-  # Stickies per user
-  def overall_graph
-    @users_hash = {}
-    @users_comment_hash = {}
-    params[:year] = Date.today.year if params[:year].blank?
-    (1..12).each do |month|
-      User.current.each do |user|
-        escaped_name = "<" + user.id.to_s + ">" + user.nickname.gsub("'", "\\\\'")
-        @users_hash[escaped_name] = [] unless @users_hash[escaped_name]
-        @users_hash[escaped_name] << Sticky.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month)).with_owner(user.id).count # == 0
-        @users_comment_hash[escaped_name] = [] unless @users_comment_hash[escaped_name]
-        @users_comment_hash[escaped_name] << Comment.current.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month)).with_creator(user.id).count
-      end
-    end
-    @users_hash.reject!{|k, v| v == [0]*12}
-    @users_comment_hash.reject!{|k, v| v == [0]*12}
-  end
-
-  def graph
-    @stickies = []
-    @planned = []
-    @completed = []
-    params[:year] = Date.today.year if params[:year].blank?
-    (1..12).each do |month|
-      @stickies << @user.all_stickies.with_date_for_calendar(month_start_date(params[:year], month), month_end_date(params[:year], month))
-      @planned << @stickies.last.where(completed: false).count
-      @completed << @stickies.last.where(completed: true).count
-    end
-
-    @other_projects_hash = {}
-    @favorite_projects_hash = {}
-
-    (1..12).each do |month|
-      @user.all_projects.by_favorite(@user.id).order("(favorite IS NULL or favorite = 'f') DESC, name DESC").each do |project|
-        escaped_name = project.name.gsub("'", "\\\\'")
-        count = @stickies[month-1].where(project_id: project.id).count
-        if project.favorited_by?(@user)
-          @favorite_projects_hash[escaped_name] = [] unless @favorite_projects_hash[escaped_name]
-          @favorite_projects_hash[escaped_name] << count
-        else
-          @other_projects_hash[escaped_name] = [] unless @other_projects_hash[escaped_name]
-          @other_projects_hash[escaped_name] << count
-        end
-      end
-    end
-    @favorite_projects_hash.reject!{|k, v| v == [0]*12}
-    @other_projects_hash.reject!{|k, v| v == [0]*12}
   end
 
   def update_settings

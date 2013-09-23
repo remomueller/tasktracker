@@ -8,6 +8,7 @@
   - Updated to contour 2.1.0
 - Removed support for Ruby 1.9.3
 - Removed support for ICS format
+- Removed system admin graphs
 
 ### Bug Fix
 - Fixed a bug that reset a project's color if a user selected the color box and then closed it without changing the color

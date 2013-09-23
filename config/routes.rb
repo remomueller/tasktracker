@@ -75,12 +75,7 @@ TaskTracker::Application.routes.draw do
   devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }
 
   resources :users do
-    collection do
-      post :search
-      get :overall_graph
-    end
     member do
-      get :graph
       post :update_settings
       post :api_token
     end
