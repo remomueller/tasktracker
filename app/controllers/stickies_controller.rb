@@ -2,8 +2,8 @@ class StickiesController < ApplicationController
   before_action :authenticate_user!
   before_action :api_authentication!, only: [ :index, :show, :create, :update ]
   before_action :set_viewable_sticky, only: [ :show ]
-  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :completebs3, :update, :destroy ]
-  before_action :redirect_without_sticky, only: [ :show, :update, :completebs3, :destroy ]
+  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
+  before_action :redirect_without_sticky, only: [ :show, :update, :destroy ]
   before_action :set_filtered_sticky_scope, only: [ :day, :week, :month, :tasks ]
 
   def day
@@ -193,13 +193,12 @@ class StickiesController < ApplicationController
 
   def move
     params[:due_date] = parse_date(params[:due_date])
-    params[:due_date] = Time.zone.parse(params[:due_date].strftime("%Y-%m-%d ") + @sticky.due_at_string) rescue ''
 
     if @sticky and not params[:due_date].blank?
       original_due_date = @sticky.due_date
-      @sticky.update_attributes due_date: params[:due_date]
+      @sticky.update due_date: params[:due_date]
 
-      @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+      @sticky.shift_group((@sticky.due_date - original_due_date).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
     else
       @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
     end
@@ -226,11 +225,6 @@ class StickiesController < ApplicationController
     else
       render nothing: true
     end
-  end
-
-  def completebs3
-    @sticky.update( completed: params[:completed] )
-    @sticky.send_email_if_recently_completed(current_user)
   end
 
   # This is always from calendar, the project one always uses complete_multiple...(todo refactor)
@@ -277,7 +271,7 @@ class StickiesController < ApplicationController
       if @sticky.update(sticky_params)
         @sticky.send_email_if_recently_completed(current_user)
 
-        @sticky.shift_group(((@sticky.due_date - original_due_date) / 1.day).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+        @sticky.shift_group((@sticky.due_date - original_due_date).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
 
         format.html { redirect_to @sticky, notice: 'Sticky was successfully updated.' }
         format.js
@@ -336,21 +330,9 @@ class StickiesController < ApplicationController
     end
 
     def sticky_params
-      params[:sticky] ||= {}
+      params[:sticky] ||= { blank: '1' }
 
       params[:sticky][:due_date] = parse_date(params[:sticky][:due_date]) unless params[:sticky][:due_date].blank?
-
-      params[:sticky][:all_day] = begin
-        unless params[:sticky][:due_at_string].blank?
-          t = Time.parse(params[:sticky][:due_at_string])
-          params[:sticky][:due_date] = Time.zone.parse(params[:sticky][:due_date].strftime("%Y-%m-%d ") + params[:sticky][:due_at_string])
-          false
-        else
-          true
-        end
-      rescue
-        true
-      end
 
       unless params[:sticky][:project_id].blank?
         project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
@@ -370,7 +352,7 @@ class StickiesController < ApplicationController
       params[:sticky][:repeat_amount] = 1 if params[:sticky][:repeat] == 'none'
 
       params.require(:sticky).permit(
-        :description, :project_id, :owner_id, :board_id, :due_date, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
+        :description, :project_id, :owner_id, :board_id, :due_date, :due_time, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
       )
     end
 

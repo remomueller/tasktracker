@@ -34,7 +34,7 @@
       </td>
 
 
-      <td style="white-space:nowrap"><%= Time.parse(item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue '' %><% if item[:duration].to_i > 0 %> for <%= item[:duration] %> <%= item[:duration_units] %><% end %></td>
+      <td style="white-space:nowrap"><%= item[:due_at_string] %><% if item[:duration].to_i > 0 %> for <%= item[:duration] %> <%= item[:duration_units] %><% end %></td>
     </tr>
   <% end %>
 </table>

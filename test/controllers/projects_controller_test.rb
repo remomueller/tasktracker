@@ -168,6 +168,16 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to project_path(assigns(:project))
   end
 
+  test "should create project from popup" do
+    assert_difference('Project.count') do
+      post :create, project: { name: 'New Project', description: '' }, format: 'js'
+    end
+    assert_not_nil assigns(:project)
+    assert_equal assigns(:project).user_id.to_s, users(:valid).to_param
+    assert_not_nil assigns(:sticky)
+    assert_template 'stickies/new'
+  end
+
   test "should create project as json" do
     assert_difference('Project.count') do
       post :create, project: { name: "New Project", description: '' }, format: 'json'

@@ -7,7 +7,7 @@
     <% sticky.tags.each do |tag| %>
       <%= @tag = tag; render partial: 'tags/show' %>
     <% end %>
-    <%= strip_tags(simple_markdown sticky.full_description).html_safe %>
+    <%= highlight(strip_tags(simple_markdown sticky.full_description), params[:search], highlighter: '<b class="label-highlight">\1</b>') %>
   </div>
   <div data-object="sticky-helper" style="display:none"><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %> <%= strip_tags(simple_markdown sticky.full_description).truncate(30, separator: ' ').html_safe %></div>
 <% end %>

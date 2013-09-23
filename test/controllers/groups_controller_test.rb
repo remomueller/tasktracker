@@ -133,7 +133,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal templates(:with_due_at).items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
-    assert_equal '9:00 PM', assigns(:group).stickies.first.due_at_string
+    assert_equal '9pm', assigns(:group).stickies.first.due_time
     assert_equal 45, assigns(:group).stickies.first.duration
     assert_equal 'minutes', assigns(:group).stickies.first.duration_units
     assert_redirected_to group_path(assigns(:group))
@@ -150,25 +150,8 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal templates(:avoid_weekends).items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
-    assert_equal Time.zone.local(2012, 3, 9, 0, 0, 0), assigns(:group).stickies.order('due_date').first.due_date
-    assert_equal Time.zone.local(2012, 3, 12, 0, 0, 0), assigns(:group).stickies.order('due_date').last.due_date
-    assert_redirected_to group_path(assigns(:group))
-  end
-
-  test "should create group of stickies and set invalid due_at time and duration to default" do
-    assert_difference('Sticky.count', templates(:with_due_at_invalid).items.size) do
-      assert_difference('Group.count') do
-        post :create, group: { project_id: projects(:one), template_id: templates(:with_due_at_invalid), board_id: boards(:one) }
-      end
-    end
-    assert_not_nil assigns(:template)
-    assert_not_nil assigns(:group)
-    assert_equal templates(:with_due_at_invalid).items.size, assigns(:group).stickies.size
-    assert_equal boards(:one), assigns(:board)
-    assert_equal users(:valid), assigns(:group).user
-    assert_equal '', assigns(:group).stickies.first.due_at_string
-    assert_equal 0, assigns(:group).stickies.first.duration
-    assert_equal 'hours', assigns(:group).stickies.first.duration_units
+    assert_equal Date.parse("2012-03-09"), assigns(:group).stickies.order('due_date').first.due_date
+    assert_equal Date.parse("2012-03-12"), assigns(:group).stickies.order('due_date').last.due_date
     assert_redirected_to group_path(assigns(:group))
   end
 

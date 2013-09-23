@@ -7,6 +7,9 @@
     $("#sticky-day-lists").append(list_element_with_header)
     sortDays()
 
+  if $("#list_sticky_#{sticky_id}").length == 1 or $(".sticky-list[data-due-date='#{due_date}'][data-completed='#{completed}']").length == 1 or $("#sticky-day-lists").length == 1
+    activateStickyDraggables()
+
   if $("#sticky_#{sticky_id}_popup").length == 1
     $("#sticky_#{sticky_id}_popup").replaceWith(month_element)
   else if $("#day_#{due_date}_tag_container_#{tag_ids}").length == 1
@@ -313,7 +316,7 @@ jQuery ->
       else
         $('[data-object~="repeat-options"]').hide()
     )
-    .on('click', '#set_time', () ->
+    .on('click', '#sticky_all_day', () ->
       if $(this).is(':checked')
         $('[data-object~="time-options"]').hide()
       else

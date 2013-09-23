@@ -36,12 +36,6 @@ with_due_at:
   name: Due At Item
   items: [{ description: 'Due At: 9:00 PM to 9:45PM', interval: 0, units: 'days', due_at_string: '9pm', duration: 45, duration_units: 'minutes' }]
 
-with_due_at_invalid:
-  user: valid
-  project: one
-  name: Due At Item Invalid
-  items: [{ description: 'Due At will be default when sticky is created', interval: 0, units: 'days', due_at_string: 'Evening', duration: '', duration_units: '' }]
-
 avoid_weekends:
   user: valid
   project: one

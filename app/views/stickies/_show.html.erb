@@ -10,7 +10,7 @@
       <% end %>
     </td>
     <td style="vertical-align:top;text-align:right">
-      <%= simple_date(@sticky.due_date) %><%= " at #{@sticky.due_at_string_short}" unless @sticky.all_day? %>
+      <%= simple_date(@sticky.due_date) %> <%= @sticky.due_time unless @sticky.all_day? %>
     </td>
   </tr>
 </table>

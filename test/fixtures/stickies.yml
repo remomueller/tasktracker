@@ -17,7 +17,7 @@ grouped:
   description: StickyGrouped
   start_date: 2011-02-24
   end_date: 2011-02-24
-  due_date: 2011-12-13 05:00:00
+  due_date: 2011-12-13
   deleted: false
   board: one
   group: one
@@ -39,7 +39,7 @@ planned:
   # board:
   completed: false
   description: This is a planned sticky
-  due_date: 2011-12-10 05:00:00
+  due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:
   deleted: false
@@ -51,7 +51,7 @@ ongoing:
   # board:
   completed: false
   description: This is an ongoing sticky
-  due_date: 2011-12-10 05:00:00
+  due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:
   deleted: false
@@ -62,7 +62,7 @@ completed:
   # board:
   completed: true
   description: This is a completed sticky
-  due_date: 2011-12-10 05:00:00
+  due_date: 2011-12-10
   start_date: 2011-11-30
   end_date: 2011-12-01
   deleted: false
@@ -73,7 +73,7 @@ viewable_by_valid:
   # board:
   completed: false
   description: This is a pending viewable sticky but valid may not edit this
-  due_date: 2011-12-31 05:00:00
+  due_date: 2011-12-31
   start_date: 2011-12-19
   # end_date:
   deleted: false
@@ -85,7 +85,7 @@ grouped_one:
   description: Task A
   start_date: 2011-02-24
   end_date: 2011-02-24
-  due_date: 2011-12-01 05:00:00
+  due_date: 2011-12-01
   deleted: false
   # board: one
   group: three
@@ -97,7 +97,7 @@ grouped_two:
   description: Task B
   start_date: 2011-02-24
   end_date: 2011-02-24
-  due_date: 2011-12-02 05:00:00
+  due_date: 2011-12-02
   deleted: false
   # board: one
   group: three
@@ -109,7 +109,7 @@ grouped_three:
   description: Task C
   start_date: 2011-02-24
   end_date: 2011-02-24
-  due_date: 2011-12-03 05:00:00
+  due_date: 2011-12-03
   deleted: false
   # board: one
   group: three
@@ -121,7 +121,7 @@ grouped_four:
   description: Task D
   start_date: 2011-02-24
   end_date: 2011-02-24
-  due_date: 2011-12-04 05:00:00
+  due_date: 2011-12-04
   deleted: false
   # board: one
   group: three
@@ -133,7 +133,7 @@ grouped_five:
   description: Task E
   start_date: 2011-02-24
   end_date: 2011-02-24
-  due_date: 2011-12-05 05:00:00
+  due_date: 2011-12-05
   deleted: false
   # board: one
   group: three
@@ -156,7 +156,7 @@ tagged:
   # board:
   completed: false
   description: This is a sticky with tags
-  due_date: 2011-12-10 05:00:00
+  due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:
   deleted: false
@@ -169,7 +169,7 @@ only_alpha:
   # board:
   completed: false
   description: Only Tag Alpha
-  due_date: 2011-12-10 05:00:00
+  due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:
   deleted: false
@@ -182,7 +182,7 @@ only_beta:
   # board:
   completed: false
   description: Only Tag Beta
-  due_date: 2011-12-10 05:00:00
+  due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:
   deleted: false
@@ -194,9 +194,9 @@ due_at:
   project: one
   # board:
   completed: false
-  description: With Due Date and ICS attachment
-  # Due Date is 9am EST with no DST in effect
-  due_date: 2011-12-06 14:00:00
+  description: With Due Date
+  due_date: 2011-12-06
+  due_time: 9am
   all_day: false
   duration: 45
   duration_units: minutes
@@ -211,7 +211,7 @@ repeat_daily:
   project: one
   completed: false
   description: Repeat Tomorrow
-  due_date: 2013-01-02 05:00:00
+  due_date: 2013-01-02
   all_day: true
   owner: valid
   repeat: 'day'

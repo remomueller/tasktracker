@@ -28,9 +28,9 @@
     <%= link_to 'Edit', edit_sticky_path(@sticky, from: params[:from]), method: :get, remote: true, class: 'btn btn-default' %>
 
     <% if @sticky.completed? %>
-      <%= link_to 'Mark Not Completed', completebs3_sticky_path( @sticky, completed: false ), method: :post, remote: true, class: 'btn btn-primary' %>
+      <%= link_to 'Mark Not Completed', sticky_path( @sticky, sticky: { completed: false }, from: 'checkbox' ), method: :patch, remote: true, class: 'btn btn-primary' %>
     <% else %>
-      <%= link_to 'Mark Completed', completebs3_sticky_path( @sticky, completed: true ), method: :post, remote: true, class: 'btn btn-primary' %>
+      <%= link_to 'Mark Completed', sticky_path( @sticky, sticky: { completed: true }, from: 'checkbox' ), method: :patch, remote: true, class: 'btn btn-primary' %>
     <% end %>
 
     <%= link_to 'Delete', @sticky, method: :delete, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>

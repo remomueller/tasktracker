@@ -37,7 +37,12 @@
 
   <% unless @sticky.all_day? %>
     <dt>Due At</dt>
-    <dd><%= @sticky.due_at_string %> <%= "to #{@sticky.due_at_end_string_with_duration}" unless @sticky.due_at_end_string_with_duration.blank? %></dd>
+    <dd><%= @sticky.due_time %></dd>
+
+    <% if @sticky.duration > 0 %>
+      <dt>Duration</dt>
+      <dd><%= @sticky.duration %> <%= @sticky.duration_units %></dd>
+    <% end %>
   <% end %>
 
   <% if @sticky.tags.size > 0 %>

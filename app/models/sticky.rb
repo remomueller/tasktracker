@@ -70,36 +70,6 @@ class Sticky < ActiveRecord::Base
     self.project_id.blank? or self.project.modifiable_by?(current_user)
   end
 
-  def due_at_string
-    (all_day? ? '' : due_date.strftime("%l:%M %p").strip) rescue ''
-  end
-
-  def due_at_string_short
-    self.due_at_string.gsub(':00', '').gsub(' AM', 'a').gsub(' PM', 'p')
-  end
-
-  def due_at_end_string
-    (all_day? or self.duration <= 0) ? '' : (due_date + self.duration.send(self.duration_units)).strftime("%l:%M %p").strip
-  end
-
-  def due_at_end_string_with_duration
-    (all_day? or self.duration <= 0) ? '' : self.due_at_end_string + " (#{self.duration} #{self.duration_units})"
-  end
-
-  def due_at_range
-    self.due_at_string + (self.due_at_end_string.blank? ? '' : ' to ' + self.due_at_end_string)
-  end
-
-  def due_at_string=(due_at_str)
-  #   self.due_at = Time.parse(due_at_str)
-  # rescue
-  #   self.due_at = nil
-  end
-
-  def due_date_time_end
-    self.due_date + self.duration.send(self.duration_units)
-  end
-
   def tag_ids
     self.tags.order('tags.name').pluck('tags.id')
   end
@@ -143,7 +113,7 @@ class Sticky < ActiveRecord::Base
     if days_to_shift != 0 and self.group and ['incomplete', 'all'].include?(shift)
       sticky_scope = self.group.stickies.where("stickies.id != ?", self.id)
       sticky_scope = sticky_scope.where(completed: false) if shift == 'incomplete'
-      sticky_scope.select{ |s| not s.due_date.blank? }.each{ |s| s.update_attributes due_date: s.due_date + days_to_shift.days }
+      sticky_scope.select{ |s| not s.due_date.blank? }.each{ |s| s.update due_date: s.due_date + days_to_shift.days }
     end
   end
 

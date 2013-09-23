@@ -5,7 +5,7 @@
 - **Calendar Changes**
   - Two sticky list views, year/week and week/day, have been added that will replace the current monthly calendar view, and also replace the sticky index
 - **Gem Changes**
-  - Updated to contour 2.1.0
+  - Updated to contour 2.2.0.beta1
 - Removed support for Ruby 1.9.3
 - Removed support for ICS format
 - Removed system admin graphs

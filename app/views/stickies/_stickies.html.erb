@@ -51,7 +51,7 @@
           <%= simple_markdown sticky.full_description %>
          </div>
       </td>
-      <td style="white-space:nowrap;text-align:center"><%= simple_date(sticky.due_date) %><%= " at #{sticky.due_at_string_short}" unless sticky.all_day? %></td>
+      <td style="white-space:nowrap;text-align:center"><%= simple_date(sticky.due_date) %> <%= sticky.due_time unless sticky.all_day? %></td>
       <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
       <td>
         <% sticky.tags.each do |tag| %>
