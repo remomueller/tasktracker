@@ -12,6 +12,7 @@
       else
         "<div class='sticky-box'>"+$(this).children('[data-object~="sticky-helper"]').first().html()+"</div>"
     cursorAt: { left: 10 }
+    appendTo: "body"
   )
 
 @activateBoardDroppables = () ->
@@ -21,8 +22,9 @@
     drop: ( event, ui ) ->
       board_id = $(this).data('board-id')
       project_id = $(this).data('project-id')
-      sticky_ids = []
-      $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
+      # sticky_ids = []
+      # $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
+      sticky_ids = [ui['draggable'].data('sticky-id')]
       $.post(root_url + 'boards/add_stickies', "project_id=#{project_id}&board_id=#{board_id}&sticky_ids=#{sticky_ids.join(',')}", null, "script")
     accept: ( draggable ) ->
       $('[data-object~="sticky-checkbox"]:checked').length > 1 or ($(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', draggable.data('object').split(" ")) != -1)
