@@ -11,6 +11,7 @@ class StickiesController < ApplicationController
   end
 
   def week
+    flash.delete(:notice)
     week_padding = 12
     @beginning_of_anchor_week = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
     @beginning = @beginning_of_anchor_week - week_padding.weeks
