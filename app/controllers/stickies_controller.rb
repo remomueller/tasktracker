@@ -45,7 +45,14 @@ class StickiesController < ApplicationController
 
   # GET /tasks
   def tasks
-    @tasks = @stickies.search(params[:search]).page(params[:page]).per(50)
+    @stickies = @stickies.search(params[:search])
+
+    if params[:format] == 'csv'
+      generate_csv(@stickies)
+      return
+    end
+
+    @tasks = @stickies.page(params[:page]).per(50)
     respond_to do |format|
       format.html { render 'tasks/index' }
       format.js { render 'tasks/index' }
@@ -110,28 +117,6 @@ class StickiesController < ApplicationController
     end
 
     sticky_scope = sticky_scope.search(params[:search]).order(@order)
-
-    if params[:format] == 'csv'
-      @csv_string = CSV.generate do |csv|
-        csv << ["Name", "Due Date", "Description", "Status", "Assigned To", "Tags", "Project", "Creator", "Board", "Duration", "Duration Units"]
-        sticky_scope.each do |sticky|
-          csv << [sticky.name,
-                  sticky.due_date.blank? ? '' : sticky.due_date.strftime("%m-%d-%Y"),
-                  sticky.description,
-                  sticky.completed? ? 'completed' : '',
-                  sticky.owner ? sticky.owner.name : '',
-                  sticky.tags.collect{|t| t.name}.join('; '),
-                  sticky.project.name,
-                  sticky.user.name,
-                  sticky.board ? sticky.board.name : '',
-                  sticky.duration,
-                  sticky.duration_units]
-        end
-      end
-      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                            disposition: "attachment; filename=\"Stickies #{Time.now.strftime("%Y.%m.%d %Ih%M %p")}.csv\""
-      return
-    end
 
     @stickies = sticky_scope.page(params[:page]).per(50)
   end
@@ -365,4 +350,25 @@ class StickiesController < ApplicationController
       @stickies = sticky_scope
     end
 
+    def generate_csv(task_scope)
+      @csv_string = CSV.generate do |csv|
+        csv << ["Name", "Due Date", "Description", "Completed", "Assigned To", "Tags", "Project", "Creator", "Board", "Due Time", "Duration", "Duration Units"]
+        task_scope.each do |sticky|
+          csv << [sticky.name,
+                  sticky.due_date.blank? ? '' : sticky.due_date.strftime("%m-%d-%Y"),
+                  sticky.description,
+                  sticky.completed? ? 'X' : '',
+                  sticky.owner ? sticky.owner.name : '',
+                  sticky.tags.collect{|t| t.name}.join('; '),
+                  sticky.project.name,
+                  sticky.user.name,
+                  sticky.board ? sticky.board.name : '',
+                  sticky.due_time,
+                  sticky.duration,
+                  sticky.duration_units]
+        end
+      end
+      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                            disposition: "attachment; filename=\"#{current_user.last_name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}.csv\""
+    end
 end

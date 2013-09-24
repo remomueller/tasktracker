@@ -32,7 +32,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get csv" do
-    get :index, format: 'csv', status: ['completed', 'not completed']
+    get :tasks, format: 'csv'
     assert_not_nil assigns(:csv_string)
     assert_response :success
   end

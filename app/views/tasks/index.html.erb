@@ -9,6 +9,7 @@
       <%= hidden_field_tag :project_ids, params[:project_ids] %>
       <%= text_field_tag 'search', params[:search], class: 'form-control' %>
       <%= submit_tag 'Search', class: 'btn btn-primary' %>
+      <%= link_to 'Export to CSV', tasks_path( tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], format: 'csv' ), target: '_blank', class: 'btn btn-default' %>
     <% end %>
   </h1>
 </div>
