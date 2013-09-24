@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th class="text-center">
-        <%= link_to week_path( tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids] ), class: "btn btn-default btn-xs", disabled: (@anchor_date == Date.today ? 'disabled' : nil) do %>
+        <%= link_to week_path( tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids] ), class: "btn btn-default btn-xs", rel: 'tooltip', title: 'Go to Today', data: { placement: 'right' }, disabled: (@anchor_date == Date.today ? 'disabled' : nil) do %>
           <span class="glyphicon glyphicon-calendar"></span>
         <% end %>
       </th>
