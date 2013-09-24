@@ -12,13 +12,13 @@
   <h4 class="modal-title">
   <%= link_to @sticky.project.name, @sticky.project %>
   <% if @sticky.board %>
-    &middot; <%= link_to @sticky.board.name, project_path(@sticky.project, board: @sticky.board.name) %>
+    <span style="white-space:nowrap">&middot; <%= link_to @sticky.board.name, project_path(@sticky.project, board: @sticky.board.name) %></span>
   <% end %>
   <% if @sticky.tags.size > 0 %>
     &middot; <% @sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
   <% end %>
   <% unless @sticky.all_day %>
-    &middot; <%= @sticky.due_time %>
+    <span style="white-space:nowrap">&middot; <%= @sticky.due_time %></span>
   <% end %>
   </h4>
 </div>
