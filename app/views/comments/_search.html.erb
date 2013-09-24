@@ -1,4 +1,0 @@
-<% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-<div id="sticky_<%= @sticky.id %>_comments_<%= @position %>">
-  <%= render partial: 'comments/index' %>
-</div>

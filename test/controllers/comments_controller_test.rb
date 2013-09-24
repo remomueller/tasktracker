@@ -40,22 +40,6 @@ class CommentsControllerTest < ActionController::TestCase
     assert_template 'create'
   end
 
-  test "should search comments" do
-    get :search, sticky_id: @comment.sticky_id, format: 'js'
-
-    assert_not_nil assigns(:sticky)
-    assert_not_nil assigns(:comments)
-    assert_template 'search'
-  end
-
-  test "should not search comments without valid id" do
-    get :search, sticky_id: -1, format: 'js'
-
-    assert_nil assigns(:sticky)
-    assert_nil assigns(:comments)
-    assert_response :success
-  end
-
   test "should show comment" do
     get :show, id: @comment
     assert_response :success

@@ -36,3 +36,14 @@
     <%= link_to 'Delete', @sticky, method: :delete, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
   <% end %>
 </div>
+
+<% if @sticky.group %>
+  <div class="modal-footer" style="text-align:left;margin-top:0px">
+    Group <%= link_to @sticky.group.name, @sticky.group, target: '_blank' %>
+    <%= @stickies = @sticky.group.stickies; render partial: 'stickies/simple_stickies' %>
+  </div>
+<% end %>
+
+<div class="modal-footer" style="text-align:left;margin-top:0px" id="sticky_<%= @sticky.id %>_comments">
+  <%= @comments = @sticky.comments.page(0).per(0); render partial: 'comments/index' %>
+</div>

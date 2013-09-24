@@ -5,15 +5,6 @@ class CommentsController < ApplicationController
   before_action :set_deletable_comment, only: [ :destroy ]
   before_action :redirect_without_comment, only: [ :show, :edit, :update, :destroy ]
 
-  def search
-    @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
-    if @sticky
-      @comments = @sticky.comments.search(params[:search]).page(params[:page]).per(params[:per])
-    else
-      render nothing: true
-    end
-  end
-
   # GET /comments
   # GET /comments.json
   def index
@@ -35,16 +26,12 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
-    @position = params[:position]
     @comment = @sticky ? @sticky.comments.new(comment_params) : Comment.new(comment_params)
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Board was successfully created.' }
-        format.js do
-          @comments = @sticky.comments.page(params[:page]).per(params[:per])
-          params[:action] = 'search' # Trick for pagination
-        end
+        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        format.js
         format.json { render action: 'show', status: :created, location: @comment }
       else
         format.html { render action: 'new' }

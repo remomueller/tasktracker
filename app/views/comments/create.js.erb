@@ -1,4 +1,6 @@
-<% if @sticky and @comment and @comments %>
-$("#sticky_<%= @sticky.id %>_comments_<%= params[:position] %>").html("<%= escape_javascript(render("comments/index")) %>");
+<% if @sticky %>
+  <% @comments = @sticky.comments.page(params[:page]).per(params[:per]) %>
+  $("#sticky_<%= @sticky.id %>_comments").html("<%= escape_javascript(render("comments/index")) %>");
 <% end %>
+
 resetSubmitButtons();

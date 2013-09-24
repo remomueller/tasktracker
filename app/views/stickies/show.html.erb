@@ -71,4 +71,6 @@
   <% end %>
 <% end %>
 
-<%= render partial: 'comments_for_sticky' %>
+<div id="sticky_<%= @sticky.id %>_comments">
+  <%= @comments = @sticky.comments.page(0).per(0); render partial: 'comments/index' %>
+</div>

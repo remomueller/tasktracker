@@ -1,79 +1,10 @@
-<%= render partial: 'layouts/per_page', locals: { type: 'stickies', object_count: @stickies.total_count } %>
+<div class="pull-right" data-object="visible-sticky">
+  <% if @stickies.where( completed: false ).total_count > 0 %><span class="label label-default">Incomplete</span> <span class="label label-default"><%= @stickies.where( completed: false ).total_count %></span><% end %>
+  <% if @stickies.where( completed: true ).total_count > 0 %><span class="label label-primary">Complete</span> <span class="label label-primary"><%= @stickies.where( completed: true ).total_count %></span><% end %>
+</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.id', 'Sticky', 'stickies_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.due_date', 'Due Date', 'stickies_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'stickies.owner_id', 'Assigned To', 'stickies_search') %></th>
-      <th>Tags</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
+<div class="clear" data-object="visible-sticky" style="margin-bottom:10px">&nbsp;</div>
 
-  <% if @stickies.size == 0 %>
-    <tr>
-      <td colspan="5" style="text-align:center" class="muted">No Stickies</td>
-    </tr>
-  <% end %>
-
-<% @stickies.each do |sticky| %>
-  <% @sticky = sticky %>
-  <% @position = ("%.6f" % Time.now.to_f).gsub('.','_') %>
-  <tbody id="sticky_<%= sticky.id %>"
-    onmouseover="if(!$('#sticky_<%= sticky.id %>_wait').is(':visible')){$('#sticky_<%= sticky.id %>_empty').hide();$('#sticky_<%= sticky.id %>_checkmark').show()}"
-    onmouseout="if(!$('#sticky_<%= sticky.id %>_wait').is(':visible')){$('#sticky_<%= sticky.id %>_checkmark').hide();$('#sticky_<%= sticky.id %>_empty').show()}">
-    <tr class="<%= 'recently_updated' if current_user.last_sign_in_at and current_user.last_sign_in_at < sticky.updated_at %>"
-      style="cursor:pointer;"
-      data-object="expand-details" data-target=".sticky_<%= @sticky.id %>_hidden" data-selector="stickydetails" data-selector-two="#sticky_<%= sticky.id %>_description">
-      <td>
-        <span id="sticky_<%= sticky.id %>_icon" style="padding-right:3px">
-          <% if sticky.completed? %>
-            <%= image_tag 'gentleface/16/checkmark.png', alt: '', size: '10x10' %>
-          <% elsif sticky.modifiable_by?(current_user) %>
-            <%= image_tag 'colorpicker/blank.gif', alt: '', id: "sticky_#{sticky.id}_empty", size: '10x10' %>
-            <%= image_tag 'contour/ajax-loader.gif', alt: '', id: "sticky_#{sticky.id}_wait", size: '10x10', style: 'display:none' %>
-            <%= link_to image_tag('gentleface/16/checkbox_unchecked.png', alt: '', size: '10x10'), complete_sticky_path(sticky, from_index: '1'), method: :post, remote: true, id: "sticky_#{sticky.id}_checkmark", style: 'display:none', onclick: "$('#sticky_#{sticky.id}_checkmark').hide();$('#sticky_#{sticky.id}_wait').show()" %>
-          <% else %>
-            <%= image_tag 'colorpicker/blank.gif', alt: '', size: '10x10' %>
-          <% end %>
-        </span>
-        <%= link_to sticky.name, sticky, style: sticky.completed? ? "text-decoration:line-through" : "", id: "sticky_#{sticky.id}_name" %> <%= link_to "<span class='glyphicon glyphicon-list' title='Group #{sticky.group.name}' style='width:10px;height:10px'></span>".html_safe, sticky.group if sticky.group %>
-        <span id="sticky_<%= sticky.id %>_description" style="<%= "color:#999" if sticky.completed? %>" data-object="stickyshortdetails">
-          <span id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_short_description">
-            <%= strip_tags(simple_markdown sticky.full_description).truncate(100, omission: '', separator: ' ').html_safe %>
-            <% if sticky.comments.size > 0 %>
-              <span class="badge badge-info"><%= pluralize(sticky.comments.size, "comment") %></span>
-            <% end %>
-          </span>
-        </span>
-        <div style="max-width:600px;display:none;margin-top:10px;margin-left:17px" id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody_description" class="sticky_<%= @sticky.id %>_hidden" data-object="stickydetails">
-          <%= simple_markdown sticky.full_description %>
-         </div>
-      </td>
-      <td style="white-space:nowrap;text-align:center"><%= simple_date(sticky.due_date) %> <%= sticky.due_time unless sticky.all_day? %></td>
-      <td style="white-space:nowrap;"><%= link_to sticky.owner.nickname if sticky.owner %></td>
-      <td>
-        <% sticky.tags.each do |tag| %>
-          <%= @tag = tag; render partial: 'tags/show' %>
-        <% end %>
-      </td>
-      <td>
-        <% if sticky.modifiable_by?(current_user) %>
-          <%= link_to 'Edit', edit_sticky_path(sticky, from: params[:from]), class: 'btn btn-xs btn-default' %>
-          <%= link_to 'Delete', sticky_path(sticky, position: @position), method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Sticky #{sticky.name}?" } %>
-        <% end %>
-      </td>
-    </tr>
-  </tbody>
-  <tbody id="sticky_<%= @sticky.id %>_comments_<%= @position %>_tbody" style="display:none" class="sticky_<%= @sticky.id %>_hidden" data-object="stickydetails">
-    <tr>
-      <td colspan="5" id="sticky_<%= @sticky.id %>_comments_<%= @position %>">
-        <%= @comments = @sticky.comments.page(0).per(0); render partial: 'comments/index' %>
-      </td>
-    </tr>
-  </tbody>
-<% end %>
-</table>
+<%= render partial: 'list', locals: { stickies: @stickies } %>
 
 <div class="center"><%= paginate @stickies, theme: "contour" %></div>

@@ -55,7 +55,6 @@ class StickiesController < ApplicationController
   # GET /stickies
   # GET /stickies.json
   def index
-    current_user.update_column :stickies_per_page, params[:stickies_per_page].to_i if params[:stickies_per_page].to_i >= 10 and params[:stickies_per_page].to_i <= 200
     current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'
 
     sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
@@ -134,7 +133,7 @@ class StickiesController < ApplicationController
       return
     end
 
-    @stickies = sticky_scope.page(params[:page]).per((params[:use_template] == 'redesign' or params[:format] == 'json') ? 50 : current_user.stickies_per_page)
+    @stickies = sticky_scope.page(params[:page]).per(50)
   end
 
   # GET /stickies/1

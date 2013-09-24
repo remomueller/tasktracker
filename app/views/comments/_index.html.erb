@@ -1,7 +1,6 @@
-<%= form_tag comments_path(sticky_id: @sticky.id, position: @position, per: params[:per].to_i), method: :post, remote: true, id: "sticky_#{@sticky.id}_comment_#{@position}_form" do %>
-  <%= hidden_field_tag :position, @position %>
-  <%= text_area_tag "sticky[#{@sticky.id}][comment][#{@position}]", '', name: 'comment[description]', rows: 2, style: 'margin:5px', class: 'form-control' %>
-  <%= submit_tag 'Add Comment', class: 'btn btn-primary', style: 'margin:5px 0 0 5px', data: { object: 'sticky-submit', target: "#sticky_#{@sticky.id}_comment_#{@position}_form" } %>
+<%= form_tag comments_path(sticky_id: @sticky.id, per: params[:per].to_i), method: :post, remote: true, id: "sticky_#{@sticky.id}_comment_form" do %>
+  <%= text_area_tag "sticky[#{@sticky.id}][comment]", '', name: 'comment[description]', rows: 2, style: 'margin:5px', class: 'form-control' %>
+  <%= submit_tag 'Add Comment', class: 'btn btn-primary', style: 'margin:5px 0 0 5px', data: { object: 'sticky-submit', target: "#sticky_#{@sticky.id}_comment_form" } %>
 <% end %>
 
 <% @comments.each do |comment| %>
