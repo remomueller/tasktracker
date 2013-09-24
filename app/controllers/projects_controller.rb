@@ -23,11 +23,11 @@ class ProjectsController < ApplicationController
         end
         @sticky_count = sticky_scope.count
         sticky_scope.update_all(owner_id: reassign_to_user.id)
-        format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Sticky' : 'Stickies'} successfully reassigned." }
+        format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Task' : 'Tasks'} successfully reassigned." }
         format.js # reassign.js.erb
       else
         format.html do
-          flash[:error] = 'Please select the original owner and new owner of the stickies.'
+          flash[:error] = 'Please select the original owner and new owner of the tasks.'
           render 'bulk'
         end
         format. js # reassign.js.erb

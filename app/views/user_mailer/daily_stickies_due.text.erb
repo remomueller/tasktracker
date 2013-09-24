@@ -18,6 +18,6 @@ You have <%= pluralize @recipient.all_deliverable_stickies_due_upcoming.size, 's
 <%= @stickies = @recipient.all_deliverable_stickies_due_upcoming; render partial: 'sticky_list' %>
 
 <% end %>
-View stickies on a calendar here: <%= "#{SITE_URL}/stickies/calendar" %>
+View tasks on a calendar here: <%= "#{SITE_URL}/month" %>
 
 <%= @footer_txt %>

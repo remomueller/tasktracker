@@ -41,7 +41,7 @@ class UserMailer < ActionMailer::Base
     @sticky = sticky
     @recipient = recipient
     mail(to: recipient.email,
-         subject: "#{comment.user.name} Commented on Sticky #{sticky.name}",
+         subject: "#{comment.user.name} Commented on Task #{sticky.name}",
          reply_to: comment.user.email)
   end
 
@@ -50,7 +50,7 @@ class UserMailer < ActionMailer::Base
     @sticky = sticky
     @recipient = recipient
     mail(to: recipient.email,
-         subject: "#{sticky.user.name} Added a Sticky to Project #{sticky.project.name}",
+         subject: "#{sticky.user.name} Added a Task to Project #{sticky.project.name}",
          reply_to: sticky.user.email)
   end
 
@@ -59,7 +59,7 @@ class UserMailer < ActionMailer::Base
     @group = group
     @recipient = recipient
     mail(to: recipient.email,
-         subject: "#{group.user.name} Added a Group of Stickies to Project #{group.template.project.name}",
+         subject: "#{group.user.name} Added a Group of Tasks to Project #{group.template.project.name}",
          reply_to: group.user.email)
   end
 
@@ -69,7 +69,7 @@ class UserMailer < ActionMailer::Base
     @sender = sender
     @recipient = recipient
     mail(to: recipient.email,
-         subject: "#{sender.name} Completed a Sticky on Project #{sticky.project.name}",
+         subject: "#{sender.name} Completed a Task on Project #{sticky.project.name}",
          reply_to: sender.email)
   end
 
@@ -79,16 +79,16 @@ class UserMailer < ActionMailer::Base
     @sender = sender
     @recipient = recipient
     mail(to: recipient.email,
-         subject: "#{sender.name} Completed #{@stickies.count} #{@stickies.count == 1 ? 'Sticky' : 'Stickies'}",
+         subject: "#{sender.name} Completed #{@stickies.count} #{@stickies.count == 1 ? 'Task' : 'Tasks'}",
          reply_to: sender.email)
   end
 
   def daily_stickies_due(recipient)
     setup_email
     @recipient = recipient
-    due_today = "#{recipient.all_deliverable_stickies_due_today.size} " + (recipient.all_deliverable_stickies_due_today.size == 1 ? 'Sticky' : 'Stickies') + " Due Today"
-    past_due = "#{recipient.all_deliverable_stickies_past_due.size} " + (recipient.all_deliverable_stickies_past_due.size == 1 ? 'Sticky' : 'Stickies') + " Past Due"
-    due_upcoming = "#{recipient.all_deliverable_stickies_due_upcoming.size} " + (recipient.all_deliverable_stickies_due_upcoming.size == 1 ? 'Sticky' : 'Stickies') + " Upcoming"
+    due_today = "#{recipient.all_deliverable_stickies_due_today.size} " + (recipient.all_deliverable_stickies_due_today.size == 1 ? 'Task' : 'Tasks') + " Due Today"
+    past_due = "#{recipient.all_deliverable_stickies_past_due.size} " + (recipient.all_deliverable_stickies_past_due.size == 1 ? 'Task' : 'Tasks') + " Past Due"
+    due_upcoming = "#{recipient.all_deliverable_stickies_due_upcoming.size} " + (recipient.all_deliverable_stickies_due_upcoming.size == 1 ? 'Task' : 'Tasks') + " Upcoming"
     due_today = nil if recipient.all_deliverable_stickies_due_today.size == 0
     past_due = nil if recipient.all_deliverable_stickies_past_due.size == 0
     due_upcoming = nil if recipient.all_deliverable_stickies_due_upcoming.size == 0

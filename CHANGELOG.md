@@ -3,7 +3,7 @@
 ### Enhancements
 
 - **Calendar Changes**
-  - Two sticky list views, year/week and week/day, have been added that will replace the current monthly calendar view, and also replace the sticky index
+  - Two task list views, year/week and week/day, have been added that will replace the current monthly calendar view, and also replace the task index
 - **Gem Changes**
   - Updated to contour 2.2.0.beta2
 - Removed support for Ruby 1.9.3
@@ -12,13 +12,13 @@
 
 ### Bug Fix
 - Fixed a bug that reset a project's color if a user selected the color box and then closed it without changing the color
-- Stickies in a group are now order by due date
+- Tasks in a group are now order by due date
 
 ## 0.27.2 (September 16, 2013)
 
 ### Bug Fix
 - Fixed the welcome dialog popup to use Boostrap 3 styling
-- Fixed the delete sticky in group dialog to use Bootstrap 3 styling
+- Fixed the delete task in group dialog to use Bootstrap 3 styling
 - Fixed styling on user edit page
 
 ## 0.27.1 (September 9, 2013)
@@ -77,7 +77,7 @@
 ## 0.26.1 (March 13, 2013)
 
 ### Bug Fix
-- Stickies without a due date are now set to midnight of the current date when they are completed, as opposed to the current time
+- Tasks without a due date are now set to midnight of the current date when they are completed, as opposed to the current time
 
 ## 0.26.0 (March 13, 2013)
 
@@ -85,14 +85,14 @@
 - **Gem Changes**
   - Updated to Rails 4.0.0.beta1
   - Updated to Contour 2.0.0.beta.3
-- Comment descriptions on the comment show page now render using Markdown to match the way they are displayed on stickies
-- Stickies without a due date are now set to the current date when they are completed
+- Comment descriptions on the comment show page now render using Markdown to match the way they are displayed on tasks
+- Tasks without a due date are now set to the current date when they are completed
 
 ### Bug Fix
-- Editing and removing the due date of a sticky from the calendar view now correctly removes the sticky
-- Fixed display of apostrophes and other special HTML characters in shortened sticky descriptions and emails
-- Fixed a bug on the project show page where clicking on a sticky checkbox would prevent other events from being able to affect the checkbox
-- Stickies now stay in place on the calendar when marked as completed instead of jumping to the bottom of the calendar date
+- Editing and removing the due date of a task from the calendar view now correctly removes the task
+- Fixed display of apostrophes and other special HTML characters in shortened task descriptions and emails
+- Fixed a bug on the project show page where clicking on a task checkbox would prevent other events from being able to affect the checkbox
+- Tasks now stay in place on the calendar when marked as completed instead of jumping to the bottom of the calendar date
 
 ### Refactoring
 - Removed `old_tags` from schema which aided in upgrading from older versions of Task Tracker up through version 0.25.6
@@ -100,21 +100,21 @@
 ## 0.25.6 (February 25, 2013)
 
 ### Bug Fix
-- Sticky hover descriptions using Markdown no longer incorrectly render html tags
+- Task hover descriptions using Markdown no longer incorrectly render html tags
 
 ## 0.25.5 (February 25, 2013)
 
 ### Enhancements
-- Added redesigned sticky hover popups back to the calendar view
+- Added redesigned task hover popups back to the calendar view
 
 ## 0.25.4 (February 20, 2013)
 
 ### Enhancements
 - The `Add Comment` button is now disabled while a comment is being submitted
-- Added timepicker when selecting time for sticky
+- Added timepicker when selecting time for task
 - Removed calendar popups to reduce dependency on external JavaScripts
-- Markdown format can now be used in project and sticky descriptions along with comments
-- Dragging stickies on the calendar to their current due date no longer triggers an AJAX request in the background
+- Markdown format can now be used in project and task descriptions along with comments
+- Dragging tasks on the calendar to their current due date no longer triggers an AJAX request in the background
 - **Gem Changes**
   - Updated to Contour 1.2.1
 
@@ -155,17 +155,17 @@
   - Project description added to the bottom of the redesigned project page
   - Clarified template clear filter button to say 'clear' instead of '-'
   - Links added to project page to edit existing templates and groups
-- **Sticky Changes**
-  - Styling updated for selecting tags when creating/updating stickies
-  - Creating stickies from the calendar no longer displays the sticky show popup
-  - HTML sticky description markup no longer shows up on the calendar
+- **Task Changes**
+  - Styling updated for selecting tags when creating/updating tasks
+  - Creating tasks from the calendar no longer displays the task show popup
+  - HTML task description markup no longer shows up on the calendar
   - Clicking on links in comments now opens up a new window or tab
-  - Sticky and group creation buttons are now disabled after they are clicked to prevent two identical stickies from being created
+  - Task and group creation buttons are now disabled after they are clicked to prevent two identical tasks from being created
 - **Email Changes**
-  - Sticky comment emails are now sent to everyone on the project unless they have selected not to receive sticky comment emails for that project
-  - Comment emails now contain previous comments and the description of the sticky
-  - HTML markup in sticky descriptions and comments no longer shows up in the Daily Digest
-  - Daily Digests no longer repeat Recently Completed stickies in the Recently Added stickies section
+  - Task comment emails are now sent to everyone on the project unless they have selected not to receive task comment emails for that project
+  - Comment emails now contain previous comments and the description of the task
+  - HTML markup in task descriptions and comments no longer shows up in the Daily Digest
+  - Daily Digests no longer repeat Recently Completed tasks in the Recently Added tasks section
   - Users are now more consistently notified when they are added to a project
 - **New Search Feature**
   - Quick project and group search added in the top navigation bar
@@ -174,15 +174,15 @@
   - With multiple results, the user will be directed to a search results page
 
 ### Bug Fix
-- Board counts are now updated when marking/unmarking stickies as completed
+- Board counts are now updated when marking/unmarking tasks as completed
 
 ## 0.24.5 (January 22, 2013)
 
 ### Enhancements
-- Sticky duration and duration_units are now included in the CSV export
+- Task duration and duration_units are now included in the CSV export
 
 ### Bug Fix
-- Setting an invalid repeat_amount and then changing the sticky to repeat "none" no longer causes a validation error on the repeat_amount
+- Setting an invalid repeat_amount and then changing the task to repeat "none" no longer causes a validation error on the repeat_amount
 
 ## 0.24.4 (January 11, 2013)
 
@@ -210,10 +210,10 @@
   - `group[initial_due_date] (optional, defaults to today)`
   - `group[description] (optional)`
   - `group[board_id] (optional)`
-- Sticky addition/completion emails simplified
+- Task addition/completion emails simplified
 
 ### Bug Fix
-- Sticky popups now display the `repeat_amount` (1,2,3) along with the `repeat_unit` (day,week,month,year) for repeating stickies
+- Task popups now display the `repeat_amount` (1,2,3) along with the `repeat_unit` (day,week,month,year) for repeating tasks
 
 ## 0.24.1 (January 3, 2013)
 
@@ -225,28 +225,28 @@
 ### Enhancements
 - **Project Changes**
   - Major rework of the project show page to better reflect boards and tags
-    - This rework is aimed at improving the flexibility of the project page in order to discourage users from using stickies index
+    - This rework is aimed at improving the flexibility of the project page in order to discourage users from using tasks index
     - Contains three views
       - Completed: Completed sorted by due date due date descending, (today into the past)
       - Past due: Not completed sorted by due date due date descending, (today into the past)
       - Upcoming: Not completed sorted by due date ascending, (today into the future)
-      - Direction of these views can be reversed, useful to see stickies with no due date assigned
-    - Stickies can be dragged onto different boards
-    - Stickies can be tagged by dragging stickies onto tags
+      - Direction of these views can be reversed, useful to see tasks with no due date assigned
+    - Tasks can be dragged onto different boards
+    - Tasks can be tagged by dragging tasks onto tags
 - **Calendar Changes**
-  - Sticky editing and viewing from the calendar has changed to use an redesigned popup similar to the one used on the new project page
-- **Sticky Changes**
-  - Multiple stickies completed at once will now send out a single email per user
-  - Stickies can now be repeated daily, weekly, monthly, or yearly
-    - Upon completing a sticky that has either day, week, month, or year set, a new copy of that sticky is created 1 [day, week, month, year] later
-    - The number can also be set, so a sticky could be done every 2 days
+  - Task editing and viewing from the calendar has changed to use an redesigned popup similar to the one used on the new project page
+- **Task Changes**
+  - Multiple tasks completed at once will now send out a single email per user
+  - Tasks can now be repeated daily, weekly, monthly, or yearly
+    - Upon completing a task that has either day, week, month, or year set, a new copy of that task is created 1 [day, week, month, year] later
+    - The number can also be set, so a task could be done every 2 days
 - **Group Changes**
   - New Boards can now be created when creating a group
 - Updated to Contour 1.1.2.pre
 
 ### Bug Fix
-- Fixed a bug that prevented grouped stickies assigned to a board from being moved back to the holding pen
-- Fixed a bug that sent sticky completion emails out by who it was assigned to as opposed to who marked the sticky as completed
+- Fixed a bug that prevented grouped tasks assigned to a board from being moved back to the holding pen
+- Fixed a bug that sent task completion emails out by who it was assigned to as opposed to who marked the task as completed
 
 ## 0.23.10 (December 12, 2012)
 
@@ -257,19 +257,19 @@
 
 ### Enhancements
 - Project show page will now default to displaying the first alphabetically unarchived board by default
-- New boards can now be created when stickies are created
-- HTML Markup no longer shows up in a stickies short description
-- HTML Links in sticky descriptions now automatically have target="_blank" added as an attribute
-- Gravatar image's are now used for sticky comments
+- New boards can now be created when tasks are created
+- HTML Markup no longer shows up in a tasks short description
+- HTML Links in task descriptions now automatically have target="_blank" added as an attribute
+- Gravatar image's are now used for task comments
 
 ### Bug Fix
 - User activation emails are no longer sent out when a user's status is changed from pending to inactive
-- Sticky tooltips no longer show up over a new sticky popup
+- Task tooltips no longer show up over a new task popup
 
 ## 0.23.8 (November 29, 2012)
 
 ### Bug Fix
-- Users with no projects favorited should still be able to create stickies
+- Users with no projects favorited should still be able to create tasks
 
 ## 0.23.7 (November 29, 2012)
 
@@ -277,11 +277,11 @@
 - Frames have been renamed to Boards
   - Boards no longer include start and end dates
   - Boards can be archived
-  - Project pages now only show stickies of active boards
-- Sticky completion emails on groups now highlight the sticky that was completed on the group
+  - Project pages now only show tasks of active boards
+- Task completion emails on groups now highlight the task that was completed on the group
 
 ### Bug Fix
-- Pagination now works correctly on group pages where groups have more than 50 stickies
+- Pagination now works correctly on group pages where groups have more than 50 tasks
 
 ## 0.23.6 (November 28, 2012)
 
@@ -296,7 +296,7 @@
 - Project JSON API returns project specific tags
 
 ### Bug Fix
-- Sticky links no longer overlap the complete sticky checkmark box on the calendar view
+- Task links no longer overlap the complete task checkmark box on the calendar view
 - When deleting boards, tags, and templates, the user is now redirected to the project specific boards, tags, or templates index
 - Boards now correctly retain the dropdown arrow when switching by selecting a new board from the dropdown
 - Editing template input fields and dropdowns no longer causes the input field to become unselected in IE
@@ -311,7 +311,7 @@
 ## 0.23.3 (August 13, 2012)
 
 ### Bug Fix
-- Dragging groups now correctly prompts user to select all, completed, or single sticky
+- Dragging groups now correctly prompts user to select all, completed, or single task
   - Due to a change in Rails 3.2.7 to Rails 3.2.8 how data attributes are specified in divs
 
 ## 0.23.2 (August 13, 2012)
@@ -322,19 +322,19 @@
 ## 0.23.1 (July 31, 2012)
 
 ### Enhancements
-- Sticky JSON API filters
-  - owner_id: me, returns stickies assigned to the current user
-  - unassigned: 1, returns stickies that are not assigned to a specific user
+- Task JSON API filters
+  - owner_id: me, returns tasks assigned to the current user
+  - unassigned: 1, returns tasks that are not assigned to a specific user
   - due_date_start_date and due_date_end_date can be specified as mm/dd/yy or mm/dd/yyyy
-- Sticky JSON API returns group_description
+- Task JSON API returns group_description
 - Updated to Rails 3.2.7
   - Removed deprecated use of update_attribute for Rails 4.0 compatibility
-- Daily Digest emails now include stickies created/completed, and comments created over the weekend in the monday digest
+- Daily Digest emails now include tasks created/completed, and comments created over the weekend in the monday digest
 - Project invites now display the invite url, and display who invited the user by mousing over the email
 
 ### Bug Fix
-- Height of the drop down menu for sticky exports is now consistent with other drop down menus
-- Tags filters on stickies page no longer use colors for deleted tags
+- Height of the drop down menu for task exports is now consistent with other drop down menus
+- Tags filters on tasks page no longer use colors for deleted tags
 
 ### Testing
 - Use ActionDispatch for Integration tests instead of ActionController
@@ -342,42 +342,42 @@
 ## 0.23.0 (July 16, 2012)
 
 ### Enhancements
-- Daily digest emails are now available for users who prefer a digest of the previous day included stickies added, completed, and comments made
-- Stickies can now be reassigned to another user in bulk from the project page
+- Daily digest emails are now available for users who prefer a digest of the previous day included tasks added, completed, and comments made
+- Tasks can now be reassigned to another user in bulk from the project page
 - Users can now be added by email to projects without requiring the user to be signed up
 - **Calendar Changes**
   - Calendar filters have been simplified and given a consistent look
-  - Sticky popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
-  - Dragging grouped stickies on the calendar now prompts whether to move the invidual sticky, all incomplete stickies in the group, or all the stickies in the group
+  - Task popups are now cleaner and no longer display the words, 'description', 'project', or 'tags' as these can be deduced by context
+  - Dragging grouped tasks on the calendar now prompts whether to move the invidual task, all incomplete tasks in the group, or all the tasks in the group
 
 ## 0.22.6 (July 2, 2012)
 
 ### Enhancements
 - Mass-assignment attr_accessible and params slicing implemented to leverage Rails 3.2.6 configuration defaults
 - The About page now references the Task Tracker forum and contact information
-- **Sticky Changes**
-  - Creating a group of stickies from the project page now refreshes and shows the newly created stickies
-  - Cleaned up lists of stickies by changing how they expand when clicking on them
+- **Task Changes**
+  - Creating a group of tasks from the project page now refreshes and shows the newly created tasks
+  - Cleaned up lists of tasks by changing how they expand when clicking on them
 - **Template Changes**
   - Boards and Templates now require unique names per project
   - Templates can now be copied
     - Note: Tags and owners aren't copied to new templates
   - Compact editing of templates added
-    - Template items can be reordered by dragging stickies
+    - Template items can be reordered by dragging tasks
   - Generating a new group from a template now requires the project to be specified to limit the number of templates that are displayed
 - **Email Changes**
   - Default application name is now added to the from: field for emails
   - Email subjects no longer include the application name
 - New Registration Changes
   - Users without projects will now be prompted when they view the calendar to create a project
-  - Default new user settings updated to also show completed stickies
+  - Default new user settings updated to also show completed tasks
 
 ### Refactoring
 - Comments no longer use class_name or class_id and now require to be part of a sticky_id
 - Removed unused project position
-- Stickies no longer have a status, or due_at columns
+- Tasks no longer have a status, or due_at columns
   - Note: due_date includes the due_at time along with timezone information
-- Consistent sorting and display of model counts used across all objects, (projects, stickies, tags, templates, users, etc)
+- Consistent sorting and display of model counts used across all objects, (projects, tasks, tags, templates, users, etc)
 
 ### Bug Fix
 - Creating a tag with the same name as a deleted tag no longer throws the error 'tag name has already been taken' (by LisaM)
@@ -386,16 +386,16 @@
 ## 0.22.5 (June 21, 2012)
 
 ### Enhancements
-- Creating a sticky from the project page will
-  - default the new sticky to the currently selected board
-  - refresh the list of stickies when the sticky is created
-- Switching boards in the sticky popup will now reflect on the underlying project page
+- Creating a task from the project page will
+  - default the new task to the currently selected board
+  - refresh the list of tasks when the task is created
+- Switching boards in the task popup will now reflect on the underlying project page
 - Update to Rails 3.2.6 and Contour 1.0.2
 - Links with confirm: now use data: { confirm: } to account for deprecations in Rails 4.0
 - Boards are now ordered by end date descending by default on boards index
 
 ### Bug Fix
-- Links from email to stickies past due, due today, or upcoming now properly reset other filters
+- Links from email to tasks past due, due today, or upcoming now properly reset other filters
 
 ## 0.22.4 (June 6, 2012)
 
@@ -420,7 +420,7 @@
 ## 0.22.1 (May 4, 2012)
 
 ### Enhancements
-- Editing stickies from the sticky list or project page now redirects back to the sticky list or project page, respectively, after the sticky is updated
+- Editing tasks from the task list or project page now redirects back to the task list or project page, respectively, after the task is updated
 - Template creation page cleaned up
 - Table Headers now use the same styling
 - Tags updated so the bottom is not cut off
@@ -433,17 +433,17 @@
 
 ### Enhancements
 - Using Contour 1.0.0.beta with Twitter-Bootstrap CSS and JS
-- Sticky filters can now be reset
+- Task filters can now be reset
 - Groups can now be created from the project page
 - Default calendar options added when user registers
 
 ## 0.21.0 (April 13, 2012)
 
 ### Enhancements
-- Stickies can now be completed with one click on the calendar
-- Sticky filters are now saved and navigating to and from the sticky list will retain selected filters
-- API expanded and now allows stickies index to be retrieved as JSON objects
-  - Sticky JSON API actions for create, update, show, and index now available
+- Tasks can now be completed with one click on the calendar
+- Task filters are now saved and navigating to and from the task list will retain selected filters
+- API expanded and now allows tasks index to be retrieved as JSON objects
+  - Task JSON API actions for create, update, show, and index now available
 - Using Rails 3.2.3
 
 ### Refactoring
@@ -451,14 +451,14 @@
 
 ### Bug Fix
 - Fixed graphical bug that caused table rows borders to disappear in Google Chrome
-- Fixed bug where sticky description would shift after completing an inline sticky and moving the mouse
+- Fixed bug where task description would shift after completing an inline task and moving the mouse
 - Fixed bug in display of overall graph for users with identical names
-- Fixed bug where selecting too many tags for sticky filters would generate a slow search
+- Fixed bug where selecting too many tags for task filters would generate a slow search
 
 ## 0.20.0 (March 30, 2012)
 
 ### Enhancements
-- Stickies can now be marked as complete directly in the list view
+- Tasks can now be marked as complete directly in the list view
 - Service Accounts can now be used by other applications to authenticate users through the use of application specific tokens
   - Allows authenticated applications to view templates and create new groups
 - Using Rails 3.2.3.rc2
@@ -475,23 +475,23 @@
 ## 0.18.0 (March 7, 2012)
 
 ### Enhancements
-- Templates can now specify that generated stickies avoid weekends
+- Templates can now specify that generated tasks avoid weekends
 - **Calendar Changes**
-  - Stickies can now be dragged to a new date
+  - Tasks can now be dragged to a new date
   - Improved performance using a combination of caching and AJAX
 - **Email Changes**
-  - Daily Stickies Due now also includes stickies due the following day (or the following Monday)
-  - Daily Stickies Due now includes an ICS file to allow syncing with an external calendar
-- **Sticky Changes**
-  - Stickies can be exported to an ICS calendar format from the stickies list
-  - Updated GUI for sticky show page and comments
-  - Stickies in lists can now be deleted inline
+  - Daily Tasks Due now also includes tasks due the following day (or the following Monday)
+  - Daily Tasks Due now includes an ICS file to allow syncing with an external calendar
+- **Task Changes**
+  - Tasks can be exported to an ICS calendar format from the tasks list
+  - Updated GUI for task show page and comments
+  - Tasks in lists can now be deleted inline
 - Using Rails 3.2.2 and Contour 0.10.2
 
 ### Bug Fix
 - Viewers can now remove themselves from projects to which they've been added
-- Users assigned to stickies that have been removed from a project are no longer removed as sticky owner if the sticky is updated
-  - NOTE: Unless of course, the sticky is assigned to someone else
+- Users assigned to tasks that have been removed from a project are no longer removed as task owner if the task is updated
+  - NOTE: Unless of course, the task is assigned to someone else
 
 ## 0.17.2 (February 13, 2012)
 
@@ -501,21 +501,21 @@
 ## 0.17.1 (February 10, 2012)
 
 ### Enhancements
-- ICS files are also included in emails for stickies with a due date but no due time
+- ICS files are also included in emails for tasks with a due date but no due time
 
 ### Bug Fix
-- Due Date Changed email no longer triggers when a sticky with a due time is created
+- Due Date Changed email no longer triggers when a task with a due time is created
 
 ## 0.17.0 (February 10, 2012)
 
 ### Enhancements
-- Sticky filters now combine duplicate tags
+- Task filters now combine duplicate tags
 - Minor graphical tag changes on calendar
-- Stickies and templates can now have a due time and duration
-- Sticky emails are now sent if the sticky due time is changed
-- Sticky and group creation emails now include an ICS event file if a due date time is set
-- Calendar now sorts stickies by project, then by tags, then by due date time
-- Sticky tags have minor GUI update in emails
+- Tasks and templates can now have a due time and duration
+- Task emails are now sent if the task due time is changed
+- Task and group creation emails now include an ICS event file if a due date time is set
+- Calendar now sorts tasks by project, then by tags, then by due date time
+- Task tags have minor GUI update in emails
 
 ### Bug Fix
 - Email setting checkboxes for project notifications are no longer incorrectly disabled
@@ -523,32 +523,32 @@
 ## 0.16.2 (February 2, 2012)
 
 ### Bug Fix
-- Removed "assigned to me" option for sticky list page as it was redundant
+- Removed "assigned to me" option for task list page as it was redundant
 - "Assigned to Me" now correctly saves user settings on calendar
 
 ## 0.16.1 (February 1, 2012)
 
 ### Bug Fix
-- Stickies on calendar view are now correctly grouped by tags
+- Tasks on calendar view are now correctly grouped by tags
 
 ## 0.16.0 (February 1, 2012)
 
 ### Enhancements
 - **Calendar Changes**
   - Saves checked 'completed' or 'not completed' filters on calendar
-  - Displays stickies in the following or preceding month
-  - Can filter stickies assigned to the user
+  - Displays tasks in the following or preceding month
+  - Can filter tasks assigned to the user
 - Project selection dropdowns are now sorted by favorites first
-- Stickies search now allows users to filter unassigned stickies
+- Tasks search now allows users to filter unassigned tasks
 - Email settings page now prompts user if the user navigates away without saving updated settings
 - **Tagging Changes**
-  - Sticky list page can now filter stickies which contain at least one, or all selected tags
+  - Task list page can now filter tasks which contain at least one, or all selected tags
   - Tags can now be given an additional color and description
-  - Sticky list page tag filters now only shows tags for the selected project
+  - Task list page tag filters now only shows tags for the selected project
 
 ### Bug Fix
 - Generating a template from the calendar view now correctly updates the selected templates available project boards
-- Daily Stickies Due email no longer includes stickies from projects that have email delivery off
+- Daily Tasks Due email no longer includes tasks from projects that have email delivery off
 
 ### Refactoring
 - Updated to Rails 3.2.1 and fixed Devise 2.0.0 locales file
@@ -576,32 +576,32 @@
 ## 0.15.0 (January 11, 2012)
 
 ### Enhancements
-- Groups of stickies can now have their due dates shifted by editing a single sticky in the group and selecting either 'incomplete' to shift all other not completed stickies, or 'all' to shift all the stickies in the group
+- Groups of tasks can now have their due dates shifted by editing a single task in the group and selecting either 'incomplete' to shift all other not completed tasks, or 'all' to shift all the tasks in the group
 - **Calendar Changes**
-  - Stickies are now displayed under their tags
-  - Stickies can now be displayed or hidden per project
+  - Tasks are now displayed under their tags
+  - Tasks can now be displayed or hidden per project
   - Project colors can now be personalized
-- Sticky list page has the following improvements:
-  - Stickies can now be filtered and downloaded in a CSV file
+- Task list page has the following improvements:
+  - Tasks can now be filtered and downloaded in a CSV file
   - Cleaner layout of search filters
 - Items on template index are now aligned across various templates
-- Emails for group creation and sticky completion now display:
+- Emails for group creation and task completion now display:
   - Group Template name
-  - Stickies now have first 16 characters of description
+  - Tasks now have first 16 characters of description
 
 ### Bug Fix
-- Minor table GUI fix when expanding a sticky
+- Minor table GUI fix when expanding a task
 - Templates page is now sortable by name
 - Searching and filtering is now possible in the groups list view
-- Tags can now be cleared when updating a sticky
+- Tags can now be cleared when updating a task
 
 ### Refactoring
-- Removed unused sticky attributes sticky type, sticky position, and sticky parent
+- Removed unused task attributes task type, task position, and task parent
 - Link to template removed from the groups list page to avoid confusion
 
 ### Testing
-- Added tests for sending email for sticky_creation and sticky_completion
-- Added tests for sending email for project_comments and sticky_comments
+- Added tests for sending email for task creation and task completion
+- Added tests for sending email for project comments and task comments
 
 ## 0.14.1 (January 6, 2012)
 
@@ -611,25 +611,25 @@
 ## 0.14.0 (January 6, 2012)
 
 ### Enhancements
-- Stickies no longer have status of 'planned', 'ongoing', 'completed', and now are either completed or not completed
-  - NOTE: Stickies can have tags added to them on a per project basis if more fine-grained labeling is required
-- Sticky edit page now contains:
-  - Group description if the sticky is part of a group
-  - Comments that may have been added to sticky
-- Stickies on the sticky list page:
+- Tasks no longer have status of 'planned', 'ongoing', 'completed', and now are either completed or not completed
+  - NOTE: Tasks can have tags added to them on a per project basis if more fine-grained labeling is required
+- Task edit page now contains:
+  - Group description if the task is part of a group
+  - Comments that may have been added to task
+- Tasks on the task list page:
   - Can now be filtered by:
     - Project
     - Assigned To
     - Due Date
     - Status
-  - Display the total count of filtered stickies
-  - Contain a link to the group if grouped with other stickies
+  - Display the total count of filtered tasks
+  - Contain a link to the group if grouped with other tasks
 - Template show page has been improved
   - Items listed in a template are now sorted by their offset from the initial due date
   - Items are now displayed more succinctly
 - Using Rails 3.2.0.rc2 and Contour 0.8.1
 - Calendar updated have consistent look across browsers and operating systems
-- Templates can now have default sticky tags assigned to each item
+- Templates can now have default task tags assigned to each item
 - Projects emails can now be fine-tuned to receive only certain types of updates on a per-project basis
 
 ### Refactoring
@@ -639,46 +639,46 @@
 
 ### Enhancements
 - **Calendar Changes**
-  - Double clicking on calendar allows creation of a sticky or a sticky group
+  - Double clicking on calendar allows creation of a task or a task group
   - Today's Date and Mouse Hover colors have been lightened
-- **Sticky Groups**
-  - Deleting a grouped sticky now prompts the user to delete:
-    - a single sticky
+- **Task Groups**
+  - Deleting a grouped task now prompts the user to delete:
+    - a single task
     - all following
-    - or all stickies in the group
-  - Grouped stickies can now be moved to a different project by editing the group
+    - or all tasks in the group
+  - Grouped tasks can now be moved to a different project by editing the group
 - Navigation
-  - Creating, Updating, and Deleting stickies from the calendar has been improved
+  - Creating, Updating, and Deleting tasks from the calendar has been improved
   - Viewing a project now adds a menu item to that project's templates and boards
-- **Sticky Tags**
-  - Project specific tags can be assigned to stickies
+- **Task Tags**
+  - Project specific tags can be assigned to tasks
 - Email layout has improved
-  - Daily Stickies Due are now grouped by project
-  - Sticky Completion emails now list additional stickies in the group
-  - Due Date, Tags, and Group information added across sticky emails
+  - Daily Tasks Due are now grouped by project
+  - Task Completion emails now list additional tasks in the group
+  - Due Date, Tags, and Group information added across task emails
 - Templates can now have negative due date offsets
 
 ### Bug Fix
-- Daily stickies due email fixed to include weekday for items past due
-- Creating a sticky that's already marked as completed now only sends out a "sticky completion" email
-- Validation errors when creating or updating stickies now correctly remember the project, board, and tag selections
+- Daily tasks due email fixed to include weekday for items past due
+- Creating a task that's already marked as completed now only sends out a "task completion" email
+- Validation errors when creating or updating tasks now correctly remember the project, board, and tag selections
 
 ## 0.12.1 (December 19, 2011)
 
 ### Bug Fix
-- Project Viewers are now correctly redirected to the sticky show page from the calendar view
+- Project Viewers are now correctly redirected to the task show page from the calendar view
 
 ## 0.12.0 (December 13, 2011)
 
 ### Enhancements
-- Emails for Stickies generated by Templates are now sent out in a single email as opposed to an email per sticky
-- Sticky Due Dates are now included in emails
-- Stickies that are generated together from a template are now grouped together
-- Groups of stickies can be deleted, and can have a general group description
+- Emails for Tasks generated by Templates are now sent out in a single email as opposed to an email per task
+- Task Due Dates are now included in emails
+- Tasks that are generated together from a template are now grouped together
+- Groups of tasks can be deleted, and can have a general group description
 - Using Contour 0.7.0 with Menu enhancements and broader browser compatibility, specifically IE7+
 
 ### Bug Fix
-- New stickies that are created and already marked as completed now correctly set a Sticky ID in the email
+- New tasks that are created and already marked as completed now correctly set a Task ID in the email
 
 ## 0.11.1 (December 9, 2011)
 
@@ -689,14 +689,14 @@
 
 ### Enhancements
 - Adding support for templates
-  - Templates define a series of stickies
-  - Once created a template can Generate Stickies for the project with:
+  - Templates define a series of tasks
+  - Once created a template can Generate Tasks for the project with:
     - Due Date (+1.day, +2.weeks, +5.months)
     - Assigned user
-    - Additional information attached to each sticky
-- Calendar View is now available for Stickies with a Due Date
-  - New Stickies with Due Date can be created directly from Due Date calendar by hovering over the date and clicking the new sticky icon
-- Emails are sent out to inform users if a sticky assigned to them is due that day or is past due
+    - Additional information attached to each task
+- Calendar View is now available for Tasks with a Due Date
+  - New Tasks with Due Date can be created directly from Due Date calendar by hovering over the date and clicking the new task icon
+- Emails are sent out to inform users if a task assigned to them is due that day or is past due
 - Menu Streamlined, Emphasis on Calendar, Projects, and Templates
 
 ### Bug Fix
@@ -708,14 +708,14 @@
 ## 0.10.0 (December 2, 2011)
 
 ### Enhancements
-- Stickies can now have Due Dates
-- Sticky start date and sticky end date are now automatically set
-  - Start Date set when the sticky is created
-  - End Date set when the sticky status is changed from planned or ongoing to completed
+- Tasks can now have Due Dates
+- Task start date and task end date are now automatically set
+  - Start Date set when the task is created
+  - End Date set when the task status is changed from planned or ongoing to completed
   - End Date is cleared when status is changed from completed to planned or ongoing
-- Stickies can now be sorted by id, status, and due date
+- Tasks can now be sorted by id, status, and due date
 - Projects Index has been simplified and now displays:
-  - Number of stickies that are past due, due today, and due this week
+  - Number of tasks that are past due, due today, and due this week
   - Owner, editors, and viewers on project
 - Using Rails 3.1.3 and Contour ~> 0.6.0
 
@@ -725,11 +725,11 @@
 - Using Rails 3.1.1, Ruby 1.9.3.p0, and Contour 0.5.6
 - Email Updates:
   - Consistent subjects lines
-  - Sticky Added email now displays who is assigned to the sticky
+  - Task Added email now displays who is assigned to the task
 - Right and Left Keyboard clicks now navigate between boards on the project show page
 
 ### Bug Fix
-- Deleting a board now moves the associated stickies to the project holding pen
+- Deleting a board now moves the associated tasks to the project holding pen
 
 ### Testing
 - Analyzing test coverage using SimpleCov gem, test coverage now at 92%
@@ -737,10 +737,10 @@
 ## 0.8.0 (September 21, 2011)
 
 ### Enhancements
-- Emails are now sent for stickies when they are completed, can be disabled in user settings
-- Owners who can edit a project or a sticky can now
-  - delete comments attached to the project or sticky
-  - move comments to another between project or sticky
+- Emails are now sent for tasks when they are completed, can be disabled in user settings
+- Owners who can edit a project or a task can now
+  - delete comments attached to the project or task
+  - move comments to another between project or task
 
 ## 0.7.3 (September 9, 2011)
 

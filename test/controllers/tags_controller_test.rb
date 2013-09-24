@@ -6,7 +6,7 @@ class TagsControllerTest < ActionController::TestCase
     @tag = tags(:one)
   end
 
-  test "should add stickies to tag" do
+  test "should add tasks to tag" do
     post :add_stickies, project_id: projects(:one), tag_id: tags(:one), sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
 
     assert_not_nil assigns(:tag)
@@ -17,7 +17,7 @@ class TagsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should remove tag from stickies if all stickies have the tag" do
+  test "should remove tag from tasks if all tasks have the tag" do
     post :add_stickies, project_id: projects(:one), tag_id: tags(:alpha), sticky_ids: [stickies(:tagged).id, stickies(:only_alpha).id].join(','), format: 'js'
 
     assert_not_nil assigns(:tag)
@@ -28,7 +28,7 @@ class TagsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not add stickies to tag with invalid id" do
+  test "should not add tasks to tag with invalid id" do
     post :add_stickies, project_id: projects(:one), tag_id: -1, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
 
     assert_nil assigns(:tag)

@@ -1,4 +1,4 @@
-<%= @group.user.name %> <span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> Group <%= link_to @group.name, "#{SITE_URL}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Sticky' %><% if @group.template %> from Template <strong><%= @group.template.name %></strong><% end %>.<br />
+<%= @group.user.name %> <span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> Group <%= link_to @group.name, "#{SITE_URL}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Task' %><% if @group.template %> from Template <strong><%= @group.template.name %></strong><% end %>.<br />
 <br />
 <% unless @group.description.blank? %>
 <strong>Group Description</strong><br />

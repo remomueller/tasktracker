@@ -1,5 +1,5 @@
 <% if params[:from_index] == '1' %>
-  <%# Launch a refresh of the sticky search %>
+  <%# Launch a refresh of the task search %>
   $("#stickies_search").submit();
 
 <% elsif params[:from_project] == '1' %>
@@ -22,7 +22,7 @@
   $('[data-object~="board-select"][data-board-id="<%= params[:board_id] %>"]').click();
   $('#replace').val('');
 <% else %>
-  <%# Step 1: Display Sticky Modal (unless updated from quick checkbox complete) %>
+  <%# Step 1: Display Task Modal (unless updated from quick checkbox complete) %>
   <% if ['checkbox', 'move'].include?(params[:from]) %>
     $("#sticky-modal-new").modal('hide');
   <% else %>
@@ -33,10 +33,10 @@
   <% stickies = [@sticky, @sticky.repeated_sticky].compact %>
 
   <% stickies.each do |sticky| %>
-    <%# Step 2: Remove existing sticky from view %>
+    <%# Step 2: Remove existing task from view %>
     removeSticky("<%= sticky.id %>");
 
-    <%# Step 3: Add Updated Sticky to View %>
+    <%# Step 3: Add Updated Task to View %>
     list_element_with_header =      "<%= escape_javascript( render partial: 'stickies/day_list',                locals: { stickies: [sticky], completed: sticky.completed, due_date: sticky.due_date } ) %>";
     list_element =                  "<%= escape_javascript( render partial: 'stickies/list_sticky_show',        locals: { sticky: sticky } ) %>";
     month_element_with_header =     "<%= escape_javascript( render partial: 'stickies/month_header_with_tags',  locals: { stickies: [sticky], tag_ids: sticky.tag_ids, current_date: sticky.due_date } ) %>";

@@ -1,4 +1,4 @@
-<%= @comment.user.name %> COMMENTED on Sticky <%= @sticky.name %> located at <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>.
+<%= @comment.user.name %> COMMENTED on Task <%= @sticky.name %> located at <%= "#{SITE_URL}/stickies/#{@sticky.id}" %>.
 
 
 <% @sticky.comments.limit(5).each do |comment| %>

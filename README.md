@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/tasktracker.png)](https://gemnasium.com/remomueller/tasktracker)
 [![Code Climate](https://codeclimate.com/github/remomueller/tasktracker.png)](https://codeclimate.com/github/remomueller/tasktracker)
 
-Manage multiple projects, view stickies (tasks) in a calendar, receive reminder emails for stickies due, assign project members to stickies, create templates for series of stickies, receive emails and updates as stickies and groups of stickies are completed, assign project specific tags to stickies, generate reports on sticky tags. Using Rails 4.0+ and Ruby 2.0.0+.
+Manage multiple projects, view tasks in a calendar, receive reminder emails for tasks due, assign project members to tasks, create templates for series of tasks, receive emails and updates as tasks and groups of tasks are completed, assign project specific tags to tasks, generate reports on task tags. Using Rails 4.0+ and Ruby 2.0.0+.
 
 ## Installation
 
@@ -48,7 +48,7 @@ Open a browser and go to: [http://localhost](http://localhost)
 
 All done!
 
-## Setting up Daily Stickies Due Emails
+## Setting up Daily Tasks Due Emails
 
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 

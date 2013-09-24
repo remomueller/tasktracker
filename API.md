@@ -2,7 +2,7 @@
 
 The Task Tracker uses a RESTFUL API common to Rails applications. Responses are returned as JSON objects.
 
-### Stickies
+### Tasks
 
 POST with JSON STRING (preferred)
 
@@ -34,7 +34,7 @@ curl -u username:password \
 ```
 
 
-Success will return you the stickies JSON object
+Success will return you the tasks JSON object
 
 ```json
 [

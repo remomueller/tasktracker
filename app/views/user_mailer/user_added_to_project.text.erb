@@ -2,7 +2,7 @@ Hello <%= @project_user.user.first_name %>,
 
 <%= @project_user.creator.name %> has added you to Project <%= @project_user.project.name %> located here <%= "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
 
-<% if @project_user.allow_editing? %>You may edit the project and add new stickies and comments to it!<% else %>You may view the project and add comments to it!<% end %>
+<% if @project_user.allow_editing? %>You may edit the project and add new tasks and comments to it!<% else %>You may view the project and add comments to it!<% end %>
 
 
 <%= @footer_txt %>

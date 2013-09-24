@@ -13,12 +13,12 @@ class User < ActiveRecord::Base
 
   VALID_API_TOKENS = ['screen_token']
 
-  EMAILABLES = [ [:sticky_creation, 'Receive email when a new sticky is created'],
-                 [:sticky_completion, 'Receive email when a sticky is marked as completed'],
-                 # [:sticky_due_time_changed, 'Receive email when a sticky\'s due date time is changed'],
-                 [:sticky_comments, 'Receive email when a comment is added to a sticky'],
-                 [:daily_stickies_due, 'Receive daily weekday emails if there are stickies due or past due'],
-                 [:daily_digest, 'Receive daily digest emails of stickies that have been created and completed the previous day'] ]
+  EMAILABLES = [ [:sticky_creation, 'Receive email when a new task is created'],
+                 [:sticky_completion, 'Receive email when a task is marked as completed'],
+                 # [:sticky_due_time_changed, 'Receive email when a task\'s due date time is changed'],
+                 [:sticky_comments, 'Receive email when a comment is added to a task'],
+                 [:daily_stickies_due, 'Receive daily weekday emails if there are tasks due or past due'],
+                 [:daily_digest, 'Receive daily digest emails of tasks that have been created and completed the previous day'] ]
 
   serialize :colors, Hash
   serialize :email_notifications, Hash
@@ -165,9 +165,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  # All stickies created in the last day, or over the weekend if it's Monday
-  # Ex: On Monday, returns stickies created since Friday morning (Time.now - 3.day)
-  # Ex: On Tuesday, returns stickies created since Monday morning (Time.now - 1.day)
+  # All tasks created in the last day, or over the weekend if it's Monday
+  # Ex: On Monday, returns tasks created since Friday morning (Time.now - 3.day)
+  # Ex: On Tuesday, returns tasks created since Monday morning (Time.now - 1.day)
   def digest_stickies_created
     @digest_stickies_created ||= begin
       self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}, completed: false).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))

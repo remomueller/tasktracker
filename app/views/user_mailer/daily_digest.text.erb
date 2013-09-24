@@ -20,7 +20,7 @@ COMMENTS
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
 <% comments.group_by{|s| s.sticky_id}.each do |sticky_id, comments| %>
 
-  <%= ((sticky = Sticky.find_by_id(sticky_id)) ? "#{sticky.name} #{SITE_URL}/stickies/#{sticky.id}" : 'No Sticky') %>
+  <%= ((sticky = Sticky.find_by_id(sticky_id)) ? "#{sticky.name} #{SITE_URL}/stickies/#{sticky.id}" : 'No Task') %>
   <%= strip_tags(simple_markdown sticky.full_description).truncate(50) %>
 
   <% comments.each do |comment| %>

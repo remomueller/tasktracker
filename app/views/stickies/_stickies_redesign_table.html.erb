@@ -67,7 +67,7 @@
   <% end %>
 <% else %>
   <center>
-    <span class="muted">No stickies found</span>
+    <span class="muted">No tasks found</span>
     <% unless params[:tag_ids].blank? and params[:search].blank? %>
       <div>
         Filters: <% current_user.all_viewable_tags.where(id: params[:tag_ids].to_s.split(',')).each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>

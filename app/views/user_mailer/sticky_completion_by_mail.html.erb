@@ -1,9 +1,9 @@
-<%= @sender.name %> <span style="border:1px solid #366DC2;background-color:#c2daff">COMPLETED</span> the following Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %>.<br />
+<%= @sender.name %> <span style="border:1px solid #366DC2;background-color:#c2daff">COMPLETED</span> the following Task <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= link_to @sticky.project.name, "#{SITE_URL}/projects/#{@sticky.project.id}" %>.<br />
 
 <%= render partial: 'sticky_note' %>
 
 <% if @sticky.group %>
-  This sticky is part of Group <%= link_to @sticky.group.name, "#{SITE_URL}/groups/#{@sticky.group.id}" %><% if @sticky.group.template %> from Template <strong><%= @sticky.group.template.name %></strong><% end %>.<br />
+  This task is part of Group <%= link_to @sticky.group.name, "#{SITE_URL}/groups/#{@sticky.group.id}" %><% if @sticky.group.template %> from Template <strong><%= @sticky.group.template.name %></strong><% end %>.<br />
   <%= @stickies = @sticky.group.stickies; render partial: 'sticky_list' %>
   <br />
 <% end %>

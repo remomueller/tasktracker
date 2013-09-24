@@ -163,7 +163,7 @@ class StickiesController < ApplicationController
     respond_to do |format|
       if @sticky.save
         @sticky.send_email_if_recently_completed(current_user)
-        format.html { redirect_to @sticky, notice: 'Sticky was successfully created.' }
+        format.html { redirect_to @sticky, notice: 'Task was successfully created.' }
         format.js
         format.json { render action: 'show', status: :created, location: @sticky }
       else
@@ -257,7 +257,7 @@ class StickiesController < ApplicationController
 
         @sticky.shift_group((@sticky.due_date - original_due_date).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
 
-        format.html { redirect_to @sticky, notice: 'Sticky was successfully updated.' }
+        format.html { redirect_to @sticky, notice: 'Task was successfully updated.' }
         format.js
         format.json { render action: 'show', location: @sticky }
       else
@@ -281,7 +281,7 @@ class StickiesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d') ), notice: 'Sticky was successfully deleted.' }
+      format.html { redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d') ), notice: 'Task was successfully deleted.' }
       format.js
     end
   end

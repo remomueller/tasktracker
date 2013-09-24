@@ -19,7 +19,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to projects_path
   end
 
-  test "should reassign incomplete stickies" do
+  test "should reassign incomplete tasks" do
     assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", -1 * Sticky.where(project_id: @project.id, owner_id: users(:valid).id, completed: false).count) do
       assert_difference("Sticky.where(owner_id: #{users(:admin).id}).count", Sticky.where(project_id: @project.id, owner_id: users(:valid).id, completed: false).count) do
         post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: users(:admin).id, sticky_status: 'not_completed'
@@ -30,7 +30,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:project)
   end
 
-  test "should reassign complete stickies" do
+  test "should reassign complete tasks" do
     assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", -1 * Sticky.where(project_id: @project.id, owner_id: users(:valid).id, completed: true).count) do
       assert_difference("Sticky.where(owner_id: #{users(:admin).id}).count", Sticky.where(project_id: @project.id, owner_id: users(:valid).id, completed: true).count) do
         post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: users(:admin).id, sticky_status: 'completed'
@@ -41,7 +41,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:project)
   end
 
-  test "should reassign all stickies" do
+  test "should reassign all tasks" do
     assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", -1 * Sticky.where(project_id: @project.id, owner_id: users(:valid).id).count) do
       assert_difference("Sticky.where(owner_id: #{users(:admin).id}).count", Sticky.where(project_id: @project.id, owner_id: users(:valid).id).count) do
         post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: users(:admin).id, sticky_status: 'all'
@@ -52,19 +52,19 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:project)
   end
 
-  test "should not reassign stickies without specifying users" do
+  test "should not reassign tasks without specifying users" do
     assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", 0) do
       post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: nil, sticky_status: 'not_completed'
     end
 
     assert_not_nil assigns(:project)
-    assert_equal 'Please select the original owner and new owner of the stickies.', flash[:error]
+    assert_equal 'Please select the original owner and new owner of the tasks.', flash[:error]
 
     assert_template 'bulk'
     assert_response :success
   end
 
-  test "should not reassign stickies as project viewers" do
+  test "should not reassign tasks as project viewers" do
     assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", 0) do
       assert_difference("Sticky.where(owner_id: #{users(:admin).id}).count", 0) do
         post :reassign, id: projects(:three), from_user_id: users(:valid).id, to_user_id: users(:admin).id, sticky_status: 'not_completed'

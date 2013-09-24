@@ -48,13 +48,13 @@
     <% if @sticky.group %>
       <table class="blank padded">
         <tr>
-          <td><%= radio_button_tag 'shift', 'single', true %> <b>Single:</b></td><td>Only change this sticky's due date</td>
+          <td><%= radio_button_tag 'shift', 'single', true %> <b>Single:</b></td><td>Only change this tasks's due date</td>
         </tr>
         <tr>
-          <td><%= radio_button_tag 'shift', 'incomplete' %> <b>Incomplete:</b></td><td>Shift this sticky's due date and all incomplete stickies in group</td>
+          <td><%= radio_button_tag 'shift', 'incomplete' %> <b>Incomplete:</b></td><td>Shift this tasks's due date and all incomplete tasks in group</td>
         </tr>
         <tr>
-          <td><%= radio_button_tag 'shift', 'all' %>  <b>All:</b></td><td>Shift all stickies in group</td>
+          <td><%= radio_button_tag 'shift', 'all' %>  <b>All:</b></td><td>Shift all tasks in group</td>
         </tr>
       </table>
     <% end %>

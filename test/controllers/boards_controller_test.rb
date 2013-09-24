@@ -32,7 +32,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should add stickies to holding pen" do
+  test "should add tasks to holding pen" do
     post :add_stickies, project_id: projects(:one), board_id: 0, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
 
     assert_not_nil assigns(:stickies)
@@ -42,7 +42,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should add stickies to board" do
+  test "should add tasks to board" do
     post :add_stickies, project_id: projects(:one), board_id: boards(:two), sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
 
     assert_not_nil assigns(:stickies)
@@ -52,14 +52,14 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not add stickies to board with invalid id" do
+  test "should not add tasks to board with invalid id" do
     post :add_stickies, project_id: projects(:one), board_id: -1, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
 
     assert_nil assigns(:board)
     assert_response :success
   end
 
-  test "should add stickies in group to board" do
+  test "should add tasks in group to board" do
     post :add_stickies, project_id: projects(:one), board_id: boards(:two), sticky_ids: [stickies(:grouped).id].join(','), format: 'js'
 
     assert_not_nil assigns(:stickies)
@@ -69,7 +69,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should add stickies in group to holding pen" do
+  test "should add tasks in group to holding pen" do
     post :add_stickies, project_id: projects(:one), board_id: 0, sticky_ids: [stickies(:grouped).id].join(','), format: 'js'
 
     assert_not_nil assigns(:stickies)
@@ -173,7 +173,7 @@ class BoardsControllerTest < ActionController::TestCase
     assert_redirected_to boards_path
   end
 
-  test "should destroy board and move attached stickies to project holding pen" do
+  test "should destroy board and move attached tasks to project holding pen" do
     assert_difference('Sticky.with_board(0).count', @board.stickies.size) do
       assert_difference('Sticky.current.count', 0) do
         assert_difference('Board.current.count', -1) do

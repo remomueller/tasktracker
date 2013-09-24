@@ -1,4 +1,4 @@
-<%= @comment.user.name %> <span style="border:1px solid #c2daff;background-color:#edf4ff">COMMENTED</span> on Sticky <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %>.<br />
+<%= @comment.user.name %> <span style="border:1px solid #c2daff;background-color:#edf4ff">COMMENTED</span> on Task <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %>.<br />
 <br />
 
 <% @sticky.comments.limit(5).each do |comment| %>

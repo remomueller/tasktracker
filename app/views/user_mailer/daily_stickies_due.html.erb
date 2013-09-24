@@ -15,6 +15,6 @@ Hello <%= @recipient.first_name %>,<br />
   <%= @stickies = @recipient.all_deliverable_stickies_due_upcoming; render partial: 'sticky_list' %>
 <% end %>
 
-View stickies on a calendar here: <%= link_to SITE_URL, "#{SITE_URL}/stickies/calendar" %><br />
+View tasks on a calendar here: <%= link_to SITE_URL, "#{SITE_URL}/month" %><br />
 <br />
 <%= @footer_html %>

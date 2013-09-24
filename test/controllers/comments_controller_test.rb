@@ -21,7 +21,7 @@ class CommentsControllerTest < ActionController::TestCase
     assert_template 'create'
   end
 
-  test "should create comment for a sticky and send email to the sticky owner" do
+  test "should create comment for a task and send email to the task owner" do
     login(users(:admin))
     assert_difference('Comment.count') do
       post :create, sticky_id: @comment.sticky_id, comment: { description: "This is a comment." }, position: "1", format: 'js'

@@ -56,7 +56,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create group and generate stickies and create a new board for the group" do
+  test "should create group and generate tasks and create a new board for the group" do
     assert_difference('Sticky.count', templates(:one).items.size) do
       assert_difference('Group.count') do
         post :create, group: { project_id: projects(:one), template_id: templates(:one), board_id: boards(:one) }, create_new_board: '1', group_board_name: 'New Board'
@@ -73,7 +73,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
-  test "should create group and generate stickies and add stickies to holding pen" do
+  test "should create group and generate tasks and add tasks to holding pen" do
     assert_difference('Sticky.count', templates(:one).items.size) do
       assert_difference('Group.count') do
         post :create, group: { project_id: projects(:one), template_id: templates(:one), board_id: boards(:one) }, create_new_board: '1', group_board_name: ''
@@ -88,7 +88,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
-  test "should create group and generate stickies for user through service account" do
+  test "should create group and generate tasks for user through service account" do
     login(users(:service_account))
     assert_difference('Sticky.count', templates(:one).items.size) do
       assert_difference('Group.count') do
@@ -107,7 +107,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create group and generate stickies with default tags" do
+  test "should create group and generate tasks with default tags" do
     assert_difference('Sticky.count', templates(:with_tag).items.size) do
       assert_difference('Group.count') do
         post :create, group: { project_id: projects(:one), template_id: templates(:with_tag), board_id: boards(:one) }
@@ -122,7 +122,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
-  test "should create group of stickies with due_at time and duration" do
+  test "should create group of tasks with due_at time and duration" do
     assert_difference('Sticky.count', templates(:with_due_at).items.size) do
       assert_difference('Group.count') do
         post :create, group: { project_id: projects(:one), template_id: templates(:with_due_at), board_id: boards(:one) }
@@ -139,7 +139,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
-  test "should create group of stickies avoid weekends" do
+  test "should create group of tasks avoid weekends" do
     assert_difference('Sticky.count', templates(:avoid_weekends).items.size) do
       assert_difference('Group.count') do
         post :create, group: { project_id: projects(:one), template_id: templates(:avoid_weekends), board_id: boards(:one), initial_due_date: "3/10/2012" }
@@ -155,7 +155,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
-  test "should not create group and generate stickies for invalid template id" do
+  test "should not create group and generate tasks for invalid template id" do
     assert_difference('Sticky.count', 0) do
       assert_difference('Group.count', 0) do
         post :create, group: { project_id: projects(:one), template_id: -1, board_id: boards(:one) }
@@ -208,7 +208,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should update group and move group and stickies to another project" do
+  test "should update group and move group and tasks to another project" do
     put :update, id: @group, group: { description: "Group Description Update", project_id: projects(:two) }
     assert_not_nil assigns(:group)
     assert_equal [projects(:two).to_param], assigns(:group).stickies.collect{|s| s.project_id.to_s}.uniq

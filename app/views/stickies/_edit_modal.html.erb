@@ -1,4 +1,4 @@
-<% @title = @sticky.new_record? ? "New Sticky" : "Edit Sticky #{@sticky.name}" %>
+<% @title = @sticky.new_record? ? "New Task" : "Edit Task #{@sticky.name}" %>
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h4 class="modal-title">
@@ -24,5 +24,5 @@
     <%= link_to 'Cancel', @sticky, method: :get, remote: true, class: 'btn btn-default' %>
   <% end %>
 
-  <%= submit_tag @sticky.new_record? ? 'Create Sticky' : 'Update Sticky', class: 'btn btn-primary', data: { object: 'sticky-submit', target: @sticky.new_record? ? "#new_sticky" : "#edit_sticky_#{@sticky.id}" } %>
+  <%= submit_tag @sticky.new_record? ? 'Create Task' : 'Update Task', class: 'btn btn-primary', data: { object: 'sticky-submit', target: @sticky.new_record? ? "#new_sticky" : "#edit_sticky_#{@sticky.id}" } %>
 </div>

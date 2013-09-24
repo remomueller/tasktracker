@@ -15,7 +15,7 @@ two:
   project: one
 
 three:
-  description: "Testing deleting single stickies, all following stickies, and all stickies in group"
+  description: "Testing deleting single task, all following tasks, and all tasks in group"
   user: valid
   deleted: false
   template: three

@@ -4,7 +4,7 @@ one:
   user: valid
   project: one
   completed: false
-  description: StickyOne
+  description: Task One
   start_date: 2011-02-24
   end_date: 2011-02-24
   due_time: 9am
@@ -16,7 +16,7 @@ grouped:
   user: valid
   project: one
   completed: false
-  description: StickyGrouped
+  description: Grouped Task
   start_date: 2011-02-24
   end_date: 2011-02-24
   due_date: 2011-12-13
@@ -40,7 +40,7 @@ planned:
   project: one
   # board:
   completed: false
-  description: This is a planned sticky
+  description: This is a planned task
   due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:
@@ -52,7 +52,7 @@ ongoing:
   project: one
   # board:
   completed: false
-  description: This is an ongoing sticky
+  description: This is an ongoing task
   due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:
@@ -63,7 +63,7 @@ completed:
   project: one
   # board:
   completed: true
-  description: This is a completed sticky
+  description: This is a completed task
   due_date: 2011-12-10
   start_date: 2011-11-30
   end_date: 2011-12-01
@@ -74,7 +74,7 @@ viewable_by_valid:
   project: three
   # board:
   completed: false
-  description: This is a pending viewable sticky but valid may not edit this
+  description: This is a pending viewable task but valid may not edit this
   due_date: 2011-12-31
   start_date: 2011-12-19
   # end_date:
@@ -157,7 +157,7 @@ tagged:
   project: one
   # board:
   completed: false
-  description: This is a sticky with tags
+  description: This is a task with tags
   due_date: 2011-12-10
   start_date: 2011-12-01
   # end_date:

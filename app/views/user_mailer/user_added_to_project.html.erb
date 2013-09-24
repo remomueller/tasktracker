@@ -3,7 +3,7 @@ Hello <%= @project_user.user.first_name %>,<br />
 <%= @project_user.creator.name %> has <span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> you to Project <%= link_to @project_user.project.name, "#{SITE_URL}/projects/#{@project_user.project.id}" %>.<br />
 <br />
 <% if @project_user.allow_editing? %>
-You may edit the project and add new stickies and comments to it!
+You may edit the project and add new tasks and comments to it!
 <% else %>
 You may view the project and add comments to it!
 <% end %>

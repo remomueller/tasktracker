@@ -33,7 +33,7 @@
       <%= link_to 'Mark Completed', sticky_path( @sticky, sticky: { completed: true }, from: 'checkbox' ), method: :patch, remote: true, class: 'btn btn-primary' %>
     <% end %>
 
-    <%= link_to 'Delete', @sticky, method: :delete, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Sticky #{@sticky.name}?" } %>
+    <%= link_to 'Delete', @sticky, method: :delete, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Task #{@sticky.name}?" } %>
   <% end %>
 </div>
 
