@@ -211,36 +211,14 @@ class StickiesController < ApplicationController
     end
   end
 
-  # This is always from calendar, the project one always uses complete_multiple...(todo refactor)
+  # TODO: Remove all references
   def complete
     params[:hide_show] = '1'
 
     if @sticky
       @sticky.update_attributes completed: (params[:undo] != 'true')
       @sticky.send_email_if_recently_completed(current_user)
-      if ['month', 'week', 'day', 'checkbox', 'move'].include?(params[:from]) or params[:from_index] == '1'
-        render 'update'
-      else
-        @stickies = Sticky.current.where(id: @sticky.id)
-        render 'complete_multiple'
-      end
-    else
-      render nothing: true
-    end
-  end
-
-  def complete_multiple
-    @stickies = current_user.all_stickies.where(id: params[:sticky_ids].to_s.split(','))
-
-    if @stickies and @stickies.size > 0
-      @stickies.each{|s| s.update_attributes(completed: (params[:undo] != 'true'))}
-      if params[:undo] != 'true'
-        if @stickies.size == 1
-          @stickies.first.send_email_if_recently_completed(current_user)
-        else
-          Sticky.send_stickies_completion_email(@stickies, current_user)
-        end
-      end
+      render 'update'
     else
       render nothing: true
     end
@@ -283,19 +261,6 @@ class StickiesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to month_path( date: @sticky.due_date.blank? ? '' : @sticky.due_date.strftime('%Y%m%d') ), notice: 'Task was successfully deleted.' }
       format.js
-    end
-  end
-
-  def destroy_multiple
-    @stickies = current_user.all_stickies.where(id: params[:sticky_ids].to_s.split(','))
-
-    respond_to do |format|
-      if @stickies.size > 0
-        @stickies.each{ |s| s.destroy }
-        format.js
-      else
-        format.js { render nothing: true }
-      end
     end
   end
 

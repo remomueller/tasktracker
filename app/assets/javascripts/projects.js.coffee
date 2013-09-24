@@ -20,8 +20,3 @@ jQuery ->
       $("#stickies_search").submit()
       false
     )
-    # From settings page
-    .on('click', '[data-object~="modal-show"]', () ->
-      $($(this).data('target')).modal({ dynamic: true })
-      false
-    )

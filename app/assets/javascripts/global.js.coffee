@@ -119,6 +119,10 @@ jQuery ->
     .on('click', '[data-object~="suppress-click"]', () ->
       false
     )
+    .on('click', '[data-object~="modal-show"]', () ->
+      $($(this).data('target')).modal('show')
+      false
+    )
 
   # TODO: Put these in correct coffee files
   $("#comments_search input").change( () ->
@@ -145,11 +149,6 @@ jQuery ->
         $("#global-search").blur()
         return
       return if $("input, textarea, select, a").is(":focus")
-      if $("#sticky-backdrop").is(':visible')
-        hideStickyModal()               if e.which == 27
-      else
-        loadNewStickyModal() if e.which == 83
-        loadNewGroupModal()  if e.which == 71
       # P will enter the search box
       if e.which == 80
         $("#global-search").focus()

@@ -4,17 +4,11 @@
 
 <h4 style="margin-top:0px"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></h4>
 
-<% if false %>
-  <%= link_to simple_check(true) + ' Select All', '#', data: { object: 'select-all-stickies' }, class: 'btn btn-xs btn-default' %>
-  <%= link_to simple_check(false) + ' Deselect All', '#', data: { object: 'deselect-all-stickies' }, class: 'btn btn-xs btn-default' %>
+<% if @project.modifiable_by?(current_user) %>
+  <%= link_to 'Create Task'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-sticky-button' %>
+  <%= link_to 'Create Group'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-group-button' %>
 <% end %>
 
-<%= link_to 'Create Task'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-sticky-button' if @project.modifiable_by?(current_user) %>
-<%= link_to 'Create Group'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-group-button' if @project.modifiable_by?(current_user) %>
-
-<%= link_to 'Mark Not Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: true, url: complete_multiple_stickies_path(undo: 'true')}, style: 'display:none'  if @project.modifiable_by?(current_user) %>
-<%= link_to 'Mark Completed', '#', class: 'btn btn-xs btn-primary', data: { object: 'set-stickies-status', undo: false, url: complete_multiple_stickies_path }, style: 'display:none' if @project.modifiable_by?(current_user) %>
-<%= link_to '<span class="glyphicon glyphicon-trash"></span>'.html_safe, '#', data: { object: 'delete-stickies', url: destroy_multiple_stickies_path }, class: 'btn btn-xs btn-danger-inverse' if @project.modifiable_by?(current_user) %>
 <% @tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
 <span class="label label-highlight"><%= params[:search] %></span>
 <%= link_to 'Clear'.html_safe, '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' unless params[:tag_ids].blank? and params[:search].blank? %>
@@ -44,37 +38,11 @@
   </div>
 <% end %>
 
-<% if true %>
-  <% params[:project_ids] = @project.id.to_s %>
-  <% params[:tags] = @tags.pluck(:name).uniq.join(',') %>
-  <% params[:owners] = current_user.name if params[:assigned_to_me].to_s == '1' %>
-  <div class="clear">&nbsp;</div>
-  <%= render partial: 'list', locals: { stickies: @stickies } %>
-  <div class="center" data-object="visible-sticky"><%= paginate @stickies, theme: "contour" %></div>
-  <%= render partial: 'modal' %>
-<% else %>
-<% if @stickies.count > 0 %>
-  <table class="table table-condensed" style="margin-top:10px;width:100%;table-layout: fixed;"><col width="20px"/><col /><col width="40px"/><col width="80px"/><col width="60px"/>
-    <tbody id="row-stickies">
-      <% @stickies.each do |sticky| %>
-        <%= render partial: 'stickies/stickies_redesign_row', locals: { sticky: sticky } %>
-      <% end %>
-    </tbody>
-  </table>
 
-  <% [false, true].each do |phone| %>
-    <center class="<%= phone ? 'visible' : 'hidden' %>-xs"><%= paginate @stickies, theme: phone ? "contour-small" : "contour" %></center>
-  <% end %>
-<% else %>
-  <center>
-    <span class="muted">No tasks found</span>
-    <% unless params[:tag_ids].blank? and params[:search].blank? %>
-      <div>
-        Filters: <% current_user.all_viewable_tags.where(id: params[:tag_ids].to_s.split(',')).each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
-        <% unless params[:search].blank? %><span class="label label-highlight"><%= params[:search] %></span><% end %>
-        <%= link_to 'Clear', '#', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' %>
-      </div>
-    <% end %>
-  </center>
-<% end %>
-<% end %>
+<% params[:project_ids] = @project.id.to_s %>
+<% params[:tags] = @tags.pluck(:name).uniq.join(',') %>
+<% params[:owners] = current_user.name if params[:assigned_to_me].to_s == '1' %>
+<div class="clear">&nbsp;</div>
+<%= render partial: 'list', locals: { stickies: @stickies } %>
+<div class="center" data-object="visible-sticky"><%= paginate @stickies, theme: "contour" %></div>
+<%= render partial: 'modal' %>

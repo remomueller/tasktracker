@@ -1,8 +1,4 @@
-<% if params[:from_index] == '1' %>
-  <%# Launch a refresh of the task search %>
-  $("#stickies_search").submit();
-
-<% elsif params[:from_project] == '1' %>
+<% if params[:from_project] == '1' %>
   $("#scope").val('<%= @sticky.panel %>');
 
   <% params[:board_id] = @sticky.board_id || '0' %>

@@ -131,14 +131,14 @@ class Sticky < ActiveRecord::Base
     end
   end
 
-  def self.send_stickies_completion_email(all_stickies, current_user)
-    all_stickies.group_by{|s| s.project}.each do |project, stickies|
-      all_users = project.users_to_email(:sticky_completion) - [current_user]
-      all_users.each do |user_to_email|
-        UserMailer.stickies_completion_by_mail(stickies, current_user, user_to_email).deliver if Rails.env.production?
-      end
-    end
-  end
+  # def self.send_stickies_completion_email(all_stickies, current_user)
+  #   all_stickies.group_by{|s| s.project}.each do |project, stickies|
+  #     all_users = project.users_to_email(:sticky_completion) - [current_user]
+  #     all_users.each do |user_to_email|
+  #       UserMailer.stickies_completion_by_mail(stickies, current_user, user_to_email).deliver if Rails.env.production?
+  #     end
+  #   end
+  # end
 
   private
 

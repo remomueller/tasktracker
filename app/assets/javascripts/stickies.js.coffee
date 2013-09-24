@@ -179,20 +179,6 @@
   else
     $('[data-object~="delete-stickies"]').hide()
 
-
-@showStickyModal = () ->
-  $("#sticky-backdrop").show()
-  $("#sticky_modal_wrapper").show()
-  # $('html, body').animate({ scrollTop: $("#sticky_modal_wrapper").offset().top - 40 }, 'fast');
-
-@hideStickyModal = () ->
-  $("#sticky-backdrop").hide()
-  $("#sticky_modal_wrapper").hide()
-
-@loadNewStickyModal = () ->
-  $('#new-sticky-button').click()
-  false
-
 @clearSearchValues = () ->
   $('#project_search').val('')
   $('#search').val('')
@@ -259,13 +245,6 @@ jQuery ->
             $.post($(this).data("link"), null, null, "script")
         else
           window.location = $(this).data("link")
-    )
-    .on('click', "#sticky-backdrop", (e) ->
-      hideStickyModal() if e.target.id == "sticky-backdrop"
-    )
-    .on('click', '[data-object~="hide-sticky-modal"]', () ->
-      hideStickyModal()
-      false
     )
     .on('click', '[data-object~="set-stickies-status"]', (e) ->
       sticky_ids = []
