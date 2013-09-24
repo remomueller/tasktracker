@@ -2,7 +2,6 @@
   $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'groups/new_modal') %>");
   initializeTypeahead();
   loadDatePicker();
-  loadTimePicker();
   $("#sticky-modal-new").modal('show');
   $("#group_description").focus();
 <% else %>

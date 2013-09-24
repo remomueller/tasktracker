@@ -7,7 +7,6 @@
   $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'stickies/edit_modal') %>");
   initializeTypeahead();
   loadDatePicker();
-  loadTimePicker();
   $("#sticky-modal-new").modal('show');
   $("#sticky_description").focus();
 <% else %>

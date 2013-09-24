@@ -2,7 +2,6 @@
     $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "groups/new_redesign", locals: { sticky: @sticky }) %>");
     initializeTypeahead();
     loadDatePicker();
-    loadTimePicker();
     $("#sticky-modal-new").modal('show');
     $("#sticky_description").focus();
   <% else %>

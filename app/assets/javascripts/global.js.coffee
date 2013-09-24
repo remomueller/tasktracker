@@ -46,13 +46,6 @@
     )
   )
 
-@loadTimePicker = () ->
-  $(".timepicker").timepicker(
-    showMeridian: true
-    showSeconds: false
-    defaultTime: false
-  )
-
 @loadDatePicker = () ->
   $(".datepicker").datepicker('remove')
   $(".datepicker").datepicker( autoclose: true )
