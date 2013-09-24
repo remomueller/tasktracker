@@ -38,7 +38,7 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-xs-6 col-md-3">
-            <%= text_field_tag "template[item_tokens][][due_at_string]", (Time.parse(@item[:due_at_string]).localtime.strftime("%l:%M %p").strip rescue ''), data: { object: 'noclickbubble' }, class: 'form-control' %>
+            <%= text_field_tag "template[item_tokens][][due_at_string]", @item[:due_at_string], data: { object: 'noclickbubble' }, class: 'form-control' %>
           </div>
         </div>
       </div>
