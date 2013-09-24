@@ -9,7 +9,7 @@
       <% if @sticky.owner %><%= image_tag('http:'+@sticky.owner.avatar_url(18, "identicon"), size: '18x18', alt: '', style: 'vertical-align: middle') %> <%= @sticky.owner.name %><% end %>
     </td>
     <td style="padding-top:10px;padding-right:10px;text-align:right;vertical-align:top">
-      <% if @sticky.due_date %><%= simple_date_and_weekday(@sticky.due_date) %><% end %><% unless @sticky.all_day? %><br /><%= @sticky.due_at_range %><% end %>
+      <% if @sticky.due_date %><%= simple_date_and_weekday(@sticky.due_date) %><% end %><% unless @sticky.all_day? %><br /><%= @sticky.due_time %><% end %>
     </td>
   </tr>
   <tr>

@@ -7,6 +7,8 @@ one:
   description: StickyOne
   start_date: 2011-02-24
   end_date: 2011-02-24
+  due_time: 9am
+  all_day: false
   deleted: false
   board: one
 

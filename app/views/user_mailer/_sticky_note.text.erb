@@ -3,7 +3,7 @@
 <%= @sticky.board ? @sticky.board.name : 'Holding Pen' %>
 
 <%= "Due Date: #{simple_date_and_weekday(@sticky.due_date)}" unless @sticky.due_date.blank? %>
-<%= "          #{@sticky.due_at_range}" unless @sticky.all_day? %>
+<%= "          #{@sticky.due_time}" unless @sticky.all_day? %>
 
 <%= @sticky.full_description %>
 
