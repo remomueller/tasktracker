@@ -15,7 +15,10 @@
     &middot; <%= link_to @sticky.board.name, project_path(@sticky.project, board: @sticky.board.name) %>
   <% end %>
   <% if @sticky.tags.size > 0 %>
-    &middot; <% @sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>&nbsp;
+    &middot; <% @sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %>
+  <% end %>
+  <% unless @sticky.all_day %>
+    &middot; <%= @sticky.due_time %>
   <% end %>
   </h4>
 </div>
