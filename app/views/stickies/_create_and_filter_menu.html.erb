@@ -60,14 +60,16 @@
           <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
             <label class="checkbox tag-checkbox <%= 'tag-selected' if owners.include?(current_user.name) %>" style="margin-bottom: 0px;background-color:#efefef;overflow:hidden;color:#333">
               <%= check_box_tag "user_names[]", current_user.name, owners.include?(current_user.name) %>
-              My Stickies
+              <div style="overflow:hidden;white-space:nowrap">My Stickies</div>
+              <%= image_tag current_user.avatar_url(50, "identicon"), class: 'img-rounded' %>
             </label>
           </div>
-          <% (current_user.associated_users.order('last_name, first_name') - [current_user]).each do |user| %>
+          <% (current_user.associated_users_assigned_tasks.order('last_name, first_name') - [current_user]).each do |user| %>
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
               <label class="checkbox tag-checkbox <%= 'tag-selected' if owners.include?(user.name) %>" style="margin-bottom: 0px;background-color:#efefef;color:#333">
                 <%= check_box_tag "user_names[]", user.name, owners.include?(user.name) %>
                 <div style="overflow:hidden;white-space:nowrap"><%= user.reverse_name %></div>
+                <%= image_tag user.avatar_url(50, "identicon"), class: 'img-rounded' %>
               </label>
             </div>
           <% end %>

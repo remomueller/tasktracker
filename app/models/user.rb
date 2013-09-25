@@ -61,7 +61,11 @@ class User < ActiveRecord::Base
   end
 
   def associated_users
-    User.where( deleted: false ).with_project(self.all_projects.pluck(:id), [true, false])
+    User.where( deleted: false ).with_project(self.all_viewable_projects.pluck(:id), [true, false])
+  end
+
+  def associated_users_assigned_tasks
+    User.where( deleted: false, id: Sticky.where( owner_id: associated_users.pluck(:id), project_id: self.all_viewable_projects.pluck(:id) ).pluck(:owner_id) )
   end
 
   def update_sticky_filters!(sticky_filter_hash = {})
