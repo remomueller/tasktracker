@@ -4,7 +4,11 @@
   <%= render partial: 'month' %>
 </div>
 
-<%= render partial: 'create_and_filter_menu', locals: { url: month_path( date: @anchor_date.strftime("%Y%m%d") ) } %>
+<% url = month_path( date: @anchor_date.strftime("%Y%m%d") ) %>
+
+<%= render partial: 'stickies/no_tasks_found', locals: { url: url } if @stickies.size == 0 %>
+
+<%= render partial: 'create_and_filter_menu', locals: { url: url } %>
 
 <%= render partial: 'modal' %>
 
@@ -13,3 +17,4 @@
 <% current_user.all_viewable_projects.each do |project| %>
   <div data-object="project-color" data-project-id="<%= project.id %>" data-color="<%= project.color(current_user) %>" style="display:none"></div>
 <% end %>
+

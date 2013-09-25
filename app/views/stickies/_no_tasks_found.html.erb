@@ -1,0 +1,3 @@
+<div class="alert alert-warning">
+  <strong>Heads up!</strong> No tasks found. <%= link_to 'Search across all tasks', tasks_path( tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: '' %><% unless url.blank? %> or <%= link_to 'clear filters', url %><% end %>.
+</div>

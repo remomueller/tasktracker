@@ -1,8 +1,6 @@
 <div data-object="visible-sticky" id="sticky-day-lists">
   <% if stickies.count == 0 %>
-    <div class="alert alert-warning">
-      <strong>Heads up!</strong> No tasks found. <%= link_to 'Search across all tasks.', tasks_path( tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: '' %>
-    </div>
+    <%= render partial: 'stickies/no_tasks_found', locals: { url: defined?(url) ? url : nil } %>
   <% else %>
     <% stickies.order(:completed, :due_date).group_by{|s| s.due_date ? [s.completed, s.due_date.to_date] : [s.completed, nil]}.each do |(completed, due_date), stickies| %>
       <%= render partial: 'stickies/day_list', locals: { completed: completed, due_date: due_date, stickies: stickies } %>

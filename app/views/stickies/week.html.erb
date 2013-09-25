@@ -37,9 +37,9 @@
   <% end %>
 </table>
 
+<% url = week_path( date: @anchor_date.strftime("%Y%m%d") ) %>
+<%= render partial: 'create_and_filter_menu', locals: { url: url } %>
 
-<%= render partial: 'create_and_filter_menu', locals: { url: week_path( date: @anchor_date.strftime("%Y%m%d") ) } %>
-
-<%= render partial: 'list', locals: { stickies: @stickies.with_due_date_for_calendar(@beginning_of_anchor_week, @beginning_of_anchor_week + 6.days) } %>
+<%= render partial: 'list', locals: { stickies: @stickies.with_due_date_for_calendar(@beginning_of_anchor_week, @beginning_of_anchor_week + 6.days), url: url } %>
 
 <%= render partial: 'modal' %>
