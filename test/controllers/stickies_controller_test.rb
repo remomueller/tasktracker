@@ -31,6 +31,12 @@ class StickiesControllerTest < ActionController::TestCase
     assert_template 'tasks/index'
   end
 
+  test "should get tasks and filter by owner" do
+    get :tasks, owners: 'FirstName+LastName'
+    assert_not_nil assigns(:tasks)
+    assert_template 'tasks/index'
+  end
+
   test "should get csv" do
     get :tasks, format: 'csv'
     assert_not_nil assigns(:csv_string)
