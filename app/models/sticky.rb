@@ -20,16 +20,16 @@ class Sticky < ActiveRecord::Base
 
   scope :with_due_date_for_calendar, lambda { |*args| where( due_date: args.first..args[1] ) }
 
-  scope :due_date_before, lambda { |arg| where("stickies.due_date < ?", (arg+1.day).at_midnight) }
-  scope :due_date_after, lambda { |arg| where("stickies.due_date >= ?", arg.at_midnight) }
+  scope :due_date_before, lambda { |arg| where("stickies.due_date < ?", arg+1.day) }
+  scope :due_date_after, lambda { |arg| where("stickies.due_date >= ?", arg) }
 
-  scope :due_date_before_or_blank, lambda { |arg| where("stickies.due_date < ? or stickies.due_date IS NULL", (arg+1.day).at_midnight) }
-  scope :due_date_after_or_blank, lambda { |arg| where("stickies.due_date >= ? or stickies.due_date IS NULL", arg.at_midnight) }
+  scope :due_date_before_or_blank, lambda { |arg| where("stickies.due_date < ? or stickies.due_date IS NULL", arg+1.day) }
+  scope :due_date_after_or_blank, lambda { |arg| where("stickies.due_date >= ? or stickies.due_date IS NULL", arg) }
 
-  scope :due_today,     -> { where( completed: false, due_date: Date.today.at_midnight..Date.today.end_of_day ) }
-  scope :past_due,      -> { where("stickies.completed = ? and stickies.due_date < ?", false, Date.today.at_midnight) }
-  scope :due_upcoming,  -> { where("stickies.completed = ? and stickies.due_date >= ? and stickies.due_date < ?", false, Date.tomorrow.at_midnight, (Date.today.friday? ? Date.tomorrow + 3.days : Date.tomorrow + 1.day).at_midnight) }
-  scope :due_this_week, -> { where( completed: false, due_date: (Date.today - Date.today.wday.days).at_midnight..(Date.today + (6-Date.today.wday).days).end_of_day ) }
+  scope :due_today,     -> { where( completed: false, due_date: Date.today ) }
+  scope :past_due,      -> { where("stickies.completed = ? and stickies.due_date < ?", false, Date.today) }
+  scope :due_upcoming,  -> { where("stickies.completed = ? and stickies.due_date > ? and stickies.due_date <= ?", false, Date.today, (Date.today.friday? ? Date.tomorrow + 2.days : Date.tomorrow)) }
+  scope :due_this_week, -> { where( completed: false, due_date: (Date.today - Date.today.wday.days)..(Date.today + (6-Date.today.wday).days) ) }
 
   scope :with_tag, lambda { |arg| where("stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", arg).references(:tags) }
 
