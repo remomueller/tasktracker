@@ -34,6 +34,7 @@
     helper: () ->
       "<div class='sticky-box'>"+$('[data-object~="board-helper"][data-board-id="'+$(this).data('board-id')+'"]').first().html()+"</div>"
     cursorAt: { left: 10 }
+    appendTo: "body"
   )
 
 @activateBoardArchiveDroppable = () ->
