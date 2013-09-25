@@ -9,9 +9,8 @@
     drop: ( event, ui ) ->
       tag_id = $(this).data('tag-id')
       project_id = $(this).data('project-id')
-      sticky_ids = []
-      $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
-      $.post(root_url + 'tags/add_stickies', "project_id=#{project_id}&tag_id=#{tag_id}&sticky_ids=#{sticky_ids.join(',')}", null, "script")
+      sticky_id = ui['draggable'].data('sticky-id')
+      $.post(root_url + 'tags/add_stickies', "project_id=#{project_id}&tag_id=#{tag_id}&sticky_ids=#{sticky_id}", null, "script")
   )
 
 jQuery ->
