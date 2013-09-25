@@ -18,7 +18,7 @@ class Sticky < ActiveRecord::Base
   scope :updated_since, lambda { |arg| where("stickies.updated_at > ?", arg) }
   scope :with_date_for_calendar, lambda { |*args| where("DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]) }
 
-  scope :with_due_date_for_calendar, lambda { |*args| where( due_date: args.first.at_midnight..args[1].end_of_day ) }
+  scope :with_due_date_for_calendar, lambda { |*args| where( due_date: args.first..args[1] ) }
 
   scope :due_date_before, lambda { |arg| where("stickies.due_date < ?", (arg+1.day).at_midnight) }
   scope :due_date_after, lambda { |arg| where("stickies.due_date >= ?", arg.at_midnight) }
