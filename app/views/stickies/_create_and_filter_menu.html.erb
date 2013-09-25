@@ -1,6 +1,7 @@
 <% tags = params[:tags].to_s.split(',') %>
 <% owners = params[:owners].to_s.split(',') %>
 <% project_ids = params[:project_ids].to_s.split(',') %>
+<% status = params[:completed].to_s.split(',') %>
 <% total_filters = tags.size + owners.size + project_ids.size %>
 <div class="row" style="margin-bottom:10px">
   <div class="col-xs-4">
@@ -38,6 +39,7 @@
       <li class="active"><a href="#tags-pane">Tags <span class="badge" id="tags-count"><%= tags.size if tags.size > 0 %></span></a></li>
       <li><a href="#users">Users <span class="badge" id="owners-count"><%= owners.size if owners.size > 0 %></span></a></li>
       <li><a href="#projects">Projects <span class="badge" id="project-ids-count"><%= project_ids.size if project_ids.size > 0 %></span></a></li>
+      <li><a href="#status">Status <span class="badge" id="status-count"><%= status.size if status.size > 0 %></span></a></li>
     </ul>
 
     <div class="tab-content">
@@ -78,6 +80,18 @@
               <label class="checkbox tag-checkbox <%= 'tag-selected' if project_ids.include?(project.id.to_s) %>" style="margin-bottom: 0px;background-color:<%= project.color(current_user) %>;color:#333">
                 <%= check_box_tag "project_ids[]", project.id, project_ids.include?(project.id.to_s) %>
                 <div style="overflow:hidden;white-space:nowrap"><%= project.name %></div>
+              </label>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="tab-pane" id="status">
+        <div class="row">
+          <% [['Incomplete', 'completed', '0'], ['Completed', 'completed', '1']].each do |name, key, value| %>
+            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+              <label class="checkbox tag-checkbox <%= 'tag-selected' if status.include?(value) %>" style="margin-bottom: 0px;color:#333">
+                <%= check_box_tag "#{key}[]", value, status.include?(value) %>
+                <div style="overflow:hidden;white-space:nowrap"><%= name %></div>
               </label>
             </div>
           <% end %>

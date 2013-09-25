@@ -1,13 +1,13 @@
 <div class="pull-right">
-  <%= link_to month_path(date: (@anchor_date - 1.month).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), tabindex: '-1', class: 'btn btn-xs btn-default' do %>
+  <%= link_to month_path( date: (@anchor_date - 1.month).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), tabindex: '-1', class: 'btn btn-xs btn-default' do %>
     <span class="glyphicon glyphicon-chevron-left"></span>
     Last Month
   <% end %>
-  <%= link_to month_path(date: Date.today.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Date.today ? 'disabled' : nil) do %>
+  <%= link_to month_path( date: Date.today.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Date.today ? 'disabled' : nil) do %>
     <span class="glyphicon glyphicon-calendar"></span>
     Today
   <% end %>
-  <%= link_to month_path(date: (@anchor_date + 1.month).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), tabindex: '-1', class: 'btn btn-xs btn-default' do %>
+  <%= link_to month_path( date: (@anchor_date + 1.month).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), tabindex: '-1', class: 'btn btn-xs btn-default' do %>
     Next Month
     <span class="glyphicon glyphicon-chevron-right"></span>
   <% end %>
@@ -38,7 +38,7 @@
             data-due-date="<%= current_date.strftime("%m/%d/%Y") %>"
             data-object="create-sticky" data-from="month">
           <div class="calendar-entry-heading" style="padding-right:2px;">
-            <%= link_to ([@start_date, (@end_date + 1.day)].include?(current_date) ? current_date.strftime("%b %e") : current_date.strftime("%e") ), week_path(date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids]), class: 'btn btn-xs', tabindex: '-1' %>
+            <%= link_to ( [@start_date, (@end_date + 1.day)].include?(current_date) ? current_date.strftime("%b %e") : current_date.strftime("%e") ), week_path(date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'btn btn-xs', tabindex: '-1' %>
           </div>
           <div style="min-height:90px;padding-left:2px;padding-right:2px" id="day_<%= current_date.strftime("%Y%m%d") %>">
             <% @stickies.with_due_date_for_calendar(current_date, current_date).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies| %>

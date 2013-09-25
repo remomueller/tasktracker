@@ -2,7 +2,7 @@
   <tr>
     <td>
       <div><%= date = @beginning; date.strftime("%b") %></div>
-      <%= link_to week_path( date: @anchor_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids] ), class: 'btn btn-default' do %>
+      <%= link_to week_path( date: @anchor_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'btn btn-default' do %>
         <span class="glyphicon glyphicon-calendar"></span>
       <% end %>
     </td>
@@ -21,7 +21,7 @@
           </div>
         <% end %>
 
-        <%= link_to day_path( date: date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids] ), class: "btn #{date == @anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do %>
+        <%= link_to day_path( date: date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: "btn #{date == @anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do %>
           <%= day %>
           <% if day_index > 0 and day_index < 6 %>
 
@@ -31,7 +31,7 @@
     <% end %>
     <td>
       <div>&nbsp;</div>
-      <%= link_to day_path( date: (@anchor_date + 1.week).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids] ), class: 'btn btn-default' do %>
+      <%= link_to day_path( date: (@anchor_date + 1.week).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'btn btn-default' do %>
         <span class="glyphicon glyphicon-chevron-right"></span>
       <% end %>
     </td>

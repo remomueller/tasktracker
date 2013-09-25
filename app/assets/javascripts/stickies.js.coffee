@@ -65,10 +65,12 @@
   project_ids = $("[name='project_ids[]']:checked").map( () -> $(this).val() ).get()
   tags = $("[name='tag_names[]']:checked").map( () -> $(this).val() ).get()
   owners = $("[name='user_names[]']:checked").map( () -> $(this).val() ).get()
+  completed = $("[name='completed[]']:checked").map( () -> $(this).val() ).get()
   url = $("#filters-form").attr('action')
   url = url + "&project_ids=#{project_ids}" unless project_ids.length == 0
   url = url + "&owners=#{owners}" unless owners.length == 0
   url = url + "&tags=#{tags}" unless tags.length == 0
+  url = url + "&completed=#{completed}" unless completed.length == 0
   window.location = url
   false
 
