@@ -332,6 +332,8 @@ jQuery ->
       false
     )
     .on('click', '[data-object~="quick-complete"]', () ->
+      $(this).removeClass('glyphicon-check glyphicon-unchecked')
+      $(this).addClass('glyphicon-time')
       $.post(root_url + "stickies/#{$(this).data('sticky-id')}", "sticky[completed]=#{$(this).data('completed')}&from=checkbox&_method=patch", null, "script")
       false
     )

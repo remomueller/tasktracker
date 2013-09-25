@@ -213,3 +213,7 @@ a.archived-boards-link:hover {
 .progress-bar-default {
   background-color: #bbb;
 }
+
+.a-link:hover {
+  color: #2a6496;
+}
