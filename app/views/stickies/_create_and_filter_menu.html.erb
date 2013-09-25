@@ -2,7 +2,7 @@
 <% owners = params[:owners].to_s.split(',') %>
 <% project_ids = params[:project_ids].to_s.split(',') %>
 <% status = params[:completed].to_s.split(',') %>
-<% total_filters = tags.size + owners.size + project_ids.size %>
+<% total_filters = tags.size + owners.size + project_ids.size + status.size %>
 <div class="row" style="margin-bottom:10px">
   <div class="col-xs-4">
     <div data-object="visible-sticky">
