@@ -36,6 +36,14 @@ Contour.setup do |config|
     {
       name: 'Projects', display: 'signed_in', path: 'projects_path', position: 'left',
       links: [{ name: 'Create', path: 'new_project_path' }]
+    },
+    {
+      name: 'My Tasks', display: 'signed_in', path: 'tasks_path( owners: current_user.name )', position: 'left',
+      links: [
+                { name: 'Day',    path: 'day_path( owners: current_user.name )'   },
+                { name: 'Week',   path: 'week_path( owners: current_user.name )'  },
+                { name: 'Month',  path: 'month_path( owners: current_user.name )' }
+              ]
     }
   ]
 
