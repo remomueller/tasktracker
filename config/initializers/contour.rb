@@ -29,7 +29,7 @@ Contour.setup do |config|
               { name: 'Users', path: 'users_path', condition: 'current_user.system_admin?' },
               { divider: true, condition: 'current_user.system_admin?' },
               { header: 'current_user.email', eval: true },
-              { html: 'Settings', path: 'settings_path' },
+              { name: 'Settings', path: 'settings_path' },
               { divider: true },
               { name: 'Logout', path: 'destroy_user_session_path' }]
     },
@@ -42,7 +42,8 @@ Contour.setup do |config|
       links: [
                 { name: 'Day',    path: 'day_path( owners: current_user.name )'   },
                 { name: 'Week',   path: 'week_path( owners: current_user.name )'  },
-                { name: 'Month',  path: 'month_path( owners: current_user.name )' }
+                { name: 'Month',  path: 'month_path( owners: current_user.name )' },
+                { name: 'Stats', path: 'stats_path' },
               ]
     }
   ]

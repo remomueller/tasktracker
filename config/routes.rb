@@ -81,6 +81,7 @@ TaskTracker::Application.routes.draw do
   get "/about" => "application#about", as: :about
   get "/about/use" => "application#use", as: :about_use
   get "/settings" => "users#settings", as: :settings
+  get "/stats" => "users#stats", as: :stats
   get "/search" => "application#search", as: :search
   get "/day" => "stickies#day", as: :day
   get "/week" => "stickies#week", as: :week

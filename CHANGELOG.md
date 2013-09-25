@@ -2,6 +2,8 @@
 
 ### Enhancements
 
+- **General Changes**
+  - Per user statistics added to show breakdown of task completion by tag and by project
 - **Calendar Changes**
   - Two task list views, year/week and week/day, have been added that will replace the current monthly calendar view, and also replace the task index
 - **Gem Changes**

@@ -209,3 +209,7 @@ a.archived-boards-link:hover {
   filter: alpha(opacity=80);
   opacity: 0.8;
 }
+
+.progress-bar-default {
+  background-color: #bbb;
+}
