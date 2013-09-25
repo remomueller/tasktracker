@@ -310,7 +310,11 @@ class StickiesController < ApplicationController
 
       sticky_scope = current_user.all_viewable_stickies
       sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tags].to_s.split(',')).pluck(:id)) unless params[:tags].blank?
-      sticky_scope = sticky_scope.where(owner_id: User.where( deleted: false ).with_name(params[:owners].to_s.split(',')).pluck(:id)) unless params[:owners].blank?
+      unless params[:owners].blank?
+        owners = User.where( deleted: false ).with_name(params[:owners].to_s.split(','))
+        owner_project_ids = owners.collect{|o| o.all_projects.pluck(:id)}.flatten.uniq
+        sticky_scope = sticky_scope.where(owner_id: owners.pluck(:id) + [nil], project_id: owner_project_ids)
+      end
       sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).pluck(:id)) unless params[:project_ids].blank?
       @stickies = sticky_scope
     end
