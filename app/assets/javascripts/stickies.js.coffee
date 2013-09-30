@@ -297,6 +297,11 @@ jQuery ->
       else
         $('[data-object~="repeat-options"]').hide()
     )
+    .on('click', '[data-object~="clear-repeat"]', () ->
+      $('#sticky_repeat').val('none')
+      $('#sticky_repeat').change()
+      false
+    )
     .on('click', '#sticky_all_day', () ->
       if $(this).is(':checked')
         $('[data-object~="time-options"]').hide()

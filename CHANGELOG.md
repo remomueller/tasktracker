@@ -8,6 +8,7 @@
   - The month, week, day, and list views can now be filtered by Tags, Users, Projects, and Status
 - **General Changes**
   - Per user statistics added to show breakdown of task completion by tag and by project
+  - Button added to clear a repeat amount for a task
 - **Gem Changes**
   - Updated to contour 2.2.0.beta2
   - Updated to pg 0.17.0

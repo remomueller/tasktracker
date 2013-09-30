@@ -100,8 +100,11 @@
       <div class="col-xs-3">
         <%= f.select :repeat, Sticky::REPEAT, {}, class: 'form-control' %>
       </div>
-      <div class="col-xs-3">
+      <div class="col-xs-3" style="line-height:30px;">
         <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>">after due date</span>
+      </div>
+      <div class="col-xs-3" style="line-height:30px;">
+        <span data-object="repeat-options" style="<%= 'display:none' if @sticky.repeat == 'none' %>"><%= link_to 'Clear Repeat', '#', class: 'btn btn-xs btn-default', data: { object: 'clear-repeat' } %></span>
       </div>
     </div>
   </div>
