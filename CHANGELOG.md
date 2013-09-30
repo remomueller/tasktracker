@@ -8,6 +8,7 @@
   - Two task list views, year/week and week/day, have been added that will replace the current monthly calendar view, and also replace the task index
 - **Gem Changes**
   - Updated to contour 2.2.0.beta2
+  - Updated to pg 0.17.0
 - Removed support for Ruby 1.9.3
 - Removed support for ICS format
 - Removed system admin graphs
