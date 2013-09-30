@@ -8,6 +8,9 @@
       <% @project_id = @sticky.project.id %>
     <% end %>
     <%= @title %>
+    <% if @sticky.new_record? and @sticky.project and @sticky.project.templates.size > 0 %>
+      or <%= link_to 'Create Group', new_group_path( group: { project_id: @sticky.project_id, initial_due_date: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' } ), method: :get, remote: true, class: 'btn btn-xs btn-default' %>
+    <% end %>
   </h4>
 </div>
 <div class="modal-body">
