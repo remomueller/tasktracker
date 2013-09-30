@@ -49,9 +49,11 @@
     <% status = "warning" if percent >= 70 %>
     <% status = "success" if percent >= 90 %>
     <div class="row">
-      <div class="col-xs-4">
+      <div class="col-xs-1">
+        <%= link_to tag_count, tasks_path( tags: tag.name, owners: user.name ), target: '_blank', class: 'btn btn-xs btn-default' %>
+      </div>
+      <div class="col-xs-3">
         <%= @tag = tag; render partial: 'tags/show' %>
-        <%= link_to tag_count, tasks_path( tags: tag.name, owners: user.name ), target: '_blank' %>
       </div>
       <div class="col-xs-8">
         <div class="progress progress-striped active">
@@ -82,38 +84,37 @@
 
   <% project_array.sort!{|a,b| [b[3], b[2]] <=> [a[3], a[2]]} %>
 
-  <% project_array.each do |project, overall_count, complete_count, incomplete_count| %>
-    <% percent = 0 %>
-    <% percent = (complete_count * 100 / overall_count rescue 0) %>
-    <% status = "default" %>
-    <% status = "danger" if percent >= 1 %>
-    <% status = "warning" if percent >= 70 %>
-    <% status = "success" if percent >= 90 %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <span class="label label-<%= status %> pull-right"><%= percent %> %</span>
-        <h3 class="panel-title">
-          <%= project.name %>
-        </h3>
+  <div class="row">
+    <% project_array.each do |project, overall_count, complete_count, incomplete_count| %>
+      <% percent = 0 %>
+      <% percent = (complete_count * 100 / overall_count rescue 0) %>
+      <% complete_percent = (complete_count * 100.0 / overall_count rescue 0) %>
+      <% incomplete_percent = (incomplete_count * 100.0 / overall_count rescue 0) %>
+      <% status = "default" %>
+      <% status = "danger" if percent >= 1 %>
+      <% status = "warning" if percent >= 70 %>
+      <% status = "success" if percent >= 90 %>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="label label-<%= status %> pull-right"><%= percent %> %</span>
+            <h3 class="panel-title" style="white-space:nowrap;overflow:hidden">
+              <%= project.name %>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="progress progress-striped active">
+              <div class="progress-bar" style="width: <%= complete_percent %>%">
+                <span class="sr-only"><%= complete_percent %>% Complete</span>
+              </div>
+              <div class="progress-bar progress-bar-default" style="width: <%= incomplete_percent %>%">
+                <span class="sr-only"><%= incomplete_percent %>% Incomplete</span>
+              </div>
+            </div>
+            <div class="center"><span class="label label-primary"><%= complete_count %></span> + <span class="label label-default"><%= incomplete_count %></span> = <%= link_to overall_count, tasks_path( project_ids: project.id, owners: user.name ), target: '_blank', class: 'btn btn-xs btn-default' %></div>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Incomplete</th>
-              <th>Complete</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><% if incomplete_count > 0 %><%= incomplete_count %><% else %><span class="text-muted">-</span><% end %></td>
-              <td><% if complete_count > 0 %><%= complete_count %><% else %><span class="text-muted">-</span><% end %></td>
-              <td><%= link_to overall_count, tasks_path( project_ids: project.id, owners: user.name ), target: '_blank' %></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% end %>
