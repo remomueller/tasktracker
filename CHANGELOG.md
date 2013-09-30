@@ -2,10 +2,12 @@
 
 ### Enhancements
 
+- **Calendar Changes**
+  - Default view is now the week view
+  - Two new views added, week, and day views, and the tasks' list view has been updated and simplified
+  - The month, week, day, and list views can now be filtered by Tags, Users, Projects, and Status
 - **General Changes**
   - Per user statistics added to show breakdown of task completion by tag and by project
-- **Calendar Changes**
-  - Two task list views, year/week and week/day, have been added that will replace the current monthly calendar view, and also replace the task index
 - **Gem Changes**
   - Updated to contour 2.2.0.beta2
   - Updated to pg 0.17.0
