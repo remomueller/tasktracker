@@ -1,5 +1,8 @@
 ## 0.28.1
 
+### Enhancements
+- Tasks can now be reassigned filtered by a specific tag
+
 ## 0.28.0 (September 30, 2013)
 
 ### Enhancements
