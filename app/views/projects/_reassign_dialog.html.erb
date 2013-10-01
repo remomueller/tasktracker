@@ -31,7 +31,7 @@
           </div>
 
           <div class="form-group">
-            <%= label_tag :tag_ids, 'Only containing', class: 'col-md-3 control-label' %>
+            <%= label_tag :tag_id, 'Only containing', class: 'col-md-3 control-label' %>
             <div class="col-md-9">
               <%= select_tag :tag_id, options_for_select([['----', nil]] + @project.tags.collect{|t| [t.name, t.id]}, params[:tag_id]), class: 'form-control' %>
             </div>
