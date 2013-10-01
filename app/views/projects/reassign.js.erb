@@ -9,11 +9,11 @@ $('.error').removeClass('error');
 
 <% else %>
   if($('#from_user_id').val() == ''){
-    $('#from_user_id').parent().parent().addClass('error');
+    $('#from_user_id').parent().parent().addClass('has-error');
   }
 
   if($('#to_user_id').val() == ''){
-    $('#to_user_id').parent().parent().addClass('error');
+    $('#to_user_id').parent().parent().addClass('has-error');
   }
 
 <% end %>

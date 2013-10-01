@@ -52,6 +52,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:project)
   end
 
+  test "should reassign tasks based on tags" do
+    assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", -2) do
+      assert_difference("Sticky.where(owner_id: #{users(:admin).id}).count", 2) do
+        post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: users(:admin).id, sticky_status: 'all', tag_id: tags(:beta).id
+      end
+    end
+  end
+
   test "should not reassign tasks without specifying users" do
     assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", 0) do
       post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: nil, sticky_status: 'not_completed'

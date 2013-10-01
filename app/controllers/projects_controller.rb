@@ -21,6 +21,9 @@ class ProjectsController < ApplicationController
         elsif params[:sticky_status] == 'not_completed'
           sticky_scope = sticky_scope.where(completed: false)
         end
+        unless params[:tag_id].blank?
+          sticky_scope = sticky_scope.with_tag(params[:tag_id])
+        end
         @sticky_count = sticky_scope.count
         sticky_scope.update_all(owner_id: reassign_to_user.id)
         format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Task' : 'Tasks'} successfully reassigned." }
