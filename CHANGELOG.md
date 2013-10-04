@@ -1,7 +1,11 @@
 ## 0.28.1
 
 ### Enhancements
-- Tasks can now be reassigned filtered by a specific tag
+- **Task Changes**
+  - Reassigning tasks in bulk:
+    - Tasks can now be reassigned filtered by a specific tag
+    - Unassigned tasks can now be reassigned to a user
+    - Assigned tasks can be reassigned to no one being assigned
 
 ## 0.28.0 (September 30, 2013)
 
