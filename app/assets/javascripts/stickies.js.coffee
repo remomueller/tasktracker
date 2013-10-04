@@ -283,7 +283,7 @@ jQuery ->
       sticky_ids = []
       $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
 
-      if confirm("Are you sure you want to delete #{if sticky_ids.length == 1 then 'this Sticky' else sticky_ids.length.toString() + ' Stickies' }?")
+      if confirm("Are you sure you want to delete #{if sticky_ids.length == 1 then 'this Task' else sticky_ids.length.toString() + ' Tasks' }?")
         $.post($(this).data("url"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
       false
     )

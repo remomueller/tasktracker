@@ -1,8 +1,7 @@
-<% @title = 'Reassign Stickies' %>
+<% @title = 'Reassign Tasks' %>
 <div class="page-header">
   <h1>
-    <%= @title %>
-    <small><%= "Project #{link_to @project.name, @project} ".html_safe %></small>
+    <%= link_to @project.name, @project %> &middot; <%= @title %>
   </h1>
 </div>
 
@@ -12,27 +11,34 @@
   <div class="form-group">
     <%= label_tag :from_user_id, 'Currently Assigned To', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= select_tag :from_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]) %>
+      <%= select_tag :from_user_id, options_for_select([['--Unassigned--', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]), class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <%= label_tag :to_user_id, 'Reassign To', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= select_tag :to_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]) %>
+      <%= select_tag :to_user_id, options_for_select([['--Unassigned--', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]), class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= label_tag :sticky_status, nil, class: 'col-md-2 control-label' %>
+    <%= label_tag :sticky_status, 'Task status', class: 'col-md-2 control-label' %>
     <div class="col-md-10">
-      <%= select_tag :sticky_status, options_for_select([['Only Not Completed', 'not_completed'], ['Only Completed', 'completed'], ['All', 'all']], params[:sticky_status]) %>
+      <%= select_tag :sticky_status, options_for_select([['Only Not Completed', 'not_completed'], ['Only Completed', 'completed'], ['All', 'all']], params[:sticky_status]), class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :tag_id, 'Only containing', class: 'col-md-2 control-label' %>
+    <div class="col-md-10">
+      <%= select_tag :tag_id, options_for_select([['----', nil]] + @project.tags.collect{|t| [t.name, t.id]}, params[:tag_id]), class: 'form-control' %>
     </div>
   </div>
 
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-      <%= submit_tag 'Reassign Stickies', class: 'btn btn-primary btn-danger-inverse', data: { confirm: 'Are you sure you would like to reassign these stickies? This action CANNOT be reversed.' } %>
+      <%= submit_tag 'Reassign Tasks', class: 'btn btn-primary btn-danger-inverse', data: { confirm: 'Are you sure you would like to reassign these tasks? This action CANNOT be reversed.' } %>
       <%= link_to 'Cancel', @project, class: 'btn btn-default' %>
     </div>
   </div>

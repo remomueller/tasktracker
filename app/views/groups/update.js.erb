@@ -8,7 +8,7 @@ $("#sticky-modal-new").modal('hide');
   removeSticky("<%= sticky.id %>");
 <% end %>
 
-<%# Step 3: Add Updated Stickies to View %>
+<%# Step 3: Add Updated Tasks to View %>
 <% stickies.each do |sticky| %>
   list_element_with_header =      "<%= escape_javascript( render partial: 'stickies/day_list',                locals: { stickies: [sticky], completed: sticky.completed, due_date: sticky.due_date } ) %>";
   list_element =                  "<%= escape_javascript( render partial: 'stickies/list_sticky_show',        locals: { sticky: sticky } ) %>";

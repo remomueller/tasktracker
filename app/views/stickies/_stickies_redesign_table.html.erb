@@ -2,7 +2,7 @@
 <% @board = @project.boards.find_by_id(params[:board_id]) if @project %>
 <% @tags = @project.tags.where(id: params[:tag_ids]) if @project %>
 
-<h4 style="margin-top:0px"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Stickies') %></h4>
+<h4 style="margin-top:0px"><%= @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Tasks') %></h4>
 
 <% if @project.modifiable_by?(current_user) %>
   <%= link_to 'Create Task'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-sticky-button' %>

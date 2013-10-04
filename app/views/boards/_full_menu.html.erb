@@ -23,12 +23,12 @@
 <% end %>
 
 <% unless archived %>
-  <%= link_to project_path(@project, board_id: 'all'), data: { object: 'board-select', board_id: 'all', board_name: 'All Stickies', archived: false,
+  <%= link_to project_path(@project, board_id: 'all'), data: { object: 'board-select', board_id: 'all', board_name: 'All Tasks', archived: false,
       past_due_count: @project.sticky_count('all', 'past_due'), my_past_due_count: @project.sticky_count('all', 'past_due', current_user),
       upcoming_count: @project.sticky_count('all', 'upcoming'), my_upcoming_count: @project.sticky_count('all', 'upcoming', current_user),
       completed_count: @project.sticky_count('all', 'completed'), my_completed_count: @project.sticky_count('all', 'completed', current_user) },
       class: "list-group-item #{'active' if params[:board_id] == 'all'}" do %>
     <span class="badge"></span>
-    All Stickies
+    All Tasks
   <% end %>
 <% end %>

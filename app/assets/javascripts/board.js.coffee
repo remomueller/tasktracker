@@ -8,7 +8,7 @@
     helper: () ->
       count = $('[data-object~="sticky-checkbox"]:checked').length
       if count > 1
-        "<div class='sticky-box'>&equiv;&nbsp;&nbsp;#{count} Stickies Selected</div>"
+        "<div class='sticky-box'>&equiv;&nbsp;&nbsp;#{count} Tasks Selected</div>"
       else
         "<div class='sticky-box'>"+$(this).children('[data-object~="sticky-helper"]').first().html()+"</div>"
     cursorAt: { left: 10 }
