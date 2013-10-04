@@ -1,4 +1,4 @@
-## 0.28.1
+## 0.28.1 (October 4, 2013)
 
 ### Enhancements
 - **Task Changes**
