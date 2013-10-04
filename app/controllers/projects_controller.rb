@@ -9,13 +9,12 @@ class ProjectsController < ApplicationController
   end
 
   def reassign
-    original_user = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id])       # Editors only
-    reassign_to_user = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id])      # Editors only
+    original_user_id = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id]).id rescue original_user_id = nil       # Editors only
+    reassign_to_user_id = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id]).id rescue reassign_to_user_id = nil     # Editors only
     params[:sticky_status] = 'not_completed' unless ['not_completed', 'completed', 'all'].include?(params[:sticky_status])
 
     respond_to do |format|
-      if original_user and reassign_to_user
-        sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user.id)
+        sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user_id)
         if params[:sticky_status] == 'completed'
           sticky_scope = sticky_scope.where(completed: true)
         elsif params[:sticky_status] == 'not_completed'
@@ -25,16 +24,9 @@ class ProjectsController < ApplicationController
           sticky_scope = sticky_scope.with_tag(params[:tag_id])
         end
         @sticky_count = sticky_scope.count
-        sticky_scope.update_all(owner_id: reassign_to_user.id)
+        sticky_scope.update_all(owner_id: reassign_to_user_id)
         format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Task' : 'Tasks'} successfully reassigned." }
         format.js # reassign.js.erb
-      else
-        format.html do
-          flash[:error] = 'Please select the original owner and new owner of the tasks.'
-          render 'bulk'
-        end
-        format. js # reassign.js.erb
-      end
     end
   end
 

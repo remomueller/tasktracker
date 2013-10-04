@@ -60,16 +60,20 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should not reassign tasks without specifying users" do
-    assert_difference("Sticky.where(owner_id: #{users(:valid).id}).count", 0) do
-      post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: nil, sticky_status: 'not_completed'
+  test "should reassign unassigned tasks to a user" do
+    assert_difference("Sticky.where(project_id: #{projects(:one).id}, owner_id: nil).count", -10) do
+      assert_difference("Sticky.where(project_id: #{projects(:one).id}, owner_id: #{users(:admin).id}).count", 10) do
+        post :reassign, id: @project, from_user_id: nil, to_user_id: users(:admin).id, sticky_status: 'all'
+      end
     end
+  end
 
-    assert_not_nil assigns(:project)
-    assert_equal 'Please select the original owner and new owner of the tasks.', flash[:error]
-
-    assert_template 'bulk'
-    assert_response :success
+  test "should reassign assigned tasks to unassigned" do
+    assert_difference("Sticky.where(project_id: #{projects(:one).id}, owner_id: #{users(:valid).id}).count", -7) do
+      assert_difference("Sticky.where(project_id: #{projects(:one).id}, owner_id: nil).count", 7) do
+        post :reassign, id: @project, from_user_id: users(:valid).id, to_user_id: nil, sticky_status: 'all'
+      end
+    end
   end
 
   test "should not reassign tasks as project viewers" do
