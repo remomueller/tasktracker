@@ -1,19 +1,6 @@
-$('.error').removeClass('error');
-<% if @sticky_count %>
-  $('#to_user_id').val(null);
-  $('#from_user_id').val(null);
-  $('#reassign-dialog').modal('hide');
+$('#to_user_id').val(null);
+$('#from_user_id').val(null);
+$('#reassign-dialog').modal('hide');
 
-  <%# Launch a refresh of the task search %>
-  $("#stickies_search").submit();
-
-<% else %>
-  if($('#from_user_id').val() == ''){
-    $('#from_user_id').parent().parent().addClass('has-error');
-  }
-
-  if($('#to_user_id').val() == ''){
-    $('#to_user_id').parent().parent().addClass('has-error');
-  }
-
-<% end %>
+<%# Launch a refresh of the task search %>
+$("#stickies_search").submit();

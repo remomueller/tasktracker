@@ -12,14 +12,14 @@
           <div class="form-group">
             <%= label_tag :from_user_id, 'Currently Assigned To', class: 'col-md-3 control-label' %>
             <div class="col-md-9">
-              <%= select_tag :from_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]), class: 'form-control' %>
+              <%= select_tag :from_user_id, options_for_select([['--Unassigned--', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]), class: 'form-control' %>
             </div>
           </div>
 
           <div class="form-group">
             <%= label_tag :to_user_id, 'Reassign To', class: 'col-md-3 control-label' %>
             <div class="col-md-9">
-              <%= select_tag :to_user_id, options_for_select([['----', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]), class: 'form-control' %>
+              <%= select_tag :to_user_id, options_for_select([['--Unassigned--', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]), class: 'form-control' %>
             </div>
           </div>
 
