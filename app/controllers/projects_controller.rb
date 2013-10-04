@@ -13,20 +13,20 @@ class ProjectsController < ApplicationController
     reassign_to_user_id = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id]).id rescue reassign_to_user_id = nil     # Editors only
     params[:sticky_status] = 'not_completed' unless ['not_completed', 'completed', 'all'].include?(params[:sticky_status])
 
+    sticky_scope = @project.stickies.where(owner_id: original_user_id)
+    if params[:sticky_status] == 'completed'
+      sticky_scope = sticky_scope.where(completed: true)
+    elsif params[:sticky_status] == 'not_completed'
+      sticky_scope = sticky_scope.where(completed: false)
+    end
+    sticky_scope = sticky_scope.with_tag(params[:tag_id]) unless params[:tag_id].blank?
+    @sticky_count = sticky_scope.count
+
+    sticky_scope.update_all(owner_id: reassign_to_user_id)
+
     respond_to do |format|
-        sticky_scope = Sticky.where(project_id: @project.id, owner_id: original_user_id)
-        if params[:sticky_status] == 'completed'
-          sticky_scope = sticky_scope.where(completed: true)
-        elsif params[:sticky_status] == 'not_completed'
-          sticky_scope = sticky_scope.where(completed: false)
-        end
-        unless params[:tag_id].blank?
-          sticky_scope = sticky_scope.with_tag(params[:tag_id])
-        end
-        @sticky_count = sticky_scope.count
-        sticky_scope.update_all(owner_id: reassign_to_user_id)
-        format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Task' : 'Tasks'} successfully reassigned." }
-        format.js # reassign.js.erb
+      format.html { redirect_to @project, notice: "#{@sticky_count} #{@sticky_count == 1 ? 'Task' : 'Tasks'} successfully reassigned." }
+      format.js # reassign.js.erb
     end
   end
 
