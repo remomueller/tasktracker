@@ -9,6 +9,9 @@
   - Updated to sass-rails 4.0.1
   - Updated to simplecov 0.8.2
 
+### Bug Fix
+- Creating a task or group from the week view now correctly keeps the selected date (reported by @lisamoore)
+
 ## 0.28.1 (October 4, 2013)
 
 ### Enhancements
@@ -406,7 +409,7 @@
 - Consistent sorting and display of model counts used across all objects, (projects, tasks, tags, templates, users, etc)
 
 ### Bug Fix
-- Creating a tag with the same name as a deleted tag no longer throws the error 'tag name has already been taken' (by LisaM)
+- Creating a tag with the same name as a deleted tag no longer throws the error 'tag name has already been taken' (reported by @lisamoore)
 - Clicking on 'Days Left' no longer triggers an AJAX pagination request
 
 ## 0.22.5 (June 21, 2012)
