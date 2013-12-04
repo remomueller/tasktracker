@@ -65,20 +65,22 @@
     )
   )
 
-jQuery ->
-
+@ready = () ->
+  contourReady()
+  initializeTypeahead()
+  loadColorSelectors()
   window.$isDirty = false
-  msg = 'You haven\'t saved your changes.'
+  msg = "You haven't saved your changes."
+  window.onbeforeunload = (el) -> return msg if window.$isDirty
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
+
+jQuery ->
 
   $(document).on('change', ':input', () ->
     if $("#isdirty").val() == '1'
       window.$isDirty = true
-  )
-
-  $(document).ready( () ->
-    window.onbeforeunload = (el) ->
-      if window.$isDirty
-        return msg
   )
 
   # <a href='#' data-object="remove" data-target="abc"></a>
@@ -174,7 +176,3 @@ jQuery ->
   .on('keydown', "#global-search", (e) ->
     $("#global-search-form").submit() if e.which == 13
   )
-
-  loadColorSelectors()
-
-  initializeTypeahead()
