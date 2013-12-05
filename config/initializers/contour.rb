@@ -58,10 +58,10 @@ Contour.setup do |config|
   }
 
   # Enter an address of a valid RSS Feed if you would like to see news on the sign in page.
-  config.news_feed = 'https://sleepepi.partners.org/category/informatics/task-tracker/feed/rss'
+  # config.news_feed = ''
 
   # Enter the max number of items you want to see in the news feed.
-  config.news_feed_items = 3
+  # config.news_feed_items = 3
 
   # An array of hashes that specify additional fields to add to the sign up form
   # An example might be [ { attribute: 'first_name', type: 'text_field' }, { attribute: 'last_name', type: 'text_field' } ]
