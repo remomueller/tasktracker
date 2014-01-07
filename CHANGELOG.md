@@ -2,6 +2,8 @@
 
 ### Enhancements
 - Use of Ruby 2.1.0 is now recommended
+- **Gem Changes**
+  - Updated to pg 0.17.1
 
 ## 0.28.3 (December 5, 2013)
 
