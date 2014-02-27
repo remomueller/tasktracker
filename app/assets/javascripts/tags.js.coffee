@@ -13,13 +13,13 @@
       $.post(root_url + 'tags/add_stickies', "project_id=#{project_id}&tag_id=#{tag_id}&sticky_ids=#{sticky_id}", null, "script")
   )
 
-jQuery ->
-  $(document)
-    .on('click', '.tag-checkbox', () ->
-      if $(this).children().is(':checked')
-        $(this).addClass('tag-selected')
-      else
-        $(this).removeClass('tag-selected')
-    )
-
+@tagsReady = () ->
   activateTagDroppables()
+
+$(document)
+  .on('click', '.tag-checkbox', () ->
+    if $(this).children().is(':checked')
+      $(this).addClass('tag-selected')
+    else
+      $(this).removeClass('tag-selected')
+  )

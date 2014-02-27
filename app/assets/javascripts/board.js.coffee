@@ -115,93 +115,93 @@
   $(archive_button).data('visible', true)
 
 
-if browserSupportsPushState
-  $(window).bind("popstate", (e) ->
-    state = event.state
-    if state and state?.tasktracker
-      updateSite(state.page, state)
-  )
-
-jQuery ->
-  $(document)
-    .on('click', '[data-object~="create-new-board"]', () ->
-      $("#create_new_board").val('1')
-      $("#board_id_container").hide()
-      $("#board_name_container").show()
-      false
+@boardsReady = () ->
+  if browserSupportsPushState
+    $(window).bind("popstate", (e) ->
+      state = event.state
+      if state and state?.tasktracker
+        updateSite(state.page, state)
     )
-    .on('click', '[data-object~="show-existing-boards"]', () ->
-      $("#create_new_board").val('0')
-      $("#board_name_container").hide()
-      $("#board_id_container").show()
-      false
-    )
-    .on('click', '[data-object~="board-select"]', (e) ->
-      return true if nonStandardClick(e)
-
-      url = $(this).attr("href")
-
-      if $('#board_id').val().toString() == $(this).data('board-id').toString()
-        selectBoard($(this).data('board-id'))
-        $("#stickies_search").submit()
-      else
-        selectBoard($(this).data('board-id'))
-
-        $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), ((data) ->
-          if browserSupportsPushState
-            history.pushState({ page:url, tasktracker: true, board_id: $('#board_id').val() }, null, url)
-        ), "script")
-      false
-    )
-    .on('click', '[data-object~="tag-select"]', () ->
-      if parseInt($('#tag_ids').val()) == parseInt($(this).data('tag-id'))
-        $(this).removeClass('active')
-        $('#tag_ids').val('')
-      else
-        selectTag($(this).data('tag-id'))
-        if $("#board_id").val() == 'none' or $("#board_id").val() == ''
-          $('[data-object~="board-select"][data-board-id="all"]').click()
-          return false
-      $("#stickies_search").submit()
-      false
-    )
-    .on('click', '[data-object~="clear-tags"]', () ->
-      clearSearchValues()
-      if templateSelected()
-        $("#groups_search").submit()
-      else
-        $("#stickies_search").submit()
-      false
-    )
-    .on('click', '[data-object~="toggle-archived-boards"]', () ->
-      if $(this).data('visible')
-        hideArchivedBoards()
-      else
-        showArchivedBoards()
-      false
-    )
-    .on('click', '[data-object~="create-board"]', () ->
-      window.location = $(this).data("url")
-    )
-    .on('mousedown', '[data-object~="sticky-draggable"]', () ->
-      unless $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').is(':checked')
-        $('[data-object~="sticky-checkbox"]').prop('checked', false)
-        $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').prop('checked', true)
-        window.$lastStickyChecked = $(this).data('sticky-id')
-        initializeCompletionButtons()
-    )
-    .on('click', '[data-object~="select-all-stickies"]', () ->
-      $('[data-object~="sticky-checkbox"]').prop('checked', true)
-      window.$lastStickyChecked = null
-      initializeCompletionButtons()
-    )
-    .on('click', '[data-object~="deselect-all-stickies"]', () ->
-      $('[data-object~="sticky-checkbox"]').prop('checked', false)
-      window.$lastStickyChecked = null
-      initializeCompletionButtons()
-    )
-
   setBoardNames()
   activateBoardDraggables()
   activateBoardDroppables()
   activateBoardArchiveDroppable()
+
+$(document)
+  .on('click', '[data-object~="create-new-board"]', () ->
+    $("#create_new_board").val('1')
+    $("#board_id_container").hide()
+    $("#board_name_container").show()
+    false
+  )
+  .on('click', '[data-object~="show-existing-boards"]', () ->
+    $("#create_new_board").val('0')
+    $("#board_name_container").hide()
+    $("#board_id_container").show()
+    false
+  )
+  .on('click', '[data-object~="board-select"]', (e) ->
+    return true if nonStandardClick(e)
+
+    url = $(this).attr("href")
+
+    if $('#board_id').val().toString() == $(this).data('board-id').toString()
+      selectBoard($(this).data('board-id'))
+      $("#stickies_search").submit()
+    else
+      selectBoard($(this).data('board-id'))
+
+      $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), ((data) ->
+        if browserSupportsPushState
+          history.pushState({ page:url, tasktracker: true, board_id: $('#board_id').val() }, null, url)
+      ), "script")
+    false
+  )
+  .on('click', '[data-object~="tag-select"]', () ->
+    if parseInt($('#tag_ids').val()) == parseInt($(this).data('tag-id'))
+      $(this).removeClass('active')
+      $('#tag_ids').val('')
+    else
+      selectTag($(this).data('tag-id'))
+      if $("#board_id").val() == 'none' or $("#board_id").val() == ''
+        $('[data-object~="board-select"][data-board-id="all"]').click()
+        return false
+    $("#stickies_search").submit()
+    false
+  )
+  .on('click', '[data-object~="clear-tags"]', () ->
+    clearSearchValues()
+    if templateSelected()
+      $("#groups_search").submit()
+    else
+      $("#stickies_search").submit()
+    false
+  )
+  .on('click', '[data-object~="toggle-archived-boards"]', () ->
+    if $(this).data('visible')
+      hideArchivedBoards()
+    else
+      showArchivedBoards()
+    false
+  )
+  .on('click', '[data-object~="create-board"]', () ->
+    window.location = $(this).data("url")
+  )
+  .on('mousedown', '[data-object~="sticky-draggable"]', () ->
+    unless $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').is(':checked')
+      $('[data-object~="sticky-checkbox"]').prop('checked', false)
+      $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').prop('checked', true)
+      window.$lastStickyChecked = $(this).data('sticky-id')
+      initializeCompletionButtons()
+  )
+  .on('click', '[data-object~="select-all-stickies"]', () ->
+    $('[data-object~="sticky-checkbox"]').prop('checked', true)
+    window.$lastStickyChecked = null
+    initializeCompletionButtons()
+  )
+  .on('click', '[data-object~="deselect-all-stickies"]', () ->
+    $('[data-object~="sticky-checkbox"]').prop('checked', false)
+    window.$lastStickyChecked = null
+    initializeCompletionButtons()
+  )
+

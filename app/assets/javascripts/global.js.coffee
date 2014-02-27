@@ -65,111 +65,111 @@
     )
   )
 
+@setFocusToField = (element_id) ->
+  val = $(element_id).val()
+  $(element_id).focus().val('').val(val)
+
 @ready = () ->
   contourReady()
+  boardsReady()
+  stickiesReady()
+  tagsReady()
+  templatesReady()
   initializeTypeahead()
   loadColorSelectors()
   window.$isDirty = false
   msg = "You haven't saved your changes."
   window.onbeforeunload = (el) -> return msg if window.$isDirty
-
-$(document).ready(ready)
-$(document).on('page:load', ready)
-
-jQuery ->
-
-  $(document).on('change', ':input', () ->
-    if $("#isdirty").val() == '1'
-      window.$isDirty = true
+  $("#global-search").typeahead(
+    remote: root_url + 'search?q=%QUERY'
   )
-
-  # <a href='#' data-object="remove" data-target="abc"></a>
-  # <div id="abc">
-  # Removes a data-target id when a node with data-object="remove" is clicked
-  $(document)
-    .on('click', '[data-object~="remove"]', () ->
-      $($(this).data('target')).remove()
-      false
-    )
-    .on('click', '[data-object~="modal-hide"]', () ->
-      $($(this).data('target')).modal('hide');
-      $('.' + $(this).data('remove-class')).removeClass($(this).data('remove-class'))
-      false
-    )
-    .on('click', '[data-object~="submit"]', () ->
-      $($(this).data('target')).submit();
-      false
-    )
-    .on('click', '[data-object~="reset-filters"]', () ->
-      $('[data-object~="filter"]').val('')
-      $($(this).data('target')).submit()
-      false
-    )
-    .on('click', '[data-object~="check"]', () ->
-      checkAllWithSelector($(this).data('target'))
-      false
-    )
-    .on('click', '[data-object~="uncheck"]', () ->
-      uncheckAllWithSelector($(this).data('target'))
-      false
-    )
-    .on('click', '[data-object~="settings-save"]', () ->
-      window.$isDirty = false
-      $($(this).data('target')).submit()
-      false
-    )
-    .on('click', '[data-object~="suppress-click"]', () ->
-      false
-    )
-    .on('click', '[data-object~="modal-show"]', () ->
-      $($(this).data('target')).modal('show')
-      false
-    )
-
   # TODO: Put these in correct coffee files
   $("#comments_search input").change( () ->
     $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script")
     false
   )
-
   $("#stickies_search select").change( () ->
     $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script")
     false
   )
+  setFocusToField("#search")
 
-  $(document)
-    .keydown( (e) ->
-      if e.target.id == "project_search" and e.which == 13
-        $("#search").val($("#project_search").val())
-        $("#group_search").val($("#project_search").val())
-        if templateSelected()
-          $("#groups_search").submit()
-        else
-          # selectBoard('all')
-          $('#stickies_search').submit()
-      if $("#global-search").is(':focus') and e.which == 27
-        $("#global-search").blur()
-        return
-      return if $("input, textarea, select, a").is(":focus")
-      # P will enter the search box
-      if e.which == 80
-        $("#global-search").focus()
-        e.preventDefault()
-    )
-    .on('click', '#global-search', (e) ->
-      e.stopPropagation()
-      false
-    )
-    .on('change', "#sticky_project_id", () ->
-      $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_board_id").serialize(), null, "script")
-      false
-    )
+# <a href='#' data-object="remove" data-target="abc"></a>
+# <div id="abc">
+# Removes a data-target id when a node with data-object="remove" is clicked
 
-  $("#global-search").typeahead(
-    remote: root_url + 'search?q=%QUERY'
+$(document).ready(ready)
+$(document)
+  .on('page:load', ready)
+  .on('change', ':input', () ->
+    if $("#isdirty").val() == '1'
+      window.$isDirty = true
   )
-
-  $(document).on('typeahead:selected', "#global-search", (event, datum) ->
+  .on('click', '[data-object~="remove"]', () ->
+    $($(this).data('target')).remove()
+    false
+  )
+  .on('click', '[data-object~="modal-hide"]', () ->
+    $($(this).data('target')).modal('hide');
+    $('.' + $(this).data('remove-class')).removeClass($(this).data('remove-class'))
+    false
+  )
+  .on('click', '[data-object~="submit"]', () ->
+    $($(this).data('target')).submit();
+    false
+  )
+  .on('click', '[data-object~="reset-filters"]', () ->
+    $('[data-object~="filter"]').val('')
+    $($(this).data('target')).submit()
+    false
+  )
+  .on('click', '[data-object~="check"]', () ->
+    checkAllWithSelector($(this).data('target'))
+    false
+  )
+  .on('click', '[data-object~="uncheck"]', () ->
+    uncheckAllWithSelector($(this).data('target'))
+    false
+  )
+  .on('click', '[data-object~="settings-save"]', () ->
+    window.$isDirty = false
+    $($(this).data('target')).submit()
+    false
+  )
+  .on('click', '[data-object~="suppress-click"]', () ->
+    false
+  )
+  .on('click', '[data-object~="modal-show"]', () ->
+    $($(this).data('target')).modal('show')
+    false
+  )
+  .keydown( (e) ->
+    if e.target.id == "project_search" and e.which == 13
+      $("#search").val($("#project_search").val())
+      $("#group_search").val($("#project_search").val())
+      if templateSelected()
+        $("#groups_search").submit()
+      else
+        # selectBoard('all')
+        $('#stickies_search').submit()
+    if $("#global-search").is(':focus') and e.which == 27
+      $("#global-search").blur()
+      return
+    return if $("input, textarea, select, a").is(":focus")
+    # P will enter the search box
+    if e.which == 80
+      $("#global-search").focus()
+      e.preventDefault()
+  )
+  .on('click', '#global-search', (e) ->
+    e.stopPropagation()
+    false
+  )
+  .on('change', "#sticky_project_id", () ->
+    $.post(root_url + 'projects/selection', $("#sticky_project_id").serialize() + "&" + $("#sticky_board_id").serialize(), null, "script")
+    false
+  )
+  .on('typeahead:selected', "#global-search", (event, datum) ->
     $(this).val(datum['value'])
     $("#global-search-form").submit()
   )
