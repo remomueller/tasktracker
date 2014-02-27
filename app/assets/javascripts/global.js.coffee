@@ -75,8 +75,8 @@
   stickiesReady()
   tagsReady()
   templatesReady()
+  projectsReady()
   initializeTypeahead()
-  loadColorSelectors()
   window.$isDirty = false
   msg = "You haven't saved your changes."
   window.onbeforeunload = (el) -> return msg if window.$isDirty

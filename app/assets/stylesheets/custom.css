@@ -217,3 +217,7 @@ a.archived-boards-link:hover {
 .a-link:hover {
   color: #2a6496;
 }
+
+span.selected {
+  color: #5cb85c;
+}

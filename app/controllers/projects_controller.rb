@@ -60,9 +60,8 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    current_user.update_column :projects_per_page, params[:projects_per_page].to_i if params[:projects_per_page].to_i >= 5 and params[:projects_per_page].to_i <= 200
     @order = scrub_order(Project, params[:order], 'projects.name')
-    @projects = current_user.all_viewable_projects.search(params[:search]).by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, " + @order).page(params[:page]).per(params[:format] == 'json' ? 50 : current_user.projects_per_page)
+    @projects = current_user.all_viewable_projects.search(params[:search]).by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, " + @order).page(params[:page]).per( 40 )
   end
 
   # GET /projects/1
