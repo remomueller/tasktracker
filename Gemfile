@@ -9,7 +9,7 @@ gem 'eventmachine',         '~> 1.0.0',           platforms: [ :mswin, :mingw ]
 
 # Gems used by project
 gem 'contour',              '2.4.0.beta3'
-gem 'kaminari',             '~> 0.15.0'
+gem 'kaminari',             '~> 0.15.1'
 gem 'naturalsort',          '~> 1.1.1'
 gem 'mail_view',            '~> 2.0.1'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
