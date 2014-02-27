@@ -30,7 +30,7 @@ class TagsController < ApplicationController
   # GET /tags.json
   def index
     @order = scrub_order(Tag, params[:order], 'tags.name')
-    @tags = current_user.all_viewable_tags.search(params[:search]).filter(params).order(@order).page(params[:page]).per( 20 )
+    @tags = current_user.all_viewable_tags.search(params[:search]).filter(params).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /tags/1

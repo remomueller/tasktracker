@@ -1,11 +1,11 @@
-<%= render partial: 'contour/layouts/per_page', locals: { type: 'tags', object_count: @tags.total_count } %>
+<%= render partial: 'contour/layouts/per_page', locals: { per_page: 40, object_count: @tags.total_count } %>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.name', 'Name', 'tags_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.project_id', 'Project', 'tags_search') %></th>
-      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.user_id', 'Creator', 'tags_search') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.name', 'Name') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.project_id', 'Project') %></th>
+      <th style="white-space:nowrap"><%== sort_field_helper(@order, 'tags.user_id', 'Creator') %></th>
       <th>Description</th>
       <th>Actions</th>
     </tr>
