@@ -52,11 +52,8 @@ class StickiesController < ApplicationController
       return
     end
 
-    @tasks = @stickies.page(params[:page]).per(50)
-    respond_to do |format|
-      format.html { render 'tasks/index' }
-      format.js { render 'tasks/index' }
-    end
+    @tasks = @stickies.page(params[:page]).per( 40 )
+    render 'tasks/index'
   end
 
   # GET /stickies
