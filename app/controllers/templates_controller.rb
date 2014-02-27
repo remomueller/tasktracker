@@ -31,10 +31,9 @@ class TemplatesController < ApplicationController
   # GET /templates
   # GET /templates.json
   def index
-    current_user.update_column :templates_per_page, params[:templates_per_page].to_i if params[:templates_per_page].to_i >= 10 and params[:templates_per_page].to_i <= 200
     @order = scrub_order(Template, params[:order], 'templates.name')
     template_scope = (params[:editable_only] == '1') ? current_user.all_templates : current_user.all_viewable_templates
-    @templates = template_scope.search(params[:search]).filter(params).order(@order).page(params[:page]).per(params[:format] == 'json' ? -1 : current_user.templates_per_page)
+    @templates = template_scope.search(params[:search]).filter(params).order(@order).page(params[:page]).per(params[:format] == 'json' ? -1 : 40 )
   end
 
   # GET /templates/1
