@@ -4,6 +4,7 @@
 - Use of Ruby 2.1.1 is now recommended
 - **Gem Changes**
   - Updated to rails 4.0.3
+  - Updated to contour 2.4.0.beta3
 
 ## 0.28.4 (January 7, 2014)
 
