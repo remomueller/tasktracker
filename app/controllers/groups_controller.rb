@@ -9,9 +9,8 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    current_user.update_column :groups_per_page, params[:groups_per_page].to_i if params[:groups_per_page].to_i >= 10 and params[:groups_per_page].to_i <= 200
     @order = scrub_order(Group, params[:order], 'groups.id DESC')
-    @groups = current_user.all_viewable_groups.search(params[:search]).filter(params).order(@order).page(params[:page]).per(params[:use_template] == 'redesign' ? 50 : current_user.groups_per_page)
+    @groups = current_user.all_viewable_groups.search(params[:search]).filter(params).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /groups/1

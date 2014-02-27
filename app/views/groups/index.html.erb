@@ -8,11 +8,12 @@
   </h1>
 </div>
 
-<%= form_tag groups_path, method: :get, remote: true, id: "groups_search", class: 'form-inline', data: { object: 'form-load' } do %>
+<%= form_tag groups_path, method: :get, class: 'form-inline' do %>
   <%= hidden_field_tag :order %>
   <%= hidden_field_tag :project_id, params[:project_id] %>
   <%= text_field_tag 'search', params[:search], class: 'form-control' %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
+  <%= link_to 'Reset', groups_path( project_id: (@project ? @project.id : nil) ), class: 'btn btn-default' %>
 <% end %>
 
-<div id="groups"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<%= render partial: 'groups/groups' %>
