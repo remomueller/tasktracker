@@ -8,9 +8,8 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    current_user.update_column :comments_per_page, params[:comments_per_page].to_i if params[:comments_per_page].to_i >= 10 and params[:comments_per_page].to_i <= 200
     @order = scrub_order(Comment, params[:order], 'created_at DESC')
-    @comments = current_user.all_viewable_comments.search(params[:search]).order(@order).page(params[:page]).per(current_user.comments_per_page)
+    @comments = current_user.all_viewable_comments.search(params[:search]).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /comments/1
