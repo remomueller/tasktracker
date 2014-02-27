@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/remomueller/tasktracker.png)](https://gemnasium.com/remomueller/tasktracker)
 [![Code Climate](https://codeclimate.com/github/remomueller/tasktracker.png)](https://codeclimate.com/github/remomueller/tasktracker)
 
-Manage multiple projects, view tasks in a calendar, receive reminder emails for tasks due, assign project members to tasks, create templates for series of tasks, receive emails and updates as tasks and groups of tasks are completed, assign project specific tags to tasks, generate reports on task tags. Using Rails 4.0+ and Ruby 2.1.0+.
+Manage multiple projects, view tasks in a calendar, receive reminder emails for tasks due, assign project members to tasks, create templates for series of tasks, receive emails and updates as tasks and groups of tasks are completed, assign project specific tags to tasks, generate reports on task tags. Using Rails 4.0+ and Ruby 2.1.1+.
 
 ## Installation
 
@@ -53,7 +53,7 @@ All done!
 Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 
 ```
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.1.0/bin/bundle exec rake reminder_email RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.1.1/bin/bundle exec rake reminder_email RAILS_ENV=production
 ```
 
 ## Exporting the Task Tracker Data Dictionary for use by the [Sleep Portal](https://github.com/sleepepi/sleepportal) for dynamic reporting and searches
@@ -61,7 +61,7 @@ Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 Edit Cron Jobs `sudo crontab -e` to export the data dictionary
 
 ```
-30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.1.0/bin/bundle exec rake export_dictionary RAILS_ENV=production
+30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.1.1/bin/bundle exec rake export_dictionary RAILS_ENV=production
 ```
 
 ## Task Tracker API (RESTFUL JSON)
