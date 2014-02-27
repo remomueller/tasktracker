@@ -59,38 +59,10 @@ class StickiesController < ApplicationController
   # GET /stickies
   # GET /stickies.json
   def index
-    current_user.update_sticky_filters!(params.reject{|k,v| ['stickies_per_page', 'action', 'controller', '_', 'utf8', 'update_filters'].include?(k)}) if params[:update_filters] == '1'
-
-    sticky_scope = (params[:editable_only] == '1') ? current_user.all_stickies : current_user.all_viewable_stickies
-    sticky_scope = sticky_scope.with_owner(params[:owner_id] == 'me' ? current_user.id : params[:owner_id]) unless params[:owner_id].blank?
-
+    sticky_scope = current_user.all_stickies
     sticky_scope = sticky_scope.with_owner(current_user.id) if params[:assigned_to_me] == '1'
-
-    @start_date = parse_date(params[:due_date_start_date])
-    @end_date = parse_date(params[:due_date_end_date])
-
-    sticky_scope = sticky_scope.due_date_before(@end_date) unless @end_date.blank?
-    sticky_scope = sticky_scope.due_date_after(@start_date) unless @start_date.blank?
-
     sticky_scope = sticky_scope.where(project_id: params[:project_id]) unless params[:project_id].blank?
     sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unassigned].to_s != '1'
-
-    unless params[:tag_names].blank?
-      if params[:tag_filter] == 'any'
-        sticky_scope = sticky_scope.with_tag(Tag.current.where(name: params[:tag_names]).pluck(:id))
-      elsif params[:tag_filter] == 'all'
-        params[:tag_names].each_with_index do |tag_name, index|
-          sticky_scope = sticky_scope.with_tag(Tag.current.where(name: tag_name).pluck(:id))
-          # No point in adding more conditions if it's already returning nothing
-          # TODO: Also currently unstable adding this condition over 15 times
-          break if sticky_scope.count == 0 or index == 14
-        end
-        # params[:tag_names].each do |tag_name|
-        #   sticky_scope = sticky_scope.with_tag_name(tag_name)
-        # end
-      end
-    end
-
     sticky_scope = sticky_scope.with_tag(params[:tag_ids].split(',')) unless params[:tag_ids].blank?
     sticky_scope = sticky_scope.with_board(params[:board_id]) unless params[:board_id].blank? or params[:board_id] == 'all'
 
@@ -114,8 +86,11 @@ class StickiesController < ApplicationController
     end
 
     sticky_scope = sticky_scope.search(params[:search]).order(@order)
-
-    @stickies = sticky_scope.page(params[:page]).per(50)
+    @stickies = sticky_scope.page(params[:page]).per( 40 )
+    respond_to do |format|
+      format.html { redirect_to tasks_path }
+      format.js
+    end
   end
 
   # GET /stickies/1

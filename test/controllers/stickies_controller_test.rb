@@ -56,42 +56,11 @@ class StickiesControllerTest < ActionController::TestCase
 
   test "should get index" do
     get :index
-    assert_response :success
-    assert_not_nil assigns(:stickies)
-  end
-
-  test "should get index with all selected tags" do
-    get :index, format: 'js', update_filters: '1', tag_filter: 'all', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed']
-
-    # Should only return stickies(:tagged)
-    assert_not_nil assigns(:stickies)
-    assert_equal 1, assigns(:stickies).size
-    assert_equal stickies(:tagged), assigns(:stickies).first
-
-    assert_template 'index'
-    assert_response :success
-  end
-
-  test "should get index with at least one selected tags" do
-    get :index, format: 'js', update_filters: '1', tag_filter: 'any', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed']
-    # Should return stickies(:tagged), stickies(:only_alpha), and stickies(:only_beta)
-    assert_not_nil assigns(:stickies)
-    assert_equal 3, assigns(:stickies).size
-    assert_equal [stickies(:only_alpha), stickies(:only_beta), stickies(:tagged)], assigns(:stickies).order('stickies.description')
-
-    assert_template 'index'
-    assert_response :success
-  end
-
-  test "should get index for api user using service account" do
-    login(users(:service_account))
-    get :index, api_token: 'screen_token', screen_token: users(:valid).screen_token, tag_filter: 'any', tag_names: [ 'alpha', 'beta' ], status: ['not completed', 'completed'], format: 'json'
-    assert_not_nil assigns(:stickies)
-    assert_response :success
+    assert_redirected_to tasks_path
   end
 
   test "should get index with completed scope" do
-    get :index, format: 'js', scope: 'completed', unassigned: '1'
+    get :index, project_id: projects(:one).id, format: 'js', scope: 'completed', unassigned: '1'
 
     # Should only return tasks that are completed
     assert_not_nil assigns(:stickies)
@@ -102,7 +71,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get index with past due scope" do
-    get :index, format: 'js', scope: 'past_due', unassigned: '1'
+    get :index, project_id: projects(:one).id, format: 'js', scope: 'past_due', unassigned: '1'
 
     # Should only return tasks that are not completed
     assert_not_nil assigns(:stickies)
@@ -113,7 +82,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get index with upcoming scope" do
-    get :index, format: 'js', scope: 'upcoming', unassigned: '1'
+    get :index, project_id: projects(:one).id, format: 'js', scope: 'upcoming', unassigned: '1'
 
     # Should only return tasks that are not completed
     assert_not_nil assigns(:stickies)
