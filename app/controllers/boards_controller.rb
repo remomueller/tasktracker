@@ -28,9 +28,8 @@ class BoardsController < ApplicationController
   # GET /boards
   # GET /boards.json
   def index
-    current_user.update_column :boards_per_page, params[:boards_per_page].to_i if params[:boards_per_page].to_i >= 10 and params[:boards_per_page].to_i <= 200
     @order = scrub_order(Board, params[:order], 'boards.name')
-    @boards = current_user.all_viewable_boards.search(params[:search]).filter(params).order(@order).page(params[:page]).per(current_user.boards_per_page)
+    @boards = current_user.all_viewable_boards.search(params[:search]).filter(params).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /boards/1
