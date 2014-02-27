@@ -1,15 +1,15 @@
 <% @title = 'Users' %>
 <div class="page-header">
-  <h1><%= @title %></h1>
-  <% if current_user.system_admin? and false %>
-    <%= link_to "Create User", new_user_path, class: 'btn btn-xs btn-primary' %>
-  <% end %>
+  <h1>
+    <%= @title %>
+  </h1>
 </div>
 
-<%= form_tag users_path, method: :get, remote: true, id: "users_search", class: 'form-inline', data: { object: 'form-load' } do %>
-  <%= hidden_field_tag :order %>
+<%= form_tag users_path, method: :get, class: 'form-inline' do %>
+  <%= hidden_field_tag :order, params[:order] %>
   <%= text_field_tag 'search', params[:search], class: 'form-control' %>
-  <%= submit_tag 'Search', class: 'btn btn-primary' %>
+  <%= submit_tag 'Search', class: 'btn btn-primary', name: nil %>
+  <%= link_to 'Reset', users_path, class: 'btn btn-default' %>
 <% end %>
 
-<div id="users"><div class="center"><%= image_tag "contour/ajax-loader.gif" %></div></div>
+<%= render partial: 'users/users' %>

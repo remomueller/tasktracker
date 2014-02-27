@@ -28,10 +28,9 @@ class UsersController < ApplicationController
       redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
       return
     end
-    current_user.update_column :users_per_page, params[:users_per_page].to_i if params[:users_per_page].to_i >= 10 and params[:users_per_page].to_i <= 200
 
     @order = scrub_order(User, params[:order], 'users.current_sign_in_at DESC NULLS LAST')
-    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per( current_user.users_per_page )
+    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per( 40 )
 
     respond_to do |format|
       format.html

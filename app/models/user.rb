@@ -2,12 +2,10 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :encryptable, :confirmable, :lockable and :omniauthable
   devise :database_authenticatable, :registerable, :timeoutable,
-         :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
+         :recoverable, :rememberable, :trackable, :validatable
 
   before_create :set_default_calendar_options
   after_create :notify_system_admins
-
-  before_save :ensure_authentication_token
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
