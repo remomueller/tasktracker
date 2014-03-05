@@ -26,8 +26,8 @@ table.month-stickies th {
 
 
 td.current-week, th.current-week {
-  border-left:  2px solid #dddddd !important;
-  border-right: 2px solid #dddddd !important;
+  border-left:  2px solid #777 !important;
+  border-right: 2px solid #777 !important;
 }
 
 div.sticky-list a {
