@@ -221,3 +221,7 @@ a.archived-boards-link:hover {
 span.selected {
   color: #5cb85c;
 }
+
+.badge-primary {
+  background-color: #428bca;
+}

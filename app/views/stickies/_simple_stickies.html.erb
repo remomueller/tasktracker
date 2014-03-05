@@ -6,7 +6,7 @@
           <span><% sticky.tags.each do |tag| %><%= @tag = tag; render partial: 'tags/show' %><% end %></span> <%= strip_tags(simple_markdown sticky.description) %>
         </div>
       </td>
-      <td><% if sticky.comments.size > 0 %><span class="badge badge-info"><%= sticky.comments.size %></span><% end %></td>
+      <td><% if sticky.comments.size > 0 %><span class="badge badge-primary"><%= sticky.comments.size %></span><% end %></td>
       <td style="white-space:nowrap;overflow-x:hidden;">
         <span rel="tooltip" title="<%= sticky.owner ? sticky.owner.name : 'Unassigned'  %>" data-placement="left">
         <% if sticky.owner %>

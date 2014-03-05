@@ -5,6 +5,7 @@
 - Enabled turbolinks
 - Removed Screen dependencies and service accounts
 - Search box now redirects to tasks list if nothing is found
+- Tasks with comments now highlight the number of comments in blue for visibility
 - **Gem Changes**
   - Updated to rails 4.0.3
   - Updated to contour 2.4.0.beta3
