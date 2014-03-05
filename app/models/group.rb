@@ -6,7 +6,7 @@ class Group < ActiveRecord::Base
   include Deletable, Filterable
 
   # Named Scopes
-  scope :search, lambda { |arg| where('LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
+  scope :search, lambda { |arg| where('LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:templates) }
 
   # Hooks
   after_save :update_stickies_project
