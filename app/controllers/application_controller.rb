@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
       format.json { render json: ([params[:q]] + @projects.collect(&:name)).uniq }
       format.html do
         # redirect_to [@objects.first.project, @objects.first] if @objects.size == 1 and @objects.first.respond_to?('project')
-        redirect_to @objects.first if @objects.size == 1 # and not @objects.first.respond_to?('project')
+        if @objects.size == 0
+          redirect_to tasks_path( search: params[:q] )
+        elsif @objects.size == 1
+          redirect_to @objects.first
+        end
       end
     end
   end

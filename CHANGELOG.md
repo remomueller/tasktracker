@@ -4,6 +4,7 @@
 - Use of Ruby 2.1.1 is now recommended
 - Enabled turbolinks
 - Removed Screen dependencies and service accounts
+- Search box now redirects to tasks list if nothing is found
 - **Gem Changes**
   - Updated to rails 4.0.3
   - Updated to contour 2.4.0.beta3
