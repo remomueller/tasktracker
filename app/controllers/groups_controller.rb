@@ -1,6 +1,5 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :api_authentication!, only: [ :create, :show ]
   before_action :set_viewable_project, only: [ :index ]
   before_action :set_viewable_group, only: [ :show ]
   before_action :set_editable_group, only: [ :edit, :update, :destroy ]

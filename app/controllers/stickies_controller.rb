@@ -1,6 +1,5 @@
 class StickiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :api_authentication!, only: [ :index, :show, :create, :update ]
   before_action :set_viewable_sticky, only: [ :show ]
   before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
   before_action :redirect_without_sticky, only: [ :show, :update, :destroy ]

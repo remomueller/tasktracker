@@ -19,12 +19,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal false, users(:two).email_on?(:send_email)
   end
 
-  test "should not allow the same api_token to be assigned to two users" do
-    t = Time.now
-    assert_equal '', users(:valid).generate_api_token!('screen_token', t)
-    assert_equal 'Error - Please try regenerating', users(:two).generate_api_token!('screen_token', t)
-  end
-
   test "should create an omniauth user without a password" do
     u = User.new
     omniauth = { 'info' => { 'first_name' => 'First Name', 'last_name' => 'Last Name', 'email' => 'omniauth@example.com' }, 'provider' => 'google_apps', 'uid' => 'omniauth@example.com' }

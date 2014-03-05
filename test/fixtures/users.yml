@@ -10,7 +10,6 @@ valid:
   hidden_project_ids: [<%= ActiveRecord::FixtureSet.identify(:hidden) %>]
   users_per_page: 10
   email: valid@example.com
-  screen_token: 4F30E29D18C7B6A5
   encrypted_password: ""
 
 two:
@@ -135,16 +134,4 @@ send_no_email_for_project_one_sticky_comments:
   system_admin: false
   email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>_sticky_comments": false }
   email: send_no_email_for_project_one_sticky_comments@example.com
-  encrypted_password: ""
-
-service_account:
-  first_name: Service
-  last_name: Account
-  status: active
-  deleted: false
-  system_admin: false
-  service_account: true
-  email_notifications: {}
-  users_per_page: 10
-  email: service_account@example.com
   encrypted_password: ""

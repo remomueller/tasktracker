@@ -74,30 +74,6 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
 
 <div class="clear">&nbsp;</div>
 
-<div class="page-header">
-  <h2>Cross-Application API Tokens</h2>
-</div>
-
-<a name="screen_token"></a>
-<dl class="dl-horizontal">
-  <dt>Screen Token</dt>
-  <dd id="screen_token">
-    <% if current_user.screen_token.blank? %>
-      <span class="quiet">If you require a token for Screen, please click "Generate New Screen Token" below.</span>
-    <% else %>
-      <%= current_user.screen_token %>
-    <% end %>
-    <span id="screen_token_message"></span>
-  </dd>
-</dl>
-<div class="form-group">
-  <div class="col-md-offset-2 col-md-10">
-    <%= link_to 'Generate New Screen Token', api_token_user_path(current_user, api_token: 'screen_token'), method: :post, remote: true, class: 'btn btn-primary' %>
-  </div>
-</div>
-
-<div class="clear">&nbsp;</div>
-
 <% unless PROVIDERS.blank? %>
   <div class="page-header">
     <h2>Authentications</h2>

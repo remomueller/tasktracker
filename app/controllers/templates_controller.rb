@@ -1,6 +1,5 @@
 class TemplatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :api_authentication!, only: [ :index ]
   before_action :set_viewable_project, only: [ :index ]
   before_action :set_viewable_template, only: [ :show ]
   before_action :set_editable_template, only: [ :edit, :update, :destroy ]

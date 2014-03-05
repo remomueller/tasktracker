@@ -9,7 +9,6 @@
       <% if current_user.system_admin? %>
         <th><%== sort_field_helper(@order, 'users.status', 'Status') %></th>
         <th><%== sort_field_helper(@order, 'users.system_admin', 'System Admin') %></th>
-        <th><%== sort_field_helper(@order, 'users.service_account', 'Service Account') %></th>
         <th>Actions</th>
       <% end %>
     </tr>
@@ -23,7 +22,6 @@
       <% if current_user.system_admin? %>
         <td><%= user.status %></td>
         <td style="text-align:center"><%= check_box_tag 'user', 'system_admin', user.system_admin?, disabled: true %></td>
-        <td style="text-align:center"><%= check_box_tag 'user', 'service_account', user.service_account?, disabled: true %></td>
         <td style="vertical-align:middle">
           <%= link_to 'Edit', edit_user_path(user), class: 'btn btn-xs btn-default' %>
           <%= link_to 'Delete', user, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete User #{user.name}?" } unless current_user == user %>

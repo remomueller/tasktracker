@@ -1,6 +1,5 @@
 class ProjectsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :api_authentication!, only: [ :index, :show, :create, :update ]
   before_filter :set_viewable_project, only: [ :show, :colorpicker, :visible, :favorite ]
   before_filter :set_editable_project, only: [ :edit, :update, :destroy, :bulk, :reassign ]
   before_action :redirect_without_project, only: [ :show, :colorpicker, :visible, :favorite, :edit, :update, :destroy, :bulk, :reassign ]

@@ -50,17 +50,6 @@ class TemplatesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:templates)
   end
 
-  test "should get index for api user using service account" do
-    login(users(:service_account))
-    get :index, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
-    assert_not_nil assigns(:templates)
-    templates = JSON.parse(@response.body)
-    assert templates.first.keys.include?('id')
-    assert templates.first.keys.include?('items')
-    assert templates.first.keys.include?('full_name')
-    assert_response :success
-  end
-
   test "should get new" do
     get :new
     assert_response :success

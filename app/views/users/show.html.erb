@@ -23,9 +23,6 @@
   <dt>System Admin</dt>
   <dd><%= @user.system_admin? %></dd>
 
-  <dt>Service Account</dt>
-  <dd><%= @user.service_account? %></dd>
-
   <% if current_user.system_admin? and @user.authentications.size > 0 %>
     <dt>Authentications</dt>
     <dd>

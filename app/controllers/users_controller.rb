@@ -4,14 +4,6 @@ class UsersController < ApplicationController
   before_action :set_user, only: [ :show, :edit, :update, :destroy ]
   before_action :redirect_without_user, only: [ :show, :edit, :update, :destroy ]
 
-  def api_token
-    if User::VALID_API_TOKENS.include?(params[:api_token])
-      @message = current_user.generate_api_token!(params[:api_token])
-    else
-      render nothing: true
-    end
-  end
-
   def update_settings
     notifications = {}
     email_settings = ['send_email'] + User::EMAILABLES.collect{|emailable, description| emailable.to_s} + current_user.all_viewable_projects.collect{|p| ["project_#{p.id}"] + User::EMAILABLES.collect{|emailable, description| "project_#{p.id}_#{emailable.to_s}"}}.flatten
@@ -58,7 +50,7 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       original_status = @user.status
-      @user.update( system_admin: params[:user][:system_admin], service_account: params[:user][:service_account], status: params[:user][:status] )
+      @user.update( system_admin: params[:user][:system_admin], status: params[:user][:status] )
       UserMailer.status_activated(@user).deliver if Rails.env.production? and original_status != @user.status and @user.status == 'active'
       redirect_to @user, notice: 'User was successfully updated.'
     else

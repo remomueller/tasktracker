@@ -74,7 +74,6 @@ TaskTracker::Application.routes.draw do
   resources :users do
     member do
       post :update_settings
-      post :api_token
     end
   end
 

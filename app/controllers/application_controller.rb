@@ -42,13 +42,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: "You do not have sufficient privileges to access that page." unless current_user.system_admin?
   end
 
-  def api_authentication!
-    if current_user.service_account? and User::VALID_API_TOKENS.include?(params[:api_token]) and user = User.find_by_api_token(params[:api_token], params[params[:api_token]].to_s)
-      sign_in(:user, user)
-      @current_user = nil
-    end
-  end
-
   def scrub_order(model, params_order, default_order)
     (params_column, params_direction) = params_order.to_s.strip.downcase.split(' ')
     direction = (params_direction == 'desc' ? 'DESC' : nil)

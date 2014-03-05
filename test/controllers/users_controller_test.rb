@@ -8,19 +8,6 @@ class UsersControllerTest < ActionController::TestCase
     @user = users(:valid)
   end
 
-  test "should set api token" do
-    post :api_token, id: @user, api_token: 'screen_token', format: 'js'
-    assert_not_nil assigns(:message)
-    assert_template 'api_token'
-    assert_response :success
-  end
-
-  test "should not set invalid api token" do
-    post :api_token, id: @user, api_token: 'authentication_token', format: 'js'
-    assert_nil assigns(:message)
-    assert_response :success
-  end
-
   test "should update settings and enable email" do
     post :update_settings, id: users(:admin), email: {send_email: '1'}
     users(:admin).reload # Needs reload to avoid stale object
@@ -110,13 +97,13 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user and set user active" do
-    put :update, id: users(:pending), user: { status: 'active', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false, service_account: false }
+    put :update, id: users(:pending), user: { status: 'active', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false }
     assert_equal 'active', assigns(:user).status
     assert_redirected_to user_path(assigns(:user))
   end
 
   test "should update user and set user inactive" do
-    put :update, id: users(:pending), user: { status: 'inactive', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false, service_account: false }
+    put :update, id: users(:pending), user: { status: 'inactive', first_name: users(:pending).first_name, last_name: users(:pending).last_name, email: users(:pending).email, system_admin: false }
     assert_equal 'inactive', assigns(:user).status
     assert_redirected_to user_path(assigns(:user))
   end

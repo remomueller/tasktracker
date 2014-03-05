@@ -88,25 +88,6 @@ class GroupsControllerTest < ActionController::TestCase
     assert_redirected_to group_path(assigns(:group))
   end
 
-  test "should create group and generate tasks for user through service account" do
-    login(users(:service_account))
-    assert_difference('Sticky.count', templates(:one).items.size) do
-      assert_difference('Group.count') do
-        post :create, group: { project_id: projects(:one), template_id: templates(:one), board_id: boards(:one), initial_due_date: '01/02/2013' }, api_token: 'screen_token', screen_token: users(:valid).screen_token, format: 'json'
-      end
-    end
-    assert_not_nil assigns(:template)
-    assert_not_nil assigns(:group)
-    assert_equal templates(:one).items.size, assigns(:group).stickies.size
-    assert_equal boards(:one), assigns(:board)
-    assert_equal users(:valid), assigns(:group).user
-    group = JSON.parse(@response.body)
-    assert_equal assigns(:group).project_id, group['project_id']
-    assert_equal assigns(:group).template_id, group['template_id']
-    assert_equal assigns(:group).id, group['id']
-    assert_response :success
-  end
-
   test "should create group and generate tasks with default tags" do
     assert_difference('Sticky.count', templates(:with_tag).items.size) do
       assert_difference('Group.count') do

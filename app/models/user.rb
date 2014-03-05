@@ -9,8 +9,6 @@ class User < ActiveRecord::Base
 
   STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
 
-  VALID_API_TOKENS = ['screen_token']
-
   EMAILABLES = [ [:sticky_creation, 'Receive email when a new task is created'],
                  [:sticky_completion, 'Receive email when a task is marked as completed'],
                  # [:sticky_due_time_changed, 'Receive email when a task\'s due date time is changed'],
@@ -28,7 +26,6 @@ class User < ActiveRecord::Base
   include Deletable, Contourable
 
   # Named Scopes
-  scope :human, -> { where service_account: false }
   scope :status, lambda { |arg|  where( status: arg ) }
   scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
   scope :system_admins, -> { where system_admin: true }
@@ -68,22 +65,6 @@ class User < ActiveRecord::Base
 
   def update_sticky_filters!(sticky_filter_hash = {})
     self.update_attributes sticky_filters: sticky_filter_hash
-  end
-
-  def self.find_by_api_token(api_service, api_token)
-    User.send("find_by_"+api_service, api_token)
-  end
-
-  def generate_api_token!(api_token, time = Time.now)
-    message = ''
-    if User::VALID_API_TOKENS.include?(api_token)
-      begin
-        self.update_column api_token.to_sym, (Digest::SHA1.hexdigest(time.usec.to_s) + Digest::SHA1.hexdigest((time + 0.3.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.7.seconds).usec.to_s) + Digest::SHA1.hexdigest((time + 0.11.seconds).usec.to_s))[0..127]
-      rescue ActiveRecord::RecordNotUnique
-        message = 'Error - Please try regenerating'
-      end
-    end
-    message
   end
 
   # Overriding Devise built-in active_for_authentication? method
