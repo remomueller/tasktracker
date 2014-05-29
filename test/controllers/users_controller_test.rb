@@ -30,12 +30,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get index with pagination" do
-    get :index, format: 'js'
-    assert_not_nil assigns(:users)
-    assert_template 'index'
-  end
-
   test "should get index for autocomplete" do
     login(users(:valid))
     get :index, format: 'json'
@@ -46,14 +40,6 @@ class UsersControllerTest < ActionController::TestCase
   test "should not get index for non-system admin" do
     login(users(:valid))
     get :index
-    assert_nil assigns(:users)
-    assert_equal "You do not have sufficient privileges to access that page.", flash[:alert]
-    assert_redirected_to root_path
-  end
-
-  test "should not get index with pagination for non-system admin" do
-    login(users(:valid))
-    get :index, format: 'js'
     assert_nil assigns(:users)
     assert_equal "You do not have sufficient privileges to access that page.", flash[:alert]
     assert_redirected_to root_path

@@ -1,10 +1,10 @@
 # Task Tracker
 
-[![Build Status](https://travis-ci.org/remomueller/tasktracker.png?branch=master)](https://travis-ci.org/remomueller/tasktracker)
-[![Dependency Status](https://gemnasium.com/remomueller/tasktracker.png)](https://gemnasium.com/remomueller/tasktracker)
+[![Build Status](https://travis-ci.org/remomueller/tasktracker.svg?branch=master)](https://travis-ci.org/remomueller/tasktracker)
+[![Dependency Status](https://gemnasium.com/remomueller/tasktracker.svg)](https://gemnasium.com/remomueller/tasktracker)
 [![Code Climate](https://codeclimate.com/github/remomueller/tasktracker.png)](https://codeclimate.com/github/remomueller/tasktracker)
 
-Manage multiple projects, view tasks in a calendar, receive reminder emails for tasks due, assign project members to tasks, create templates for series of tasks, receive emails and updates as tasks and groups of tasks are completed, assign project specific tags to tasks, generate reports on task tags. Using Rails 4.0+ and Ruby 2.1+.
+Manage multiple projects, view tasks in a calendar, receive reminder emails for tasks due, assign project members to tasks, create templates for series of tasks, receive emails and updates as tasks and groups of tasks are completed, assign project specific tags to tasks, generate reports on task tags. Using Rails 4.1+ and Ruby 2.1+.
 
 ## Installation
 

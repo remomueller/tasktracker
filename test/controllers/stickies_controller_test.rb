@@ -60,7 +60,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get index with completed scope" do
-    get :index, project_id: projects(:one).id, format: 'js', scope: 'completed', unassigned: '1'
+    xhr :get, :index, project_id: projects(:one).id, format: 'js', scope: 'completed', unassigned: '1'
 
     # Should only return tasks that are completed
     assert_not_nil assigns(:stickies)
@@ -71,7 +71,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get index with past due scope" do
-    get :index, project_id: projects(:one).id, format: 'js', scope: 'past_due', unassigned: '1'
+    xhr :get, :index, project_id: projects(:one).id, format: 'js', scope: 'past_due', unassigned: '1'
 
     # Should only return tasks that are not completed
     assert_not_nil assigns(:stickies)
@@ -82,7 +82,7 @@ class StickiesControllerTest < ActionController::TestCase
   end
 
   test "should get index with upcoming scope" do
-    get :index, project_id: projects(:one).id, format: 'js', scope: 'upcoming', unassigned: '1'
+    xhr :get, :index, project_id: projects(:one).id, format: 'js', scope: 'upcoming', unassigned: '1'
 
     # Should only return tasks that are not completed
     assert_not_nil assigns(:stickies)

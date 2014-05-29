@@ -1,7 +1,5 @@
 TaskTracker::Application.routes.draw do
 
-  mount MailPreview => 'mail_view' if Rails.env.development?
-
   resources :comments do
     collection do
       get :search

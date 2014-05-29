@@ -13,7 +13,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    get :new, format: 'js'
+    xhr :get, :new, format: 'js'
     assert_not_nil assigns(:group)
     assert_template 'new'
     assert_response :success
