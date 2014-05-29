@@ -10,7 +10,7 @@ gem 'contour',              '~> 2.5.0'
 gem 'kaminari',             '~> 0.15.1'
 gem 'naturalsort',          '~> 1.1.1'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
-gem 'redcarpet',            '~> 3.0.0'
+gem 'redcarpet',            '~> 3.1.2'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.0.1'

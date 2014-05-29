@@ -5,6 +5,7 @@
 - **Gem Changes**
   - Updated to rails 4.1.1
   - Updated to contour 2.5.0
+  - Updated to redcarpet 3.1.2
   - Removed turn, and replaced with minitest and minitest-reporters
   - Removed Windows-specific gems
 
