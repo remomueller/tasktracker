@@ -1,4 +1,4 @@
-class MailPreview < MailView
+class UserMailerPreview < ActionMailer::Preview
 
   def notify_system_admin
     system_admin = User.current.first
@@ -12,12 +12,12 @@ class MailPreview < MailView
   end
 
   def user_added_to_project
-    project_user = ProjectUser.first
+    project_user = ProjectUser.where.not( invite_email: nil ).first
     UserMailer.user_added_to_project(project_user)
   end
 
-  def invite_user_to_project(project_user)
-    project_user = ProjectUser.first
+  def invite_user_to_project
+    project_user = ProjectUser.where.not( invite_email: nil ).first
     UserMailer.invite_user_to_project(project_user)
   end
 
@@ -63,4 +63,5 @@ class MailPreview < MailView
     recipient = User.current.first
     UserMailer.daily_digest(recipient)
   end
+
 end

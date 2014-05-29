@@ -1,10 +1,11 @@
-<%= @group.user.name %> <span style="border:1px solid #00ba25;background-color:#a6ffb8">ADDED</span> Group <%= link_to @group.name, "#{SITE_URL}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Task' %><% if @group.template %> from Template <strong><%= @group.template.name %></strong><% end %>.<br />
+<%= render partial: 'email_header' %>
+
+<%= @group.user.name %> <span style="padding:5px;background-color:#5cb85c;color:white">added</span> Group <%= link_to @group.name, "#{SITE_URL}/groups/#{@group.id}", style: "color: #428bca" %> with <%= pluralize @group.stickies.size, 'Task' %><% if @group.template %> from Template <strong><%= @group.template.name %></strong><% end %>.<br />
 <br />
 <% unless @group.description.blank? %>
 <strong>Group Description</strong><br />
 <%= simple_format @group.description %>
 <% end %>
 <%= @stickies = @group.stickies; render partial: 'sticky_list' %>
-<br />
-<br />
-<%= @footer_html %>
+
+<%= render partial: 'email_footer' %>

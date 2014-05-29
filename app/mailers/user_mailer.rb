@@ -6,6 +6,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @system_admin = system_admin
     @user = user
+    @email_to = system_admin.email
     mail(to: system_admin.email,
          subject: "#{user.name} Signed Up",
          reply_to: user.email)
@@ -14,6 +15,7 @@ class UserMailer < ActionMailer::Base
   def status_activated(user)
     setup_email
     @user = user
+    @email_to = user.email
     mail(to: user.email,
          subject: "#{user.name}'s Account Activated") #,
 #         reply_to: user.email)
@@ -22,6 +24,7 @@ class UserMailer < ActionMailer::Base
   def user_added_to_project(project_user)
     setup_email
     @project_user = project_user
+    @email_to = project_user.user.email
     mail(to: project_user.user.email,
          subject: "#{project_user.creator.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}",
          reply_to: project_user.creator.email)
@@ -30,6 +33,7 @@ class UserMailer < ActionMailer::Base
   def invite_user_to_project(project_user)
     setup_email
     @project_user = project_user
+    @email_to = project_user.invite_email
     mail(to: project_user.invite_email,
          subject: "#{project_user.creator.name} Invites You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}",
          reply_to: project_user.creator.email)
@@ -40,6 +44,7 @@ class UserMailer < ActionMailer::Base
     @comment = comment
     @sticky = sticky
     @recipient = recipient
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: "#{comment.user.name} Commented on Task #{sticky.name}",
          reply_to: comment.user.email)
@@ -49,6 +54,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @sticky = sticky
     @recipient = recipient
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: "#{sticky.user.name} Added a Task to Project #{sticky.project.name}",
          reply_to: sticky.user.email)
@@ -58,6 +64,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @group = group
     @recipient = recipient
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: "#{group.user.name} Added a Group of Tasks to Project #{group.template.project.name}",
          reply_to: group.user.email)
@@ -68,6 +75,7 @@ class UserMailer < ActionMailer::Base
     @sticky = sticky
     @sender = sender
     @recipient = recipient
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: "#{sender.name} Completed a Task on Project #{sticky.project.name}",
          reply_to: sender.email)
@@ -78,6 +86,7 @@ class UserMailer < ActionMailer::Base
     @stickies = stickies
     @sender = sender
     @recipient = recipient
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: "#{sender.name} Completed #{@stickies.count} #{@stickies.count == 1 ? 'Task' : 'Tasks'}",
          reply_to: sender.email)
@@ -93,6 +102,7 @@ class UserMailer < ActionMailer::Base
     past_due = nil if recipient.all_deliverable_stickies_past_due.size == 0
     due_upcoming = nil if recipient.all_deliverable_stickies_due_upcoming.size == 0
 
+    @email_to = recipient.email
     mail(to: recipient.email,
          subject: [due_today, past_due, due_upcoming].compact.join(' and '))
   end
@@ -101,6 +111,7 @@ class UserMailer < ActionMailer::Base
     setup_email
     @recipient = recipient
 
+    @email_to = recipient.email
     # if @recipient.digest_stickies_created.size + @recipient.digest_stickies_completed.size + @recipient.digest_comments.size > 0
       mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
     # end
@@ -109,7 +120,6 @@ class UserMailer < ActionMailer::Base
   protected
 
   def setup_email
-    # @subject = "[#{DEFAULT_APP_NAME}#{' - development' if Rails.env == 'development'}] "
     @footer_html = "<div style=\"color:#777\">Change #{DEFAULT_APP_NAME} email settings here: <a href=\"#{SITE_URL}/settings\">#{SITE_URL}/settings</a></div><br /><br />".html_safe
     @footer_txt = "Change #{DEFAULT_APP_NAME} email settings here: #{SITE_URL}/settings"
   end

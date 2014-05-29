@@ -1,11 +1,10 @@
-
-<td>
-  <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}" %>
+<td style='padding-left:10px;'>
+  <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}", style: "color: #428bca" %>
 </td>
-<td>
+<td style='padding-left:10px;'>
   <% if @recipient == @sticky.owner %><b><% end %><%= strip_tags(simple_markdown @sticky.full_description).truncate(100, separator: ' ').html_safe %><% if @recipient == @sticky.owner %></b><% end %>
 </td>
 
-<td>
+<td style="padding-left:10px;padding-right:10px;text-align:right">
   <%= @tags = @sticky.tags; render partial: 'sticky_tags' %>
 </td>
