@@ -44,7 +44,7 @@ class Template < ActiveRecord::Base
                       duration_units: (item_hash[:duration_units].blank? ? 'hours' : item_hash[:duration_units])
                     } unless item_hash[:description].blank?
     end
-    self.items.sort!{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]) <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units])}
+    self.items.sort!{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i }
   end
 
   def generate_stickies!(current_user, board_id, initial_date = Date.today, additional_text = nil)
@@ -77,13 +77,13 @@ class Template < ActiveRecord::Base
 
     all_users = self.project.users_to_email(:sticky_creation) - [current_user]
     all_users.each do |user_to_email|
-      UserMailer.group_by_mail(group, user_to_email).deliver if Rails.env.production?
+      UserMailer.group_by_mail(group, user_to_email).deliver_later if Rails.env.production?
     end
 
     group
   end
 
   def sorted_items
-    self.items.sort{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]) <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units])}
+    self.items.sort{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i }
   end
 end

@@ -7,7 +7,7 @@ class UserMailerTest < ActionMailer::TestCase
     admin = users(:admin)
 
     # Send the email, then test that it got queued
-    email = UserMailer.notify_system_admin(admin, valid).deliver
+    email = UserMailer.notify_system_admin(admin, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     # Test the body of the sent email contains what we expect it to
@@ -20,7 +20,7 @@ class UserMailerTest < ActionMailer::TestCase
     valid = users(:valid)
 
     # Send the email, then test that it got queued
-    email = UserMailer.status_activated(valid).deliver
+    email = UserMailer.status_activated(valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     # Test the body of the sent email contains what we expect it to
@@ -32,7 +32,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "user added to project email" do
     project_user = project_users(:one)
 
-    email = UserMailer.user_added_to_project(project_user).deliver
+    email = UserMailer.user_added_to_project(project_user).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [project_user.user.email], email.to
@@ -43,7 +43,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "user invited to project email" do
     project_user = project_users(:invited)
 
-    email = UserMailer.invite_user_to_project(project_user).deliver
+    email = UserMailer.invite_user_to_project(project_user).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [project_user.invite_email], email.to
@@ -56,7 +56,7 @@ class UserMailerTest < ActionMailer::TestCase
     sticky = comment.sticky
     valid = users(:valid)
 
-    email = UserMailer.comment_by_mail(comment, sticky, valid).deliver
+    email = UserMailer.comment_by_mail(comment, sticky, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -68,7 +68,7 @@ class UserMailerTest < ActionMailer::TestCase
     sticky = stickies(:one)
     valid = users(:valid)
 
-    email = UserMailer.sticky_by_mail(sticky, valid).deliver
+    email = UserMailer.sticky_by_mail(sticky, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -81,7 +81,7 @@ class UserMailerTest < ActionMailer::TestCase
     valid = users(:valid)
     sender = users(:valid)
 
-    email = UserMailer.sticky_completion_by_mail(sticky, sender, valid).deliver
+    email = UserMailer.sticky_completion_by_mail(sticky, sender, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -94,7 +94,7 @@ class UserMailerTest < ActionMailer::TestCase
     valid = users(:valid)
     sender = users(:valid)
 
-    email = UserMailer.stickies_completion_by_mail(stickies, sender, valid).deliver
+    email = UserMailer.stickies_completion_by_mail(stickies, sender, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -105,7 +105,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "daily tasks due email" do
     valid = users(:valid)
 
-    email = UserMailer.daily_stickies_due(valid).deliver
+    email = UserMailer.daily_stickies_due(valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     due_today = "#{valid.all_stickies_due_today.size} " + (valid.all_stickies_due_today.size == 1 ? 'Task' : 'Tasks') + " Due Today"
@@ -124,7 +124,7 @@ class UserMailerTest < ActionMailer::TestCase
     group = groups(:one)
     valid = users(:valid)
 
-    email = UserMailer.group_by_mail(group, valid).deliver
+    email = UserMailer.group_by_mail(group, valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to
@@ -135,7 +135,7 @@ class UserMailerTest < ActionMailer::TestCase
   test "daily digest email" do
     valid = users(:valid)
 
-    email = UserMailer.daily_digest(valid).deliver
+    email = UserMailer.daily_digest(valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
     assert_equal [valid.email], email.to

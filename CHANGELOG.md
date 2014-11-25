@@ -2,6 +2,12 @@
 
 ### Enhancements
 - Use of Ruby 2.1.5 is now recommended
+- Updated Google Omniauth to no longer write to disk
+- **Gem Changes**
+  - Updated to rails 4.2.0.beta4
+  - Updated to contour 2.6.0.beta8
+  - Updated to redcarpet 3.2.0
+  - Updated to kaminari 0.16.1
 
 ## 0.28.6 (May 29, 2014)
 

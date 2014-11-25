@@ -1,4 +1,4 @@
-TaskTracker::Application.routes.draw do
+Rails.application.routes.draw do
 
   resources :comments do
     collection do
