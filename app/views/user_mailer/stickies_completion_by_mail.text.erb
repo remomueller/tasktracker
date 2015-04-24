@@ -4,7 +4,7 @@
 COMPLETED Recently
 
 <% @stickies.group_by{|s| s.project_id}.each do |project_id, stickies| %>
-<%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{SITE_URL}/projects/#{project.id}" : 'No Project') %>
+<%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
 <% stickies.each do |sticky| %>
   <%= @sticky = sticky; render partial: 'digest_sticky' %>

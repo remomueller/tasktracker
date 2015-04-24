@@ -2,7 +2,7 @@
 Contour.setup do |config|
 
   # Enter your application name here. The name will be displayed in the title of all pages, ex: AppName - PageTitle
-  config.application_name = DEFAULT_APP_NAME
+  config.application_name = ENV['website_name']
 
   # If you want to style your name using html you can do so here, ex: <b>App</b>Name
   # config.application_name_html = ''
@@ -23,7 +23,7 @@ Contour.setup do |config|
     },
     {
       name: 'image_tag(current_user.avatar_url(18, "blank"))+" "+current_user.name', eval: true, display: 'signed_in', path: 'settings_path', position: 'right',
-      links: [{ name: "About #{DEFAULT_APP_NAME} v#{TaskTracker::VERSION::STRING}", path: 'about_path' },
+      links: [{ name: "About #{ENV['website_name']} v#{TaskTracker::VERSION::STRING}", path: 'about_path' },
               { divider: true },
               { header: 'Administrative', condition: 'current_user.system_admin?' },
               { name: 'Users', path: 'users_path', condition: 'current_user.system_admin?' },

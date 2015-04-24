@@ -5,7 +5,7 @@
 </div>
 
 <p style="font-size:1.5em;line-height:2em">
-  <%= DEFAULT_APP_NAME %> provides a platform for collaborative project management. To keep the <%= DEFAULT_APP_NAME %> running smoothly for everyone, you agree that you will use the web application only in a manner consistent with the following Acceptable Use Policy.
+  <%= ENV['website_name'] %> provides a platform for collaborative project management. To keep the <%= ENV['website_name'] %> running smoothly for everyone, you agree that you will use the web application only in a manner consistent with the following Acceptable Use Policy.
 </p>
 
 <hr class="soften">
@@ -14,7 +14,7 @@
 
 <ul>
   <li>
-    <%= mail_to ABOUT_PAGE_CONTACT, 'Notify us', target: '_blank', subject: "#{DEFAULT_APP_NAME} Account Compromised" %> immediately if your account has been comprised and to follow immediate steps to secure your account.
+    <%= mail_to ENV['support_email'], 'Notify us', target: '_blank', subject: "#{ENV['website_name']} Account Compromised" %> immediately if your account has been comprised and to follow immediate steps to secure your account.
   </li>
 </ul>
 

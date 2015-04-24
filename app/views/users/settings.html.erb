@@ -73,11 +73,3 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
 <% end %>
 
 <div class="clear">&nbsp;</div>
-
-<% unless PROVIDERS.blank? %>
-  <div class="page-header">
-    <h2>Authentications</h2>
-  </div>
-
-  <%= render partial: 'contour/authentications/authentications' %>
-<% end %>

@@ -5,27 +5,27 @@ Dear <%= @recipient.first_name %>,<br />
 <br />
 <% if @recipient.all_deliverable_stickies_due_today.size > 0 %>
   <span style="padding:5px;background-color:#5cb85c;color:white">Due Today</span>
-  <%= link_to pluralize(@recipient.all_deliverable_stickies_due_today.size, 'sticky'), "#{SITE_URL}/tasks?completed=0&owners=#{@recipient.name}", style: "color: #428bca" %><br />
+  <%= link_to pluralize(@recipient.all_deliverable_stickies_due_today.size, 'sticky'), "#{ENV['website_url']}/tasks?completed=0&owners=#{@recipient.name}", style: "color: #428bca" %><br />
   <%= @stickies = @recipient.all_deliverable_stickies_due_today; render partial: 'sticky_list' %>
 <% end %>
 
 <% if @recipient.all_deliverable_stickies_past_due.size > 0 %>
   <br />
   <span style="padding:5px;background-color:#f0ad4e;color:white">Past Due</span>
-  <%= link_to pluralize(@recipient.all_deliverable_stickies_past_due.size, 'sticky'), "#{SITE_URL}/tasks?completed=0&owners=#{@recipient.name}", style: "color: #428bca" %><br />
+  <%= link_to pluralize(@recipient.all_deliverable_stickies_past_due.size, 'sticky'), "#{ENV['website_url']}/tasks?completed=0&owners=#{@recipient.name}", style: "color: #428bca" %><br />
   <%= @stickies = @recipient.all_deliverable_stickies_past_due; render partial: 'sticky_list' %>
 <% end %>
 
 <% if @recipient.all_deliverable_stickies_due_upcoming.size > 0 %>
   <br />
   <span style="padding:5px;background-color:#428bca;color:white">Upcoming</span>
-  <%= link_to pluralize(@recipient.all_deliverable_stickies_due_upcoming.size, 'sticky'), "#{SITE_URL}/tasks?completed=0&owners=#{@recipient.name}", style: "color: #428bca" %><br />
+  <%= link_to pluralize(@recipient.all_deliverable_stickies_due_upcoming.size, 'sticky'), "#{ENV['website_url']}/tasks?completed=0&owners=#{@recipient.name}", style: "color: #428bca" %><br />
   <%= @stickies = @recipient.all_deliverable_stickies_due_upcoming; render partial: 'sticky_list' %>
 <% end %>
 <br />
 View tasks on calendar here:<br />
 <br />
-<center><%= link_to "#{SITE_URL}/month", "#{SITE_URL}/month", style: "color: #428bca" %></center><br />
+<center><%= link_to "#{ENV['website_url']}/month", "#{ENV['website_url']}/month", style: "color: #428bca" %></center><br />
 
 
 

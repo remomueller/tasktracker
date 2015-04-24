@@ -1,14 +1,13 @@
-postgres
-
-
-
+http://localhost
+Task Tracker
+support@example.com
 localhost
 25
+plain
+smtp@example.com
+smtp_username
+smtp_password
+postgres
 
-travis-ci@example.com
-
-
-Task Tracker
-http://localhost
 
 

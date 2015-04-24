@@ -1,4 +1,4 @@
-<% cache [ "stickies-popup-v15", sticky ] do %>
+<% cache [ "stickies-popup-v16", sticky ] do %>
   <div
       class="stickies_<%= sticky.completed ? 'completed' : 'planned' %> project_<%= sticky.project_id %> sticky_popup calendar-entry-name"
       id="sticky_<%= sticky.id %>_popup"
@@ -25,7 +25,7 @@
         <td style="margin:0px;padding:0px">
           <b><%= sticky.due_time unless sticky.all_day? %></b>
           <span id="sticky_<%= sticky.id %>_name">
-            <%= link_to strip_tags(simple_markdown sticky.full_description).truncate(27, separator: ' ').html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through' : ''), rel: "popover", data: { title: sticky.project.name, content: simple_markdown(sticky.description_html).gsub('"', '\\"'), html: true, placement: (sticky.due_date and sticky.due_date.wday == 6 ? 'left' : 'right'), trigger: 'hover' }, style: 'color:white' %>
+            <%= link_to strip_tags(simple_markdown sticky.full_description).truncate(27, separator: ' ').html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through;color:white' : 'color:white'), rel: "popover", data: { title: sticky.project.name, content: simple_markdown(sticky.description_html).gsub('"', '\\"'), html: true, placement: (sticky.due_date and sticky.due_date.wday == 6 ? 'left' : 'right'), trigger: 'hover' } %>
           </span>
         </td>
       </tr>

@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   serialize :sticky_filters, Hash
 
   # Concerns
-  include Deletable, Contourable
+  include Deletable
 
   # Named Scopes
   scope :status, lambda { |arg|  where( status: arg ) }
@@ -251,15 +251,6 @@ class User < ActiveRecord::Base
 
   def nickname
     "#{first_name} #{last_name.first}"
-  end
-
-  # Override of Contourable
-  def apply_omniauth(omniauth)
-    unless omniauth['info'].blank?
-      self.first_name = omniauth['info']['first_name'] if first_name.blank?
-      self.last_name = omniauth['info']['last_name'] if last_name.blank?
-    end
-    super
   end
 
   private

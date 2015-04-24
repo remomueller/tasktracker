@@ -48,7 +48,7 @@ class Sticky < ActiveRecord::Base
   has_many :comments, -> { where( deleted: false ).order( 'created_at desc' ) }
 
   def sticky_link
-    SITE_URL + "/stickies/#{self.id}"
+    ENV['website_url'] + "/stickies/#{self.id}"
   end
 
   # Panel returns 'completed', 'past_due', or 'upcoming'

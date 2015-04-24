@@ -34,7 +34,7 @@ class Project < ActiveRecord::Base
   end
 
   def project_link
-    SITE_URL + "/projects/#{self.id}"
+    ENV['website_url'] + "/projects/#{self.id}"
   end
 
   def modifiable_by?(current_user)

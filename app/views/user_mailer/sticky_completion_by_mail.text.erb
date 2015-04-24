@@ -1,9 +1,9 @@
-<%= @sender.name %> completed the following Task <%= @sticky.name %> <%= "#{SITE_URL}/stickies/#{@sticky.id}" %> on Project <%= @sticky.project.name %> <%= "#{SITE_URL}/projects/#{@sticky.project.id}" %>.
+<%= @sender.name %> completed the following Task <%= @sticky.name %> <%= "#{ENV['website_url']}/stickies/#{@sticky.id}" %> on Project <%= @sticky.project.name %> <%= "#{ENV['website_url']}/projects/#{@sticky.project.id}" %>.
 
 <%= render partial: 'sticky_note' %>
 
 <% if @sticky.group %>
-  This task is part of Group <%= @sticky.group.name %> <%= "#{SITE_URL}/groups/#{@sticky.group.id}" %><% if @sticky.group.template %> from Template <%= @sticky.group.template.name %><% end %>.
+  This task is part of Group <%= @sticky.group.name %> <%= "#{ENV['website_url']}/groups/#{@sticky.group.id}" %><% if @sticky.group.template %> from Template <%= @sticky.group.template.name %><% end %>.
 
   <%= @stickies = @sticky.group.stickies; render partial: 'sticky_list' %>
 <% end %>

@@ -18,17 +18,6 @@
   </div>
 <% end %>
 
-<% if PROVIDERS.size > 0 %>
-  <div class="form-signin">
-    <h2 class="form-signin-heading">Sign in with</h2>
-    <% PROVIDERS.each do |provider| %>
-      <a href="<%= request.script_name + "/" + OmniAuth.config.path_prefix.split('/').last.to_s + "/" + provider.to_s.downcase %>" class="btn btn-default" style="white-space:nowrap">
-        <%= image_tag "contour/#{provider.to_s.downcase}_32.png", align: 'absmiddle', height: "28px" %>
-      </a>
-    <% end %>
-  </div>
-<% end %>
-
 <% if devise_mapping.registerable? %>
   <div class="center" style="margin-bottom:20px">
     Don't have an account? <%= link_to "Sign up", new_registration_path(resource_name) %>

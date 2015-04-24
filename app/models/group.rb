@@ -44,7 +44,7 @@ class Group < ActiveRecord::Base
   end
 
   def group_link
-    SITE_URL + "/groups/#{self.id}"
+    ENV['website_url'] + "/groups/#{self.id}"
   end
 
   private

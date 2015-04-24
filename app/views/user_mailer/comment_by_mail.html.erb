@@ -1,6 +1,6 @@
 <%= render partial: 'email_header' %>
 
-<%= @comment.user.name %> <span style="padding:5px;background-color:#428bca;color:white">commented</span> on Task <%= link_to @sticky.name, "#{SITE_URL}/stickies/#{@sticky.id}", style: "color: #428bca" %>.<br />
+<%= @comment.user.name %> <span style="padding:5px;background-color:#428bca;color:white">commented</span> on Task <%= link_to @sticky.name, "#{ENV['website_url']}/stickies/#{@sticky.id}", style: "color: #428bca" %>.<br />
 <br />
 
 <% @sticky.comments.limit(5).each do |comment| %>

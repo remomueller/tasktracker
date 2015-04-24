@@ -61,7 +61,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{comment.user.name} Commented on Task #{sticky.name}", email.subject
-    assert_match(/#{comment.user.name} COMMENTED on Task #{sticky.name} located at #{SITE_URL}\/stickies\/#{sticky.id}\./, email.encoded)
+    assert_match(/#{comment.user.name} COMMENTED on Task #{sticky.name} located at #{ENV['website_url']}\/stickies\/#{sticky.id}\./, email.encoded)
   end
 
   test "sticky by mail email" do
@@ -73,7 +73,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{sticky.user.name} Added a Task to Project #{sticky.project.name}", email.subject
-    assert_match(/#{sticky.user.name} added Task #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
+    assert_match(/#{sticky.user.name} added Task #{sticky.name} #{ENV['website_url']}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{ENV['website_url']}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
   test "task completion by mail email" do
@@ -86,7 +86,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{sender.name} Completed a Task on Project #{sticky.project.name}", email.subject
-    assert_match(/#{sender.name} completed the following Task #{sticky.name} #{SITE_URL}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{SITE_URL}\/projects\/#{sticky.project.id}\./, email.encoded)
+    assert_match(/#{sender.name} completed the following Task #{sticky.name} #{ENV['website_url']}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{ENV['website_url']}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
   test "tasks completion by mail email" do
@@ -117,7 +117,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{[due_today, past_due, due_upcoming].compact.join(' and ')}", email.subject
-    assert_match(/View tasks on a calendar here: #{"#{SITE_URL}/month"}/, email.encoded)
+    assert_match(/View tasks on a calendar here: #{"#{ENV['website_url']}/month"}/, email.encoded)
   end
 
   test "group by mail email" do
@@ -129,7 +129,7 @@ class UserMailerTest < ActionMailer::TestCase
 
     assert_equal [valid.email], email.to
     assert_equal "#{group.user.name} Added a Group of Tasks to Project #{group.template.project.name}", email.subject
-    assert_match(/#{group.user.name} added Group #{group.name} #{SITE_URL}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Task' : 'Tasks'}#{" from Template #{group.template.name}" if group.template}\./, email.encoded)
+    assert_match(/#{group.user.name} added Group #{group.name} #{ENV['website_url']}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Task' : 'Tasks'}#{" from Template #{group.template.name}" if group.template}\./, email.encoded)
   end
 
   test "daily digest email" do

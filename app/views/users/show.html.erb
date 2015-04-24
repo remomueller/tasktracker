@@ -22,22 +22,6 @@
 
   <dt>System Admin</dt>
   <dd><%= @user.system_admin? %></dd>
-
-  <% if current_user.system_admin? and @user.authentications.size > 0 %>
-    <dt>Authentications</dt>
-    <dd>
-      <div style="margin-top:10px">
-        <% @user.authentications.each do |authentication| %>
-          <div class="authentication">
-            <%= image_tag "contour/#{authentication.provider}_32.png", height: "32px" %>
-            <div class="provider"><%= authentication.provider.titleize %></div>
-            <div class="uid"><%= authentication.uid %></div>
-          </div>
-        <% end %>
-      </div>
-    </dd>
-  <% end %>
-
 <% end %>
 </dl>
 
