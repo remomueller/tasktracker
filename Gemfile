@@ -7,7 +7,7 @@ gem 'pg',                   '0.18.1'
 
 # Gems used by project
 gem 'contour',              '~> 3.0.0.beta1'
-gem 'kaminari',             '~> 0.16.1'
+gem 'kaminari',             '~> 0.16.3'
 gem 'naturalsort',          '~> 1.1.1'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'redcarpet',            '~> 3.2.0'

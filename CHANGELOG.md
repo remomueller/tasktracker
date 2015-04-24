@@ -10,6 +10,7 @@
   - Updated to contour 3.0.0.beta1
   - Updated to rails 4.2.1
   - Updated to pg 0.18.1
+  - Updated to kaminari 0.16.3
 
 ## 0.28.8 (December 12, 2014)
 
