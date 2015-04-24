@@ -28,7 +28,7 @@ class Template < ActiveRecord::Base
   end
 
   def self.natural_sort
-    NaturalSort::naturalsort self.where('').collect{|t| [t.name, t.id]}
+    NaturalSort.sort self.where('').collect{|t| [t.name, t.id]}
   end
 
   def item_tokens=(tokens)

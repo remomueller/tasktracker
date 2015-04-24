@@ -16,7 +16,7 @@ class Tag < ActiveRecord::Base
 
   # Model Relationships
   def self.natural_sort
-    NaturalSort::naturalsort self.where('').collect{|t| [t.name, t.id]}
+    NaturalSort.sort self.where('').collect{|t| [t.name, t.id]}
   end
 
 end
