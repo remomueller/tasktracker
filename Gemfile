@@ -12,7 +12,7 @@ gem 'naturalsort',          '~> 1.2.0'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'redcarpet',            '~> 3.3.2'
 gem 'haml'
-gem 'figaro',               '~> 1.1.0'
+gem 'figaro',               '~> 1.1.1'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.1.0'

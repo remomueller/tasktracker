@@ -5,6 +5,7 @@
   - Updated to rails 4.2.4
   - Updated to contour 3.0.1
   - Updated to redcarpet 3.3.2
+  - Updated to figaro 1.1.1
   - Use Haml for new views
 
 ## 0.28.9 (April 24, 2015)
