@@ -6,7 +6,7 @@ gem 'rails',                '4.2.4'
 gem 'pg',                   '0.18.1'
 
 # Gems used by project
-gem 'contour',              '~> 3.0.0.beta1'
+gem 'contour',              '~> 3.0.1'
 gem 'kaminari',             '~> 0.16.3'
 gem 'naturalsort',          '~> 1.2.0'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'

@@ -3,6 +3,7 @@
 ### Enhancements
 **Gem Changes**
   - Updated to rails 4.2.4
+  - Updated to contour 3.0.1
 
 ## 0.28.9 (April 24, 2015)
 
