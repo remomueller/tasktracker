@@ -4,6 +4,7 @@
 **Gem Changes**
   - Updated to rails 4.2.4
   - Updated to contour 3.0.1
+  - Updated to redcarpet 3.3.2
 
 ## 0.28.9 (April 24, 2015)
 
