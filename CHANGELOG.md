@@ -5,6 +5,7 @@
   - Use of Ruby 2.2.3 is now recommended
   - Updated to rails 4.2.4
   - Updated to contour 3.0.1
+  - Updated to pg 0.18.2
   - Updated to redcarpet 3.3.2
   - Updated to figaro 1.1.1
   - Use Haml for new views
