@@ -3,6 +3,7 @@
 ### Enhancements
 - **Gem Changes**
   - Updated to Ruby 2.3.0
+  - Updated to rails 4.2.5
   - Updated to pg 0.18.4
 
 ## 0.28.10 (August 25, 2015)
