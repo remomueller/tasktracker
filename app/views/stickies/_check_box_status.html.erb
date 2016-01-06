@@ -1,4 +1,4 @@
-<% params[:status] = current_user.sticky_filters['status'] if params['controller'] == 'stickies' and params['action'] == 'index' and current_user.sticky_filters['status'].kind_of?(Array) %>
+<% params[:status] = current_user.sticky_filters['status'] if params['controller'] == 'stickies' && params['action'] == 'index' && current_user.sticky_filters['status'].is_a?(Array) %>
 
 <div class="btn-group" data-toggle="buttons">
   <label class="btn btn-default btn-xs <%= 'active' if (params[:status] and params[:status].include?('planned')) or not params[:status]  %>">
