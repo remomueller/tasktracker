@@ -15,6 +15,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: :external do
+    get :version
+  end
+
   resources :groups
 
   resources :project_users do
