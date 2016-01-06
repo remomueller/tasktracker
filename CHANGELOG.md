@@ -6,6 +6,8 @@
   - Updated to rails 4.2.5
   - Updated to pg 0.18.4
   - Updated to web-console 3.0
+  - Updated to simplecov 0.11.1
+  - Removed minitest-reporters
 
 ## 0.28.10 (August 25, 2015)
 
