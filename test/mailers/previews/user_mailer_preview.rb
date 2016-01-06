@@ -1,5 +1,4 @@
 class UserMailerPreview < ActionMailer::Preview
-
   def notify_system_admin
     system_admin = User.current.first
     user = User.current.first
@@ -63,5 +62,4 @@ class UserMailerPreview < ActionMailer::Preview
     recipient = User.current.first
     UserMailer.daily_digest(recipient)
   end
-
 end

@@ -127,7 +127,7 @@ class Sticky < ActiveRecord::Base
   def send_completion_email(current_user)
     all_users = self.project.users_to_email(:sticky_completion) - [current_user]
     all_users.each do |user_to_email|
-      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_later if Rails.env.production?
+      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_later if EMAILS_ENABLED
     end
   end
 
@@ -135,7 +135,7 @@ class Sticky < ActiveRecord::Base
   #   all_stickies.group_by{|s| s.project}.each do |project, stickies|
   #     all_users = project.users_to_email(:sticky_completion) - [current_user]
   #     all_users.each do |user_to_email|
-  #       UserMailer.stickies_completion_by_mail(stickies, current_user, user_to_email).deliver_later if Rails.env.production?
+  #       UserMailer.stickies_completion_by_mail(stickies, current_user, user_to_email).deliver_later if EMAILS_ENABLED
   #     end
   #   end
   # end
@@ -156,7 +156,7 @@ class Sticky < ActiveRecord::Base
     if not self.group and not self.completed?
       all_users = self.project.users_to_email(:sticky_creation) - [self.user]
       all_users.each do |user_to_email|
-        UserMailer.sticky_by_mail(self, user_to_email).deliver_later if Rails.env.production?
+        UserMailer.sticky_by_mail(self, user_to_email).deliver_later if EMAILS_ENABLED
       end
     end
   end

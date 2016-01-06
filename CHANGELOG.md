@@ -9,6 +9,9 @@
   - Updated to simplecov 0.11.1
   - Removed minitest-reporters
 
+### Bug Fix
+- Password reset emails now provide the correct link to reset the password
+
 ## 0.28.10 (August 25, 2015)
 
 ### Enhancements

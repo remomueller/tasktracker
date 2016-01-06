@@ -1,5 +1,4 @@
 class Comment < ActiveRecord::Base
-
   # Concerns
   include Deletable
 
@@ -47,8 +46,7 @@ class Comment < ActiveRecord::Base
     all_users = self.sticky.project.users_to_email(:sticky_comments) - [self.user] if self.sticky
 
     all_users.each do |user_to_email|
-      UserMailer.comment_by_mail(self, self.sticky, user_to_email).deliver_later if Rails.env.production?
+      UserMailer.comment_by_mail(self, self.sticky, user_to_email).deliver_later if EMAILS_ENABLED
     end
   end
-
 end

@@ -1,9 +1,5 @@
-<%= render partial: 'email_header' %>
-
 <%= @sticky.user.name %> <span style="padding:5px;background-color:#5cb85c;color:white">added</span> Task <%= link_to @sticky.name, "#{ENV['website_url']}/stickies/#{@sticky.id}", style: "color: #428bca" %> to Project <%= link_to @sticky.project.name, "#{ENV['website_url']}/projects/#{@sticky.project.id}", style: "color: #428bca" %>.<br />
 
 <br />
 
 <%= render partial: 'sticky_note' %>
-
-<%= render partial: 'email_footer' %>

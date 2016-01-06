@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class UserMailerTest < ActionMailer::TestCase
-
-  test "notify system admin email" do
+  test 'notify system admin email' do
     valid = users(:valid)
     admin = users(:admin)
 
@@ -16,7 +15,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{valid.name} \[#{valid.email}\] signed up for an account\./, email.encoded)
   end
 
-  test "status activated email" do
+  test 'status activated email' do
     valid = users(:valid)
 
     # Send the email, then test that it got queued
@@ -29,7 +28,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/Your account \[#{valid.email}\] has been activated\./, email.encoded)
   end
 
-  test "user added to project email" do
+  test 'user added to project email' do
     project_user = project_users(:one)
 
     email = UserMailer.user_added_to_project(project_user).deliver_now
@@ -40,7 +39,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_user.creator.name} has added you to Project #{project_user.project.name}/, email.encoded)
   end
 
-  test "user invited to project email" do
+  test 'user invited to project email' do
     project_user = project_users(:invited)
 
     email = UserMailer.invite_user_to_project(project_user).deliver_now
@@ -51,7 +50,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_user.creator.name} has invited you to Project #{project_user.project.name}/, email.encoded)
   end
 
-  test "comment by mail email" do
+  test 'comment by mail email' do
     comment = comments(:two)
     sticky = comment.sticky
     valid = users(:valid)
@@ -64,7 +63,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{comment.user.name} COMMENTED on Task #{sticky.name} located at #{ENV['website_url']}\/stickies\/#{sticky.id}\./, email.encoded)
   end
 
-  test "sticky by mail email" do
+  test 'sticky by mail email' do
     sticky = stickies(:one)
     valid = users(:valid)
 
@@ -76,7 +75,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sticky.user.name} added Task #{sticky.name} #{ENV['website_url']}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{ENV['website_url']}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
-  test "task completion by mail email" do
+  test 'task completion by mail email' do
     sticky = stickies(:assigned_to_user)
     valid = users(:valid)
     sender = users(:valid)
@@ -89,7 +88,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sender.name} completed the following Task #{sticky.name} #{ENV['website_url']}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{ENV['website_url']}\/projects\/#{sticky.project.id}\./, email.encoded)
   end
 
-  test "tasks completion by mail email" do
+  test 'tasks completion by mail email' do
     stickies = Sticky.where(id: stickies(:assigned_to_user).id)
     valid = users(:valid)
     sender = users(:valid)
@@ -102,15 +101,15 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sender.name} completed the following 1 Task\./, email.encoded)
   end
 
-  test "daily tasks due email" do
+  test 'daily tasks due email' do
     valid = users(:valid)
 
     email = UserMailer.daily_stickies_due(valid).deliver_now
     assert !ActionMailer::Base.deliveries.empty?
 
-    due_today = "#{valid.all_stickies_due_today.size} " + (valid.all_stickies_due_today.size == 1 ? 'Task' : 'Tasks') + " Due Today"
-    past_due = "#{valid.all_stickies_past_due.size} " + (valid.all_stickies_past_due.size == 1 ? 'Task' : 'Tasks') + " Past Due"
-    due_upcoming = "#{valid.all_stickies_due_upcoming.size} " + (valid.all_stickies_due_upcoming.size == 1 ? 'Task' : 'Tasks') + " Upcoming"
+    due_today = "#{valid.all_stickies_due_today.size} " + (valid.all_stickies_due_today.size == 1 ? 'Task' : 'Tasks') + ' Due Today'
+    past_due = "#{valid.all_stickies_past_due.size} " + (valid.all_stickies_past_due.size == 1 ? 'Task' : 'Tasks') + ' Past Due'
+    due_upcoming = "#{valid.all_stickies_due_upcoming.size} " + (valid.all_stickies_due_upcoming.size == 1 ? 'Task' : 'Tasks') + ' Upcoming'
     due_today = nil if valid.all_stickies_due_today.size == 0
     past_due = nil if valid.all_stickies_past_due.size == 0
     due_upcoming = nil if valid.all_stickies_due_upcoming.size == 0
@@ -120,7 +119,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/View tasks on a calendar here: #{"#{ENV['website_url']}/month"}/, email.encoded)
   end
 
-  test "group by mail email" do
+  test 'group by mail email' do
     group = groups(:one)
     valid = users(:valid)
 
@@ -132,7 +131,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{group.user.name} added Group #{group.name} #{ENV['website_url']}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Task' : 'Tasks'}#{" from Template #{group.template.name}" if group.template}\./, email.encoded)
   end
 
-  test "daily digest email" do
+  test 'daily digest email' do
     valid = users(:valid)
 
     email = UserMailer.daily_digest(valid).deliver_now
@@ -142,5 +141,4 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}", email.subject
     assert_match(/Dear #{valid.first_name},/, email.encoded)
   end
-
 end
