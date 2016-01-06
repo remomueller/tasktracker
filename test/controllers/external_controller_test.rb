@@ -2,6 +2,16 @@ require 'test_helper'
 
 # Test for publicly available pages
 class ExternalControllerTest < ActionController::TestCase
+  test 'should get about' do
+    get :about
+    assert_response :success
+  end
+
+  test 'should get acceptable use policy' do
+    get :use
+    assert_response :success
+  end
+
   test 'should get version' do
     get :version
     assert_response :success

@@ -1,0 +1,51 @@
+- @title = 'Acceptable Use Policy'
+
+.page-header
+  %h1= @title
+
+%p{ style: 'font-size:1.5em;line-height:2em' }
+  = ENV['website_name']
+  provides a platform for collaborative project management. To keep the
+  = ENV['website_name']
+  running smoothly for everyone, you agree that you will use the web application
+  only in a manner consistent with the following Acceptable Use Policy.
+
+%hr.soften
+
+%h4 You agree to:
+
+%ul
+  %li
+    = mail_to ENV['support_email'], 'Notify us', target: '_blank', subject: "#{ENV['website_name']} Account Compromised"
+    immediately if your account has been comprised and to follow immediate steps
+    to secure your account.
+
+%hr.soften
+
+%h4
+  You agree
+  %span.label{ style: 'background-color:red' } NOT
+  to:
+
+%ul
+  %li
+    Add
+    %span{ title: 'Protected Health Information', rel: 'tooltip' }
+      %abbr{ title: '' } PHI
+    to any projects, tasks, or comments.
+  %li Share you account login and password with anyone else for any reason.
+  %li Create projects, tasks, or comments that contain objectionable content.
+  %li Embed links into tasks or comments that link to objectionable content or malware.
+
+%hr.soften
+
+%h4 We reserve the right to:
+
+%ul
+  %li Conduct audits to detect violations of the Acceptable Use Policy.
+  %li Remove user access and delete all the user's data that is in violation of the Acceptable Use Policy.
+  %li
+    Remove all data that contains any
+    = succeed '.' do
+      %span{ title: 'Protected Health Information', rel: 'tooltip' }
+        %abbr{ title: '' } PHI

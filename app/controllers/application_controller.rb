@@ -2,12 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :authenticate_user!, only: [:search]
 
-
-  layout "contour/layouts/application"
-
-  def about
-
-  end
+  layout 'contour/layouts/application'
 
   def search
     @projects = current_user.all_viewable_projects.search_name(params[:q]).order('name').limit(10)
@@ -73,5 +68,4 @@ class ApplicationController < ActionController::Base
       format.json { head :no_content }
     end
   end
-
 end

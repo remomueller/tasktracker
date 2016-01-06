@@ -1,0 +1,95 @@
+- @title = "About #{ENV['website_name']}"
+
+.row{ style: 'margin-top:54px' }
+  .col-md-12
+    %h1.about-title= @title
+    %p.about-tagline
+      Visit our
+      = link_to 'online community', 'https://sleepepi.partners.org', target: '_blank'
+      or contact us
+      = succeed '.' do
+        = mail_to ENV['support_email'], 'via email', target: '_blank', subject: "#{ENV['website_name']} Question"
+    %p.about-signup
+      = link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-lg"
+
+%hr.soften
+
+%p.about-description
+  = ENV['website_name']
+  is a
+  = link_to 'free to use*', 'https://github.com/remomueller/tasktracker/blob/master/LICENSE', rel: 'tooltip', data: { title: 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License' }
+  and
+  = link_to 'open source', 'https://github.com/remomueller/tasktracker', rel: 'tooltip', data: { title: 'Source code freely available on GitHub' }
+  project management tool that minimizes overhead and maximizes productivity and
+  accountability.
+
+.row
+  .col-md-4
+    %h2.about-title View Calendar
+    %p View tasks for multiple projects.
+    %p
+      %ul
+        %li
+          Directly add new
+          %b Tasks
+          and instantly create groups of tasks from project-specific
+          = succeed '.' do
+            %b Templates
+        %li
+          Filter tasks by project, completion status, and tasks assigned to you.
+        %li
+          Tasks are grouped by
+          = succeed '.' do
+            %span.label.label-info Tags
+
+  .col-md-4
+    %h2.about-title Create Tasks
+    %p Keep track of what you need to accomplish.
+    %p
+      %ul
+        %li
+          Add
+          %span.label.label-info Tags
+          to tasks for easier reporting and searching.
+        %li
+          Assign tasks to collaborators.
+        %li
+          Post
+          %b Comments
+          on tasks that get emailed to collaborators.
+
+  .col-md-4
+    %h2.about-title Create Projects
+    %p Share your projects with collaborators.
+    %p
+      %ul
+        %li
+          Invite
+          %b Editors
+          that can participate on your projects.
+        %li
+          Invite
+          %b Viewers
+          that can see project updates and comment on tasks.
+        %li
+          Create project specific
+          %span.label.label-info Tags
+          to easily find and get statistics on tasks.
+        %li
+          Create
+          %b Templates
+          for common series of tasks and assign tasks to collaborators.
+
+%hr.soften
+
+%footer.footer
+  %p.about-footer.muted
+    = ENV['website_name']
+    Version
+    = link_to TaskTracker::VERSION::STRING, "https://github.com/remomueller/tasktracker/tree/#{TaskTracker::VERSION::MAJOR}.#{TaskTracker::VERSION::MINOR}.#{TaskTracker::VERSION::TINY}"
+  %p.about-footer.muted
+    By using
+    = ENV['website_name']
+    you are agreeing to the
+    = succeed '.' do
+      = link_to 'Acceptable Use Policy', about_use_path

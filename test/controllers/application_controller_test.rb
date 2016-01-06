@@ -1,21 +1,7 @@
 require 'test_helper'
 
 class ApplicationControllerTest < ActionController::TestCase
-  setup do
-    # Nothing
-  end
-
-  test "should get about" do
-    get :about
-    assert_response :success
-  end
-
-  test "should get acceptable use policy" do
-    get :use
-    assert_response :success
-  end
-
-  test "should get search" do
+  test 'should get search' do
     login(users(:valid))
     get :search, q: ''
 
@@ -25,7 +11,7 @@ class ApplicationControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get search and redirect" do
+  test 'should get search and redirect' do
     login(users(:valid))
     get :search, q: "Ongoing Valid's Project"
 
@@ -37,7 +23,7 @@ class ApplicationControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:objects).first
   end
 
-  test "should get search typeahead" do
+  test 'should get search typeahead' do
     login(users(:valid))
     get :search, q: 'abc', format: 'json'
 
@@ -46,5 +32,4 @@ class ApplicationControllerTest < ActionController::TestCase
 
     assert_response :success
   end
-
 end

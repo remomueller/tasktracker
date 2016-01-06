@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   resources :comments do
     collection do
       get :search
@@ -16,6 +15,8 @@ Rails.application.routes.draw do
   end
 
   scope module: :external do
+    get :about
+    get '/about/use', action: 'use', as: :about_use
     get :version
   end
 
@@ -71,7 +72,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }, path: ""
+  devise_for :users, controllers: { registrations: 'contour/registrations', sessions: 'contour/sessions', passwords: 'contour/passwords', confirmations: 'contour/confirmations', unlocks: 'contour/unlocks' }, path_names: { sign_up: 'register', sign_in: 'login' }, path: ''
 
   resources :users do
     member do
@@ -79,17 +80,13 @@ Rails.application.routes.draw do
     end
   end
 
-  get "/about" => "application#about", as: :about
-  get "/about/use" => "application#use", as: :about_use
-  get "/settings" => "users#settings", as: :settings
-  get "/stats" => "users#stats", as: :stats
-  get "/search" => "application#search", as: :search
-  get "/day" => "stickies#day", as: :day
-  get "/week" => "stickies#week", as: :week
-  get "/month" => "stickies#month", as: :month
-  get "/tasks" => "stickies#tasks", as: :tasks
+  get '/settings' => 'users#settings', as: :settings
+  get '/stats' => 'users#stats', as: :stats
+  get '/search' => 'application#search', as: :search
+  get '/day' => 'stickies#day', as: :day
+  get '/week' => 'stickies#week', as: :week
+  get '/month' => 'stickies#month', as: :month
+  get '/tasks' => 'stickies#tasks', as: :tasks
 
-  root to: "stickies#week"
-
-  # See how all your routes lay out with "rake routes"
+  root to: 'stickies#week'
 end
