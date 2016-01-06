@@ -11,7 +11,7 @@ gem 'kaminari',             '~> 0.16.3'
 gem 'naturalsort',          '~> 1.2.0'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'redcarpet',            '~> 3.3.2'
-gem 'haml'
+gem 'haml',                 '~> 4.0.7'
 gem 'figaro',               '~> 1.1.1'
 
 # Rails Defaults
