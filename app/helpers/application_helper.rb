@@ -4,7 +4,7 @@ module ApplicationHelper
   def recent_activity(past_time)
     return '' unless past_time.kind_of?(Time)
     time_ago_in_words(past_time)
-    seconds_ago = (Time.now - past_time)
+    seconds_ago = (Time.zone.now - past_time)
     color = if seconds_ago < 60.minute then "#6DD1EC"
     elsif seconds_ago < 1.day then "#ADDD1E"
     elsif seconds_ago < 2.day then "#CEDC34"

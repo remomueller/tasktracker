@@ -1,6 +1,6 @@
 desc 'Export a dictionary CSV of the Project, Tags, and Users.'
 task :export_dictionary => :environment do
-  time_stamp = Time.now.strftime("%Y%m%d %Ih%M%p")
+  time_stamp = Time.zone.now.strftime("%Y%m%d %Ih%M%p")
   @dictionary_export_file = "tmp/#{ENV['website_name'].downcase.gsub(/[^\da-zAz]/, '_')}_dictionary_import_#{time_stamp}.csv"
   CSV.open(@dictionary_export_file, "wb") do |csv|
     csv << ["#URI", "Namespace", "Short Name", "Description", "Concept Type", "Units", "Terms", "Internal Terms", "Parents", "Children", "Equivalent Concepts", "Similar Concepts", "Field Values", "Sensitivity", "Display Name", "Commonly Used", "Folder", "Calculation", "Source Name", "Source File", "Source Description"]

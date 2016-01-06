@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
 
   def destroy
     super
-    update_column :updated_at, Time.now
+    update_column :updated_at, Time.zone.now
   end
 
   def email_on?(value)
@@ -148,11 +148,11 @@ class User < ActiveRecord::Base
   end
 
   # All tasks created in the last day, or over the weekend if it's Monday
-  # Ex: On Monday, returns tasks created since Friday morning (Time.now - 3.day)
-  # Ex: On Tuesday, returns tasks created since Monday morning (Time.now - 1.day)
+  # Ex: On Monday, returns tasks created since Friday morning (Time.zone.now - 3.day)
+  # Ex: On Tuesday, returns tasks created since Monday morning (Time.zone.now - 1.day)
   def digest_stickies_created
     @digest_stickies_created ||= begin
-      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}, completed: false).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day))
+      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}, completed: false).where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
     end
   end
 
@@ -164,7 +164,7 @@ class User < ActiveRecord::Base
 
   def digest_comments
     @digest_comments ||= begin
-      self.all_viewable_comments.with_project(self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.now.monday? ? Time.now - 3.day : Time.now - 1.day)).order('created_at ASC')
+      self.all_viewable_comments.with_project(self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day)).order('created_at ASC')
     end
   end
 

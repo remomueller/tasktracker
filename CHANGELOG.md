@@ -9,6 +9,9 @@
   - Updated to simplecov 0.11.1
   - Removed minitest-reporters
 
+### Refactoring
+- Started refactoring code based on RuboCop recommendations
+
 ### Bug Fix
 - Password reset emails now provide the correct link to reset the password
 

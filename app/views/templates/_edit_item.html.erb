@@ -1,4 +1,4 @@
-<% position = Time.now.to_i.to_s + Time.now.usec.to_s %>
+<% position = Time.zone.now.to_i.to_s + Time.zone.now.usec.to_s %>
 <div id="item_<%= position %>" class="<%= 'fieldset_with_errors' if @template.errors.keys.include?(:items) %> well" data-object="expand-item-details" data-target=".item_<%= position %>_details" data-selector="itemdetails" style="cursor:pointer">
 
   <%= link_to 'Remove', "#", 'data-object' => 'remove', 'data-target' => "#item_#{position}", class: 'btn btn-xs btn-danger-inverse', style: 'float:right' %>
