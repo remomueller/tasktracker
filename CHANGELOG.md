@@ -14,6 +14,7 @@
 
 ### Bug Fix
 - Password reset emails now provide the correct link to reset the password
+- Fixed a bug that prevented correct ordering of tasks on the project page
 
 ## 0.28.10 (August 25, 2015)
 

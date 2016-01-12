@@ -84,7 +84,7 @@ class StickiesController < ApplicationController
       end
     end
 
-    sticky_scope = sticky_scope.search(params[:search]).order(@order)
+    sticky_scope = sticky_scope.search(params[:search]).reorder(@order)
     @stickies = sticky_scope.page(params[:page]).per( 40 )
     respond_to do |format|
       format.html { redirect_to tasks_path }
