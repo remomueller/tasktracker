@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
+# Main application controller for Task Tracker.
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :authenticate_user!, only: [:search]
+  before_action :authenticate_user!, only: [:search]
 
   layout 'contour/layouts/application'
 

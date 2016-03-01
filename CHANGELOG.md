@@ -4,6 +4,9 @@
 - **Gem Changes**
   - Updated to rails 4.2.5.2
 
+### Refactoring
+- Started coding style cleanup of controllers
+
 ## 0.28.12 (January 26, 2016)
 
 ### Enhancements

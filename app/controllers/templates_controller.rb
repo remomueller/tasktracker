@@ -1,9 +1,13 @@
+# frozen_string_literal: true
+
+# Allows a series of tasks to be setup that are then launched together as a
+# group.
 class TemplatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index ]
-  before_action :set_viewable_template, only: [ :show ]
-  before_action :set_editable_template, only: [ :edit, :update, :destroy ]
-  before_action :redirect_without_template, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_viewable_project, only: [:index]
+  before_action :set_viewable_template, only: [:show]
+  before_action :set_editable_template, only: [:edit, :update, :destroy]
+  before_action :redirect_without_template, only: [:show, :edit, :update, :destroy]
 
   def copy
     template = current_user.all_viewable_templates.find_by_id(params[:id])
@@ -77,7 +81,7 @@ class TemplatesController < ApplicationController
         format.html { redirect_to @template, notice: 'Template was successfully updated.' }
         format.json { render action: 'show', location: @template }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @template.errors, status: :unprocessable_entity }
       end
     end
@@ -96,29 +100,29 @@ class TemplatesController < ApplicationController
 
   private
 
-    def set_viewable_template
-      @template = current_user.all_viewable_templates.find_by_id(params[:id])
+  def set_viewable_template
+    @template = current_user.all_viewable_templates.find_by_id(params[:id])
+  end
+
+  def set_editable_template
+    @template = current_user.all_templates.find_by_id(params[:id])
+  end
+
+  def redirect_without_template
+    empty_response_or_root_path(templates_path) unless @template
+  end
+
+  def template_params
+    params[:template] ||= { blank: '1' }
+
+    unless params[:template][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:template][:project_id])
+      params[:template][:project_id] = project ? project.id : nil
     end
 
-    def set_editable_template
-      @template = current_user.all_templates.find_by_id(params[:id])
-    end
-
-    def redirect_without_template
-      empty_response_or_root_path(templates_path) unless @template
-    end
-
-    def template_params
-      params[:template] ||= { blank: '1' } # {}
-
-      unless params[:template][:project_id].blank?
-        project = current_user.all_projects.find_by_id(params[:template][:project_id])
-        params[:template][:project_id] = project ? project.id : nil
-      end
-
-      params.require(:template).permit(
-        :name, :project_id, :avoid_weekends,
-        { :item_tokens => [ :description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, :tag_ids => [] ] }
-      )
-    end
+    params.require(:template).permit(
+      :name, :project_id, :avoid_weekends,
+      { item_tokens: [:description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, tag_ids: []] }
+    )
+  end
 end

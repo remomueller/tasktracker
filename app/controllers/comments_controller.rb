@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
+# Allows comments to be added to tasks.
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_comment, only: [ :show ]
-  before_action :set_editable_comment, only: [ :edit, :update ]
-  before_action :set_deletable_comment, only: [ :destroy ]
-  before_action :redirect_without_comment, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_viewable_comment, only: [:show]
+  before_action :set_editable_comment, only: [:edit, :update]
+  before_action :set_deletable_comment, only: [:destroy]
+  before_action :redirect_without_comment, only: [:show, :edit, :update, :destroy]
 
   # GET /comments
   # GET /comments.json
@@ -48,7 +51,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to @comment.sticky, notice: 'Comment was successfully updated.' }
         format.json { render action: 'show', location: @comment }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -69,29 +72,27 @@ class CommentsController < ApplicationController
 
   private
 
-    def set_viewable_comment
-      @comment = current_user.all_viewable_comments.find_by_id(params[:id])
-    end
+  def set_viewable_comment
+    @comment = current_user.all_viewable_comments.find_by_id(params[:id])
+  end
 
-    def set_editable_comment
-      @comment = current_user.all_comments.find_by_id(params[:id])
-    end
+  def set_editable_comment
+    @comment = current_user.all_comments.find_by_id(params[:id])
+  end
 
-    def set_deletable_comment
-      @comment = current_user.all_deletable_comments.find_by_id(params[:id])
-    end
+  def set_deletable_comment
+    @comment = current_user.all_deletable_comments.find_by_id(params[:id])
+  end
 
-    def redirect_without_comment
-      empty_response_or_root_path(comments_path) unless @comment
-    end
+  def redirect_without_comment
+    empty_response_or_root_path(comments_path) unless @comment
+  end
 
-    def comment_params
-      params[:comment] ||= {}
-
-      params[:comment][:user_id] = current_user.id
-
-      params.require(:comment).permit(
-        :description, :user_id
-      )
-    end
+  def comment_params
+    params[:comment] ||= {}
+    params[:comment][:user_id] = current_user.id
+    params.require(:comment).permit(
+      :description, :user_id
+    )
+  end
 end

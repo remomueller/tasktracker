@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Allows collaborators to be added to projects.
 class ProjectUsersController < ApplicationController
   before_action :authenticate_user!
 

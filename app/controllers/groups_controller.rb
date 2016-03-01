@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
+# Defines a group of tasks that were created together.
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index ]
-  before_action :set_viewable_group, only: [ :show ]
-  before_action :set_editable_group, only: [ :edit, :update, :destroy ]
-  before_action :redirect_without_group, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_viewable_project, only: [:index]
+  before_action :set_viewable_group, only: [:show]
+  before_action :set_editable_group, only: [:edit, :update, :destroy]
+  before_action :redirect_without_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
   # GET /groups.json
@@ -64,7 +67,7 @@ class GroupsController < ApplicationController
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { render action: 'show', location: @group }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @group.errors, status: :unprocessable_entity }
       end
     end
@@ -83,46 +86,45 @@ class GroupsController < ApplicationController
 
   private
 
-    def set_viewable_group
-      @group = current_user.all_viewable_groups.find_by_id(params[:id])
+  def set_viewable_group
+    @group = current_user.all_viewable_groups.find_by_id(params[:id])
+  end
+
+  def set_editable_group
+    @group = current_user.all_groups.find_by_id(params[:id])
+  end
+
+  def redirect_without_group
+    empty_response_or_root_path(groups_path) unless @group
+  end
+
+  def group_params
+    params[:group] ||= { blank: '1' } # {}
+
+    unless params[:group][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:group][:project_id])
+      params[:group][:project_id] = project ? project.id : nil
     end
 
-    def set_editable_group
-      @group = current_user.all_groups.find_by_id(params[:id])
-    end
-
-    def redirect_without_group
-      empty_response_or_root_path(groups_path) unless @group
-    end
-
-    def group_params
-      params[:group] ||= { blank: '1' } # {}
-
-      unless params[:group][:project_id].blank?
-        project = current_user.all_projects.find_by_id(params[:group][:project_id])
-        params[:group][:project_id] = project ? project.id : nil
+    if project and params[:create_new_board] == '1'
+      if params[:group_board_name].to_s.strip.blank?
+        params[:group][:board_id] = nil
+      else
+        @board = project.boards.where(name: params[:group_board_name].to_s.strip).first_or_create( user_id: current_user.id )
+        params[:group][:board_id] = @board.id
       end
-
-      if project and params[:create_new_board] == '1'
-        if params[:group_board_name].to_s.strip.blank?
-          params[:group][:board_id] = nil
-        else
-          @board = project.boards.where(name: params[:group_board_name].to_s.strip).first_or_create( user_id: current_user.id )
-          params[:group][:board_id] = @board.id
-        end
-      elsif project
-        @board = project.boards.find_by_id(params[:group][:board_id])
-      end
-
-      params[:group][:board_id] = (@board ? @board.id : nil)
-
-      [:initial_due_date].each do |date|
-        params[:group][date] = parse_date(params[:group][date], Date.today)
-      end
-
-      params.require(:group).permit(
-        :description, :project_id, :board_id, :template_id, :initial_due_date
-      )
+    elsif project
+      @board = project.boards.find_by_id(params[:group][:board_id])
     end
 
+    params[:group][:board_id] = (@board ? @board.id : nil)
+
+    [:initial_due_date].each do |date|
+      params[:group][date] = parse_date(params[:group][date], Date.today)
+    end
+
+    params.require(:group).permit(
+      :description, :project_id, :board_id, :template_id, :initial_due_date
+    )
+  end
 end

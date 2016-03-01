@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
+# Allows project boards to be created to categorize tasks.
 class BoardsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index ]
-  before_action :set_editable_project, only: [ :add_stickies ]
-  before_action :redirect_without_project, only: [ :add_stickies ]
-  before_action :set_viewable_board, only: [ :show ]
-  before_action :set_editable_board, only: [ :edit, :update, :destroy, :archive ]
-  before_action :redirect_without_board, only: [ :show, :edit, :update, :destroy, :archive ]
+  before_action :set_viewable_project, only: [:index]
+  before_action :set_editable_project, only: [:add_stickies]
+  before_action :redirect_without_project, only: [:add_stickies]
+  before_action :set_viewable_board, only: [:show]
+  before_action :set_editable_board, only: [:edit, :update, :destroy, :archive]
+  before_action :redirect_without_board, only: [:show, :edit, :update, :destroy, :archive]
 
   def archive
     @board.update( archived: params[:archived] )
@@ -70,7 +73,7 @@ class BoardsController < ApplicationController
         format.html { redirect_to @board, notice: 'Board was successfully updated.' }
         format.json { render action: 'show', location: @board }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @board.errors, status: :unprocessable_entity }
       end
     end
@@ -89,28 +92,28 @@ class BoardsController < ApplicationController
 
   private
 
-    def set_viewable_board
-      @board = current_user.all_viewable_boards.find_by_id(params[:id])
+  def set_viewable_board
+    @board = current_user.all_viewable_boards.find_by_id(params[:id])
+  end
+
+  def set_editable_board
+    @board = current_user.all_boards.find_by_id(params[:id])
+  end
+
+  def redirect_without_board
+    empty_response_or_root_path(boards_path) unless @board
+  end
+
+  def board_params
+    params[:board] ||= { blank: '1' }
+
+    unless params[:board][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:board][:project_id])
+      params[:board][:project_id] = project ? project.id : nil
     end
 
-    def set_editable_board
-      @board = current_user.all_boards.find_by_id(params[:id])
-    end
-
-    def redirect_without_board
-      empty_response_or_root_path(boards_path) unless @board
-    end
-
-    def board_params
-      params[:board] ||= { blank: '1' } # {}
-
-      unless params[:board][:project_id].blank?
-        project = current_user.all_projects.find_by_id(params[:board][:project_id])
-        params[:board][:project_id] = project ? project.id : nil
-      end
-
-      params.require(:board).permit(
-        :name, :description, :project_id, :archived
-      )
-    end
+    params.require(:board).permit(
+      :name, :description, :project_id, :archived
+    )
+  end
 end

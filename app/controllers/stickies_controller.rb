@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
+# Allows tasks to be created and viewed.
 class StickiesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_sticky, only: [ :show ]
-  before_action :set_editable_sticky, only: [ :edit, :move, :move_to_board, :complete, :update, :destroy ]
-  before_action :redirect_without_sticky, only: [ :show, :update, :destroy ]
-  before_action :set_filtered_sticky_scope, only: [ :day, :week, :month, :tasks ]
+  before_action :set_viewable_sticky, only: [:show]
+  before_action :set_editable_sticky, only: [:edit, :move, :move_to_board, :complete, :update, :destroy]
+  before_action :redirect_without_sticky, only: [:show, :update, :destroy]
+  before_action :set_filtered_sticky_scope, only: [:day, :week, :month, :tasks]
 
   def day
     @beginning = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
@@ -211,7 +214,7 @@ class StickiesController < ApplicationController
         format.json { render action: 'show', location: @sticky }
       else
         @project_id = @sticky.project_id
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.js { render 'edit' }
         format.json { render json: @sticky.errors, status: :unprocessable_entity }
       end
@@ -237,79 +240,79 @@ class StickiesController < ApplicationController
 
   private
 
-    def set_viewable_sticky
-      @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+  def set_viewable_sticky
+    @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+  end
+
+  def set_editable_sticky
+    @sticky = current_user.all_stickies.find_by_id(params[:id])
+  end
+
+  def redirect_without_sticky
+    empty_response_or_root_path(stickies_path) unless @sticky
+  end
+
+  def sticky_params
+    params[:sticky] ||= { blank: '1' }
+
+    params[:sticky][:due_date] = parse_date(params[:sticky][:due_date]) unless params[:sticky][:due_date].blank?
+
+    unless params[:sticky][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
+      params[:sticky][:project_id] = project ? project.id : nil
     end
 
-    def set_editable_sticky
-      @sticky = current_user.all_stickies.find_by_id(params[:id])
-    end
-
-    def redirect_without_sticky
-      empty_response_or_root_path(stickies_path) unless @sticky
-    end
-
-    def sticky_params
-      params[:sticky] ||= { blank: '1' }
-
-      params[:sticky][:due_date] = parse_date(params[:sticky][:due_date]) unless params[:sticky][:due_date].blank?
-
-      unless params[:sticky][:project_id].blank?
-        project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
-        params[:sticky][:project_id] = project ? project.id : nil
+    if project and params[:create_new_board] == '1'
+      if params[:sticky_board_name].to_s.strip.blank?
+        params[:sticky][:board_id] = nil
+      else
+        @board = project.boards.where( name: params[:sticky_board_name].to_s.strip ).first_or_create( user_id: current_user.id )
+        params[:sticky][:board_id] = @board.id
       end
-
-      if project and params[:create_new_board] == '1'
-        if params[:sticky_board_name].to_s.strip.blank?
-          params[:sticky][:board_id] = nil
-        else
-          @board = project.boards.where( name: params[:sticky_board_name].to_s.strip ).first_or_create( user_id: current_user.id )
-          params[:sticky][:board_id] = @board.id
-        end
-      end
-
-      params[:sticky][:repeat] = ( Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none' ) unless params[:sticky][:repeat].blank?
-      params[:sticky][:repeat_amount] = 1 if params[:sticky][:repeat] == 'none'
-
-      params.require(:sticky).permit(
-        :description, :project_id, :owner_id, :board_id, :due_date, :due_time, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
-      )
     end
 
-    def set_filtered_sticky_scope
-      @anchor_date = (Date.parse(params[:date]) rescue Date.today)
+    params[:sticky][:repeat] = ( Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none' ) unless params[:sticky][:repeat].blank?
+    params[:sticky][:repeat_amount] = 1 if params[:sticky][:repeat] == 'none'
 
-      sticky_scope = current_user.all_viewable_stickies
-      sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tags].to_s.split(',')).pluck(:id)) unless params[:tags].blank?
-      unless params[:owners].blank?
-        owners = User.where( deleted: false ).with_name(params[:owners].to_s.split(','))
-        owner_project_ids = owners.collect{|o| o.all_projects.pluck(:id)}.flatten.uniq
-        sticky_scope = sticky_scope.where(owner_id: owners.pluck(:id) + [nil], project_id: owner_project_ids)
-      end
-      sticky_scope = sticky_scope.where( completed: params[:completed].to_s.split(',') ) unless params[:completed].blank?
-      sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).pluck(:id)) unless params[:project_ids].blank?
-      @stickies = sticky_scope
-    end
+    params.require(:sticky).permit(
+      :description, :project_id, :owner_id, :board_id, :due_date, :due_time, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
+    )
+  end
 
-    def generate_csv(task_scope)
-      @csv_string = CSV.generate do |csv|
-        csv << ["Name", "Due Date", "Description", "Completed", "Assigned To", "Tags", "Project", "Creator", "Board", "Due Time", "Duration", "Duration Units"]
-        task_scope.each do |sticky|
-          csv << [sticky.name,
-                  sticky.due_date.blank? ? '' : sticky.due_date.strftime("%m-%d-%Y"),
-                  sticky.description,
-                  sticky.completed? ? 'X' : '',
-                  sticky.owner ? sticky.owner.name : '',
-                  sticky.tags.collect{|t| t.name}.join('; '),
-                  sticky.project.name,
-                  sticky.user.name,
-                  sticky.board ? sticky.board.name : '',
-                  sticky.due_time,
-                  sticky.duration,
-                  sticky.duration_units]
-        end
-      end
-      send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                            disposition: "attachment; filename=\"#{current_user.last_name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}.csv\""
+  def set_filtered_sticky_scope
+    @anchor_date = (Date.parse(params[:date]) rescue Date.today)
+
+    sticky_scope = current_user.all_viewable_stickies
+    sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tags].to_s.split(',')).pluck(:id)) unless params[:tags].blank?
+    unless params[:owners].blank?
+      owners = User.where( deleted: false ).with_name(params[:owners].to_s.split(','))
+      owner_project_ids = owners.collect{|o| o.all_projects.pluck(:id)}.flatten.uniq
+      sticky_scope = sticky_scope.where(owner_id: owners.pluck(:id) + [nil], project_id: owner_project_ids)
     end
+    sticky_scope = sticky_scope.where( completed: params[:completed].to_s.split(',') ) unless params[:completed].blank?
+    sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).pluck(:id)) unless params[:project_ids].blank?
+    @stickies = sticky_scope
+  end
+
+  def generate_csv(task_scope)
+    @csv_string = CSV.generate do |csv|
+      csv << ["Name", "Due Date", "Description", "Completed", "Assigned To", "Tags", "Project", "Creator", "Board", "Due Time", "Duration", "Duration Units"]
+      task_scope.each do |sticky|
+        csv << [sticky.name,
+                sticky.due_date.blank? ? '' : sticky.due_date.strftime("%m-%d-%Y"),
+                sticky.description,
+                sticky.completed? ? 'X' : '',
+                sticky.owner ? sticky.owner.name : '',
+                sticky.tags.collect{|t| t.name}.join('; '),
+                sticky.project.name,
+                sticky.user.name,
+                sticky.board ? sticky.board.name : '',
+                sticky.due_time,
+                sticky.duration,
+                sticky.duration_units]
+      end
+    end
+    send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
+                          disposition: "attachment; filename=\"#{current_user.last_name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}.csv\""
+  end
 end

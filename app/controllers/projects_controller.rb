@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# Allows projects and related tasks to be viewed.
 class ProjectsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :set_viewable_project, only: [ :show, :colorpicker, :visible, :favorite ]
-  before_filter :set_editable_project, only: [ :edit, :update, :destroy, :bulk, :reassign ]
-  before_action :redirect_without_project, only: [ :show, :colorpicker, :visible, :favorite, :edit, :update, :destroy, :bulk, :reassign ]
+  before_action :authenticate_user!
+  before_action :set_viewable_project, only: [:show, :colorpicker, :visible, :favorite]
+  before_action :set_editable_project, only: [:edit, :update, :destroy, :bulk, :reassign]
+  before_action :redirect_without_project, only: [:show, :colorpicker, :visible, :favorite, :edit, :update, :destroy, :bulk, :reassign]
 
   def bulk
   end
@@ -114,7 +117,7 @@ class ProjectsController < ApplicationController
         format.html { redirect_to @project, notice: 'Project was successfully updated.' }
         format.json { render action: 'show', location: @project }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
@@ -133,23 +136,22 @@ class ProjectsController < ApplicationController
 
   private
 
-    def set_viewable_project
-      super(:id)
-    end
+  def set_viewable_project
+    super(:id)
+  end
 
-    # Overwriting application_controller
-    def set_editable_project
-      super(:id)
-    end
+  # Overwriting application_controller
+  def set_editable_project
+    super(:id)
+  end
 
-    def redirect_without_project
-      super(projects_path)
-    end
+  def redirect_without_project
+    super(projects_path)
+  end
 
-    def project_params
-      params.require(:project).permit(
-        :name, :description
-      )
-    end
-
+  def project_params
+    params.require(:project).permit(
+      :name, :description
+    )
+  end
 end

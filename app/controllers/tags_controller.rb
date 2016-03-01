@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
+# Allows tasks to be tagged and filtered.
 class TagsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [ :index ]
-  before_action :set_editable_project, only: [ :add_stickies ]
-  before_action :redirect_without_project, only: [ :add_stickies ]
-  before_action :set_viewable_tag, only: [ :show ]
-  before_action :set_editable_tag, only: [ :edit, :update, :destroy ]
-  before_action :redirect_without_tag, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_viewable_project, only: [:index]
+  before_action :set_editable_project, only: [:add_stickies]
+  before_action :redirect_without_project, only: [:add_stickies]
+  before_action :set_viewable_tag, only: [:show]
+  before_action :set_editable_tag, only: [:edit, :update, :destroy]
+  before_action :redirect_without_tag, only: [:show, :edit, :update, :destroy]
 
   def add_stickies
     @tag = current_user.all_tags.find_by_id(params[:tag_id])
@@ -71,7 +74,7 @@ class TagsController < ApplicationController
         format.html { redirect_to @tag, notice: 'Tag was successfully updated.' }
         format.json { render action: 'show', location: @tag }
       else
-        format.html { render action: 'edit' }
+        format.html { render :edit }
         format.json { render json: @tag.errors, status: :unprocessable_entity }
       end
     end
@@ -90,28 +93,28 @@ class TagsController < ApplicationController
 
   private
 
-    def set_viewable_tag
-      @tag = current_user.all_viewable_tags.find_by_id(params[:id])
+  def set_viewable_tag
+    @tag = current_user.all_viewable_tags.find_by_id(params[:id])
+  end
+
+  def set_editable_tag
+    @tag = current_user.all_tags.find_by_id(params[:id])
+  end
+
+  def redirect_without_tag
+    empty_response_or_root_path(tags_path) unless @tag
+  end
+
+  def tag_params
+    params[:tag] ||= { blank: '1' } # {}
+
+    unless params[:tag][:project_id].blank?
+      project = current_user.all_projects.find_by_id(params[:tag][:project_id])
+      params[:tag][:project_id] = project ? project.id : nil
     end
 
-    def set_editable_tag
-      @tag = current_user.all_tags.find_by_id(params[:id])
-    end
-
-    def redirect_without_tag
-      empty_response_or_root_path(tags_path) unless @tag
-    end
-
-    def tag_params
-      params[:tag] ||= { blank: '1' } # {}
-
-      unless params[:tag][:project_id].blank?
-        project = current_user.all_projects.find_by_id(params[:tag][:project_id])
-        params[:tag][:project_id] = project ? project.id : nil
-      end
-
-      params.require(:tag).permit(
-        :name, :description, :color, :project_id
-      )
-    end
+    params.require(:tag).permit(
+      :name, :description, :color, :project_id
+    )
+  end
 end

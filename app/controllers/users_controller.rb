@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# Allows users to update their settings, and admins to update user accounts.
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_system_admin, only: [ :new, :create, :edit, :update, :destroy ]
-  before_action :set_user, only: [ :show, :edit, :update, :destroy ]
-  before_action :redirect_without_user, only: [ :show, :edit, :update, :destroy ]
+  before_action :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_without_user, only: [:show, :edit, :update, :destroy]
 
   def update_settings
     notifications = {}
@@ -53,7 +56,7 @@ class UsersController < ApplicationController
       UserMailer.status_activated(@user).deliver_later if EMAILS_ENABLED && original_status != @user.status && @user.status == 'active'
       redirect_to @user, notice: 'User was successfully updated.'
     else
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -64,22 +67,21 @@ class UsersController < ApplicationController
 
   private
 
-    def set_user
-      if current_user.system_admin?
-        @user = User.current.find_by_id(params[:id])
-      else
-        @user = current_user.associated_users.find_by_id(params[:id])
-      end
+  def set_user
+    if current_user.system_admin?
+      @user = User.current.find_by_id(params[:id])
+    else
+      @user = current_user.associated_users.find_by_id(params[:id])
     end
+  end
 
-    def redirect_without_user
-      empty_response_or_root_path(users_path) unless @user
-    end
+  def redirect_without_user
+    empty_response_or_root_path(users_path) unless @user
+  end
 
-    def user_params
-      params.require(:user).permit(
-        :first_name, :last_name, :email
-      )
-    end
-
+  def user_params
+    params.require(:user).permit(
+      :first_name, :last_name, :email
+    )
+  end
 end
