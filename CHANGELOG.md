@@ -1,4 +1,4 @@
-## 0.28.13
+## 0.28.13 (March 1, 2016)
 
 ### Enhancements
 - **Gem Changes**
