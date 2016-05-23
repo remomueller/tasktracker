@@ -1,6 +1,8 @@
 ## 0.28.14
 
 ### Enhancements
+- **General Changes**
+  - Long URLs now wrap when placed in task description
 - **Gem Changes**
   - Updated to Ruby 2.3.1
   - Updated to rails 4.2.6
