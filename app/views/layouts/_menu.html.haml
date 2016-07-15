@@ -1,0 +1,60 @@
+%nav.navbar.navbar-default.navbar-fixed-top
+  .container
+    .navbar-header
+      %button.navbar-toggle{ type: 'button', data: { toggle: 'collapse', target: '.navbar-full-menu' } }
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to ENV['website_name'], root_path, class: 'navbar-brand brand'
+    .collapse.navbar-collapse.navbar-full-menu
+      %ul.nav.navbar-nav
+        - if current_user
+          %li{ class: "#{'active' if current_page?(month_path)}" }= link_to 'Calendar', month_path
+          %li{ class: "#{'active' if current_page?(tasks_path)}" }= link_to 'Tasks', tasks_path
+          %li{ class: "#{'active' if current_page?(projects_path)}" }= link_to 'Projects', projects_path
+
+      - if current_user
+        %form.navbar-form.navbar-right.hidden-xs
+          = link_to destroy_user_session_path, class: 'btn btn-default' do
+            %span.glyphicon.glyphicon-log-out
+      - else
+        %form.navbar-form.navbar-right.hidden-xs
+          = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'
+
+      %div{ style: 'position: relative' }
+        .full-search-bar
+          = form_tag search_path, method: :get, id: 'navigation-search-form', class: 'navbar-form navbar-right hidden-xs hidden-sm', style: 'margin-right: -25px' do
+            .form-group
+              .input-group
+                = text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Search Task Tracker', autocomplete: 'off', id: 'navigation-search'
+                %span.input-group-btn
+                  = link_to '#', data: { object: 'suppress-click' }, class: 'btn btn-default', name: nil, id: 'navigation-form-search-btn' do
+                    %span.glyphicon.glyphicon-search
+
+      - if current_user
+        .tiny-search-icon
+          %form.navbar-form.navbar-right.hidden-xs.hidden-sm{ style: 'margin-right: -25px' }
+            = link_to '#', data: { object: 'show-search-bar' }, class: 'btn btn-default', name: nil do
+              %span.glyphicon.glyphicon-search
+          %ul.nav.navbar-nav.navbar-right
+            %li.dropdown.hidden-xs
+              = link_to '#', class: 'dropdown-toggle', data: { object: 'dropdown', toggle: 'dropdown' } do
+                %span= current_user.first_name
+                %span.caret
+              %ul.dropdown-menu{ role: 'menu' }
+                %li.dropdown-header= current_user.email
+                %li= link_to 'Settings', settings_path
+                %li= link_to 'Stats', stats_path
+                - if current_user.system_admin?
+                  %li.divider
+                  %li.dropdown-header Administrative
+                  %li= link_to 'Users', users_path
+            %li.visible-xs= link_to 'Settings', settings_path
+            - if current_user.system_admin?
+              %li.visible-xs= link_to 'Users', users_path
+        %form.navbar-form.navbar-right.visible-xs
+          = link_to 'Logout', destroy_user_session_path, class: 'btn btn-default'
+      - else
+        %form.navbar-form.navbar-right.visible-xs
+          = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'

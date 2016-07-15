@@ -5,20 +5,20 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_action :authenticate_user!, only: [:search]
 
-  layout 'contour/layouts/application'
+  # layout 'contour/layouts/application'
 
   def search
-    @projects = current_user.all_viewable_projects.search_name(params[:q]).order('name').limit(10)
-    @groups = current_user.all_viewable_groups.search(params[:q]).order('description').limit(10)
+    @projects = current_user.all_viewable_projects.search_name(params[:search]).order('name').limit(10)
+    @groups = current_user.all_viewable_groups.search(params[:search]).order('description').limit(10)
 
     @objects = @projects + @groups
 
     respond_to do |format|
-      format.json { render json: ([params[:q]] + @projects.collect(&:name)).uniq }
+      format.json { render json: ([params[:search]] + @projects.collect(&:name)).uniq }
       format.html do
         # redirect_to [@objects.first.project, @objects.first] if @objects.size == 1 and @objects.first.respond_to?('project')
         if @objects.size == 0
-          redirect_to tasks_path( search: params[:q] )
+          redirect_to tasks_path( search: params[:search] )
         elsif @objects.size == 1
           redirect_to @objects.first
         end

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  root 'stickies#week'
+  get '' => 'stickies#week', as: :dashboard
+
   resources :comments do
     collection do
       get :search
@@ -87,6 +90,4 @@ Rails.application.routes.draw do
   get '/week' => 'stickies#week', as: :week
   get '/month' => 'stickies#month', as: :month
   get '/tasks' => 'stickies#tasks', as: :tasks
-
-  root to: 'stickies#week'
 end

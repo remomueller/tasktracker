@@ -1,8 +1,11 @@
 ## 0.29.0
 
 ### Enhancements
+- **General Changes**
+  - Updated the navigation menu bar
 - **Gem Changes**
   - Updated to kaminari 0.17.0
+  - Updated to turbolinks 5
 
 ### Refactoring
 - Cleaned up migration syntax and fixed reverse migrations

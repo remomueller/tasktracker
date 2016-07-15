@@ -2,8 +2,6 @@
   <div
       class="stickies_<%= sticky.completed ? 'completed' : 'planned' %> project_<%= sticky.project_id %> sticky_popup calendar-entry-name"
       id="sticky_<%= sticky.id %>_popup"
-      onmouseover="if(!$('#sticky_<%= sticky.id %>_wait').is(':visible')){$('#sticky_<%= sticky.id %>_empty').hide();$('#sticky_<%= sticky.id %>_checkmark').show()}"
-      onmouseout="if(!$('#sticky_<%= sticky.id %>_wait').is(':visible')){$('#sticky_<%= sticky.id %>_checkmark').hide();$('#sticky_<%= sticky.id %>_empty').show()}"
       <%= "data-grouped=grouped" if sticky.group %>
       data-due-date="<%= sticky.due_date.strftime("%Y%m%d") if sticky.due_date %>"
   >
@@ -15,7 +13,6 @@
               <%= image_tag 'gentleface/16/checkmark.png', alt: '', size: '10x10' %>
             <% elsif sticky.modifiable_by?(current_user) %>
               <%= image_tag 'colorpicker/blank.gif', alt: '', id: "sticky_#{sticky.id}_empty", size: '10x10' %>
-              <%= image_tag 'contour/ajax-loader.gif', alt: '', id: "sticky_#{sticky.id}_wait", size: '10x10', style: 'display:none' %>
               <%= link_to image_tag('gentleface/16/checkbox_unchecked.png', alt: '', size: '10x10'), complete_sticky_path(sticky, from: 'checkbox'), method: :post, remote: true, id: "sticky_#{sticky.id}_checkmark", style: 'display:none', onclick: "$('#sticky_#{sticky.id}_checkmark').hide();$('#sticky_#{sticky.id}_wait').show()" %>
             <% else %>
               <%= image_tag 'colorpicker/blank.gif', alt: '', size: '10x10' %>

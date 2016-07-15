@@ -1,0 +1,37 @@
+!!!
+%html
+  %head
+    %meta{ charset: 'utf-8'}
+    %meta{ content: 'IE=Edge,chrome=1', http: { equiv: 'X-UA-Compatible' } }
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0'}
+    %meta{ name: 'description', content: 'Task Tracker is a free to use and open source project management tool that minimizes overhead and maximizes productivity and accountability.' }
+    %meta{ name: 'author', content: '' }
+    %meta{ name: 'keywords', content: 'task tracker, project management, clinical trial, task management, scheduling, boston sleep' }
+
+    %title
+      = [@title, ENV['website_name']].compact.join(' - ').html_safe
+
+    = favicon_link_tag
+    = csrf_meta_tags
+
+    / HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    /[if lt IE 9]
+      %script{ src: '//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' }
+      %script{ src: '//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js' }
+
+    = stylesheet_link_tag 'application', media: 'all', data: { turbolinks_track: 'reload' }
+    = javascript_include_tag 'application', data: { turbolinks_track: 'reload' }
+    = javascript_tag "var root_url='#{request.script_name + '/'}';"
+  %body#top{ class: yield(:body_class), data: { spy: 'scroll', target: '.navbar', offset: '60' } }
+    = render 'layouts/menu'
+    = render 'layouts/flash_messages'
+    = yield :header
+
+    .container.body-content
+      = yield
+
+    = yield :footer
+
+    .footer-container
+      .container
+        = render 'layouts/footer'

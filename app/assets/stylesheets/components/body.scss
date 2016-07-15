@@ -1,0 +1,16 @@
+// General styles for html and body elements to account for header and footer
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  margin-bottom: $footer-height;
+  padding-top: $header-height;
+}
+
+.body-content {
+  padding-bottom: 20px;
+  padding-top: 20px;
+}

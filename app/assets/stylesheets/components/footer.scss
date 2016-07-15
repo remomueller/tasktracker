@@ -1,0 +1,22 @@
+.footer-container {
+  background-color: $brand-black;
+  bottom: 0;
+  color: $brand-white;
+  height: $footer-height;
+  position: absolute;
+  width: 100%;
+}
+
+.footer {
+  height: $footer-height;
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 40px 25px;
+  position: relative;
+}
+
+@media screen and (min-width: $screen-md-min) {
+  .footer {
+    padding: 40px 50px;
+  }
+}
