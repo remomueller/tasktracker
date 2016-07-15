@@ -1,5 +1,9 @@
 ## 0.29.0
 
+### Enhancements
+- **Gem Changes**
+  - Updated to kaminari 0.17.0
+
 ### Refactoring
 - Cleaned up migration syntax and fixed reverse migrations
 
