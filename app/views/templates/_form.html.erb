@@ -1,6 +1,6 @@
 <%= form_for(@template, html: { class: 'form-horizontal' }) do |f| %>
   <% if @template.errors.any? %>
-    <div id="error_explanation" class="bs-callout bs-callout-danger">
+    <div id="error_explanation" class="callout callout-danger">
       <h4><%= pluralize(@template.errors.count, "error") %> prohibited this template from being saved</h4>
 
       <ul>
@@ -26,7 +26,7 @@
         <%= f.check_box :avoid_weekends %>
         Avoid Weekends
       </label>
-      <div class="bs-callout bs-callout-info">
+      <div class="callout callout-info">
         <h4>What does avoiding weekends do?</h4>
         Set this if you prefer tasks to fall during a weekday. Saturday tasks get pushed back to Friday and Sunday tasks get pushed forward to Monday.
       </div>

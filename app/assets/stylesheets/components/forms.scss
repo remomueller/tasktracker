@@ -1,0 +1,33 @@
+.sign-up-form {
+  background-color: $brand-white;
+  border: 1px solid $text-color;
+  color: $brand-black;
+  margin: 0 auto 20px;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.sign-up-form-title {
+  background-color: $brand-black;
+  color: $brand-white;
+  font-size: 18px;
+  font-weight: bold;
+  margin: -20px -20px 20px;
+  padding: 10px 20px;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+  .sign-up-form {
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .sign-up-form-title {
+    border-radius: 0;
+    font-size: 24px;
+  }
+}
+
+.sign-up-form-button-container {
+  margin: 20px 0 0;
+}

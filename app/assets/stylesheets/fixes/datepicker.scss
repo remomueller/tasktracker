@@ -1,0 +1,9 @@
+// Make sure datepicker shows up ontop of bootstrap modals
+
+.datepicker {
+  z-index: 10000 !important;
+}
+
+.datepicker-dropdown {
+  padding: 4px;
+}

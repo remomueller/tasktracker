@@ -1,0 +1,18 @@
+- @title = @anchor_date.strftime('%b %Y')
+
+#month-breakdown{ data: { object: 'load-month-popovers' } }
+  = render 'month'
+
+- url = month_path(date: @anchor_date.strftime('%Y%m%d'))
+
+= render 'stickies/no_tasks_found', url: url if @stickies.size == 0
+
+= render 'create_and_filter_menu', url: url
+
+= render 'modal'
+
+= render 'stickies/move_group_dialog'
+
+- current_user.all_viewable_projects.each do |project|
+  %div{ data: { object: 'project-color', project_id: project.id, color: project.color(current_user) }, style: 'display:none' }
+

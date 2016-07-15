@@ -2,10 +2,13 @@
 
 # Main application controller for Task Tracker.
 class ApplicationController < ActionController::Base
-  protect_from_forgery
-  before_action :authenticate_user!, only: [:search]
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # layout 'contour/layouts/application'
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
+
+  before_action :authenticate_user!, only: [:search]
 
   def search
     @projects = current_user.all_viewable_projects.search_name(params[:search]).order('name').limit(10)
@@ -24,6 +27,10 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :password, :password_confirmation]) # , :emails_enabled
   end
 
   protected
@@ -67,7 +74,7 @@ class ApplicationController < ActionController::Base
   def empty_response_or_root_path(path = root_path)
     respond_to do |format|
       format.html { redirect_to path }
-      format.js { render nothing: true }
+      format.js { head :ok }
       format.json { head :no_content }
     end
   end

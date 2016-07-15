@@ -1,7 +1,7 @@
 <% if @group.project %>
   $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'groups/new_modal') %>");
-  initializeTypeahead();
-  loadDatePicker();
+  typeaheadReady();
+  datepickerReady();
   $("#sticky-modal-new").modal('show');
   $("#group_description").focus();
 <% else %>

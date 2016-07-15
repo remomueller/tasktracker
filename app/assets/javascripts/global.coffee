@@ -1,4 +1,3 @@
-
 # Global functions referenced from HTML
 @checkAllWithSelector = (selector) ->
   elements = $(selector).each( ->
@@ -46,38 +45,27 @@
     )
   )
 
-@loadDatePicker = ->
-  $(".datepicker").datepicker('remove')
-  $(".datepicker").datepicker( autoclose: true )
-
-  $(".datepicker").change( ->
-    try
-      $(this).val($.datepicker.formatDate('mm/dd/yy', $.datepicker.parseDate('mm/dd/yy', $(this).val())))
-    catch error
-      # Nothing
-  )
-
-@initializeTypeahead = ->
-  $('[data-object~="typeahead"]').each( ->
-    $this = $(this)
-    $this.typeahead(
-      local: $this.data('local')
-    )
-  )
-
 @setFocusToField = (element_id) ->
   val = $(element_id).val()
   $(element_id).focus().val('').val(val)
 
+@nonStandardClick = (event) ->
+  event.which > 1 or event.metaKey or event.ctrlKey or event.shiftKey or event.altKey
+
+@extensionsReady = ->
+  datepickerReady()
+  tooltipsReady()
+  typeaheadReady()
+
 @ready = ->
   window.$isDirty = false
-  contourReady()
   boardsReady()
   stickiesReady()
   tagsReady()
   templatesReady()
   projectsReady()
-  initializeTypeahead()
+  # TODO: Remove form-load
+  $('[data-object~="form-load"]').submit()
   # TODO: Put these in correct coffee files
   $("#comments_search input").change( ->
     $.get($("#comments_search").attr("action"), $("#comments_search").serialize(), null, "script")
@@ -87,6 +75,8 @@
     $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script")
     false
   )
+
+  extensionsReady()
 
 $(window).onbeforeunload = -> return "You haven't saved your changes." if window.$isDirty
 $(document).ready(ready)

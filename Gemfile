@@ -8,13 +8,15 @@ gem 'rails',                '4.2.6'
 gem 'pg',                   '0.18.4'
 
 # Gems used by project
-gem 'contour',              '~> 3.0.1'
+gem 'devise',               '~> 4.2.0'
+gem 'bootstrap-sass',       '~> 3.3.6'
 gem 'kaminari',             '~> 0.17.0'
 gem 'naturalsort',          '~> 1.2.0'
 gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'redcarpet',            '~> 3.3.2'
 gem 'haml',                 '~> 4.0.7'
 gem 'figaro',               '~> 1.1.1'
+gem 'jquery-ui-rails',      '~> 5.0.5'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.1.0'

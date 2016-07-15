@@ -1,0 +1,18 @@
+// Buttons
+
+.btn-danger-inverse {
+  background-color: $body-bg;
+  border: 1px solid $btn-danger-border;
+  color: $btn-danger-bg;
+}
+
+.btn-danger-inverse:hover,
+.btn-danger-inverse:focus,
+.btn-danger-inverse:active,
+.btn-danger-inverse.active,
+.btn-danger-inverse.disabled,
+.btn-danger-inverse[disabled] {
+  background-color: $btn-danger-bg;
+  border: 1px solid $btn-danger-border;
+  color: $body-bg;
+}

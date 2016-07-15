@@ -110,8 +110,8 @@
   )
 
 @setProjectColors = () ->
-  $("[data-object~='project-color']").each( () ->
-    $(".project_#{$(this).data('project-id')}_color").animate( color: $(this).data('color') )
+  $("[data-object~='project-color']").each( ->
+    $(".project_#{$(this).data('project-id')}_color").animate(color: $(this).data('color'))
   )
 
 @completeStickyGroupMove = (shift) ->

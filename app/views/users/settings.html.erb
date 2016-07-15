@@ -28,7 +28,7 @@ You can change your avatar at <%= link_to 'gravatar.com', 'http://gravatar.com',
           <label>
             <%= check_box_tag "email[#{notification.to_s}]", '1', current_user.email_on?(notification), onclick: "enableAllWithSelector('.notification_#{notification.to_s}')", class: "notification_#{notification.to_s}_parent all_email", disabled: (current_user.email_on?(:send_email) ? nil : 'disabled') %> <%= notification.to_s.titleize %>
           </label>
-          <div class="bs-callout bs-callout-info">
+          <div class="callout callout-info">
             <%= description %>
           </div>
         </div>

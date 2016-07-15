@@ -1,6 +1,6 @@
 <%= form_for(@sticky, html: { class: 'form-horizontal' }) do |f| %>
   <% if @sticky.errors.any? %>
-    <div id="error_explanation" class="bs-callout bs-callout-danger">
+    <div id="error_explanation" class="callout callout-danger">
       <h4><%= pluralize(@sticky.errors.count, "error") %> prohibited this task from being saved</h4>
 
       <ul>

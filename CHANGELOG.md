@@ -6,6 +6,8 @@
 - **Gem Changes**
   - Updated to kaminari 0.17.0
   - Updated to turbolinks 5
+  - Updated to devise 4.2.0
+  - Removed dependency on contour
 
 ### Refactoring
 - Cleaned up migration syntax and fixed reverse migrations

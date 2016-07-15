@@ -5,8 +5,8 @@
   $("#project_name").focus();
 <% elsif @sticky.project %>
   $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: 'stickies/edit_modal') %>");
-  initializeTypeahead();
-  loadDatePicker();
+  typeaheadReady();
+  datepickerReady();
   $("#sticky-modal-new").modal('show');
   $("#sticky_description").focus();
 <% else %>

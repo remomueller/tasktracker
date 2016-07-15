@@ -6,4 +6,4 @@
 <div class="clear" data-object="visible-sticky" style="margin-bottom:10px">&nbsp;</div>
 
 <%= render partial: 'list', locals: { stickies: @tasks, url: tasks_path( date: '' ) } %>
-<div class="center" data-object="visible-sticky"><%= paginate @tasks, theme: "contour" %></div>
+<div class="center" data-object="visible-sticky"><%= paginate @tasks, theme: 'bootstrap' %></div>
