@@ -1,5 +1,8 @@
 ## 0.29.0
 
+### Refactoring
+- Cleaned up migration syntax and fixed reverse migrations
+
 ## 0.28.14 (May 23, 2016)
 
 ### Enhancements

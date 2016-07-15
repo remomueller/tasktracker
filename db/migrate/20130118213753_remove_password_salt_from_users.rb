@@ -1,9 +1,5 @@
 class RemovePasswordSaltFromUsers < ActiveRecord::Migration
-  def up
-    remove_column :users, :password_salt
-  end
-
-  def down
-    add_column :users, :password_salt, :string, default: '', null: false
+  def change
+    remove_column :users, :password_salt, :string, default: '', null: false
   end
 end

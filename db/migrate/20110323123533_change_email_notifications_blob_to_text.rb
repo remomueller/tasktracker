@@ -1,9 +1,9 @@
 class ChangeEmailNotificationsBlobToText < ActiveRecord::Migration
-  def self.up
+  def up
     change_column :users, :email_notifications, :text
   end
 
-  def self.down
-    change_column :users, :email_notifications, :binary
+  def down
+    change_column :users, :email_notifications, 'bytea USING CAST(email_notifications AS bytea)'
   end
 end

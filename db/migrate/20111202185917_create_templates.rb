@@ -5,7 +5,7 @@ class CreateTemplates < ActiveRecord::Migration
       t.integer :user_id
       t.integer :project_id
       t.text :items
-      t.boolean :deleted, :null => false, :default => false
+      t.boolean :deleted, null: false, default: false
 
       t.timestamps
     end
