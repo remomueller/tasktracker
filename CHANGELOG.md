@@ -7,6 +7,7 @@
   - Updated to kaminari 0.17.0
   - Updated to turbolinks 5
   - Updated to devise 4.2.0
+  - Updated to simplecov 0.12.0
   - Removed dependency on contour
 
 ### Refactoring
