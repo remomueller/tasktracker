@@ -18,7 +18,6 @@ class User < ActiveRecord::Base
 
   serialize :colors, Hash
   serialize :email_notifications, Hash
-  serialize :hidden_project_ids, Array
   serialize :settings, Hash
   serialize :sticky_filters, Hash
 

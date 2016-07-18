@@ -39,7 +39,6 @@ Rails.application.routes.draw do
       get :bulk
       post :reassign
       post :favorite
-      post :visible
       post :colorpicker
     end
   end

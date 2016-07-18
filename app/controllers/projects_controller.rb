@@ -3,9 +3,9 @@
 # Allows projects and related tasks to be viewed.
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [:show, :colorpicker, :visible, :favorite]
+  before_action :set_viewable_project, only: [:show, :colorpicker, :favorite]
   before_action :set_editable_project, only: [:edit, :update, :destroy, :bulk, :reassign]
-  before_action :redirect_without_project, only: [:show, :colorpicker, :visible, :favorite, :edit, :update, :destroy, :bulk, :reassign]
+  before_action :redirect_without_project, only: [:show, :colorpicker, :favorite, :edit, :update, :destroy, :bulk, :reassign]
 
   def bulk
   end
@@ -36,16 +36,6 @@ class ProjectsController < ApplicationController
     current_user.colors["project_#{@project.id}"] = params[:color]
     current_user.update_attributes colors: current_user.colors
     render nothing: true
-  end
-
-  def visible
-    hidden_project_ids = current_user.hidden_project_ids
-    if params[:visible] == '1'
-      hidden_project_ids.delete(@project.id)
-    else
-      hidden_project_ids << @project.id
-    end
-    current_user.update_attributes hidden_project_ids: hidden_project_ids
   end
 
   def favorite

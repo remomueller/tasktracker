@@ -8,7 +8,6 @@ valid:
   deleted: false
   system_admin: false
   # email_notifications: {}
-  hidden_project_ids: [<%= ActiveRecord::FixtureSet.identify(:hidden) %>]
   users_per_page: 10
   email: valid@example.com
   encrypted_password: ""
