@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# The user class provides methods to scope resources in system that the user is
+# allowed to view and edit.
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :encryptable, :confirmable, :lockable and :omniauthable
@@ -18,26 +22,23 @@ class User < ActiveRecord::Base
   include Deletable
 
   # Named Scopes
-  scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
-  scope :system_admins, -> { where system_admin: true }
-  scope :with_project, lambda { |*args| where( "users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1] ) }
-  scope :with_name, lambda { |arg| where("(users.first_name || ' ' || users.last_name) IN (?)", arg) }
+  scope :search, -> (arg) { where('LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
+  scope :with_project, -> (*args) { where( "users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1] ) }
+  scope :with_name, -> (arg) { where("(users.first_name || ' ' || users.last_name) IN (?)", arg) }
 
   # Model Validation
-  validates_presence_of     :first_name
-  validates_presence_of     :last_name
+  validates :first_name, :last_name, presence: true
 
   # Model Relationships
-  has_many :projects, -> { where( deleted: false ).order( 'name' ) }
+  has_many :projects, -> { current.order(:name) }
   has_many :project_favorites
-  has_many :boards, -> { where deleted: false }
-  has_many :groups, -> { where deleted: false }
-  has_many :tags, -> { where deleted: false }
-  has_many :templates, -> { where( deleted: false ).order( 'created_at' ) }
-  has_many :stickies, -> { where( deleted: false ).order( 'created_at' ) }
-  has_many :comments, -> { where( deleted: false ).order( 'created_at DESC' ) }
-
-  has_many :owned_stickies, -> { where( deleted: false ).order( 'created_at' ) }, class_name: 'Sticky', foreign_key: 'owner_id'
+  has_many :boards, -> { current }
+  has_many :groups, -> { current }
+  has_many :tags, -> { current }
+  has_many :templates, -> { current.order(:created_at) }
+  has_many :stickies, -> { current.order(:created_at) }
+  has_many :comments, -> { current.order(created_at: :desc) }
+  has_many :owned_stickies, -> { current.order(:created_at) }, class_name: 'Sticky', foreign_key: 'owner_id'
 
   # User Methods
 
@@ -47,11 +48,11 @@ class User < ActiveRecord::Base
   end
 
   def associated_users
-    User.where( deleted: false ).with_project(self.all_viewable_projects.pluck(:id), [true, false])
+    User.current.with_project(self.all_viewable_projects.pluck(:id), [true, false])
   end
 
   def associated_users_assigned_tasks
-    User.where(deleted: false, id: Sticky.where(owner_id: associated_users.pluck(:id), project_id: all_viewable_projects.pluck(:id)).pluck(:owner_id))
+    User.current.where(id: Sticky.where(owner_id: associated_users.pluck(:id), project_id: all_viewable_projects.pluck(:id)).pluck(:owner_id))
   end
 
   # Overriding Devise built-in active_for_authentication? method
