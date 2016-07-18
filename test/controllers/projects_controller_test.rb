@@ -93,7 +93,7 @@ class ProjectsControllerTest < ActionController::TestCase
     post :colorpicker, id: @project, color: '#aabbcc', format: 'js'
     users(:valid).reload # Needs reload to avoid stale object
     assert_not_nil assigns(:project)
-    assert_equal '#aabbcc', users(:valid).colors["project_#{@project.to_param}"]
+    assert_equal '#aabbcc', users(:valid).project_favorites.where(project: @project).first.color
     assert_response :success
   end
 

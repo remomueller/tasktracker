@@ -28,7 +28,12 @@ class Project < ActiveRecord::Base
   has_many :templates, -> { where( deleted: false ).order( 'templates.name' ) }
 
   def color(current_user)
-    current_user.colors["project_#{self.id}"].blank? ? colors(Project.order(:id).pluck(:id).index(self.id)) : current_user.colors["project_#{self.id}"]
+    project_favorite = project_favorites.find_by_user_id(current_user.id)
+    if project_favorite && project_favorite.color.present?
+      project_favorite.color
+    else
+      colors(Project.order(:id).pluck(:id).index(self.id))
+    end
   end
 
   def users_to_email(action)

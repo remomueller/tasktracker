@@ -33,9 +33,9 @@ class ProjectsController < ApplicationController
   end
 
   def colorpicker
-    current_user.colors["project_#{@project.id}"] = params[:color]
-    current_user.update colors: current_user.colors
-    render nothing: true
+    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
+    project_favorite.update color: params[:color]
+    head :ok
   end
 
   def favorite
