@@ -4,7 +4,6 @@
 valid:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   # email_notifications: {}
@@ -15,7 +14,6 @@ valid:
 two:
   first_name: MyString
   last_name: MyString
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { send_email: false }
@@ -26,7 +24,6 @@ two:
 admin:
   first_name: MyString
   last_name: MyString
-  status: active
   deleted: false
   system_admin: true
   email_notifications: {}
@@ -37,7 +34,6 @@ admin:
 associated:
   first_name: MyString
   last_name: MyString
-  status: active
   deleted: false
   system_admin: false
   email_notifications: {}
@@ -48,7 +44,6 @@ associated:
 deleted:
   first_name: MyString
   last_name: MyString
-  status: active
   deleted: true
   system_admin: false
   email_notifications: {}
@@ -59,7 +54,6 @@ deleted:
 send_no_email:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { send_email: false }
@@ -69,7 +63,6 @@ send_no_email:
 send_no_email_for_project_one:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>": false }
@@ -79,7 +72,6 @@ send_no_email_for_project_one:
 send_no_email_for_sticky_creation:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { sticky_creation: false }
@@ -89,7 +81,6 @@ send_no_email_for_sticky_creation:
 send_no_email_for_project_one_sticky_creation:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>_sticky_creation": false }
@@ -99,7 +90,6 @@ send_no_email_for_project_one_sticky_creation:
 send_no_email_for_sticky_completion:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { sticky_completion: false }
@@ -109,7 +99,6 @@ send_no_email_for_sticky_completion:
 send_no_email_for_project_one_sticky_completion:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>_sticky_completion": false }
@@ -119,7 +108,6 @@ send_no_email_for_project_one_sticky_completion:
 send_no_email_for_sticky_comments:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { sticky_comments: false }
@@ -129,7 +117,6 @@ send_no_email_for_sticky_comments:
 send_no_email_for_project_one_sticky_comments:
   first_name: FirstName
   last_name: LastName
-  status: active
   deleted: false
   system_admin: false
   email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>_sticky_comments": false }

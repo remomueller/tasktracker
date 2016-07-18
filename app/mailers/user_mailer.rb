@@ -1,26 +1,7 @@
+# frozen_string_literal: true
+
+# Sends out application emails to users
 class UserMailer < ApplicationMailer
-  default from: "#{ENV['website_name']} <#{ActionMailer::Base.smtp_settings[:email]}>"
-  add_template_helper(ApplicationHelper)
-
-  def notify_system_admin(system_admin, user)
-    setup_email
-    @system_admin = system_admin
-    @user = user
-    @email_to = system_admin.email
-    mail(to: system_admin.email,
-         subject: "#{user.name} Signed Up",
-         reply_to: user.email)
-  end
-
-  def status_activated(user)
-    setup_email
-    @user = user
-    @email_to = user.email
-    mail(to: user.email,
-         subject: "#{user.name}'s Account Activated") #,
-#         reply_to: user.email)
-  end
-
   def user_added_to_project(project_user)
     setup_email
     @project_user = project_user
@@ -112,13 +93,6 @@ class UserMailer < ApplicationMailer
     @recipient = recipient
 
     @email_to = recipient.email
-    # if @recipient.digest_stickies_created.size + @recipient.digest_stickies_completed.size + @recipient.digest_comments.size > 0
-      mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
-    # end
-  end
-
-  protected
-
-  def setup_email
+    mail(to: recipient.email, subject: "Daily Digest for #{Date.today.strftime('%a %d %b %Y')}")
   end
 end

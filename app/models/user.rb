@@ -4,11 +4,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  before_create :set_default_calendar_options
-  after_create :notify_system_admins
-
-  STATUS = ["active", "denied", "inactive", "pending"].collect{|i| [i,i]}
-
   EMAILABLES = [ [:sticky_creation, 'Receive email when a new task is created'],
                  [:sticky_completion, 'Receive email when a task is marked as completed'],
                  # [:sticky_due_time_changed, 'Receive email when a task\'s due date time is changed'],
@@ -18,13 +13,11 @@ class User < ActiveRecord::Base
 
   serialize :colors, Hash
   serialize :email_notifications, Hash
-  serialize :settings, Hash
 
   # Concerns
   include Deletable
 
   # Named Scopes
-  scope :status, lambda { |arg|  where( status: arg ) }
   scope :search, lambda { |arg| where( 'LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%') ) }
   scope :system_admins, -> { where system_admin: true }
   scope :with_project, lambda { |*args| where( "users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1] ) }
@@ -230,7 +223,7 @@ class User < ActiveRecord::Base
 
   def all_deletable_comments
     @all_deletable_comments ||= begin
-      Comment.current.where("sticky_id IN (?) or user_id = ?", self.all_stickies.pluck(:id), self.id)
+      Comment.current.where("sticky_id IN (?) or user_id = ?", all_stickies.pluck(:id), id)
     end
   end
 
@@ -244,17 +237,5 @@ class User < ActiveRecord::Base
 
   def nickname
     "#{first_name} #{last_name.first}"
-  end
-
-  private
-
-  def set_default_calendar_options
-    self.settings = { calendar_status: ['planned', 'completed'] }
-  end
-
-  def notify_system_admins
-    User.current.system_admins.each do |system_admin|
-      UserMailer.notify_system_admin(system_admin, self).deliver_later if EMAILS_ENABLED
-    end
   end
 end

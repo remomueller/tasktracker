@@ -5,7 +5,7 @@
 <%= form_for(@user, html: { class: 'form-horizontal' }) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation" class="callout callout-danger">
-      <h4><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved</h4>
+      <h4><%= pluralize @user.errors.count, 'error' %> prohibited this user from being saved</h4>
 
       <ul>
       <% @user.errors.full_messages.each do |msg| %>
@@ -25,12 +25,6 @@
     <%= f.label :last_name, class: 'col-md-2 control-label' %>
     <div class="col-md-10">
       <%= f.text_field :last_name, class: 'form-control' %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :status, class: 'col-md-2 control-label' %>
-    <div class="col-md-10">
-      <%= f.select :status, User::STATUS, {}, class: 'form-control' %>
     </div>
   </div>
   <div class="form-group">

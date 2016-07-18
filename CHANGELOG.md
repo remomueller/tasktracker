@@ -12,6 +12,7 @@
 
 ### Refactoring
 - Cleaned up migration syntax and fixed reverse migrations
+- Removed unused controller methods, model methods, and views
 
 ## 0.28.14 (May 23, 2016)
 

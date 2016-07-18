@@ -3,7 +3,7 @@
 # Allows users to update their settings, and admins to update user accounts.
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :check_system_admin, only: [:new, :create, :edit, :update, :destroy]
+  before_action :check_system_admin, only: [:edit, :update, :destroy]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_user, only: [:show, :edit, :update, :destroy]
 
@@ -38,22 +38,11 @@ class UsersController < ApplicationController
   def show
   end
 
-  # def new
-  #   @user = User.new
-  # end
-
   def edit
   end
 
-  # # This is in registrations_controller.rb
-  # def create
-  # end
-
   def update
     if @user.update(user_params)
-      original_status = @user.status
-      @user.update( system_admin: params[:user][:system_admin], status: params[:user][:status] )
-      UserMailer.status_activated(@user).deliver_later if EMAILS_ENABLED && original_status != @user.status && @user.status == 'active'
       redirect_to @user, notice: 'User was successfully updated.'
     else
       render :edit
@@ -80,8 +69,10 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(
-      :first_name, :last_name, :email
-    )
+    if current_user.system_admin?
+      params.require(:user).permit(:first_name, :last_name, :email, :system_admin)
+    else
+      params.require(:user).permit(:first_name, :last_name, :email)
+    end
   end
 end

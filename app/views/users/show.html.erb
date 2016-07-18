@@ -17,16 +17,13 @@
   <dd><%= image_tag @user.avatar_url, class: 'img-rounded' %></dd>
 
 <% if current_user.system_admin? %>
-  <dt>Status</dt>
-  <dd><%= @user.status %></dd>
-
   <dt>System Admin</dt>
   <dd><%= @user.system_admin? %></dd>
 <% end %>
 </dl>
 
 <div id="user_projects">
-  <%= render partial: 'users/projects', locals: { user: @user } %>
+  <%= render 'users/projects', user: @user %>
 </div>
 
-<%= render partial: 'users/stats', locals: { user: @user } %>
+<%= render 'users/stats', user: @user %>
