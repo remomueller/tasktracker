@@ -35,14 +35,6 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def month_start_date(year, month)
-    Date.parse("#{year}-#{month}-01")
-  end
-
-  def month_end_date(year, month)
-    Date.parse("#{year.to_i+month.to_i/12}-#{(month.to_i)%12+1}-01")-1.day
-  end
-
   def parse_date(date_string, default_date = '')
     date_string.to_s.split('/').last.size == 2 ? Date.strptime(date_string, "%m/%d/%y") : Date.strptime(date_string, "%m/%d/%Y") rescue default_date
   end

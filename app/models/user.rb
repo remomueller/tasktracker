@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
   serialize :colors, Hash
   serialize :email_notifications, Hash
   serialize :settings, Hash
-  serialize :sticky_filters, Hash
 
   # Concerns
   include Deletable
@@ -59,16 +58,12 @@ class User < ActiveRecord::Base
   end
 
   def associated_users_assigned_tasks
-    User.where( deleted: false, id: Sticky.where( owner_id: associated_users.pluck(:id), project_id: self.all_viewable_projects.pluck(:id) ).pluck(:owner_id) )
-  end
-
-  def update_sticky_filters!(sticky_filter_hash = {})
-    self.update_attributes sticky_filters: sticky_filter_hash
+    User.where(deleted: false, id: Sticky.where(owner_id: associated_users.pluck(:id), project_id: all_viewable_projects.pluck(:id)).pluck(:owner_id))
   end
 
   # Overriding Devise built-in active_for_authentication? method
   def active_for_authentication?
-    super and not self.deleted?
+    super && !deleted?
   end
 
   def destroy
@@ -77,7 +72,7 @@ class User < ActiveRecord::Base
   end
 
   def email_on?(value)
-    self.active_for_authentication? and [nil, true].include?(self.email_notifications[value.to_s])
+    active_for_authentication? && [nil, true].include?(email_notifications[value.to_s])
   end
 
   def all_projects

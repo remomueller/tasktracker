@@ -14,13 +14,13 @@ class UsersController < ApplicationController
     email_settings.each do |email_setting|
       notifications[email_setting] = (not params[:email].blank? and params[:email][email_setting] == '1')
     end
-    current_user.update_attributes email_notifications: notifications
+    current_user.update email_notifications: notifications
     redirect_to settings_path, notice: 'Email settings saved.'
   end
 
   def index
-    unless current_user.system_admin? or params[:format] == 'json'
-      redirect_to root_path, alert: "You do not have sufficient privileges to access that page."
+    unless current_user.system_admin? || params[:format] == 'json'
+      redirect_to root_path, alert: 'You do not have sufficient privileges to access that page.'
       return
     end
 

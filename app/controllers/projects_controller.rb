@@ -34,17 +34,17 @@ class ProjectsController < ApplicationController
 
   def colorpicker
     current_user.colors["project_#{@project.id}"] = params[:color]
-    current_user.update_attributes colors: current_user.colors
+    current_user.update colors: current_user.colors
     render nothing: true
   end
 
   def favorite
-    project_favorite = @project.project_favorites.where( user_id: current_user.id ).first_or_create
-    project_favorite.update_attributes favorite: (params[:favorite] == '1')
+    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
+    project_favorite.update favorite: (params[:favorite] == '1')
   end
 
   def selection
-    @sticky = Sticky.new(params.require(:sticky).permit(:board_id, :owner_id, { :tag_ids => [] }))
+    @sticky = Sticky.new(params.require(:sticky).permit(:board_id, :owner_id, { tag_ids: [] }))
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
     @project_id = @project.id if @project
   end
@@ -87,13 +87,13 @@ class ProjectsController < ApplicationController
       if @project.save
         format.html { redirect_to(@project, notice: 'Project was successfully created.') }
         format.js do
-          @sticky = current_user.stickies.new( due_date: parse_date(params[:due_date]), project_id: @project.id )
+          @sticky = current_user.stickies.new(due_date: parse_date(params[:due_date]), project_id: @project.id)
           render 'stickies/new'
         end
-        format.json { render action: 'show', status: :created, location: @project }
+        format.json { render action: :show, status: :created, location: @project }
       else
-        format.html { render 'new' }
-        format.js { render 'new' }
+        format.html { render :new }
+        format.js { render :new }
         format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
