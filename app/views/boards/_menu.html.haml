@@ -1,0 +1,5 @@
+- if board
+  = link_to project_path(@project, board: board.name), data: { object: 'board-select board-droppable board-draggable', board_id: board.id, board_name: board.name, project_id: board.project_id, archived: board.archived.to_s, past_due_count: @project.sticky_count(board.id, 'past_due'), my_past_due_count: @project.sticky_count(board.id, 'past_due', current_user), upcoming_count: @project.sticky_count(board.id, 'upcoming'), my_upcoming_count: @project.sticky_count(board.id, 'upcoming', current_user), completed_count: @project.sticky_count(board.id, 'completed'), my_completed_count: @project.sticky_count(board.id, 'completed', current_user) }, style: "#{'display:none' unless boards_visible}", class: "list-group-item #{'active' if params[:board_id].to_s == board.id}", id: "board_#{board.id}_menu" do
+    %span.badge
+    = board.name
+    %div{ data: { object: 'board-helper', board_id: board.id.to_s }, style: 'display:none' }= board.name

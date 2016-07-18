@@ -1,0 +1,11 @@
+- @title = 'New Board'
+
+.page-header
+  %h1
+    - if @board.project
+      = link_to @board.project.name, @board.project
+      &middot;
+    = link_to 'Boards', boards_path( project_id: @board.project ? @board.project.id : nil )
+    &middot; New Board
+
+= render 'form'

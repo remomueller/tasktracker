@@ -1,0 +1,31 @@
+= form_for(@board, html: { class: 'form-horizontal' }) do |f|
+  - if @board.errors.any?
+    .callout.callout-danger
+      %strong
+        = pluralize @board.errors.count, 'error'
+        prohibited this board from being saved
+      %ul
+        - @board.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.hidden_field :project_id
+
+  .form-group
+    = f.label :name, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :description, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    = f.label :archived, class: 'col-md-2 control-label'
+    .col-md-10
+      %label.checkbox{ style: 'width:185px' }= f.check_box :archived
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

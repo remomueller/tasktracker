@@ -11,7 +11,7 @@ class BoardsController < ApplicationController
   before_action :redirect_without_board, only: [:show, :edit, :update, :destroy, :archive]
 
   def archive
-    @board.update( archived: params[:archived] )
+    @board.update archived: params[:archived]
     @project = @board.project
   end
 
@@ -19,7 +19,7 @@ class BoardsController < ApplicationController
     @board = current_user.all_boards.find_by_id(params[:board_id])
     @stickies = @project.stickies.where(id: params[:sticky_ids].split(','))
 
-    if (@board or params[:board_id].to_s == '0') and @stickies.size > 0
+    if (@board || params[:board_id].to_s == '0') && @stickies.size > 0
       board_id = (@board ? @board.id : nil)
       @board_ids = (@stickies.pluck(:board_id) + [board_id]).uniq
       @stickies.each{|s| s.update(board_id: board_id)}
@@ -29,14 +29,14 @@ class BoardsController < ApplicationController
   end
 
   # GET /boards
-  # GET /boards.json
   def index
     @order = scrub_order(Board, params[:order], 'boards.name')
-    @boards = current_user.all_viewable_boards.search(params[:search]).filter(params).order(@order).page(params[:page]).per( 40 )
+    @boards = current_user.all_viewable_boards.search(params[:search])
+                          .filter(params).order(@order)
+                          .page(params[:page]).per(40)
   end
 
   # GET /boards/1
-  # GET /boards/1.json
   def show
   end
 
@@ -50,44 +50,29 @@ class BoardsController < ApplicationController
   end
 
   # POST /boards
-  # POST /boards.json
   def create
     @board = current_user.boards.new(board_params)
 
-    respond_to do |format|
-      if @board.save
-        format.html { redirect_to @board, notice: 'Board was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @board }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @board.errors, status: :unprocessable_entity }
-      end
+    if @board.save
+      redirect_to @board, notice: 'Board was successfully created.'
+    else
+      render action: :new
     end
   end
 
-  # PUT /boards/1
-  # PUT /boards/1.json
+  # PATCH /boards/1
   def update
-    respond_to do |format|
-      if @board.update(board_params)
-        format.html { redirect_to @board, notice: 'Board was successfully updated.' }
-        format.json { render action: 'show', location: @board }
-      else
-        format.html { render :edit }
-        format.json { render json: @board.errors, status: :unprocessable_entity }
-      end
+    if @board.update(board_params)
+      redirect_to @board, notice: 'Board was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /boards/1
-  # DELETE /boards/1.json
   def destroy
     @board.destroy
-
-    respond_to do |format|
-      format.html { redirect_to boards_path( project_id: @board.project_id ) }
-      format.json { head :no_content }
-    end
+    redirect_to boards_path(project_id: @board.project_id)
   end
 
   private
