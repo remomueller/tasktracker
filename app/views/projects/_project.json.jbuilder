@@ -1,9 +1,0 @@
-json.extract! project, :id, :name, :description, :user_id, :created_at, :updated_at, :project_link
-
-json.tags project.tags do |tag|
-  json.partial! 'tags/tag', tag: tag
-end
-
-json.color project.color(current_user)
-
-json.favorited project.favorited_by?(current_user)

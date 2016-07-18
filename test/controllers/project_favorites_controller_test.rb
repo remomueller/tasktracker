@@ -1,54 +1,49 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
+# Tests to assure that users can set project preferences.
 class ProjectFavoritesControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
-    @project_favorite = project_favorites(:one)
+    @project = projects(:one)
   end
 
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'should set project color' do
+    post :colorpicker, project_id: @project, color: '#aabbcc', format: 'js'
+    users(:valid).reload # Needs reload to avoid stale object
+    assert_not_nil assigns(:project)
+    assert_equal '#aabbcc', users(:valid).project_favorites.where(project: @project).first.color
+    assert_response :success
+  end
 
-  # test "should get index" do
-  #   get :index
-  #   assert_response :success
-  #   assert_not_nil assigns(:project_favorites)
-  # end
-  #
-  # test "should get new" do
-  #   get :new
-  #   assert_response :success
-  # end
-  #
-  # test "should create project_favorite" do
-  #   assert_difference('ProjectFavorite.count') do
-  #     post :create, project_favorite: @project_favorite.attributes
-  #   end
-  #
-  #   assert_redirected_to project_favorite_path(assigns(:project_favorite))
-  # end
-  #
-  # test "should show project_favorite" do
-  #   get :show, id: @project_favorite.to_param
-  #   assert_response :success
-  # end
-  #
-  # test "should get edit" do
-  #   get :edit, id: @project_favorite.to_param
-  #   assert_response :success
-  # end
-  #
-  # test "should update project_favorite" do
-  #   put :update, id: @project_favorite.to_param, project_favorite: @project_favorite.attributes
-  #   assert_redirected_to project_favorite_path(assigns(:project_favorite))
-  # end
-  #
-  # test "should destroy project_favorite" do
-  #   assert_difference('ProjectFavorite.count', -1) do
-  #     delete :destroy, id: @project_favorite.to_param
-  #   end
-  #
-  #   assert_redirected_to project_favorites_path
-  # end
+  test 'should not set project color' do
+    post :colorpicker, project_id: -1, color: '#aabbcc', format: 'js'
+    assert_nil assigns(:project)
+    assert_response :success
+  end
+
+  test 'should create project favorite' do
+    assert_difference('ProjectFavorite.where(favorite: true).count') do
+      post :favorite, project_id: projects(:one), favorite: '1', format: 'js'
+    end
+    assert_not_nil assigns(:project)
+    assert_template 'favorite'
+  end
+
+  test 'should not create project favorite without valid id' do
+    assert_difference('ProjectFavorite.where(favorite: true).count', 0) do
+      post :favorite, project_id: -1, favorite: '1', format: 'js'
+    end
+    assert_nil assigns(:project)
+    assert_response :success
+  end
+
+  test 'should remove project favorite' do
+    assert_difference('ProjectFavorite.where(favorite: false).count') do
+      post :favorite, project_id: projects(:two), favorite: '0', format: 'js'
+    end
+    assert_not_nil assigns(:project)
+    assert_template 'favorite'
+  end
 end

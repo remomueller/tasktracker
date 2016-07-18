@@ -3,13 +3,15 @@
 # Allows projects and related tasks to be viewed.
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_viewable_project, only: [:show, :colorpicker, :favorite]
-  before_action :set_editable_project, only: [:edit, :update, :destroy, :bulk, :reassign]
-  before_action :redirect_without_project, only: [:show, :colorpicker, :favorite, :edit, :update, :destroy, :bulk, :reassign]
+  before_action :find_viewable_project_or_redirect, only: [:show]
+  before_action :find_editable_project_or_redirect, only: [:edit, :update, :destroy, :bulk, :reassign]
 
+  # GET /projects/1/bulk
   def bulk
   end
 
+  # POST /projects/1/reassign
+  # POST /projects/1/reassign.js
   def reassign
     original_user_id = User.with_project(@project.id, [true]).find_by_id(params[:from_user_id]).id rescue original_user_id = nil       # Editors only
     reassign_to_user_id = User.with_project(@project.id, [true]).find_by_id(params[:to_user_id]).id rescue reassign_to_user_id = nil     # Editors only
@@ -32,17 +34,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def colorpicker
-    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
-    project_favorite.update color: params[:color]
-    head :ok
-  end
-
-  def favorite
-    project_favorite = @project.project_favorites.where(user_id: current_user.id).first_or_create
-    project_favorite.update favorite: (params[:favorite] == '1')
-  end
-
   def selection
     @sticky = Sticky.new(params.require(:sticky).permit(:board_id, :owner_id, { tag_ids: [] }))
     @project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
@@ -50,14 +41,14 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects
-  # GET /projects.json
   def index
     @order = scrub_order(Project, params[:order], 'projects.name')
-    @projects = current_user.all_viewable_projects.search(params[:search]).by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, " + @order).page(params[:page]).per( 40 )
+    @projects = current_user.all_viewable_projects.search(params[:search])
+                            .by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, #{@order}")
+                            .page(params[:page]).per(40)
   end
 
   # GET /projects/1
-  # GET /projects/1.json
   def show
     params[:status] ||= ['planned','completed']
     @template = @project.templates.find_by_id(params[:template_id])
@@ -79,7 +70,7 @@ class ProjectsController < ApplicationController
   end
 
   # POST /projects
-  # POST /projects.json
+  # POST /projects.js
   def create
     @project = current_user.projects.new(project_params)
 
@@ -90,53 +81,37 @@ class ProjectsController < ApplicationController
           @sticky = current_user.stickies.new(due_date: parse_date(params[:due_date]), project_id: @project.id)
           render 'stickies/new'
         end
-        format.json { render action: :show, status: :created, location: @project }
       else
         format.html { render :new }
         format.js { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PUT /projects/1
-  # PUT /projects/1.json
   def update
-    respond_to do |format|
-      if @project.update(project_params)
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
-        format.json { render action: 'show', location: @project }
-      else
-        format.html { render :edit }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    if @project.update(project_params)
+      redirect_to @project, notice: 'Project was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /projects/1
-  # DELETE /projects/1.json
   def destroy
     @project.destroy
-
-    respond_to do |format|
-      format.html { redirect_to projects_path }
-      format.json { head :no_content }
-    end
+    redirect_to projects_path
   end
 
   private
 
-  def set_viewable_project
+  def find_viewable_project_or_redirect
     super(:id)
   end
 
   # Overwriting application_controller
-  def set_editable_project
+  def find_editable_project_or_redirect
     super(:id)
-  end
-
-  def redirect_without_project
-    super(projects_path)
   end
 
   def project_params

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root 'stickies#week'
   get '' => 'stickies#week', as: :dashboard
@@ -25,6 +27,11 @@ Rails.application.routes.draw do
 
   resources :groups
 
+  namespace :project_favorites do
+    post :favorite
+    post :colorpicker
+  end
+
   resources :project_users do
     collection do
       get :accept
@@ -38,8 +45,6 @@ Rails.application.routes.draw do
     member do
       get :bulk
       post :reassign
-      post :favorite
-      post :colorpicker
     end
   end
 

@@ -1,0 +1,8 @@
+- @title = "Edit Project: #{@project.name_was}"
+
+.page-header
+  %h1
+    = link_to @project.name, @project
+    &middot; Edit
+
+= render 'form'

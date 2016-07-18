@@ -49,11 +49,15 @@ class User < ActiveRecord::Base
   end
 
   def associated_users
-    User.current.with_project(self.all_viewable_projects.pluck(:id), [true, false])
+    project_ids = all_viewable_projects.select(:id)
+    User.joins('LEFT OUTER JOIN project_users ON project_users.user_id = users.id')
+        .joins('LEFT OUTER JOIN projects ON projects.user_id = users.id')
+        .where('project_users.project_id IN (?) or projects.id IN (?)', project_ids, project_ids)
+        .distinct
   end
 
   def associated_users_assigned_tasks
-    User.current.where(id: Sticky.where(owner_id: associated_users.pluck(:id), project_id: all_viewable_projects.pluck(:id)).pluck(:owner_id))
+    User.current.where(id: Sticky.where(owner_id: associated_users.select(:id), project_id: all_viewable_projects.select(:id)).select(:owner_id))
   end
 
   # Overriding Devise built-in active_for_authentication? method
