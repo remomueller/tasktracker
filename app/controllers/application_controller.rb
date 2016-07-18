@@ -8,28 +8,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  before_action :authenticate_user!, only: [:search]
-
-  # TODO: Move to "internal" controller
-  def search
-    @projects = current_user.all_viewable_projects.search_name(params[:search]).order('name').limit(10)
-    @groups = current_user.all_viewable_groups.search(params[:search]).order('description').limit(10)
-
-    @objects = @projects + @groups
-
-    respond_to do |format|
-      format.json { render json: ([params[:search]] + @projects.collect(&:name)).uniq }
-      format.html do
-        # redirect_to [@objects.first.project, @objects.first] if @objects.size == 1 and @objects.first.respond_to?('project')
-        if @objects.size == 0
-          redirect_to tasks_path( search: params[:search] )
-        elsif @objects.size == 1
-          redirect_to @objects.first
-        end
-      end
-    end
-  end
-
   protected
 
   def configure_permitted_parameters

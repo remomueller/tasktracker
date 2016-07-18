@@ -1,0 +1,19 @@
+- if @objects.size == 0
+  .jumbotron
+    %p.center
+      No results were returned. Quick search allows you to quickly jump to a project or to a group of tasks.
+
+- else
+  .row
+    - [['Projects', @projects, :name], ['Groups', @groups, :description]].each do |name, scope, attribute|
+      - if scope.size > 0
+        .col-md-3
+          .download-container{ style: 'overflow:hidden' }
+            %h3= name
+
+            %table.table.table-hover.table-condensed
+              - scope.each do |item|
+                -# link = item.respond_to?('project') ? [item.project, item] : item
+                - link = item
+                %tr{ data: { link: url_for(link) }, style: 'cursor:pointer' }
+                  %td= link_to highlight(item.send(attribute).blank? ? item.name : item.send(attribute) , params[:search], highlighter: '<span class="highlight">\1</span>'), link, rel: "tooltip", data: { placement: 'right' }, title: "#{item.project.name if item.respond_to?('project')}"

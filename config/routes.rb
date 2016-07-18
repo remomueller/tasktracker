@@ -87,9 +87,12 @@ Rails.application.routes.draw do
     end
   end
 
+  scope module: :internal do
+    get :search
+  end
+
   get '/settings' => 'users#settings', as: :settings
   get '/stats' => 'users#stats', as: :stats
-  get '/search' => 'application#search', as: :search
   get '/day' => 'stickies#day', as: :day
   get '/week' => 'stickies#week', as: :week
   get '/month' => 'stickies#month', as: :month

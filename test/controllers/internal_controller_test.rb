@@ -3,7 +3,7 @@
 require 'test_helper'
 
 # Tests that assure that search works correctly.
-class ApplicationControllerTest < ActionController::TestCase
+class InternalControllerTest < ActionController::TestCase
   test 'should get search' do
     login(users(:valid))
     get :search, search: ''
