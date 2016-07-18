@@ -10,6 +10,10 @@
   - Updated to simplecov 0.12.0
   - Removed dependency on contour
 
+### Bug Fix
+- Fixed a bug that occurred when dragging stickies on the calendar after
+  visiting a project page with boards
+
 ### Refactoring
 - Cleaned up migration syntax and fixed reverse migrations
 - Removed unused controller methods, model methods, and views

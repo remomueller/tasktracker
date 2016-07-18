@@ -21,7 +21,8 @@
       sticky_id = ui['draggable'].data('sticky-id')
       $.post(root_url + 'boards/add_stickies', "project_id=#{project_id}&board_id=#{board_id}&sticky_ids=#{sticky_id}", null, "script")
     accept: ( draggable ) ->
-      $('[data-object~="sticky-checkbox"]:checked').length > 1 or ($(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', draggable.data('object').split(" ")) != -1)
+      data_object = draggable.data('object') || ''
+      $('[data-object~="sticky-checkbox"]:checked').length > 1 or ($(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', data_object.split(" ")) != -1)
   )
 
 @activateBoardDraggables = () ->
@@ -42,7 +43,8 @@
       archived = $(this).data('archived')
       $.post(root_url + 'boards/' + board_id + '/archive', "archived="+archived, null, "script")
     accept: ( draggable ) ->
-      $.inArray('board-draggable', draggable.data('object').split(" ")) != -1 and $(this).data('archived') != draggable.data('archived')
+      data_object = draggable.data('object') || ''
+      $.inArray('board-draggable', data_object.split(" ")) != -1 and $(this).data('archived') != draggable.data('archived')
   )
 
 @setBoardNames = () ->

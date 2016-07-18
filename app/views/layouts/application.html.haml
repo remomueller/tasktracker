@@ -7,9 +7,9 @@
     %meta{ name: 'description', content: 'Task Tracker is a free to use and open source project management tool that minimizes overhead and maximizes productivity and accountability.' }
     %meta{ name: 'author', content: '' }
     %meta{ name: 'keywords', content: 'task tracker, project management, clinical trial, task management, scheduling, boston sleep' }
-
-    %title
-      = [@title, ENV['website_name']].compact.join(' - ').html_safe
+    -# Don't cache any pages
+    %meta{ name: 'turbolinks-cache-control', content: 'no-cache' }
+    %title= [@title, ENV['website_name']].compact.join(' - ').html_safe
 
     = favicon_link_tag
     = csrf_meta_tags
