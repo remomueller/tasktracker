@@ -9,14 +9,12 @@ class CommentsController < ApplicationController
   before_action :redirect_without_comment, only: [:show, :edit, :update, :destroy]
 
   # GET /comments
-  # GET /comments.json
   def index
     @order = scrub_order(Comment, params[:order], 'created_at DESC')
-    @comments = current_user.all_viewable_comments.search(params[:search]).order(@order).page(params[:page]).per( 40 )
+    @comments = current_user.all_viewable_comments.search(params[:search]).order(@order).page(params[:page]).per(40)
   end
 
   # GET /comments/1
-  # GET /comments/1.json
   def show
   end
 
@@ -25,7 +23,7 @@ class CommentsController < ApplicationController
   end
 
   # POST /comments
-  # POST /comments.json
+  # POST /comments.js
   def create
     @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
     @comment = @sticky ? @sticky.comments.new(comment_params) : Comment.new(comment_params)
@@ -34,39 +32,30 @@ class CommentsController < ApplicationController
       if @comment.save
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
         format.js
-        format.json { render action: 'show', status: :created, location: @comment }
       else
-        format.html { render action: 'new' }
+        format.html { render action: :new }
         format.js
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PUT /comments/1
-  # PUT /comments/1.json
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to @comment.sticky, notice: 'Comment was successfully updated.' }
-        format.json { render action: 'show', location: @comment }
-      else
-        format.html { render :edit }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.update(comment_params)
+      redirect_to @comment.sticky, notice: 'Comment was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /comments/1
   # DELETE /comments/1.js
-  # DELETE /comments/1.json
   def destroy
     @comment.destroy
 
     respond_to do |format|
       format.html { redirect_to comments_path }
       format.js
-      format.json { head :no_content }
     end
   end
 
@@ -91,8 +80,6 @@ class CommentsController < ApplicationController
   def comment_params
     params[:comment] ||= {}
     params[:comment][:user_id] = current_user.id
-    params.require(:comment).permit(
-      :description, :user_id
-    )
+    params.require(:comment).permit(:description, :user_id)
   end
 end

@@ -1,0 +1,25 @@
+= form_tag comments_path(sticky_id: @sticky.id, per: params[:per].to_i), method: :post, remote: true, id: "sticky_#{@sticky.id}_comment_form" do
+  = text_area_tag "sticky[#{@sticky.id}][comment]", '', name: 'comment[description]', rows: 2, style: 'margin:5px', class: 'form-control'
+  = submit_tag 'Add Comment', class: 'btn btn-primary', style: 'margin:5px 0 0 5px', data: { object: 'sticky-submit', target: "#sticky_#{@sticky.id}_comment_form" }
+
+- @comments.each do |comment|
+  %div{ style: 'padding: 5px;', data: { comment_id: comment.id.to_s } }
+    %hr.soften{ style: 'margin-top:5px;margin-bottom:5px' }
+    %table
+      %col{ width: '50px' }
+      %tr
+        %td{ style: 'vertical-align:top' }
+          = image_tag comment.user.avatar_url(50, 'identicon'), class: 'img-rounded'
+        %td{ style: 'vertical-align:top;padding-left:10px' }
+          %blockquote{ style: 'margin:0' }
+            = simple_markdown comment.description
+            %small
+              = link_to comment.user.name, comment.user
+              &middot;
+              = simple_time comment.created_at
+              - if comment.modifiable_by?(current_user)
+                = link_to 'Edit', edit_comment_path(comment), class: 'btn btn-xs btn-default'
+              - if comment.deletable_by?(current_user)
+                = link_to 'Delete', comment, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Comment #{comment.name}?" }
+
+.center= paginate @comments, theme: 'bootstrap'
