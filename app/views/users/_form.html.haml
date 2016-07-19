@@ -1,0 +1,42 @@
+.page-header
+  %h1
+    = link_to 'Users', users_path
+    &middot;
+    = @title
+
+= form_for(@user, html: { class: 'form-horizontal' }) do |f|
+  - if @user.errors.any?
+    .callout.callout-danger
+      %strong
+        = pluralize @user.errors.count, 'error'
+        prohibited this user from being saved
+
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :first_name, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :first_name, class: 'form-control'
+
+  .form-group
+    = f.label :last_name, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :last_name, class: 'form-control'
+
+  .form-group
+    = f.label :email, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :email, class: 'form-control'
+
+  .form-group
+    = f.label :system_admin, class: 'col-md-2 control-label'
+    .col-md-10
+      %label.checkbox{ style: 'width:185px' }
+        = f.check_box :system_admin
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

@@ -1,0 +1,3 @@
+%td{ style: 'padding-left:10px;' }= strip_tags(simple_markdown @comment.description).truncate(100, separator: ' ').html_safe
+%td{ style: 'padding-left:10px;' }= @comment.user.name
+%td{ style: 'padding-left:10px;padding-right:10px;text-align:right' }= @comment.created_at.strftime('%l:%M %p')

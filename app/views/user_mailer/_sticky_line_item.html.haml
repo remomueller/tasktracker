@@ -1,0 +1,11 @@
+%td
+%td{ style: 'padding-right:10px' }
+  = link_to sticky.name, "#{ENV['website_url']}/stickies/#{sticky.id}", style: 'color: #428bca'
+  = strip_tags(simple_markdown sticky.full_description).truncate(16, separator: ' ').html_safe
+%td{ style: 'padding-right:10px' }= simple_date(sticky.due_date) unless sticky.due_date.blank?
+%td{ style: 'padding-right:20px' }= simple_weekday(sticky.due_date) unless sticky.due_date.blank?
+%td{ style: "padding-right:10px;#{'font-weight: bold;' if sticky.owner == @recipient}" }= sticky.owner.name if sticky.owner
+%td{ style: 'padding-right:10px' }
+  - if sticky.completed?
+    %span{ style: 'color:#366dc2;font-weight:bold' } completed
+%td{ style: 'padding-right:10px' }= @tags = sticky.tags; render partial: 'sticky_tags'

@@ -3,7 +3,7 @@
 # Allows emails to be viewed at /rails/mailers
 class UserMailerPreview < ActionMailer::Preview
   def user_added_to_project
-    project_user = ProjectUser.where.not( invite_email: nil ).first
+    project_user = ProjectUser.where(invite_email: nil).first
     UserMailer.user_added_to_project(project_user)
   end
 

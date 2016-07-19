@@ -1,0 +1,28 @@
+%table.table.table-striped.table-condensed
+  %col{ width: '60%' }
+  %col{ width: '20%' }
+  %col{ width: '20%' }
+  %thead
+    %tr
+      %th
+        = "#{current_user.name}'s"
+        Projects
+      %th Editor
+      %th Viewer
+  - current_user.all_viewable_projects.order(:name).each do |project|
+    %tr
+      %td
+        = link_to project.name, project
+      - if project.modifiable_by?(current_user)
+        - if project_user = project.project_users.find_by_user_id(user.id)
+          - unless project_user.allow_editing?
+            %td
+          %td
+            = link_to "Remove #{ project_user.allow_editing? ? 'Editor' : 'Viewer' }", project_user, method: :delete, remote: true, class: 'btn btn-xs btn-danger-inverse'
+          - if project_user.allow_editing?
+            %td
+        - else
+          %td= link_to 'Add As Editor', project_users_path( project_user: { project_id: project.id, allow_editing: true }, editors_text: "[#{user.email}]" ), method: :post, remote: true, class: 'btn btn-xs btn-success'
+          %td= link_to 'Add As Viewer', project_users_path( project_user: { project_id: project.id, allow_editing: false }, viewers_text: "[#{user.email}]" ), method: :post, remote: true, class: 'btn btn-xs btn-success'
+      - else
+        %td.text-muted{ colspan: 2 } You are a viewer on this project

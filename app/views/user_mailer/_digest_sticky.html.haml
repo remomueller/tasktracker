@@ -1,0 +1,7 @@
+%td{ style: 'padding-left:10px;' }
+  = link_to @sticky.name, "#{ENV['website_url']}/stickies/#{@sticky.id}", style: 'color: #428bca'
+%td{ style: "padding-left:10px;#{'font-weight: bold;' if @recipient == @sticky.owner}" }
+  = strip_tags(simple_markdown @sticky.full_description).truncate(100, separator: ' ').html_safe
+%td{ style: 'padding-left:10px;padding-right:10px;text-align:right' }
+  -# TODO: CHANGE HOW variables are passed to partials
+  = @tags = @sticky.tags; render 'sticky_tags'

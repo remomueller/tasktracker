@@ -1,0 +1,109 @@
+- viewable_projects = current_user.all_viewable_projects.where(id: user.all_projects.select(:id))
+
+- all_tasks = Sticky.current.where(project_id: viewable_projects.select(:id), owner_id: [user.id, nil])
+- all_tasks_due_before_today = all_tasks.due_date_before(Date.yesterday).count
+- all_completed_tasks_due_before_today = all_tasks.due_date_before(Date.yesterday).where(completed: true).count
+
+- percent = 0
+- percent = (all_completed_tasks_due_before_today * 100 / all_tasks_due_before_today rescue 0)
+- status = 'default'
+- status = 'danger' if percent >= 1
+- status = 'warning' if percent >= 80
+- status = 'success' if percent >= 90
+
+.page-header
+  %h2
+    .pull-right
+      %span.label{ class: "label-#{status}" }= "#{percent} %"
+      past due tasks completed
+    = current_user == user ? 'My Stats' : "#{user.first_name}'s Stats"
+
+- tag_names = all_tasks.collect{|s| s.tags.pluck(:name)}.flatten.uniq
+- if tag_names.size > 0
+  %h3
+    By Tags
+
+  - tag_array = []
+
+  - tag_names.each do |tag_name|
+    - tag = user.all_viewable_tags.where( name: tag_name ).first
+    - tag_count = all_tasks.with_tag( Tag.where(name: tag_name).pluck(:id) ).count
+    - complete_count = all_tasks.with_tag( Tag.where(name: tag_name).pluck(:id) ).where( completed: true ).count
+    - incomplete_count = all_tasks.with_tag( Tag.where(name: tag_name).pluck(:id) ).where( completed: false ).count
+    - tag_array << [tag, tag_count, complete_count, incomplete_count]
+
+  - tag_array.sort!{ |a,b| b[1] <=> a[1] }
+  - tag_max_count = (tag_array.first[1] rescue 0)
+
+
+  - tag_array.each do |tag, tag_count, complete_count, incomplete_count|
+    - tag_count
+    - tag_max_count
+    - percent = (tag_count * 100 / tag_max_count rescue 0)
+    - complete_percent = (complete_count * 100.0 / tag_max_count rescue 0)
+    - incomplete_percent = (incomplete_count * 100.0 / tag_max_count rescue 0)
+    - status = "default"
+    - status = "danger" if percent >= 1
+    - status = "warning" if percent >= 70
+    - status = "success" if percent >= 90
+    .row
+      .col-xs-1
+        = link_to tag_count, tasks_path( tags: tag.name, owners: user.name ), target: '_blank', class: 'btn btn-xs btn-default'
+      .col-xs-3
+        = render 'tags/show', tag: tag
+      .col-xs-8
+        .progress.progress-striped.active
+          .progress-bar{ style: "width:#{complete_percent}%" }
+            %span.sr-only
+              = "#{complete_percent}%"
+              Complete
+          .progress-bar.progress-bar-default{ style: "width:#{incomplete_percent}%" }
+            %span.sr-only
+              = "#{incomplete_percent}%"
+              Incomplete
+
+- if viewable_projects.size > 0
+  %h3 By Project
+  - project_array = []
+  - viewable_projects.each_with_index do |project|
+    - tasks = project.stickies.where(owner_id: [user.id, nil])
+    - overall_count = tasks.count
+    - complete_count = tasks.where( completed: true ).count
+    - incomplete_count = tasks.where( completed: false ).count
+    - project_array << [project, overall_count, complete_count, incomplete_count]
+  - project_array.sort!{|a,b| [b[3], b[2]] <=> [a[3], a[2]]}
+  .row
+    - project_array.each do |project, overall_count, complete_count, incomplete_count|
+      - percent = 0
+      - percent = (complete_count * 100 / overall_count rescue 0)
+      - complete_percent = (complete_count * 100.0 / overall_count rescue 0)
+      - incomplete_percent = (incomplete_count * 100.0 / overall_count rescue 0)
+      - status = "default"
+      - status = "danger" if percent >= 1
+      - status = "warning" if percent >= 70
+      - status = "success" if percent >= 90
+      .col-sm-6.col-md-4.col-lg-3
+        .panel.panel-default
+          .panel-heading
+            %span.label{ class: "label-#{status} pull-right" }
+              = "#{percent} %"
+            %h3.panel-title.nowrap{ style: 'overflow:hidden' }
+              = project.name
+          .panel-body
+            .progress.progress-striped.active
+              .progress-bar{ style: "width:#{complete_percent}%" }
+                %span.sr-only
+                  = "#{complete_percent}%"
+                  Complete
+            .progress-bar.progress-bar-default{ style: "width:#{incomplete_percent}%" }
+              %span.sr-only
+                = "#{incomplete_percent}%"
+                Incomplete
+            .center
+              %span.label.label-primary
+                = complete_count
+              +
+              %span.label.label-default
+                = incomplete_count
+              \=
+              = link_to overall_count, tasks_path( project_ids: project.id, owners: user.name ), target: '_blank', class: 'btn btn-xs btn-default'
