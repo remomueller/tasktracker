@@ -1,0 +1,19 @@
+= hidden_field_tag 'from', params[:from]
+
+#group_template_selection_container.form-group
+  = render 'groups/template_selection'
+
+.form-group
+  = f.label :initial_due_date, 'Initial Due Date', class: 'col-md-2 control-label'
+  .col-md-10
+    .row
+      .col-md-6
+        = f.text_field :initial_due_date, class: 'datepicker form-control', value: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off'
+
+#group_board_selection_container.form-group
+  = render 'groups/board_selection'
+
+.form-group
+  = f.label :description, nil, class: 'col-md-2 control-label'
+  .col-md-10
+    = f.text_area :description, rows: 7, class: 'form-control'

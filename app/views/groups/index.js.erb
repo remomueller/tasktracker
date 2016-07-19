@@ -1,2 +1,2 @@
-$("#stickies-or-templates").html("<%= escape_javascript(render("groups_redesign")) %>");
+$('#stickies-or-templates').html("<%=j render 'groups_redesign' %>");
 if($('[data-object~="group-select"]').length > 0) $('[data-object~="group-select"]').first().click();

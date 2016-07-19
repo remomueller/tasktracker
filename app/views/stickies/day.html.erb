@@ -41,7 +41,7 @@
 <% url = day_path( date: @anchor_date.strftime("%Y%m%d") ) %>
 <%= render partial: 'create_and_filter_menu', locals: { url: url } %>
 
-<div class="clear">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
 
 <%= render partial: 'list', locals: { stickies: (params[:date] == 'none' ? @stickies.where( due_date: nil ) : @stickies.with_due_date_for_calendar(@anchor_date, @anchor_date)), url: url } %>
 

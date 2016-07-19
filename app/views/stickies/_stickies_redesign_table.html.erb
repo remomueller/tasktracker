@@ -42,7 +42,7 @@
 <% params[:project_ids] = @project.id.to_s %>
 <% params[:tags] = @tags.pluck(:name).uniq.join(',') %>
 <% params[:owners] = current_user.name if params[:assigned_to_me].to_s == '1' %>
-<div class="clear">&nbsp;</div>
+<div class="clearfix">&nbsp;</div>
 <%= render partial: 'list', locals: { stickies: @stickies } %>
 <div class="center" data-object="visible-sticky"><%= paginate @stickies, theme: 'bootstrap' %></div>
 <%= render partial: 'modal' %>

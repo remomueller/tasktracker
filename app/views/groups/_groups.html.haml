@@ -1,0 +1,27 @@
+= render 'layouts/per_page', per_page: 40, object_count: @groups.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      = th_sort_field @order, 'groups.id', 'Name', extra_class: 'nowrap'
+      = th_sort_field @order, 'groups.template_id', 'Template', extra_class: 'nowrap'
+      %th Description
+      %th Tasks
+      = th_sort_field @order, 'groups.project_id', 'Project', extra_class: 'nowrap'
+      = th_sort_field @order, 'groups.user_id', 'Creator', extra_class: 'nowrap'
+      %th Actions
+
+  - @groups.each do |group|
+    %tr
+      %td= link_to group.name, group
+      %td= group.template.name if group.template
+      %td= group.description
+      %td= group.stickies.size
+      %td= link_to group.project.name, group.project
+      %td= link_to group.user.name, group.user
+      %td.nowrap{ style: 'vertical-align:middle' }
+        - if current_user.all_groups.include?(group)
+          = link_to 'Edit', edit_group_path(group), class: 'btn btn-xs btn-default'
+          = link_to 'Delete', group, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Group #{group.name} and the associated #{pluralize group.stickies.size, 'Task'}?" }
+
+.center= paginate @groups, theme: 'bootstrap'

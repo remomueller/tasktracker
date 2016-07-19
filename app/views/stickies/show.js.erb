@@ -1,6 +1,6 @@
-if ($("#sticky-modal-new").length == 1) {
-  $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
-  $("#sticky-modal-new").modal('show');
+if ($('#sticky-modal-new').length == 1) {
+  $('#sticky-modal-new').find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
+  $('#sticky-modal-new').modal('show');
 } else {
   window.location = "<%= sticky_path(@sticky) %>";
 }

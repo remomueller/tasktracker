@@ -1,0 +1,22 @@
+- @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+- @template = @project.templates.find_by_id(params[:template_id]) if @project
+
+.row
+  .col-md-3{ style: 'margin-bottom:20px' }
+    %span{ style: 'font-weight:200;font-size:20px;' }
+      = @template ? @template.name : 'No Template Selected'
+      = link_to 'Edit Template', edit_template_path(@template), class: 'btn btn-xs btn-default' if @template
+
+    %span.label.label-highlight= params[:search]
+    = link_to 'clear', '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' unless params[:tag_ids].blank? && params[:search].blank?
+
+    .list-group
+      = link_to '#', data: { object: 'suppress-click' }, class: 'list-group-item list-group-heading' do
+        %span.badge= @groups.total_count
+        Groups
+      - @groups.each do |group|
+        = render 'groups/menu', group: group
+    .center= paginate @groups, theme: 'bootstrap-small'
+
+  .col-md-9{ style: 'margin-bottom:20px' }
+    #group_container

@@ -9,26 +9,25 @@ class GroupsController < ApplicationController
   before_action :redirect_without_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
-  # GET /groups.json
   def index
     @order = scrub_order(Group, params[:order], 'groups.id DESC')
-    @groups = current_user.all_viewable_groups.search(params[:search]).filter(params).order(@order).page(params[:page]).per( 40 )
+    @groups = current_user.all_viewable_groups.search(params[:search]).filter(params)
+                          .order(@order).page(params[:page]).per(40)
   end
 
   # GET /groups/1
-  # GET /groups/1.json
   def show
   end
 
   # GET /groups/new
   def new
     @group = current_user.groups.new(group_params)
-    @group.project = current_user.all_projects.first if not @group.project and current_user.all_projects.size == 1
-    @group.template = @group.project.templates.first if @group.project and @group.project.templates.size == 1
+    @group.project = current_user.all_projects.first if !@group.project && current_user.all_projects.size == 1
+    @group.template = @group.project.templates.first if @group.project && @group.project.templates.size == 1
 
     respond_to do |format|
       format.js
-      format.html { redirect_to root_path }
+      format.html { redirect_to groups_path }
     end
   end
 
@@ -37,7 +36,7 @@ class GroupsController < ApplicationController
   end
 
   # POST /groups
-  # POST /groups.json
+  # POST /groups.js
   def create
     g_params = group_params
 
@@ -47,41 +46,29 @@ class GroupsController < ApplicationController
       @group = @template.generate_stickies!(current_user, g_params[:board_id], g_params[:initial_due_date], g_params[:description])
       respond_to do |format|
         format.html { redirect_to @group, notice: @group.stickies.size.to_s + ' ' + ((@group.stickies.size == 1) ? 'sticky' : 'stickies') + " successfully created and added to #{(@board ? @board.name : 'Holding Pen')}." }
-        format.js { render 'create' }
-        format.json { render action: 'show', status: :created, location: @group }
+        format.js { render :create }
       end
     else
       respond_to do |format|
-        format.html { redirect_to root_path }
-        format.js { render 'new' }
-        format.json { render json: { error: 'Missing Template ID' }, status: :unprocessable_entity }
+        format.html { redirect_to groups_path }
+        format.js { render :new }
       end
     end
   end
 
-  # PUT /groups/1
-  # PUT /groups/1.json
+  # PATCH /groups/1
   def update
-    respond_to do |format|
-      if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
-        format.json { render action: 'show', location: @group }
-      else
-        format.html { render :edit }
-        format.json { render json: @group.errors, status: :unprocessable_entity }
-      end
+    if @group.update(group_params)
+      redirect_to @group, notice: 'Group was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /groups/1
-  # DELETE /groups/1.json
   def destroy
     @group.destroy
-
-    respond_to do |format|
-      format.html { redirect_to groups_path }
-      format.json { head :no_content }
-    end
+    redirect_to groups_path
   end
 
   private
@@ -106,7 +93,7 @@ class GroupsController < ApplicationController
       params[:group][:project_id] = project ? project.id : nil
     end
 
-    if project and params[:create_new_board] == '1'
+    if project && params[:create_new_board] == '1'
       if params[:group_board_name].to_s.strip.blank?
         params[:group][:board_id] = nil
       else

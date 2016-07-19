@@ -1,0 +1,26 @@
+- @title = @group.name
+.page-header
+  %h1
+    = link_to @group.project.name, @group.project
+    &middot;
+    = link_to 'Groups', groups_path(project_id: @group.project_id)
+    &middot;
+    = @title
+  - if current_user.all_groups.include?(@group)
+    = link_to 'Edit Group', edit_group_path(@group), class: 'btn btn-xs btn-default'
+    = link_to 'Delete Group', @group, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Group #{@group.name} and the associated #{pluralize @group.stickies.size, 'Task'}?" }
+
+%dl.dl-horizontal
+  %dt Creator
+  %dd= link_to @group.user.name, @group.user
+
+  %dt Generated From Template
+  %dd= link_to @group.template.name, @group.template if @group.template
+
+  %dt Description
+  %dd= simple_format @group.description
+
+#stickies
+  .clearfix &nbsp;
+  = render 'stickies/list', stickies: @group.stickies
+  = render 'stickies/modal'

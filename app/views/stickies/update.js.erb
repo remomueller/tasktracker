@@ -20,10 +20,10 @@
 <% else %>
   <%# Step 1: Display Task Modal (unless updated from quick checkbox complete) %>
   <% if ['checkbox', 'move'].include?(params[:from]) %>
-    $("#sticky-modal-new").modal('hide');
+    $('#sticky-modal-new').modal('hide');
   <% else %>
-    $("#sticky-modal-new").find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
-    $("#sticky-modal-new").modal('show');
+    $('#sticky-modal-new').find('.modal-content').html("<%= escape_javascript(render partial: "stickies/modal_content", locals: { sticky: @sticky }) %>");
+    $('#sticky-modal-new').modal('show');
   <% end %>
 
   <% stickies = [@sticky, @sticky.repeated_sticky].compact %>
