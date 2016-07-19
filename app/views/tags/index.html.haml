@@ -1,0 +1,17 @@
+- @title = 'Tags'
+.page-header
+  %h1
+    - if @project
+      = link_to @project.name, @project
+      &middot;
+    = @title
+    = link_to 'Create Tag', new_tag_path(tag: { project_id: @project.id }), class: 'btn btn-xs btn-primary' if @project
+
+= form_tag tags_path, method: :get, class: 'form-inline' do
+  = hidden_field_tag :order, params[:order]
+  = hidden_field_tag :project_id, params[:project_id]
+  = text_field_tag 'search', params[:search], class: 'form-control'
+  = submit_tag 'Search', class: 'btn btn-primary', name: nil
+  = link_to 'Reset', tags_path( project_id: (@project ? @project.id : nil) ), class: 'btn btn-default'
+
+= render 'tags/tags'

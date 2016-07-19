@@ -1,22 +1,24 @@
-class Tag < ActiveRecord::Base
+# frozen_string_literal: true
 
+# Allows tasks to be tagged
+class Tag < ActiveRecord::Base
   # Concerns
   include Searchable, Deletable, Filterable
 
   # Named Scopes
 
   # Model Validation
-  validates_presence_of :name, :project_id
-  validates_uniqueness_of :name, scope: [:deleted, :project_id]
+  validates :name, :project_id, presence: true
+  validates :name, uniqueness: { scope: [:deleted, :project_id] }
 
   # Model Relationships
   belongs_to :user
   belongs_to :project
+  # Replace HABTM relationship
   has_and_belongs_to_many :stickies
 
   # Model Relationships
   def self.natural_sort
-    NaturalSort.sort self.where('').collect{|t| [t.name, t.id]}
+    NaturalSort.sort where('').pluck(:name, :id)
   end
-
 end

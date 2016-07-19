@@ -1,0 +1,23 @@
+= render 'layouts/per_page', per_page: 40, object_count: @tags.total_count
+
+%table.table.table-striped
+  %thead
+    %tr
+      = th_sort_field @order, 'tags.name', 'Name', extra_class: 'nowrap'
+      = th_sort_field @order, 'tags.project_id', 'Project', extra_class: 'nowrap'
+      = th_sort_field @order, 'tags.user_id', 'Creator', extra_class: 'nowrap'
+      %th Description
+      %th Actions
+
+  - @tags.each do |tag|
+    %tr
+      %td= link_to render('tags/show', tag: tag), tag, style: 'text-decoration:none'
+      %td= link_to tag.project.name, tag.project
+      %td= link_to tag.user.name, tag.user
+      %td= tag.description
+      %td
+        - if current_user.all_tags.include?(tag)
+          = link_to 'Edit', edit_tag_path(tag), class: 'btn btn-xs btn-default'
+          = link_to 'Delete', tag, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Tag #{tag.name}?" }
+
+.center= paginate @tags, theme: 'bootstrap'

@@ -14,7 +14,7 @@ class TagsController < ApplicationController
     @tag = current_user.all_tags.find_by_id(params[:tag_id])
     @stickies = @project.stickies.where(id: params[:sticky_ids].split(',')) if @project
 
-    if @tag and @stickies.size > 0
+    if @tag && @stickies.size > 0
       if @stickies.collect{|s| s.tags.where(id: @tag.id)}.flatten.size == @stickies.size
         @stickies.each do |s|
           s.tags.delete(@tag)
@@ -30,14 +30,12 @@ class TagsController < ApplicationController
   end
 
   # GET /tags
-  # GET /tags.json
   def index
     @order = scrub_order(Tag, params[:order], 'tags.name')
     @tags = current_user.all_viewable_tags.search(params[:search]).filter(params).order(@order).page(params[:page]).per( 40 )
   end
 
   # GET /tags/1
-  # GET /tags/1.json
   def show
   end
 
@@ -51,44 +49,28 @@ class TagsController < ApplicationController
   end
 
   # POST /tags
-  # POST /tags.json
   def create
     @tag = current_user.tags.new(tag_params)
-
-    respond_to do |format|
-      if @tag.save
-        format.html { redirect_to @tag, notice: 'Tag was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @tag }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
-      end
+    if @tag.save
+      redirect_to @tag, notice: 'Tag was successfully created.'
+    else
+      render :new
     end
   end
 
-  # PUT /tags/1
-  # PUT /tags/1.json
+  # PATCH /tags/1
   def update
-    respond_to do |format|
-      if @tag.update(tag_params)
-        format.html { redirect_to @tag, notice: 'Tag was successfully updated.' }
-        format.json { render action: 'show', location: @tag }
-      else
-        format.html { render :edit }
-        format.json { render json: @tag.errors, status: :unprocessable_entity }
-      end
+    if @tag.update(tag_params)
+      redirect_to @tag, notice: 'Tag was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /tags/1
-  # DELETE /tags/1.json
   def destroy
     @tag.destroy
-
-    respond_to do |format|
-      format.html { redirect_to tags_path(project_id: @tag.project_id) }
-      format.json { head :no_content }
-    end
+    redirect_to tags_path(project_id: @tag.project_id)
   end
 
   private
@@ -106,7 +88,7 @@ class TagsController < ApplicationController
   end
 
   def tag_params
-    params[:tag] ||= { blank: '1' } # {}
+    params[:tag] ||= { blank: '1' }
 
     unless params[:tag][:project_id].blank?
       project = current_user.all_projects.find_by_id(params[:tag][:project_id])

@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
+# Tests to assure tags can be created and updated.
 class TagsControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
     @tag = tags(:one)
   end
 
-  test "should add tasks to tag" do
+  test 'should add tasks to tag' do
     post :add_stickies, project_id: projects(:one), tag_id: tags(:one), sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
-
     assert_not_nil assigns(:tag)
     assert_not_nil assigns(:stickies)
     assert_equal 4, assigns(:stickies).size
@@ -17,9 +19,8 @@ class TagsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should remove tag from tasks if all tasks have the tag" do
+  test 'should remove tag from tasks if all tasks have the tag' do
     post :add_stickies, project_id: projects(:one), tag_id: tags(:alpha), sticky_ids: [stickies(:tagged).id, stickies(:only_alpha).id].join(','), format: 'js'
-
     assert_not_nil assigns(:tag)
     assert_not_nil assigns(:stickies)
     assert_equal 2, assigns(:stickies).size
@@ -28,84 +29,62 @@ class TagsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should not add tasks to tag with invalid id" do
+  test 'should not add tasks to tag with invalid id' do
     post :add_stickies, project_id: projects(:one), tag_id: -1, sticky_ids: [stickies(:one).id, stickies(:assigned_to_user).id, stickies(:planned).id, stickies(:completed).id].join(','), format: 'js'
-
     assert_nil assigns(:tag)
     assert_response :success
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
     assert_response :success
     assert_not_nil assigns(:tags)
   end
 
-  test "should get new" do
+  test 'should get new' do
     get :new
     assert_response :success
   end
 
-  test "should create tag" do
+  test 'should create tag' do
     assert_difference('Tag.count') do
-      post :create, tag: { name: "Tag Name", project_id: projects(:one).to_param, description: "" }
+      post :create, tag: { name: 'Tag Name', project_id: projects(:one).to_param, description: '' }
     end
-
     assert_not_nil assigns(:tag)
     assert_equal users(:valid).to_param, assigns(:tag).user_id.to_s
-
     assert_redirected_to tag_path(assigns(:tag))
   end
 
-  test "should create tag as json" do
+  test 'should create tag with a name identical to a deleted tag' do
     assert_difference('Tag.count') do
-      post :create, tag: { name: "Tag Name", project_id: projects(:one).to_param, description: "" }, format: 'json'
+      post :create, tag: { name: 'Deleted Tag', project_id: projects(:one).to_param, description: '' }
     end
-
-    tag = JSON.parse(@response.body)
-    assert_equal assigns(:tag).id, tag['id']
-    assert_equal assigns(:tag).name, tag['name']
-    assert_equal assigns(:tag).description, tag['description']
-    assert_equal assigns(:tag).color, tag['color']
-    assert_equal assigns(:tag).project_id, tag['project_id']
-    assert_equal assigns(:tag).user_id, tag['user_id']
-
-    assert_response :success
-  end
-
-  test "should create tag with a name identical to a deleted tag" do
-    assert_difference('Tag.count') do
-      post :create, tag: { name: "Deleted Tag", project_id: projects(:one).to_param, description: "" }
-    end
-
     assert_not_nil assigns(:tag)
-    assert_equal "Deleted Tag", assigns(:tag).name
+    assert_equal 'Deleted Tag', assigns(:tag).name
     assert_equal users(:valid).to_param, assigns(:tag).user_id.to_s
-
     assert_redirected_to tag_path(assigns(:tag))
   end
 
-  test "should not create tag with blank name" do
+  test 'should not create tag with blank name' do
     assert_difference('Tag.count', 0) do
-      post :create, tag: { name: "", project_id: projects(:one).to_param, description: "" }
+      post :create, tag: { name: '', project_id: projects(:one).to_param, description: '' }
     end
-
     assert_not_nil assigns(:tag)
     assert_template 'new'
   end
 
-  test "should show tag" do
+  test 'should show tag' do
     get :show, id: @tag
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get :edit, id: @tag
     assert_response :success
   end
 
-  test "should update tag" do
-    put :update, id: @tag, tag: { name: "Tag Name Update", project_id: projects(:one).to_param, description: "Updated Description", color: '#aaaaaa' }
+  test 'should update tag' do
+    patch :update, id: @tag, tag: { name: 'Tag Name Update', project_id: projects(:one).to_param, description: 'Updated Description', color: '#aaaaaa' }
     assert_not_nil assigns(:tag)
     assert_equal 'Tag Name Update', assigns(:tag).name
     assert_equal 'Updated Description', assigns(:tag).description
@@ -114,53 +93,37 @@ class TagsControllerTest < ActionController::TestCase
     assert_redirected_to tag_path(assigns(:tag))
   end
 
-  test "should update tag as json" do
-    put :update, id: @tag, tag: { name: "Tag Name Update", project_id: projects(:one).to_param, description: "Updated Description", color: '#aaaaaa' }, format: 'json'
-
-    tag = JSON.parse(@response.body)
-    assert_equal assigns(:tag).id, tag['id']
-    assert_equal "Tag Name Update", tag['name']
-    assert_equal "Updated Description", tag['description']
-    assert_equal '#aaaaaa', tag['color']
-    assert_equal assigns(:tag).project_id, tag['project_id']
-    assert_equal assigns(:tag).user_id, tag['user_id']
-
-    assert_response :success
-  end
-
-  test "should not update tag with blank name" do
-    put :update, id: @tag, tag: { name: "", project_id: projects(:one).to_param, description: "Updated Description" }
+  test 'should not update tag with blank name' do
+    patch :update, id: @tag, tag: { name: '', project_id: projects(:one).to_param, description: 'Updated Description' }
     assert_not_nil assigns(:tag)
     assert_template 'edit'
   end
 
-  test "should not update tag with non-unique name" do
-    put :update, id: @tag, tag: { name: "MyStringTwo", project_id: projects(:one).to_param, description: "Updated Description" }
+  test 'should not update tag with non-unique name' do
+    patch :update, id: @tag, tag: { name: 'MyStringTwo', project_id: projects(:one).to_param, description: 'Updated Description' }
     assert_not_nil assigns(:tag)
     assert assigns(:tag).errors.size > 0
-    assert_equal ["has already been taken"], assigns(:tag).errors[:name]
+    assert_equal ['has already been taken'], assigns(:tag).errors[:name]
     assert_template 'edit'
   end
 
-  test "should not update tag with invalid id" do
-    put :update, id: -1, tag: { name: "Tag Name Update", project_id: projects(:one).to_param, description: "Updated Description" }
+  test 'should not update tag with invalid id' do
+    patch :update, id: -1, tag: { name: 'Tag Name Update', project_id: projects(:one).to_param, description: 'Updated Description' }
     assert_nil assigns(:tag)
     assert_redirected_to tags_path
   end
 
-  test "should destroy tag" do
+  test 'should destroy tag' do
     assert_difference('Tag.current.count', -1) do
       delete :destroy, id: @tag
     end
-
     assert_redirected_to tags_path(project_id: @tag.project_id)
   end
 
-  test "should not destroy with invalid id" do
+  test 'should not destroy with invalid id' do
     assert_difference('Tag.current.count', 0) do
       delete :destroy, id: -1
     end
-
     assert_nil assigns(:tag)
     assert_redirected_to tags_path
   end

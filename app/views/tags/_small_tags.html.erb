@@ -1,7 +1,0 @@
-<div class="calendar-entry-name">
-<% if @tags.size > 0 %>
-  <%= @tags.collect{|t| "<span style='background-color: #{t.color}' class='label'>"+t.name+"</span>"}.join(' ').html_safe %>
-<% else %>
-  <span class='label' style="background-color:#DDD;">No Tags</span>
-<% end %>
-</div>

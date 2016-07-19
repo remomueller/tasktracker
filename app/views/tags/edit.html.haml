@@ -1,0 +1,13 @@
+- @title = "Edit Tag #{@tag.name_was}"
+
+.page-header
+  %h1
+    - if @tag.project
+      = link_to @tag.project.name, @tag.project
+      &middot;
+    = link_to 'Tags', tags_path(project_id: @tag.project_id)
+    &middot;
+    = link_to @tag.name, @tag
+    &middot; Edit
+
+= render 'form'

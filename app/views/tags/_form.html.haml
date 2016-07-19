@@ -1,0 +1,35 @@
+= form_for(@tag, html: { class: 'form-horizontal' }) do |f|
+  - if @tag.errors.any?
+    .callout.callout-danger
+      %strong
+        = pluralize @tag.errors.count, 'error'
+        prohibited this tag from being saved
+
+      %ul
+        - @tag.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.hidden_field :project_id
+
+  .form-group
+    = f.label :name, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    = f.label :description, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_area :description, rows: 7, class: 'form-control'
+
+  .form-group
+    = f.label :color, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.hidden_field :color, id: 'tag_hexcolor'
+      .custom_widget
+        .colorselector{ data: { object: 'color-selector', target: '#tag_hexcolor', color: "#{@tag.color.blank? ? '#ffffff' : @tag.color}" }, style: 'background-image: none' }
+          #tag_hexcolor_display{ style: "background-color:#{@tag.color.blank? ? '#ffffff' : @tag.color};top:0;left:0" }
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel
