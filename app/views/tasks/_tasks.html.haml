@@ -1,0 +1,14 @@
+.pull-right{ data: { object: 'visible-sticky' } }
+  - if @tasks.where( completed: false ).total_count > 0
+    %span.label.label-default Incomplete
+    %span.label.label-default
+      = @tasks.where( completed: false ).total_count
+  - if @tasks.where( completed: true ).total_count > 0
+    %span.label.label-primary Complete
+    %span.label.label-primary
+      = @tasks.where( completed: true ).total_count
+
+.clearfix{ data: { object: 'visible-sticky' }, style: 'margin-bottom:10px' } &nbsp;
+
+= render 'list', stickies: @tasks, url: tasks_path(date: '')
+.center{ data: { object: 'visible-sticky' } }= paginate @tasks, theme: 'bootstrap'
