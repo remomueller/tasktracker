@@ -1,0 +1,34 @@
+#reassign-dialog.modal{ tabindex: '-1', role: 'dialog', aria: { hidden: 'true' } }
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: 'true' } } &times;
+        %h4.modal-title Reassign Tasks
+
+      .modal-body
+        = form_tag reassign_project_path(@project), method: :post, remote: true, class: 'form-horizontal', id: 'reassign_form' do
+          - owners = User.current.with_project(@project.id, true).order('last_name, first_name')
+
+          .form-group
+            = label_tag :from_user_id, 'Currently Assigned To', class: 'col-md-3 control-label'
+            .col-md-9
+              = select_tag :from_user_id, options_for_select([['--Unassigned--', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:from_user_id]), class: 'form-control'
+
+          .form-group
+            = label_tag :to_user_id, 'Reassign To', class: 'col-md-3 control-label'
+            .col-md-9
+              = select_tag :to_user_id, options_for_select([['--Unassigned--', nil]] + owners.collect{|u| [u.reverse_name, u.id]}, params[:to_user_id]), class: 'form-control'
+
+          .form-group
+            = label_tag :sticky_status, 'Task status', class: 'col-md-3 control-label'
+            .col-md-9
+              = select_tag :sticky_status, options_for_select([['Only Not Completed', 'not_completed'], ['Only Completed', 'completed'], ['All', 'all']], params[:sticky_status]), class: 'form-control'
+
+          .form-group
+            = label_tag :tag_id, 'Only containing', class: 'col-md-3 control-label'
+            .col-md-9
+              = select_tag :tag_id, options_for_select([['----', nil]] + @project.tags.collect{|t| [t.name, t.id]}, params[:tag_id]), class: 'form-control'
+
+      .modal-footer
+        = link_to 'Reassign Tasks', '#', class: 'btn btn-danger-inverse', data: { target: '#reassign_form', object: 'submit', confirm: 'Are you sure you would like to reassign these tasks? This action CANNOT be reversed.' }
+        = link_to 'Cancel', '#', class: 'btn btn-default', data: { target: '#reassign-dialog', object: 'modal-hide' }

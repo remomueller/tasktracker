@@ -1,0 +1,25 @@
+- @title = @project.new_record? ? 'New Project' : "Edit Project #{@project.name}"
+.modal-header
+  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: 'true' } } &times;
+  %h4.modal-title
+    = link_to 'Projects', new_sticky_path( due_date: params[:due_date] ), method: :get, remote: true
+    &middot;
+    = @title
+
+.modal-body
+  = form_for(@project, remote: true, html: { class: 'form-horizontal' }) do |f|
+    = hidden_field_tag :due_date, params[:due_date]
+
+    .form-group
+      = f.label :name, class: 'col-md-2 control-label'
+      .col-md-10
+        = f.text_field :name, class: 'form-control'
+
+    .form-group
+      = f.label :description, class: 'col-md-2 control-label'
+      .col-md-10
+        = f.text_area :description, rows: 7, class: 'form-control'
+
+.modal-footer
+  = link_to 'Cancel', new_sticky_path(due_date: params[:due_date]), method: :get, remote: true, class: 'btn btn-default'
+  = submit_tag 'Create Project', class: 'btn btn-primary', data: { object: 'sticky-submit', target: @project.new_record? ? "#new_project" : "#edit_project_#{@project.id}" }

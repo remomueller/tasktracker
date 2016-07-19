@@ -23,7 +23,7 @@
           <td><%= link_to 'Add As Viewer', project_users_path( project_user: { project_id: project.id, allow_editing: false }, viewers_text: "[#{user.email}]" ), method: :post, remote: true, class: 'btn btn-xs btn-success' %></td>
         <% end %>
       <% else %>
-        <td colspan="2" class="muted">You are a viewer on this project</td>
+        <td colspan="2" class="text-muted">You are a viewer on this project</td>
       <% end %>
     </tr>
   <% end %>
