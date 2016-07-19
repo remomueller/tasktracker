@@ -77,7 +77,7 @@ class Template < ActiveRecord::Base
 
     all_users = self.project.users_to_email(:sticky_creation) - [current_user]
     all_users.each do |user_to_email|
-      UserMailer.group_by_mail(group, user_to_email).deliver_later if EMAILS_ENABLED
+      UserMailer.group_by_mail(group, user_to_email).deliver_now if EMAILS_ENABLED
     end
 
     group

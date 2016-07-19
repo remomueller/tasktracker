@@ -12,10 +12,10 @@ class ProjectUser < ActiveRecord::Base
 
   def generate_invite_token!(new_invite_token = SecureRandom.hex(64))
     update invite_token: new_invite_token if respond_to?('invite_token') && invite_token.blank? && ProjectUser.where(invite_token: new_invite_token).count == 0
-    UserMailer.invite_user_to_project(self).deliver_later if EMAILS_ENABLED && !invite_token.blank?
+    UserMailer.invite_user_to_project(self).deliver_now if EMAILS_ENABLED && !invite_token.blank?
   end
 
   def notify_user_added_to_project
-    UserMailer.user_added_to_project(self).deliver_later if EMAILS_ENABLED
+    UserMailer.user_added_to_project(self).deliver_now if EMAILS_ENABLED
   end
 end
