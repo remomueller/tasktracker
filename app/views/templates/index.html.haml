@@ -1,0 +1,18 @@
+- @title = 'Templates'
+.page-header
+  %h1
+    -# TODO: Check if templates always have projects or not.
+    - if @project
+      = link_to @project.name, @project
+      &middot;
+    = @title
+    = link_to 'Create Template', new_template_path(template: { project_id: @project.id }), class: 'btn btn-xs btn-primary' if @project
+
+= form_tag templates_path, method: :get, class: 'form-inline' do
+  = hidden_field_tag :order, params[:order]
+  = hidden_field_tag :project_id, params[:project_id]
+  = text_field_tag 'search', params[:search], class: 'form-control'
+  = submit_tag 'Search', class: 'btn btn-primary'
+  = link_to 'Reset', templates_path( project_id: (@project ? @project.id : nil) ), class: 'btn btn-default'
+
+= render 'templates/templates'

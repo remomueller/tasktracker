@@ -1,0 +1,13 @@
+- @title = "Edit Template #{@template.name_was}"
+
+.page-header
+  %h1
+    - if @template.project
+      = link_to @template.project.name, @template.project
+      &middot;
+    = link_to 'Templates', templates_path(project_id: @template.project_id)
+    &middot;
+    = link_to @template.name, @template
+    &middot; Edit
+
+= render 'form'

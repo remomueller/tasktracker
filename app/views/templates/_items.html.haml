@@ -1,0 +1,5 @@
+- if @template.sorted_items.size == 0
+  = render 'edit_item', item: { description: '', interval: 0, units: 'days' }
+- else
+  - @template.sorted_items.each do |item|
+    = render 'edit_item', item: item

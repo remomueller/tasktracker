@@ -1,0 +1,21 @@
+- @title = @template.name
+.page-header
+  %h1
+    = link_to @template.project.name, @template.project
+    &middot;
+    = link_to 'Templates', templates_path(project_id: @template.project_id)
+    &middot;
+    = @title
+  - if current_user.all_templates.include?(@template)
+    = link_to 'Edit Template', edit_template_path(@template), class: 'btn btn-xs btn-default'
+    = link_to 'Delete Template', @template, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Template #{@template.name}?" }
+    = link_to 'Copy Template', copy_template_path(@template), class: 'btn btn-xs btn-default'
+
+%dl.dl-horizontal
+  %dt Creator
+  %dd= link_to @template.user.name, @template.user if @template.user
+
+  %dt Avoid Weekends
+  %dd= check_box_tag 'template', 'avoid_weekends', @template.avoid_weekends?, disabled: true
+
+= render 'compact_items'

@@ -1,0 +1,27 @@
+= render 'layouts/per_page', per_page: 40, object_count: @templates.total_count
+
+%table.table
+  %col{ width: '10%' }
+  %col{ width: '10%' }
+  %col{ width: '80%' }
+  %col{ width: '1%' }
+  %thead
+    %tr
+      = th_sort_field @order, 'templates.name', 'Name'
+      %th Project
+      %th Items
+      %th Actions
+
+  - @templates.each do |template|
+    %tr
+      %td= link_to template.name, template
+      %td= link_to template.project.name, template.project
+      %td{ style: 'background-color:white' }
+        -# TODO: Don't pass around instance variables into partials, use local variables instead
+        = @template = template; render 'compact_items'
+      %td
+        - if current_user.all_templates.include?(template)
+          = link_to 'Edit', edit_template_path(template), class: 'btn btn-xs btn-default'
+          = link_to 'Delete', template, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Template #{template.name}?" }
+
+.center= paginate @templates, theme: 'bootstrap'

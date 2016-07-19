@@ -32,7 +32,6 @@ class TemplatesController < ApplicationController
   end
 
   # GET /templates
-  # GET /templates.json
   def index
     @order = scrub_order(Template, params[:order], 'templates.name')
     template_scope = (params[:editable_only] == '1') ? current_user.all_templates : current_user.all_viewable_templates
@@ -40,7 +39,6 @@ class TemplatesController < ApplicationController
   end
 
   # GET /templates/1
-  # GET /templates/1.json
   def show
   end
 
@@ -58,44 +56,28 @@ class TemplatesController < ApplicationController
   end
 
   # POST /templates
-  # POST /templates.json
   def create
     @template = current_user.templates.new(template_params)
-
-    respond_to do |format|
-      if @template.save
-        format.html { redirect_to @template, notice: 'Template was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @template }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @template.errors, status: :unprocessable_entity }
-      end
+    if @template.save
+      redirect_to @template, notice: 'Template was successfully created.'
+    else
+      render :new
     end
   end
 
-  # PUT /templates/1
-  # PUT /templates/1.json
+  # PATCH /templates/1
   def update
-    respond_to do |format|
-      if @template.update(template_params)
-        format.html { redirect_to @template, notice: 'Template was successfully updated.' }
-        format.json { render action: 'show', location: @template }
-      else
-        format.html { render :edit }
-        format.json { render json: @template.errors, status: :unprocessable_entity }
-      end
+    if @template.update(template_params)
+      redirect_to @template, notice: 'Template was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /templates/1
-  # DELETE /templates/1.json
   def destroy
     @template.destroy
-
-    respond_to do |format|
-      format.html { redirect_to templates_path(project_id: @template.project_id) }
-      format.json { head :no_content }
-    end
+    redirect_to templates_path(project_id: @template.project_id)
   end
 
   private

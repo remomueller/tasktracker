@@ -11,8 +11,8 @@ class Template < ActiveRecord::Base
   scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(items) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
 
   # Model Validation
-  validates_presence_of :name, :project_id, :items
-  validates_uniqueness_of :name, scope: [:deleted, :project_id]
+  validates :name, :project_id, :items, presence: true
+  validates :name, uniqueness: { scope: [:deleted, :project_id] }
 
   # Model Relationships
   belongs_to :project

@@ -1,0 +1,39 @@
+= form_for(@template, html: { class: 'form-horizontal' }) do |f|
+  - if @template.errors.any?
+    .callout.callout-danger
+      %strong
+        = pluralize @template.errors.count, 'error'
+        prohibited this template from being saved
+
+      %ul
+        - @template.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.hidden_field :project_id
+
+  .form-group
+    = f.label :name, class: 'col-md-2 control-label'
+    .col-md-10
+      = f.text_field :name, class: 'form-control'
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      %label.checkbox{ for: 'template_avoid_weekends' }
+        = f.check_box :avoid_weekends
+        Avoid Weekends
+      .callout.callout-info
+        %strong What does avoiding weekends do?
+        Set this if you prefer tasks to fall during a weekday. Saturday tasks get pushed back to Friday and Sunday tasks get pushed forward to Monday.
+
+  #items_container{ data: { object: 'sortable' } }
+    = render 'items'
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      %label.control-label
+        = link_to 'Add Another Task', '#', id: 'add_more_items', class: 'btn btn-xs btn-default'
+
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.submit nil, class: 'btn btn-primary'
+      = cancel

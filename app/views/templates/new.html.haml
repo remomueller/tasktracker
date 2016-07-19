@@ -1,0 +1,12 @@
+- @title = 'New Template'
+
+.page-header
+  %h1
+    - if @template.project
+      = link_to @template.project.name, @template.project
+      &middot;
+    = link_to 'Templates', templates_path(project_id: @template.project_id)
+    &middot;
+    New Template
+
+= render 'form'
