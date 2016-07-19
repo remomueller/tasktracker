@@ -1,0 +1,33 @@
+- date = @beginning
+%table.day-selection
+  %tr
+    %td
+      %div= date.strftime '%b'
+      = link_to week_path( date: @anchor_date.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'btn btn-default' do
+        %span.glyphicon.glyphicon-calendar
+    - ['S','M','T','W','R','F','S'].each_with_index do |day, day_index|
+      %td
+        - date = @beginning + day_index.days
+        - sticky_count = @stickies.with_due_date_for_calendar(date, date).count
+        - if date.day == 1
+          .nowrap
+            = date.strftime '%b'
+            %span{ class: "#{'btn-faded' if sticky_count == 0}" }= date.strftime '%-d'
+        - else
+          .nowrap{ class: "#{'btn-faded' if sticky_count == 0}" }= date.strftime '%-d'
+
+        = link_to day_path( date: date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: "btn #{date == @anchor_date ? 'btn-primary' : 'btn-default'} #{ 'btn-faded' if sticky_count == 0 }" do
+          = day
+    %td
+      %div &nbsp;
+      = link_to day_path( date: (@anchor_date + 1.week).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'btn btn-default' do
+        %span.glyphicon.glyphicon-chevron-right
+
+- url = day_path(date: @anchor_date.strftime('%Y%m%d'))
+= render 'create_and_filter_menu', url: url
+
+.clearfix &nbsp;
+
+= render 'list', stickies: (params[:date] == 'none' ? @stickies.where( due_date: nil ) : @stickies.with_due_date_for_calendar(@anchor_date, @anchor_date)), url: url
+
+= render 'modal'

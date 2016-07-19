@@ -1,0 +1,19 @@
+#move-group-dialog.modal{ tabindex: '-1', role: 'dialog', aria: { hidden: 'true' } }
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: 'true' } } &times;
+        %h4.modal-title Move Task in Group
+
+      .modal-body
+        %p
+          This task is in a group, choose whether you would like to shift just this task, this task and any not completed tasks, or all the tasks in the group.
+          = hidden_field_tag 'move_sticky_date'
+          = hidden_field_tag 'move_sticky_element_id'
+          = hidden_field_tag 'move_sticky_id'
+
+      .modal-footer
+        = link_to 'Only This Task', '#', class: 'btn btn-primary', data: { object: 'shift-sticky', shift: 'single' }
+        = link_to 'Shift Not Completed', '#', class: 'btn btn-default', data: { object: 'shift-sticky', shift: 'incomplete' }
+        = link_to 'Shift All Tasks', '#', class: 'btn btn-default', data: { object: 'shift-sticky', shift: 'all' }
+        = link_to 'Cancel', '#', class: 'btn btn-default', data: { target: "#move-group-dialog", object: 'modal-hide' }

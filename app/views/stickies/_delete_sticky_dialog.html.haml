@@ -1,0 +1,27 @@
+.modal{ id: "delete-sticky-dialog_#{sticky.id}", tabindex: '-1', role: 'dialog', aria: { hidden: 'true' } }
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: 'true' } } &times;
+        %h4.modal-title Delete Task in Group
+
+      .modal-body
+        = form_tag sticky_path(sticky, from: params[:from]), method: :delete, id: "sticky_delete_form_#{sticky.id}" do
+          .row
+            .col-md-offset-2.col-md-10
+              .radio
+                %label
+                  = radio_button_tag 'discard', 'single', true
+                  Only this task
+              .radio
+                %label
+                  = radio_button_tag 'discard', 'following'
+                  This task and all following
+              .radio
+                %label
+                  = radio_button_tag 'discard', 'all'
+                  All tasks in group
+
+      .modal-footer
+        = link_to 'Close', '#', class: 'btn btn-default', data: { target: "#delete-sticky-dialog_#{sticky.id}", object: 'modal-hide' }
+        = link_to 'Delete Task(s)', '#', class: 'btn btn-danger-inverse', data: { target: "#sticky_delete_form_#{sticky.id}", object: 'submit' }

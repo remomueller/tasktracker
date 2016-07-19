@@ -1,0 +1,16 @@
+= link_to sticky, remote: true, class: "list-group-item", id: "list_sticky_#{sticky.id}", data: { object: 'sticky-draggable', sticky_id: sticky.id } do
+  = image_tag sticky.owner.avatar_url(32, "identicon"), class: 'pull-right img-rounded', style: 'margin-right:-11px;margin-top: -6px;margin-bottom: -6px;' if sticky.owner
+  .nowrap{ style: "overflow:hidden;#{'margin-right:37px' if sticky.owner}" }
+    - if sticky.modifiable_by?(current_user)
+      %span.glyphicon.a-link{ class: "glyphicon-#{sticky.completed? ? 'check' : 'unchecked'}", data: { object: 'quick-complete', sticky_id: sticky.id.to_s, completed: "#{!sticky.completed}" } }
+    - if sticky.comments.size > 0
+      %span.badge= sticky.comments.size
+    - sticky.tags.each do |tag|
+      = render 'tags/show', tag: tag
+    - unless sticky.all_day?
+      %b= sticky.due_time
+    = highlight(strip_tags(simple_markdown sticky.full_description), params[:search], highlighter: '<b class="label-highlight">\1</b>')
+  %div{ data: { object: 'sticky-helper' }, style: 'display:none' }
+    - sticky.tags.each do |tag|
+      = render 'tags/show', tag: tag
+    = strip_tags(simple_markdown sticky.full_description).truncate(30, separator: ' ').html_safe

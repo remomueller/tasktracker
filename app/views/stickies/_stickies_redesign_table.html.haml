@@ -1,0 +1,45 @@
+- @project = current_user.all_viewable_projects.find_by_id(params[:project_id])
+- @board = @project.boards.find_by_id(params[:board_id]) if @project
+- @tags = @project.tags.where(id: params[:tag_ids]) if @project
+
+%h4{ style: 'margin-top:0' }
+  = @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Tasks')
+
+- if @project.modifiable_by?(current_user)
+  = link_to 'Create Task'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-sticky-button'
+  = link_to 'Create Group'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-group-button'
+
+- @tags.each do |tag|
+  = render 'tags/show', tag: tag
+%span.label.label-highlight= params[:search]
+= link_to 'Clear', '#', rel: 'tooltip', title: 'Clear Filters', data: { object: 'clear-tags' }, class: 'btn btn-xs btn-default' unless params[:tag_ids].blank? && params[:search].blank?
+
+.pull-right
+  .btn-toolbar
+    .btn-group{ data: { toggle: 'buttons' } }
+      %label#assigned-to-me-btn.btn.btn-default.btn-xs{ class: "#{'active' if params[:assigned_to_me].to_s == '1'}" }
+        Assigned To Me
+
+    .btn-group{ data: { toggle: 'buttons-radio' } }
+      - ['completed', 'past_due', 'upcoming'].each do |scope|
+        %button.btn.btn-default.btn-xs{ class: "#{'active' if params[:scope] == scope}", data: { object: 'set-scope', value: scope } }
+          = scope.humanize
+
+- if @stickies.count > 0
+  .pull-right
+    %span#scope-direction-icon= '&larr;'.html_safe if params[:scope_direction] == 'reverse'
+    %span{ style: 'cursor:pointer', rel: 'tooltip', title: 'Toggle Direction',  data: { object: 'toggle-scope-direction' } }
+      %span{ data: { object: 'sticky-count' } }
+        = @stickies.count
+      of
+      %span{ data: { object: 'sticky-count' } }
+        = @stickies.total_count
+        &nbsp;
+
+- params[:project_ids] = @project.id.to_s
+- params[:tags] = @tags.pluck(:name).uniq.join(',')
+- params[:owners] = current_user.name if params[:assigned_to_me].to_s == '1'
+.clearfix &nbsp;
+= render 'list', stickies: @stickies
+.center{ data: { object: 'visible-sticky' } }= paginate @stickies, theme: 'bootstrap'
+= render 'modal'

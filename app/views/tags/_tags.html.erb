@@ -13,7 +13,7 @@
 
   <% @tags.each do |tag| %>
     <tr>
-      <td><%= @tag = tag; link_to render(partial: 'tags/show'), tag, style: 'text-decoration:none' %></td>
+      <td><%= link_to render('tags/show', tag: tag), tag, style: 'text-decoration:none' %></td>
       <td><%= link_to tag.project.name, tag.project %></td>
       <td><%= link_to tag.user.name, tag.user %></td>
       <td><%= tag.description %></td>

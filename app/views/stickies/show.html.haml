@@ -1,0 +1,61 @@
+- @title = "Task #{@sticky.name}"
+.page-header
+  %h1
+    = link_to @sticky.project.name, @sticky.project
+    &middot;
+    %span{ style: "#{'text-decoration:line-through' if @sticky.completed?}" }= @title
+  - if @sticky.modifiable_by?(current_user)
+    = link_to 'Edit Task', edit_sticky_path(@sticky), class: 'btn btn-xs btn-default'
+    - if @sticky.group
+      = link_to 'Delete Task', '#', class: 'btn btn-xs btn-danger-inverse', data: { object: 'modal-show', target: "#delete-sticky-dialog_#{@sticky.id}" }
+    - else
+      = link_to 'Delete Task', @sticky, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Task #{@sticky.name}?" }
+= render 'delete_sticky_dialog', sticky: @sticky
+
+%dl.dl-horizontal
+  %dt Description
+  %dd.long-description= simple_markdown @sticky.full_description
+
+  %dt Creator
+  %dd= link_to @sticky.user.name, @sticky.user
+
+  %dt Board
+  %dd= link_to @sticky.board ? @sticky.board.name : 'Holding Pen', project_path(@sticky.project, board: @sticky.board ? @sticky.board.name : nil)
+
+  - if @sticky.owner
+    %dt Assigned To
+    %dd= link_to @sticky.owner.name if @sticky.owner
+
+  - unless @sticky.due_date.blank?
+    %dt Due Date
+    %dd= simple_date_and_weekday @sticky.due_date
+
+  - unless @sticky.all_day?
+    %dt Due At
+    %dd= @sticky.due_time
+
+    - if @sticky.duration > 0
+      %dt Duration
+      %dd
+        = @sticky.duration
+        = @sticky.duration_units
+
+  - if @sticky.tags.size > 0
+    %dt Tags
+    %dd
+      - @sticky.tags.in_groups_of(4).each do |row_tags|
+        .row{ style: 'margin-left:0;line-height:20px' }
+          - row_tags.each_with_index do |tag, index|
+            .col-md-2{ style: "#{'margin-left:0px' if index == 0}" }
+              = render 'tags/show', tag: tag if tag
+
+- if @sticky.group
+  %h3
+    Group
+    = link_to @sticky.group.name, @sticky.group if @sticky.group
+  .clearfix &nbsp;
+  = render 'stickies/list', stickies: @sticky.group.stickies
+  = render 'stickies/modal'
+
+%div{ id: "sticky_#{@sticky.id}_comments" }
+  = @comments = @sticky.comments.page(0).per(0); render 'comments/index'

@@ -1,0 +1,32 @@
+.pull-right
+  = link_to month_path( date: (@anchor_date - 1.month).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), tabindex: '-1', class: 'btn btn-xs btn-default' do
+    %span.glyphicon.glyphicon-chevron-left
+    Last Month
+  = link_to month_path( date: Date.today.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Date.today ? 'disabled' : nil) do
+    %span.glyphicon.glyphicon-calendar
+    Today
+  = link_to month_path( date: (@anchor_date + 1.month).strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), tabindex: '-1', class: 'btn btn-xs btn-default' do
+    Next Month
+    %span.glyphicon.glyphicon-chevron-right
+
+%h4
+  = Date::MONTHNAMES[@anchor_date.month]
+  = @anchor_date.year
+
+%table.month-stickies
+  %thead
+    %tr
+      - (0..6).each do |weekday|
+        %th
+          = Date::ABBR_DAYNAMES[weekday]
+  %tbody
+    %tr
+      - (0..@last_saturday - @first_sunday).each do |day_offset|
+        - current_date = @first_sunday + day_offset.day
+        %td.droppable{ valign: 'top', style: 'padding:0px; border: 1px solid #ddd', class: "#{'calendar-entry-body-today' if current_date == Date.today} #{'last-month' if current_date < @start_date} #{'next-month' if current_date > @end_date}", data: { due_date: current_date.strftime('%m/%d/%Y'), object: 'create-sticky', from: 'month' } }
+          .calendar-entry-heading{ style: 'padding-right:2px;' }
+            = link_to ( [@start_date, (@end_date + 1.day)].include?(current_date) ? current_date.strftime("%b %e") : current_date.strftime("%e") ), week_path(date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'btn btn-xs', tabindex: '-1'
+          %div{ style: 'min-height:90px;padding-left:2px;padding-right:2px', id: "day_#{current_date.strftime('%Y%m%d')}" }
+            - @stickies.with_due_date_for_calendar(current_date, current_date).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies|
+              = render 'month_header_with_tags', tag_ids: tag_ids, stickies: stickies, current_date: current_date
+        = "</tr><tr>".html_safe if day_offset % 7 == 6 and day_offset != @last_saturday - @first_sunday

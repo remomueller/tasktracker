@@ -59,7 +59,7 @@ class StickiesController < ApplicationController
   end
 
   # GET /stickies
-  # GET /stickies.json
+  # GET /stickies.js
   def index
     sticky_scope = current_user.all_stickies
     sticky_scope = sticky_scope.with_owner(current_user.id) if params[:assigned_to_me] == '1'
@@ -96,7 +96,6 @@ class StickiesController < ApplicationController
   end
 
   # GET /stickies/1
-  # GET /stickies/1.json
   def show
   end
 
@@ -130,7 +129,7 @@ class StickiesController < ApplicationController
   end
 
   # POST /stickies
-  # POST /stickies.json
+  # POST /stickies.js
   def create
     @sticky = current_user.stickies.new(sticky_params)
 
@@ -139,12 +138,10 @@ class StickiesController < ApplicationController
         @sticky.send_email_if_recently_completed(current_user)
         format.html { redirect_to @sticky, notice: 'Task was successfully created.' }
         format.js
-        format.json { render action: 'show', status: :created, location: @sticky }
       else
         @project_id = @sticky.project_id
-        format.html { render 'new' }
-        format.js { render 'new' }
-        format.json { render json: @sticky.errors, status: :unprocessable_entity }
+        format.html { render :new }
+        format.js { render :new }
       end
     end
   end
@@ -199,30 +196,26 @@ class StickiesController < ApplicationController
   end
 
   # PUT /stickies/1
-  # PUT /stickies/1.json
+  # PUT /stickies/1.js
   def update
     original_due_date = @sticky.due_date
 
     respond_to do |format|
       if @sticky.update(sticky_params)
         @sticky.send_email_if_recently_completed(current_user)
-
-        @sticky.shift_group((@sticky.due_date - original_due_date).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
-
+        @sticky.shift_group((@sticky.due_date - original_due_date).round, params[:shift]) if original_due_date.present? && @sticky.due_date.present?
         format.html { redirect_to @sticky, notice: 'Task was successfully updated.' }
         format.js
-        format.json { render action: 'show', location: @sticky }
       else
         @project_id = @sticky.project_id
         format.html { render :edit }
-        format.js { render 'edit' }
-        format.json { render json: @sticky.errors, status: :unprocessable_entity }
+        format.js { render :edit }
       end
     end
   end
 
   # DELETE /stickies/1
-  # DELETE /stickies/1.json
+  # DELETE /stickies/1.js
   def destroy
     if @sticky.group and params[:discard] == 'following'
       @sticky.group.stickies.where('due_date >= ?', @sticky.due_date).destroy_all

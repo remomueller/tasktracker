@@ -1,0 +1,9 @@
+.alert.alert-warning
+  %strong Heads up!
+  No tasks found.
+  = succeed '.' do
+    = link_to 'Search across all tasks', tasks_path( tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: ''
+    - unless url.blank?
+      -# TODO: Check for filter keys in params, instead of looking at the `url` variable
+      or
+      = link_to 'clear filters', url

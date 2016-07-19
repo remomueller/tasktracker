@@ -1,0 +1,10 @@
+- @title = 'New Task'
+
+.page-header
+  %h1
+    - if @sticky.project
+      = link_to @sticky.project.name, @sticky.project
+      &middot;
+    New Task
+
+= render 'form'

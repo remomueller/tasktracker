@@ -1,0 +1,89 @@
+= hidden_field_tag 'from', params[:from]
+
+.form-group
+  = f.label :description, class: 'col-md-2 control-label'
+  .col-md-10
+    = f.text_area :description, rows: 7, class: 'form-control'
+
+- if @sticky.group
+  .form-group
+    %label.col-md-2.control-label Group Description
+    .col-md-10{ style: 'padding-top:5px' }
+      Group
+      = link_to @sticky.group.name, @sticky.group
+      = simple_format @sticky.group.description unless @sticky.group.description.blank?
+
+#board_selection_container.form-group
+  = render 'projects/board_selection'
+
+.form-group
+  = f.label :completed, class: 'col-md-2 control-label'
+  .col-md-10
+    %label.checkbox{ style: 'width:185px' }= f.check_box :completed
+
+#owner_selection_container.form-group
+  = render 'projects/user_selection'
+
+.form-group
+  = f.label :due_date, class: 'col-md-2 control-label'
+  .col-md-10
+    .row
+      .col-xs-6.col-md-3
+        = f.text_field :due_date, class: 'datepicker form-control', value: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '', autocomplete: 'off'
+      .col-xs-6.col-md-3
+        %label.checkbox{ style: 'width:185px' }
+          %span.nowrap
+            = f.check_box :all_day
+            All day
+    - if @sticky.group
+      %table.blank.padded
+        %tr
+          %td
+            = radio_button_tag 'shift', 'single', true
+            %b Single:
+          %td
+            Only change this tasks's due date
+        %tr
+          %td
+            = radio_button_tag 'shift', 'incomplete'
+            %b Incomplete:
+          %td
+            Shift this tasks's due date and all incomplete tasks in group
+        %tr
+          %td
+            = radio_button_tag 'shift', 'all'
+            %b All:
+          %td Shift all tasks in group
+
+.form-group{ data: { object: 'time-options' }, style: "#{'display:none' if @sticky.all_day?}" }
+  = f.label :due_time, 'Due at', class: 'col-md-2 control-label'
+  .col-md-10
+    .row
+      .col-md-3
+        = f.text_field :due_time, class: 'form-control'
+
+.form-group{ data: { object: 'time-options' }, style: "#{'display:none' if @sticky.all_day?}" }
+  = f.label :duration, nil, class: 'col-md-2 control-label'
+  .col-md-10
+    .row
+      .col-xs-6
+        = f.number_field :duration, min: 0, class: 'form-control'
+      .col-xs-6
+        = f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units), {}, class: 'form-control'
+
+#tag_selection_container
+  = render 'projects/tag_selection'
+
+.form-group
+  = f.label :repeat, "Repeat", class: 'col-md-2 control-label'
+  .col-md-10
+    .row
+      .col-xs-3{ data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none'}" }
+        = f.number_field :repeat_amount, class: 'form-control'
+      .col-xs-3
+        = f.select :repeat, Sticky::REPEAT, {}, class: 'form-control'
+      .col-xs-3{ style: 'line-height:30px;' }
+        %span{ data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none'}" } after due date
+      .col-xs-3{ style: 'line-height:30px;' }
+        %span{ data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none'}" }
+          = link_to 'Clear Repeat', '#', class: 'btn btn-xs btn-default', data: { object: 'clear-repeat' }

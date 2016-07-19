@@ -1,0 +1,28 @@
+- @title = @sticky.new_record? ? 'New Task' : "Edit Task #{@sticky.name}"
+.modal-header
+  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: 'true' } } &times;
+  %h4.modal-title
+    = link_to 'Projects', new_sticky_path( due_date: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' ), method: :get, remote: true
+    &middot;
+    - if @sticky.project
+      = link_to @sticky.project.name, @sticky.project, target: '_blank'
+      &middot;
+      -# TODO: Remove strange @project_id instance variable
+      - @project_id = @sticky.project.id
+    = @title
+    - if @sticky.new_record? && @sticky.project && @sticky.project.templates.size > 0
+      or
+      = link_to 'Create Group', new_group_path( group: { project_id: @sticky.project_id, initial_due_date: @sticky.due_date ? @sticky.due_date.strftime('%m/%d/%Y') : '' } ), method: :get, remote: true, class: 'btn btn-xs btn-default'
+
+.modal-body
+  = form_for(@sticky, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f|
+    = f.hidden_field :project_id
+    = render 'stickies/inner_form', f: f
+
+.modal-footer
+  - if @sticky.new_record?
+    = link_to 'Cancel', '#', class: 'btn btn-default', data: { dismiss: 'modal' }
+  - else
+    = link_to 'Cancel', @sticky, method: :get, remote: true, class: 'btn btn-default'
+
+  = submit_tag @sticky.new_record? ? 'Create Task' : 'Update Task', class: 'btn btn-primary', data: { object: 'sticky-submit', target: @sticky.new_record? ? '#new_sticky' : "#edit_sticky_#{@sticky.id}" }

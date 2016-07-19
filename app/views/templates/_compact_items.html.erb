@@ -12,7 +12,7 @@
     <tr style="border-bottom:1px solid #eee;margin-bottom:8px">
       <td style="white-space:nowrap;overflow-x:hidden;">
         <% (item[:tag_ids] || []).each do |tag_id| %>
-          <% if @tag = @template.project.tags.find_by_id(tag_id) %><%= render partial: 'tags/show' %><% end %>
+          <% if tag = @template.project.tags.find_by_id(tag_id) %><%= render 'tags/show', tag: tag %><% end %>
         <% end %>
         <%= item[:description] %>
       </td>

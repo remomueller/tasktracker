@@ -1,0 +1,5 @@
+- @tags = Tag.current.where(id: tag_ids)
+%div{ style: 'padding-bottom:5px', id: "day_#{current_date.strftime('%Y%m%d') if current_date}_tag_container_#{tag_ids.sort.join('_')}" }
+  = render 'tags/small_tags'
+  - stickies.sort{|a,b| a.due_date <=> b.due_date}.each do |sticky|
+    = render 'stickies/popup', sticky: sticky

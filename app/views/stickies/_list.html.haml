@@ -1,0 +1,6 @@
+#sticky-day-lists{ data: { object: 'visible-sticky' } }
+  - if stickies.count == 0
+    = render 'stickies/no_tasks_found', url: defined?(url) ? url : nil
+  - else
+    - stickies.order(:completed, :due_date).group_by{|s| s.due_date ? [s.completed, s.due_date.to_date] : [s.completed, nil]}.each do |(completed, due_date), stickies|
+      = render 'stickies/day_list', completed: completed, due_date: due_date, stickies: stickies

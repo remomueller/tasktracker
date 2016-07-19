@@ -1,0 +1,34 @@
+%table.table.table-condensed{ style: 'table-layout:fixed' }
+  %thead
+    %tr
+      %th.center
+        = link_to week_path( tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: "btn btn-default btn-xs", rel: 'tooltip', title: 'Go to Today', data: { placement: 'right' }, disabled: (@anchor_date == Date.today ? 'disabled' : nil) do
+          %span.glyphicon.glyphicon-calendar
+      - date = @beginning
+      - while date <= @ending
+        %th.center{ class: "#{'hidden-xs' if (@anchor_date - date).abs.days > 1.month} #{'hidden-sm' if (@anchor_date - date).abs.days > 50.days}" }
+          = link_to (date + 6.days).strftime("%b"), month_path( date: (date + 6.days).strftime("%Y%m01"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'btn btn-default btn-xs' if date.day == 1 or date.month != (date + 6.days).month
+        - date = date + 1.week
+
+  - ['S','M','T','W','R','F','S'].each_with_index do |day, day_index|
+    %tr
+      %td.text-muted.center= day
+      - date = @beginning
+      - while date <= @ending
+        - current_date = (date + day_index.days)
+        - is_current_week = (current_date + (current_date.wday == 0 ? 1.day : 0.day)).beginning_of_week == (@anchor_date + (@anchor_date.wday == 0 ? 1.day : 0.day)).beginning_of_week
+        - sticky_count_hash = @date_count_hash[current_date.strftime('%Y%m%d')] || { completed: 0, incomplete: 0 }
+        - completed = sticky_count_hash[:completed]
+        - incomplete = sticky_count_hash[:incomplete]
+
+
+        %td.center{ class: "#{'current-week' if is_current_week} #{incomplete != 0 && incomplete >= 0.5*@max_incomplete_count ? 'danger' : (incomplete > 0 ? 'warning' : completed > 0 ? 'success' : '')} #{'text-muted' if incomplete == 0} #{'hidden-xs' if (@anchor_date - date).abs.days > 1.month} #{'hidden-sm' if (@anchor_date - date).abs.days > 50.days}" }
+          = link_to current_date.day, week_path( date: current_date.strftime("%Y%m%d"), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: "btn btn-xs #{ (incomplete + completed > 0 || current_date == @anchor_date || current_date == Date.today ? 'btn-default' : 'btn-faded' ) }", style: "#{'font-weight:bold' if current_date == Date.today}", tabindex: '-1'
+        - date = date + 1.week
+
+- url = week_path(date: @anchor_date.strftime('%Y%m%d'))
+= render 'create_and_filter_menu', url: url
+
+= render 'list', stickies: @stickies.with_due_date_for_calendar(@beginning_of_anchor_week, @beginning_of_anchor_week + 6.days), url: url
+
+= render 'modal'

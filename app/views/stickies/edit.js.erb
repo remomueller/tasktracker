@@ -1,4 +1,4 @@
-$('#sticky-modal-new').find('.modal-content').html("<%= escape_javascript(render partial: "stickies/edit_modal") %>");
+$('#sticky-modal-new').find('.modal-content').html("<%=j render 'stickies/edit_modal' %>");
 $('#sticky-modal-new').modal('show');
 $("#sticky_description").focus();
 

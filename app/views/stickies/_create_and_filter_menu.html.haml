@@ -1,0 +1,80 @@
+- tags = params[:tags].to_s.split(',')
+- owners = params[:owners].to_s.split(',')
+- project_ids = params[:project_ids].to_s.split(',')
+- status = params[:completed].to_s.split(',')
+- total_filters = tags.size + owners.size + project_ids.size + status.size
+.row{ style: 'margin-bottom:10px' }
+  .col-xs-4
+    %div{ data: { object: 'visible-sticky' } }
+      = link_to 'Create Task', new_sticky_path(due_date: @anchor_date.strftime('%m/%d/%Y')), remote: true, class: 'btn btn-default btn-block'
+    %div{ data: { object: 'visible-filter' }, style: 'display:none' }
+      = link_to 'Save Filters', '#', class: 'btn btn-primary btn-block', data: { object: 'save-filters' }
+  .col-xs-4
+    %div{ data: { object: 'visible-sticky' } }
+      = link_to 'Create Group', new_group_path(due_date: @anchor_date.strftime('%m/%d/%Y')), remote: true, class: 'btn btn-default btn-block' unless current_user.all_projects.has_template.size == 0
+    %div{ data: { object: 'visible-filter' }, style: 'display:none' }
+      = link_to 'Clear Filters', '#', class: 'btn btn-danger-inverse btn-block', data: { object: 'reset-filters' }
+  .col-xs-4
+    %div{ data: { object: 'visible-sticky' } }
+      = link_to '#', data: { object: 'show-filters' }, class: 'btn btn-default btn-block' do
+        Filters
+        %span.badge= total_filters if total_filters > 0
+    %div{ data: { object: 'visible-filter' }, style: 'display:none' }
+      = link_to 'Cancel', '#', class: 'btn btn-default btn-block', data: { object: 'cancel-filters' }
+
+%div{ data: { object: 'visible-filter' }, style: 'display:none' }
+  = form_tag url, id: 'filters-form' do
+
+    %ul#filter_selection.nav.nav-tabs
+      %li.active
+        = link_to '#tags' do
+          Tags
+          %span#tags-count.badge= tags.size if tags.size > 0
+      %li
+        = link_to '#users' do
+          Users
+          %span#owners-count.badge= owners.size if owners.size > 0
+      %li
+        = link_to '#projects' do
+          Projects
+          %span#project-ids-count.badge= project_ids.size if project_ids.size > 0
+      %li
+        = link_to '#status' do
+          Status
+          %span#status-count.badge= status.size if status.size > 0
+
+    .tab-content
+      #tags.tab-pane.active
+        .row
+          - current_user.all_tags.order(:project_id, :name).group_by(&:name).each do |name, all_tags|
+            .col-xs-6.col-sm-4.col-md-3.col-lg-2
+              %label.checkbox.tag-checkbox{ class: "#{'tag-selected' if tags.include?(name)}", style: "margin-bottom: 0px;background-color: #{all_tags.first.color if all_tags.first}" }
+                = check_box_tag "tag_names[]", name, tags.include?(name)
+                .tag-name.nowrap{ style: 'overflow:hidden;' }= name
+      #users.tab-pane
+        .row
+          .col-xs-6.col-sm-4.col-md-3.col-lg-2
+            %label.checkbox.tag-checkbox{ class: "#{'tag-selected' if owners.include?(current_user.name)}", style: 'margin-bottom: 0px;background-color:#efefef;overflow:hidden;color:#333' }
+              = check_box_tag "user_names[]", current_user.name, owners.include?(current_user.name)
+              .nowrap{ style: 'overflow:hidden;' } My Tasks
+              = image_tag current_user.avatar_url(50, 'identicon'), class: 'img-rounded'
+          - (current_user.associated_users_assigned_tasks.order('last_name, first_name') - [current_user]).each do |user|
+            .col-xs-6.col-sm-4.col-md-3.col-lg-2
+              %label.checkbox.tag-checkbox{ class: "#{'tag-selected' if owners.include?(user.name)}", style: 'margin-bottom: 0px;background-color:#efefef;color:#333' }
+                = check_box_tag "user_names[]", user.name, owners.include?(user.name)
+                .nowrap{ style: 'overflow:hidden;' }= user.reverse_name
+                = image_tag user.avatar_url(50, 'identicon'), class: 'img-rounded'
+      #projects.tab-pane
+        .row
+          - current_user.all_viewable_projects.by_favorite(current_user.id).order("(favorite IS NULL or favorite = 'f') ASC, name").each do |project|
+            .col-xs-6.col-sm-4.col-md-3.col-lg-2
+              %label.checkbox.tag-checkbox{ class: "#{'tag-selected' if project_ids.include?(project.id.to_s)}", style: "margin-bottom: 0px;background-color:#{project.color(current_user)};color:#333" }
+                = check_box_tag "project_ids[]", project.id, project_ids.include?(project.id.to_s)
+                .nowrap{ style: 'overflow:hidden;' }= project.name
+      #status.tab-pane
+        .row
+          - [['Incomplete', 'completed', '0'], ['Completed', 'completed', '1']].each do |name, key, value|
+            .col-xs-6.col-sm-4.col-md-3.col-lg-2
+              %label.checkbox.tag-checkbox{ class: "#{'tag-selected' if status.include?(value)}", style: 'margin-bottom: 0px;color:#333' }
+                = check_box_tag "#{key}[]", value, status.include?(value)
+                .nowrap{ style: 'overflow:hidden;' }= name

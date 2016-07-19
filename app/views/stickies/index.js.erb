@@ -1,7 +1,7 @@
 <% if params[:replace] == 'rows' %>
-  $("#stickies_table_container").html("<%= escape_javascript(render("stickies_redesign_table")) %>");
+  $("#stickies_table_container").html("<%=j render 'stickies_redesign_table' %>");
 <% else %>
-  $("#stickies-or-templates").html("<%= escape_javascript(render("stickies_redesign")) %>");
+  $("#stickies-or-templates").html("<%=j render 'stickies_redesign' %>");
 <% end %>
 
 

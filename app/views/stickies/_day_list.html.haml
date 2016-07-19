@@ -1,0 +1,4 @@
+.list-group.sticky-list{ class: "#{'list-group-complete' if completed}", data: { due_date: "#{due_date.blank? ? 'none' : due_date.strftime('%Y%m%d')}", completed: completed.to_s, sort: "#{completed ? '2' : '1' }#{due_date.blank? ? '99991231' : due_date.strftime("%Y%m%d")}" } }
+  = link_to (due_date.blank? ? 'No Due Date' : due_date.strftime('%a, %B %-d, %Y')), day_path(date: (due_date.blank? ? 'none' : due_date.strftime("%Y%m%d")), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed] ), class: 'list-group-item list-group-heading'
+  - stickies.each do |sticky|
+    = render 'stickies/list_sticky_show', sticky: sticky

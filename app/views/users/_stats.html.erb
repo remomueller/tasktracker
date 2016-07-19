@@ -53,7 +53,7 @@
         <%= link_to tag_count, tasks_path( tags: tag.name, owners: user.name ), target: '_blank', class: 'btn btn-xs btn-default' %>
       </div>
       <div class="col-xs-3">
-        <%= @tag = tag; render partial: 'tags/show' %>
+        <%= render 'tags/show', tag: tag %>
       </div>
       <div class="col-xs-8">
         <div class="progress progress-striped active">

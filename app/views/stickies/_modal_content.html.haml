@@ -1,0 +1,45 @@
+.modal-header
+  %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: 'true' } } &times;
+  - if @sticky.owner
+    .pull-right
+      = image_tag @sticky.owner.avatar_url(32, 'identicon'), class: 'img-rounded', style: 'margin: -6px 10px;'
+    .pull-right
+      = @sticky.owner.name
+
+  %h4.modal-title
+    = link_to @sticky.project.name, @sticky.project
+    - if @sticky.board
+      %span.nowrap
+        &middot;
+        = link_to @sticky.board.name, project_path(@sticky.project, board: @sticky.board.name)
+    - if @sticky.tags.size > 0
+      &middot;
+      - @sticky.tags.each do |tag|
+        = render 'tags/show', tag: tag
+    - unless @sticky.all_day
+      %span.nowrap
+        &middot;
+        = @sticky.due_time
+
+.modal-body.long-description
+  = simple_markdown sticky.full_description
+
+.modal-footer
+  %button.btn.btn-default{ type: 'button', data: { dismiss: 'modal' } } Close
+  - if @sticky.modifiable_by?(current_user)
+    = link_to 'Edit', edit_sticky_path(@sticky, from: params[:from]), method: :get, remote: true, class: 'btn btn-default'
+    - if @sticky.completed?
+      = link_to 'Mark Not Completed', sticky_path( @sticky, sticky: { completed: false }, from: 'checkbox' ), method: :patch, remote: true, class: 'btn btn-primary'
+    - else
+      = link_to 'Mark Completed', sticky_path( @sticky, sticky: { completed: true }, from: 'checkbox' ), method: :patch, remote: true, class: 'btn btn-primary'
+
+    = link_to 'Delete', @sticky, method: :delete, remote: true, class: 'btn btn-danger-inverse pull-left', tabindex: '-1', data: { confirm: "Are you sure you want to delete Task #{@sticky.name}?" }
+
+- if @sticky.group
+  .modal-footer{ style: 'text-align:left;margin-top:0' }
+    Group
+    = link_to @sticky.group.name, @sticky.group, target: '_blank'
+    = @stickies = @sticky.group.stickies; render 'stickies/simple_stickies'
+
+.modal-footer{ id: "sticky_#{@sticky.id}_comments", style: 'text-align:left;margin-top:0' }
+  = @comments = @sticky.comments.page(0).per(0); render 'comments/index'
