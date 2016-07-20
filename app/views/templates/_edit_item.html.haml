@@ -53,4 +53,5 @@
                         = check_box_tag "template[item_tokens][][tag_ids][]", tag.id, (item[:tag_ids] || []).collect{|tag_id| tag_id.to_i}.include?(tag.id)
                         %span.tag-name= tag.name
         - else
-          %span.quiet Edit project to add tags.
+          %div{ style: 'line-height:36px' }
+            %span.text-muted Edit project to add tags.
