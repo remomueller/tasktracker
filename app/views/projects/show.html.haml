@@ -9,7 +9,7 @@
     = link_to 'Reassign Tasks', '#', class: 'btn btn-xs btn-default', data: { object: 'modal-show', target: '#reassign-dialog' }
   %span{ id: "project_#{@project.id}_favorite_link" }= render 'projects/favorite'
 
-= status_all = (params[:status].include?('planned') && params[:status].include?('completed'))
+- status_all = (params[:status].include?('planned') && params[:status].include?('completed'))
 
 = form_tag stickies_path(use_template: 'redesign'), method: :get, remote: true, id: "stickies_search", data: { object: "form-load#{ '-no' if @template }" } do
   = hidden_field_tag :search, params[:search]
