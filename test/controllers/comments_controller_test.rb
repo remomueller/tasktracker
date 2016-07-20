@@ -51,18 +51,18 @@ class CommentsControllerTest < ActionController::TestCase
   end
 
   test 'should update comment' do
-    put :update, id: @comment, comment: @comment.attributes
+    patch :update, id: @comment, comment: @comment.attributes
     assert_redirected_to sticky_path(assigns(:comment).sticky)
   end
 
   test 'should not update comment with blank description' do
-    put :update, id: @comment, comment: { sticky_id: @comment.sticky_id, description: '' }
+    patch :update, id: @comment, comment: { sticky_id: @comment.sticky_id, description: '' }
     assert_not_nil assigns(:comment)
     assert_template 'edit'
   end
 
   test 'should not update comment without valid id' do
-    put :update, id: -1, comment: @comment.attributes
+    patch :update, id: -1, comment: @comment.attributes
     assert_nil assigns(:comment)
     assert_redirected_to comments_path
   end

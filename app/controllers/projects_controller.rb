@@ -88,7 +88,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # PUT /projects/1
+  # PATCH /projects/1
   def update
     if @project.update(project_params)
       redirect_to @project, notice: 'Project was successfully updated.'

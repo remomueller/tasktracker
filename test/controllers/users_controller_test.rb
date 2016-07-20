@@ -67,19 +67,19 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test 'should update user' do
-    put :update, id: @user, user: @user.attributes
+    patch :update, id: @user, user: @user.attributes
     assert_redirected_to user_path(assigns(:user))
   end
 
   test 'should not update user with blank name' do
-    put :update, id: @user, user: { first_name: '', last_name: '' }
+    patch :update, id: @user, user: { first_name: '', last_name: '' }
     assert_not_nil assigns(:user)
     assert_template 'edit'
     assert_response :success
   end
 
   test 'should not update user with invalid id' do
-    put :update, id: -1, user: @user.attributes
+    patch :update, id: -1, user: @user.attributes
     assert_nil assigns(:user)
     assert_redirected_to users_path
   end

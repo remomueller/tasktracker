@@ -39,7 +39,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PUT /comments/1
+  # PATCH /comments/1
   def update
     if @comment.update(comment_params)
       redirect_to @comment.sticky, notice: 'Comment was successfully updated.'

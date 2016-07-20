@@ -195,8 +195,8 @@ class StickiesController < ApplicationController
     end
   end
 
-  # PUT /stickies/1
-  # PUT /stickies/1.js
+  # PATCH /stickies/1
+  # PATCH /stickies/1.js
   def update
     original_due_date = @sticky.due_date
 

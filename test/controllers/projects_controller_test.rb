@@ -171,18 +171,18 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   test 'should update project' do
-    put :update, id: @project, project: { name: 'Completed Project', description: 'Updated Description' }
+    patch :update, id: @project, project: { name: 'Completed Project', description: 'Updated Description' }
     assert_redirected_to project_path(assigns(:project))
   end
 
   test 'should not update project with blank name' do
-    put :update, id: @project, project: { name: '', description: 'Updated Description' }
+    patch :update, id: @project, project: { name: '', description: 'Updated Description' }
     assert_not_nil assigns(:project)
     assert_template 'edit'
   end
 
   test 'should not update project with invalid id' do
-    put :update, id: -1, project: { name: 'Completed Project', description: 'Updated Description' }
+    patch :update, id: -1, project: { name: 'Completed Project', description: 'Updated Description' }
     assert_nil assigns(:project)
     assert_redirected_to projects_path
   end

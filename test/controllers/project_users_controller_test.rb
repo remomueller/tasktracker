@@ -94,7 +94,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   # end
   #
   # test "should update project_user" do
-  #   put :update, id: @project_user.to_param, project_user: @project_user.attributes
+  #   patch :update, id: @project_user.to_param, project_user: @project_user.attributes
   #   assert_redirected_to project_user_path(assigns(:project_user))
   # end
 
