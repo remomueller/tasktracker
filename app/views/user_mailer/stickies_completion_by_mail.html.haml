@@ -1,0 +1,27 @@
+= @sender.name
+%span{ style: 'padding:5px;background-color:#428bca;color:white' } completed
+the following
+= succeed '.' do
+  = pluralize @stickies.count, 'Task'
+%br
+
+- if @stickies.size > 0
+  %br
+
+  %table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-family:Arial;font-size:14px;' }
+    - @stickies.group_by{|s| s.project_id}.each do |project_id, stickies|
+      %tr
+        %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
+      %tr
+        %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold' }
+          - project = Project.find_by_id project_id
+          - if project
+            = link_to project.name, "#{ENV['website_url']}/projects/#{project.id}", style: 'color: #428bca'
+          - else
+            No Project
+      - stickies.each do |sticky|
+        -# TODO: Don't pass instance variables to partial, use local instead
+        %tr= @sticky = sticky; render 'digest_sticky'
+      %tr
+        %td{ colspan: 7, style: 'padding-bottom:10px' }
+  %br

@@ -1,0 +1,21 @@
+= @sender.name
+%span{ style: 'padding:5px;background-color:#428bca;color:white' } completed
+the following Task
+= link_to @sticky.name, "#{ENV['website_url']}/stickies/#{@sticky.id}", style: 'color: #428bca'
+on Project
+= succeed '.' do
+  = link_to @sticky.project.name, "#{ENV['website_url']}/projects/#{@sticky.project.id}", style: 'color: #428bca'
+%br
+= render 'sticky_note'
+
+- if @sticky.group
+  This task is part of Group
+  = link_to @sticky.group.name, "#{ENV['website_url']}/groups/#{@sticky.group.id}", style: 'color: #428bca'
+  - if @sticky.group.template
+    from Template
+    = succeed '.' do
+      %strong= @sticky.group.template.name
+    %br
+  -# TODO: Don't pass instance variables to partial, use local instead
+  = @stickies = @sticky.group.stickies; render 'sticky_list'
+  %br

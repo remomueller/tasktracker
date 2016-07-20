@@ -32,7 +32,7 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def sticky_completion_by_mail
-    sticky = Sticky.current.first
+    sticky = Sticky.current.where.not(group_id: nil).first
     recipient = User.current.first
     sender = User.current.first
     UserMailer.sticky_completion_by_mail(sticky, sender, recipient)

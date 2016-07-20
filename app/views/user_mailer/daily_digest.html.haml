@@ -1,0 +1,90 @@
+%b
+  = succeed ',' do
+    Dear
+    = @recipient.first_name
+%br
+
+- if @recipient.digest_stickies_completed.size > 0
+  %br
+  %br
+  %table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-family:Arial;font-size:14px;' }
+    %thead
+      %tr{ style: 'text-align:left' }
+        %th{ colspan: 3, style: 'padding-bottom:10px;font-weight:normal' }
+          %span{ style: 'padding:5px;background-color:#428bca;color:white' } Completed
+          Recently
+
+    - @recipient.digest_stickies_completed.group_by{|s| s.project_id}.each do |project_id, stickies|
+      %tr
+        %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
+      %tr
+        %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold' }
+          - project = Project.find_by_id project_id
+          - if project
+            = link_to project.name, "#{ENV['website_url']}/projects/#{project.id}", style: 'color: #428bca'
+          - else
+            No Project
+      - stickies.each do |sticky|
+        -# TODO: Don't pass instance variables to partial, use local instead
+        %tr= @sticky = sticky; render 'digest_sticky'
+      %tr
+        %td{ colspan: 7, style: 'padding-bottom:10px' }
+
+- if @recipient.digest_comments.size > 0
+  %br
+  %br
+  %table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-family:Arial;font-size:14px;' }
+    %thead
+      %tr{ style: 'text-align:left' }
+        %th{ colspan: 3, style: 'padding-bottom:10px;font-weight:normal' }
+          %span{ style: 'padding:5px;background-color:#f0ad4e;color:white' } Comments
+    - @recipient.digest_comments.group_by{|s| s.project_id}.each do |project_id, comments|
+      %tr
+        %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
+      %tr
+        %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold' }
+          - project = Project.find_by_id project_id
+          - if project
+            = link_to project.name, "#{ENV['website_url']}/projects/#{project.id}", style: 'color: #428bca'
+          - else
+            No Project
+      - comments.group_by{|s| s.sticky_id}.each do |sticky_id, comments|
+        %tr
+          %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold' }
+            - sticky = Sticky.find_by_id(sticky_id)
+            - if sticky
+              = link_to sticky.name, "#{ENV['website_url']}/stickies/#{sticky.id}", style: 'color: #428bca'
+              = strip_tags(simple_markdown sticky.full_description).truncate(50, separator: ' ').html_safe
+            - else
+              No Task
+        - comments.each do |comment|
+          -# TODO: Don't pass instance variables to partial, use local instead
+          %tr= @comment = comment; render 'digest_comment'
+      %tr
+        %td{ colspan: 7, style: 'padding-bottom:10px' }
+
+- if @recipient.digest_stickies_created.size > 0
+  %br
+  %br
+  %table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-family:Arial;font-size:14px;' }
+    %thead
+      %tr{ style: 'text-align:left' }
+        %th{ colspan: 3, style: 'padding-bottom:10px;font-weight:normal' }
+          %span{ style: 'padding:5px;background-color:#5cb85c;color:white' } Added
+          Recently
+
+    - @recipient.digest_stickies_created.group_by{|s| s.project_id}.each do |project_id, stickies|
+      %tr
+        %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
+      %tr
+        %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;font-weight:bold' }
+          - project = Project.find_by_id project_id
+          - if project
+            = link_to project.name, "#{ENV['website_url']}/projects/#{project.id}", style: 'color: #428bca'
+          - else
+            No Project
+      - stickies.each do |sticky|
+        -# TODO: Don't pass instance variables to partial, use local instead
+        %tr= @sticky = sticky; render 'digest_sticky'
+      %tr
+        %td{ colspan: 7, style: 'padding-bottom:10px' }
