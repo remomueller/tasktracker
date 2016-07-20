@@ -43,7 +43,7 @@
       = label_tag "template_item_tokens_#{position}_tags", 'Tags', class: 'col-md-2 control-label'
       .col-md-10
         - if @template.project && @template.project.tags.size > 0
-          %table{ style: 'width:100%;table-layout:fixed;' }
+          %table.table.table-borderless.table-fixed
             - @template.project.tags.in_groups_of(5).each do |row_tags|
               %tr
                 - row_tags.each do |tag|
