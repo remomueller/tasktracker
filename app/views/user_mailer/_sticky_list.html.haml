@@ -9,7 +9,7 @@
       %th Assigned To
       %th
       %th Tags
-  - @stickies.order(:due_date).group_by{|s| s.project_id}.each do |project_id, stickies|
+  - stickies.order(:due_date).group_by { |s| s.project_id }.each do |project_id, stickies|
     %tr
       %td{ colspan: 7, style: 'border-top:1px solid #ddd;' }
     %tr

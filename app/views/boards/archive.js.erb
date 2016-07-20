@@ -1,5 +1,5 @@
-$("#unarchived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: false, boards_visible: true }) %>")
-$("#archived_boards_container").html("<%= escape_javascript(render partial: "boards/full_menu", locals: { archived: true, boards_visible: true }) %>")
+$("#unarchived_boards_container").html("<%=j render 'boards/full_menu', archived: false, boards_visible: true %>");
+$("#archived_boards_container").html("<%=j render 'boards/full_menu', archived: true, boards_visible: true %>");
 
 setBoardNames();
 activateBoardDraggables();

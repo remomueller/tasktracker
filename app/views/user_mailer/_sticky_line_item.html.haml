@@ -8,4 +8,4 @@
 %td{ style: 'padding-right:10px' }
   - if sticky.completed?
     %span{ style: 'color:#366dc2;font-weight:bold' } completed
-%td{ style: 'padding-right:10px' }= @tags = sticky.tags; render partial: 'sticky_tags'
+%td{ style: 'padding-right:10px' }= render 'sticky_tags', tags: sticky.tags

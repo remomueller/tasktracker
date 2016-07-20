@@ -7,13 +7,13 @@
       %th Task
       %th Offset
       %th Assign To
-  - @template.sorted_items.each do |item|
+  - template.sorted_items.each do |item|
     - item = item.symbolize_keys
     - owner = User.current.find_by_id(item[:owner_id])
     %tr{ style: 'border-bottom:1px solid #eee;margin-bottom:8px' }
       %td.nowrap{ style: 'overflow-x:hidden;' }
         - (item[:tag_ids] || []).each do |tag_id|
-          - tag = @template.project.tags.find_by_id(tag_id)
+          - tag = template.project.tags.find_by_id(tag_id)
           = render 'tags/show', tag: tag if tag
         = item[:description]
       %td.nowrap

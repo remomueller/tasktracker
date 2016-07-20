@@ -7,7 +7,7 @@ COMPLETED Recently
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
 <% stickies.each do |sticky| %>
-  <%= @sticky = sticky; render partial: 'digest_sticky' %>
+  <%= render 'digest_sticky', sticky: sticky %>
 <% end %>
 
 <% end %>
@@ -24,7 +24,7 @@ COMMENTS
   <%= strip_tags(simple_markdown sticky.full_description).truncate(50) %>
 
   <% comments.each do |comment| %>
-     <%= @comment = comment; render partial: 'digest_comment' %>
+     <%= render 'digest_comment', comment: comment %>
   <% end %>
 <% end %>
 
@@ -37,7 +37,7 @@ ADDED Recently
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
   <% stickies.each do |sticky| %>
-    <%= @sticky = sticky; render partial: 'digest_sticky' %>
+    <%= render 'digest_sticky', sticky: sticky %>
   <% end %>
 
 <% end %>

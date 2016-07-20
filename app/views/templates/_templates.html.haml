@@ -17,8 +17,7 @@
       %td= link_to template.name, template
       %td= link_to template.project.name, template.project
       %td{ style: 'background-color:white' }
-        -# TODO: Don't pass around instance variables into partials, use local variables instead
-        = @template = template; render 'compact_items'
+        = render 'templates/compact_items', template: template
       %td
         - if current_user.all_templates.include?(template)
           = link_to 'Edit', edit_template_path(template), class: 'btn btn-xs btn-default'

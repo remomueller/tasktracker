@@ -6,4 +6,4 @@ Group Description
   <%= @group.description %>
 <% end %>
 
-<%= @stickies = @group.stickies; render partial: 'sticky_list' %>
+<%= render 'sticky_list', stickies: @group.stickies %>

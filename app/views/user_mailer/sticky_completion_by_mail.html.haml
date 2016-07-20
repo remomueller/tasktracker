@@ -16,6 +16,5 @@ on Project
     = succeed '.' do
       %strong= @sticky.group.template.name
     %br
-  -# TODO: Don't pass instance variables to partial, use local instead
-  = @stickies = @sticky.group.stickies; render 'sticky_list'
+  = render 'sticky_list', stickies: @sticky.group.stickies
   %br

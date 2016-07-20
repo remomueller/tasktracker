@@ -9,24 +9,21 @@
   %span{ style: 'padding:5px;background-color:#5cb85c;color:white' } Due Today
   = link_to pluralize(@recipient.all_deliverable_stickies_due_today.size, 'sticky'), "#{ENV['website_url']}/tasks?completed=0&owners=#{@recipient.name}", style: 'color: #428bca'
   %br
-  -# TODO: Don't pass instance variables to partial, use local instead
-  = @stickies = @recipient.all_deliverable_stickies_due_today; render 'sticky_list'
+  = render 'sticky_list', stickies: @recipient.all_deliverable_stickies_due_today
 
 - if @recipient.all_deliverable_stickies_past_due.size > 0
   %br
   %span{ style: 'padding:5px;background-color:#f0ad4e;color:white' } Past Due
   = link_to pluralize(@recipient.all_deliverable_stickies_past_due.size, 'sticky'), "#{ENV['website_url']}/tasks?completed=0&owners=#{@recipient.name}", style: 'color: #428bca'
   %br
-  -# TODO: Don't pass instance variables to partial, use local instead
-  = @stickies = @recipient.all_deliverable_stickies_past_due; render 'sticky_list'
+  = render 'sticky_list', stickies: @recipient.all_deliverable_stickies_past_due
 
 - if @recipient.all_deliverable_stickies_due_upcoming.size > 0
   %br
   %span{ style: 'padding:5px;background-color:#428bca;color:white' } Upcoming
   = link_to pluralize(@recipient.all_deliverable_stickies_due_upcoming.size, 'sticky'), "#{ENV['website_url']}/tasks?completed=0&owners=#{@recipient.name}", style: 'color: #428bca'
   %br
-  -# TODO: Don't pass instance variables to partial, use local instead
-  = @stickies = @recipient.all_deliverable_stickies_due_upcoming; render 'sticky_list'
+  = render 'sticky_list', stickies: @recipient.all_deliverable_stickies_due_upcoming
 
 %br
 View tasks on calendar here:

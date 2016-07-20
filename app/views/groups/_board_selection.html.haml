@@ -4,8 +4,8 @@
 .col-md-10
   - if @group.project_id
     - board_groups = []
-    - board_groups << ["Current", boards.where(archived: false).natural_sort] if boards.where(archived: false).size > 0
-    - board_groups << ["Archived", boards.where(archived: true).natural_sort] if boards.where(archived: true).size > 0
+    - board_groups << ['Current', boards.where(archived: false).natural_sort] if boards.where(archived: false).size > 0
+    - board_groups << ['Archived', boards.where(archived: true).natural_sort] if boards.where(archived: true).size > 0
     #board_id_container
       .row
         .col-xs-6.col-md-4

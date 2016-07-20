@@ -21,9 +21,7 @@
         = simple_markdown @sticky.full_description
     %tr
       %td{ colspan: 2, style: 'padding:0 10px 10px 10px' }
-        - if @sticky.tags.size > 0
-          -# TODO: don't pass instance variables to partials
-          = @tags = @sticky.tags; render 'sticky_tags'
+        = render 'sticky_tags', tags: @sticky.tags if @sticky.tags.size > 0
       %td{ style: 'padding:0px 10px 10px 10px;text-align:right;' }
         - if @sticky.completed?
           %span{ style: 'padding: 2px 4px;font-size:0.8em;background-color:#428bca;color:white' } completed

@@ -7,7 +7,7 @@ COMPLETED Recently
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
 <% stickies.each do |sticky| %>
-  <%= @sticky = sticky; render partial: 'digest_sticky' %>
+  <%= render 'digest_sticky', sticky: sticky %>
 <% end %>
 
 <% end %>

@@ -14,6 +14,4 @@ with
   %strong Group Description
   %br
   = simple_format @group.description
-
--# TODO: Don't pass instance variables to partial, use local instead
-= @stickies = @group.stickies; render 'sticky_list'
+= render 'sticky_list', stickies: @group.stickies
