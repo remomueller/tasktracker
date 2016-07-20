@@ -83,11 +83,11 @@
 %hr.soften
 
 %footer.footer
-  %p.about-footer.muted
+  %p.about-footer.text-muted
     = ENV['website_name']
     Version
     = link_to TaskTracker::VERSION::STRING, "https://github.com/remomueller/tasktracker/tree/#{TaskTracker::VERSION::MAJOR}.#{TaskTracker::VERSION::MINOR}.#{TaskTracker::VERSION::TINY}"
-  %p.about-footer.muted
+  %p.about-footer.text-muted
     By using
     = ENV['website_name']
     you are agreeing to the
