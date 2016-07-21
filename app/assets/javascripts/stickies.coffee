@@ -95,7 +95,7 @@
       $('#move_sticky_element_id').val('#' + element_id)
       $('#move_sticky_id').val(sticky_id)
 
-      if $(ui.draggable).data('grouped') == 'true'
+      if $(ui.draggable).data('grouped') == true
         $('#move-group-dialog').modal('show')
         return false
 

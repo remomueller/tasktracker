@@ -1,5 +1,4 @@
 -# TODO: project_## should not be a class, but rather a data attibute.
--# TODO: data-grouped should be "true" or "false" instead of "grouped" and nil
 .sticky_popup.calendar-entry-name{ class: "stickies_#{sticky.completed ? 'completed' : 'planned'} project_#{sticky.project_id}", id: "sticky_#{sticky.id}_popup", data: { grouped: (sticky.group ? 'true' : 'false'), due_date: "#{sticky.due_date.strftime('%Y%m%d') if sticky.due_date}" } }
   %table
     %col{ width: '12px' }
