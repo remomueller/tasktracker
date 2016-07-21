@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root 'stickies#week'
-  get '' => 'stickies#week', as: :dashboard
+  root 'stickies#month'
+  get '' => 'stickies#month', as: :dashboard
 
   resources :comments do
     collection do

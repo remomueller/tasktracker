@@ -2,6 +2,7 @@
 
 ### Enhancements
 - **General Changes**
+  - Default root path has been changed back to calendar view
   - Updated the navigation menu bar
 - **Gem Changes**
   - Updated to kaminari 0.17.0
