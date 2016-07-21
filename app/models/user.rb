@@ -20,10 +20,9 @@ class User < ActiveRecord::Base
   serialize :email_notifications, Hash
 
   # Concerns
-  include Deletable
+  include Deletable, Searchable
 
   # Named Scopes
-  scope :search, -> (arg) { where('LOWER(first_name) LIKE ? or LOWER(last_name) LIKE ? or LOWER(email) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
   scope :with_project, -> (*args) { where( "users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1] ) }
   scope :with_name, -> (arg) { where("(users.first_name || ' ' || users.last_name) IN (?)", arg) }
 
@@ -42,6 +41,10 @@ class User < ActiveRecord::Base
   has_many :owned_stickies, -> { current.order(:created_at) }, class_name: 'Sticky', foreign_key: 'owner_id'
 
   # User Methods
+
+  def self.searchable_attributes
+    %w(first_name last_name email)
+  end
 
   def avatar_url(size = 80, default = 'mm')
     gravatar_id = Digest::MD5.hexdigest(self.email.to_s.downcase)

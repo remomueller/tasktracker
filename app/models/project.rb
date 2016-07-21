@@ -6,10 +6,9 @@ class Project < ActiveRecord::Base
   include Searchable, Deletable
 
   # Named Scopes
-  scope :with_user, lambda { |*args| where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]).references(:project_users) }
+  scope :with_user, -> (*args) { where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]).references(:project_users) }
   scope :has_template, -> { where('projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false) }
-
-  scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") } #, order: "(project_favorites.favorite = 't') DESC"
+  scope :by_favorite, -> (arg) { joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") } #, order: "(project_favorites.favorite = 't') DESC"
 
   # Model Validation
   validates :name, :user_id, presence: true
@@ -26,6 +25,10 @@ class Project < ActiveRecord::Base
   has_many :groups, -> { current }
   has_many :tags, -> { current.order(:name) }
   has_many :templates, -> { current.order(:name) }
+
+  def self.searchable_attributes
+    %w(name)
+  end
 
   def color(current_user)
     project_favorite = project_favorites.find_by_user_id(current_user.id)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 desc 'Launched by crontab -e, send a reminder email to users who may have tasks due for the day.'
 task reminder_email: :environment do
   return unless EMAILS_ENABLED

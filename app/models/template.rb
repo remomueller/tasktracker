@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Allows project to create templates for groups of tasks.
 class Template < ActiveRecord::Base
   # attr_accessible :name, :project_id, :item_tokens, :avoid_weekends, :items
 
@@ -5,10 +8,9 @@ class Template < ActiveRecord::Base
   attr_reader :item_tokens
 
   # Concerns
-  include Deletable, Filterable
+  include Deletable, Filterable, Searchable
 
   # Named Scopes
-  scope :search, lambda { |arg| where('LOWER(name) LIKE ? or LOWER(items) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')) }
 
   # Model Validation
   validates :name, :project_id, :items, presence: true
@@ -17,18 +19,22 @@ class Template < ActiveRecord::Base
   # Model Relationships
   belongs_to :project
   belongs_to :user
-  has_many :stickies, -> { where deleted: false }
+  has_many :stickies, -> { current }
+
+  def self.searchable_attributes
+    %w(name items)
+  end
 
   def copyable_attributes
-    self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at'].include?(key.to_s)}
+    attributes.reject { |key, val| %w(id user_id deleted created_at updated_at).include?(key.to_s) }
   end
 
   def full_name
-    [self.name, (self.project ? self.project.name : nil)].compact.join(' - ')
+    [name, (project ? project.name : nil)].compact.join(' - ')
   end
 
   def self.natural_sort
-    NaturalSort.sort self.where('').pluck(:name, :id)
+    NaturalSort.sort where('').pluck(:name, :id)
   end
 
   def item_tokens=(tokens)

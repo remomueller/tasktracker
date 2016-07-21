@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
+# Tests to assure users can be added to a project.
 class ProjectUsersControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))

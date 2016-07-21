@@ -5,7 +5,7 @@ class InternalController < ApplicationController
   before_action :authenticate_user!
 
   def search
-    @projects = current_user.all_viewable_projects.search_name(params[:search]).order('name').limit(10)
+    @projects = current_user.all_viewable_projects.search(params[:search]).order('name').limit(10)
     @groups = current_user.all_viewable_groups.search(params[:search]).order('description').limit(10)
     @objects = @projects + @groups
     respond_to do |format|

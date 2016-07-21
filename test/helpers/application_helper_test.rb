@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 SimpleCov.command_name 'test:helpers'
 
+# Tests to assure application helper methods work as intended.
 class ApplicationHelperTest < ActionView::TestCase
   test 'should show date' do
     date = Time.zone.today + 5.days
