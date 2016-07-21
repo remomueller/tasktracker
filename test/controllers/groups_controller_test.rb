@@ -30,21 +30,21 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'should create group and generate stickies' do
-    assert_difference('Sticky.count', templates(:one).items.size) do
+    assert_difference('Sticky.count', templates(:one).template_items.size) do
       assert_difference('Group.count') do
         post :create, project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) }
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
-    assert_equal templates(:one).items.size, assigns(:group).stickies.size
+    assert_equal templates(:one).template_items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
     assert_redirected_to group_path(assigns(:group))
   end
 
   test 'should create group and generate tasks and create a new board for the group' do
-    assert_difference('Sticky.count', templates(:one).items.size) do
+    assert_difference('Sticky.count', templates(:one).template_items.size) do
       assert_difference('Group.count') do
         post :create, project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) }, create_new_board: '1', group_board_name: 'New Board'
       end
@@ -55,13 +55,13 @@ class GroupsControllerTest < ActionController::TestCase
     assert_equal 'New Board', assigns(:board).name
     assert_equal projects(:one), assigns(:board).project
     assert_equal [assigns(:board).id], assigns(:group).stickies.pluck(:board_id).uniq
-    assert_equal templates(:one).items.size, assigns(:group).stickies.size
+    assert_equal templates(:one).template_items.size, assigns(:group).stickies.size
     assert_equal users(:valid), assigns(:group).user
     assert_redirected_to group_path(assigns(:group))
   end
 
   test 'should create group and generate tasks and add tasks to holding pen' do
-    assert_difference('Sticky.count', templates(:one).items.size) do
+    assert_difference('Sticky.count', templates(:one).template_items.size) do
       assert_difference('Group.count') do
         post :create, project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) }, create_new_board: '1', group_board_name: ''
       end
@@ -70,20 +70,20 @@ class GroupsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:group)
     assert_nil assigns(:board)
     assert_equal [nil], assigns(:group).stickies.pluck(:board_id).uniq
-    assert_equal templates(:one).items.size, assigns(:group).stickies.size
+    assert_equal templates(:one).template_items.size, assigns(:group).stickies.size
     assert_equal users(:valid), assigns(:group).user
     assert_redirected_to group_path(assigns(:group))
   end
 
   test 'should create group and generate tasks with default tags' do
-    assert_difference('Sticky.count', templates(:with_tag).items.size) do
+    assert_difference('Sticky.count', templates(:with_tag).template_items.size) do
       assert_difference('Group.count') do
         post :create, project_id: projects(:one), group: { template_id: templates(:with_tag), board_id: boards(:one) }
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
-    assert_equal templates(:with_tag).items.size, assigns(:group).stickies.size
+    assert_equal templates(:with_tag).template_items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
     assert_equal ['alpha'], assigns(:group).stickies.first.tags.collect{|t| t.name}
@@ -91,14 +91,14 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'should create group of tasks with due_at time and duration' do
-    assert_difference('Sticky.count', templates(:with_due_at).items.size) do
+    assert_difference('Sticky.count', templates(:with_due_at).template_items.size) do
       assert_difference('Group.count') do
         post :create, project_id: projects(:one), group: { template_id: templates(:with_due_at), board_id: boards(:one) }
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
-    assert_equal templates(:with_due_at).items.size, assigns(:group).stickies.size
+    assert_equal templates(:with_due_at).template_items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
     assert_equal '9pm', assigns(:group).stickies.first.due_time
@@ -108,14 +108,14 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'should create group of tasks avoid weekends' do
-    assert_difference('Sticky.count', templates(:avoid_weekends).items.size) do
+    assert_difference('Sticky.count', templates(:avoid_weekends).template_items.size) do
       assert_difference('Group.count') do
         post :create, project_id: projects(:one), group: { template_id: templates(:avoid_weekends), board_id: boards(:one), initial_due_date: '3/10/2012' }
       end
     end
     assert_not_nil assigns(:template)
     assert_not_nil assigns(:group)
-    assert_equal templates(:avoid_weekends).items.size, assigns(:group).stickies.size
+    assert_equal templates(:avoid_weekends).template_items.size, assigns(:group).stickies.size
     assert_equal boards(:one), assigns(:board)
     assert_equal users(:valid), assigns(:group).user
     assert_equal Date.parse('2012-03-09'), assigns(:group).stickies.order('due_date').first.due_date

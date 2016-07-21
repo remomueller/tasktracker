@@ -24,7 +24,8 @@ class TemplatesController < ApplicationController
 
   def add_item
     @template = current_user.templates.new(template_params)
-    @item = { description: '', interval: 0, units: 'days' }
+    @template_item = @template.template_items.new(description: '')
+    render 'template_items/new'
   end
 
   # GET /templates
@@ -100,7 +101,8 @@ class TemplatesController < ApplicationController
 
     params.require(:template).permit(
       :name, :project_id, :avoid_weekends,
-      { item_tokens: [:description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, tag_ids: []] }
+      { item_hashes: [:description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, tag_ids: []] }
+      # { item_tokens: [:description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, tag_ids: []] }
     )
   end
 end

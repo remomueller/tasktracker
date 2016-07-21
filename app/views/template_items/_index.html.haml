@@ -1,0 +1,28 @@
+%table.table.table-striped.table-condensed.table-fixed{ style: 'margin-bottom:0' }
+  %col{ width: '50%' }
+  %col{ width: '25%' }
+  %col{ width: '25%' }
+  %thead
+    %tr
+      %th Task
+      %th Offset
+      %th Assign To
+  - template.template_items.each do |template_item|
+    %tr{ style: 'border-bottom:1px solid #eee;margin-bottom:8px' }
+      %td.nowrap{ style: 'overflow-x:hidden;' }
+        - template_item.template_item_tags.each do |template_item_tag|
+          = render 'tags/show', tag: template_item_tag.tag
+        = template_item.description
+      %td.nowrap
+        - if template_item.interval != 0
+          %b
+            = '+' if template_item.interval > 0
+            = template_item.interval
+            = template_item.interval_units
+      %td.nowrap{ style: "overflow-x:hidden;#{'font-weight:bold' if current_user == template_item.owner}" }
+        %span{ rel: 'tooltip', title: "#{template_item.owner ? template_item.owner.name : 'Unassigned'}", data: { placement: 'left', container: 'body' } }
+          - if template_item.owner
+            = image_tag template_item.owner.avatar_url(18, 'identicon')
+            = template_item.owner.nickname
+          - else
+            = image_tag User.new.avatar_url(18, 'mm')

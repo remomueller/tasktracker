@@ -1,0 +1,86 @@
+one_one:
+  template: one
+  position: 0
+  description: Item 1
+  interval: 0
+  interval_units: days
+
+one_two:
+  template: one
+  position: 1
+  description: Item 2
+  interval: 1
+  interval_units: days
+
+two_one:
+  template: two
+  position: 0
+  description: Task A
+  interval: 0
+  interval_units: days
+
+two_two:
+  template: two
+  position: 1
+  description: Task B
+  interval: 1
+  interval_units: days
+
+two_three:
+  template: two
+  position: 2
+  description: Task C
+  interval: 2
+  interval_units: days
+
+two_four:
+  template: two
+  position: 3
+  description: Task D
+  interval: 3
+  interval_units: days
+
+two_five:
+  template: two
+  position: 4
+  description: Task E
+  interval: 4
+  interval_units: days
+
+two_six:
+  template: two
+  position: 5
+  description: Task F
+  interval: 5
+  interval_units: days
+
+with_tag_one:
+  template: with_tag
+  position: 0
+  description: Tagged A
+  interval: 0
+  interval_units: days
+
+with_due_at_one:
+  template: with_due_at
+  position: 0
+  description: "Due At: 9:00 PM to 9:45PM"
+  interval: 0
+  interval_units: days
+  due_time: 9pm
+  duration: 45
+  duration_units: minutes
+
+avoid_weekends_one:
+  template: avoid_weekends
+  position: 0
+  description: Should schedule on Friday
+  interval: 0
+  interval_units: days
+
+avoid_weekends_two:
+  template: avoid_weekends
+  position: 1
+  description: Should schedule on Monday
+  interval: 1
+  interval_units: days

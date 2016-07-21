@@ -37,6 +37,7 @@ class StickiesController < ApplicationController
   end
 
   def month
+    flash.delete(:notice)
     @start_date = @anchor_date.beginning_of_month
     @end_date = @anchor_date.end_of_month
 
@@ -65,7 +66,7 @@ class StickiesController < ApplicationController
     sticky_scope = current_user.all_stickies
     sticky_scope = sticky_scope.with_owner(current_user.id) if params[:assigned_to_me] == '1'
     sticky_scope = sticky_scope.where(project_id: params[:project_id]) unless params[:project_id].blank?
-    sticky_scope = sticky_scope.where("stickies.owner_id IS NOT NULL") if params[:unassigned].to_s != '1'
+    sticky_scope = sticky_scope.where.not(owner_id: nil) if params[:unassigned].to_s != '1'
     sticky_scope = sticky_scope.with_tag(params[:tag_ids].split(',')) unless params[:tag_ids].blank?
     sticky_scope = sticky_scope.with_board(params[:board_id]) unless params[:board_id].blank? or params[:board_id] == 'all'
 
@@ -89,7 +90,7 @@ class StickiesController < ApplicationController
     end
 
     sticky_scope = sticky_scope.search(params[:search]).reorder(@order)
-    @stickies = sticky_scope.page(params[:page]).per( 40 )
+    @stickies = sticky_scope.page(params[:page]).per(40)
     respond_to do |format|
       format.html { redirect_to tasks_path }
       format.js

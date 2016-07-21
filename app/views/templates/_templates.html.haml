@@ -17,8 +17,8 @@
       %td= link_to template.name, template
       %td= link_to template.project.name, template.project
       %td{ style: 'background-color:white' }
-        = render 'templates/compact_items', template: template
-      %td
+        = render 'template_items/index', template: template
+      %td.nowrap
         - if current_user.all_templates.include?(template)
           = link_to 'Edit', edit_template_path(template), class: 'btn btn-xs btn-default'
           = link_to 'Delete', template, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Template #{template.name}?" }

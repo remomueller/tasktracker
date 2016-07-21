@@ -18,7 +18,7 @@
     = render 'groups/inner_form', f: f
 
   #item_details
-    = render 'templates/compact_items', template: @group.template if @group.template
+    = render 'template_items/index', template: @group.template if @group.template
 
 .modal-footer
   = link_to 'Cancel', '#', class: 'btn btn-default', data: { dismiss: 'modal' }

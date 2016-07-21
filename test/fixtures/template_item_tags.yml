@@ -1,0 +1,3 @@
+with_tag_one_alpha:
+  template_item: with_tag_one
+  tag: alpha

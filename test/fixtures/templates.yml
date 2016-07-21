@@ -1,46 +1,44 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
---- !map:HashWithIndifferentAccess
-
 one:
   user: valid
   project: one
   name: Create Two Items
-  items: [{ description: 'Item 1', interval: 0, units: 'days' },
-          { description: 'Item 2', interval: 1, units: 'days' } ]
+  # TODO: Remove in v0.30.0
+  # items: [{ description: 'Item 1', interval: 0, units: 'days' },
+  #         { description: 'Item 2', interval: 1, units: 'days' } ]
 
 two:
   user: valid
   project: one
   name: A Single Template 1 Week Reminder
-  items: [{ description: 'Reminder in a Week', interval: 1, units: 'weeks' }]
+  # items: [{ description: 'Reminder in a Week', interval: 1, units: 'weeks' }]
 
 three:
   user: valid
   project: one
   name: Five Items
-  items: [{ description: 'Task A', interval: 0, units: 'days' },
-          { description: 'Task B', interval: 1, units: 'days' },
-          { description: 'Task C', interval: 2, units: 'days' },
-          { description: 'Task D', interval: 3, units: 'days' },
-          { description: 'Task E', interval: 4, units: 'days' },
-          { description: 'Task F', interval: 5, units: 'days' }]
+  # items: [{ description: 'Task A', interval: 0, units: 'days' },
+  #         { description: 'Task B', interval: 1, units: 'days' },
+  #         { description: 'Task C', interval: 2, units: 'days' },
+  #         { description: 'Task D', interval: 3, units: 'days' },
+  #         { description: 'Task E', interval: 4, units: 'days' },
+  #         { description: 'Task F', interval: 5, units: 'days' }]
 
 with_tag:
   user: valid
   project: one
   name: Tagged Item
-  items: [{ description: 'Tagged A', interval: 0, units: 'days', tag_ids: [<%= ActiveRecord::FixtureSet.identify(:alpha) %>] }]
+  # items: [{ description: 'Tagged A', interval: 0, units: 'days', tag_ids: [<%= ActiveRecord::FixtureSet.identify(:alpha) %>] }]
 
 with_due_at:
   user: valid
   project: one
   name: Due At Item
-  items: [{ description: 'Due At: 9:00 PM to 9:45PM', interval: 0, units: 'days', due_at_string: '9pm', duration: 45, duration_units: 'minutes' }]
+  # items: [{ description: 'Due At: 9:00 PM to 9:45PM', interval: 0, units: 'days', due_at_string: '9pm', duration: 45, duration_units: 'minutes' }]
 
 avoid_weekends:
   user: valid
   project: one
   name: Avoid Weekends
   avoid_weekends: true
-  items: [{ description: 'Should schedule on Friday', interval: 0, units: 'days' },
-          { description: 'Should schedule on Monday', interval: 1, units: 'days' }]
+  # items: [{ description: 'Should schedule on Friday', interval: 0, units: 'days' },
+  #         { description: 'Should schedule on Monday', interval: 1, units: 'days' }]

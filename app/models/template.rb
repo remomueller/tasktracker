@@ -4,8 +4,12 @@
 class Template < ActiveRecord::Base
   # attr_accessible :name, :project_id, :item_tokens, :avoid_weekends, :items
 
+  # TODO: Remove in 0.30.0
   serialize :items, Array
-  attr_reader :item_tokens
+  # END TODO
+
+  attr_accessor :item_hashes
+  after_save :set_items
 
   # Concerns
   include Deletable, Filterable, Searchable
@@ -13,16 +17,17 @@ class Template < ActiveRecord::Base
   # Named Scopes
 
   # Model Validation
-  validates :name, :project_id, :items, presence: true
+  validates :name, :project_id, :item_hashes, presence: true
   validates :name, uniqueness: { scope: [:deleted, :project_id] }
 
   # Model Relationships
   belongs_to :project
   belongs_to :user
   has_many :stickies, -> { current }
+  has_many :template_items, -> { order :position }
 
   def self.searchable_attributes
-    %w(name items)
+    %w(name)
   end
 
   def copyable_attributes
@@ -37,47 +42,28 @@ class Template < ActiveRecord::Base
     NaturalSort.sort where('').pluck(:name, :id)
   end
 
-  def item_tokens=(tokens)
-    self.items = []
-    tokens.each do |item_hash|
-      self.items << { description: item_hash[:description],
-                      interval: item_hash[:interval].to_i,
-                      units: (['days','weeks','months','years'].include?(item_hash[:units]) ? item_hash[:units] : 'days'),
-                      owner_id: item_hash[:owner_id],
-                      tag_ids: (item_hash[:tag_ids] || []),
-                      due_at_string: item_hash[:due_at_string],
-                      duration: item_hash[:duration].to_i.abs,
-                      duration_units: (item_hash[:duration_units].blank? ? 'hours' : item_hash[:duration_units])
-                    } unless item_hash[:description].blank?
-    end
-    self.items.sort!{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i }
-  end
-
   def generate_stickies!(current_user, board_id, initial_date = Date.today, additional_text = nil)
     group = project.groups.create(user_id: current_user.id, description: additional_text, template_id: id)
-    sorted_items.each_with_index do |item|
-      item = item.symbolize_keys
-      due_date = (initial_date.nil? ? nil : initial_date + item[:interval].send(item[:units]))
+    template_items.each do |template_item|
+      due_date = (initial_date.nil? ? nil : initial_date + template_item.interval.send(template_item.interval_units))
       if avoid_weekends? && due_date
         due_date -= 1.day if due_date.saturday? # Change to Friday
         due_date += 1.day if due_date.sunday?   # Change to Monday
       end
 
-      due_time = item[:due_at_string]
-
       current_user.stickies.create(
         group_id:       group.id,
         project_id:     project_id,
         board_id:       board_id,
-        owner_id:       item[:owner_id],
-        description:    item[:description].to_s,
-        tag_ids:        (item[:tag_ids] || []),
+        owner_id:       template_item.owner_id,
+        description:    template_item.description.to_s,
+        tag_ids:        template_item.template_item_tags.pluck(:tag_id),
         completed:      false,
         due_date:       due_date,
-        due_time:       due_time,
-        all_day:        due_time.blank?,
-        duration:       item[:duration].to_i.abs,
-        duration_units: item[:duration_units].blank? ? 'hours' : item[:duration_units]
+        due_time:       template_item.due_time,
+        all_day:        template_item.due_time.blank?,
+        duration:       template_item.duration.abs,
+        duration_units: template_item.duration_units
       )
     end
     group.reload
@@ -87,7 +73,38 @@ class Template < ActiveRecord::Base
     group
   end
 
+  # TODO: Remove in v0.30.0
   def sorted_items
     items.sort { |a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i }
+  end
+  # END TODO
+
+  private
+
+  def set_items
+    return unless item_hashes && item_hashes.is_a?(Array)
+    template_items.destroy_all
+    sorted_item_hashes.each_with_index do |hash, index|
+      template_item = template_items.create(
+        position: index,
+        description: hash[:description],
+        interval: hash[:interval].to_i,
+        interval_units: (%w(days weeks months years).include?(hash[:units]) ? hash[:units] : 'days'), # TODO: Change hash units to interval_units
+        owner_id: hash[:owner_id],
+        due_time: hash[:due_at_string],  # TODO: Change hash due_at_string to due_time
+        duration: hash[:duration].to_i.abs,
+        duration_units: (%w(minutes hours days weeks months years).include?(hash[:duration_units]) ? hash[:duration_units] : 'hours')
+      )
+      (hash[:tag_ids] || []).each do |tag_id|
+        template_item.template_item_tags.where(tag_id: tag_id).first_or_create
+      end
+    end
+  end
+
+  def sorted_item_hashes
+    # TODO: Change units to interval_units in v0.30.0
+    item_hashes.sort do |a,b|
+      a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i
+    end
   end
 end

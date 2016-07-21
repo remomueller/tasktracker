@@ -1,5 +1,6 @@
-- if @template.sorted_items.size == 0
-  = render 'edit_item', item: { description: '', interval: 0, units: 'days' }
+- if @template.template_items.size == 0
+  - template_item = @template.template_items.new(description: '')
+  = render 'template_items/form', template_item: template_item
 - else
-  - @template.sorted_items.each do |item|
-    = render 'edit_item', item: item
+  - @template.template_items.each do |template_item|
+    = render 'template_items/form', template_item: template_item
