@@ -40,4 +40,5 @@
 
     addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date ? sticky.due_date.strftime('%Y%m%d') : 'none' %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
   <% end %>
+  $('.popover').remove()
 <% end %>

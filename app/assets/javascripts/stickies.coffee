@@ -33,7 +33,6 @@
   else if $("#sticky_#{sticky_id}_popup").length == 1
     $("#sticky_#{sticky_id}_popup").remove()
 
-
 @sortdates = (a, b) ->
   parta = parseInt($(a).data('sort'))
   partb = parseInt($(b).data('sort'))
@@ -138,25 +137,6 @@
   $('#tag_filter').val('any')
   uncheckAllWithSelector('.tag-box')
   $('#stickies_search').submit()
-
-@markCompletion = (sticky_id, completed) ->
-  if completed
-    $("#sticky_#{sticky_id}_row").removeClass('sticky-not-completed')
-    $("#sticky_#{sticky_id}_row").addClass('sticky-completed')
-  else
-    $("#sticky_#{sticky_id}_row").removeClass('sticky-completed')
-    $("#sticky_#{sticky_id}_row").addClass('sticky-not-completed')
-  $("[data-object~='sticky-checkbox'][data-sticky-id='#{sticky_id}']").data('completed', completed)
-
-@markCalendarCompletion = (sticky_id, completed, icon_html) ->
-  if completed
-    $("#sticky_#{sticky_id}_name").css('text-decoration', 'line-through')
-    $("#sticky_#{sticky_id}_icon").html(icon_html)
-    # $("#sticky_#{sticky_id}_description").css('color', '#999')
-  else
-    $("#sticky_#{sticky_id}_name").css('text-decoration', 'none')
-    $("#sticky_#{sticky_id}_icon").html(icon_html)
-    # $("#sticky_#{sticky_id}_description").css('color', 'inherit')
 
 @initializeCompletionButtons = () ->
   stickies_completed = []

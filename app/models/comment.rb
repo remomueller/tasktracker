@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Allows commenting on tasks.
 class Comment < ActiveRecord::Base
   # Concerns
   include Deletable
@@ -11,42 +14,43 @@ class Comment < ActiveRecord::Base
   after_create :send_email
 
   # Model Validation
-  validates_presence_of :description, :sticky_id, :user_id
+  validates :description, :sticky_id, :user_id, presence: true
 
   # Model Relationships
   belongs_to :user
   belongs_to :sticky, touch: true
 
   def name
-    "##{self.id}"
+    "##{id}"
   end
 
   def users_to_email(action, project_id, sticky)
     result = (sticky.comments.collect{|c| c.user} + [sticky.user, sticky.owner]).compact.uniq
-    result = result.select{|u| u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{project_id}") and u.email_on?("project_#{project_id}_#{action}") }
+    result = result.select{|u| u.email_on?(:send_email) && u.email_on?(action) && u.email_on?("project_#{project_id}") && u.email_on?("project_#{project_id}_#{action}") }
   end
 
+  # TODO: Change to delegate? Comments may always have associated stickies.
   def project_id
-    self.sticky.project_id if self.sticky
+    sticky.project_id if sticky
   end
 
   def modifiable_by?(current_user)
     # current_user.all_projects.pluck(:id).include?(self.sticky.project_id)
-    self.sticky.project.modifiable_by?(current_user)
+    sticky.project.modifiable_by?(current_user)
   end
 
   def deletable_by?(current_user)
-    self.user == current_user or self.modifiable_by?(current_user)
+    user == current_user || modifiable_by?(current_user)
   end
 
   private
 
   def send_email
+    return unless EMAILS_ENABLED
     all_users = []
-    all_users = self.sticky.project.users_to_email(:sticky_comments) - [self.user] if self.sticky
-
+    all_users = sticky.project.users_to_email(:sticky_comments) - [user] if sticky
     all_users.each do |user_to_email|
-      UserMailer.comment_by_mail(self, self.sticky, user_to_email).deliver_now if EMAILS_ENABLED
+      UserMailer.comment_by_mail(self, sticky, user_to_email).deliver_now
     end
   end
 end
