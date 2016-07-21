@@ -12,7 +12,7 @@ class Project < ActiveRecord::Base
   scope :by_favorite, lambda { |arg| joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") } #, order: "(project_favorites.favorite = 't') DESC"
 
   # Model Validation
-  validates_presence_of :name, :user_id
+  validates :name, :user_id, presence: true
 
   # Model Relationships
   belongs_to :user
@@ -32,50 +32,53 @@ class Project < ActiveRecord::Base
     if project_favorite && project_favorite.color.present?
       project_favorite.color
     else
-      colors(Project.order(:id).pluck(:id).index(self.id))
+      colors(Project.order(:id).pluck(:id).index(id))
     end
+  end
+
+  def text_color(current_user)
+    '#fff'
   end
 
   def users_to_email(action)
-    result = (self.users + [self.user]).uniq
-    result = result.select{|u| u.email_on?(:send_email) and u.email_on?(action) and u.email_on?("project_#{self.id}") and u.email_on?("project_#{self.id}_#{action}") }
-  end
-
-  def project_link
-    ENV['website_url'] + "/projects/#{self.id}"
+    (users + [user]).uniq.select do |u|
+      u.email_on?(:send_email) &&
+        u.email_on?(action) &&
+        u.email_on?("project_#{id}") &&
+        u.email_on?("project_#{id}_#{action}")
+    end
   end
 
   def modifiable_by?(current_user)
-    @modifiable_by ||= begin
-      Project.current.with_user(current_user.id, true).where(id: self.id).count == 1
-    end
+    Project.current.with_user(current_user.id, true).where(id: id).count == 1
   end
 
   def viewable_by?(current_user)
-    @viewable_by ||= begin
-      Project.current.with_user(current_user.id, [true, false]).where(id: self.id).count == 1
-    end
+    Project.current.with_user(current_user.id, [true, false]).where(id: id).count == 1
   end
 
-  def sticky_count(board = "all", filter = 'completed', user = nil)
+  def sticky_count(board = 'all', filter = 'completed', user = nil)
     scope = stickies.where(completed: (filter == 'completed'))
-    scope = scope.due_date_before_or_blank(Date.today) if filter == 'past_due'
-    scope = scope.due_date_after_or_blank(Date.today) if filter == 'upcoming'
+    scope = scope.due_date_before_or_blank(Time.zone.today) if filter == 'past_due'
+    scope = scope.due_date_after_or_blank(Time.zone.today) if filter == 'upcoming'
     scope = scope.where(board_id: board) if board != 'all' # Holding Pen
     scope = scope.with_owner(user.id) if user
     scope.count
   end
 
   def favorited_by?(current_user)
-    project_favorite = self.project_favorites.find_by_user_id(current_user.id)
-    not project_favorite.blank? and project_favorite.favorite?
+    project_favorite = project_favorites.find_by_user_id(current_user.id)
+    project_favorite.present? && project_favorite.favorite?
   end
 
   private
 
   def colors(index)
-    colors = ["#4733e6", "#7dd148", "#bfbf0d", "#9a9cff", "#16a766", "#4986e7", "#cb74e6", "#9f33e6", "#ff7637", "#92e1c0", "#d06c64", "#9fc6e7", "#c2c2c2", "#fa583c", "#AC725E", "#cca6ab", "#b89aff", "#f83b22", "#43d691", "#F691B2", "#a67ae2", "#FFAD46", "#b3dc6c"]
+    colors = %w(
+      #4733e6 #7dd148 #bfbf0d #9a9cff #16a766 #4986e7 #cb74e6 #9f33e6 #ff7637
+      #92e1c0 #d06c64 #9fc6e7 #c2c2c2 #fa583c #AC725E #cca6ab #b89aff #f83b22
+      #43d691 #F691B2 #a67ae2 #FFAD46 #b3dc6c
+    )
     colors[index.to_i % colors.size]
   end
-
 end
