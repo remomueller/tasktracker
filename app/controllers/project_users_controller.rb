@@ -4,29 +4,24 @@
 class ProjectUsersController < ApplicationController
   before_action :authenticate_user!
 
-  # POST /project_users
+  # POST /project_users.js
   # POST /project_users.json
   def create
     @project = current_user.all_projects.find_by_id(params[:project_user][:project_id])
     invite_email = (params[:editors_text] || params[:viewers_text]).to_s.strip
     user_email = invite_email.split('[').last.to_s.split(']').first
     @user = current_user.associated_users.find_by_email(user_email)
-
-    respond_to do |format|
-      if @project && (@user.present? || invite_email.present?)
-        if @user
-          @project_user = @project.project_users.where(user_id: @user.id).first_or_create(creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true'))
-          @project_user.notify_user_added_to_project
-        elsif invite_email.present?
-          @project_user = @project.project_users.where(invite_email: invite_email).first_or_create(creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true'))
-          @project_user.generate_invite_token!
-        end
-        format.js { render 'index' }
-        format.json { render json: @project_user, status: :created, location: @project_user }
-      else
-        format.js { render nothing: true }
-        format.json { head :no_content }
+    if @project && (@user.present? || invite_email.present?)
+      if @user
+        @project_user = @project.project_users.where(user_id: @user.id).first_or_create(creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true'))
+        @project_user.notify_user_added_to_project
+      elsif invite_email.present?
+        @project_user = @project.project_users.where(invite_email: invite_email).first_or_create(creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true'))
+        @project_user.generate_invite_token!
       end
+      render :index
+    else
+      render nothing: true
     end
   end
 
@@ -44,21 +39,16 @@ class ProjectUsersController < ApplicationController
     end
   end
 
-  # DELETE /project_users/1
-  # DELETE /project_users/1.json
+  # DELETE /project_users/1.js
   def destroy
     @project_user = ProjectUser.find_by_id(params[:id])
     @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
     @project = current_user.all_viewable_projects.find_by_id(@project_user.project_id) if @project.blank? && @project_user && current_user == @project_user.user
-
-    respond_to do |format|
-      if @project && @project_user
-        @project_user.destroy
-        format.js { render 'index' }
-      else
-        format.js { render nothing: true }
-      end
-      format.json { head :no_content }
+    if @project && @project_user
+      @project_user.destroy
+      render :index
+    else
+      render nothing: true
     end
   end
 end

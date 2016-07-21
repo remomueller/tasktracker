@@ -11,14 +11,10 @@ class TemplatesController < ApplicationController
 
   def copy
     template = current_user.all_viewable_templates.find_by_id(params[:id])
-    respond_to do |format|
-      if template and @template = current_user.templates.new(template.copyable_attributes)
-        format.html { render 'new' }
-        format.json { render json: @template }
-      else
-        format.html { redirect_to templates_path }
-        format.json { head :no_content }
-      end
+    if template and @template = current_user.templates.new(template.copyable_attributes)
+      render :new
+    else
+      redirect_to templates_path
     end
   end
 
@@ -35,7 +31,7 @@ class TemplatesController < ApplicationController
   def index
     @order = scrub_order(Template, params[:order], 'templates.name')
     template_scope = (params[:editable_only] == '1') ? current_user.all_templates : current_user.all_viewable_templates
-    @templates = template_scope.search(params[:search]).filter(params).order(@order).page(params[:page]).per(params[:format] == 'json' ? -1 : 40 )
+    @templates = template_scope.search(params[:search]).filter(params).order(@order).page(params[:page]).per(40)
   end
 
   # GET /templates/1
