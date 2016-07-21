@@ -215,13 +215,9 @@ a.archived-boards-link:hover {
 }
 
 .a-link:hover {
-  color: #2a6496;
+  color: $link-hover-color;
 }
 
 span.selected {
   color: #5cb85c;
-}
-
-.badge-primary {
-  background-color: #428bca;
 }
