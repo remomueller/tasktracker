@@ -187,8 +187,6 @@ class StickiesController < ApplicationController
 
   # TODO: Remove all references
   def complete
-    params[:hide_show] = '1'
-
     if @sticky
       @sticky.update completed: (params[:undo] != 'true')
       @sticky.send_email_if_recently_completed(current_user)
