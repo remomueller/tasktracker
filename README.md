@@ -59,19 +59,6 @@ SHELL=/bin/bash
 0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.3.1/bin/bundle exec rake reminder_email RAILS_ENV=production
 ```
 
-## Exporting the Task Tracker Data Dictionary for use by the [Sleep Portal](https://github.com/sleepepi/sleepportal) for dynamic reporting and searches
-
-Edit Cron Jobs `sudo crontab -e` to export the data dictionary
-
-```
-SHELL=/bin/bash
-30 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.3.1/bin/bundle exec rake export_dictionary RAILS_ENV=production
-```
-
-## Task Tracker API (RESTFUL JSON)
-
-If you need to communicate with an instance of Task Tracker programmatically, take a look at the [API Documentation](https://github.com/remomueller/tasktracker/blob/master/API.md) for examples.
-
 ## Contributing to Task Tracker
 
 - Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
