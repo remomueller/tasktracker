@@ -10,7 +10,7 @@
     = @title
     - if @group.new_record?
       or
-      = link_to 'Create Task', new_sticky_path(sticky: { project_id: @group.project_id, due_date: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '' }), method: :get, remote: true, class: 'btn btn-xs btn-default'
+      = link_to 'Create Task', new_sticky_path(project_id: @project, sticky: { due_date: @group.initial_due_date ? @group.initial_due_date.strftime('%m/%d/%Y') : '' }), method: :get, remote: true, class: 'btn btn-xs btn-default'
 
 .modal-body
   = form_for(@group, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f|

@@ -84,11 +84,6 @@ class GroupsController < ApplicationController
     @group = current_user.all_groups.find_by_id(params[:id])
   end
 
-  def find_editable_project_or_first_project
-    @project = current_user.all_projects.find_by_id params[:project_id]
-    @project = current_user.all_projects.first if @project.nil? && current_user.all_projects.count == 1
-  end
-
   def redirect_without_group
     empty_response_or_root_path(groups_path) unless @group
   end

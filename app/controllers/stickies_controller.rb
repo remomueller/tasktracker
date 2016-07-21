@@ -4,6 +4,7 @@
 class StickiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_sticky, only: [:show]
+  before_action :find_editable_project_or_first_project, only: [:new, :create, :edit, :update]
   before_action :set_editable_sticky, only: [:edit, :move, :move_to_board, :complete, :update, :destroy]
   before_action :redirect_without_sticky, only: [:show, :update, :destroy]
   before_action :set_filtered_sticky_scope, only: [:day, :week, :month, :tasks]
@@ -101,8 +102,9 @@ class StickiesController < ApplicationController
 
   # GET /stickies/new
   def new
-    @sticky = current_user.stickies.new(sticky_params)
-    @sticky.project = current_user.all_projects.first if not @sticky.project and current_user.all_projects.size == 1
+    if @project
+      @sticky = @project.stickies.new(sticky_params)
+    end
     respond_to do |format|
       format.html
       format.js
@@ -113,13 +115,13 @@ class StickiesController < ApplicationController
   def edit
     respond_to do |format|
       if @sticky
-        @project_id = @sticky.project_id
+        @project = @sticky.project
         format.html
         format.js
       else
         if @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
           format.html { redirect_to @sticky }
-          format.js { render 'show' }
+          format.js { render :show }
         else
           format.html { redirect_to root_path }
           format.js { render nothing: true }
@@ -131,7 +133,7 @@ class StickiesController < ApplicationController
   # POST /stickies
   # POST /stickies.js
   def create
-    @sticky = current_user.stickies.new(sticky_params)
+    @sticky = @project.stickies.where(user_id: current_user.id).new(sticky_params)
 
     respond_to do |format|
       if @sticky.save
@@ -140,7 +142,7 @@ class StickiesController < ApplicationController
         format.html { redirect_to @sticky, notice: 'Task was successfully created.' }
         format.js
       else
-        @project_id = @sticky.project_id
+        @project = @sticky.project
         format.html { render :new }
         format.js { render :new }
       end
@@ -208,7 +210,6 @@ class StickiesController < ApplicationController
         format.html { redirect_to @sticky, notice: 'Task was successfully updated.' }
         format.js
       else
-        @project_id = @sticky.project_id
         format.html { render :edit }
         format.js { render :edit }
       end
@@ -251,25 +252,20 @@ class StickiesController < ApplicationController
 
     params[:sticky][:due_date] = parse_date(params[:sticky][:due_date]) unless params[:sticky][:due_date].blank?
 
-    unless params[:sticky][:project_id].blank?
-      project = current_user.all_projects.find_by_id(params[:sticky][:project_id])
-      params[:sticky][:project_id] = project ? project.id : nil
-    end
-
-    if project and params[:create_new_board] == '1'
+    if @project && params[:create_new_board] == '1'
       if params[:sticky_board_name].to_s.strip.blank?
         params[:sticky][:board_id] = nil
       else
-        @board = project.boards.where( name: params[:sticky_board_name].to_s.strip ).first_or_create( user_id: current_user.id )
+        @board = @project.boards.where(name: params[:sticky_board_name].to_s.strip).first_or_create(user_id: current_user.id)
         params[:sticky][:board_id] = @board.id
       end
     end
 
-    params[:sticky][:repeat] = ( Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none' ) unless params[:sticky][:repeat].blank?
+    params[:sticky][:repeat] = (Sticky::REPEAT.flatten.uniq.include?(params[:sticky][:repeat]) ? params[:sticky][:repeat] : 'none') unless params[:sticky][:repeat].blank?
     params[:sticky][:repeat_amount] = 1 if params[:sticky][:repeat] == 'none'
 
     params.require(:sticky).permit(
-      :description, :project_id, :owner_id, :board_id, :due_date, :due_time, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
+      :description, :owner_id, :board_id, :due_date, :due_time, :completed, :duration, :duration_units, :all_day, { :tag_ids => [] }, :repeat, :repeat_amount
     )
   end
 

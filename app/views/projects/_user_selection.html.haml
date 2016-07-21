@@ -1,7 +1,7 @@
-- if @project_id.blank?
-  - owners = [@sticky.owner, User.current.with_project(current_user.all_projects.pluck(:id), true).order('last_name, first_name')].flatten.uniq.compact
+- if @project
+  - owners = [@sticky.owner, User.current.with_project(@project.id, true).order(:last_name, :first_name)].flatten.uniq.compact
 - else
-  - owners = [@sticky.owner, User.current.with_project(@project_id, true).order('last_name, first_name')].flatten.uniq.compact
+  - owners = [@sticky.owner, User.current.with_project(current_user.all_projects.pluck(:id), true).order(:last_name, :first_name)].flatten.uniq.compact
 
 = label :sticky, :owner_id, 'Assigned to', class: 'col-md-2 control-label'
 .col-md-10

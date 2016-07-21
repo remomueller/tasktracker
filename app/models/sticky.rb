@@ -35,7 +35,7 @@ class Sticky < ActiveRecord::Base
   scope :with_tag, lambda { |arg| where("stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", arg).references(:tags) }
 
   # Model Validation
-  validates_presence_of :description, :project_id
+  validates :description, :project_id, presence: true
   validates_numericality_of :repeat_amount, only_integer: true, greater_than: 0
 
   # Model Relationships

@@ -49,6 +49,11 @@ class ApplicationController < ActionController::Base
     redirect_without_project unless @project
   end
 
+  def find_editable_project_or_first_project
+    @project = current_user.all_projects.find_by_id params[:project_id]
+    @project = current_user.all_projects.first if @project.nil? && current_user.all_projects.count == 1
+  end
+
   # TODO: Deprecate this
   def set_viewable_project(id = :project_id)
     @project = current_user.all_viewable_projects.find_by_id(params[id])

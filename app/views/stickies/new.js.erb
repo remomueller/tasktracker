@@ -3,19 +3,18 @@
   $('#sticky-modal-new').find('.modal-content').html("<%=j render 'projects/new_modal' %>");
   $('#sticky-modal-new').modal('show');
   $("#project_name").focus();
-<% elsif @sticky.project %>
+<% elsif @sticky && @sticky.project %>
   $('#sticky-modal-new').find('.modal-content').html("<%=j render 'stickies/edit_modal' %>");
   typeaheadReady();
   datepickerReady();
   $('#sticky-modal-new').modal('show');
-  $("#sticky_description").focus();
+  $('#sticky_description').focus();
+  <% @sticky.errors.each do |key, value| %>
+    $('#sticky_<%= key %>').parent().parent().addClass('error');
+  <% end %>
 <% else %>
   $('#sticky-modal-new').find('.modal-content').html("<%=j render 'stickies/select_project' %>");
   $('#sticky-modal-new').modal('show');
-<% end %>
-
-<% @sticky.errors.each do |key, value| %>
-  $('#sticky_<%= key %>').parent().parent().addClass('error');
 <% end %>
 
 resetSubmitButtons();

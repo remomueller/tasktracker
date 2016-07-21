@@ -7,8 +7,6 @@
     - if @sticky.project
       = link_to @sticky.project.name, @sticky.project, target: '_blank'
       &middot;
-      -# TODO: Remove strange @project_id instance variable
-      - @project_id = @sticky.project.id
     = @title
     - if @sticky.new_record? && @sticky.project && @sticky.project.templates.size > 0
       or
@@ -16,7 +14,7 @@
 
 .modal-body
   = form_for(@sticky, remote: true, html: { class: 'form-horizontal', style: 'margin: 0px' }) do |f|
-    = f.hidden_field :project_id
+    = hidden_field_tag :project_id, @project.id
     = render 'stickies/inner_form', f: f
 
 .modal-footer

@@ -1,12 +1,10 @@
-- # TODO: Check why the project is being loaded by an @project_id instance variable.
-- project = Project.current.find_by_id @project_id
-- if project && project.tags.size > 0
+- if @project && @project.tags.size > 0
   .form-group
     = label :sticky, :tag_ids, 'Tags', class: 'col-md-2 control-label'
     .col-md-10
       .row
         = hidden_field_tag 'sticky[tag_ids][]', nil
-        - project.tags.each do |tag|
+        - @project.tags.each do |tag|
           .col-xs-6.col-sm-4.col-md-3.col-lg-2
             %label.checkbox.tag-checkbox{ class: "#{'tag-selected' if @sticky.tags.include?(tag)}", style: "margin-bottom: 10px;background-color:#{tag.color}" }
               = check_box_tag 'sticky[tag_ids][]', tag.id, @sticky.tags.include?(tag)

@@ -91,7 +91,6 @@ class ProjectsControllerTest < ActionController::TestCase
     post :selection, sticky: { project_id: projects(:one).to_param }, format: 'js'
     assert_not_nil assigns(:sticky)
     assert_not_nil assigns(:project)
-    assert_not_nil assigns(:project_id)
     assert_template 'selection'
   end
 
@@ -99,7 +98,6 @@ class ProjectsControllerTest < ActionController::TestCase
     post :selection, sticky: { project_id: -1 }, format: 'js'
     assert_not_nil assigns(:sticky)
     assert_nil assigns(:project)
-    assert_nil assigns(:project_id)
     assert_response :success
   end
 
