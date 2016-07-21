@@ -32,6 +32,8 @@ group :test do
   # Pretty printed test output
   gem 'minitest'
   gem 'simplecov',          '~> 0.12.0', require: false
+  gem 'test_after_commit' # TODO: Remove in Rails 5
+  # gem 'rails-controller-testing' #TODO: Add in Rails 5
 end
 
 group :development do

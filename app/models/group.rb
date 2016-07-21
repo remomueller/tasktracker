@@ -1,59 +1,54 @@
-class Group < ActiveRecord::Base
+# frozen_string_literal: true
 
+# Allows a set of tasks to be grouped together.
+class Group < ActiveRecord::Base
   attr_accessor :board_id, :initial_due_date
 
   # Concerns
-  include Deletable, Filterable
+  include Deletable, Filterable, Forkable
 
   # Named Scopes
-  scope :search, lambda { |arg| where('LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:templates) }
-
-  # Hooks
-  after_save :update_stickies_project
+  scope :search, -> (arg) { where('LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:templates) }
 
   # Model Validation
-  validates_presence_of :project_id
+  validates :project_id, presence: true
 
   # Model Relationships
   belongs_to :user
   belongs_to :template
   belongs_to :project
-  has_many :stickies, -> { where(deleted: false).order(:due_date) }
+  has_many :stickies, -> { current.order(:due_date) }
 
   def name
-    "##{self.id}"
+    "##{id}"
   end
 
-  def short_description(fallback = "Group #{self.name}")
-    result = self.description.to_s.split(/[\r\n]/).collect{|i| i.strip}.select{|i| not i.blank?}.first
+  def short_description(fallback = "Group #{name}")
+    result = description.to_s.split(/[\r\n]/).collect(&:strip).find(&:present?)
     result = fallback unless result
     result
   end
 
   def short_description_second_half
-    self.description.to_s.strip.gsub(self.short_description, "").strip
+    description.to_s.strip.gsub(short_description, '').strip
   end
 
   def destroy
-    self.stickies.destroy_all
+    stickies.destroy_all
     super
   end
 
-  def creator_name
-    self.user.name
-  end
-
-  def group_link
-    ENV['website_url'] + "/groups/#{self.id}"
+  def send_email_in_background
+    fork_process(:send_email)
   end
 
   private
 
-  # TODO: Remove as this will no longer be allowed
-  def update_stickies_project
-    if self.changes[:project_id]
-      self.stickies.update_all project_id: self.project_id, board_id: nil
+  def send_email
+    return unless EMAILS_ENABLED
+    all_users = project.users_to_email(:sticky_creation) - [user]
+    all_users.each do |user_to_email|
+      UserMailer.group_by_mail(self, user_to_email).deliver_now
     end
   end
-
 end

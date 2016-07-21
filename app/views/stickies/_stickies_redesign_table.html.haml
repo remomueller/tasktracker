@@ -6,8 +6,8 @@
   = @board ? @board.name : (params[:board_id] == '0' ? 'Holding Pen' : 'All Tasks')
 
 - if @project.modifiable_by?(current_user)
-  = link_to 'Create Task'.html_safe, new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-sticky-button'
-  = link_to 'Create Group'.html_safe, new_group_path(group: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-group-button'
+  = link_to 'Create Task', new_sticky_path(sticky: { project_id: @project.id, board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-sticky-button'
+  = link_to 'Create Group', new_group_path(project_id: @project, group: { board_id: params[:board_id] }), method: :get, remote: true, class: 'btn btn-xs btn-default', id: 'new-group-button'
 
 - @tags.each do |tag|
   = render 'tags/show', tag: tag

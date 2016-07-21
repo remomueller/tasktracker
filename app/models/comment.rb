@@ -3,15 +3,13 @@
 # Allows commenting on tasks.
 class Comment < ActiveRecord::Base
   # Concerns
-  include Deletable
+  include Deletable, Forkable
 
   # Named Scopes
   scope :search, lambda { |arg| where('LOWER(description) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%')) }
   scope :with_creator, lambda { |arg|  where(user_id: arg) }
   scope :with_date_for_calendar, lambda { |*args| where("DATE(comments.created_at) >= ? and DATE(comments.created_at) <= ?", args.first, args[1]) }
   scope :with_project, lambda { |arg| where('comments.sticky_id in (select stickies.id from stickies where stickies.deleted = ? and stickies.project_id IN (?))', false, arg) }
-
-  after_create :send_email
 
   # Model Validation
   validates :description, :sticky_id, :user_id, presence: true
@@ -41,6 +39,10 @@ class Comment < ActiveRecord::Base
 
   def deletable_by?(current_user)
     user == current_user || modifiable_by?(current_user)
+  end
+
+  def send_email_in_background
+    fork_process(:send_email)
   end
 
   private

@@ -4,6 +4,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_viewable_project, only: [:index]
+  before_action :find_editable_project_or_first_project, only: [:new, :create]
   before_action :set_viewable_group, only: [:show]
   before_action :set_editable_group, only: [:edit, :update, :destroy]
   before_action :redirect_without_group, only: [:show, :edit, :update, :destroy]
@@ -21,9 +22,10 @@ class GroupsController < ApplicationController
 
   # GET /groups/new
   def new
-    @group = current_user.groups.new(group_params)
-    @group.project = current_user.all_projects.first if !@group.project && current_user.all_projects.size == 1
-    @group.template = @group.project.templates.first if @group.project && @group.project.templates.size == 1
+    if @project
+      @group = @project.groups.new(group_params)
+      @group.template = @project.templates.first if @project.templates.size == 1
+    end
 
     respond_to do |format|
       format.js
@@ -40,7 +42,7 @@ class GroupsController < ApplicationController
   def create
     g_params = group_params
 
-    @template = current_user.all_templates.find_by_id(params[:group][:template_id]) if params[:group]
+    @template = @project.templates.find_by_id(params[:group][:template_id]) if @project && params[:group]
 
     if @template
       @group = @template.generate_stickies!(current_user, g_params[:board_id], g_params[:initial_due_date], g_params[:description])
@@ -49,6 +51,7 @@ class GroupsController < ApplicationController
         format.js { render :create }
       end
     else
+      @group = @project.groups.new(g_params) if @project
       respond_to do |format|
         format.html { redirect_to groups_path }
         format.js { render :new }
@@ -81,6 +84,11 @@ class GroupsController < ApplicationController
     @group = current_user.all_groups.find_by_id(params[:id])
   end
 
+  def find_editable_project_or_first_project
+    @project = current_user.all_projects.find_by_id params[:project_id]
+    @project = current_user.all_projects.first if @project.nil? && current_user.all_projects.count == 1
+  end
+
   def redirect_without_group
     empty_response_or_root_path(groups_path) unless @group
   end
@@ -88,30 +96,23 @@ class GroupsController < ApplicationController
   def group_params
     params[:group] ||= { blank: '1' } # {}
 
-    unless params[:group][:project_id].blank?
-      project = current_user.all_projects.find_by_id(params[:group][:project_id])
-      params[:group][:project_id] = project ? project.id : nil
-    end
-
-    if project && params[:create_new_board] == '1'
+    if @project && params[:create_new_board] == '1'
       if params[:group_board_name].to_s.strip.blank?
         params[:group][:board_id] = nil
       else
-        @board = project.boards.where(name: params[:group_board_name].to_s.strip).first_or_create( user_id: current_user.id )
+        @board = @project.boards.where(name: params[:group_board_name].to_s.strip).first_or_create(user_id: current_user.id)
         params[:group][:board_id] = @board.id
       end
-    elsif project
-      @board = project.boards.find_by_id(params[:group][:board_id])
+    elsif @project
+      @board = @project.boards.find_by_id(params[:group][:board_id])
     end
 
     params[:group][:board_id] = (@board ? @board.id : nil)
 
-    [:initial_due_date].each do |date|
-      params[:group][date] = parse_date(params[:group][date], Date.today)
-    end
+    params[:group][:initial_due_date] = parse_date(params[:group][:initial_due_date], Time.zone.today)
 
     params.require(:group).permit(
-      :description, :project_id, :board_id, :template_id, :initial_due_date
+      :description, :board_id, :template_id, :initial_due_date
     )
   end
 end

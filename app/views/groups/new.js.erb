@@ -1,16 +1,16 @@
-<% if @group.project %>
+<% if @group %>
   $('#sticky-modal-new').find('.modal-content').html("<%=j render 'groups/new_modal' %>");
   typeaheadReady();
   datepickerReady();
   $('#sticky-modal-new').modal('show');
   $('#group_description').focus();
+  <% @group.errors.each do |key, value| %>
+    $('#group_<%= key %>').parent().parent().addClass('error');
+  <% end %>
 <% else %>
   $('#sticky-modal-new').find('.modal-content').html("<%=j render 'stickies/select_project' %>");
   $('#sticky-modal-new').modal('show');
 <% end %>
 
-<% @group.errors.each do |key, value| %>
-  $('#group_<%= key %>').parent().parent().addClass('error');
-<% end %>
 
 resetSubmitButtons();

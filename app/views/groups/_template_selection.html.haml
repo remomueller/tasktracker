@@ -1,8 +1,6 @@
-- templates = ::Template.current.where(project_id: (@group ? @group.project_id : nil))
-
 = label_tag :group_template_id, 'Template', class: 'col-md-2 control-label'
 .col-md-10
-  - if @project_id
-    = select :group, :template_id, options_for_select([['---', nil]] + templates.order('name').collect{|t| [t.name, t.id]}, @group.template_id ), {}, class: 'form-control'
+  - if @project
+    = select :group, :template_id, options_for_select([['---', nil]] + @project.templates.pluck(:name, :id), @group.template_id ), {}, class: 'form-control'
   - else
     = hidden_field :group, :template_id

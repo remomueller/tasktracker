@@ -135,6 +135,7 @@ class StickiesController < ApplicationController
 
     respond_to do |format|
       if @sticky.save
+        @sticky.send_email_in_background
         @sticky.send_email_if_recently_completed(current_user)
         format.html { redirect_to @sticky, notice: 'Task was successfully created.' }
         format.js

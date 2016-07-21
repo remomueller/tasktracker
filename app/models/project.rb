@@ -18,13 +18,14 @@ class Project < ActiveRecord::Base
   belongs_to :user
   has_many :project_favorites
   has_many :project_users
-  has_many :users, -> { where( deleted: false ).order( 'last_name, first_name' ) }, through: :project_users
+  has_many :users, -> { current.order(:last_name, :first_name) }, through: :project_users
   has_many :editors, -> { where('project_users.allow_editing = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
   has_many :viewers, -> { where('project_users.allow_editing = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
-  has_many :stickies, -> { where deleted: false }
-  has_many :boards, -> { where( deleted: false ).order( 'boards.end_date desc' ) }
-  has_many :tags, -> { where( deleted: false ).order( 'tags.name' ) }
-  has_many :templates, -> { where( deleted: false ).order( 'templates.name' ) }
+  has_many :stickies, -> { current }
+  has_many :boards, -> { current.order(end_date: :desc) }
+  has_many :groups, -> { current }
+  has_many :tags, -> { current.order(:name) }
+  has_many :templates, -> { current.order(:name) }
 
   def color(current_user)
     project_favorite = project_favorites.find_by_user_id(current_user.id)

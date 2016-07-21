@@ -28,7 +28,7 @@ class Template < ActiveRecord::Base
   end
 
   def self.natural_sort
-    NaturalSort.sort self.where('').collect{|t| [t.name, t.id]}
+    NaturalSort.sort self.where('').pluck(:name, :id)
   end
 
   def item_tokens=(tokens)
@@ -48,42 +48,40 @@ class Template < ActiveRecord::Base
   end
 
   def generate_stickies!(current_user, board_id, initial_date = Date.today, additional_text = nil)
-    group = current_user.groups.create({ project_id: self.project_id, description: additional_text, template_id: self.id })
-    self.sorted_items.each_with_index do |item|
+    group = project.groups.create(user_id: current_user.id, description: additional_text, template_id: id)
+    sorted_items.each_with_index do |item|
       item = item.symbolize_keys
-      due_date = (initial_date == nil ? nil : initial_date + item[:interval].send(item[:units]))
-      if self.avoid_weekends? and due_date
+      due_date = (initial_date.nil? ? nil : initial_date + item[:interval].send(item[:units]))
+      if avoid_weekends? && due_date
         due_date -= 1.day if due_date.saturday? # Change to Friday
         due_date += 1.day if due_date.sunday?   # Change to Monday
       end
 
       due_time = item[:due_at_string]
 
-      current_user.stickies.create({  group_id:       group.id,
-                                      project_id:     self.project_id,
-                                      board_id:       board_id,
-                                      owner_id:       item[:owner_id],
-                                      description:    item[:description].to_s,
-                                      tag_ids:        (item[:tag_ids] || []),
-                                      completed:      false,
-                                      due_date:       due_date,
-                                      due_time:       due_time,
-                                      all_day:        due_time.blank?,
-                                      duration:       item[:duration].to_i.abs,
-                                      duration_units: item[:duration_units].blank? ? 'hours' : item[:duration_units]
-                                    })
+      current_user.stickies.create(
+        group_id:       group.id,
+        project_id:     project_id,
+        board_id:       board_id,
+        owner_id:       item[:owner_id],
+        description:    item[:description].to_s,
+        tag_ids:        (item[:tag_ids] || []),
+        completed:      false,
+        due_date:       due_date,
+        due_time:       due_time,
+        all_day:        due_time.blank?,
+        duration:       item[:duration].to_i.abs,
+        duration_units: item[:duration_units].blank? ? 'hours' : item[:duration_units]
+      )
     end
     group.reload
 
-    all_users = self.project.users_to_email(:sticky_creation) - [current_user]
-    all_users.each do |user_to_email|
-      UserMailer.group_by_mail(group, user_to_email).deliver_now if EMAILS_ENABLED
-    end
+    group.send_email_in_background
 
     group
   end
 
   def sorted_items
-    self.items.sort{|a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i }
+    items.sort { |a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i }
   end
 end

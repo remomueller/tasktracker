@@ -30,6 +30,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        @comment.send_email_in_background
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
         format.js
       else

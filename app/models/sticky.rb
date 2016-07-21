@@ -1,14 +1,15 @@
-class Sticky < ActiveRecord::Base
+# frozen_string_literal: true
 
+# Encapsulates a project task.
+class Sticky < ActiveRecord::Base
   before_create :set_start_date
-  after_create :send_email
   after_save :clone_repeat
   before_save :set_end_date, :set_project_and_board
 
-  REPEAT = ["none", "day", "week", "month", "year"].collect{|i| [i,i]}
+  REPEAT = %w(none day week month year).collect { |i| [i, i] }
 
   # Concerns
-  include Deletable
+  include Deletable, Forkable
 
   # Named Scopes
   scope :search, lambda { |arg| where('LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:groups) }
@@ -43,22 +44,18 @@ class Sticky < ActiveRecord::Base
   belongs_to :group
   belongs_to :board
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
-  belongs_to :repeated_sticky, -> { where deleted: false }, class_name: 'Sticky', foreign_key: 'repeated_sticky_id'
+  belongs_to :repeated_sticky, -> { current }, class_name: 'Sticky', foreign_key: 'repeated_sticky_id'
   has_and_belongs_to_many :tags
-  has_many :comments, -> { where( deleted: false ).order( 'created_at desc' ) }
-
-  def sticky_link
-    ENV['website_url'] + "/stickies/#{self.id}"
-  end
+  has_many :comments, -> { current.order(created_at: :desc) }
 
   # Panel returns 'completed', 'past_due', or 'upcoming'
   # Since both upcoming and past_due incomplete contain stickies
   # with "today's" due date or without a due date, these both get
   # placed into past_due
   def panel
-    if self.completed?
+    if completed?
       'completed'
-    elsif self.due_date and self.due_date.to_date > Date.today
+    elsif due_date && due_date.to_date > Time.zone.today
       'upcoming'
     else
       'past_due'
@@ -67,67 +64,63 @@ class Sticky < ActiveRecord::Base
 
   def modifiable_by?(current_user)
     # current_user.all_projects.pluck(:id).include?(self.project_id)
-    self.project_id.blank? or self.project.modifiable_by?(current_user)
+    project_id.blank? || project.modifiable_by?(current_user)
   end
 
   def tag_ids
-    self.tags.order('tags.name').pluck('tags.id')
+    tags.order('tags.name').pluck('tags.id')
   end
 
   def name
-    "##{self.id}"
+    "##{id}"
   end
 
   def destroy
-    self.comments.destroy_all
+    comments.destroy_all
     super
   end
 
   def full_description
-    @full_description ||= begin
-      if self.group and not self.group.description.blank?
-        self.description + "\n\n" + self.group.description
-      else
-        self.description
-      end
+    if group && group.description.present?
+      "#{description}\n\n#{group.description}"
+    else
+      description
     end
   end
 
   def group_description
-    @group_description ||= begin
-      (self.group ? self.group.description : nil)
-    end
+    group ? group.description : nil
   end
 
   def description_html
-    result = ""
-    result << self.full_description + "\n\n"
-    result << "<hr class='soften' style='margin-top:5px;margin-bottom:5px'/>"
-    result << "<div style='white-space:nowrap'><strong>Assigned</strong> #{self.owner.name} <img alt='' src='#{self.owner.avatar_url(18, "identicon")}' class='img-rounded'></div>" if self.owner
-    result << "<strong>Board</strong> #{self.board ? self.board.name : 'Holding Pen'}<br />" if self.project.boards.size > 0
-    result << "<strong>Repeats</strong> #{self.repeat_amount} #{self.repeat}#{'s' if self.repeat_amount != 1} after due date<br />" if self.repeat != 'none'
+    result = full_description.to_s
+    result += '<hr style="margin-top:5px;margin-bottom:5px">'
+    result += "<div style='white-space:nowrap'><strong>Assigned</strong> #{self.owner.name} <img alt='' src='#{self.owner.avatar_url(18, "identicon")}' class='img-rounded'></div>" if self.owner
+    result += "<strong>Board</strong> #{self.board ? self.board.name : 'Holding Pen'}<br />" if self.project.boards.size > 0
+    result += "<strong>Repeats</strong> #{self.repeat_amount} #{self.repeat}#{'s' if self.repeat_amount != 1} after due date<br />" if self.repeat != 'none'
     result
   end
 
   def shift_group(days_to_shift, shift)
     if days_to_shift != 0 and self.group and ['incomplete', 'all'].include?(shift)
-      sticky_scope = self.group.stickies.where("stickies.id != ?", self.id)
+      sticky_scope = self.group.stickies.where.not(id: id)
       sticky_scope = sticky_scope.where(completed: false) if shift == 'incomplete'
       sticky_scope.select{ |s| not s.due_date.blank? }.each{ |s| s.update due_date: s.due_date + days_to_shift.days }
     end
   end
 
   def send_email_if_recently_completed(current_user)
-    if self.previous_changes[:completed] and self.previous_changes[:completed][1] == true
-      self.update(due_date: Date.today) if self.due_date.blank?
-      self.send_completion_email(current_user)
+    if previous_changes[:completed] && previous_changes[:completed][1] == true
+      update(due_date: Time.zone.today) if due_date.blank?
+      send_completion_email(current_user)
     end
   end
 
   def send_completion_email(current_user)
-    all_users = self.project.users_to_email(:sticky_completion) - [current_user]
+    return unless EMAILS_ENABLED
+    all_users = project.users_to_email(:sticky_completion) - [current_user]
     all_users.each do |user_to_email|
-      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_now if EMAILS_ENABLED
+      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_now
     end
   end
 
@@ -139,6 +132,10 @@ class Sticky < ActiveRecord::Base
   #     end
   #   end
   # end
+
+  def send_email_in_background
+    fork_process(:send_email)
+  end
 
   private
 
@@ -153,11 +150,11 @@ class Sticky < ActiveRecord::Base
   end
 
   def send_email
-    if not self.group and not self.completed?
-      all_users = self.project.users_to_email(:sticky_creation) - [self.user]
-      all_users.each do |user_to_email|
-        UserMailer.sticky_by_mail(self, user_to_email).deliver_now if EMAILS_ENABLED
-      end
+    return unless EMAILS_ENABLED
+    return if group || completed?
+    all_users = project.users_to_email(:sticky_creation) - [user]
+    all_users.each do |user_to_email|
+      UserMailer.sticky_by_mail(self, user_to_email).deliver_now
     end
   end
 
@@ -177,5 +174,4 @@ class Sticky < ActiveRecord::Base
       end
     end
   end
-
 end
