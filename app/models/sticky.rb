@@ -27,12 +27,12 @@ class Sticky < ActiveRecord::Base
   scope :due_date_before_or_blank, lambda { |arg| where("stickies.due_date < ? or stickies.due_date IS NULL", arg+1.day) }
   scope :due_date_after_or_blank, lambda { |arg| where("stickies.due_date >= ? or stickies.due_date IS NULL", arg) }
 
-  scope :due_today,     -> { where( completed: false, due_date: Date.today ) }
-  scope :past_due,      -> { where("stickies.completed = ? and stickies.due_date < ?", false, Date.today) }
-  scope :due_upcoming,  -> { where("stickies.completed = ? and stickies.due_date > ? and stickies.due_date <= ?", false, Date.today, (Date.today.friday? ? Date.tomorrow + 2.days : Date.tomorrow)) }
-  scope :due_this_week, -> { where( completed: false, due_date: (Date.today - Date.today.wday.days)..(Date.today + (6-Date.today.wday).days) ) }
+  scope :due_today,     -> { where(completed: false).where(due_date: Time.zone.today) }
+  scope :past_due,      -> { where(completed: false).where('stickies.due_date < ?', Time.zone.today) }
+  scope :due_upcoming,  -> { where(completed: false).where('stickies.due_date > ? and stickies.due_date <= ?', Time.zone.today, (Time.zone.today.friday? ? Date.tomorrow + 2.days : Date.tomorrow)) }
+  scope :due_this_week, -> { where(completed: false).where(due_date: (Time.zone.today - Time.zone.today.wday.days)..(Time.zone.today + (6 - Time.zone.today.wday).days)) }
 
-  scope :with_tag, lambda { |arg| where("stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))", arg).references(:tags) }
+  scope :with_tag, lambda { |arg| where('stickies.id IN (SELECT stickies_tags.sticky_id from stickies_tags where stickies_tags.tag_id IN (?))', arg).references(:tags) }
 
   # Model Validation
   validates :description, :project_id, presence: true
@@ -165,11 +165,11 @@ class Sticky < ActiveRecord::Base
   end
 
   def set_start_date
-    self.start_date = Date.today
+    self.start_date = Time.zone.today
   end
 
   def set_end_date
-    self.end_date = ((self.changes[:completed] and self.changes[:completed][1] == true) ? Date.today : nil) unless self.completed? and self.changes[:completed] == nil
+    self.end_date = ((self.changes[:completed] and self.changes[:completed][1] == true) ? Time.zone.today : nil) unless self.completed? and self.changes[:completed] == nil
   end
 
   def set_project_and_board

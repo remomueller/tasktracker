@@ -81,45 +81,33 @@ class User < ActiveRecord::Base
   # END TODO
 
   def all_projects
-    @all_projects ||= begin
-      Project.current.with_user(self.id, true) #.order('name')
-    end
+    Project
+      .current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{id}")
+      .where('projects.user_id = ? or project_users.allow_editing = ?', id, true)
   end
 
   def all_viewable_projects
-    @all_viewable_projects ||= begin
-      Project.current.with_user(self.id, [true, false]) #.order('name')
-    end
-  end
-
-  def all_favorite_projects
-    @all_favorite_projects ||= begin
-      self.all_projects.by_favorite(self.id).where("project_favorites.favorite = ?", true).order('name')
-    end
-  end
-
-  def all_other_projects
-    @all_other_projects ||= begin
-      self.all_projects.where("projects.id NOT IN (?)", [0] + self.all_favorite_projects.pluck("projects.id")).order('name')
-    end
+    Project
+      .current
+      .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{id}")
+      .where('projects.user_id = ? or project_users.user_id = ?', id, id)
   end
 
   def all_stickies
-    @all_stickies ||= begin
-      Sticky.current.where(project_id: self.all_projects.pluck(:id)).order('created_at DESC')
-    end
+    Sticky.current.where(project_id: all_projects.select(:id)).order(created_at: :desc)
   end
 
   def all_stickies_due_today
-    self.all_stickies.due_today.with_owner(self.id)
+    all_stickies.due_today.with_owner(id)
   end
 
   def all_stickies_past_due
-    self.all_stickies.past_due.with_owner(self.id)
+    all_stickies.past_due.with_owner(id)
   end
 
   def all_stickies_due_upcoming
-    self.all_stickies.due_upcoming.with_owner(self.id)
+    all_stickies.due_upcoming.with_owner(id)
   end
 
   # TODO: Remove in 0.30.0
