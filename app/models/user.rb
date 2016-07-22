@@ -129,9 +129,9 @@ class User < ActiveRecord::Base
   end
 
   def all_digest_projects
-    @all_digest_projects ||= begin
-      all_projects.select { |p| emails_enabled? && p.emails_enabled?(self) }
-    end
+    return Project.none unless emails_enabled?
+    # TODO: Change to use left outer join on project_favorites
+    all_projects.select { |p| p.emails_enabled?(self) }
   end
 
   # All tasks created in the last day, or over the weekend if it's Monday
@@ -156,75 +156,51 @@ class User < ActiveRecord::Base
   end
 
   def all_viewable_stickies
-    @all_viewable_stickies ||= begin
-      Sticky.current.where(project_id: self.all_viewable_projects.pluck(:id))
-    end
+    Sticky.current.where(project_id: all_viewable_projects.select(:id))
   end
 
   def all_groups
-    @all_groups ||= begin
-      Group.current.where(project_id: self.all_projects.pluck(:id))
-    end
+    Group.current.where(project_id: all_projects.select(:id))
   end
 
   def all_viewable_groups
-    @all_viewable_groups ||= begin
-      Group.current.where(project_id: self.all_viewable_projects.pluck(:id))
-    end
+    Group.current.where(project_id: all_viewable_projects.select(:id))
   end
 
   def all_boards
-    @all_boards ||= begin
-      Board.current.where(project_id: self.all_projects.pluck(:id))
-    end
+    Board.current.where(project_id: all_projects.select(:id))
   end
 
   def all_viewable_boards
-    @all_viewable_boards ||= begin
-      Board.current.where(project_id: self.all_viewable_projects.pluck(:id))
-    end
+    Board.current.where(project_id: all_viewable_projects.select(:id))
   end
 
   def all_tags
-    @all_tags ||= begin
-      Tag.current.where(project_id: self.all_projects.pluck(:id))
-    end
+    Tag.current.where(project_id: all_projects.select(:id))
   end
 
   def all_viewable_tags
-    @all_viewable_tags ||= begin
-      Tag.current.where(project_id: self.all_viewable_projects.pluck(:id))
-    end
+    Tag.current.where(project_id: all_viewable_projects.select(:id))
   end
 
   def all_templates
-    @all_templates ||= begin
-      Template.current.where(project_id: self.all_projects.pluck(:id))
-    end
+    Template.current.where(project_id: all_projects.select(:id))
   end
 
   def all_viewable_templates
-    @all_viewable_templates ||= begin
-      Template.current.where(project_id: self.all_viewable_projects.pluck(:id))
-    end
+    Template.current.where(project_id: all_viewable_projects.select(:id))
   end
 
   def all_comments
-    @all_comments ||= begin
-      self.comments
-    end
+    comments
   end
 
   def all_viewable_comments
-    @all_viewable_comments ||= begin
-      Comment.current.where(sticky_id: self.all_viewable_stickies.pluck(:id))
-    end
+    Comment.current.where(sticky_id: all_viewable_stickies.select(:id))
   end
 
   def all_deletable_comments
-    @all_deletable_comments ||= begin
-      Comment.current.where("sticky_id IN (?) or user_id = ?", all_stickies.pluck(:id), id)
-    end
+    Comment.current.where('sticky_id IN (?) or user_id = ?', all_stickies.select(:id), id)
   end
 
   def name
