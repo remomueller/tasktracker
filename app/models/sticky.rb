@@ -102,11 +102,17 @@ class Sticky < ActiveRecord::Base
   end
 
   def shift_group(days_to_shift, shift)
-    if days_to_shift != 0 and self.group and ['incomplete', 'all'].include?(shift)
-      sticky_scope = self.group.stickies.where.not(id: id)
+    all_dates = []
+    if days_to_shift != 0 && group && %w(incomplete all).include?(shift)
+      sticky_scope = group.stickies.where.not(id: id)
       sticky_scope = sticky_scope.where(completed: false) if shift == 'incomplete'
-      sticky_scope.select{ |s| not s.due_date.blank? }.each{ |s| s.update due_date: s.due_date + days_to_shift.days }
+      sticky_scope.where.not(due_date: nil).each do |s|
+        all_dates << s.due_date
+        s.update due_date: s.due_date + days_to_shift.days
+        all_dates << s.due_date
+      end
     end
+    all_dates
   end
 
   def send_email_if_recently_completed(current_user)

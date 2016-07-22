@@ -4,13 +4,13 @@ $('#sticky-modal-new').modal('hide');
 <%# Step 2: Add Task to View %>
 <% stickies = [@sticky, @sticky.repeated_sticky].compact %>
 
+<% due_dates = stickies.collect(&:due_date).compact.uniq %>
+<% due_dates.each do |due_date| %>
+  $("#day_<%= due_date.strftime('%Y%m%d') %>").html("<%=j render 'calendar/day_body', current_date: due_date, stickies: current_user.all_viewable_stickies %>");
+<% end %>
+
 <% stickies.each do |sticky| %>
   list_element_with_header =      "<%=j render 'stickies/day_list',                stickies: [sticky], completed: sticky.completed, due_date: sticky.due_date %>";
   list_element =                  "<%=j render 'stickies/list_sticky_show',        sticky: sticky %>";
-
-  month_element_with_header =     "<%=j render 'stickies/month_header_with_tags',  stickies: [sticky], tag_ids: sticky.tag_ids, current_date: sticky.due_date %>";
-  month_element =                 "<%=j render 'stickies/popup',                   sticky: sticky %>";
-
-
-  addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date ? sticky.due_date.strftime('%Y%m%d') : 'none' %>", "<%= sticky.completed %>", <%= sticky.tag_ids.to_json %>, list_element, list_element_with_header, month_element, month_element_with_header);
+  addOrUpdateSticky("<%= sticky.id %>", "<%= sticky.due_date ? sticky.due_date.strftime('%Y%m%d') : 'none' %>", "<%= sticky.completed %>", list_element, list_element_with_header);
 <% end %>

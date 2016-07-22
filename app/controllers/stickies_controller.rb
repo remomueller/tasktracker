@@ -152,18 +152,22 @@ class StickiesController < ApplicationController
 
   def move
     params[:due_date] = parse_date(params[:due_date])
+    @all_dates = []
 
-    if @sticky and not params[:due_date].blank?
-      original_due_date = @sticky.due_date
+    if @sticky && params[:due_date].present?
+      @from_date = @sticky.due_date
       @sticky.update due_date: params[:due_date]
-
-      @sticky.shift_group((@sticky.due_date - original_due_date).round, params[:shift]) if not original_due_date.blank? and not @sticky.due_date.blank?
+      @to_date = @sticky.due_date
+      @all_dates += [@from_date, @to_date]
+      @all_dates += @sticky.shift_group((@to_date - @from_date).round, params[:shift]) if @from_date.present? && @to_date.present?
+      @all_dates.compact.uniq!
     else
       @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
     end
 
     if @sticky
-      if @group = @sticky.group
+      @group = @sticky.group
+      if @group
         render 'groups/update'
       else
         render 'update'
@@ -191,6 +195,7 @@ class StickiesController < ApplicationController
     if @sticky
       @sticky.update completed: (params[:undo] != 'true')
       @sticky.send_email_if_recently_completed(current_user)
+      @all_dates = [@sticky.due_date].compact
       render :update
     else
       render nothing: true
@@ -200,12 +205,14 @@ class StickiesController < ApplicationController
   # PATCH /stickies/1
   # PATCH /stickies/1.js
   def update
-    original_due_date = @sticky.due_date
+    @from_date = @sticky.due_date
 
     respond_to do |format|
       if @sticky.update(sticky_params)
+        @to_date = @sticky.due_date
+        @all_dates = [@from_date, @to_date]
         @sticky.send_email_if_recently_completed(current_user)
-        @sticky.shift_group((@sticky.due_date - original_due_date).round, params[:shift]) if original_due_date.present? && @sticky.due_date.present?
+        @all_dates += @sticky.shift_group((@to_date - @from_date).round, params[:shift]) if @from_date.present? && @to_date.present?
         format.html { redirect_to @sticky, notice: 'Task was successfully updated.' }
         format.js
       else
@@ -285,7 +292,7 @@ class StickiesController < ApplicationController
 
   def generate_csv(task_scope)
     @csv_string = CSV.generate do |csv|
-      csv << ["Name", "Due Date", "Description", "Completed", "Assigned To", "Tags", "Project", "Creator", "Board", "Due Time", "Duration", "Duration Units"]
+      csv << ['Name', 'Due Date', 'Description', 'Completed', 'Assigned To', 'Tags', 'Project', 'Creator', 'Board', 'Due Time', 'Duration', 'Duration Units']
       task_scope.each do |sticky|
         csv << [sticky.name,
                 sticky.due_date.blank? ? '' : sticky.due_date.strftime("%m-%d-%Y"),
@@ -302,6 +309,6 @@ class StickiesController < ApplicationController
       end
     end
     send_data @csv_string, type: 'text/csv; charset=iso-8859-1; header=present',
-                          disposition: "attachment; filename=\"#{current_user.last_name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Date.today.strftime("%Y%m%d")}.csv\""
+                           disposition: "attachment; filename=\"#{current_user.last_name.gsub(/[^a-zA-Z0-9_]/, '_')}_#{Time.zone.today.strftime('%Y%m%d')}.csv\""
   end
 end

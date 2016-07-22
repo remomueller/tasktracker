@@ -557,6 +557,7 @@ class StickiesControllerTest < ActionController::TestCase
     assert_equal ['2011-12-02'], assigns(:sticky).group.stickies.where('stickies.id != ?', assigns(:sticky).to_param).where(completed: true).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_equal ['2011-12-08', '2011-12-09', '2011-12-10', ''], assigns(:sticky).group.stickies.where('stickies.id != ?', assigns(:sticky).to_param).where(completed: false).order('due_date').collect{|s| s.due_date.blank? ? '' : s.due_date.strftime('%Y-%m-%d')}
     assert_template 'update'
+    assert_response :success
   end
 
   test 'should update task and shift grouped tasks by original task shift' do

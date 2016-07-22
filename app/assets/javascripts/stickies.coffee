@@ -1,4 +1,4 @@
-@addOrUpdateSticky = (sticky_id, due_date, completed, tag_ids, list_element, list_element_with_header, month_element, month_element_with_header) ->
+@addOrUpdateSticky = (sticky_id, due_date, completed, list_element, list_element_with_header) ->
   if $("#list_sticky_#{sticky_id}").length == 1
     $("#list_sticky_#{sticky_id}").replaceWith(list_element)
   else if $(".sticky-list[data-due-date='#{due_date}'][data-completed='#{completed}']").length == 1
@@ -7,20 +7,9 @@
     $("#sticky-day-lists").append(list_element_with_header)
     sortDays()
 
-  if $("#list_sticky_#{sticky_id}").length == 1 or $(".sticky-list[data-due-date='#{due_date}'][data-completed='#{completed}']").length == 1 or $("#sticky-day-lists").length == 1
-    activateStickyDraggables()
-
-  if $("#sticky_#{sticky_id}_popup").length == 1
-    $("#sticky_#{sticky_id}_popup").replaceWith(month_element)
-  else if $("#day_#{due_date}_tag_container_#{tag_ids}").length == 1
-    $("#day_#{due_date}_tag_container_#{tag_ids}").append(month_element)
-  else if $("#day_#{due_date}").length == 1
-    $("#day_#{due_date}").append(month_element_with_header)
-
-  if $("#sticky_#{sticky_id}_popup").length == 1 or $("#day_#{due_date}_tag_container_#{tag_ids}").length == 1 or $("#day_#{due_date}").length == 1
-    activateCalendarStickyPopups()
-    setProjectColors()
-
+  activateStickyDraggables()
+  activateCalendarStickyPopups()
+  setProjectColors()
   $("#list_sticky_#{sticky_id}, #sticky_#{sticky_id}_popup").effect("highlight", {}, 3000)
 
 @removeSticky = (sticky_id) ->
@@ -28,10 +17,6 @@
     $("#list_sticky_#{sticky_id}").parent().remove()
   else if $("#list_sticky_#{sticky_id}").length == 1
     $("#list_sticky_#{sticky_id}").remove()
-  if $("#sticky_#{sticky_id}_popup").length == 1 and $("#sticky_#{sticky_id}_popup").siblings().length == 1
-    $("#sticky_#{sticky_id}_popup").parent().remove()
-  else if $("#sticky_#{sticky_id}_popup").length == 1
-    $("#sticky_#{sticky_id}_popup").remove()
 
 @sortdates = (a, b) ->
   parta = parseInt($(a).data('sort'))

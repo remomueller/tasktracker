@@ -21,6 +21,7 @@
 - Cleaned up migration syntax and fixed reverse migrations
 - Removed unused controller methods, model methods, and views
 - Updated how templates are stored in the database
+- Reduced dependency on JS for redrawing calendar when tasks are moved
 
 ## 0.28.14 (May 23, 2016)
 
