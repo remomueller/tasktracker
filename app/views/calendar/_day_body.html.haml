@@ -1,2 +1,2 @@
-- stickies.with_due_date_for_calendar(current_date, current_date).order('stickies.project_id, stickies.id').group_by(&:tag_ids).each do |tag_ids, stickies|
+- stickies.with_due_date_for_calendar(current_date, current_date).order('stickies.project_id, stickies.id').group_by(&:tag_ids).reverse_each do |tag_ids, stickies|
   = render 'month_header_with_tags', tag_ids: tag_ids, stickies: stickies, current_date: current_date

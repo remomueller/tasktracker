@@ -4,6 +4,8 @@
 - **General Changes**
   - Default root path has been changed back to calendar view
   - Updated the navigation menu bar
+- **Calendar Changes**
+  - Tasks without tags are no longer listed under a "No Tags" header
 - **Email Changes**
   - Email settings have been simplified
 - **Project Changes**
