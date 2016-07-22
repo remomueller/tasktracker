@@ -124,7 +124,7 @@ class Sticky < ActiveRecord::Base
 
   def send_completion_email(current_user)
     return unless EMAILS_ENABLED
-    all_users = project.users_to_email(:sticky_completion) - [current_user]
+    all_users = project.users_to_email - [current_user]
     all_users.each do |user_to_email|
       UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_now
     end
@@ -132,7 +132,7 @@ class Sticky < ActiveRecord::Base
 
   # def self.send_stickies_completion_email(all_stickies, current_user)
   #   all_stickies.group_by{|s| s.project}.each do |project, stickies|
-  #     all_users = project.users_to_email(:sticky_completion) - [current_user]
+  #     all_users = project.users_to_email - [current_user]
   #     all_users.each do |user_to_email|
   #       UserMailer.stickies_completion_by_mail(stickies, current_user, user_to_email).deliver_now if EMAILS_ENABLED
   #     end
@@ -158,7 +158,7 @@ class Sticky < ActiveRecord::Base
   def send_email
     return unless EMAILS_ENABLED
     return if group || completed?
-    all_users = project.users_to_email(:sticky_creation) - [user]
+    all_users = project.users_to_email - [user]
     all_users.each do |user_to_email|
       UserMailer.sticky_by_mail(self, user_to_email).deliver_now
     end

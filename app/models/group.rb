@@ -46,7 +46,7 @@ class Group < ActiveRecord::Base
 
   def send_email
     return unless EMAILS_ENABLED
-    all_users = project.users_to_email(:sticky_creation) - [user]
+    all_users = project.users_to_email - [user]
     all_users.each do |user_to_email|
       UserMailer.group_by_mail(self, user_to_email).deliver_now
     end

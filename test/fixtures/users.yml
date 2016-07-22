@@ -1,124 +1,67 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
---- !map:HashWithIndifferentAccess
-
 valid:
   first_name: FirstName
   last_name: LastName
   deleted: false
   system_admin: false
-  # email_notifications: {}
   users_per_page: 10
   email: valid@example.com
-  encrypted_password: ""
+  encrypted_password: <%= User.new(password: 'password').encrypted_password %>
+  emails_enabled: true
 
 two:
   first_name: MyString
   last_name: MyString
   deleted: false
   system_admin: false
-  email_notifications: { send_email: false }
   users_per_page: 10
   email: EmailTwo
   encrypted_password: ""
+  emails_enabled: false
 
 admin:
   first_name: MyString
   last_name: MyString
   deleted: false
   system_admin: true
-  email_notifications: {}
   users_per_page: 10
   email: admin@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 associated:
   first_name: MyString
   last_name: MyString
   deleted: false
   system_admin: false
-  email_notifications: {}
   users_per_page: 10
   email: associated@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 deleted:
   first_name: MyString
   last_name: MyString
   deleted: true
   system_admin: false
-  email_notifications: {}
   users_per_page: 10
   email: deleted@example.com
   encrypted_password: ""
+  emails_enabled: true
 
 send_no_email:
   first_name: FirstName
   last_name: LastName
   deleted: false
   system_admin: false
-  email_notifications: { send_email: false }
   email: send_no_email@example.com
   encrypted_password: ""
+  emails_enabled: false
 
 send_no_email_for_project_one:
   first_name: FirstName
   last_name: LastName
   deleted: false
   system_admin: false
-  email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>": false }
   email: send_no_email_for_project_one@example.com
   encrypted_password: ""
-
-send_no_email_for_sticky_creation:
-  first_name: FirstName
-  last_name: LastName
-  deleted: false
-  system_admin: false
-  email_notifications: { sticky_creation: false }
-  email: send_no_email_for_sticky_creation@example.com
-  encrypted_password: ""
-
-send_no_email_for_project_one_sticky_creation:
-  first_name: FirstName
-  last_name: LastName
-  deleted: false
-  system_admin: false
-  email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>_sticky_creation": false }
-  email: send_no_email_for_project_one_sticky_creation@example.com
-  encrypted_password: ""
-
-send_no_email_for_sticky_completion:
-  first_name: FirstName
-  last_name: LastName
-  deleted: false
-  system_admin: false
-  email_notifications: { sticky_completion: false }
-  email: send_no_email_for_sticky_completion@example.com
-  encrypted_password: ""
-
-send_no_email_for_project_one_sticky_completion:
-  first_name: FirstName
-  last_name: LastName
-  deleted: false
-  system_admin: false
-  email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>_sticky_completion": false }
-  email: send_no_email_for_project_one_sticky_completion@example.com
-  encrypted_password: ""
-
-send_no_email_for_sticky_comments:
-  first_name: FirstName
-  last_name: LastName
-  deleted: false
-  system_admin: false
-  email_notifications: { sticky_comments: false }
-  email: send_no_email_for_sticky_comments@example.com
-  encrypted_password: ""
-
-send_no_email_for_project_one_sticky_comments:
-  first_name: FirstName
-  last_name: LastName
-  deleted: false
-  system_admin: false
-  email_notifications: { "project_<%= ActiveRecord::FixtureSet.identify(:one) %>_sticky_comments": false }
-  email: send_no_email_for_project_one_sticky_comments@example.com
-  encrypted_password: ""
+  emails_enabled: true

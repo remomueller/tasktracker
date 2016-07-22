@@ -4,6 +4,15 @@ Rails.application.routes.draw do
   root 'stickies#month'
   get '' => 'stickies#month', as: :dashboard
 
+  scope module: :account do
+    get :stats
+    get :settings
+    post :settings, action: :update_settings
+    get :update_settings, to: redirect('settings')
+    patch :change_password
+    get :change_password, to: redirect('settings')
+  end
+
   resources :comments do
     collection do
       get :search
@@ -30,6 +39,7 @@ Rails.application.routes.draw do
   namespace :project_favorites do
     post :favorite
     post :colorpicker
+    patch :update
   end
 
   resources :project_users do
@@ -81,18 +91,12 @@ Rails.application.routes.draw do
 
   devise_for :users, path_names: { sign_up: 'join', sign_in: 'login' }, path: ''
 
-  resources :users do
-    member do
-      post :update_settings
-    end
-  end
+  resources :users
 
   scope module: :internal do
     get :search
   end
 
-  get '/settings' => 'users#settings', as: :settings
-  get '/stats' => 'users#stats', as: :stats
   get '/day' => 'stickies#day', as: :day
   get '/week' => 'stickies#week', as: :week
   get '/month' => 'stickies#month', as: :month

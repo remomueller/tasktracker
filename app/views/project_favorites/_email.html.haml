@@ -1,0 +1,13 @@
+- if current_user.emails_enabled?
+  - enabled = @project.emails_enabled?(current_user)
+  - btn_class = enabled ? 'btn-success' : 'btn-danger'
+
+  = link_to project_favorites_update_path(project_id: @project, emails_enabled: enabled ? '0' : '1'), remote: true, method: :patch, class: "btn btn-xs #{btn_class}" do
+    - if enabled
+      Project Emails Enabled
+    - else
+      Project Emails Disabled
+- else
+  = link_to settings_path, class: 'btn btn-xs btn-warning text-muted' do
+    %span.glyphicon.glyphicon-warning-sign
+    Account Emails Disabled

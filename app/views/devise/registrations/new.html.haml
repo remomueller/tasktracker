@@ -39,15 +39,14 @@
       = f.label :password_confirmation, class: 'control-label'
       = f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off'
 
-    - if false
-      .form-group
-        %label.control-label Receive Emails
-        .checkbox
-          %label
-            = f.check_box :emails_enabled
-            Allow
-            = ENV['website_name']
-            to send you emails.
+    .form-group
+      %label.control-label Receive Emails
+      .checkbox
+        %label
+          = f.check_box :emails_enabled
+          Allow
+          = ENV['website_name']
+          to send you emails.
 
     .form-group.sign-up-form-button-container
       = f.submit 'Create an Account', class: 'btn btn-primary btn-block'

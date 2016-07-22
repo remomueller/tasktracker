@@ -4,6 +4,8 @@
 - **General Changes**
   - Default root path has been changed back to calendar view
   - Updated the navigation menu bar
+- **Email Changes**
+  - Email settings have been simplified
 - **Project Changes**
   - Project names have been made more visible when adding a new task or group
 - **Gem Changes**

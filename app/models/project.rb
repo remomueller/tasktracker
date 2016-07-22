@@ -43,12 +43,9 @@ class Project < ActiveRecord::Base
     '#fff'
   end
 
-  def users_to_email(action)
+  def users_to_email
     (users + [user]).uniq.select do |u|
-      u.email_on?(:send_email) &&
-        u.email_on?(action) &&
-        u.email_on?("project_#{id}") &&
-        u.email_on?("project_#{id}_#{action}")
+      !u.deleted? && u.emails_enabled? && emails_enabled?(u)
     end
   end
 
@@ -72,6 +69,11 @@ class Project < ActiveRecord::Base
   def favorited_by?(current_user)
     project_favorite = project_favorites.find_by_user_id(current_user.id)
     project_favorite.present? && project_favorite.favorite?
+  end
+
+  def emails_enabled?(current_user)
+    project_favorite = project_favorites.find_by_user_id(current_user.id)
+    project_favorite.nil? || (project_favorite.present? && project_favorite.emails_enabled?)
   end
 
   private

@@ -21,7 +21,7 @@
 }
 
 .flash-notice {
-  background-color: lighten($alert-success-bg, 35%);
+  background-color: $alert-success-bg;
   background-image: none;
   color: $alert-success-text;
 

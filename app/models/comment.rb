@@ -22,11 +22,6 @@ class Comment < ActiveRecord::Base
     "##{id}"
   end
 
-  def users_to_email(action, project_id, sticky)
-    result = (sticky.comments.collect{|c| c.user} + [sticky.user, sticky.owner]).compact.uniq
-    result = result.select{|u| u.email_on?(:send_email) && u.email_on?(action) && u.email_on?("project_#{project_id}") && u.email_on?("project_#{project_id}_#{action}") }
-  end
-
   # TODO: Change to delegate? Comments may always have associated stickies.
   def project_id
     sticky.project_id if sticky
@@ -47,10 +42,11 @@ class Comment < ActiveRecord::Base
 
   private
 
+  # TODO: Check that comment is attached to sticky (should always be.)
   def send_email
     return unless EMAILS_ENABLED
     all_users = []
-    all_users = sticky.project.users_to_email(:sticky_comments) - [user] if sticky
+    all_users = sticky.project.users_to_email - [user] if sticky
     all_users.each do |user_to_email|
       UserMailer.comment_by_mail(self, sticky, user_to_email).deliver_now
     end

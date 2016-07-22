@@ -43,42 +43,6 @@ seven:
   allow_editing: true
   creator: valid
 
-eight:
-  project: one
-  user: send_no_email_for_sticky_creation
-  allow_editing: true
-  creator: valid
-
-nine:
-  project: one
-  user: send_no_email_for_project_one_sticky_creation
-  allow_editing: true
-  creator: valid
-
-ten:
-  project: one
-  user: send_no_email_for_sticky_completion
-  allow_editing: true
-  creator: valid
-
-eleven:
-  project: one
-  user: send_no_email_for_project_one_sticky_completion
-  allow_editing: true
-  creator: valid
-
-fourteen:
-  project: one
-  user: send_no_email_for_sticky_comments
-  allow_editing: true
-  creator: valid
-
-fifteen:
-  project: one
-  user: send_no_email_for_project_one_sticky_comments
-  allow_editing: true
-  creator: valid
-
 invited:
   project: one
   creator: valid

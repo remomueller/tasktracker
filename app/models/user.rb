@@ -15,9 +15,10 @@ class User < ActiveRecord::Base
                  [:daily_stickies_due, 'Receive daily weekday emails if there are tasks due or past due'],
                  [:daily_digest, 'Receive daily digest emails of tasks that have been created and completed the previous day'] ]
 
-  # TODO: Remove `colors` in 0.30.0
+  # TODO: Remove `colors` and `email_notifications` in 0.30.0
   serialize :colors, Hash
   serialize :email_notifications, Hash
+  # END TODO
 
   # Concerns
   include Deletable, Searchable
@@ -73,9 +74,11 @@ class User < ActiveRecord::Base
     update_column :updated_at, Time.zone.now
   end
 
+  # TODO: Remove in 0.30.0
   def email_on?(value)
     active_for_authentication? && [nil, true].include?(email_notifications[value.to_s])
   end
+  # END TODO
 
   def all_projects
     @all_projects ||= begin
@@ -119,11 +122,11 @@ class User < ActiveRecord::Base
     self.all_stickies.due_upcoming.with_owner(self.id)
   end
 
+  # TODO: Remove in 0.30.0
   def all_deliverable_projects
-    @all_deliverable_projects ||= begin
-      self.all_projects.select{|p| self.email_on?(:send_email) and self.email_on?(:daily_stickies_due) and self.email_on?("project_#{p.id}") and self.email_on?("project_#{p.id}_daily_stickies_due") }
-    end
+    all_digest_projects
   end
+  # END TODO
 
   def all_deliverable_stickies_due_today
     self.all_stickies_due_today.where(project_id: self.all_deliverable_projects.collect{|p| p.id})
@@ -139,7 +142,7 @@ class User < ActiveRecord::Base
 
   def all_digest_projects
     @all_digest_projects ||= begin
-      self.all_projects.select{|p| self.email_on?(:send_email) and self.email_on?(:daily_digest) and self.email_on?("project_#{p.id}") and self.email_on?("project_#{p.id}_daily_digest") }
+      all_projects.select { |p| emails_enabled? && p.emails_enabled?(self) }
     end
   end
 

@@ -4,8 +4,19 @@ one:
   project: one
   user: valid
   favorite: false
+  # color:
+  emails_enabled: true
 
 two:
   project: two
   user: valid
   favorite: true
+  # color:
+  emails_enabled: true
+
+send_no_email_for_project_one:
+  project: one
+  user: send_no_email_for_project_one
+  favorite: false
+  # color:
+  emails_enabled: false

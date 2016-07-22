@@ -3,20 +3,10 @@
 # Allows users to update their settings, and admins to update user accounts.
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  # TODO: This should only be viewalbe by system admin
   before_action :check_system_admin, only: [:edit, :update, :destroy]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_user, only: [:show, :edit, :update, :destroy]
-
-  def update_settings
-    notifications = {}
-    email_settings = ['send_email'] + User::EMAILABLES.collect{|emailable, description| emailable.to_s} + current_user.all_viewable_projects.collect{|p| ["project_#{p.id}"] + User::EMAILABLES.collect{|emailable, description| "project_#{p.id}_#{emailable.to_s}"}}.flatten
-
-    email_settings.each do |email_setting|
-      notifications[email_setting] = (not params[:email].blank? and params[:email][email_setting] == '1')
-    end
-    current_user.update email_notifications: notifications
-    redirect_to settings_path, notice: 'Email settings saved.'
-  end
 
   def index
     unless current_user.system_admin? || params[:format] == 'json'
