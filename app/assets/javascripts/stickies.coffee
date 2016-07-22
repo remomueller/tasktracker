@@ -58,25 +58,24 @@
   window.location = url
   false
 
-@activateCalendarStickyPopups = () ->
+@activateCalendarStickyPopups = ->
   $(".sticky_popup")
     .draggable(
       revert: 'invalid'
       helper: 'clone'
     )
-  $('[rel~="popover"]').popover( trigger: 'hover' )
+  $('[rel~="popover"]').popover(trigger: 'hover')
 
-@activateCalendarDroppables = () ->
+@activateCalendarDroppables = ->
   $(".droppable").droppable(
     hoverClass: "hover",
     drop: ( event, ui ) ->
 
       date = $(this).data('due-date').replace(/day_/, '') #.replace(/_/g, '/')
+      sticky_id = ui.draggable.data('sticky-id')
       element_id = ui.draggable.attr('id')
-      sticky_id = element_id.replace(/sticky_/, '').replace(/_popup/,'')
 
       $('#move_sticky_date').val(date)
-      $('#move_sticky_element_id').val('#' + element_id)
       $('#move_sticky_id').val(sticky_id)
 
       if $(ui.draggable).data('grouped') == true
@@ -89,7 +88,7 @@
         $(element_id).remove()
       $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date=#{date}&from=move", null, "script");
       false
-    accept: ( draggable ) ->
+    accept: (draggable) ->
       $(this).data('due-date') != draggable.data('due-date')
   )
 
@@ -101,14 +100,8 @@
 @completeStickyGroupMove = (shift) ->
   $('#move-group-dialog').modal('hide')
   date = $('#move_sticky_date').val()
-  element_id = $('#move_sticky_element_id').val()
   sticky_id = $('#move_sticky_id').val()
-  if $(element_id).parent().children(".sticky_popup").size() == 1
-    $(element_id).parent().remove()
-  else
-    $(element_id).remove()
   $.post(root_url + "stickies/#{sticky_id}/move", "due_date=#{date}&shift=#{shift}&from=move", null, "script");
-
 
 @resetFilters = () ->
   $('#search').val('')

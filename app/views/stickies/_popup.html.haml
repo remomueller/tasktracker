@@ -1,5 +1,5 @@
 -# TODO: project_## should not be a class, but rather a data attibute.
-.sticky_popup.calendar-entry-name{ class: "stickies_#{sticky.completed ? 'completed' : 'planned'} project_#{sticky.project_id}", id: "sticky_#{sticky.id}_popup", rel: 'popover', data: { grouped: (sticky.group ? 'true' : 'false'), due_date: "#{sticky.due_date.strftime('%Y%m%d') if sticky.due_date}", title: sticky.project.name, content: simple_markdown(sticky.description_html), html: 'true', placement: (sticky.due_date && [5,6].include?(sticky.due_date.wday) ? 'left' : 'right'), trigger: 'hover' } }
+.sticky_popup.calendar-entry-name{ class: "stickies_#{sticky.completed ? 'completed' : 'planned'} project_#{sticky.project_id}", id: "sticky_#{sticky.id}_popup", rel: 'popover', data: { sticky_id: sticky.id, grouped: (sticky.group ? 'true' : 'false'), due_date: "#{sticky.due_date.strftime('%Y%m%d') if sticky.due_date}", title: sticky.project.name, content: simple_markdown(sticky.description_html), html: 'true', placement: (sticky.due_date && [5,6].include?(sticky.due_date.wday) ? 'left' : 'right'), trigger: 'hover' } }
   %table
     %col{ width: '20px' }
     %tr
@@ -11,7 +11,10 @@
             %span.glyphicon.glyphicon-unchecked
         - else
           %span.glyphicon.glyphicon-unchecked
-      %td
+      %td{ style: 'position:relative'}
+        - if sticky.comments.size > 0
+          .comment-icon
+            %span.glyphicon.glyphicon-comment.text-primary
         %b= sticky.due_time unless sticky.all_day?
-        %span{ id: "sticky_#{sticky.id}_name" }
-          = link_to strip_tags(simple_markdown sticky.full_description).truncate(27, separator: ' ').html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through;color:white' : 'color:white')
+        -# TODO: Sticky draggable should look different than just full description
+        = link_to strip_tags(simple_markdown sticky.full_description).truncate(27).html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through;color:#fff' : 'color:#fff')
