@@ -118,16 +118,12 @@ class Sticky < ActiveRecord::Base
   def send_email_if_recently_completed(current_user)
     if previous_changes[:completed] && previous_changes[:completed][1] == true
       update(due_date: Time.zone.today) if due_date.blank?
-      send_completion_email(current_user)
+      send_completion_email_in_background(current_user)
     end
   end
 
-  def send_completion_email(current_user)
-    return unless EMAILS_ENABLED
-    all_users = project.users_to_email - [current_user]
-    all_users.each do |user_to_email|
-      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_now
-    end
+  def send_completion_email_in_background(current_user)
+    fork_process(:send_completion_email, current_user)
   end
 
   # def self.send_stickies_completion_email(all_stickies, current_user)
@@ -161,6 +157,14 @@ class Sticky < ActiveRecord::Base
     all_users = project.users_to_email - [user]
     all_users.each do |user_to_email|
       UserMailer.sticky_by_mail(self, user_to_email).deliver_now
+    end
+  end
+
+  def send_completion_email(current_user)
+    return unless EMAILS_ENABLED
+    all_users = project.users_to_email - [current_user]
+    all_users.each do |user_to_email|
+      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_now
     end
   end
 

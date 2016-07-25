@@ -1,5 +1,9 @@
 ## 0.30.0
 
+### Enhancements
+- **Task Changes**
+  - Completing a task now sends associated task completed emails in background
+
 ### Refactoring
 - Removed deprecated database columns
 
