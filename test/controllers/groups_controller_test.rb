@@ -16,14 +16,14 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'should get new' do
-    xhr :get, :new, format: 'js'
+    get :new, xhr: true, format: 'js'
     assert_nil assigns(:group)
     assert_template 'new'
     assert_response :success
   end
 
   test 'should get new with project selected' do
-    xhr :get, :new, project_id: projects(:one), format: 'js'
+    get :new, params: { project_id: projects(:one) }, xhr: true, format: 'js'
     assert_not_nil assigns(:group)
     assert_template 'new'
     assert_response :success
@@ -32,7 +32,9 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should create group and generate stickies' do
     assert_difference('Sticky.count', templates(:one).template_items.size) do
       assert_difference('Group.count') do
-        post :create, project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) }
+        post :create, params: {
+          project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) }
+        }
       end
     end
     assert_not_nil assigns(:template)
@@ -46,7 +48,10 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should create group and generate tasks and create a new board for the group' do
     assert_difference('Sticky.count', templates(:one).template_items.size) do
       assert_difference('Group.count') do
-        post :create, project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) }, create_new_board: '1', group_board_name: 'New Board'
+        post :create, params: {
+          project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) },
+          create_new_board: '1', group_board_name: 'New Board'
+        }
       end
     end
     assert_not_nil assigns(:template)
@@ -63,7 +68,10 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should create group and generate tasks and add tasks to holding pen' do
     assert_difference('Sticky.count', templates(:one).template_items.size) do
       assert_difference('Group.count') do
-        post :create, project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) }, create_new_board: '1', group_board_name: ''
+        post :create, params: {
+          project_id: projects(:one), group: { template_id: templates(:one), board_id: boards(:one) },
+          create_new_board: '1', group_board_name: ''
+        }
       end
     end
     assert_not_nil assigns(:template)
@@ -78,7 +86,9 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should create group and generate tasks with default tags' do
     assert_difference('Sticky.count', templates(:with_tag).template_items.size) do
       assert_difference('Group.count') do
-        post :create, project_id: projects(:one), group: { template_id: templates(:with_tag), board_id: boards(:one) }
+        post :create, params: {
+          project_id: projects(:one), group: { template_id: templates(:with_tag), board_id: boards(:one) }
+        }
       end
     end
     assert_not_nil assigns(:template)
@@ -93,7 +103,9 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should create group of tasks with due_at time and duration' do
     assert_difference('Sticky.count', templates(:with_due_at).template_items.size) do
       assert_difference('Group.count') do
-        post :create, project_id: projects(:one), group: { template_id: templates(:with_due_at), board_id: boards(:one) }
+        post :create, params: {
+          project_id: projects(:one), group: { template_id: templates(:with_due_at), board_id: boards(:one) }
+        }
       end
     end
     assert_not_nil assigns(:template)
@@ -110,7 +122,9 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should create group of tasks avoid weekends' do
     assert_difference('Sticky.count', templates(:avoid_weekends).template_items.size) do
       assert_difference('Group.count') do
-        post :create, project_id: projects(:one), group: { template_id: templates(:avoid_weekends), board_id: boards(:one), initial_due_date: '3/10/2012' }
+        post :create, params: {
+          project_id: projects(:one), group: { template_id: templates(:avoid_weekends), board_id: boards(:one), initial_due_date: '3/10/2012' }
+        }
       end
     end
     assert_not_nil assigns(:template)
@@ -126,7 +140,7 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should not create group and generate tasks for invalid template id' do
     assert_difference('Sticky.count', 0) do
       assert_difference('Group.count', 0) do
-        post :create, project_id: projects(:one), group: { template_id: -1, board_id: boards(:one) }
+        post :create, params: { project_id: projects(:one), group: { template_id: -1, board_id: boards(:one) } }
       end
     end
     assert_nil assigns(:template)
@@ -135,24 +149,24 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'should show group' do
-    get :show, id: @group
+    get :show, params: { id: @group }
     assert_not_nil assigns(:group)
     assert_response :success
   end
 
   test 'should not show group with invalid id' do
-    get :show, id: -1
+    get :show, params: { id: -1 }
     assert_nil assigns(:group)
     assert_redirected_to groups_path
   end
 
   test 'should get edit' do
-    get :edit, id: @group
+    get :edit, params: { id: @group }
     assert_response :success
   end
 
   test 'should update group' do
-    patch :update, id: @group, group: { description: 'Group Description Update' }
+    patch :update, params: { id: @group, group: { description: 'Group Description Update' } }
     assert_not_nil assigns(:group)
     assert_equal [@group.project_id], assigns(:group).stickies.collect{|s| s.project_id}.uniq
     assert_equal [boards(:one).to_param], assigns(:group).stickies.collect{|s| s.board_id.to_s}.uniq
@@ -160,7 +174,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   test 'should not update group with invalid id' do
-    patch :update, id: -1, group: { description: 'Group Description Update' }
+    patch :update, params: { id: -1, group: { description: 'Group Description Update' } }
     assert_nil assigns(:group)
     assert_redirected_to groups_path
   end
@@ -168,7 +182,7 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should destroy group and attached stickies' do
     assert_difference('Sticky.current.count', -1 * @group.stickies.size) do
       assert_difference('Group.current.count', -1) do
-        delete :destroy, id: @group
+        delete :destroy, params: { id: @group }
       end
     end
     assert_equal 0, assigns(:group).stickies.size
@@ -178,7 +192,7 @@ class GroupsControllerTest < ActionController::TestCase
   test 'should not destroy with invalid id' do
     assert_difference('Sticky.current.count', 0) do
       assert_difference('Group.current.count', 0) do
-        delete :destroy, id: -1
+        delete :destroy, params: { id: -1 }
       end
     end
     assert_nil assigns(:group)

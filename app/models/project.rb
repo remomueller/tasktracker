@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows users to collaborate together to manage and complete tasks.
-class Project < ActiveRecord::Base
+class Project < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 

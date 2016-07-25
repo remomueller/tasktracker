@@ -1,4 +1,4 @@
-class RemoveUnusedStickyAttributes < ActiveRecord::Migration
+class RemoveUnusedStickyAttributes < ActiveRecord::Migration[4.2]
   def change
     remove_column :stickies, :sticky_id, :integer
     remove_column :stickies, :position, :integer, default: 0, null: false

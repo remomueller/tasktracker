@@ -1,4 +1,4 @@
-class CreateStickies < ActiveRecord::Migration
+class CreateStickies < ActiveRecord::Migration[4.2]
   def change
     create_table :stickies do |t|
       t.integer :user_id

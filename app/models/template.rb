@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows project to create templates for groups of tasks.
-class Template < ActiveRecord::Base
+class Template < ApplicationRecord
   attr_accessor :item_hashes
   after_save :set_items
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows commenting on tasks.
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   # Concerns
   include Deletable, Forkable
 

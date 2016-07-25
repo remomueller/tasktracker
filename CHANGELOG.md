@@ -5,6 +5,12 @@
   - Completing a task now sends associated task completed emails in background
 - **Calendar Changes**
   - Improved positioning of task comment and repeat indicators
+- **Gem Changes**
+  - Updated to rails 5.0.0
+  - Updated to coffee-rails 4.2
+  - Updated to jbuilder 2.5
+  - Updated to jquery-rails 4.1.1
+  - Added rails-controller-testing
 
 ### Refactoring
 - Removed deprecated database columns

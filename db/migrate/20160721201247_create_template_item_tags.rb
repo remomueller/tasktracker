@@ -1,4 +1,4 @@
-class CreateTemplateItemTags < ActiveRecord::Migration
+class CreateTemplateItemTags < ActiveRecord::Migration[4.2]
   def change
     create_table :template_item_tags do |t|
       t.integer :template_item_id

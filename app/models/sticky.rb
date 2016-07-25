@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Encapsulates a project task.
-class Sticky < ActiveRecord::Base
+class Sticky < ApplicationRecord
   before_create :set_start_date
   after_save :clone_repeat
   before_save :set_end_date, :set_project_and_board

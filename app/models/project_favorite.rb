@@ -2,7 +2,7 @@
 
 # Captures a users preferences for a project including favorite status and
 # color.
-class ProjectFavorite < ActiveRecord::Base
+class ProjectFavorite < ApplicationRecord
   # Model Validation
   validates :project_id, :user_id, presence: true
 

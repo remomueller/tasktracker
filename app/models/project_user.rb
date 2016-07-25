@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows projects to have editors and viewers.
-class ProjectUser < ActiveRecord::Base
+class ProjectUser < ApplicationRecord
   # Concerns
   include Forkable
 

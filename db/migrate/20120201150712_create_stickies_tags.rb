@@ -1,4 +1,4 @@
-class CreateStickiesTags < ActiveRecord::Migration
+class CreateStickiesTags < ActiveRecord::Migration[4.2]
   def change
     create_table :stickies_tags, id: false do |t|
       t.integer :sticky_id

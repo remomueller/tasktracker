@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows a set of tasks to be grouped together.
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
   attr_accessor :board_id, :initial_due_date
 
   # Concerns

@@ -21,7 +21,7 @@ class ProjectUsersController < ApplicationController
       end
       render :index
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -48,7 +48,7 @@ class ProjectUsersController < ApplicationController
       @project_user.destroy
       render :index
     else
-      render nothing: true
+      head :ok
     end
   end
 end

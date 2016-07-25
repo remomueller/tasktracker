@@ -1,4 +1,4 @@
-class ChangeEmailNotificationsBlobToText < ActiveRecord::Migration
+class ChangeEmailNotificationsBlobToText < ActiveRecord::Migration[4.2]
   def up
     change_column :users, :email_notifications, :text
   end

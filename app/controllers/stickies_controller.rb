@@ -125,7 +125,7 @@ class StickiesController < ApplicationController
           format.js { render :show }
         else
           format.html { redirect_to root_path }
-          format.js { render nothing: true }
+          format.js { head :ok }
         end
       end
     end
@@ -173,7 +173,7 @@ class StickiesController < ApplicationController
         render 'update'
       end
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -186,7 +186,7 @@ class StickiesController < ApplicationController
     elsif @sticky && params[:board_id].to_s == '0' && !@sticky.board.nil?
       @sticky.update(board_id: nil)
     else
-      render nothing: true
+      head :ok
     end
   end
 
@@ -198,7 +198,7 @@ class StickiesController < ApplicationController
       @all_dates = [@sticky.due_date].compact
       render :update
     else
-      render nothing: true
+      head :ok
     end
   end
 

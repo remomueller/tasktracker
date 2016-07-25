@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Categorizes a task on a project.
-class Board < ActiveRecord::Base
+class Board < ApplicationRecord
   # Concerns
   include Searchable, Deletable, Filterable
 

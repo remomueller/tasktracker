@@ -24,7 +24,7 @@ class BoardsController < ApplicationController
       @board_ids = (@stickies.pluck(:board_id) + [board_id]).uniq
       @stickies.each{|s| s.update(board_id: board_id)}
     else
-      render nothing: true
+      head :ok
     end
   end
 

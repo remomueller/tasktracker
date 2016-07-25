@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rails',                '4.2.6'
+gem 'rails',                '5.0.0'
 
 # Database Adapter
 gem 'pg',                   '0.18.4'
@@ -12,7 +12,6 @@ gem 'devise',               '~> 4.2.0'
 gem 'bootstrap-sass',       '~> 3.3.6'
 gem 'kaminari',             '~> 0.17.0'
 gem 'naturalsort',          '~> 1.2.0'
-gem 'ruby-ntlm-namespace',  '~> 0.0.1'
 gem 'redcarpet',            '~> 3.3.2'
 gem 'haml',                 '~> 4.0.7'
 gem 'figaro',               '~> 1.1.1'
@@ -20,12 +19,12 @@ gem 'jquery-ui-rails',      '~> 5.0.5'
 gem 'colorize',             '~> 0.8.1'
 
 # Rails Defaults
-gem 'coffee-rails',         '~> 4.1.0'
+gem 'coffee-rails',         '~> 4.2'
 gem 'sass-rails',           '~> 5.0'
 gem 'uglifier',             '>= 1.3.0'
 
-gem 'jbuilder',             '~> 2.0'
-gem 'jquery-rails',         '~> 4.1.0'
+gem 'jbuilder',             '~> 2.5'
+gem 'jquery-rails',         '~> 4.1.1'
 gem 'turbolinks',           '~> 5'
 
 # Testing
@@ -33,11 +32,9 @@ group :test do
   # Pretty printed test output
   gem 'minitest'
   gem 'simplecov',          '~> 0.12.0', require: false
-  gem 'test_after_commit' # TODO: Remove in Rails 5
-  # gem 'rails-controller-testing' #TODO: Add in Rails 5
+  gem 'rails-controller-testing'
 end
 
 group :development do
-  # Access an IRB console on exceptions page and /console in development
   gem 'web-console', '~> 3.0'
 end

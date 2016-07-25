@@ -55,8 +55,6 @@ exclude_paths:
 - public/**/*
 - test/**/*
 - vendor/**/*
-- ".codeclimate.yml"
-- "API.md"
 - "CHANGELOG.md"
 - "config.ru"
 - Gemfile

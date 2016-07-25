@@ -1,4 +1,4 @@
-class RenameFramesToBoards < ActiveRecord::Migration
+class RenameFramesToBoards < ActiveRecord::Migration[4.2]
   def up
     remove_index :frames, :project_id
     remove_index :frames, :user_id

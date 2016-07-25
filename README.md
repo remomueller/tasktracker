@@ -6,7 +6,7 @@
 
 Manage multiple projects, view tasks in a calendar, receive reminder emails for tasks due, assign project members to
 tasks, create templates for series of tasks, receive emails and updates as tasks and groups of tasks are completed,
-assign project specific tags to tasks, generate reports on task tags. Using Rails 4.2+ and Ruby 2.3+.
+assign project specific tags to tasks, generate reports on task tags. Using Rails 5.0+ and Ruby 2.3+.
 
 ## Installation
 

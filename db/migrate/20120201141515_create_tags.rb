@@ -1,4 +1,4 @@
-class CreateTags < ActiveRecord::Migration
+class CreateTags < ActiveRecord::Migration[4.2]
   def change
     rename_column :projects, :tags, :old_tags
     rename_column :stickies, :tags, :old_tags

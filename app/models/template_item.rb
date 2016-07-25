@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Defines a templated task.
-class TemplateItem < ActiveRecord::Base
+class TemplateItem < ApplicationRecord
   # Model Validation
   validates :description, :template_id, presence: true
 

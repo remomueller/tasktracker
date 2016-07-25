@@ -1,4 +1,4 @@
-class CreateFrames < ActiveRecord::Migration
+class CreateFrames < ActiveRecord::Migration[4.2]
   def change
     create_table :frames do |t|
       t.integer :project_id

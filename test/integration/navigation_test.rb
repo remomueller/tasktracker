@@ -6,8 +6,6 @@ SimpleCov.command_name 'test:integration'
 
 # Tests to assure that user navigation is working as intended
 class NavigationTest < ActionDispatch::IntegrationTest
-  fixtures :users
-
   def setup
     @valid = users(:valid)
     @deleted = users(:deleted)
@@ -26,12 +24,13 @@ class NavigationTest < ActionDispatch::IntegrationTest
   end
 
   test 'should register new account' do
-    post user_registration_path,
+    post user_registration_path, params: {
       user: {
         first_name: 'register', last_name: 'account',
         email: 'register@account.com', password: 'registerpassword098765',
         password_confirmation: 'registerpassword098765', emails_enabled: '1'
       }
+    }
     assert_equal I18n.t('devise.registrations.signed_up'), flash[:notice]
     assert_redirected_to root_path
   end

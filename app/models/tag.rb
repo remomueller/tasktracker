@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Allows tasks to be tagged
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   # Concerns
   include Searchable, Deletable, Filterable
 
