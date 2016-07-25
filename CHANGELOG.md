@@ -3,6 +3,8 @@
 ### Enhancements
 - **Task Changes**
   - Completing a task now sends associated task completed emails in background
+- **Calendar Changes**
+  - Improved positioning of task comment and repeat indicators
 
 ### Refactoring
 - Removed deprecated database columns

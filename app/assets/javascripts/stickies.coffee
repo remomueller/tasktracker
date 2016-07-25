@@ -82,10 +82,6 @@
         $('#move-group-dialog').modal('show')
         return false
 
-      if $(element_id).parent().children(".sticky_popup").size() == 2
-        $(element_id).parent().remove()
-      else
-        $(element_id).remove()
       $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date=#{date}&from=move", null, "script");
       false
     accept: (draggable) ->
