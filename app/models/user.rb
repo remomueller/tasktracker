@@ -15,10 +15,6 @@ class User < ActiveRecord::Base
                  [:daily_stickies_due, 'Receive daily weekday emails if there are tasks due or past due'],
                  [:daily_digest, 'Receive daily digest emails of tasks that have been created and completed the previous day'] ]
 
-  # TODO: Remove `email_notifications` in 0.30.0
-  serialize :email_notifications, Hash
-  # END TODO
-
   # Concerns
   include Deletable, Searchable
 
@@ -72,12 +68,6 @@ class User < ActiveRecord::Base
     super
     update_column :updated_at, Time.zone.now
   end
-
-  # TODO: Remove in 0.30.0
-  def email_on?(value)
-    active_for_authentication? && [nil, true].include?(email_notifications[value.to_s])
-  end
-  # END TODO
 
   def all_projects
     Project
