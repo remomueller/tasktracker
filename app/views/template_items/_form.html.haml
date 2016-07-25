@@ -21,15 +21,14 @@
           .col-xs-6.col-md-3
             = number_field_tag "template[item_hashes][][interval]", template_item.interval, data: { object: 'noclickbubble' }, class: 'form-control'
           .col-xs-6.col-md-3
-            = select_tag "template[item_hashes][][units]", options_for_select(['days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, template_item.interval_units), data: { object: 'noclickbubble' }, class: 'form-control'
+            = select_tag "template[item_hashes][][interval_units]", options_for_select(['days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, template_item.interval_units), data: { object: 'noclickbubble' }, class: 'form-control'
 
     .form-group
-      = label_tag "template_item_hashes_#{position}_due_at_string", 'Due At', class: 'col-md-2 control-label'
+      = label_tag "template_item_hashes_#{position}_due_time", 'Due At', class: 'col-md-2 control-label'
       .col-md-10
         .row
           .col-xs-6.col-md-3
-            -# TODO: Change due_at_string to due_time
-            = text_field_tag "template[item_hashes][][due_at_string]", template_item.due_time, data: { object: 'noclickbubble' }, class: 'form-control'
+            = text_field_tag "template[item_hashes][][due_time]", template_item.due_time, data: { object: 'noclickbubble' }, class: 'form-control'
 
     .form-group
       = label_tag "template_item_hashes_#{position}_duration", 'Duration', class: 'col-md-2 control-label'

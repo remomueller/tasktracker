@@ -2,12 +2,6 @@
 
 # Allows project to create templates for groups of tasks.
 class Template < ActiveRecord::Base
-  # attr_accessible :name, :project_id, :item_tokens, :avoid_weekends, :items
-
-  # TODO: Remove in 0.30.0
-  serialize :items, Array
-  # END TODO
-
   attr_accessor :item_hashes
   after_save :set_items
 
@@ -73,12 +67,6 @@ class Template < ActiveRecord::Base
     group
   end
 
-  # TODO: Remove in v0.30.0
-  def sorted_items
-    items.sort { |a,b| a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i }
-  end
-  # END TODO
-
   private
 
   def set_items
@@ -89,9 +77,9 @@ class Template < ActiveRecord::Base
         position: index,
         description: hash[:description],
         interval: hash[:interval].to_i,
-        interval_units: (%w(days weeks months years).include?(hash[:units]) ? hash[:units] : 'days'), # TODO: Change hash units to interval_units
+        interval_units: (%w(days weeks months years).include?(hash[:interval_units]) ? hash[:interval_units] : 'days'),
         owner_id: hash[:owner_id],
-        due_time: hash[:due_at_string],  # TODO: Change hash due_at_string to due_time
+        due_time: hash[:due_time],
         duration: hash[:duration].to_i.abs,
         duration_units: (%w(minutes hours days weeks months years).include?(hash[:duration_units]) ? hash[:duration_units] : 'hours')
       )
@@ -102,9 +90,8 @@ class Template < ActiveRecord::Base
   end
 
   def sorted_item_hashes
-    # TODO: Change units to interval_units in v0.30.0
     item_hashes.sort do |a,b|
-      a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:units]).to_i
+      a.symbolize_keys[:interval].to_i.send(a.symbolize_keys[:interval_units]).to_i <=> b.symbolize_keys[:interval].to_i.send(b.symbolize_keys[:interval_units]).to_i
     end
   end
 end

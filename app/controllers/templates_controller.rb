@@ -101,8 +101,7 @@ class TemplatesController < ApplicationController
 
     params.require(:template).permit(
       :name, :project_id, :avoid_weekends,
-      { item_hashes: [:description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, tag_ids: []] }
-      # { item_tokens: [:description, :owner_id, :interval, :units, :due_at_string, :duration, :duration_units, tag_ids: []] }
+      { item_hashes: [:description, :owner_id, :interval, :interval_units, :due_time, :duration, :duration_units, tag_ids: []] }
     )
   end
 end
