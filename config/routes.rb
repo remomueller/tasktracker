@@ -95,6 +95,7 @@ Rails.application.routes.draw do
 
   scope module: :internal do
     get :search
+    post :update_task_status
   end
 
   get '/day' => 'stickies#day', as: :day

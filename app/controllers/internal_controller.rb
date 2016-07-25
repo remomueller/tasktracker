@@ -14,4 +14,15 @@ class InternalController < ApplicationController
       redirect_to @objects.first
     end
   end
+
+  def update_task_status
+    if params[:status] == 'all'
+      current_user.update calendar_task_status: nil
+    elsif params[:status] == 'completed'
+      current_user.update calendar_task_status: true
+    else
+      current_user.update calendar_task_status: false
+    end
+    redirect_to month_path
+  end
 end

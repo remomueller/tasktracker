@@ -5,6 +5,8 @@
   - Completing a task now sends associated task completed emails in background
 - **Calendar Changes**
   - Improved positioning of task comment and repeat indicators
+  - Calendar task filters are now saved to user settings so the filters persist
+    through page navigations and logins
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to coffee-rails 4.2

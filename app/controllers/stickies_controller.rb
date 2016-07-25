@@ -7,7 +7,7 @@ class StickiesController < ApplicationController
   before_action :find_editable_project_or_first_project, only: [:new, :create, :edit, :update]
   before_action :set_editable_sticky, only: [:edit, :move, :move_to_board, :complete, :update, :destroy]
   before_action :redirect_without_sticky, only: [:show, :update, :destroy]
-  before_action :set_filtered_sticky_scope, only: [:day, :week, :month, :tasks]
+  before_action :set_filtered_sticky_scope, only: [:day, :week, :month, :tasks, :move]
 
   def day
     @beginning = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
@@ -288,7 +288,8 @@ class StickiesController < ApplicationController
       owner_project_ids = owners.collect { |o| o.all_projects.pluck(:id) }.flatten.uniq
       sticky_scope = sticky_scope.where(owner_id: owners.pluck(:id) + [nil], project_id: owner_project_ids)
     end
-    sticky_scope = sticky_scope.where( completed: params[:completed].to_s.split(',') ) unless params[:completed].blank?
+    sticky_scope = sticky_scope.where(completed: current_user.calendar_task_status) unless current_user.calendar_task_status.nil?
+
     sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).select(:id)) unless params[:project_ids].blank?
     @stickies = sticky_scope
   end

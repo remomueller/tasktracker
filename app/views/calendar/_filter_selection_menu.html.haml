@@ -1,0 +1,13 @@
+.dropdown{ style: 'display: inline-block' }
+  = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, class: 'btn btn-xs btn-default' do
+    - if current_user.calendar_task_status.nil?
+      All Tasks
+    - elsif current_user.calendar_task_status
+      Completed Tasks
+    - else
+      Open Tasks
+    %span.glyphicon.glyphicon-filter
+  %ul.dropdown-menu
+    %li= link_to 'All Tasks', update_task_status_path(status: 'all'), method: :post, style: current_user.calendar_task_status.nil? ? 'font-weight:bold;' : ''
+    %li= link_to 'Open Tasks', update_task_status_path(status: 'open'), method: :post, style: current_user.calendar_task_status == false  ? 'font-weight:bold;' : ''
+    %li= link_to 'Completed Tasks', update_task_status_path(status: 'completed'), method: :post, style: current_user.calendar_task_status == true  ? 'font-weight:bold;' : ''

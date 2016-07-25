@@ -1,13 +1,18 @@
 .pull-right
-  = link_to month_path(date: (@anchor_date - 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
-    %span.glyphicon.glyphicon-chevron-left
-    Last Month
-  = link_to month_path(date: Date.today.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Date.today ? 'disabled' : nil) do
-    %span.glyphicon.glyphicon-calendar
-    Today
-  = link_to month_path(date: (@anchor_date + 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
-    Next Month
-    %span.glyphicon.glyphicon-chevron-right
+  = render 'calendar/filter_selection_menu'
+  = succeed ' ' do
+    = link_to month_path(date: (@anchor_date - 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
+      %span.glyphicon.glyphicon-chevron-left
+      Last Month
+  = succeed ' ' do
+    = link_to month_path(date: Date.today.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Date.today ? 'disabled' : nil) do
+      %span.glyphicon.glyphicon-calendar
+      Today
+  = succeed ' ' do
+    = link_to month_path(date: (@anchor_date + 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
+      Next Month
+      %span.glyphicon.glyphicon-chevron-right
+
 
 %h4
   = Date::MONTHNAMES[@anchor_date.month]
