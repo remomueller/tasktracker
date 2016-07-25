@@ -12,6 +12,10 @@
   - Updated to jquery-rails 4.1.1
   - Added rails-controller-testing
 
+### Bug Fix
+- For users with no projects, clicking cancel when creating a new project now
+  properly closes the popup modal
+
 ### Refactoring
 - Removed deprecated database columns
 

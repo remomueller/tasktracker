@@ -21,5 +21,8 @@
         = f.text_area :description, rows: 7, class: 'form-control'
 
 .modal-footer
-  = link_to 'Cancel', new_sticky_path(due_date: params[:due_date]), method: :get, remote: true, class: 'btn btn-default'
+  - if current_user.all_projects.count == 0
+    = link_to 'Cancel', '#', class: 'btn btn-default', data: { dismiss: 'modal' }
+  - else
+    = link_to 'Cancel', new_sticky_path(due_date: params[:due_date]), method: :get, remote: true, class: 'btn btn-default'
   = submit_tag 'Create Project', class: 'btn btn-primary', data: { object: 'sticky-submit', target: @project.new_record? ? "#new_project" : "#edit_project_#{@project.id}" }
