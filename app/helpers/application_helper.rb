@@ -62,8 +62,12 @@ module ApplicationHelper
   end
 
   def simple_markdown(text)
-    markdown = Redcarpet::Markdown.new( Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true )
-    target_link_as_blank(markdown.render(text))
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, no_intra_emphasis: true, fenced_code_blocks: true, autolink: true, strikethrough: true, superscript: true)
+    result = text.to_s
+    result = markdown.render(result)
+    result = insert_checkboxes(result)
+    result = target_link_as_blank(result)
+    result
   end
 
   def th_sort_field(order, sort_field, display_name, extra_class: '')
@@ -85,6 +89,11 @@ module ApplicationHelper
 
   def target_link_as_blank(text)
     text.to_s.gsub(/<a(.*?)>/, '<a\1 target="_blank">').html_safe
+  end
+
+  def insert_checkboxes(text)
+    text = text.to_s.gsub(/\[\s\]/, '<span class="glyphicon glyphicon-unchecked"></span>')
+    text = text.to_s.gsub(/\[x\]/i, '<span class="glyphicon glyphicon-check"></span>')
   end
 
   def replace_numbers_with_ascii(text)
