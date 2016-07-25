@@ -122,7 +122,8 @@ class StickiesController < ApplicationController
         format.html
         format.js
       else
-        if @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+        @sticky = current_user.all_viewable_stickies.find_by_id(params[:id])
+        if @sticky
           format.html { redirect_to @sticky }
           format.js { render :show }
         else
