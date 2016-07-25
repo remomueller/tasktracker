@@ -27,6 +27,7 @@ class Comment < ActiveRecord::Base
     sticky.project_id if sticky
   end
 
+  # TODO: Change to editable_by?
   def modifiable_by?(current_user)
     # current_user.all_projects.pluck(:id).include?(self.sticky.project_id)
     sticky.project.modifiable_by?(current_user)

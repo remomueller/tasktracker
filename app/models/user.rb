@@ -130,29 +130,24 @@ class User < ActiveRecord::Base
 
   def all_digest_projects
     return Project.none unless emails_enabled?
-    # TODO: Change to use left outer join on project_favorites
-    all_projects.select { |p| p.emails_enabled?(self) }
+    all_viewable_projects
+      .joins("LEFT OUTER JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{id}")
+      .where('project_favorites.emails_enabled IS NULL or project_favorites.emails_enabled = ?', true)
   end
 
   # All tasks created in the last day, or over the weekend if it's Monday
   # Ex: On Monday, returns tasks created since Friday morning (Time.zone.now - 3.day)
   # Ex: On Tuesday, returns tasks created since Monday morning (Time.zone.now - 1.day)
   def digest_stickies_created
-    @digest_stickies_created ||= begin
-      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}, completed: false).where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
-    end
+    all_stickies.where(project_id: all_digest_projects.select(:id), completed: false).where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day))
   end
 
   def digest_stickies_completed
-    @digest_stickies_completed ||= begin
-      self.all_stickies.where(project_id: self.all_digest_projects.collect{|p| p.id}).where("end_date >= ?", (Date.today.monday? ? Date.today - 3.day : Date.today - 1.day))
-    end
+    all_stickies.where(project_id: all_digest_projects.select(:id)).where('end_date >= ?', (Date.today.monday? ? Date.today - 3.day : Date.today - 1.day))
   end
 
   def digest_comments
-    @digest_comments ||= begin
-      self.all_viewable_comments.with_project(self.all_digest_projects.collect{|p| p.id}).where("created_at > ?", (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day)).order('created_at ASC')
-    end
+    all_viewable_comments.with_project(all_digest_projects.select(:id)).where('created_at > ?', (Time.zone.now.monday? ? Time.zone.now - 3.day : Time.zone.now - 1.day)).order(:created_at)
   end
 
   def all_viewable_stickies

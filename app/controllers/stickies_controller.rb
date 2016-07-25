@@ -19,8 +19,8 @@ class StickiesController < ApplicationController
     @beginning_of_anchor_week = @anchor_date.wday == 0 ? @anchor_date : @anchor_date.beginning_of_week - 1.day
     @beginning = @beginning_of_anchor_week - week_padding.weeks
     @ending = @beginning + (2 * week_padding + 1).weeks - 1.day
-    completed_dates = @stickies.with_due_date_for_calendar(@beginning, @beginning + 6.months - 1.day).where( completed: true ).pluck( :due_date )
-    incomplete_dates = @stickies.with_due_date_for_calendar(@beginning, @beginning + 6.months - 1.day).where( completed: false ).pluck( :due_date )
+    completed_dates = @stickies.with_due_date_for_calendar(@beginning, @beginning + 6.months - 1.day).where(completed: true).pluck(:due_date)
+    incomplete_dates = @stickies.with_due_date_for_calendar(@beginning, @beginning + 6.months - 1.day).where(completed: false).pluck(:due_date)
     @date_count_hash = {}
     ['S','M','T','W','R','F','S'].each_with_index do |day, day_index|
       date = @beginning
@@ -279,14 +279,14 @@ class StickiesController < ApplicationController
     @anchor_date = (Date.parse(params[:date]) rescue Date.today)
 
     sticky_scope = current_user.all_viewable_stickies
-    sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tags].to_s.split(',')).pluck(:id)) unless params[:tags].blank?
+    sticky_scope = sticky_scope.with_tag(current_user.all_viewable_tags.where(name: params[:tags].to_s.split(',')).select(:id)) unless params[:tags].blank?
     unless params[:owners].blank?
       owners = User.current.with_name(params[:owners].to_s.split(','))
-      owner_project_ids = owners.collect{|o| o.all_projects.pluck(:id)}.flatten.uniq
+      owner_project_ids = owners.collect { |o| o.all_projects.pluck(:id) }.flatten.uniq
       sticky_scope = sticky_scope.where(owner_id: owners.pluck(:id) + [nil], project_id: owner_project_ids)
     end
     sticky_scope = sticky_scope.where( completed: params[:completed].to_s.split(',') ) unless params[:completed].blank?
-    sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).pluck(:id)) unless params[:project_ids].blank?
+    sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).select(:id)) unless params[:project_ids].blank?
     @stickies = sticky_scope
   end
 

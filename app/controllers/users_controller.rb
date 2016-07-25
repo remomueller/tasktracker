@@ -3,7 +3,7 @@
 # Allows users to update their settings, and admins to update user accounts.
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  # TODO: This should only be viewalbe by system admin
+  # TODO: This should only be viewable by system admin
   before_action :check_system_admin, only: [:edit, :update, :destroy]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :redirect_without_user, only: [:show, :edit, :update, :destroy]

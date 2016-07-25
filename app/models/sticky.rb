@@ -68,7 +68,7 @@ class Sticky < ActiveRecord::Base
   end
 
   def tag_ids
-    tags.order('tags.name').pluck('tags.id')
+    tags.order(:name).pluck(:id)
   end
 
   def name

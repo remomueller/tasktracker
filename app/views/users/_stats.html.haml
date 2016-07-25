@@ -23,19 +23,16 @@
   %h3
     By Tags
 
+  - # TODO: Move to controller
   - tag_array = []
-
   - tag_names.each do |tag_name|
-    - tag = user.all_viewable_tags.where( name: tag_name ).first
-    - tag_count = all_tasks.with_tag( Tag.where(name: tag_name).pluck(:id) ).count
-    - complete_count = all_tasks.with_tag( Tag.where(name: tag_name).pluck(:id) ).where( completed: true ).count
-    - incomplete_count = all_tasks.with_tag( Tag.where(name: tag_name).pluck(:id) ).where( completed: false ).count
+    - tag = user.all_viewable_tags.where(name: tag_name).first
+    - tag_count = all_tasks.with_tag(Tag.where(name: tag_name).select(:id)).count
+    - complete_count = all_tasks.with_tag(Tag.where(name: tag_name).select(:id)).where(completed: true).count
+    - incomplete_count = all_tasks.with_tag(Tag.where(name: tag_name).select(:id)).where(completed: false).count
     - tag_array << [tag, tag_count, complete_count, incomplete_count]
-
   - tag_array.sort!{ |a,b| b[1] <=> a[1] }
   - tag_max_count = (tag_array.first[1] rescue 0)
-
-
   - tag_array.each do |tag, tag_count, complete_count, incomplete_count|
     - tag_count
     - tag_max_count
