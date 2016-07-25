@@ -1,5 +1,8 @@
 ## 0.30.0
 
+### Refactoring
+- Removed deprecated database columns
+
 ## 0.29.0 (July 25, 2016)
 
 ### Enhancements
