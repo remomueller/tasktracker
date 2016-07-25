@@ -7,6 +7,7 @@
 - **Calendar Changes**
   - Tasks without tags are no longer listed under a "No Tags" header
   - Tasks with comments now have a visual indicator on the calendar
+  - Tasks that repeat now have a visual indicator on the calendar
 - **Email Changes**
   - Email settings have been simplified
 - **Project Changes**

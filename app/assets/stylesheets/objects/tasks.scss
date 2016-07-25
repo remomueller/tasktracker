@@ -5,3 +5,9 @@
   position: absolute;
   right: 0;
 }
+
+.calendar-entry-body-today {
+  .comment-icon {
+    background-color: $current-day-color;
+  }
+}

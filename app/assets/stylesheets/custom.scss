@@ -5,7 +5,7 @@
 }
 
 .calendar-entry-body-today{
-  background-color: #E8EEFF; /* #C6CAF5; */
+  background-color: $current-day-color;
 }
 
 .calendar-entry-body-today .calendar-entry-heading{
