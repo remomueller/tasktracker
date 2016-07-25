@@ -104,6 +104,8 @@ class StickiesController < ApplicationController
   # GET /stickies/new
   def new
     if @project
+      params[:sticky] ||= {}
+      params[:sticky][:due_date] = params[:due_date]
       @sticky = @project.stickies.new(sticky_params)
     end
     respond_to do |format|

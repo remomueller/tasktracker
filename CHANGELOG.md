@@ -15,6 +15,8 @@
 ### Bug Fix
 - For users with no projects, clicking cancel when creating a new project now
   properly closes the popup modal
+- Due date is now properly set when creating a task from the calendar for users
+  with only one project
 
 ### Refactoring
 - Removed deprecated database columns
