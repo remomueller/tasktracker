@@ -7,6 +7,8 @@
   - Improved positioning of task comment and repeat indicators
   - Calendar task filters are now saved to user settings so the filters persist
     through page navigations and logins
+- **Administrative Changes**
+  - Admins can now disable emails for inactive user accounts
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to coffee-rails 4.2

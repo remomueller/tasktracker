@@ -14,8 +14,8 @@ class UsersController < ApplicationController
       return
     end
 
-    @order = scrub_order(User, params[:order], 'users.current_sign_in_at DESC NULLS LAST')
-    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per( 40 )
+    @order = scrub_order(User, params[:order], 'users.current_sign_in_at desc nulls last')
+    @users = User.current.search(params[:search] || params[:q]).order(@order).page(params[:page]).per(40)
 
     respond_to do |format|
       format.html
@@ -41,17 +41,17 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_path
+    redirect_to users_path, notice: 'User was successfully deleted.'
   end
 
   private
 
   def set_user
-    if current_user.system_admin?
-      @user = User.current.find_by_id(params[:id])
-    else
-      @user = current_user.associated_users.find_by_id(params[:id])
-    end
+    @user = if current_user.system_admin?
+              User.current.find_by_id params[:id]
+            else
+              current_user.associated_users.find_by_id params[:id]
+            end
   end
 
   def redirect_without_user
@@ -59,6 +59,8 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :system_admin)
+    params.require(:user).permit(
+      :first_name, :last_name, :email, :emails_enabled, :system_admin
+    )
   end
 end

@@ -58,7 +58,7 @@ module ApplicationHelper
   end
 
   def simple_check(checked)
-    checked ? '<span class="glyphicon glyphicon-ok"></span>'.html_safe : '<span class="glyphicon glyphicon-unchecked"></span>'.html_safe
+    checked ? '<span class="glyphicon glyphicon-ok"></span>'.html_safe : '<span class="glyphicon glyphicon-unchecked text-muted"></span>'.html_safe
   end
 
   def simple_markdown(text)

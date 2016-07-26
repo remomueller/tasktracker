@@ -31,6 +31,12 @@
       = f.text_field :email, class: 'form-control'
 
   .form-group
+    = f.label :emails_enabled, class: 'col-md-2 control-label'
+    .col-md-10
+      %label.checkbox{ style: 'width:185px' }
+        = f.check_box :emails_enabled
+
+  .form-group
     = f.label :system_admin, class: 'col-md-2 control-label'
     .col-md-10
       %label.checkbox{ style: 'width:185px' }
