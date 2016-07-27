@@ -191,7 +191,6 @@ class StickiesController < ApplicationController
     end
   end
 
-  # TODO: Remove all references
   def complete
     if @sticky
       @sticky.update completed: (params[:undo] != 'true')

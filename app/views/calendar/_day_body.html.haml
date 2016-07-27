@@ -1,9 +1,13 @@
 - new_sticky_scope = current_user.all_viewable_stickies.where(due_date: current_date)
-- new_sticky_scope = new_sticky_scope.where(completed: current_user.calendar_task_status) unless current_user.calendar_task_status.nil?
+- unless current_user.calendar_task_status.nil?
+  - if @sticky
+    - new_sticky_scope = new_sticky_scope.where('completed = ? or id = ?', current_user.calendar_task_status, @sticky.id)
+  - else
+    - new_sticky_scope = new_sticky_scope.where(completed: current_user.calendar_task_status)
+
 - new_sticky_scope = new_sticky_scope.where(project_id: current_user.project_filters.select(:project_id)) unless current_user.project_filters.count == 0
 - new_sticky_scope = new_sticky_scope.where(owner_id: current_user.owner_filters.select(:owner_id)) unless current_user.owner_filters.count == 0
 - new_sticky_scope = new_sticky_scope.with_tag(current_user.tag_filters.select(:tag_id)) unless current_user.tag_filters.count == 0
-
 - new_stickies = new_sticky_scope.order(:project_id, :id)
 
 
