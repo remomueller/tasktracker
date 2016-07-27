@@ -5,9 +5,7 @@
 
 - url = month_path(date: @anchor_date.strftime('%Y%m%d'))
 
-= render 'stickies/no_tasks_found', url: url if @stickies.size == 0
-
-= render 'create_and_filter_menu', url: url
+=# render 'stickies/no_tasks_found', url: url if @stickies.size == 0
 
 = render 'modal'
 

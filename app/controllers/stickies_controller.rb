@@ -33,7 +33,7 @@ class StickiesController < ApplicationController
       end
     end
     # @max_completed_count = @date_count_hash.collect{|k,v| v[:completed]}.max || 0
-    @max_incomplete_count = @date_count_hash.collect{|k,v| v[:incomplete]}.max || 0
+    @max_incomplete_count = @date_count_hash.collect { |k,v| v[:incomplete] }.max || 0
   end
 
   def month
@@ -43,8 +43,6 @@ class StickiesController < ApplicationController
 
     @first_sunday = @start_date - @start_date.wday.day
     @last_saturday = @end_date + (6 - @end_date.wday).day
-
-    @stickies = @stickies.with_due_date_for_calendar(@first_sunday, @last_saturday)
   end
 
   # GET /tasks
@@ -56,7 +54,7 @@ class StickiesController < ApplicationController
       return
     end
 
-    @tasks = @stickies.page(params[:page]).per( 40 )
+    @tasks = @stickies.page(params[:page]).per(40)
     render 'tasks/index'
   end
 

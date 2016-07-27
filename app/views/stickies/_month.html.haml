@@ -3,14 +3,14 @@
   = succeed ' ' do
     = link_to month_path(date: (@anchor_date - 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
       %span.glyphicon.glyphicon-chevron-left
-      Last Month
+      %span.hidden-xs Last Month
   = succeed ' ' do
     = link_to month_path(date: Date.today.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Date.today ? 'disabled' : nil) do
       %span.glyphicon.glyphicon-calendar
-      Today
+      %span.hidden-xs Today
   = succeed ' ' do
     = link_to month_path(date: (@anchor_date + 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
-      Next Month
+      %span.hidden-xs Next Month
       %span.glyphicon.glyphicon-chevron-right
 
 
@@ -37,5 +37,5 @@
               - date_format = current_date.strftime '%e'
             = link_to date_format, week_path(date: current_date.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), class: 'btn btn-xs', tabindex: '-1'
           %div{ style: 'min-height:90px;padding-left:2px;padding-right:2px', id: "day_#{current_date.strftime('%Y%m%d')}" }
-            = render 'calendar/day_body', stickies: @stickies, current_date: current_date
+            = render 'calendar/day_body', current_date: current_date
         = "</tr><tr>".html_safe if day_offset % 7 == 6 and day_offset != @last_saturday - @first_sunday

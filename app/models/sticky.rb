@@ -19,7 +19,9 @@ class Sticky < ApplicationRecord
   scope :updated_since, lambda { |arg| where("stickies.updated_at > ?", arg) }
   scope :with_date_for_calendar, lambda { |*args| where("DATE(stickies.created_at) >= ? and DATE(stickies.created_at) <= ?", args.first, args[1]) }
 
+  # TODO: Deprecated this scope
   scope :with_due_date_for_calendar, lambda { |*args| where( due_date: args.first..args[1] ) }
+  # END TODO
 
   scope :due_date_before, lambda { |arg| where("stickies.due_date < ?", arg+1.day) }
   scope :due_date_after, lambda { |arg| where("stickies.due_date >= ?", arg) }
@@ -68,7 +70,7 @@ class Sticky < ApplicationRecord
   end
 
   def tag_ids
-    tags.order(:name).pluck(:id)
+    tags.order(:name, :id).pluck(:id)
   end
 
   def name

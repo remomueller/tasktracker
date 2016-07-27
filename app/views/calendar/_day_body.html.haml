@@ -1,6 +1,13 @@
-- stickies = stickies.where(completed: current_user.calendar_task_status) unless current_user.calendar_task_status.nil?
+- new_sticky_scope = current_user.all_viewable_stickies.where(due_date: current_date)
+- new_sticky_scope = new_sticky_scope.where(completed: current_user.calendar_task_status) unless current_user.calendar_task_status.nil?
+- new_sticky_scope = new_sticky_scope.where(project_id: current_user.project_filters.select(:project_id)) unless current_user.project_filters.count == 0
+- new_sticky_scope = new_sticky_scope.where(owner_id: current_user.owner_filters.select(:owner_id)) unless current_user.owner_filters.count == 0
+- new_sticky_scope = new_sticky_scope.with_tag(current_user.tag_filters.select(:tag_id)) unless current_user.tag_filters.count == 0
 
-- stickies.with_due_date_for_calendar(current_date, current_date).order('stickies.project_id, stickies.id').group_by(&:tag_ids).reverse_each do |tag_ids, stickies|
+- new_stickies = new_sticky_scope.order(:project_id, :id)
+
+
+- new_stickies.group_by(&:tag_ids).reverse_each do |tag_ids, stickies|
   - @tags = Tag.current.where(id: tag_ids)
   %div{ style: 'padding-bottom:5px', id: "day_#{current_date.strftime('%Y%m%d') if current_date}_tag_container_#{tag_ids.sort.join('_')}" }
     - if @tags.size > 0

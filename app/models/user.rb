@@ -35,6 +35,9 @@ class User < ApplicationRecord
   has_many :stickies, -> { current.order(:created_at) }
   has_many :comments, -> { current.order(created_at: :desc) }
   has_many :owned_stickies, -> { current.order(:created_at) }, class_name: 'Sticky', foreign_key: 'owner_id'
+  has_many :project_filters
+  has_many :tag_filters
+  has_many :owner_filters
 
   # User Methods
 

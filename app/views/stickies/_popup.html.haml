@@ -1,21 +1,20 @@
 -# TODO: project_## should not be a class, but rather a data attibute.
-.sticky_popup.calendar-task-name{ class: "stickies_#{sticky.completed ? 'completed' : 'planned'} project_#{sticky.project_id}", id: "sticky_#{sticky.id}_popup", rel: 'popover', data: { sticky_id: sticky.id, grouped: (sticky.group ? 'true' : 'false'), due_date: "#{sticky.due_date.strftime('%Y%m%d') if sticky.due_date}", title: sticky.project.name, content: simple_markdown(sticky.description_html), html: 'true', placement: (sticky.due_date && [5,6].include?(sticky.due_date.wday) ? 'left' : 'right'), trigger: 'hover' } }
+.sticky_popup.calendar-task-name{ class: "stickies_#{sticky.completed ? 'completed' : 'planned'} project_#{sticky.project_id}", id: "sticky_#{sticky.id}_popup", rel: 'popover', data: { sticky_id: sticky.id, grouped: (sticky.group ? 'true' : 'false'), due_date: "#{sticky.due_date.strftime('%Y%m%d') if sticky.due_date}", title: sticky.project.name, content: simple_markdown(sticky.description_html), html: 'true', placement: (sticky.due_date && [0, 1].include?(sticky.due_date.wday) ? 'right' : 'left'), trigger: 'hover' } }
   - if sticky.comments.size > 0 || sticky.repeat != 'none'
     .comment-icon
       - if sticky.repeat != 'none'
         %span.glyphicon.glyphicon-repeat
       - if sticky.comments.size > 0
         %span.glyphicon.glyphicon-comment.text-primary
-  %table
-    - if sticky.completed?
-      %span.glyphicon.glyphicon-check
-    - elsif sticky.modifiable_by?(current_user)
-      = link_to complete_sticky_path(sticky, from: 'checkbox'), method: :post, remote: true do
-        %span.glyphicon.glyphicon-unchecked
-    - else
-      %span.glyphicon.glyphicon-unchecked
-    %b
-      = succeed ' ' do
-        = sticky.due_time unless sticky.all_day?
-    -# TODO: Sticky draggable should look different than just full description
-    = link_to strip_tags(simple_markdown sticky.full_description).truncate(27).html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through;color:#fff' : 'color:#fff')
+  - if sticky.completed?
+    %span.glyphicon.glyphicon-check
+  - elsif sticky.modifiable_by?(current_user)
+    = link_to complete_sticky_path(sticky, from: 'checkbox'), method: :post, remote: true do
+      %span.glyphicon.glyphicon-unchecked>
+  - else
+    %span.glyphicon.glyphicon-unchecked
+  %b
+    = succeed ' ' do
+      = sticky.due_time unless sticky.all_day?
+  -# TODO: Sticky draggable should look different than just full description
+  = link_to strip_tags(simple_markdown sticky.full_description).truncate(27).html_safe, sticky_path(sticky, from: 'month'), remote: true, method: :get, class: "project_#{sticky.project_id}_color", style: (sticky.completed? ? 'text-decoration:line-through;color:#fff' : 'color:#fff')

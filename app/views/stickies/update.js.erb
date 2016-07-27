@@ -30,7 +30,7 @@
 
   <% due_dates = (stickies.collect(&:due_date) + @all_dates).compact.uniq %>
   <% due_dates.each do |due_date| %>
-    $("#day_<%= due_date.strftime('%Y%m%d') %>").html("<%=j render 'calendar/day_body', current_date: due_date, stickies: current_user.all_viewable_stickies %>");
+    $("#day_<%= due_date.strftime('%Y%m%d') %>").html("<%=j render 'calendar/day_body', current_date: due_date %>");
   <% end %>
 
   <% stickies.each do |sticky| %>

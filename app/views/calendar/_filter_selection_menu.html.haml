@@ -1,14 +1,107 @@
 .dropdown{ style: 'display: inline-block' }
   = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, class: 'btn btn-xs btn-default' do
-    %span.hidden-xs
-      - if current_user.calendar_task_status.nil?
-        All Tasks
-      - elsif current_user.calendar_task_status
-        Completed Tasks
-      - else
-        Open Tasks
-    %span.glyphicon.glyphicon-filter
+    Tasks
+    %span.caret
   %ul.dropdown-menu
-    %li= link_to 'All Tasks', update_task_status_path(status: 'all'), method: :post, style: current_user.calendar_task_status.nil? ? 'font-weight:bold;' : ''
-    %li= link_to 'Open Tasks', update_task_status_path(status: 'open'), method: :post, style: current_user.calendar_task_status == false  ? 'font-weight:bold;' : ''
-    %li= link_to 'Completed Tasks', update_task_status_path(status: 'completed'), method: :post, style: current_user.calendar_task_status == true  ? 'font-weight:bold;' : ''
+    %li
+      = link_to update_task_status_path(date: params[:date], status: 'all'), method: :post do
+        - if current_user.calendar_task_status.nil?
+          %span.glyphicon.glyphicon-ok
+        - else
+          %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+        All Tasks
+    %li
+      = link_to update_task_status_path(date: params[:date], status: 'open'), method: :post do
+        - if current_user.calendar_task_status == false
+          %span.glyphicon.glyphicon-ok
+        - else
+          %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+        %span.glyphicon.glyphicon-unchecked
+        Open Tasks
+    %li
+      = link_to update_task_status_path(date: params[:date], status: 'completed'), method: :post do
+        - if current_user.calendar_task_status == true
+          %span.glyphicon.glyphicon-ok
+        - else
+          %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+        %span.glyphicon.glyphicon-check
+        Completed Tasks
+
+.dropdown{ style: 'display: inline-block' }
+  = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, class: 'btn btn-xs btn-default' do
+    Projects
+    %span.caret
+  %ul.dropdown-menu
+    %li
+      = link_to toggle_project_selection_path(date: params[:date]), method: :post, style: current_user.calendar_task_status.nil? ? 'font-weight:bold;' : '' do
+        - if current_user.project_filters.count == 0
+          %span.glyphicon.glyphicon-ok
+        - else
+          %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+        All Projects
+    - current_user.all_viewable_projects.order(:name).each do |project|
+      %li
+        = link_to toggle_project_selection_path(date: params[:date], project_id: project.id), method: :post, style: current_user.calendar_task_status == false  ? 'font-weight:bold;' : '' do
+          - if current_user.project_filters.where(project_id: project.id).count == 1
+            %span.glyphicon.glyphicon-ok
+          - else
+            %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+          %span{ style: "color: #{project.color(current_user)}" }
+            = project.name
+
+.dropdown{ style: 'display: inline-block' }
+  = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, class: 'btn btn-xs btn-default' do
+    Users
+    %span.caret
+  %ul.dropdown-menu
+    %li
+      = link_to toggle_owner_selection_path(date: params[:date]), method: :post, style: current_user.calendar_task_status.nil? ? 'font-weight:bold;' : '' do
+        - if current_user.owner_filters.count == 0
+          %span.glyphicon.glyphicon-ok
+        - else
+          %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+        All Users
+    %li
+      = link_to toggle_owner_selection_path(date: params[:date], owner_id: current_user.id), method: :post do
+        - if current_user.owner_filters.where(owner_id: current_user.id).count == 1
+          %span.glyphicon.glyphicon-ok
+        - else
+          %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+        = image_tag current_user.avatar_url(18), size: '18x18', alt: ''
+        = current_user.nickname
+    - current_user.associated_users_assigned_tasks.where.not(id: current_user.id).order(:first_name, :last_name).each do |owner|
+      %li
+        = link_to toggle_owner_selection_path(date: params[:date], owner_id: owner.id), method: :post do
+          - if current_user.owner_filters.where(owner_id: owner.id).count == 1
+            %span.glyphicon.glyphicon-ok
+          - else
+            %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+          = image_tag owner.avatar_url(18), size: '18x18', alt: ''
+          = owner.nickname
+
+- tag_projects = current_user.all_viewable_projects
+- tag_projects = tag_projects.where(id: current_user.project_filters.select(:project_id))  unless current_user.project_filters.count == 0
+.dropdown{ style: 'display: inline-block' }
+  = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, class: 'btn btn-xs btn-default' do
+    Tags
+    %span.caret
+  %ul.dropdown-menu
+    %li
+      = link_to toggle_tag_selection_path(date: params[:date]), method: :post do
+        - if current_user.tag_filters.count == 0
+          %span.glyphicon.glyphicon-ok
+        - else
+          %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+        All Tags
+    - tag_projects.order(:name).each do |project|
+      - if project.tags.count > 0
+        %li.dropdown-header= project.name
+        - project.tags.each do |tag|
+          %li
+            = link_to toggle_tag_selection_path(date: params[:date], tag_id: tag.id), method: :post do
+              - if current_user.tag_filters.where(tag_id: tag.id).count == 1
+                %span.glyphicon.glyphicon-ok
+              - else
+                %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
+              %div{ style: "display:inline-block; width: 12px; height: 12px; background-color: #{tag.color}; border-radius: 2px" }
+              = tag.name
