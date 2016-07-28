@@ -17,7 +17,7 @@
       - if current_user
         %form.navbar-form.navbar-right.hidden-xs
           = link_to destroy_user_session_path, class: 'btn btn-default' do
-            %span.glyphicon.glyphicon-log-out
+            Logout
       - else
         %form.navbar-form.navbar-right.hidden-xs
           = link_to 'Sign in', new_user_session_path, class: 'btn btn-default'
