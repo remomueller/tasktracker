@@ -79,7 +79,7 @@ class StickiesController < ApplicationController
       sticky_scope = sticky_scope.where(completed: (params[:status] || []).collect{|v| (v.to_s == 'completed')})
       @order = scrub_order(Sticky, params[:order], 'completed, due_date, end_date DESC, start_date DESC')
     else
-      params[:scope] = (['completed', 'past_due', 'upcoming'].include?(params[:scope]) ? params[:scope] : 'past_due')
+      params[:scope] = (['completed', 'past_due', 'upcoming'].include?(params[:scope]) ? params[:scope] : 'upcoming')
       case params[:scope] when 'completed'
         sticky_scope = sticky_scope.where(completed: true)
         @order = (params[:scope_direction] == 'reverse' ? "stickies.due_date NULLS FIRST" : "stickies.due_date DESC NULLS LAST")

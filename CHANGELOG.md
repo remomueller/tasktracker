@@ -16,6 +16,8 @@
   - Removed the "Holding Pen" board, the default project page now shows all
     tasks
   - Cleaned up inviting new project members
+  - Default project task list now shows upcoming tasks instead of ones that are
+    past due
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to coffee-rails 4.2

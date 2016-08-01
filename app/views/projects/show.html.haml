@@ -18,7 +18,7 @@
   = hidden_field_tag :board_id, params[:board_id]
   = hidden_field_tag :tag_ids, params[:tag_ids]
   = hidden_field_tag :order, 'stickies.created_at desc'
-  = hidden_field_tag :scope, params[:scope] || 'past_due'
+  = hidden_field_tag :scope, params[:scope] || 'upcoming'
   = hidden_field_tag :scope_direction, params[:scope_direction] || 'forward'
   = hidden_field_tag 'assigned_to_me_hidden', '0', name: 'assigned_to_me'
   = check_box_tag 'assigned_to_me', '1', params[:assigned_to_me].to_s == '1', style: 'display:none'
