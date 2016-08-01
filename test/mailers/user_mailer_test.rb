@@ -60,20 +60,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sender.name} completed the following 1 Task\./, mail.body.encoded)
   end
 
-  test 'daily tasks due email' do
-    valid = users(:valid)
-    mail = UserMailer.daily_stickies_due(valid)
-    due_today = "#{valid.all_stickies_due_today.size} " + (valid.all_stickies_due_today.size == 1 ? 'Task' : 'Tasks') + ' Due Today'
-    past_due = "#{valid.all_stickies_past_due.size} " + (valid.all_stickies_past_due.size == 1 ? 'Task' : 'Tasks') + ' Past Due'
-    due_upcoming = "#{valid.all_stickies_due_upcoming.size} " + (valid.all_stickies_due_upcoming.size == 1 ? 'Task' : 'Tasks') + ' Upcoming'
-    due_today = nil if valid.all_stickies_due_today.empty?
-    past_due = nil if valid.all_stickies_past_due.empty?
-    due_upcoming = nil if valid.all_stickies_due_upcoming.empty?
-    assert_equal [valid.email], mail.to
-    assert_equal [due_today, past_due, due_upcoming].compact.join(' and ').to_s, mail.subject
-    assert_match(/View tasks on a calendar here: #{"#{ENV['website_url']}/month"}/, mail.body.encoded)
-  end
-
   test 'group by mail email' do
     group = groups(:one)
     valid = users(:valid)

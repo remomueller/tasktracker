@@ -73,21 +73,6 @@ class UserMailer < ApplicationMailer
          reply_to: sender.email)
   end
 
-  def daily_stickies_due(recipient)
-    setup_email
-    @recipient = recipient
-    due_today = "#{recipient.all_deliverable_stickies_due_today.size} " + (recipient.all_deliverable_stickies_due_today.size == 1 ? 'Task' : 'Tasks') + " Due Today"
-    past_due = "#{recipient.all_deliverable_stickies_past_due.size} " + (recipient.all_deliverable_stickies_past_due.size == 1 ? 'Task' : 'Tasks') + " Past Due"
-    due_upcoming = "#{recipient.all_deliverable_stickies_due_upcoming.size} " + (recipient.all_deliverable_stickies_due_upcoming.size == 1 ? 'Task' : 'Tasks') + " Upcoming"
-    due_today = nil if recipient.all_deliverable_stickies_due_today.size == 0
-    past_due = nil if recipient.all_deliverable_stickies_past_due.size == 0
-    due_upcoming = nil if recipient.all_deliverable_stickies_due_upcoming.size == 0
-
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: [due_today, past_due, due_upcoming].compact.join(' and '))
-  end
-
   def daily_digest(recipient)
     setup_email
     @recipient = recipient

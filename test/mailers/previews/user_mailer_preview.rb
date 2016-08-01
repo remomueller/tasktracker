@@ -45,11 +45,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.stickies_completion_by_mail(stickies, sender, recipient)
   end
 
-  def daily_stickies_due
-    recipient = User.current.first
-    UserMailer.daily_stickies_due(recipient)
-  end
-
   def daily_digest
     recipient = User.current.first
     UserMailer.daily_digest(recipient)

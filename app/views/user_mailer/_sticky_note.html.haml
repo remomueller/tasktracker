@@ -5,7 +5,7 @@
     %col{ width: '20%' }
     %tr
       %td{ style: 'padding-top:10px;padding-left:10px;vertical-align:top;white-space:nowrap' }
-        = link_to @sticky.board ? @sticky.board.name : 'Holding Pen', "#{ENV['website_url']}/stickies/#{@sticky.id}", style: 'color: #428bca'
+        = link_to @sticky.board ? @sticky.board.name : 'Holding Pen', "#{ENV['website_url']}/stickies/#{@sticky.id}", style: link_style
       %td{ style: 'padding-top:10px;padding-left:20px;padding-right: 20px; text-align:center;vertical-align:top' }
         - if @sticky.owner
           = image_tag("http:#{@sticky.owner.avatar_url(18, 'identicon')}", size: '18x18', alt: '', style: 'vertical-align: middle')

@@ -1,0 +1,26 @@
+%table{ style: 'width:100%;border:0px;border-collapse:collapse;margin:0px;padding:0px;color:#505050;font-size:14px;line-height:18px' }
+  %thead
+    %tr{ style: 'text-align:left' }
+      %th{ colspan: 3, style: 'padding-bottom:10px;font-weight:normal' }
+        %span{ style: emphasis_style } Comments
+  - digest_comments.group_by { |s| s.project_id }.each do |project_id, comments|
+    %tr
+      %td{ colspan: 3, style: 'border-top:1px solid #ddd;' }
+    %tr
+      %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;' }
+        - project = Project.find_by_id project_id
+        - if project
+          = link_to project.name, "#{ENV['website_url']}/projects/#{project.id}", style: link_style
+        - else
+          No Project
+    - comments.group_by { |s| s.sticky_id }.each do |sticky_id, comments|
+      - task = Sticky.find_by_id(sticky_id)
+      %tr
+        %td{ colspan: 3, style: 'text-align:left;padding-top:10px;padding-right:20px;padding-bottom:10px;' }
+          = link_to "#{ENV['website_url']}/stickies/#{task.id}", style: digest_link_style do
+            = strip_tags(simple_markdown task.full_description).truncate(50, separator: ' ').html_safe
+
+      - comments.each do |comment|
+        %tr= render 'digest_comment', comment: comment
+    %tr
+      %td{ colspan: 3, style: 'padding-bottom:10px' }

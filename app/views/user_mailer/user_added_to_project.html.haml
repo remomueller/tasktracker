@@ -8,7 +8,7 @@
 %span{ style: 'padding:5px;background-color:#5cb85c;color:white' } added
 you to
 = succeed '.' do
-  = link_to @project_user.project.name, "#{ENV['website_url']}/projects/#{@project_user.project.id}", style: 'color: #428bca'
+  = link_to @project_user.project.name, "#{ENV['website_url']}/projects/#{@project_user.project.id}", style: link_style
 %br
 %br
 - if @project_user.allow_editing?

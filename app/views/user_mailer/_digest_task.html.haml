@@ -1,0 +1,7 @@
+%td{ style: 'padding-left:10px;' }
+  = render 'sticky_tags', tags: task.tags
+  = link_to "#{ENV['website_url']}/stickies/#{task.id}", style: digest_link_style do
+    = strip_tags(simple_markdown task.full_description).truncate(100, separator: ' ').html_safe
+
+%td{ style: 'padding-left:10px;padding-right:10px;text-align:right;white-space:nowrap' }
+  = task.owner.nickname if task.owner

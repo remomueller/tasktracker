@@ -2,7 +2,7 @@
 %span{ style: 'padding:5px;background-color:#428bca;color:white' } commented
 on Task
 = succeed '.' do
-  = link_to @sticky.name, "#{ENV['website_url']}/stickies/#{@sticky.id}", style: 'color: #428bca'
+  = link_to @sticky.name, "#{ENV['website_url']}/stickies/#{@sticky.id}", style: link_style
 %br
 %br
 - @sticky.comments.limit(5).each do |comment|

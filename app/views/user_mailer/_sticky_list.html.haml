@@ -16,7 +16,7 @@
       %td{ style: 'text-align:left;padding-top:10px;padding-right:20px;font-weight:bold' }
         - project = Project.current.find_by_id(project_id)
         - if project
-          = link_to project.name, "#{ENV['website_url']}/projects/#{project.id}", style: 'color: #428bca'
+          = link_to project.name, "#{ENV['website_url']}/projects/#{project.id}", style: link_style
         - else
           No Project
       %td{ colspan: 6 }

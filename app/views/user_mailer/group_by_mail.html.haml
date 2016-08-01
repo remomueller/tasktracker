@@ -1,7 +1,7 @@
 = @group.user.name
 %span{ style: 'padding:5px;background-color:#5cb85c;color:white' } added
 Group
-= link_to @group.name, "#{ENV['website_url']}/groups/#{@group.id}", style: 'color: #428bca'
+= link_to @group.name, "#{ENV['website_url']}/groups/#{@group.id}", style: link_style
 with
 = succeed '.' do
   = pluralize @group.stickies.size, 'Task'

@@ -3,11 +3,11 @@ Dear <%= @recipient.first_name %>,
 <% if @recipient.digest_stickies_completed.size > 0 %>
 COMPLETED Recently
 
-<% @recipient.digest_stickies_completed.group_by{|s| s.project_id}.each do |project_id, stickies| %>
+<% @recipient.digest_stickies_completed.group_by{|s| s.project_id}.each do |project_id, tasks| %>
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
-<% stickies.each do |sticky| %>
-  <%= render 'digest_sticky', sticky: sticky %>
+<% tasks.each do |task| %>
+  <%= render 'digest_task', task: task %>
 <% end %>
 
 <% end %>
@@ -33,11 +33,11 @@ COMMENTS
 
 <% if @recipient.digest_stickies_created.size > 0 %>
 ADDED Recently
-<% @recipient.digest_stickies_created.group_by{|s| s.project_id}.each do |project_id, stickies| %>
+<% @recipient.digest_stickies_created.group_by{|s| s.project_id}.each do |project_id, tasks| %>
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
-  <% stickies.each do |sticky| %>
-    <%= render 'digest_sticky', sticky: sticky %>
+  <% tasks.each do |task| %>
+    <%= render 'digest_task', task: task %>
   <% end %>
 
 <% end %>

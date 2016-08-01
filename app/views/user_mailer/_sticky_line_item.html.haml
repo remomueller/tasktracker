@@ -1,6 +1,6 @@
 %td
 %td{ style: 'padding-right:10px' }
-  = link_to sticky.name, "#{ENV['website_url']}/stickies/#{sticky.id}", style: 'color: #428bca'
+  = link_to sticky.name, "#{ENV['website_url']}/stickies/#{sticky.id}", style: link_style
   = strip_tags(simple_markdown sticky.full_description).truncate(16, separator: ' ').html_safe
 %td{ style: 'padding-right:10px' }= simple_date(sticky.due_date) unless sticky.due_date.blank?
 %td{ style: 'padding-right:20px' }= simple_weekday(sticky.due_date) unless sticky.due_date.blank?

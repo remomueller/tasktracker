@@ -3,11 +3,11 @@
 <% if @stickies.size > 0 %>
 COMPLETED Recently
 
-<% @stickies.group_by{|s| s.project_id}.each do |project_id, stickies| %>
+<% @stickies.group_by{|s| s.project_id}.each do |project_id, tasks| %>
 <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
 
-<% stickies.each do |sticky| %>
-  <%= render 'digest_sticky', sticky: sticky %>
+<% tasks.each do |task| %>
+  <%= render 'digest_task', task: task %>
 <% end %>
 
 <% end %>

@@ -10,6 +10,8 @@
   - Calendar task filters are now saved to user settings so the filters persist
     through page navigations and logins
   - Users can now default the calendar to use a 4-week view
+- **Email Changes**
+  - The daily tasks due and daily digest have been combined into a single email
 - **Project Changes**
   - Projects can now be archived
     - Archived projects do not show up on the calendar view
