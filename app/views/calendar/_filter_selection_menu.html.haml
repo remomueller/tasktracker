@@ -39,7 +39,7 @@
         - else
           %span.glyphicon.glyphicon-unchecked{ style: 'color: transparent' }
         All Projects
-    - current_user.all_viewable_projects.order(:name).each do |project|
+    - current_user.all_viewable_non_archived_projects.order(:name).each do |project|
       %li
         = link_to toggle_project_selection_path(date: params[:date], project_id: project.id), method: :post, style: current_user.calendar_task_status == false  ? 'font-weight:bold;' : '' do
           - if current_user.project_filters.where(project_id: project.id).count == 1
@@ -79,7 +79,7 @@
           = image_tag owner.avatar_url(18), size: '18x18', alt: ''
           = owner.nickname
 
-- tag_projects = current_user.all_viewable_projects
+- tag_projects = current_user.all_viewable_non_archived_projects
 - tag_projects = tag_projects.where(id: current_user.project_filters.select(:project_id))  unless current_user.project_filters.count == 0
 .dropdown{ style: 'display: inline-block' }
   = link_to '#', data: { target: '#', toggle: 'dropdown' }, role: 'button', aria: { haspopup: 'true', expanded: 'false' }, class: 'btn btn-xs btn-default' do

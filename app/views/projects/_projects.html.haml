@@ -4,8 +4,15 @@
   %thead
     %tr
       %th Color
-      = th_sort_field @order, 'projects.name', 'Name', extra_class: 'nowrap'
-      %th Creator
+      = th_sort_field @order, 'projects.name', 'Name'
+      - if false
+        = th_sort_field @order, 'projects.archived', 'Archived', extra_class: 'center'
+        = th_sort_field @order, 'projects.favorite', 'Favorited', extra_class: 'center'
+        = th_sort_field @order, 'projects.emails_enabled', 'Emails', extra_class: 'center'
+      - else
+        %th.center Archived
+        %th.center Favorited
+        %th.center Emails
       %th Actions
 
   - @projects.each do |project|
@@ -19,8 +26,17 @@
               %div{ id: "project_#{project.id}_hexcolor_display", style: "background-color: #{project.color(current_user)};top:0px;left:0px" }
       %td
         = link_to project.name, project, style: "color: #{project.color(current_user)}", class: "project_#{project.id}_color"
-      %td
-        = link_to project.user.name, project.user
+      %td.center
+        - if project.archived_by?(current_user)
+          %span.glyphicon.glyphicon-eye-close.text-muted
+      %td.center
+        - if project.favorited_by?(current_user)
+          %span.glyphicon.glyphicon-star.text-warning
+        - else
+          %span.glyphicon.glyphicon-empty-star
+      %td.center
+        - if project.emails_enabled?(current_user)
+          %span.glyphicon.glyphicon-envelope.text-success
       %td.nowrap
         - if project.modifiable_by?(current_user)
           = link_to 'Edit', edit_project_path(project), class: 'btn btn-xs btn-default'

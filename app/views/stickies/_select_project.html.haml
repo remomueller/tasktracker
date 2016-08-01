@@ -1,11 +1,10 @@
 - favorite_end = false
-- all_projects = current_user.all_projects
+- all_projects = current_user.all_non_archived_projects
 - all_projects = all_projects.has_template if @group
 .modal-header
   %button.close{ type: 'button', data: { dismiss: 'modal' }, aria: { hidden: 'true' } } &times;
   %h4.modal-title
-    Select Project
-    or
+    Select Project or
     = link_to 'Create New Project', new_project_path(due_date: params[:due_date], object: 'sticky'), method: :get, remote: true
 
 .modal-body

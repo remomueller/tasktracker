@@ -66,6 +66,11 @@ class Project < ApplicationRecord
     scope.count
   end
 
+  def archived_by?(current_user)
+    project_preference = project_preferences.find_by_user_id(current_user.id)
+    project_preference.present? && project_preference.archived?
+  end
+
   def favorited_by?(current_user)
     project_preference = project_preferences.find_by_user_id(current_user.id)
     project_preference.present? && project_preference.favorite?

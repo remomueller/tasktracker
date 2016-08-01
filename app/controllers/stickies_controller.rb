@@ -291,6 +291,7 @@ class StickiesController < ApplicationController
       sticky_scope = sticky_scope.where(owner_id: owners.pluck(:id) + [nil], project_id: owner_project_ids)
     end
     sticky_scope = sticky_scope.where(completed: current_user.calendar_task_status) unless current_user.calendar_task_status.nil?
+    sticky_scope = sticky_scope.where.not(project_id: current_user.project_preferences.where(archived: true).select(:project_id))
 
     sticky_scope = sticky_scope.where(project_id: current_user.all_viewable_projects.where(id: params[:project_ids].to_s.split(',')).select(:id)) unless params[:project_ids].blank?
     @stickies = sticky_scope

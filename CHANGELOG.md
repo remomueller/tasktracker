@@ -1,6 +1,8 @@
 ## 0.30.0
 
 ### Enhancements
+- **Administrative Changes**
+  - Admins can now disable emails for inactive user accounts
 - **Task Changes**
   - Completing a task now sends associated task completed emails in background
 - **Calendar Changes**
@@ -8,8 +10,9 @@
   - Calendar task filters are now saved to user settings so the filters persist
     through page navigations and logins
   - Users can now default the calendar to use a 4-week view
-- **Administrative Changes**
-  - Admins can now disable emails for inactive user accounts
+- **Project Changes**
+  - Projects can now be archived
+    - Archived projects do not show up on the calendar view
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to coffee-rails 4.2

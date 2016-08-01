@@ -20,7 +20,7 @@ class ProjectPreferencesController < ApplicationController
   private
 
   def project_preference_params
-    params.permit(:color, :favorite, :emails_enabled)
+    params.permit(:color, :favorite, :emails_enabled, :archived)
   end
 
   def find_or_create_project_preference

@@ -1,0 +1,10 @@
+- archived = @project.archived_by?(current_user)
+- btn_class = archived ? 'btn-default' : 'btn-default'
+
+= link_to project_preferences_update_path(project_id: @project, archived: archived ? '0' : '1'), remote: true, method: :patch, class: "btn btn-xs #{btn_class}" do
+  - if archived
+    %span.glyphicon.glyphicon-eye-close
+    Archived
+  - else
+    %span.glyphicon.glyphicon-eye-open
+    Not Archived

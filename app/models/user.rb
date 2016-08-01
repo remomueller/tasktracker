@@ -82,11 +82,19 @@ class User < ApplicationRecord
       .where('projects.user_id = ? or project_users.allow_editing = ?', id, true)
   end
 
+  def all_non_archived_projects
+    all_projects.where.not(id: project_preferences.where(archived: true).select(:project_id))
+  end
+
   def all_viewable_projects
     Project
       .current
       .joins("LEFT OUTER JOIN project_users ON project_users.project_id = projects.id and project_users.user_id = #{id}")
       .where('projects.user_id = ? or project_users.user_id = ?', id, id)
+  end
+
+  def all_viewable_non_archived_projects
+    all_viewable_projects.where.not(id: project_preferences.where(archived: true).select(:project_id))
   end
 
   def all_stickies
