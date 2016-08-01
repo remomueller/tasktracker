@@ -11,13 +11,11 @@
 - sticky_scope = sticky_scope.where.not(project_id: current_user.project_preferences.where(archived: true).select(:project_id))
 - new_stickies = sticky_scope.order(:project_id, :id)
 
-
 - new_stickies.group_by(&:tag_ids).reverse_each do |tag_ids, stickies|
   - @tags = Tag.current.where(id: tag_ids)
-  %div{ style: 'padding-bottom:5px', id: "day_#{current_date.strftime('%Y%m%d') if current_date}_tag_container_#{tag_ids.sort.join('_')}" }
-    - if @tags.size > 0
-      .calendar-task-name
-        - @tags.each do |tag|
-          %span.label{ style: "background-color: #{tag.color}" }= tag.name
-    - stickies.sort{|a,b| a.due_date <=> b.due_date}.each do |sticky|
-      = render 'stickies/popup', sticky: sticky
+  - if @tags.size > 0
+    .calendar-task-name
+      - @tags.each do |tag|
+        %span.label{ style: "background-color: #{tag.color}" }= tag.name
+  - stickies.sort{|a,b| a.due_date <=> b.due_date}.each do |sticky|
+    = render 'stickies/popup', sticky: sticky
