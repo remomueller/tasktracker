@@ -8,7 +8,7 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def invite_user_to_project
-    project_user = ProjectUser.where.not( invite_email: nil ).first
+    project_user = ProjectUser.where.not(invite_email: nil).first
     UserMailer.invite_user_to_project(project_user)
   end
 
