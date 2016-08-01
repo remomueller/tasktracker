@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
 
     unless @template
       @board = @project.boards.find_by_name(params[:board])
-      params[:board_id] = @board ? @board.id : (params[:board_id] || 0)
+      params[:board_id] = @board ? @board.id : (params[:board_id] || 'all')
       @board = @project.boards.find_by_id(params[:board_id]) unless @board
     end
   end

@@ -62,7 +62,7 @@ class User < ApplicationRecord
   end
 
   def associated_users_assigned_tasks
-    User.current.where(id: Sticky.where(owner_id: associated_users.select(:id), project_id: all_viewable_projects.select(:id)).select(:owner_id))
+    User.current.where(id: Sticky.where(owner_id: associated_users.select(:id), project_id: all_viewable_non_archived_projects.select(:id)).select(:owner_id))
   end
 
   # Overriding Devise built-in active_for_authentication? method

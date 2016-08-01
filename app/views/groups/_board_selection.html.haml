@@ -8,7 +8,7 @@
     #board_id_container
       .row
         .col-xs-6.col-md-4
-          = select :group, :board_id, options_for_select([['Holding Pen', nil]]) + grouped_options_for_select(board_groups, @group.board_id), {}, class: 'form-control'
+          = select :group, :board_id, options_for_select([['---', nil]]) + grouped_options_for_select(board_groups, @group.board_id), {}, class: 'form-control'
         .col-xs-4.col-md-2
           = link_to '+', '#', data: { object: 'create-new-board' }, class: 'btn btn-default'
     #board_name_container{ style: 'display:none' }

@@ -13,14 +13,6 @@
       = link_to @sticky.group.name, @sticky.group
       = simple_format @sticky.group.description unless @sticky.group.description.blank?
 
-#board_selection_container.form-group
-  = render 'projects/board_selection'
-
-.form-group
-  = f.label :completed, class: 'col-md-2 control-label'
-  .col-md-10
-    %label.checkbox{ style: 'width:185px' }= f.check_box :completed
-
 #owner_selection_container.form-group
   = render 'projects/user_selection'
 
@@ -71,11 +63,8 @@
       .col-xs-6
         = f.select :duration_units, options_for_select(['minutes', 'hours', 'days', 'weeks', 'months', 'years'].collect{|i| [i,i]}, @sticky.duration_units), {}, class: 'form-control'
 
-#tag_selection_container
-  = render 'projects/tag_selection'
-
 .form-group
-  = f.label :repeat, "Repeat", class: 'col-md-2 control-label'
+  = f.label :repeat, 'Repeat', class: 'col-md-2 control-label'
   .col-md-10
     .row
       .col-xs-3{ data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none'}" }
@@ -87,3 +76,9 @@
       .col-xs-3{ style: 'line-height:30px;' }
         %span{ data: { object: 'repeat-options' }, style: "#{'display:none' if @sticky.repeat == 'none'}" }
           = link_to 'Clear Repeat', '#', class: 'btn btn-xs btn-default', data: { object: 'clear-repeat' }
+
+#board_selection_container.form-group
+  = render 'projects/board_selection'
+
+#tag_selection_container
+  = render 'projects/tag_selection'
