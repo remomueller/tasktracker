@@ -96,7 +96,7 @@ class Sticky < ApplicationRecord
 
   def description_html
     result = full_description.to_s
-    result += '<hr style="margin-top:5px;margin-bottom:5px">'
+    result += "\n\n<hr style=\"margin-top:5px;margin-bottom:5px\">"
     result += "<div style='white-space:nowrap'><strong>Assigned</strong> #{self.owner.name} <img alt='' src='#{self.owner.avatar_url(18, "identicon")}' class='img-rounded'></div>" if self.owner
     result += "<strong>Board</strong> #{self.board ? self.board.name : 'Holding Pen'}<br />" if self.project.boards.size > 0
     result += "<strong>Repeats</strong> #{self.repeat_amount} #{self.repeat}#{'s' if self.repeat_amount != 1} after due date<br />" if self.repeat != 'none'
