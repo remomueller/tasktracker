@@ -2,5 +2,5 @@
 
 require 'test_helper'
 
-class ProjectFavoriteTest < ActiveSupport::TestCase
+class ProjectPreferenceTest < ActiveSupport::TestCase
 end

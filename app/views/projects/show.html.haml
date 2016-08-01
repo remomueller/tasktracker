@@ -8,7 +8,7 @@
     = link_to 'Delete Project', @project, method: :delete, class: 'btn btn-xs btn-danger-inverse', data: { confirm: "Are you sure you want to delete Project #{@project.name}?" }
     = link_to 'Reassign Tasks', '#', class: 'btn btn-xs btn-default', data: { object: 'modal-show', target: '#reassign-dialog' }
   %span{ id: "project_#{@project.id}_preferences" }
-    = render 'project_favorites/preferences'
+    = render 'project_preferences/preferences'
 
 - status_all = (params[:status].include?('planned') && params[:status].include?('completed'))
 

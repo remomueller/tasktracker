@@ -8,14 +8,14 @@ class Project < ApplicationRecord
   # Named Scopes
   scope :with_user, -> (*args) { where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]).references(:project_users) }
   scope :has_template, -> { where('projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false) }
-  scope :by_favorite, -> (arg) { joins("LEFT JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{arg.to_i}") } #, order: "(project_favorites.favorite = 't') DESC"
+  scope :by_favorite, -> (arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}") } #, order: "(project_preferences.favorite = 't') DESC"
 
   # Model Validation
   validates :name, :user_id, presence: true
 
   # Model Relationships
   belongs_to :user
-  has_many :project_favorites
+  has_many :project_preferences
   has_many :project_users
   has_many :users, -> { current.order(:last_name, :first_name) }, through: :project_users
   has_many :editors, -> { where('project_users.allow_editing = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
@@ -31,9 +31,9 @@ class Project < ApplicationRecord
   end
 
   def color(current_user)
-    project_favorite = project_favorites.find_by_user_id(current_user.id)
-    if project_favorite && project_favorite.color.present?
-      project_favorite.color
+    project_preference = project_preferences.find_by_user_id(current_user.id)
+    if project_preference && project_preference.color.present?
+      project_preference.color
     else
       colors(Project.order(:id).pluck(:id).index(id))
     end
@@ -67,13 +67,13 @@ class Project < ApplicationRecord
   end
 
   def favorited_by?(current_user)
-    project_favorite = project_favorites.find_by_user_id(current_user.id)
-    project_favorite.present? && project_favorite.favorite?
+    project_preference = project_preferences.find_by_user_id(current_user.id)
+    project_preference.present? && project_preference.favorite?
   end
 
   def emails_enabled?(current_user)
-    project_favorite = project_favorites.find_by_user_id(current_user.id)
-    project_favorite.nil? || (project_favorite.present? && project_favorite.emails_enabled?)
+    project_preference = project_preferences.find_by_user_id(current_user.id)
+    project_preference.nil? || (project_preference.present? && project_preference.emails_enabled?)
   end
 
   private

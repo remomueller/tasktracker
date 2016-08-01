@@ -1,7 +1,7 @@
 - favorited = @project.favorited_by?(current_user)
 - btn_class = favorited ? 'btn-success' : 'btn-default'
 
-= link_to project_favorites_update_path(project_id: @project, favorite: favorited ? '0' : '1'), remote: true, method: :patch, class: "btn btn-xs #{btn_class}" do
+= link_to project_preferences_update_path(project_id: @project, favorite: favorited ? '0' : '1'), remote: true, method: :patch, class: "btn btn-xs #{btn_class}" do
   - if favorited
     %span.glyphicon.glyphicon-star
     Favorited

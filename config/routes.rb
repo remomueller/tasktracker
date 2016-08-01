@@ -36,7 +36,7 @@ Rails.application.routes.draw do
 
   resources :groups
 
-  namespace :project_favorites do
+  namespace :project_preferences do
     post :favorite
     post :colorpicker
     patch :update

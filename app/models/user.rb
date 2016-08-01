@@ -30,7 +30,7 @@ class User < ApplicationRecord
 
   # Model Relationships
   has_many :projects, -> { current.order(:name) }
-  has_many :project_favorites
+  has_many :project_preferences
   has_many :boards, -> { current }
   has_many :groups, -> { current }
   has_many :tags, -> { current }
@@ -126,8 +126,8 @@ class User < ApplicationRecord
   def all_digest_projects
     return Project.none unless emails_enabled?
     all_viewable_projects
-      .joins("LEFT OUTER JOIN project_favorites ON project_favorites.project_id = projects.id and project_favorites.user_id = #{id}")
-      .where('project_favorites.emails_enabled IS NULL or project_favorites.emails_enabled = ?', true)
+      .joins("LEFT OUTER JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{id}")
+      .where('project_preferences.emails_enabled IS NULL or project_preferences.emails_enabled = ?', true)
   end
 
   # All tasks created in the last day, or over the weekend if it's Monday
