@@ -65,3 +65,11 @@ send_no_email_for_project_one:
   email: send_no_email_for_project_one@example.com
   encrypted_password: ""
   emails_enabled: true
+
+four_week_view:
+  first_name: Four
+  last_name: Week
+  email: four_week_view@example.com
+  encrypted_password: ""
+  emails_enabled: true
+  calendar_view: 4week

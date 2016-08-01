@@ -1,18 +1,30 @@
+- if current_user.calendar_view == '4week'
+  - move_forward = @anchor_date + 4.weeks
+  - move_backward = @anchor_date - 4.weeks
+- else
+  - move_forward = @anchor_date + 1.month
+  - move_backward = @anchor_date - 1.month
+
 .pull-right
   = render 'calendar/filter_selection_menu'
   = succeed ' ' do
-    = link_to month_path(date: (@anchor_date - 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
+    = link_to month_path(date: move_backward.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
       %span.glyphicon.glyphicon-chevron-left
-      %span.hidden-xs Last Month
+      %span.hidden-xs
+        - if current_user.calendar_view == 'month'
+          Last
+          Month
   = succeed ' ' do
     = link_to month_path(date: Date.today.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default', disabled: (@anchor_date == Date.today ? 'disabled' : nil) do
       %span.glyphicon.glyphicon-calendar
       %span.hidden-xs Today
   = succeed ' ' do
-    = link_to month_path(date: (@anchor_date + 1.month).strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
-      %span.hidden-xs Next Month
+    = link_to month_path(date: move_forward.strftime('%Y%m%d'), tags: params[:tags], owners: params[:owners], project_ids: params[:project_ids], completed: params[:completed]), tabindex: '-1', class: 'btn btn-xs btn-default' do
+      %span.hidden-xs
+        - if current_user.calendar_view == 'month'
+          Next
+          Month
       %span.glyphicon.glyphicon-chevron-right
-
 
 %h4
   = Date::MONTHNAMES[@anchor_date.month]
@@ -30,8 +42,7 @@
         - current_date = @first_sunday + day_offset.day
         %td.droppable{ valign: 'top', style: 'padding:0px; border: 1px solid #ddd', class: "#{'calendar-entry-body-today' if current_date == Date.today} #{'last-month' if current_date < @start_date} #{'next-month' if current_date > @end_date}", data: { due_date: current_date.strftime('%m/%d/%Y'), object: 'create-sticky', from: 'month' } }
           .calendar-entry-heading{ style: 'padding-right:2px;' }
-            -# if [@start_date, @start_month, (@end_month + 1.day)].include?(current_date)
-            - if [@start_date, (@end_date + 1.day)].include?(current_date)
+            - if @start_date == current_date || current_date.day == 1
               - date_format = current_date.strftime '%b %e'
             - else
               - date_format = current_date.strftime '%e'

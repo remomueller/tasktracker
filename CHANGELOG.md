@@ -7,6 +7,7 @@
   - Improved positioning of task comment and repeat indicators
   - Calendar task filters are now saved to user settings so the filters persist
     through page navigations and logins
+  - Users can now default the calendar to use a 4-week view
 - **Administrative Changes**
   - Admins can now disable emails for inactive user accounts
 - **Gem Changes**

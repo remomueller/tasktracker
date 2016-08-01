@@ -8,12 +8,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :timeoutable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  # TODO: Remove emailables
   EMAILABLES = [ [:sticky_creation, 'Receive email when a new task is created'],
                  [:sticky_completion, 'Receive email when a task is marked as completed'],
                  # [:sticky_due_time_changed, 'Receive email when a task\'s due date time is changed'],
                  [:sticky_comments, 'Receive email when a comment is added to a task'],
                  [:daily_stickies_due, 'Receive daily weekday emails if there are tasks due or past due'],
                  [:daily_digest, 'Receive daily digest emails of tasks that have been created and completed the previous day'] ]
+  # END TODO
+  CALENDAR_VIEW = [['Month View', 'month'], ['4 Week View', '4week']]
 
   # Concerns
   include Deletable, Searchable

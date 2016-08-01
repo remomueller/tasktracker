@@ -44,6 +44,10 @@
               %ul
                 %li Password reset emails
 
+          .form-group
+            = f.label :calendar_view, 'Calendar Preferences', class: 'control-label'
+            = f.select :calendar_view, User::CALENDAR_VIEW, {}, class: 'form-control'
+
           .form-group{ style: 'margin-bottom: 0' }
             = link_to 'Save Changes', '#', class: 'btn btn-primary', data: { object: 'settings-save', target: '#email_settings' }
 

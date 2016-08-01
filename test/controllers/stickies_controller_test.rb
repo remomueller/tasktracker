@@ -57,6 +57,12 @@ class StickiesControllerTest < ActionController::TestCase
     assert_template 'month'
   end
 
+  test 'should get 4 week view calendar' do
+    login(users(:four_week_view))
+    get :month
+    assert_response :success
+  end
+
   test 'should get index' do
     get :index
     assert_redirected_to tasks_path

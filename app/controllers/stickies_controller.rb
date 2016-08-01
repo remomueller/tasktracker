@@ -38,8 +38,13 @@ class StickiesController < ApplicationController
 
   def month
     flash.delete(:notice)
-    @start_date = @anchor_date.beginning_of_month
-    @end_date = @anchor_date.end_of_month
+    if current_user.calendar_view == '4week'
+      @start_date = @anchor_date.beginning_of_week(:sunday)
+      @end_date = @start_date + 27.days
+    else
+      @start_date = @anchor_date.beginning_of_month
+      @end_date = @anchor_date.end_of_month
+    end
 
     @first_sunday = @start_date - @start_date.wday.day
     @last_saturday = @end_date + (6 - @end_date.wday).day
