@@ -42,9 +42,9 @@ class ProjectsController < ApplicationController
   # GET /projects
   def index
     @order = scrub_order(Project, params[:order], 'projects.name')
-    @projects = current_user.all_viewable_projects.search(params[:search])
+    @projects = current_user.all_viewable_projects
                             .by_favorite(current_user.id).order("(project_preferences.favorite IS NULL or project_preferences.favorite = 'f') ASC, #{@order}")
-                            .page(params[:page]).per(40)
+                            .page(params[:page]).per(10)
   end
 
   # GET /projects/1
