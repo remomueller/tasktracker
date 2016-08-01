@@ -71,11 +71,6 @@
   .jumbotron
     = simple_markdown @project.description
 
-.row
-  - ['editors', 'viewers'].each do |relation, allow_editing|
-    .col-md-6
-      - @relation = relation; @allow_editing = allow_editing
-      - @users = User.current.order('last_name, first_name')
-      %div{ id: "#{@relation}_list" }= render 'project_users/index'
+#project-members= render 'project_users/index'
 
 = render 'projects/reassign_dialog'

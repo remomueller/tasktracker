@@ -49,6 +49,11 @@ class Project < ApplicationRecord
     end
   end
 
+  def editable_by?(current_user)
+    modifiable_by?(current_user)
+  end
+
+  # TODO: Replace with editable_by?(current_user)
   def modifiable_by?(current_user)
     Project.current.with_user(current_user.id, true).where(id: id).count == 1
   end

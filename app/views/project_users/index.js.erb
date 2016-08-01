@@ -1,9 +1,2 @@
-<% @relation = 'editors' %>
-$("#<%= @relation %>_list").html("<%=j render 'project_users/index' %>");
-
-<% @relation = 'viewers' %>
-$("#<%= @relation %>_list").html("<%=j render 'project_users/index' %>");
-
-<% if @project_user.user %>
-  $("#user_projects").html("<%=j render 'users/projects', user: @project_user.user %>");
-<% end %>
+$("#invite_email").val('');
+$("#project-members").html("<%=j render 'project_users/index' %>");

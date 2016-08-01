@@ -6,23 +6,10 @@ one:
   allow_editing: false
   creator: valid
 
-two:
-  project: two
-  user: valid
-  allow_editing: false
-  creator: valid
-  invite_token: validintwo
-
 three:
   project: one
   user: associated
   allow_editing: false
-  creator: valid
-
-four:
-  project: one
-  user: admin
-  allow_editing: true
   creator: valid
 
 five:
@@ -49,3 +36,25 @@ invited:
   allow_editing: true
   invite_token: abc123
   invite_email: invited_user@example.com
+
+
+pending_editor_invite:
+  project: one
+  creator: valid
+  allow_editing: true
+  invite_token: pending_editor_invite
+  invite_email: invited_user@example.com
+
+accepted_editor_invite:
+  project: one
+  user: admin
+  allow_editing: true
+  creator: valid
+  invite_token: accepted_editor_invite
+
+accepted_viewer_invite:
+  project: two
+  user: valid
+  allow_editing: false
+  creator: valid
+  invite_token: accepted_viewer_invite

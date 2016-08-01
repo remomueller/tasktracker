@@ -3,23 +3,21 @@
 # Allows collaborators to be added to projects.
 class ProjectUsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_editable_project_or_redirect, only: [:create]
 
   # POST /project_users.js
-  # POST /project_users.json
   def create
-    @project = current_user.all_projects.find_by_id(params[:project_user][:project_id])
-    invite_email = (params[:editors_text] || params[:viewers_text]).to_s.strip
-    user_email = invite_email.split('[').last.to_s.split(']').first
-    @user = current_user.associated_users.find_by_email(user_email)
-    if @project && (@user.present? || invite_email.present?)
-      if @user
-        @project_user = @project.project_users.where(user_id: @user.id).first_or_create(creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true'))
-        @project_user.notify_user_added_to_project
-      elsif invite_email.present?
-        @project_user = @project.project_users.where(invite_email: invite_email).first_or_create(creator_id: current_user.id, allow_editing: (params[:project_user][:allow_editing] == 'true'))
-        @project_user.generate_invite_token!
-      end
-      render :index
+    create_member_invite
+    render :index
+  end
+
+  # POST /project_users/1.js
+  def resend
+    @project_user = ProjectUser.find_by_id(params[:id])
+    @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
+
+    if @project && @project_user
+      @project_user.generate_invite_token!
     else
       head :ok
     end
@@ -50,5 +48,38 @@ class ProjectUsersController < ApplicationController
     else
       head :ok
     end
+  end
+
+  private
+
+  def editor?
+    (params[:editor] == '1')
+  end
+
+  def invite_email
+    params[:invite_email].to_s.strip
+  end
+
+  def associated_user
+    current_user.associated_users.find_by_email(invite_email.split('[').last.to_s.split(']').first)
+  end
+
+  def create_member_invite
+    if associated_user
+      add_existing_project_user(associated_user)
+    elsif invite_email.present?
+      invite_new_project_user
+    end
+  end
+
+  def add_existing_project_user(user)
+    @project_user = @project.project_users.where(user_id: user.id).first_or_create(creator_id: current_user.id)
+    @project_user.update allow_editing: editor?
+  end
+
+  def invite_new_project_user
+    @project_user = @project.project_users.where(invite_email: invite_email).first_or_create(creator_id: current_user.id)
+    @project_user.update allow_editing: editor?
+    @project_user.generate_invite_token!
   end
 end

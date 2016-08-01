@@ -14,7 +14,7 @@ class ProjectUser < ApplicationRecord
   belongs_to :user
   belongs_to :creator, class_name: 'User', foreign_key: 'creator_id'
 
-  def generate_invite_token!(new_invite_token = SecureRandom.hex(64))
+  def generate_invite_token!(new_invite_token = SecureRandom.hex(8))
     update invite_token: new_invite_token if invite_token.blank? && ProjectUser.where(invite_token: new_invite_token).count == 0
     send_invite_email_in_background
   end

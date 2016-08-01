@@ -7,6 +7,24 @@ class ProjectUsersControllerTest < ActionController::TestCase
   setup do
     login(users(:valid))
     @project_user = project_users(:one)
+    @pending_editor_invite = project_users(:pending_editor_invite)
+    @accepted_viewer_invite = project_users(:accepted_viewer_invite)
+  end
+
+  test 'should resend project invitation' do
+    login(users(:valid))
+    post :resend, params: { id: @pending_editor_invite }, format: 'js'
+    assert_not_nil assigns(:project_user)
+    assert_not_nil assigns(:project)
+    assert_template 'resend'
+  end
+
+  test 'should not resend project invitation with invalid id' do
+    login(users(:valid))
+    post :resend, params: { id: -1 }, format: 'js'
+    assert_nil assigns(:project_user)
+    assert_nil assigns(:project)
+    assert_response :success
   end
 
   # test 'should get index' do
@@ -23,8 +41,9 @@ class ProjectUsersControllerTest < ActionController::TestCase
   test 'should create project user' do
     assert_difference('ProjectUser.count') do
       post :create, params: {
-        project_user: { project_id: projects(:two).to_param, allow_editing: true },
-        editors_text: users(:associated).name + " [#{users(:associated).email}]"
+        project_id: projects(:two).to_param,
+        editor: '1',
+        invite_email: users(:associated).name + " [#{users(:associated).email}]"
       }, format: 'js'
     end
     assert_not_nil assigns(:project_user)
@@ -34,8 +53,9 @@ class ProjectUsersControllerTest < ActionController::TestCase
   test 'should create project user invitation' do
     assert_difference('ProjectUser.count') do
       post :create, params: {
-        project_user: { project_id: projects(:one).to_param, allow_editing: true },
-        editors_text: 'invite@example.com'
+        project_id: projects(:one).to_param,
+        editor: '1',
+        invite_email: 'invite@example.com'
       }, format: 'js'
     end
     assert_not_nil assigns(:project_user)
@@ -46,8 +66,9 @@ class ProjectUsersControllerTest < ActionController::TestCase
   test 'should not create project user with invalid project id' do
     assert_difference('ProjectUser.count', 0) do
       post :create, params: {
-        project_user: { project_id: -1, allow_editing: true },
-        editors_text: users(:two).name + " [#{users(:two).email}]"
+        project_id: -1,
+        editor: '1',
+        invite_email: users(:two).name + " [#{users(:two).email}]"
       }, format: 'js'
     end
 
@@ -65,7 +86,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
   end
 
   test 'should accept existing project user' do
-    get :accept, params: { invite_token: project_users(:two).invite_token }
+    get :accept, params: { invite_token: project_users(:accepted_viewer_invite).invite_token }
     assert_not_nil assigns(:project_user)
     assert_equal users(:valid), assigns(:project_user).user
     assert_equal "You have already been added to #{assigns(:project_user).project.name}.", flash[:notice]
@@ -81,7 +102,7 @@ class ProjectUsersControllerTest < ActionController::TestCase
 
   test 'should not accept project user if invite token is already claimed' do
     login(users(:two))
-    get :accept, params: { invite_token: 'validintwo' }
+    get :accept, params: { invite_token: 'accepted_viewer_invite' }
     assert_not_nil assigns(:project_user)
     assert_not_equal users(:two), assigns(:project_user).user
     assert_equal 'This invite has already been claimed.', flash[:alert]

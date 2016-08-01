@@ -43,6 +43,9 @@ Rails.application.routes.draw do
   end
 
   resources :project_users do
+    member do
+      post :resend
+    end
     collection do
       get :accept
     end

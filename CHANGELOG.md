@@ -15,6 +15,7 @@
     - Archived projects do not show up on the calendar view
   - Removed the "Holding Pen" board, the default project page now shows all
     tasks
+  - Cleaned up inviting new project members
 - **Gem Changes**
   - Updated to rails 5.0.0
   - Updated to coffee-rails 4.2
