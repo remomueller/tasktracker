@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   get '' => 'stickies#month', as: :dashboard
 
   scope module: :account do
-    get :stats
     get :settings
     post :settings, action: :update_settings
     get :update_settings, to: redirect('settings')

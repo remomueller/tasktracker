@@ -45,7 +45,6 @@
               %ul.dropdown-menu{ role: 'menu' }
                 %li.dropdown-header= current_user.email
                 %li= link_to 'Settings', settings_path
-                %li= link_to 'Stats', stats_path
                 - if current_user.system_admin?
                   %li.divider
                   %li.dropdown-header Administrative

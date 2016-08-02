@@ -17,12 +17,6 @@ class AccountControllerTest < ActionController::TestCase
     }
   end
 
-  test 'should get stats' do
-    login(@regular_user)
-    get :stats
-    assert_response :success
-  end
-
   test 'should update settings' do
     login(@regular_user)
     post :update_settings, params: { user: user_params }

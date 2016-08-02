@@ -21,9 +21,6 @@ class AccountController < ApplicationController
   def settings
   end
 
-  def stats
-  end
-
   def update_settings
     current_user.update user_params
     redirect_to settings_path, notice: 'Your settings have been saved.'
