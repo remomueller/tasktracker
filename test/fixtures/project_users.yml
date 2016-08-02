@@ -30,14 +30,6 @@ seven:
   allow_editing: true
   creator: valid
 
-invited:
-  project: one
-  creator: valid
-  allow_editing: true
-  invite_token: abc123
-  invite_email: invited_user@example.com
-
-
 pending_editor_invite:
   project: one
   creator: valid

@@ -6,19 +6,19 @@ require 'test_helper'
 # correct subject line
 class UserMailerTest < ActionMailer::TestCase
   test 'user added to project email' do
-    project_user = project_users(:one)
+    project_user = project_users(:accepted_viewer_invite)
     mail = UserMailer.user_added_to_project(project_user)
     assert_equal [project_user.user.email], mail.to
-    assert_equal "#{project_user.creator.name} Allows You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}", mail.subject
-    assert_match(/#{project_user.creator.name} has added you to Project #{project_user.project.name}/, mail.body.encoded)
+    assert_equal "#{project_user.creator.name} Allows You to View #{project_user.project.name}", mail.subject
+    assert_match(/#{project_user.creator.name} added you to #{project_user.project.name}/, mail.body.encoded)
   end
 
   test 'user invited to project email' do
-    project_user = project_users(:invited)
+    project_user = project_users(:pending_editor_invite)
     mail = UserMailer.invite_user_to_project(project_user)
     assert_equal [project_user.invite_email], mail.to
-    assert_equal "#{project_user.creator.name} Invites You to #{project_user.allow_editing? ? 'Edit' : 'View'} #{project_user.project.name}", mail.subject
-    assert_match(/#{project_user.creator.name} has invited you to Project #{project_user.project.name}/, mail.body.encoded)
+    assert_equal "#{project_user.creator.name} Invites You to Edit #{project_user.project.name}", mail.subject
+    assert_match(/#{project_user.creator.name} invited you to #{project_user.project.name}/, mail.body.encoded)
   end
 
   test 'comment by mail email' do

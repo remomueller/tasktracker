@@ -48,11 +48,9 @@
                             You may
                             = succeed '.' do
                               %a{ href: "#{ENV['website_url']}/settings", style: link_style, target: '_blank' } change your email preferences here
-                        %div{ style: image_style }
-                          =# image_tag attachments.inline['tasktracker-logo.png'].url, alt: ENV['website_name'], border: 0, width: 64, height: 64, style: 'outline:none;text-decoration:none;border:none;width:64px;min-height:32px;max-width:100%' if attachments.inline['tasktracker-logo.png']
-                        %p{ style: 'font-size:12px;line-height:20px;margin:0 0 16px;margin-top:16px' }
+                        %p{ style: 'font-size:12px;line-height:20px;margin:16px 0;' }
                           %a{ href: ENV['website_url'], style: link_style, target: '_blank' }= ENV['website_name']
                           %br
-                            %a{ href: ENV['website_url'], style: 'color:#989ea6;font-weight:normal;text-decoration:none;word-break:break-word' }
-                              221 Longwood Avenue, BLI 225 &nbsp;&bull;&nbsp; Boston, MA
-                              \&nbsp;&bull;&nbsp; 02115
+                          %a{ href: ENV['website_url'], style: 'color:#989ea6;font-weight:normal;text-decoration:none;word-break:break-word' }
+                            221 Longwood Avenue, BLI 225 &nbsp;&bull;&nbsp; Boston, MA
+                            \&nbsp;&bull;&nbsp; 02115

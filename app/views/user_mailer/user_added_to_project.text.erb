@@ -1,5 +1,11 @@
 Dear <%= @project_user.user.first_name %>,
 
-<%= @project_user.creator.name %> has added you to Project <%= @project_user.project.name %> located here <%= "#{ENV['website_url']}/projects/#{@project_user.project.id}" %>.
+<%= @project_user.creator.name %> added you to <%= @project_user.project.name %> located here:
+
+    <%= "#{ENV['website_url']}/projects/#{@project_user.project.to_param}" %>
 
 <% if @project_user.allow_editing? %>You may edit the project and add new tasks and comments to it!<% else %>You may view the project and add comments to it!<% end %>
+
+Thank you!
+
+<%= ENV['website_name'] %> Mailer

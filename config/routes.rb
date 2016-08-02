@@ -50,6 +50,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'invite/:invite_token' => 'project_users#invite'
+
   resources :projects do
     collection do
       post :selection

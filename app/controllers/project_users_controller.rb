@@ -2,8 +2,18 @@
 
 # Allows collaborators to be added to projects.
 class ProjectUsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:invite]
   before_action :find_editable_project_or_redirect, only: [:create]
+
+  # GET /invite/TOKEN
+  def invite
+    session[:invite_token] = params[:invite_token]
+    if current_user
+      redirect_to accept_project_users_path
+    else
+      redirect_to new_user_session_path
+    end
+  end
 
   # POST /project_users.js
   def create
@@ -24,7 +34,8 @@ class ProjectUsersController < ApplicationController
   end
 
   def accept
-    @project_user = ProjectUser.find_by_invite_token(params[:invite_token])
+    invite_token = session.delete(:invite_token)
+    @project_user = ProjectUser.find_by_invite_token invite_token
     if @project_user && @project_user.user == current_user
       redirect_to @project_user.project, notice: "You have already been added to #{@project_user.project.name}."
     elsif @project_user && @project_user.user
@@ -41,7 +52,9 @@ class ProjectUsersController < ApplicationController
   def destroy
     @project_user = ProjectUser.find_by_id(params[:id])
     @project = current_user.all_projects.find_by_id(@project_user.project_id) if @project_user
-    @project = current_user.all_viewable_projects.find_by_id(@project_user.project_id) if @project.blank? && @project_user && current_user == @project_user.user
+    if @project.blank? && @project_user && current_user == @project_user.user
+      @project = current_user.all_viewable_projects.find_by_id(@project_user.project_id)
+    end
     if @project && @project_user
       @project_user.destroy
       render :index
