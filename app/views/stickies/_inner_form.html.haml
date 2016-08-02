@@ -3,7 +3,7 @@
 .form-group
   = f.label :description, class: 'col-md-2 control-label'
   .col-md-10
-    = f.text_area :description, rows: 7, class: 'form-control'
+    = f.text_area :description, rows: [[7, @sticky.description.to_s.count("\n") + 1].max, 25].min, class: 'form-control', data: { object: 'expandable-text-area', default_rows: 7 }
 
 - if @sticky.group
   .form-group

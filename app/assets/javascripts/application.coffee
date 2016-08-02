@@ -27,6 +27,7 @@
 
 # Extensions
 #= require extensions/datepicker
+#= require extensions/expandabletextarea
 #= require extensions/tooltips
 #= require extensions/typeahead
 

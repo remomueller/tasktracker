@@ -5,6 +5,7 @@
   - Admins can now disable emails for inactive user accounts
 - **Task Changes**
   - Completing a task now sends associated task completed emails in background
+  - Task descriptions now expand automatically when entering text
 - **Calendar Changes**
   - Improved positioning of task comment and repeat indicators
   - Calendar task filters are now saved to user settings so the filters persist
