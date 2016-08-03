@@ -2,13 +2,15 @@
 
 # Main application controller for Task Tracker.
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+  skip_before_action :verify_authenticity_token, if: :devise_login?
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
-
   protected
+
+  def devise_login?
+    params[:controller] == 'devise/sessions' && params[:action] == 'create'
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(

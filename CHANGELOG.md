@@ -33,6 +33,8 @@
   properly closes the popup modal
 - Due date is now properly set when creating a task from the calendar for users
   with only one project
+- Fixed a bug that prevented users from logging in correctly with an expired
+  authenticity token
 
 ### Refactoring
 - Removed deprecated database columns
