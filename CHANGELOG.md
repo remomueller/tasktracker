@@ -41,6 +41,7 @@
 - Removed deprecated database columns
 - Renamed project_favorites to project_preferences
 - Removed unused user stats page
+- Removed deprecated user columns
 
 ## 0.29.0 (July 25, 2016)
 

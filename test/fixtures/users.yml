@@ -3,7 +3,6 @@ valid:
   last_name: LastName
   deleted: false
   system_admin: false
-  users_per_page: 10
   email: valid@example.com
   encrypted_password: <%= User.new(password: 'password').encrypted_password %>
   emails_enabled: true
@@ -13,7 +12,6 @@ two:
   last_name: MyString
   deleted: false
   system_admin: false
-  users_per_page: 10
   email: EmailTwo
   encrypted_password: ""
   emails_enabled: false
@@ -23,7 +21,6 @@ admin:
   last_name: MyString
   deleted: false
   system_admin: true
-  users_per_page: 10
   email: admin@example.com
   encrypted_password: ""
   emails_enabled: true
@@ -33,7 +30,6 @@ associated:
   last_name: MyString
   deleted: false
   system_admin: false
-  users_per_page: 10
   email: associated@example.com
   encrypted_password: ""
   emails_enabled: true
@@ -43,7 +39,6 @@ deleted:
   last_name: MyString
   deleted: true
   system_admin: false
-  users_per_page: 10
   email: deleted@example.com
   encrypted_password: ""
   emails_enabled: true
