@@ -9,7 +9,7 @@ class Sticky < ApplicationRecord
   REPEAT = %w(none day week month year).collect { |i| [i, i] }
 
   # Concerns
-  include Deletable, Forkable
+  include Deletable
 
   # Scopes
   scope :search, lambda { |arg| where('LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:groups) }
@@ -122,10 +122,6 @@ class Sticky < ApplicationRecord
     end
   end
 
-  def send_email_in_background
-    fork_process(:send_email)
-  end
-
   def create_notifications!
     users_to_notify.where.not(id: completer_id).find_each do |u|
       Rails.logger.debug "create_notifications!"
@@ -154,15 +150,6 @@ class Sticky < ApplicationRecord
       new_sticky.tag_ids = self.tags.pluck(:id)
       new_sticky.save
       self.update_column :repeated_sticky_id, new_sticky.id
-    end
-  end
-
-  def send_email
-    return unless EMAILS_ENABLED
-    return if group || completed?
-    all_users = project.users_to_email - [user]
-    all_users.each do |user_to_email|
-      UserMailer.sticky_by_mail(self, user_to_email).deliver_now
     end
   end
 

@@ -61,9 +61,6 @@ class Template < ApplicationRecord
       )
     end
     group.reload
-
-    group.send_email_in_background
-
     group
   end
 

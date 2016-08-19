@@ -5,7 +5,7 @@ class Group < ApplicationRecord
   attr_accessor :board_id, :initial_due_date
 
   # Concerns
-  include Deletable, Filterable, Forkable
+  include Deletable, Filterable
 
   # Scopes
   scope :search, -> (arg) { where('LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:templates) }
@@ -36,19 +36,5 @@ class Group < ApplicationRecord
   def destroy
     stickies.destroy_all
     super
-  end
-
-  def send_email_in_background
-    fork_process(:send_email)
-  end
-
-  private
-
-  def send_email
-    return unless EMAILS_ENABLED
-    all_users = project.users_to_email - [user]
-    all_users.each do |user_to_email|
-      UserMailer.group_by_mail(self, user_to_email).deliver_now
-    end
   end
 end

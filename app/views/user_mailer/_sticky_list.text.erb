@@ -1,6 +1,0 @@
-<% stickies.order(:due_date).group_by { |s| s.project_id }.each do |project_id, stickies| %>
-  <%= ((project = Project.find_by_id(project_id)) ? "#{project.name} #{ENV['website_url']}/projects/#{project.id}" : 'No Project') %>
-  <% stickies.each do |sticky| %>
-    <%= render 'sticky_line_item', sticky: sticky %>
-  <% end %>
-<% end %>

@@ -21,24 +21,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_user.creator.name} invited you to #{project_user.project.name}/, mail.body.encoded)
   end
 
-  test 'sticky by mail email' do
-    sticky = stickies(:one)
-    valid = users(:valid)
-    mail = UserMailer.sticky_by_mail(sticky, valid)
-    assert_equal [valid.email], mail.to
-    assert_equal "#{sticky.user.name} Added a Task to Project #{sticky.project.name}", mail.subject
-    assert_match(/#{sticky.user.name} added Task #{sticky.name} #{ENV['website_url']}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{ENV['website_url']}\/projects\/#{sticky.project.id}\./, mail.body.encoded)
-  end
-
-  test 'group by mail email' do
-    group = groups(:one)
-    valid = users(:valid)
-    mail = UserMailer.group_by_mail(group, valid)
-    assert_equal [valid.email], mail.to
-    assert_equal "#{group.user.name} Added a Group of Tasks to Project #{group.template.project.name}", mail.subject
-    assert_match(/#{group.user.name} added Group #{group.name} #{ENV['website_url']}\/groups\/#{group.id} with #{group.stickies.size} #{group.stickies.size == 1 ? 'Task' : 'Tasks'}#{" from Template #{group.template.name}" if group.template}\./, mail.body.encoded)
-  end
-
   test 'daily digest email' do
     valid = users(:valid)
     mail = UserMailer.daily_digest(valid)

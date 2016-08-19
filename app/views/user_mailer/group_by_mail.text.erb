@@ -1,9 +1,0 @@
-<%= @group.user.name %> added Group <%= @group.name %> <%= "#{ENV['website_url']}/groups/#{@group.id}" %> with <%= pluralize @group.stickies.size, 'Task' %><% if @group.template %> from Template <%= @group.template.name %><% end %>.
-
-<% unless @group.description.blank? %>
-Group Description
-
-  <%= @group.description %>
-<% end %>
-
-<%= render 'sticky_list', stickies: @group.stickies %>

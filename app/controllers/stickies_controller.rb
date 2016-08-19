@@ -144,7 +144,6 @@ class StickiesController < ApplicationController
 
     respond_to do |format|
       if @sticky.save
-        @sticky.send_email_in_background
         @sticky.create_notifications_if_recently_completed!(current_user)
         format.html { redirect_to @sticky, notice: 'Task was successfully created.' }
         format.js
@@ -230,9 +229,9 @@ class StickiesController < ApplicationController
   # DELETE /stickies/1
   # DELETE /stickies/1.js
   def destroy
-    if @sticky.group and params[:discard] == 'following'
+    if @sticky.group && params[:discard] == 'following'
       @sticky.group.stickies.where('due_date >= ?', @sticky.due_date).destroy_all
-    elsif @sticky.group and params[:discard] == 'all'
+    elsif @sticky.group && params[:discard] == 'all'
       @sticky.group.destroy
     else # 'single'
       @sticky.destroy

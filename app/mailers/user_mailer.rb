@@ -20,26 +20,6 @@ class UserMailer < ApplicationMailer
          reply_to: project_user.creator.email)
   end
 
-  def sticky_by_mail(sticky, recipient)
-    setup_email
-    @sticky = sticky
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: "#{sticky.user.name} Added a Task to Project #{sticky.project.name}",
-         reply_to: sticky.user.email)
-  end
-
-  def group_by_mail(group, recipient)
-    setup_email
-    @group = group
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: "#{group.user.name} Added a Group of Tasks to Project #{group.template.project.name}",
-         reply_to: group.user.email)
-  end
-
   def daily_digest(recipient)
     setup_email
     @recipient = recipient
