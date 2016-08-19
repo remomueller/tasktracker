@@ -6,6 +6,7 @@
 - **Task Changes**
   - Completing a task now sends associated task completed emails in background
   - Task descriptions now expand automatically when entering text
+  - Assigning users to tasks now lists users by: "first name, last name"
 - **Calendar Changes**
   - Improved positioning of task comment and repeat indicators
   - Calendar task filters are now saved to user settings so the filters persist
