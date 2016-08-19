@@ -43,6 +43,7 @@
   with only one project
 - Fixed a bug that prevented users from logging in correctly with an expired
   authenticity token
+- Rails model errors are now again correctly styled using Bootstrap CSS classes
 
 ### Refactoring
 - Removed deprecated database columns
