@@ -3,13 +3,10 @@
 # Allows commenting on tasks.
 class Comment < ApplicationRecord
   # Concerns
-  include Deletable, Forkable
+  include Deletable, Forkable, Searchable
 
-  # Named Scopes
-  scope :search, lambda { |arg| where('LOWER(description) LIKE ?', arg.to_s.downcase.gsub(/^| |$/, '%')) }
-  scope :with_creator, lambda { |arg|  where(user_id: arg) }
-  scope :with_date_for_calendar, lambda { |*args| where("DATE(comments.created_at) >= ? and DATE(comments.created_at) <= ?", args.first, args[1]) }
-  scope :with_project, lambda { |arg| where('comments.sticky_id in (select stickies.id from stickies where stickies.deleted = ? and stickies.project_id IN (?))', false, arg) }
+  # Scopes
+  scope :with_project, -> (arg) { where('comments.sticky_id in (select stickies.id from stickies where stickies.deleted = ? and stickies.project_id IN (?))', false, arg) }
 
   # Model Validation
   validates :description, :sticky_id, :user_id, presence: true
@@ -17,14 +14,18 @@ class Comment < ApplicationRecord
   # Model Relationships
   belongs_to :user
   belongs_to :sticky, touch: true
+  has_many :notifications
 
+  delegate :project, to: :sticky
+  delegate :project_id, to: :sticky
+
+  # Model Methods
   def name
     "##{id}"
   end
 
-  # TODO: Change to delegate? Comments may always have associated stickies.
-  def project_id
-    sticky.project_id if sticky
+  def self.searchable_attributes
+    %w(description)
   end
 
   # TODO: Change to editable_by?
@@ -37,19 +38,20 @@ class Comment < ApplicationRecord
     user == current_user || modifiable_by?(current_user)
   end
 
-  def send_email_in_background
-    fork_process(:send_email)
+  def create_notifications!
+    users_to_notify.where.not(id: user.id).find_each do |u|
+      u.notifications.create(project_id: project_id, comment_id: id)
+    end
+  end
+
+  def destroy
+    super
+    notifications.destroy_all
   end
 
   private
 
-  # TODO: Check that comment is attached to sticky (should always be.)
-  def send_email
-    return unless EMAILS_ENABLED
-    all_users = []
-    all_users = sticky.project.users_to_email - [user] if sticky
-    all_users.each do |user_to_email|
-      UserMailer.comment_by_mail(self, sticky, user_to_email).deliver_now
-    end
+  def users_to_notify
+    sticky.project.all_members.where.not(id: user_id)
   end
 end

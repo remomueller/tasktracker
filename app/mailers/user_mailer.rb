@@ -20,17 +20,6 @@ class UserMailer < ApplicationMailer
          reply_to: project_user.creator.email)
   end
 
-  def comment_by_mail(comment, sticky, recipient)
-    setup_email
-    @comment = comment
-    @sticky = sticky
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: "#{comment.user.name} Commented on Task #{sticky.name}",
-         reply_to: comment.user.email)
-  end
-
   def sticky_by_mail(sticky, recipient)
     setup_email
     @sticky = sticky

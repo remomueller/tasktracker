@@ -1,0 +1,14 @@
+- if notification.comment
+  = render 'notifications/show/comment', notification: notification
+- else
+  %td{ colspan: 3 }
+
+%td.text-muted.hidden-xs
+  %small
+    = time_ago_in_words notification.created_at
+    ago
+
+%td
+  - unless notification.read?
+    = link_to notification_path(notification, notification: { read: true }), method: :patch, remote: true, class: 'text-muted' do
+      %span.glyphicon.glyphicon-ok

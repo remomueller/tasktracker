@@ -8,7 +8,7 @@ class Template < ApplicationRecord
   # Concerns
   include Deletable, Filterable, Searchable
 
-  # Named Scopes
+  # Scopes
 
   # Model Validation
   validates :name, :project_id, :item_hashes, presence: true

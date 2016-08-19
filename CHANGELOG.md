@@ -14,6 +14,12 @@
 - **Email Changes**
   - The daily tasks due and daily digest have been combined into a single email
   - Overall statistics is only shown if new tasks or comments were created
+- **Notifications Added**
+  - In-app notifications have been added to notify users when:
+    - Comments are made on tasks
+  - In-app notifications replace the numerous emails sent throughout the day
+    that alerted users of changes on Task Tracker
+  - Users now only receive digest emails once a day
 - **Project Changes**
   - Projects can now be archived
     - Archived projects do not show up on the calendar view

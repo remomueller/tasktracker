@@ -21,7 +21,7 @@ class User < ApplicationRecord
   # Concerns
   include Deletable, Searchable
 
-  # Named Scopes
+  # Scopes
   scope :with_project, -> (*args) { where( "users.id in (select projects.user_id from projects where projects.id IN (?) and projects.deleted = ?) or users.id in (select project_users.user_id from project_users where project_users.project_id IN (?) and project_users.allow_editing IN (?))", args.first, false, args.first, args[1] ) }
   scope :with_name, -> (arg) { where("(users.first_name || ' ' || users.last_name) IN (?)", arg) }
 
@@ -29,14 +29,16 @@ class User < ApplicationRecord
   validates :first_name, :last_name, presence: true
 
   # Model Relationships
+  has_many :comments, -> { current.order(created_at: :desc) }
   has_many :projects, -> { current.order(:name) }
+  has_many :project_users
   has_many :project_preferences
   has_many :boards, -> { current }
   has_many :groups, -> { current }
+  has_many :notifications, -> { joins(:project).merge(Project.current) }
   has_many :tags, -> { current }
   has_many :templates, -> { current.order(:created_at) }
   has_many :stickies, -> { current.order(:created_at) }
-  has_many :comments, -> { current.order(created_at: :desc) }
   has_many :owned_stickies, -> { current.order(:created_at) }, class_name: 'Sticky', foreign_key: 'owner_id'
   has_many :project_filters
   has_many :tag_filters

@@ -35,6 +35,12 @@ Rails.application.routes.draw do
 
   resources :groups
 
+  resources :notifications do
+    collection do
+      patch :mark_all_as_read
+    end
+  end
+
   namespace :project_preferences do
     post :favorite
     post :colorpicker

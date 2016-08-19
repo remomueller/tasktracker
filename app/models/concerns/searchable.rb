@@ -14,7 +14,7 @@ module Searchable
 
     def self.search_queries
       searchable_attributes.collect do |searchable_attribute|
-        "LOWER(#{table_name}.#{searchable_attribute}) LIKE ?"
+        "#{table_name}.#{searchable_attribute} ILIKE ?"
       end
     end
 

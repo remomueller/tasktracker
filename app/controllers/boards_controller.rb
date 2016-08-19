@@ -56,7 +56,7 @@ class BoardsController < ApplicationController
     if @board.save
       redirect_to @board, notice: 'Board was successfully created.'
     else
-      render action: :new
+      render :new
     end
   end
 

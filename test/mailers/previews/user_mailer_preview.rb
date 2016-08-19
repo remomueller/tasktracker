@@ -12,13 +12,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.invite_user_to_project(project_user)
   end
 
-  def comment_by_mail
-    comment = Comment.current.first
-    sticky = comment.sticky
-    recipient = User.current.first
-    UserMailer.comment_by_mail(comment, sticky, recipient)
-  end
-
   def sticky_by_mail
     sticky = Sticky.current.first
     recipient = User.current.first

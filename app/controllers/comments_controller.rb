@@ -30,11 +30,11 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        @comment.send_email_in_background
+        @comment.create_notifications!
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
         format.js
       else
-        format.html { render action: :new }
+        format.html { render :new }
         format.js
       end
     end

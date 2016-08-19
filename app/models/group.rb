@@ -7,7 +7,7 @@ class Group < ApplicationRecord
   # Concerns
   include Deletable, Filterable, Forkable
 
-  # Named Scopes
+  # Scopes
   scope :search, -> (arg) { where('LOWER(description) LIKE ? or groups.template_id IN (select templates.id from templates where LOWER(templates.name) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:templates) }
 
   # Model Validation

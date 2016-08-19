@@ -21,16 +21,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{project_user.creator.name} invited you to #{project_user.project.name}/, mail.body.encoded)
   end
 
-  test 'comment by mail email' do
-    comment = comments(:two)
-    sticky = comment.sticky
-    valid = users(:valid)
-    mail = UserMailer.comment_by_mail(comment, sticky, valid)
-    assert_equal [valid.email], mail.to
-    assert_equal "#{comment.user.name} Commented on Task #{sticky.name}", mail.subject
-    assert_match(/#{comment.user.name} COMMENTED on Task #{sticky.name} located at #{ENV['website_url']}\/stickies\/#{sticky.id}\./, mail.body.encoded)
-  end
-
   test 'sticky by mail email' do
     sticky = stickies(:one)
     valid = users(:valid)

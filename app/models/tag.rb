@@ -5,7 +5,7 @@ class Tag < ApplicationRecord
   # Concerns
   include Searchable, Deletable, Filterable
 
-  # Named Scopes
+  # Scopes
 
   # Model Validation
   validates :name, :project_id, presence: true

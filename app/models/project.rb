@@ -5,7 +5,7 @@ class Project < ApplicationRecord
   # Concerns
   include Searchable, Deletable
 
-  # Named Scopes
+  # Scopes
   scope :with_user, -> (*args) { where("projects.user_id = ? or projects.id in (select project_users.project_id from project_users where project_users.user_id = ? and project_users.allow_editing IN (?))", args.first, args.first, args[1]).references(:project_users) }
   scope :has_template, -> { where('projects.id in (select DISTINCT templates.project_id from templates where templates.deleted = ?)', false) }
   scope :by_favorite, -> (arg) { joins("LEFT JOIN project_preferences ON project_preferences.project_id = projects.id and project_preferences.user_id = #{arg.to_i}") } #, order: "(project_preferences.favorite = 't') DESC"
@@ -18,8 +18,8 @@ class Project < ApplicationRecord
   has_many :project_preferences
   has_many :project_users
   has_many :users, -> { current.order(:last_name, :first_name) }, through: :project_users
-  has_many :editors, -> { where('project_users.allow_editing = ? and users.deleted = ?', true, false) }, through: :project_users, source: :user
-  has_many :viewers, -> { where('project_users.allow_editing = ? and users.deleted = ?', false, false) }, through: :project_users, source: :user
+  has_many :editors, -> { current.where(project_users: { allow_editing: true }) }, through: :project_users, source: :user
+  has_many :viewers, -> { current.where(project_users: { allow_editing: false }) }, through: :project_users, source: :user
   has_many :stickies, -> { current }
   has_many :boards, -> { current.order(end_date: :desc) }
   has_many :groups, -> { current }
@@ -41,6 +41,11 @@ class Project < ApplicationRecord
 
   def text_color(current_user)
     '#fff'
+  end
+
+  # Includes Project Owner, Project Editors, and Project Viewers
+  def all_members
+    User.current.left_outer_joins(:projects, :project_users).where('projects.id = ? or project_users.project_id = ?', id, id).distinct
   end
 
   def users_to_email

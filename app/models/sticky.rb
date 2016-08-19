@@ -11,7 +11,7 @@ class Sticky < ApplicationRecord
   # Concerns
   include Deletable, Forkable
 
-  # Named Scopes
+  # Scopes
   scope :search, lambda { |arg| where('LOWER(stickies.description) LIKE ? or stickies.group_id IN (select groups.id from groups where LOWER(groups.description) LIKE ?)', arg.to_s.downcase.gsub(/^| |$/, '%'), arg.to_s.downcase.gsub(/^| |$/, '%')).references(:groups) }
   scope :with_creator, lambda { |arg|  where( user_id: arg ) }
   scope :with_owner, lambda { |arg|  where("stickies.owner_id IN (?) or stickies.owner_id IS NULL", arg) }
@@ -38,7 +38,7 @@ class Sticky < ApplicationRecord
 
   # Model Validation
   validates :description, :project_id, presence: true
-  validates_numericality_of :repeat_amount, only_integer: true, greater_than: 0
+  validates :repeat_amount, numericality: { only_integer: true, greater_than: 0 }
 
   # Model Relationships
   belongs_to :user
