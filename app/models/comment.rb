@@ -3,7 +3,7 @@
 # Allows commenting on tasks.
 class Comment < ApplicationRecord
   # Concerns
-  include Deletable, Forkable, Searchable
+  include Deletable, Searchable
 
   # Scopes
   scope :with_project, -> (arg) { where('comments.sticky_id in (select stickies.id from stickies where stickies.deleted = ? and stickies.project_id IN (?))', false, arg) }
@@ -39,19 +39,14 @@ class Comment < ApplicationRecord
   end
 
   def create_notifications!
-    users_to_notify.where.not(id: user.id).find_each do |u|
-      u.notifications.create(project_id: project_id, comment_id: id)
+    sticky.users_to_notify.where.not(id: user_id).find_each do |u|
+      notification = u.notifications.where(project_id: project_id, comment_id: id).first_or_create
+      notification.mark_as_unread!
     end
   end
 
   def destroy
     super
     notifications.destroy_all
-  end
-
-  private
-
-  def users_to_notify
-    sticky.project.all_members.where.not(id: user_id)
   end
 end

@@ -3,7 +3,11 @@
   %h1
     = link_to @sticky.project.name, @sticky.project
     &middot;
-    %span{ style: "#{'text-decoration:line-through' if @sticky.completed?}" }= @title
+    = @title
+    - if @sticky.completed?
+      %span.glyphicon.glyphicon-check{ class: 'text-success' }
+    - else
+      %span.glyphicon.glyphicon-unchecked{ class: 'text-muted' }
   - if @sticky.modifiable_by?(current_user)
     = link_to 'Edit Task', edit_sticky_path(@sticky), class: 'btn btn-xs btn-default'
     - if @sticky.group
@@ -18,6 +22,10 @@
 
   %dt Creator
   %dd= link_to @sticky.user.name, @sticky.user
+
+  - if @sticky.completed? && @sticky.completer
+    %dt Completed By
+    %dd= link_to @sticky.completer.name, @sticky.completer
 
   %dt Board
   %dd= link_to @sticky.board ? @sticky.board.name : 'Holding Pen', project_path(@sticky.project, board: @sticky.board ? @sticky.board.name : nil)

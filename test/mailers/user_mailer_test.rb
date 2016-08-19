@@ -30,26 +30,6 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/#{sticky.user.name} added Task #{sticky.name} #{ENV['website_url']}\/stickies\/#{sticky.id} to Project #{sticky.project.name} #{ENV['website_url']}\/projects\/#{sticky.project.id}\./, mail.body.encoded)
   end
 
-  test 'task completion by mail email' do
-    sticky = stickies(:assigned_to_user)
-    valid = users(:valid)
-    sender = users(:valid)
-    mail = UserMailer.sticky_completion_by_mail(sticky, sender, valid)
-    assert_equal [valid.email], mail.to
-    assert_equal "#{sender.name} Completed a Task on Project #{sticky.project.name}", mail.subject
-    assert_match(/#{sender.name} completed the following Task #{sticky.name} #{ENV['website_url']}\/stickies\/#{sticky.id} on Project #{sticky.project.name} #{ENV['website_url']}\/projects\/#{sticky.project.id}\./, mail.body.encoded)
-  end
-
-  test 'tasks completion by mail email' do
-    stickies = Sticky.where(id: stickies(:assigned_to_user).id)
-    valid = users(:valid)
-    sender = users(:valid)
-    mail = UserMailer.stickies_completion_by_mail(stickies, sender, valid)
-    assert_equal [valid.email], mail.to
-    assert_equal "#{sender.name} Completed 1 Task", mail.subject
-    assert_match(/#{sender.name} completed the following 1 Task\./, mail.body.encoded)
-  end
-
   test 'group by mail email' do
     group = groups(:one)
     valid = users(:valid)

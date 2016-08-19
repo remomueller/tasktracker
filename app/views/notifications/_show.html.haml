@@ -1,5 +1,7 @@
 - if notification.comment
   = render 'notifications/show/comment', notification: notification
+- elsif notification.sticky
+  = render 'notifications/show/task_completed', notification: notification
 - else
   %td{ colspan: 3 }
 

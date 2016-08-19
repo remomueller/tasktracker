@@ -10,3 +10,9 @@ blank:
   user: valid
   read: false
   project: one
+
+task:
+  user: valid
+  read: false
+  project: one
+  sticky: completed

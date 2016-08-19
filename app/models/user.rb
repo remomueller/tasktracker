@@ -72,6 +72,10 @@ class User < ApplicationRecord
     super && !deleted?
   end
 
+  def unread_notifications?
+    notifications.where(read: false).count > 0
+  end
+
   def destroy
     super
     update_column :updated_at, Time.zone.now

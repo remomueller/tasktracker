@@ -40,28 +40,6 @@ class UserMailer < ApplicationMailer
          reply_to: group.user.email)
   end
 
-  def sticky_completion_by_mail(sticky, sender, recipient)
-    setup_email
-    @sticky = sticky
-    @sender = sender
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: "#{sender.name} Completed a Task on Project #{sticky.project.name}",
-         reply_to: sender.email)
-  end
-
-  def stickies_completion_by_mail(stickies, sender, recipient)
-    setup_email
-    @stickies = stickies
-    @sender = sender
-    @recipient = recipient
-    @email_to = recipient.email
-    mail(to: recipient.email,
-         subject: "#{sender.name} Completed #{@stickies.count} #{@stickies.count == 1 ? 'Task' : 'Tasks'}",
-         reply_to: sender.email)
-  end
-
   def daily_digest(recipient)
     setup_email
     @recipient = recipient

@@ -24,20 +24,6 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.group_by_mail(group, recipient)
   end
 
-  def sticky_completion_by_mail
-    sticky = Sticky.current.where.not(group_id: nil).first
-    recipient = User.current.first
-    sender = User.current.first
-    UserMailer.sticky_completion_by_mail(sticky, sender, recipient)
-  end
-
-  def stickies_completion_by_mail
-    stickies = Sticky.current.limit(2)
-    recipient = User.current.first
-    sender = User.current.first
-    UserMailer.stickies_completion_by_mail(stickies, sender, recipient)
-  end
-
   def daily_digest
     recipient = User.current.first
     UserMailer.daily_digest(recipient)

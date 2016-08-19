@@ -46,9 +46,11 @@ class Sticky < ApplicationRecord
   belongs_to :group
   belongs_to :board
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
+  belongs_to :completer, class_name: 'User', foreign_key: 'completer_id'
   belongs_to :repeated_sticky, -> { current }, class_name: 'Sticky', foreign_key: 'repeated_sticky_id'
   has_and_belongs_to_many :tags
   has_many :comments, -> { current.order(created_at: :desc) }
+  has_many :notifications
 
   # Panel returns 'completed', 'past_due', or 'upcoming'
   # Since both upcoming and past_due incomplete contain stickies
@@ -77,11 +79,6 @@ class Sticky < ApplicationRecord
     "##{id}"
   end
 
-  def destroy
-    comments.destroy_all
-    super
-  end
-
   def full_description
     if group && group.description.present?
       "#{description}\n\n#{group.description}"
@@ -97,9 +94,9 @@ class Sticky < ApplicationRecord
   def description_html
     result = full_description.to_s
     result += "\n\n<hr style=\"margin-top:5px;margin-bottom:5px\">"
-    result += "<div style='white-space:nowrap'><strong>Assigned</strong> #{self.owner.name} <img alt='' src='#{self.owner.avatar_url(18, "identicon")}' class='img-rounded'></div>" if self.owner
-    result += "<strong>Board</strong> #{self.board ? self.board.name : 'Holding Pen'}<br />" if self.project.boards.size > 0
-    result += "<strong>Repeats</strong> #{self.repeat_amount} #{self.repeat}#{'s' if self.repeat_amount != 1} after due date<br />" if self.repeat != 'none'
+    result += "<div style='white-space:nowrap'><strong>Assigned</strong> #{owner.name} <img alt='' src='#{owner.avatar_url(18, "identicon")}' class='img-rounded'></div>" if owner
+    result += "<strong>Board</strong> #{board ? board.name : 'Holding Pen'}<br />" if project.boards.size > 0
+    result += "<strong>Repeats</strong> #{repeat_amount} #{repeat}#{'s' if repeat_amount != 1} after due date<br />" if repeat != 'none'
     result
   end
 
@@ -117,28 +114,35 @@ class Sticky < ApplicationRecord
     all_dates
   end
 
-  def send_email_if_recently_completed(current_user)
+  def create_notifications_if_recently_completed!(current_user)
     if previous_changes[:completed] && previous_changes[:completed][1] == true
-      update(due_date: Time.zone.today) if due_date.blank?
-      send_completion_email_in_background(current_user)
+      update due_date: Time.zone.today if due_date.blank?
+      update completer: current_user
+      create_notifications!
     end
   end
 
-  def send_completion_email_in_background(current_user)
-    fork_process(:send_completion_email, current_user)
-  end
-
-  # def self.send_stickies_completion_email(all_stickies, current_user)
-  #   all_stickies.group_by{|s| s.project}.each do |project, stickies|
-  #     all_users = project.users_to_email - [current_user]
-  #     all_users.each do |user_to_email|
-  #       UserMailer.stickies_completion_by_mail(stickies, current_user, user_to_email).deliver_now if EMAILS_ENABLED
-  #     end
-  #   end
-  # end
-
   def send_email_in_background
     fork_process(:send_email)
+  end
+
+  def create_notifications!
+    users_to_notify.where.not(id: completer_id).find_each do |u|
+      Rails.logger.debug "create_notifications!"
+      Rails.logger.debug "#{id}"
+      notification = u.notifications.where(project_id: project_id, sticky_id: id).first_or_create
+      notification.mark_as_unread!
+    end
+  end
+
+  def destroy
+    super
+    comments.destroy_all
+    notifications.destroy_all
+  end
+
+  def users_to_notify
+    project.all_members
   end
 
   private
@@ -159,14 +163,6 @@ class Sticky < ApplicationRecord
     all_users = project.users_to_email - [user]
     all_users.each do |user_to_email|
       UserMailer.sticky_by_mail(self, user_to_email).deliver_now
-    end
-  end
-
-  def send_completion_email(current_user)
-    return unless EMAILS_ENABLED
-    all_users = project.users_to_email - [current_user]
-    all_users.each do |user_to_email|
-      UserMailer.sticky_completion_by_mail(self, current_user, user_to_email).deliver_now
     end
   end
 

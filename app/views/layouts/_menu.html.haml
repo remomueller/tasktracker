@@ -38,6 +38,9 @@
             = link_to '#', data: { object: 'show-search-bar' }, class: 'btn btn-default', name: nil do
               %span.glyphicon.glyphicon-search
           %ul.nav.navbar-nav.navbar-right
+            %li.hidden-xs
+              = link_to notifications_path, class: "#{'notifications-link' if current_user.unread_notifications?}" do
+                %span.glyphicon.glyphicon-bell
             %li.dropdown.hidden-xs
               = link_to '#', class: 'dropdown-toggle', data: { object: 'dropdown', toggle: 'dropdown' } do
                 %span= current_user.first_name

@@ -17,6 +17,7 @@
 - **Notifications Added**
   - In-app notifications have been added to notify users when:
     - Comments are made on tasks
+    - Tasks are completed
   - In-app notifications replace the numerous emails sent throughout the day
     that alerted users of changes on Task Tracker
   - Users now only receive digest emails once a day

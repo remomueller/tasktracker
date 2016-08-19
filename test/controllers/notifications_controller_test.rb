@@ -30,6 +30,14 @@ class NotificationsControllerTest < ActionController::TestCase
     assert_redirected_to notifications(:comment).comment.sticky
   end
 
+  test 'should show task completed notification' do
+    login(@regular_user)
+    get :show, params: { id: notifications(:task) }
+    assert_not_nil assigns(:notification)
+    assert_equal true, assigns(:notification).read
+    assert_redirected_to notifications(:task).sticky
+  end
+
   test 'should show blank notification and redirect' do
     login(@regular_user)
     get :show, params: { id: notifications(:blank) }

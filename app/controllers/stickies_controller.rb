@@ -145,7 +145,7 @@ class StickiesController < ApplicationController
     respond_to do |format|
       if @sticky.save
         @sticky.send_email_in_background
-        @sticky.send_email_if_recently_completed(current_user)
+        @sticky.create_notifications_if_recently_completed!(current_user)
         format.html { redirect_to @sticky, notice: 'Task was successfully created.' }
         format.js
       else
@@ -199,7 +199,7 @@ class StickiesController < ApplicationController
   def complete
     if @sticky
       @sticky.update completed: (params[:undo] != 'true')
-      @sticky.send_email_if_recently_completed(current_user)
+      @sticky.create_notifications_if_recently_completed!(current_user)
       @all_dates = [@sticky.due_date].compact
       render :update
     else
@@ -216,7 +216,7 @@ class StickiesController < ApplicationController
       if @sticky.update(sticky_params)
         @to_date = @sticky.due_date
         @all_dates = [@from_date, @to_date]
-        @sticky.send_email_if_recently_completed(current_user)
+        @sticky.create_notifications_if_recently_completed!(current_user)
         @all_dates += @sticky.shift_group((@to_date - @from_date).round, params[:shift]) if @from_date.present? && @to_date.present?
         format.html { redirect_to @sticky, notice: 'Task was successfully updated.' }
         format.js

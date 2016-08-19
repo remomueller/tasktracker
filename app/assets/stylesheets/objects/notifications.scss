@@ -1,0 +1,8 @@
+.navbar-default .notifications-link span {
+  animation: wiggle 250ms linear 4;
+  color: $link-color;
+}
+
+.navbar-default .notifications-link:hover span {
+  color: $link-hover-color;
+}

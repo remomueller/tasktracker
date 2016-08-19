@@ -1,0 +1,11 @@
+%td
+  %span.glyphicon.glyphicon-check{ class: "#{notification.read? ? 'text-muted' : 'text-success'}" }
+
+%td.nowrap{ class: "#{'text-muted' if notification.read?}" }
+  .overflow-hidden
+    %strong Completed
+    = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
+      = strip_tags(simple_markdown notification.sticky.full_description)
+
+%td.hidden-xs
+  = image_tag notification.sticky.completer.avatar_url(18, 'identicon'), size: '18x18', alt: '' if notification.sticky.completer

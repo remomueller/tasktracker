@@ -51,6 +51,7 @@ class NotificationsController < ApplicationController
 
   def notification_redirect_path
     return @notification.comment.sticky if @notification.comment
+    return @notification.sticky if @notification.sticky
     notifications_path
   end
 end
