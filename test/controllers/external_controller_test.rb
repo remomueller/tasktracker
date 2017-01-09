@@ -26,7 +26,11 @@ class ExternalControllerTest < ActionController::TestCase
     assert_equal TaskTracker::VERSION::MAJOR, version['version']['major']
     assert_equal TaskTracker::VERSION::MINOR, version['version']['minor']
     assert_equal TaskTracker::VERSION::TINY, version['version']['tiny']
-    assert_equal TaskTracker::VERSION::BUILD, version['version']['build']
+    if TaskTracker::VERSION::BUILD.nil?
+      assert_nil version['version']['build']
+    else
+      assert_equal TaskTracker::VERSION::BUILD, version['version']['build']
+    end
     assert_response :success
   end
 end
