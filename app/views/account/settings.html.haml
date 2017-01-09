@@ -1,7 +1,7 @@
 - @title = 'My Settings'
 
 .page-header
-  %h2 My Settings
+  %h2= @title
 
 .row
   .col-md-6
@@ -38,7 +38,9 @@
             .checkbox
               %label
                 = f.check_box :emails_enabled
-                Allow Task Tracker to send you emails.
+                Allow
+                = ENV['website_name']
+                to send you emails.
             .callout.callout-info
               Unchecking this box will disable all emails. You will still receive emails for:
               %ul
