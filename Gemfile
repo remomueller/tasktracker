@@ -24,7 +24,7 @@ gem 'sass-rails',           '~> 5.0'
 gem 'uglifier',             '>= 1.3.0'
 
 gem 'jbuilder',             '~> 2.5'
-gem 'jquery-rails',         '~> 4.1.1'
+gem 'jquery-rails',         '~> 4.2.2'
 gem 'turbolinks',           '~> 5'
 
 # Testing
