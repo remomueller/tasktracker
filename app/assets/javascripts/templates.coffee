@@ -1,7 +1,7 @@
-@templateSelected = () ->
+@templateSelected = ->
   parseInt($('#template_id').val()) > 0
 
-@deselectTemplate = () ->
+@deselectTemplate = ->
   $('#template_id').val('none')
   $('[data-object~="template-select"]').removeClass('active')
 
@@ -19,23 +19,23 @@
   $('#template_id').val(template_id)
   true
 
-@templatesReady = () ->
+@templatesReady = ->
   $('#items_container[data-object~="sortable"]').sortable( placeholder: "well alert alert-block" )
 
 $(document)
-  .on('change', '#template_project_id', () ->
+  .on('change', '#template_project_id', ->
     $.post(root_url + 'templates/items', $("form").serialize() + "&_method=post", null, "script")
     false
   )
-  .on('click', '#add_more_items', () ->
+  .on('click', '#add_more_items', ->
     $.post(root_url + 'templates/add_item', $("form").serialize() + "&_method=post", null, "script")
     false
   )
-  .on('change', '#group_template_id', () ->
+  .on('change', '#group_template_id', ->
     $.post(root_url + 'templates/selection', $("#group_template_id").serialize(), null, "script")
     false
   )
-  .on('click', '[data-object~="expand-item-details"]', () ->
+  .on('click', '[data-object~="expand-item-details"]', ->
     $('[data-object~="' + $(this).data('selector') + '"]').hide()
     $($(this).data('target')).show()
   )

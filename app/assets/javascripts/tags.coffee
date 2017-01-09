@@ -1,6 +1,7 @@
-@activateTagDroppables = () ->
+@activateTagDroppables = ->
   $('[data-object~="tag-droppable"]').droppable(
-    hoverClass: "tag-droppable-hover"
+    classes:
+      'ui-droppable-hover': 'tag-droppable-hover'
     tolerance: "pointer"
     drop: ( event, ui ) ->
       tag_id = $(this).data('tag-id')
@@ -9,11 +10,11 @@
       $.post(root_url + 'tags/add_stickies', "project_id=#{project_id}&tag_id=#{tag_id}&sticky_ids=#{sticky_id}", null, "script")
   )
 
-@tagsReady = () ->
+@tagsReady = ->
   activateTagDroppables()
 
 $(document)
-  .on('click', '.tag-checkbox', () ->
+  .on('click', '.tag-checkbox', ->
     if $(this).children().is(':checked')
       $(this).addClass('tag-selected')
     else

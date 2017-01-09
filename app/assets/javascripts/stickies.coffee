@@ -23,33 +23,33 @@
   partb = parseInt($(b).data('sort'))
   return (parta - partb)
 
-@sortDays = () ->
+@sortDays = ->
   new_array = $("#sticky-day-lists .sticky-list").sort(sortdates)
   $('#sticky-day-lists').html('')
   new_array.each( (index, element) ->
     $('#sticky-day-lists').append(element)
   )
 
-@showFilters = () ->
+@showFilters = ->
   $('[data-object~="visible-sticky"]').hide()
   $('[data-object~="visible-filter"]').show()
   false
 
-@hideFilters = () ->
+@hideFilters = ->
   $('[data-object~="visible-filter"]').hide()
   $('[data-object~="visible-sticky"]').show()
   false
 
-@resetStickyFilters = () ->
+@resetStickyFilters = ->
   url = $("#filters-form").attr('action')
   window.location = url
   false
 
-@saveFilters = () ->
-  project_ids = $("[name='project_ids[]']:checked").map( () -> $(this).val() ).get()
-  tags = $("[name='tag_names[]']:checked").map( () -> $(this).val() ).get()
-  owners = $("[name='user_names[]']:checked").map( () -> $(this).val() ).get()
-  completed = $("[name='completed[]']:checked").map( () -> $(this).val() ).get()
+@saveFilters = ->
+  project_ids = $("[name='project_ids[]']:checked").map( -> $(this).val() ).get()
+  tags = $("[name='tag_names[]']:checked").map( -> $(this).val() ).get()
+  owners = $("[name='user_names[]']:checked").map( -> $(this).val() ).get()
+  completed = $("[name='completed[]']:checked").map( -> $(this).val() ).get()
   url = $("#filters-form").attr('action')
   url = url + "&project_ids=#{project_ids}" unless project_ids.length == 0
   url = url + "&owners=#{owners}" unless owners.length == 0
@@ -68,27 +68,24 @@
 
 @activateCalendarDroppables = ->
   $(".droppable").droppable(
-    hoverClass: "hover",
+    classes:
+      'ui-droppable-hover': 'hover'
     drop: ( event, ui ) ->
-
       date = $(this).data('due-date').replace(/day_/, '') #.replace(/_/g, '/')
       sticky_id = ui.draggable.data('sticky-id')
       element_id = ui.draggable.attr('id')
-
       $('#move_sticky_date').val(date)
       $('#move_sticky_id').val(sticky_id)
-
       if $(ui.draggable).data('grouped') == true
         $('#move-group-dialog').modal('show')
         return false
-
       $.post(root_url + 'stickies/' + sticky_id + '/move', "due_date=#{date}&from=move", null, "script");
       false
     accept: (draggable) ->
       $(this).data('due-date') != draggable.data('due-date')
   )
 
-@setProjectColors = () ->
+@setProjectColors = ->
   $("[data-object~='project-color']").each( ->
     $(".project_#{$(this).data('project-id')}_color").animate(color: $(this).data('color'))
   )
@@ -99,7 +96,7 @@
   sticky_id = $('#move_sticky_id').val()
   $.post(root_url + "stickies/#{sticky_id}/move", "due_date=#{date}&shift=#{shift}&from=move", null, "script");
 
-@resetFilters = () ->
+@resetFilters = ->
   $('#search').val('')
   $('#project_id').val('')
   $('#owner_id').val('')
@@ -112,7 +109,7 @@
   uncheckAllWithSelector('.tag-box')
   $('#stickies_search').submit()
 
-@initializeCompletionButtons = () ->
+@initializeCompletionButtons = ->
   stickies_completed = []
   stickies_not_completed = []
   $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) ->
@@ -135,17 +132,17 @@
   else
     $('[data-object~="delete-stickies"]').hide()
 
-@clearSearchValues = () ->
+@clearSearchValues = ->
   $('#project_search').val('')
   $('#search').val('')
   $('#group_search').val('')
   $('[data-object~="tag-select"]').removeClass('active')
   $('#tag_ids').val('')
 
-@resetSubmitButtons = () ->
+@resetSubmitButtons = ->
   $('[data-object~="sticky-submit"]').removeAttr('disabled')
 
-@stickiesReady = () ->
+@stickiesReady = ->
   $('#filter_selection a').click( (e) ->
     e.preventDefault()
     $(this).tab('show')
@@ -161,22 +158,22 @@ $(document)
   .on('change', '#sticky_calendar_form', (event) ->
     $.get($("#sticky_calendar_form").attr("action"), $("#sticky_calendar_form").serialize(), null, "script")
   )
-  .on('click', '[data-object~="export"]', () ->
+  .on('click', '[data-object~="export"]', ->
     window.location = $('#stickies_search').attr('action') + '.' + $(this).data('format') + '?' + $('#stickies_search').serialize()
     false
   )
-  .on('click', '[data-object~="stickies-reset-to-default"]', () ->
+  .on('click', '[data-object~="stickies-reset-to-default"]', ->
     resetFilters()
     false
   )
-  .on('click', '[data-object~="expand-details"]', () ->
+  .on('click', '[data-object~="expand-details"]', ->
     $('[data-object~="expand-details"]').show()
     $('[data-object~="stickyshortdetails"]').show()
     $($(this).data('selector-two')).hide()
     $('[data-object~="' + $(this).data('selector') + '"]').hide()
     $($(this).data('target')).show()
   )
-  .on('click', '#assigned-to-me-btn', () ->
+  .on('click', '#assigned-to-me-btn', ->
     if $(this).hasClass('active')
       $('#assigned_to_me').prop('checked', false)
     else
@@ -184,17 +181,17 @@ $(document)
     setBoardNames()
     $('#stickies_search').submit()
   )
-  .on('click', '#all-stickies', () ->
+  .on('click', '#all-stickies', ->
     $('#status_planned').val('planned')
     $('#status_completed').val('completed')
     $('#stickies_search').submit()
   )
-  .on('click', '#not-completed-stickies', () ->
+  .on('click', '#not-completed-stickies', ->
     $('#status_planned').val('planned')
     $('#status_completed').val('')
     $('#stickies_search').submit()
   )
-  .on('click', '[data-object~="shift-sticky"]', () ->
+  .on('click', '[data-object~="shift-sticky"]', ->
     completeStickyGroupMove($(this).data('shift'))
     false
   )
@@ -242,7 +239,7 @@ $(document)
     window.$lastStickyChecked = $(this).data('sticky-id')
     initializeCompletionButtons()
   )
-  .on('click', '[data-object~="delete-stickies"]', () ->
+  .on('click', '[data-object~="delete-stickies"]', ->
     sticky_ids = []
     $.each($('[data-object~="sticky-checkbox"]:checked'), (index, element) -> sticky_ids.push($(element).data('sticky-id')))
 
@@ -250,56 +247,56 @@ $(document)
       $.post($(this).data("url"), "sticky_ids=#{sticky_ids.join(',')}", null, "script")
     false
   )
-  .on('click', '[data-object~="load-new-sticky"]', () ->
+  .on('click', '[data-object~="load-new-sticky"]', ->
     $.get(root_url + 'stickies/new', "sticky[project_id]=#{$('#group_project_id').val()}&sticky[due_date]=#{$('#group_initial_due_date').val()}&sticky[board_id]=#{$('#group_board_id').val()}&"+$('#from').serialize(), null, "script")
     false
   )
-  .on('change', '#sticky_repeat', () ->
+  .on('change', '#sticky_repeat', ->
     if $(this).val() != 'none'
       $('[data-object~="repeat-options"]').show()
     else
       $('[data-object~="repeat-options"]').hide()
   )
-  .on('click', '[data-object~="clear-repeat"]', () ->
+  .on('click', '[data-object~="clear-repeat"]', ->
     $('#sticky_repeat').val('none')
     $('#sticky_repeat').change()
     false
   )
-  .on('click', '#sticky_all_day', () ->
+  .on('click', '#sticky_all_day', ->
     if $(this).is(':checked')
       $('[data-object~="time-options"]').hide()
     else
       $('[data-object~="time-options"]').show()
   )
-  .on('click', '[data-object~="sticky-submit"]', () ->
+  .on('click', '[data-object~="sticky-submit"]', ->
     $('[data-object~="sticky-submit"]').attr('disabled', 'disabled')
     $($(this).data('target')).submit()
     false
   )
-  .on('click', '[data-object~="show-filters"]', () ->
+  .on('click', '[data-object~="show-filters"]', ->
     showFilters()
     false
   )
-  .on('click', '[data-object~="cancel-filters"]', () ->
+  .on('click', '[data-object~="cancel-filters"]', ->
     hideFilters()
     false
   )
-  .on('click', '[data-object~="save-filters"]', () ->
+  .on('click', '[data-object~="save-filters"]', ->
     saveFilters()
     false
   )
-  .on('click', '[data-object~="reset-filters"]', () ->
+  .on('click', '[data-object~="reset-filters"]', ->
     resetStickyFilters()
     false
   )
-  .on('dblclick', '[data-object~="create-sticky"]', () ->
+  .on('dblclick', '[data-object~="create-sticky"]', ->
     params = {}
     params.from = $(this).data('from')
     params.due_date = $(this).data('due-date')
     $.get(root_url + 'stickies/new', params, null, "script")
     false
   )
-  .on('click', '[data-object~="quick-complete"]', () ->
+  .on('click', '[data-object~="quick-complete"]', ->
     $(this).removeClass('glyphicon-check glyphicon-unchecked')
     $(this).addClass('glyphicon-time')
     $.post(root_url + "stickies/#{$(this).data('sticky-id')}", "sticky[completed]=#{$(this).data('completed')}&from=checkbox&_method=patch", null, "script")

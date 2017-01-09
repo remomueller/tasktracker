@@ -15,8 +15,8 @@
 #= require bootstrap-sprockets
 #= require turbolinks
 #= require jquery-ui/effect.all
-#= require jquery-ui/droppable
-#= require jquery-ui/sortable
+#= require jquery-ui/widgets/droppable
+#= require jquery-ui/widgets/sortable
 
 # External
 #= require external/compatibility/array_prototype_index_of.js

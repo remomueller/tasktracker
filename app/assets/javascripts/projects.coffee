@@ -1,14 +1,14 @@
-@projectsReady = () ->
+@projectsReady = ->
   loadColorSelectors()
 
 $(document)
-  .on('click', '[data-object~="set-scope"]', () ->
+  .on('click', '[data-object~="set-scope"]', ->
     $("#scope").val($(this).data('value'))
     $("#stickies_search").submit()
     setBoardNames()
     false
   )
-  .on('click', '[data-object~="toggle-scope-direction"]', () ->
+  .on('click', '[data-object~="toggle-scope-direction"]', ->
     if $("#scope_direction").val() == 'reverse'
       $("#scope_direction").val('forward')
       $("#scope-direction-icon").html("")

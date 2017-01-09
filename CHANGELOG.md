@@ -40,6 +40,7 @@
   - Updated to jbuilder 2.5
   - Updated to jquery-rails 4.2.2
   - Updated to redcarpet 3.4.0
+  - Updated to jquery-ui-rails 6.0.1
   - Added rails-controller-testing
 
 ### Bug Fix

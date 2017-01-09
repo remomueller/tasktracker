@@ -1,7 +1,7 @@
-@activateStickyDraggables = () ->
+@activateStickyDraggables = ->
   $('[data-object~="sticky-draggable"]').draggable(
     revert: 'invalid'
-    helper: () ->
+    helper: ->
       count = $('[data-object~="sticky-checkbox"]:checked').length
       if count > 1
         "<div class='sticky-box'>&equiv;&nbsp;&nbsp;#{count} Tasks Selected</div>"
@@ -11,9 +11,10 @@
     appendTo: "body"
   )
 
-@activateBoardDroppables = () ->
+@activateBoardDroppables = ->
   $('[data-object~="board-droppable"]').droppable(
-    hoverClass: "board-droppable-hover"
+    classes:
+      'ui-droppable-hover': 'board-droppable-hover'
     tolerance: "pointer"
     drop: ( event, ui ) ->
       board_id = $(this).data('board-id')
@@ -25,18 +26,19 @@
       $('[data-object~="sticky-checkbox"]:checked').length > 1 or ($(this).data('board-id') != draggable.data('board-id') and $.inArray('sticky-draggable', data_object.split(" ")) != -1)
   )
 
-@activateBoardDraggables = () ->
+@activateBoardDraggables = ->
   $('[data-object~="board-draggable"]').draggable(
     revert: 'invalid'
-    helper: () ->
+    helper: ->
       "<div class='sticky-box'>"+$('[data-object~="board-helper"][data-board-id="'+$(this).data('board-id')+'"]').first().html()+"</div>"
     cursorAt: { left: 10 }
     appendTo: "body"
   )
 
-@activateBoardArchiveDroppable = () ->
+@activateBoardArchiveDroppable = ->
   $('[data-object~="board-archive-droppable"]').droppable(
-    activeClass: "archive-droppable-active"
+    classes:
+      'ui-droppable-active': 'archive-droppable-active'
     tolerance: "pointer"
     drop: ( event, ui ) ->
       board_id = ui.draggable.data('board-id')
@@ -47,8 +49,8 @@
       $.inArray('board-draggable', data_object.split(" ")) != -1 and $(this).data('archived') != draggable.data('archived')
   )
 
-@setBoardNames = () ->
-  $('[data-object~="board-select"]').each( () ->
+@setBoardNames = ->
+  $('[data-object~="board-select"]').each( ->
     board_label = ''
     scope = $("#scope").val().replace(/_/, '-')
     if scope != ""
@@ -93,7 +95,7 @@
     $("#stickies_search").submit()
   false
 
-@hideArchivedBoards = () ->
+@hideArchivedBoards = ->
   archive_button = $('[data-object~="toggle-archived-boards"]')
   $('[data-object~="board-select"][data-archived="true"]').hide()
   $(archive_button).html("<span class='badge'>#{$(archive_button).data('message')}</span> Show Archived")
@@ -106,14 +108,14 @@
     $("#stickies_search").submit()
 
 
-@showArchivedBoards = () ->
+@showArchivedBoards = ->
   archive_button = $('[data-object~="toggle-archived-boards"]')
   $('[data-object~="board-select"][data-archived="true"]').show()
   $(archive_button).html("<span class='badge'>#{$(archive_button).data('message')}</span> Hide Archived")
   $(archive_button).data('visible', true)
 
 
-@boardsReady = () ->
+@boardsReady = ->
   if browserSupportsPushState
     $(window).bind("popstate", (e) ->
       state = event.state
@@ -126,13 +128,13 @@
   activateBoardArchiveDroppable()
 
 $(document)
-  .on('click', '[data-object~="create-new-board"]', () ->
+  .on('click', '[data-object~="create-new-board"]', ->
     $("#create_new_board").val('1')
     $("#board_id_container").hide()
     $("#board_name_container").show()
     false
   )
-  .on('click', '[data-object~="show-existing-boards"]', () ->
+  .on('click', '[data-object~="show-existing-boards"]', ->
     $("#create_new_board").val('0')
     $("#board_name_container").hide()
     $("#board_id_container").show()
@@ -155,7 +157,7 @@ $(document)
       ), "script")
     false
   )
-  .on('click', '[data-object~="tag-select"]', () ->
+  .on('click', '[data-object~="tag-select"]', ->
     if parseInt($('#tag_ids').val()) == parseInt($(this).data('tag-id'))
       $(this).removeClass('active')
       $('#tag_ids').val('')
@@ -167,7 +169,7 @@ $(document)
     $("#stickies_search").submit()
     false
   )
-  .on('click', '[data-object~="clear-tags"]', () ->
+  .on('click', '[data-object~="clear-tags"]', ->
     clearSearchValues()
     if templateSelected()
       $("#groups_search").submit()
@@ -175,29 +177,29 @@ $(document)
       $("#stickies_search").submit()
     false
   )
-  .on('click', '[data-object~="toggle-archived-boards"]', () ->
+  .on('click', '[data-object~="toggle-archived-boards"]', ->
     if $(this).data('visible')
       hideArchivedBoards()
     else
       showArchivedBoards()
     false
   )
-  .on('click', '[data-object~="create-board"]', () ->
+  .on('click', '[data-object~="create-board"]', ->
     window.location = $(this).data("url")
   )
-  .on('mousedown', '[data-object~="sticky-draggable"]', () ->
+  .on('mousedown', '[data-object~="sticky-draggable"]', ->
     unless $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').is(':checked')
       $('[data-object~="sticky-checkbox"]').prop('checked', false)
       $('[data-object~="sticky-checkbox"][data-sticky-id="'+$(this).data('sticky-id')+'"]').prop('checked', true)
       window.$lastStickyChecked = $(this).data('sticky-id')
       initializeCompletionButtons()
   )
-  .on('click', '[data-object~="select-all-stickies"]', () ->
+  .on('click', '[data-object~="select-all-stickies"]', ->
     $('[data-object~="sticky-checkbox"]').prop('checked', true)
     window.$lastStickyChecked = null
     initializeCompletionButtons()
   )
-  .on('click', '[data-object~="deselect-all-stickies"]', () ->
+  .on('click', '[data-object~="deselect-all-stickies"]', ->
     $('[data-object~="sticky-checkbox"]').prop('checked', false)
     window.$lastStickyChecked = null
     initializeCompletionButtons()
