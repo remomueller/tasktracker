@@ -31,7 +31,7 @@
   - Default project task list now shows upcoming tasks instead of ones that are
     past due
 - **Gem Changes**
-  - Updated to rails 5.0.0.1
+  - Updated to rails 5.0.1
   - Updated to coffee-rails 4.2
   - Updated to jbuilder 2.5
   - Updated to jquery-rails 4.1.1
