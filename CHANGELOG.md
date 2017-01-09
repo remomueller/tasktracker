@@ -31,6 +31,7 @@
   - Default project task list now shows upcoming tasks instead of ones that are
     past due
 - **Gem Changes**
+  - Updated to Ruby 2.4.0
   - Updated to rails 5.0.1
   - Updated to pg 0.19.0
   - Updated to coffee-rails 4.2
