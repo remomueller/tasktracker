@@ -16,7 +16,7 @@ gem 'haml',                 '~> 4.0.7'
 gem 'jquery-ui-rails',      '~> 5.0.5'
 gem 'kaminari',             '~> 0.17.0'
 gem 'naturalsort',          '~> 1.2.0'
-gem 'redcarpet',            '~> 3.3.2'
+gem 'redcarpet',            '~> 3.4.0'
 
 # Rails Defaults
 gem 'coffee-rails',         '~> 4.2'

@@ -39,6 +39,7 @@
   - Updated to coffee-rails 4.2
   - Updated to jbuilder 2.5
   - Updated to jquery-rails 4.2.2
+  - Updated to redcarpet 3.4.0
   - Added rails-controller-testing
 
 ### Bug Fix
