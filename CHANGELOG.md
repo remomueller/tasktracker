@@ -3,6 +3,8 @@
 ### Enhancements
 - **Administrative Changes**
   - Admins can now disable emails for inactive user accounts
+- **General Changes**
+  - Reduced number of alerts and messages from devise during login and logout
 - **Task Changes**
   - Completing a task now sends associated task completed emails in background
   - Task descriptions now expand automatically when entering text

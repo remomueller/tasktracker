@@ -38,7 +38,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
   test 'deleted users should be not be allowed to login' do
     get '/tasks'
     assert_redirected_to new_user_session_path
-
     sign_in_as(@deleted, '123456')
     assert_equal new_user_session_path, path
     assert_equal I18n.t('devise.failure.inactive'), flash[:alert]
@@ -47,9 +46,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
   test 'friendly url forwarding after login' do
     get '/tasks'
     assert_redirected_to new_user_session_path
-
     sign_in_as(@valid, '123456')
     assert_equal '/tasks', path
-    assert_equal I18n.t('devise.sessions.signed_in'), flash[:notice]
   end
 end
