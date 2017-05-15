@@ -124,8 +124,6 @@ class Sticky < ApplicationRecord
 
   def create_notifications!
     users_to_notify.where.not(id: completer_id).find_each do |u|
-      Rails.logger.debug "create_notifications!"
-      Rails.logger.debug "#{id}"
       notification = u.notifications.where(project_id: project_id, sticky_id: id).first_or_create
       notification.mark_as_unread!
     end
@@ -144,12 +142,12 @@ class Sticky < ApplicationRecord
   private
 
   def clone_repeat
-    if self.changes[:completed] and self.changes[:completed][1] == true and self.repeat != 'none' and self.repeated_sticky.blank? and not self.due_date.blank?
-      new_sticky = self.user.stickies.new(self.attributes.reject{|key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'start_date', 'end_date', 'repeated_sticky_id', 'completed'].include?(key.to_s)})
-      new_sticky.due_date += (self.repeat_amount).send(new_sticky.repeat)
-      new_sticky.tag_ids = self.tags.pluck(:id)
+    if saved_changes[:completed] && self.saved_changes[:completed][1] == true && repeat != 'none' && repeated_sticky.blank? && due_date.present?
+      new_sticky = user.stickies.new(attributes.reject { |key, val| ['id', 'user_id', 'deleted', 'created_at', 'updated_at', 'start_date', 'end_date', 'repeated_sticky_id', 'completed'].include?(key.to_s) })
+      new_sticky.due_date += (repeat_amount).send(new_sticky.repeat)
+      new_sticky.tag_ids = tags.pluck(:id)
       new_sticky.save
-      self.update_column :repeated_sticky_id, new_sticky.id
+      update_column :repeated_sticky_id, new_sticky.id
     end
   end
 
@@ -158,15 +156,15 @@ class Sticky < ApplicationRecord
   end
 
   def set_end_date
-    self.end_date = ((self.changes[:completed] and self.changes[:completed][1] == true) ? Time.zone.today : nil) unless self.completed? and self.changes[:completed] == nil
+    return if completed? && saved_changes[:completed].nil?
+    self.end_date = (saved_changes[:completed] && saved_changes[:completed][1] == true ? Time.zone.today : nil)
   end
 
   def set_project_and_board
-    if self.group
-      self.project_id = self.group.project_id
-      if not (self.group.project.boards.pluck(:id) + [nil]).include?(self.board_id) and self.changes[:board_id]
-        self.board_id = self.changes[:board_id][0]
-      end
+    return unless group
+    self.project_id = group.project_id
+    if !(group.project.boards.pluck(:id) + [nil]).include?(board_id) && saved_changes[:board_id]
+      self.board_id = saved_changes[:board_id][0]
     end
   end
 end

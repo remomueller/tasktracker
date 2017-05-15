@@ -5,3 +5,14 @@
     color: $link-hover-color;
   }
 }
+
+.link-unstyled {
+  color: $text-color;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $text-color;
+    text-decoration: none;
+  }
+}
