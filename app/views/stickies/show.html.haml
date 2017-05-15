@@ -66,4 +66,4 @@
   = render 'stickies/modal'
 
 %div{ id: "sticky_#{@sticky.id}_comments" }
-  = @comments = @sticky.comments.page(0).per(0); render 'comments/index'
+  = @comments = @sticky.comments.page(params[:page]); render 'comments/index'

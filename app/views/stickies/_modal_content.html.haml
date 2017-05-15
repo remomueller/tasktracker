@@ -42,4 +42,4 @@
     = @stickies = @sticky.group.stickies; render 'stickies/simple_stickies'
 
 .modal-footer{ id: "sticky_#{@sticky.id}_comments", style: 'text-align:left;margin-top:0' }
-  = @comments = @sticky.comments.page(0).per(0); render 'comments/index'
+  = @comments = @sticky.comments.page(params[:page]); render 'comments/index'

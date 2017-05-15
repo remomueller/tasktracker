@@ -14,18 +14,18 @@ class CommentsController < ApplicationController
     @comments = current_user.all_viewable_comments.search(params[:search]).order(@order).page(params[:page]).per(40)
   end
 
-  # GET /comments/1
-  def show
-  end
+  # # GET /comments/1
+  # def show
+  # end
 
-  # GET /comments/1/edit
-  def edit
-  end
+  # # GET /comments/1/edit
+  # def edit
+  # end
 
   # POST /comments
   # POST /comments.js
   def create
-    @sticky = current_user.all_viewable_stickies.find_by_id(params[:sticky_id])
+    @sticky = current_user.all_viewable_stickies.find_by(id: params[:sticky_id])
     @comment = @sticky ? @sticky.comments.new(comment_params) : Comment.new(comment_params)
 
     respond_to do |format|
@@ -63,15 +63,15 @@ class CommentsController < ApplicationController
   private
 
   def set_viewable_comment
-    @comment = current_user.all_viewable_comments.find_by_id(params[:id])
+    @comment = current_user.all_viewable_comments.find_by(id: params[:id])
   end
 
   def set_editable_comment
-    @comment = current_user.all_comments.find_by_id(params[:id])
+    @comment = current_user.all_comments.find_by(id: params[:id])
   end
 
   def set_deletable_comment
-    @comment = current_user.all_deletable_comments.find_by_id(params[:id])
+    @comment = current_user.all_deletable_comments.find_by(id: params[:id])
   end
 
   def redirect_without_comment

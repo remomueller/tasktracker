@@ -1,5 +1,5 @@
 <% if @sticky %>
-  <% @comments = @sticky.comments.page(params[:page]).per(params[:per]) %>
+  <% @comments = @sticky.comments.page(params[:page]) %>
   $("#sticky_<%= @sticky.id %>_comments").html("<%=j render 'comments/index' %>");
 <% end %>
 

@@ -1,5 +1,5 @@
 -# TODO: project_## should not be a class, but rather a data attibute.
-.sticky_popup.calendar-task-name{ class: "stickies_#{sticky.completed ? 'completed' : 'planned'} project_#{sticky.project_id}", id: "sticky_#{sticky.id}_popup", rel: 'popover', data: { sticky_id: sticky.id, grouped: (sticky.group ? 'true' : 'false'), due_date: "#{sticky.due_date.strftime('%Y%m%d') if sticky.due_date}", title: sticky.project.name, content: simple_markdown(sticky.description_html), html: 'true', placement: (sticky.due_date && [0, 1].include?(sticky.due_date.wday) ? 'right' : 'left'), trigger: 'hover' } }
+.sticky_popup.calendar-task-name{ class: "stickies_#{sticky.completed ? 'completed' : 'planned'} project_#{sticky.project_id}", id: "sticky_#{sticky.id}_popup", rel: 'popover', data: { sticky_id: sticky.id, grouped: (sticky.group ? 'true' : 'false'), due_date: "#{sticky.due_date.strftime('%Y%m%d') if sticky.due_date}", title: sticky.project.name, content: "#{simple_markdown(sticky.description_html)}", html: 'true', placement: (sticky.due_date && [0, 1].include?(sticky.due_date.wday) ? 'right' : 'left'), trigger: 'hover' } }
   - if sticky.comments.size > 0 || sticky.repeat != 'none'
     .comment-icon
       - if sticky.repeat != 'none'
