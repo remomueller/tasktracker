@@ -57,7 +57,7 @@
   tooltipsReady()
   typeaheadReady()
 
-@ready = ->
+@turbolinksReady = ->
   window.$isDirty = false
   boardsReady()
   stickiesReady()
@@ -75,14 +75,23 @@
     $.get($("#stickies_search").attr("action"), $("#stickies_search").serialize(), null, "script")
     false
   )
-
   extensionsReady()
 
+# These functions only get called on the initial page visit (no turbolinks).
+# Browsers that don't support turbolinks will initialize all functions in
+# turbolinks on page load. Those that do support Turbolinks won't call these
+# methods here, but instead will wait for `turbolinks:load` event to prevent
+# running the functions twice.
+@initialLoadReady = ->
+  turbolinksReady() unless Turbolinks.supported
+
 $(window).onbeforeunload = -> return "You haven't saved your changes." if window.$isDirty
-$(document).ready(ready)
+$(document).ready(initialLoadReady)
 $(document)
-  .on('turbolinks:load', ready)
-  .on('turbolinks:click', -> confirm("You haven't saved your changes.") if window.$isDirty)
+  .on('turbolinks:load', turbolinksReady)
+  .on('turbolinks:before-visit', (event) ->
+    event.preventDefault() if window.$isDirty and !confirm("You haven't saved your changes.")
+  )
   .on('change', ':input', ->
     if $("#isdirty").val() == '1'
       window.$isDirty = true

@@ -13,6 +13,10 @@
   - Updated to jquery-rails 4.3.1
   - Updated to simplecov 0.14.1
 
+### Bug Fixes
+- Fixed a bug that caused JavaScript functions to run twice in browsers that
+  supported Turbolinks
+
 ## 0.30.0 (January 9, 2017)
 
 ### Enhancements
