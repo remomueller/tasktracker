@@ -8,6 +8,7 @@
   - Updated to pg 0.20.0
   - Updated to haml 5.0.1
   - Updated to kaminari 1.0.1
+  - Updated to jquery-rails 4.3.1
   - Updated to simplecov 0.14.1
 
 ## 0.30.0 (January 9, 2017)
