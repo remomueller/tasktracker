@@ -1,2 +1,2 @@
-<%= task.name %> <%= strip_tags(simple_markdown task.full_description).truncate(100) %>
+<%= task.name %> <%= strip_tags(simple_markdown task.full_description).truncate(100).html_safe %>
      <%= "#{ENV['website_url']}/stickies/#{task.id}" %>

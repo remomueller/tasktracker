@@ -5,7 +5,7 @@
   .overflow-hidden
     %strong Completed
     = link_to notification, class: "#{notification.read? ? 'link-muted' : 'link-unstyled' }" do
-      = strip_tags(simple_markdown notification.sticky.full_description)
+      = strip_tags(simple_markdown notification.sticky.full_description).html_safe
 
 %td.hidden-xs
   = image_tag notification.sticky.completer.avatar_url(18, 'identicon'), size: '18x18', alt: '' if notification.sticky.completer

@@ -16,6 +16,7 @@
 ### Bug Fixes
 - Fixed a bug that caused JavaScript functions to run twice in browsers that
   supported Turbolinks
+- Fixed some issues displaying `&`s
 
 ## 0.30.0 (January 9, 2017)
 

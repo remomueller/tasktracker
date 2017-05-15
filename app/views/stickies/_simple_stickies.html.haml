@@ -10,7 +10,7 @@
           %span
             - sticky.tags.each do |tag|
               = render 'tags/show', tag: tag
-          = strip_tags(simple_markdown sticky.description)
+          = strip_tags(simple_markdown sticky.description).html_safe
       %td
         - if sticky.comments.size > 0
           %span.badge= sticky.comments.size
