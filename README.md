@@ -8,7 +8,7 @@ Manage multiple projects, view tasks in a calendar, receive reminder emails for
 tasks due, assign project members to tasks, create templates for series of
 tasks, receive emails and updates as tasks and groups of tasks are completed,
 assign project specific tags to tasks, generate reports on task tags. Using
-Rails 5.0+ and Ruby 2.4+.
+Rails 5.1+ and Ruby 2.4+.
 
 ## Installation
 
@@ -41,9 +41,9 @@ connection, server url, and application name.
 ```
 ruby lib/initial_setup.rb
 
-bundle exec rake db:migrate RAILS_ENV=production
+rails db:migrate RAILS_ENV=production
 
-bundle exec rake assets:precompile RAILS_ENV=production
+rails assets:precompile RAILS_ENV=production
 ```
 
 Run Rails Server (or use Apache or nginx)
@@ -62,7 +62,7 @@ Edit Cron Jobs `sudo crontab -e` to run the task `lib/tasks/reminder_email.rake`
 
 ```
 SHELL=/bin/bash
-0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.4.0/bin/bundle exec rake reminder_email RAILS_ENV=production
+0 1 * * * source /etc/profile.d/rvm.sh && cd /var/www/tasktracker && /usr/local/rvm/gems/ruby-2.4.1/bin/bundle exec rake reminder_email RAILS_ENV=production
 ```
 
 ## Contributing to Task Tracker
