@@ -9,8 +9,9 @@
       or contact us
       = succeed '.' do
         = mail_to ENV['support_email'], 'via email', target: '_blank', subject: "#{ENV['website_name']} Question"
-    %p.about-signup
-      = link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-lg"
+    - if false
+      %p.about-signup
+        =# link_to 'Sign Me Up', new_user_registration_path, class: "btn btn-primary btn-lg"
 
 %hr
 

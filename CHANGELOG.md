@@ -1,6 +1,8 @@
 ## 0.32.0
 
 ### Enhancements
+- **General Changes**
+  - Disabled new user registrations
 - **Gem Changes**
   - Updated to devise 4.4.3
 

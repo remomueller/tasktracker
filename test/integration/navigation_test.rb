@@ -17,23 +17,23 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert_equal I18n.t('devise.failure.unauthenticated'), flash[:alert]
   end
 
-  test 'should get sign up page' do
-    get new_user_registration_path
-    assert_equal new_user_registration_path, path
-    assert_response :success
-  end
+  # test 'should get sign up page' do
+  #   get new_user_registration_path
+  #   assert_equal new_user_registration_path, path
+  #   assert_response :success
+  # end
 
-  test 'should register new account' do
-    post user_registration_path, params: {
-      user: {
-        first_name: 'register', last_name: 'account',
-        email: 'register@account.com', password: 'registerpassword098765',
-        password_confirmation: 'registerpassword098765', emails_enabled: '1'
-      }
-    }
-    assert_equal I18n.t('devise.registrations.signed_up'), flash[:notice]
-    assert_redirected_to root_path
-  end
+  # test 'should register new account' do
+  #   post user_registration_path, params: {
+  #     user: {
+  #       first_name: 'register', last_name: 'account',
+  #       email: 'register@account.com', password: 'registerpassword098765',
+  #       password_confirmation: 'registerpassword098765', emails_enabled: '1'
+  #     }
+  #   }
+  #   assert_equal I18n.t('devise.registrations.signed_up'), flash[:notice]
+  #   assert_redirected_to root_path
+  # end
 
   test 'deleted users should be not be allowed to login' do
     get '/tasks'

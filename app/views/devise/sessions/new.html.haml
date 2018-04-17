@@ -22,11 +22,12 @@
     .form-group.sign-up-form-button-container
       = f.submit 'Sign in', class: 'btn btn-primary btn-block'
 
-.sign-up-form.center
-  New to
-  = succeed '?' do
-    = ENV['website_name']
-  = link_to 'Create an account.', new_user_registration_path
+- if false
+  .sign-up-form.center
+    New to
+    = succeed '?' do
+      = ENV['website_name']
+    =# link_to 'Create an account.', new_user_registration_path
 
 - if devise_mapping.confirmable?
   .center{ style: 'margin-bottom:20px' }

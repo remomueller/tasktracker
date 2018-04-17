@@ -5,7 +5,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :encryptable, :confirmable, :lockable and :omniauthable
-  devise :database_authenticatable, :registerable, :timeoutable,
+  devise :database_authenticatable, :timeoutable, # , :registerable
          :recoverable, :rememberable, :trackable, :validatable
 
   # TODO: Remove emailables
