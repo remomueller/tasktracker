@@ -10,7 +10,7 @@ gem 'pg',                   '0.20.0'
 # Gems used by project
 gem 'bootstrap-sass',       '~> 3.3.7'
 gem 'colorize',             '~> 0.8.1'
-gem 'devise',               '~> 4.3.0'
+gem 'devise',               '~> 4.4.3'
 gem 'figaro',               '~> 1.1.1'
 gem 'haml',                 '~> 5.0.1'
 gem 'jquery-ui-rails',      '~> 6.0.1'
