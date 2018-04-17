@@ -22,6 +22,15 @@
     .form-group.sign-up-form-button-container
       = f.submit 'Sign in', class: 'btn btn-primary btn-block'
 
+.sign-up-form.center
+  Task Tracker will be taken offline on:
+  %br
+  %strong May 1st, 2019
+  %br
+  Please
+  = mail_to ENV['support_email'], 'contact us'
+  with any questions.
+
 - if false
   .sign-up-form.center
     New to
