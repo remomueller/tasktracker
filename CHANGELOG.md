@@ -1,4 +1,4 @@
-## 0.32.0
+## 0.32.0 (April 17, 2018)
 
 ### Enhancements
 - **General Changes**
